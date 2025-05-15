@@ -104,9 +104,9 @@ const PropertyCard = (props: PropertyCardType) => {
 								<Typography className="view-cnt">{property?.propertyViews}</Typography>
 								<IconButton color={'default'} onClick={() => likePropertyHandler(user, property?._id)}>
 									{myFavorites ? (
-										<FavoriteIcon color="primary" />
+										<FavoriteIcon  />
 									) : property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-										<FavoriteIcon color="primary" />
+										<FavoriteIcon style={{color: "red"}} />
 									) : (
 										<FavoriteBorderIcon />
 									)}

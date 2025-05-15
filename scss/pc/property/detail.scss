@@ -94,6 +94,7 @@
 							}
 						}
 					}
+					
 					.right-box {
 						width: auto;
 						height: auto;
@@ -188,6 +189,7 @@
 					}
 				}
 			}
+
 			.property-desc-config {
 				width: 100%;
 				height: auto;
@@ -241,6 +243,7 @@
 							}
 						}
 					}
+
 					.prop-desc-config {
 						width: 100%;
 						height: auto;
@@ -318,55 +321,7 @@
 							}
 						}
 					}
-					.floor-plans-config {
-						width: 100%;
-						height: auto;
-						gap: 30px;
-						padding: 30px 38px;
-						border-radius: 12px;
-						border: 1px solid #c4c4c4;
-						.title {
-							color: #181a20;
-							font-family: $font;
-							font-size: 17px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-						}
-						.image-box {
-							width: 100%;
-							height: 510px;
-							border: 1px solid #c4c4c4;
-							img {
-								width: 100%;
-								height: 100%;
-								object-fit: cover;
-							}
-						}
-					}
-					.address-config {
-						width: 100%;
-						height: auto;
-						gap: 30px;
-						padding: 30px 38px;
-						border-radius: 12px;
-						border: 1px solid #c4c4c4;
-						.title {
-							color: #181a20;
-							font-family: $font;
-							font-size: 17px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-						}
-						.map-box {
-							width: 100%;
-							height: 400px;
-							iframe {
-								border-radius: 12px;
-							}
-						}
-					}
+					
 					.reviews-config {
 						width: 100%;
 						height: auto;
@@ -497,6 +452,7 @@
 							}
 						}
 					}
+
 					.leave-review-config {
 						border-radius: 12px;
 						border: 1px solid #c4c4c4;
@@ -564,6 +520,7 @@
 						}
 					}
 				}
+
 				.right-config {
 					width: 318px;
 					height: fit-content;
@@ -703,6 +660,7 @@
 					}
 				}
 			}
+
 			.similar-properties-config {
 				width: 100%;
 				margin-top: 45px;

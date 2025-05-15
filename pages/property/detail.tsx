@@ -32,7 +32,7 @@ import { T } from '../../libs/types/common';
 import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { create } from 'domain';
-import { Message } from '../../libs/enums/common_enum';
+import { Direction, Message } from '../../libs/enums/common_enum';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -96,7 +96,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				sort: 'createdAt',
 				direction: Direction.DESC,
 				search: {
-					locationList: property?.propertyLocation ? [property?.propertyLocation] : [],
+					locationList: property?.propertyCategory ? [property?.propertyCategory] : [],
 				},
 			},
 		},
@@ -168,7 +168,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					sort: 'createdAt',
 					direction: Direction.DESC,
 					search: {
-						locationList: [property?.propertyLocation],
+						categoryList: [property?.propertyCategory],
 					},
 				},
 			});
@@ -203,7 +203,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			<Stack
 				sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1800px' }}
 			>
-				<CircularProgress size={"4rem"}/>
+				<CircularProgress size={"4rem"} />
 			</Stack>
 		);
 	}
@@ -217,10 +217,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					<Stack className={'property-detail-config'}>
 						<Stack className={'property-info-config'}>
 							<Stack className={'info'}>
+
 								<Stack className={'left-box'}>
 									<Typography className={'title-main'}>{property?.propertyTitle}</Typography>
 									<Stack className={'top-box'}>
-										<Typography className={'city'}>{property?.propertyLocation}</Typography>
+										<Typography className={'city'}>{property?.propertyCategory}</Typography>
 										<Stack className={'divider'}></Stack>
 										<Stack className={'buy-rent-box'}>
 											{property?.propertyBarter && (
@@ -267,16 +268,17 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 									<Stack className={'bottom-box'}>
 										<Stack className="option">
-											<img src="/img/icons/bed.svg" alt="" /> <Typography>{property?.propertyBeds} bed</Typography>
+											<img src="/img/icons/bed.svg" alt="" /> <Typography>{property?.propertyMaterial} bed</Typography>
 										</Stack>
 										<Stack className="option">
-											<img src="/img/icons/room.svg" alt="" /> <Typography>{property?.propertyRooms} room</Typography>
+											<img src="/img/icons/room.svg" alt="" /> <Typography>{property?.propertyCondition} room</Typography>
 										</Stack>
 										<Stack className="option">
-											<img src="/img/icons/expand.svg" alt="" /> <Typography>{property?.propertySquare} m2</Typography>
+											<img src="/img/icons/expand.svg" alt="" /> <Typography>{property?.propertyColor} m2</Typography>
 										</Stack>
 									</Stack>
 								</Stack>
+
 								<Stack className={'right-box'}>
 									<Stack className="buttons">
 										<Stack className="button-box">
@@ -298,6 +300,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 									<Typography>${formatterStr(property?.propertyPrice)}</Typography>
 								</Stack>
+
 							</Stack>
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>
@@ -307,7 +310,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className={'sub-images'}>
-									{property?.propertyImages.map((subImg: string) => {
+									{property?.propertyImages?.map((subImg: string) => {
 										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
 										return (
 											<Stack className={'sub-img-box'} onClick={() => changeImageHandler(subImg)} key={subImg}>
@@ -320,6 +323,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						</Stack>
 						<Stack className={'property-desc-config'}>
 							<Stack className={'left-config'}>
+
 								<Stack className={'options-config'}>
 									<Stack className={'option'}>
 										<Stack className={'svg-box'}>
@@ -332,7 +336,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className={'option-includes'}>
 											<Typography className={'title'}>Bedroom</Typography>
-											<Typography className={'option-data'}>{property?.propertyBeds}</Typography>
+											<Typography className={'option-data'}>{property?.propertyMaterial}</Typography>
 										</Stack>
 									</Stack>
 									<Stack className={'option'}>
@@ -341,7 +345,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className={'option-includes'}>
 											<Typography className={'title'}>Room</Typography>
-											<Typography className={'option-data'}>{property?.propertyRooms}</Typography>
+											<Typography className={'option-data'}>{property?.propertyCondition}</Typography>
 										</Stack>
 									</Stack>
 									<Stack className={'option'}>
@@ -387,7 +391,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className={'option-includes'}>
 											<Typography className={'title'}>Size</Typography>
-											<Typography className={'option-data'}>{property?.propertySquare} m2</Typography>
+											<Typography className={'option-data'}>{property?.propertyColor} m2</Typography>
 										</Stack>
 									</Stack>
 									<Stack className={'option'}>
@@ -406,6 +410,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 									</Stack>
 								</Stack>
+
 								<Stack className={'prop-desc-config'}>
 									<Stack className={'top'}>
 										<Typography className={'title'}>Property Description</Typography>
@@ -421,15 +426,15 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Property Size</Typography>
-													<Typography className={'data'}>{property?.propertySquare} m2</Typography>
+													<Typography className={'data'}>{property?.propertyColor} m2</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Rooms</Typography>
-													<Typography className={'data'}>{property?.propertyRooms}</Typography>
+													<Typography className={'data'}>{property?.propertyCondition}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Bedrooms</Typography>
-													<Typography className={'data'}>{property?.propertyBeds}</Typography>
+													<Typography className={'data'}>{property?.propertyMaterial}</Typography>
 												</Box>
 											</Stack>
 											<Stack className={'right'}>
@@ -451,26 +456,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 									</Stack>
 								</Stack>
-								<Stack className={'floor-plans-config'}>
-									<Typography className={'title'}>Floor Plans</Typography>
-									<Stack className={'image-box'}>
-										<img src={'/img/property/floorPlan.png'} alt={'image'} />
-									</Stack>
-								</Stack>
-								<Stack className={'address-config'}>
-									<Typography className={'title'}>Address</Typography>
-									<Stack className={'map-box'}>
-										<iframe
-											src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25867.098915951767!2d128.68632810247993!3d35.86402299180927!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35660bba427bf179%3A0x1fc02da732b9072f!2sGeumhogangbyeon-ro%2C%20Dong-gu%2C%20Daegu!5e0!3m2!1suz!2skr!4v1695537640704!5m2!1suz!2skr"
-											width="100%"
-											height="100%"
-											style={{ border: 0 }}
-											allowFullScreen={true}
-											loading="lazy"
-											referrerPolicy="no-referrer-when-downgrade"
-										></iframe>
-									</Stack>
-								</Stack>
+
 								{commentTotal !== 0 && (
 									<Stack className={'reviews-config'}>
 										<Stack className={'filter-box'}>
@@ -507,6 +493,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 									</Stack>
 								)}
+
 								<Stack className={'leave-review-config'}>
 									<Typography className={'main-title'}>Leave A Review</Typography>
 									<Typography className={'review-title'}>Review</Typography>
@@ -539,6 +526,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Button>
 									</Box>
 								</Stack>
+
 							</Stack>
 							<Stack className={'right-config'}>
 								<Stack className={'info-box'}>

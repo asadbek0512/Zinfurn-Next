@@ -38,31 +38,36 @@ mutation Signup($input: MemberInput!) {
 `;
 
 export const LOGIN = gql`
-	mutation Login($input: LoginInput!) {
-		login(input: $input) {
-			_id
-			memberType
-			memberStatus
-			memberAuthType
-			memberPhone
-			memberNick
-			memberFullName
-			memberImage
-			memberAddress
-			memberDesc
-			memberWarnings
-			memberBlocks
-			memberProperties
-			memberRank
-			memberPoints
-			memberLikes
-			memberViews
-			deletedAt
-			createdAt
-			updatedAt
-			accessToken
-		}
-	}
+mutation Login($input: LoginInput!) {
+    login(input: $input){
+        _id
+        memberType
+        memberStatus
+        memberAuthType
+        memberPhone
+        memberNick
+        memberFullName
+        memberImage
+        memberAddress
+        memberDesc
+        memberProperties
+        memberArticles
+        memberFollowers
+        memberFollowings
+        memberPoints
+        memberLikes
+        memberViews
+        memberComments
+        memberRank
+        memberWarnings
+        memberBlocks
+        deletedAt
+        createdAt
+        updatedAt
+        accessToken
+    }
+}
+
 `;
 
 export const UPDATE_MEMBER = gql`
@@ -98,8 +103,8 @@ mutation Login($input: LoginInput!) {
 `;
 
 export const LIKE_TARGET_MEMBER = gql`
-mutation Login($input: LoginInput!) {
-    login(input: $input){
+mutation LikeTargetMember($input: String!) {
+    likeTargetMember(memberId: $input) {
         _id
         memberType
         memberStatus
@@ -127,6 +132,7 @@ mutation Login($input: LoginInput!) {
         accessToken
     }
 }
+
 `;
 
 /**************************

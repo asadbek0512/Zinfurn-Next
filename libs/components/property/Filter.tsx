@@ -568,7 +568,7 @@ const Filter = (props: FilterType) => {
 
 				<Stack className="find-your-home" mb="30px">
 					<p className="title">
-						Location
+						Category
 					</p>
 					<Stack
 						className="property-location"
@@ -600,7 +600,6 @@ const Filter = (props: FilterType) => {
 					</Stack>
 				</Stack>
 
-
 				<Stack className={'find-your-home'} mb={'30px'}>
 					<Typography className={'title'}>Condition</Typography>
 					<Stack className="button-group">
@@ -629,6 +628,34 @@ const Filter = (props: FilterType) => {
 
 
 
+				</Stack>
+
+				<Stack className={'find-your-home'}>
+					<Typography className={'title'}>Price Range</Typography>
+					<Stack className="square-year-input">
+						<input
+							type="number"
+							placeholder="$ min"
+							min={0}
+							value={searchFilter?.search?.pricesRange?.start ?? 0}
+							onChange={(e: any) => {
+								if (e.target.value >= 0) {
+									propertyPriceHandler(e.target.value, 'start');
+								}
+							}}
+						/>
+						<div className="central-divider"></div>
+						<input
+							type="number"
+							placeholder="$ max"
+							value={searchFilter?.search?.pricesRange?.end ?? 0}
+							onChange={(e: any) => {
+								if (e.target.value >= 0) {
+									propertyPriceHandler(e.target.value, 'end');
+								}
+							}}
+						/>
+					</Stack>
 				</Stack>
 
 				<Stack className={'find-your-home'} mb={'30px'}>
@@ -662,7 +689,7 @@ const Filter = (props: FilterType) => {
 				<Stack className={'find-your-home'} mb={'30px'}>
 					<Typography className={'title'}>Color</Typography>
 
-					<Stack className="button-group" flexWrap="wrap" gap={1}
+					<Stack className="button-group1" flexWrap="wrap" gap={1}
 						onMouseEnter={() => setShowMore(true)}
 						onMouseLeave={() => {
 							if (!searchFilter?.search?.categoryList) {
@@ -711,33 +738,7 @@ const Filter = (props: FilterType) => {
 				</Stack>
 
 
-				<Stack className={'find-your-home'}>
-					<Typography className={'title'}>Price Range</Typography>
-					<Stack className="square-year-input">
-						<input
-							type="number"
-							placeholder="$ min"
-							min={0}
-							value={searchFilter?.search?.pricesRange?.start ?? 0}
-							onChange={(e: any) => {
-								if (e.target.value >= 0) {
-									propertyPriceHandler(e.target.value, 'start');
-								}
-							}}
-						/>
-						<div className="central-divider"></div>
-						<input
-							type="number"
-							placeholder="$ max"
-							value={searchFilter?.search?.pricesRange?.end ?? 0}
-							onChange={(e: any) => {
-								if (e.target.value >= 0) {
-									propertyPriceHandler(e.target.value, 'end');
-								}
-							}}
-						/>
-					</Stack>
-				</Stack>
+				
 			</Stack>
 		);
 	}

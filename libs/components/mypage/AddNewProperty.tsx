@@ -345,7 +345,6 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 											}
 										/>
 										<div className="divider"></div>
-										<img src="/img/icons/Vector.svg" className="arrow-down" />
 									</Stack>
 
 									<Stack className="price-year-after-price">
@@ -366,7 +365,6 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 											}
 										/>
 										<div className="divider"></div>
-										<img src="/img/icons/Vector.svg" className="arrow-down" />
 									</Stack>
 								</Stack>
 							)}

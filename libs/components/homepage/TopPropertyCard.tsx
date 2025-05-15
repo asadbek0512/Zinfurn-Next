@@ -93,6 +93,7 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 				>
 					<div>${property?.propertyPrice}</div>
 				</Box>
+				
 				<Box component={'div'} className={'info'}>
 					<strong className={'title'} onClick={() => pushDetailHandler(property._id)}>
 						{property?.propertyTitle}
