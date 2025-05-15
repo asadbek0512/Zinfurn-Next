@@ -209,8 +209,8 @@ query GetProperties($input: PropertiesInquiry!) {
 `;
 
 export const GET_AGENT_PROPERTIES = gql`
-query GetProperties($input: PropertiesInquiry!) {
-    getProperties(input: $input) {
+query GetAgentProperties($input: AgentPropertiesInquiry!) {
+    getAgentProperties(input: $input) {
         list {
             _id
             propertyType
@@ -281,6 +281,7 @@ query GetProperties($input: PropertiesInquiry!) {
         }
     }
 }
+ 
 
 `;
 

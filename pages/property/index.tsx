@@ -220,16 +220,7 @@ PropertyList.defaultProps = {
 		limit: 9,
 		sort: 'createdAt',
 		direction: 'DESC',
-		search: {
-			squaresRange: {
-				start: 0,
-				end: 500,
-			},
-			pricesRange: {
-				start: 0,
-				end: 2000000,
-			},
-		},
+		search: { },
 	},
 };
 

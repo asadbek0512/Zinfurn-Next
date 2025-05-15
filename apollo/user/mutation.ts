@@ -169,7 +169,6 @@ mutation CreateProperty($input: PropertyInput!) {
         updatedAt
     }
 }
-
 `;
 
 export const UPDATE_PROPERTY = gql`

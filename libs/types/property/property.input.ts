@@ -4,10 +4,10 @@ import {  PropertyCategory, PropertyColor, PropertyCondition, PropertyMaterial, 
 export interface PropertyInput {
 	propertyType: PropertyType;
 	propertyStatus?: PropertyStatus;
-	propertyCategory: PropertyCategory;
+	propertyCategory: PropertyCategory;     //// PropertyLocation
 	propertyMaterial: PropertyMaterial;
 	propertyColor: PropertyColor;
-	propertySize: string;
+	propertySize?: string;
 	propertyTitle: string;
 	propertyPrice: number;
 	propertySalePrice?: number;
@@ -32,8 +32,8 @@ export interface PISearch {
 	categoryList?: PropertyCategory[];		// locationList?: PropertyLocation[];
 	typeList?: PropertyType[];				// typeList?: PropertyType[];
 	conditionList?: PropertyCondition[];	// roomsList?: Number[];
-	materialList?: string[]; 				// bedsList?: Number[];
-	colorList?: string[];					// squaresRange?: Range;c
+	materialList?: PropertyMaterial[]; 				// bedsList?: Number[];
+	colorList?: PropertyColor[];					// squaresRange?: Range;c
 	pricesRange?: Range;
 	options?: string[];
 	text?: string;

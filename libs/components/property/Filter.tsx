@@ -13,11 +13,10 @@ import {
 	IconButton,
 } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import {  PropertyCategory, PropertyType } from '../../enums/property.enum';
+import { PropertyCategory, PropertyColor, PropertyCondition, PropertyMaterial, PropertyType } from '../../enums/property.enum';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { useRouter } from 'next/router';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import { propertySquare } from '../../config';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 const MenuProps = {
@@ -42,6 +41,7 @@ const Filter = (props: FilterType) => {
 	const [propertyType, setPropertyType] = useState<PropertyType[]>(Object.values(PropertyType));
 	const [searchText, setSearchText] = useState<string>('');
 	const [showMore, setShowMore] = useState<boolean>(false);
+
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -171,11 +171,11 @@ const Filter = (props: FilterType) => {
 					await router.push(
 						`/property?input=${JSON.stringify({
 							...searchFilter,
-							search: { ...searchFilter.search, locationList: [...(searchFilter?.search?.categoryList || []), value] },
+							search: { ...searchFilter.search, categoryList: [...(searchFilter?.search?.categoryList || []), value] },
 						})}`,
 						`/property?input=${JSON.stringify({
 							...searchFilter,
-							search: { ...searchFilter.search, locationList: [...(searchFilter?.search?.categoryList || []), value] },
+							search: { ...searchFilter.search, categoryList: [...(searchFilter?.search?.categoryList || []), value] },
 						})}`,
 						{ scroll: false },
 					);
@@ -185,14 +185,14 @@ const Filter = (props: FilterType) => {
 							...searchFilter,
 							search: {
 								...searchFilter.search,
-								locationList: searchFilter?.search?.categoryList?.filter((item: string) => item !== value),
+								categoryList: searchFilter?.search?.categoryList?.filter((item: string) => item !== value),
 							},
 						})}`,
 						`/property?input=${JSON.stringify({
 							...searchFilter,
 							search: {
 								...searchFilter.search,
-								locationList: searchFilter?.search?.categoryList?.filter((item: string) => item !== value),
+								categoryList: searchFilter?.search?.categoryList?.filter((item: string) => item !== value),
 							},
 						})}`,
 						{ scroll: false },
@@ -260,67 +260,38 @@ const Filter = (props: FilterType) => {
 		[searchFilter],
 	);
 
-	const propertyRoomSelectHandler = useCallback(
-		async (number: Number) => {
+	const propertyConditionSelectHandler = useCallback(
+		async (condition: PropertyCondition) => {
 			try {
-				if (number != 0) {
-					if (searchFilter?.search?.roomsList?.includes(number)) {
-						await router.push(
-							`/property?input=${JSON.stringify({
-								...searchFilter,
-								search: {
-									...searchFilter.search,
-									roomsList: searchFilter?.search?.roomsList?.filter((item: Number) => item !== number),
-								},
-							})}`,
-							`/property?input=${JSON.stringify({
-								...searchFilter,
-								search: {
-									...searchFilter.search,
-									roomsList: searchFilter?.search?.roomsList?.filter((item: Number) => item !== number),
-								},
-							})}`,
-							{ scroll: false },
-						);
-					} else {
-						await router.push(
-							`/property?input=${JSON.stringify({
-								...searchFilter,
-								search: { ...searchFilter.search, roomsList: [...(searchFilter?.search?.roomsList || []), number] },
-							})}`,
-							`/property?input=${JSON.stringify({
-								...searchFilter,
-								search: { ...searchFilter.search, roomsList: [...(searchFilter?.search?.roomsList || []), number] },
-							})}`,
-							{ scroll: false },
-						);
-					}
-				} else {
-					delete searchFilter?.search.roomsList;
-					setSearchFilter({ ...searchFilter });
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-							},
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-							},
-						})}`,
-						{ scroll: false },
-					);
-				}
+				const currentConditions = searchFilter?.search?.conditionList || [];
+				const isSelected = currentConditions.includes(condition);
 
-				console.log('propertyRoomSelectHandler:', number);
+				const newConditions = isSelected
+					? currentConditions.filter((item) => item !== condition)
+					: [...currentConditions, condition];
+
+				await router.push(
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+							conditionList: newConditions.length > 0 ? newConditions : undefined,
+						},
+					})}`,
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+							conditionList: newConditions.length > 0 ? newConditions : undefined,
+						},
+					})}`,
+					{ scroll: false }
+				);
 			} catch (err: any) {
-				console.log('ERROR, propertyRoomSelectHandler:', err);
+				console.log("ERROR, propertyConditionSelectHandler:", err);
 			}
 		},
-		[searchFilter],
+		[searchFilter]
 	);
 
 	const propertyOptionSelectHandler = useCallback(
@@ -368,109 +339,95 @@ const Filter = (props: FilterType) => {
 		[searchFilter],
 	);
 
-	const propertyBedSelectHandler = useCallback(
-		async (number: Number) => {
+
+	const propertyMaterialSelectHandler = useCallback(
+		async (material: PropertyMaterial | '') => {
 			try {
-				if (number != 0) {
-					if (searchFilter?.search?.bedsList?.includes(number)) {
-						await router.push(
-							`/property?input=${JSON.stringify({
-								...searchFilter,
-								search: {
-									...searchFilter.search,
-									bedsList: searchFilter?.search?.bedsList?.filter((item: Number) => item !== number),
-								},
-							})}`,
-							`/property?input=${JSON.stringify({
-								...searchFilter,
-								search: {
-									...searchFilter.search,
-									bedsList: searchFilter?.search?.bedsList?.filter((item: Number) => item !== number),
-								},
-							})}`,
-							{ scroll: false },
-						);
-					} else {
-						await router.push(
-							`/property?input=${JSON.stringify({
-								...searchFilter,
-								search: { ...searchFilter.search, bedsList: [...(searchFilter?.search?.bedsList || []), number] },
-							})}`,
-							`/property?input=${JSON.stringify({
-								...searchFilter,
-								search: { ...searchFilter.search, bedsList: [...(searchFilter?.search?.bedsList || []), number] },
-							})}`,
-							{ scroll: false },
-						);
-					}
-				} else {
-					delete searchFilter?.search.bedsList;
-					setSearchFilter({ ...searchFilter });
+				const currentList = searchFilter?.search?.materialList || [];
+
+				if (material !== '') {
+					const isSelected = currentList.includes(material);
+
+					const newMaterialList = isSelected
+						? currentList.filter((item) => item !== material)
+						: [...currentList, material];
+
 					await router.push(
 						`/property?input=${JSON.stringify({
 							...searchFilter,
 							search: {
 								...searchFilter.search,
+								materialList: newMaterialList,
+							},
+						})}`,
+						undefined,
+						{ scroll: false }
+					);
+				} else {
+					const updatedFilter = { ...searchFilter };
+					delete updatedFilter.search.materialList;
+
+					setSearchFilter(updatedFilter);
+
+					await router.push(
+						`/property?input=${JSON.stringify({
+							...updatedFilter,
+							search: {
+								...updatedFilter.search,
+							},
+						})}`,
+						undefined,
+						{ scroll: false }
+					);
+				}
+
+				console.log('propertyMaterialSelectHandler:', material);
+			} catch (err: any) {
+				console.log('ERROR, propertyMaterialSelectHandler:', err);
+			}
+		},
+		[searchFilter]
+	);
+
+
+	const propertyColorHandler = useCallback(
+		async (color: PropertyColor) => {
+			const value = color; // Asosiy qiymat color bo'ladi
+
+			try {
+				if (searchFilter?.search?.colorList?.includes(value)) {
+					await router.push(
+						`/property?input=${JSON.stringify({
+							...searchFilter,
+							search: {
+								...searchFilter.search,
+								colorList: searchFilter?.search?.colorList?.filter((item: string) => item !== value),
 							},
 						})}`,
 						`/property?input=${JSON.stringify({
 							...searchFilter,
 							search: {
 								...searchFilter.search,
+								colorList: searchFilter?.search?.colorList?.filter((item: string) => item !== value),
 							},
 						})}`,
 						{ scroll: false },
 					);
+				} else {
+					await router.push(
+						`/property?input=${JSON.stringify({
+							...searchFilter,
+							search: { ...searchFilter.search, colorList: [...(searchFilter?.search?.colorList || []), value] },
+						})}`,
+						`/property?input=${JSON.stringify({
+							...searchFilter,
+							search: { ...searchFilter.search, colorList: [...(searchFilter?.search?.colorList || []), value] },
+						})}`,
+						{ scroll: false },
+					);
 				}
-
-				console.log('propertyBedSelectHandler:', number);
 			} catch (err: any) {
-				console.log('ERROR, propertyBedSelectHandler:', err);
-			}
-		},
-		[searchFilter],
-	);
-
-	const propertySquareHandler = useCallback(
-		async (e: any, type: string) => {
-			const value = e.target.value;
-
-			if (type == 'start') {
-				await router.push(
-					`/property?input=${JSON.stringify({
-						...searchFilter,
-						search: {
-							...searchFilter.search,
-							squaresRange: { ...searchFilter.search.squaresRange, start: value },
-						},
-					})}`,
-					`/property?input=${JSON.stringify({
-						...searchFilter,
-						search: {
-							...searchFilter.search,
-							squaresRange: { ...searchFilter.search.squaresRange, start: value },
-						},
-					})}`,
-					{ scroll: false },
-				);
-			} else {
-				await router.push(
-					`/property?input=${JSON.stringify({
-						...searchFilter,
-						search: {
-							...searchFilter.search,
-							squaresRange: { ...searchFilter.search.squaresRange, end: value },
-						},
-					})}`,
-					`/property?input=${JSON.stringify({
-						...searchFilter,
-						search: {
-							...searchFilter.search,
-							squaresRange: { ...searchFilter.search.squaresRange, end: value },
-						},
-					})}`,
-					{ scroll: false },
-				);
+				console.log('ERROR, propertyColorHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -532,6 +489,7 @@ const Filter = (props: FilterType) => {
 		}
 	};
 
+
 	if (device === 'mobile') {
 		return <div>PROPERTIES FILTER</div>;
 	} else {
@@ -576,30 +534,61 @@ const Filter = (props: FilterType) => {
 						</Tooltip>
 					</Stack>
 				</Stack>
+
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<p className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>
+					<Typography className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>Property Type</Typography>
+					<Stack
+						className="property-type1"
+						onMouseEnter={() => setShowMore(true)}
+						onMouseLeave={() => {
+							if (!searchFilter?.search?.categoryList) {
+								setShowMore(false);
+							}
+						}}
+					>
+						{propertyType.map((type: string) => (
+							<Stack className={'input-box'} key={type}>
+								<Checkbox
+									id={type}
+									className="property-checkbox"
+									color="default"
+									size="small"
+									value={type}
+									onChange={propertyTypeSelectHandler}
+									checked={(searchFilter?.search?.typeList || []).includes(type as PropertyType)}
+								/>
+								<label style={{ cursor: 'pointer' }}>
+									<Typography className="property_type">{type}</Typography>
+								</label>
+							</Stack>
+						))}
+					</Stack>
+
+				</Stack>
+
+				<Stack className="find-your-home" mb="30px">
+					<p className="title">
 						Location
 					</p>
 					<Stack
-						className={`property-location`}
-						style={{ height: showMore ? '253px' : '115px' }}
+						className="property-location"
 						onMouseEnter={() => setShowMore(true)}
 						onMouseLeave={() => {
-							if (!searchFilter?.search?.locationList) {
+							if (!searchFilter?.search?.categoryList) {
 								setShowMore(false);
 							}
 						}}
 					>
 						{propertyCategory.map((location: string) => {
 							return (
-								<Stack className={'input-box'} key={location}>
+								<Stack className="input-box" key={location}>
 									<Checkbox
 										id={location}
 										className="property-checkbox"
 										color="default"
 										size="small"
 										value={location}
-										checked={(searchFilter?.search?.locationList || []).includes(location as PropertyLocation)}
+										checked={(searchFilter?.search?.categoryList || []).includes(location as PropertyCategory)}
 										onChange={propertyLocationSelectHandler}
 									/>
 									<label htmlFor={location} style={{ cursor: 'pointer' }}>
@@ -610,233 +599,118 @@ const Filter = (props: FilterType) => {
 						})}
 					</Stack>
 				</Stack>
+
+
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Property Type</Typography>
-					{propertyType.map((type: string) => (
-						<Stack className={'input-box'} key={type}>
-							<Checkbox
-								id={type}
-								className="property-checkbox"
-								color="default"
-								size="small"
-								value={type}
-								onChange={propertyTypeSelectHandler}
-								checked={(searchFilter?.search?.typeList || []).includes(type as PropertyType)}
-							/>
-							<label style={{ cursor: 'pointer' }}>
-								<Typography className="property_type">{type}</Typography>
-							</label>
-						</Stack>
-					))}
-				</Stack>
-				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Rooms</Typography>
+					<Typography className={'title'}>Condition</Typography>
 					<Stack className="button-group">
 						<Button
 							sx={{
-								borderRadius: '12px 0 0 12px',
-								border: !searchFilter?.search?.roomsList ? '2px solid #181A20' : '1px solid #b9b9b9',
+								borderRadius: 0,
+								border: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW) ? '2px solid #181A20' : '1px solid #b9b9b9',
+								borderLeft: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW) ? undefined : 'none',
 							}}
-							onClick={() => propertyRoomSelectHandler(0)}
+							onClick={() => propertyConditionSelectHandler(PropertyCondition.NEW)}
 						>
-							Any
+							NEW
 						</Button>
 						<Button
 							sx={{
 								borderRadius: 0,
-								border: searchFilter?.search?.roomsList?.includes(1) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.roomsList?.includes(1) ? undefined : 'none',
+								border: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED) ? '2px solid #181A20' : '1px solid #b9b9b9',
+								borderLeft: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED) ? undefined : 'none',
 							}}
-							onClick={() => propertyRoomSelectHandler(1)}
+							onClick={() => propertyConditionSelectHandler(PropertyCondition.USED)}
 						>
-							1
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.roomsList?.includes(2) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.roomsList?.includes(2) ? undefined : 'none',
-							}}
-							onClick={() => propertyRoomSelectHandler(2)}
-						>
-							2
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.roomsList?.includes(3) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.roomsList?.includes(3) ? undefined : 'none',
-							}}
-							onClick={() => propertyRoomSelectHandler(3)}
-						>
-							3
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.roomsList?.includes(4) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.roomsList?.includes(4) ? undefined : 'none',
-								borderRight: searchFilter?.search?.roomsList?.includes(4) ? undefined : 'none',
-							}}
-							onClick={() => propertyRoomSelectHandler(4)}
-						>
-							4
-						</Button>
-						<Button
-							sx={{
-								borderRadius: '0 12px 12px 0',
-								border: searchFilter?.search?.roomsList?.includes(5) ? '2px solid #181A20' : '1px solid #b9b9b9',
-							}}
-							onClick={() => propertyRoomSelectHandler(5)}
-						>
-							5+
+							USED
 						</Button>
 					</Stack>
+
+
+
+
 				</Stack>
+
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Bedrooms</Typography>
+					<Typography className={'title'}>Material</Typography>
 					<Stack className="button-group">
-						<Button
-							sx={{
-								borderRadius: '12px 0 0 12px',
-								border: !searchFilter?.search?.bedsList ? '2px solid #181A20' : '1px solid #b9b9b9',
-							}}
-							onClick={() => propertyBedSelectHandler(0)}
-						>
-							Any
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.bedsList?.includes(1) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.bedsList?.includes(1) ? undefined : 'none',
-							}}
-							onClick={() => propertyBedSelectHandler(1)}
-						>
-							1
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.bedsList?.includes(2) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.bedsList?.includes(2) ? undefined : 'none',
-							}}
-							onClick={() => propertyBedSelectHandler(2)}
-						>
-							2
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.bedsList?.includes(3) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.bedsList?.includes(3) ? undefined : 'none',
-							}}
-							onClick={() => propertyBedSelectHandler(3)}
-						>
-							3
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.bedsList?.includes(4) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.bedsList?.includes(4) ? undefined : 'none',
-								// borderRight: false ? undefined : 'none',
-							}}
-							onClick={() => propertyBedSelectHandler(4)}
-						>
-							4
-						</Button>
-						<Button
-							sx={{
-								borderRadius: '0 12px 12px 0',
-								border: searchFilter?.search?.bedsList?.includes(5) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.bedsList?.includes(5) ? undefined : 'none',
-							}}
-							onClick={() => propertyBedSelectHandler(5)}
-						>
-							5+
-						</Button>
-					</Stack>
-				</Stack>
-				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Options</Typography>
-					<Stack className={'input-box'}>
-						<Checkbox
-							id={'Barter'}
-							className="property-checkbox"
-							color="default"
-							size="small"
-							value={'propertyBarter'}
-							checked={(searchFilter?.search?.options || []).includes('propertyBarter')}
-							onChange={propertyOptionSelectHandler}
-						/>
-						<label htmlFor={'Barter'} style={{ cursor: 'pointer' }}>
-							<Typography className="propert-type">Barter</Typography>
-						</label>
-					</Stack>
-					<Stack className={'input-box'}>
-						<Checkbox
-							id={'Rent'}
-							className="property-checkbox"
-							color="default"
-							size="small"
-							value={'propertyRent'}
-							checked={(searchFilter?.search?.options || []).includes('propertyRent')}
-							onChange={propertyOptionSelectHandler}
-						/>
-						<label htmlFor={'Rent'} style={{ cursor: 'pointer' }}>
-							<Typography className="propert-type">Rent</Typography>
-						</label>
-					</Stack>
-				</Stack>
-				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Square meter</Typography>
-					<Stack className="square-year-input">
-						<FormControl>
-							<InputLabel id="demo-simple-select-label">Min</InputLabel>
-							<Select
-								labelId="demo-simple-select-label"
-								id="demo-simple-select"
-								value={searchFilter?.search?.squaresRange?.start ?? 0}
-								label="Min"
-								onChange={(e: any) => propertySquareHandler(e, 'start')}
-								MenuProps={MenuProps}
+						{(['WOOD', 'METAL', 'PLASTIC', 'GLASS'] as PropertyMaterial[]).map((material, index, array) => (
+							<Button
+								key={material}
+								sx={{
+									borderRadius:
+										index === 0
+											? '12px 0 0 12px'
+											: index === array.length - 1
+												? '0 12px 12px 0'
+												: 0,
+									border: searchFilter?.search?.materialList?.includes(material)
+										? '2px solid #181A20'
+										: '1px solid #b9b9b9',
+									borderLeft: index !== 0 && !searchFilter?.search?.materialList?.includes(material)
+										? 'none'
+										: undefined,
+								}}
+								onClick={() => propertyMaterialSelectHandler(material)}
 							>
-								{propertySquare.map((square: number) => (
-									<MenuItem
-										value={square}
-										disabled={(searchFilter?.search?.squaresRange?.end || 0) < square}
-										key={square}
-									>
-										{square}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
-						<div className="central-divider"></div>
-						<FormControl>
-							<InputLabel id="demo-simple-select-label">Max</InputLabel>
-							<Select
-								labelId="demo-simple-select-label"
-								id="demo-simple-select"
-								value={searchFilter?.search?.squaresRange?.end ?? 500}
-								label="Max"
-								onChange={(e: any) => propertySquareHandler(e, 'end')}
-								MenuProps={MenuProps}
-							>
-								{propertySquare.map((square: number) => (
-									<MenuItem
-										value={square}
-										disabled={(searchFilter?.search?.squaresRange?.start || 0) > square}
-										key={square}
-									>
-										{square}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+								{material.charAt(0) + material.slice(1).toLowerCase()}
+							</Button>
+						))}
 					</Stack>
 				</Stack>
+
+				<Stack className={'find-your-home'} mb={'30px'}>
+					<Typography className={'title'}>Color</Typography>
+
+					<Stack className="button-group" flexWrap="wrap" gap={1}
+						onMouseEnter={() => setShowMore(true)}
+						onMouseLeave={() => {
+							if (!searchFilter?.search?.categoryList) {
+								setShowMore(false);
+							}
+						}}>
+						{(
+							['WHITE', 'BLACK', 'BROWN', 'GRAY', 'BEIGE', 'BLUE', 'GREEN'] as PropertyColor[]
+						).map((color) => (
+							<Button
+								key={color}
+								sx={{
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'space-between',
+									gap: '4px',
+									borderRadius: '12px',
+									border: searchFilter?.search?.colorList?.includes(color)
+										? '2px solid #181A20'
+										: '1px solid #ffffff',
+									backgroundColor: '#fff',
+									color: '#000',
+									minWidth: '100px',
+									fontSize: '187px',
+									padding: '4px 10px',
+									textTransform: 'capitalize',
+									'&:hover': {
+										backgroundColor: '#facc15',
+									},
+								}}
+								onClick={() => propertyColorHandler(color)}
+							>
+								{color.toLowerCase()}
+								<Stack
+									sx={{
+										width: '20px',
+										height: '20px',
+										borderRadius: '50%',
+										backgroundColor: color.toLowerCase(),
+										border: '1px solid #999',
+									}}
+								/>
+							</Button>
+						))}
+					</Stack>
+				</Stack>
+
+
 				<Stack className={'find-your-home'}>
 					<Typography className={'title'}>Price Range</Typography>
 					<Stack className="square-year-input">
