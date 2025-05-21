@@ -374,3 +374,52 @@ export const UNSUBSCRIBE = gql`
 		}
 	}
 `;
+
+
+/**************************
+ *      REPAIRPROPERTY     *
+ *************************/
+
+export const CREATE_REPAIRPROPERTY = gql`
+mutation CreateRepairProperty($input: RepairPropertyInput!) {
+    createRepairProperty(input: $input) {
+        _id
+        repairUserId
+        repairPropertyType
+        repairPropertyStatus
+        repairPropertyAddress
+        repairPropertyDescription
+        repairPropertyImages
+        repairPropertyViews
+        repairPropertyLikes
+        repairPropertyComments
+        memberId
+        deletedAt
+        constructedAt
+        createdAt
+    }
+}
+
+`;
+
+
+export const LIKE_TARGET_REPAIRPROPERTY = gql`
+mutation LikeTargetRepairProperty($input: String!) {
+    likeTargetRepairProperty(repairId: $input) {
+        _id
+        repairUserId
+        repairPropertyType
+        repairPropertyStatus
+        repairPropertyAddress
+        repairPropertyDescription
+        repairPropertyImages
+        repairPropertyViews
+        repairPropertyLikes
+        repairPropertyComments
+        memberId
+        deletedAt
+        constructedAt
+        createdAt
+    }
+}
+`;

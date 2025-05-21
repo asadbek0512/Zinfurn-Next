@@ -1,12 +1,12 @@
 import { Direction } from '../../enums/common_enum';
-import {  PropertyCategory, PropertyColor, PropertyCondition, PropertyMaterial, PropertyStatus, PropertyType } from '../../enums/property.enum';
+import { PropertyCategory, PropertyColor, PropertyCondition, PropertyMaterial, PropertyStatus, PropertyType } from '../../enums/property.enum';
 
 export interface PropertyInput {
 	propertyType: PropertyType;
 	propertyStatus?: PropertyStatus;
 	propertyCategory: PropertyCategory;     //// PropertyLocation
-	propertyMaterial: PropertyMaterial;
-	propertyColor: PropertyColor;
+	propertyMaterial: PropertyMaterial;		// bedsList?
+	propertyColor: PropertyColor;			// squaresRange?
 	propertySize?: string;
 	propertyTitle: string;
 	propertyPrice: number;
@@ -18,7 +18,7 @@ export interface PropertyInput {
 	propertyBarter?: boolean;
 	propertyRent?: boolean;
 	propertyInStock?: boolean;
-	propertyCondition: PropertyCondition;
+	propertyCondition: PropertyCondition;	//roomsList
 	propertyBrand?: string;
 	propertyOriginCountry?: string;
 	soldAt?: Date;
@@ -33,7 +33,7 @@ export interface PISearch {
 	typeList?: PropertyType[];				// typeList?: PropertyType[];
 	conditionList?: PropertyCondition[];	// roomsList?: Number[];
 	materialList?: PropertyMaterial[]; 				// bedsList?: Number[];
-	colorList?: PropertyColor[];					// squaresRange?: Range;c
+	colorList?: PropertyColor[];					// squaresRange?: Range 
 	pricesRange?: Range;
 	options?: string[];
 	text?: string;
@@ -85,6 +85,6 @@ interface PeriodsRange {
 }
 
 export interface OrdinaryInquiry {
-    page: number;
-    limit: number;
+	page: number;
+	limit: number;
 }

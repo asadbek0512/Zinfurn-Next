@@ -164,12 +164,8 @@ const Top = () => {
 			<Stack className={'navbar'}>
 				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
 					<Stack className={'container'}>
-						<Box component={'div'} className={'logo-box'}>
-							<Link href={'/'}>
-								<img src="/img/logo/logoWhite.svg" alt="" />
-							</Link>
-						</Box>
 						<Box component={'div'} className={'router-box'}>
+							
 							<Link href={'/'}>
 								<div>{t('Home')}</div>
 							</Link>
@@ -179,6 +175,16 @@ const Top = () => {
 							<Link href={'/agent'}>
 								<div> {t('Agents')} </div>
 							</Link>
+
+							<Link href={'/repairService'}>
+								<div> {t('Service')} </div>
+							</Link>
+
+							<Link href={'/'} className={'logo-box'}>
+								<img src="/img/logo/11.png" alt="" />
+							</Link>
+
+							
 							<Link href={'/community?articleCategory=FREE'}>
 								<div> {t('Community')} </div>
 							</Link>
@@ -191,7 +197,8 @@ const Top = () => {
 								<div> {t('CS')} </div>
 							</Link>
 						</Box>
-						<Box component={'div'} className={'user-box'}>
+						
+						<Box component={'div'} className={'user-box'} >
 							{user?._id ? (
 								<>
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>

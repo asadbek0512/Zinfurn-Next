@@ -47,6 +47,54 @@ query GetAgents($input: AgentsInquiry!) {
 
 `;
 
+export const GET_TECHNICIANS = gql(`
+query GetTechnicians($input: TechnicianInquiry!) {
+    getTechnicians(input: $input) {
+        list {
+            _id
+            memberType
+            memberStatus
+            memberAuthType
+            memberPhone
+            memberNick
+            memberFullName
+            memberImage
+            memberAddress
+            memberDesc
+            memberProperties
+            memberArticles
+            memberFollowers
+            memberFollowings
+            memberPoints
+            memberLikes
+            memberViews
+            memberComments
+            memberRank
+            memberWarnings
+            memberBlocks
+            deletedAt
+            createdAt
+            updatedAt
+            accessToken
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+            meFollowed {
+                followingId
+                followerId
+                myFollowing
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
+
+`);
+
 export const GET_MEMBER = gql(`
 query GetMember($input: String!) {
     getMember(memberId: $input) {
@@ -673,7 +721,6 @@ query GetMemberFollowers($input: FollowInquiry!) {
         }
     }
 }
-
 `;
 
 export const GET_MEMBER_FOLLOWINGS = gql`
@@ -728,4 +775,302 @@ export const GET_MEMBER_FOLLOWINGS = gql`
 			}
 		}
 	}
+`;
+
+
+/**************************
+ *      REPAIRPROPERTY     *
+ *************************/
+
+export const GET_REPAIRPROPERTY = gql`
+query GetRepairProperty($input: String!) {
+    getRepairProperty(repairId: $input) {
+        _id
+        repairUserId
+        repairPropertyType
+        repairPropertyStatus
+        repairPropertyAddress
+        repairPropertyDescription
+        repairPropertyImages
+        repairPropertyViews
+        repairPropertyLikes
+        repairPropertyComments
+        memberId
+        deletedAt
+        constructedAt
+        createdAt
+        meLiked {
+            memberId
+            likeRefId
+            myFavorite
+        }
+        memberData {
+            _id
+            memberType
+            memberStatus
+            memberAuthType
+            memberPhone
+            memberNick
+            memberFullName
+            memberImage
+            memberAddress
+            memberDesc
+            memberProperties
+            memberArticles
+            memberFollowers
+            memberFollowings
+            memberPoints
+            memberLikes
+            memberViews
+            memberComments
+            memberRank
+            memberWarnings
+            memberBlocks
+            deletedAt
+            createdAt
+            updatedAt
+            accessToken
+        }
+    }
+}
+
+
+`;
+
+export const GET_REPAIRPROPERTIES = gql`
+query GetRepairProperties($input: RepairPropertiesInquiry!) {
+    getRepairProperties(input: $input) {
+        list {
+            _id
+            repairUserId
+            repairPropertyType
+            repairPropertyStatus
+            repairPropertyAddress
+            repairPropertyDescription
+            repairPropertyImages
+            repairPropertyViews
+            repairPropertyLikes
+            repairPropertyComments
+            memberId
+            deletedAt
+            constructedAt
+            createdAt
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+            memberData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberProperties
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberWarnings
+                memberBlocks
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
+
+
+`;
+
+export const GET_TECHNICIANPROPERTY = gql`
+query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
+    getTechnicianProperties(input: $input) {
+        list {
+            _id
+            repairUserId
+            repairPropertyType
+            repairPropertyStatus
+            repairPropertyAddress
+            repairPropertyDescription
+            repairPropertyImages
+            repairPropertyViews
+            repairPropertyLikes
+            repairPropertyComments
+            memberId
+            deletedAt
+            constructedAt
+            createdAt
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+            memberData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberProperties
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberWarnings
+                memberBlocks
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
+
+
+`;
+
+export const GET_REPAIRFAVORITES = gql`
+query GetRepairFavorites($input: RepairOrdinaryInquiry!) {
+    getRepairFavorites(input: $input) {
+        list {
+            _id
+            repairUserId
+            repairPropertyType
+            repairPropertyStatus
+            repairPropertyAddress
+            repairPropertyDescription
+            repairPropertyImages
+            repairPropertyViews
+            repairPropertyLikes
+            repairPropertyComments
+            memberId
+            deletedAt
+            constructedAt
+            createdAt
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+            memberData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberProperties
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberWarnings
+                memberBlocks
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
+
+
+`;
+
+export const GET_REPAIRVISITED = gql`
+query GetRepairVisited($input: RepairOrdinaryInquiry!) {
+    getRepairVisited(input: $input) {
+        list {
+            _id
+            repairUserId
+            repairPropertyType
+            repairPropertyStatus
+            repairPropertyAddress
+            repairPropertyDescription
+            repairPropertyImages
+            repairPropertyViews
+            repairPropertyLikes
+            repairPropertyComments
+            memberId
+            deletedAt
+            constructedAt
+            createdAt
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+            memberData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberProperties
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberWarnings
+                memberBlocks
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
 `;

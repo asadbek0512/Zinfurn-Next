@@ -32,6 +32,7 @@
 @import '/scss/pc/member/memberFollows.scss';
 @import '/scss/pc/member/memberArticles.scss';
 @import '/scss/pc/member/memberProperties.scss';
+@import '/scss/pc/repairService/repairService.scss';
 
 body {
 	-ms-overflow-style: none;
@@ -53,47 +54,53 @@ body::-webkit-scrollbar {
 				position: fixed;
 				padding: 22px 0px;
 				width: 100%;
-				height: 87px;
+				height: 80px;
 				display: flex;
 				flex-direction: row;
 				box-sizing: border-box;
 				z-index: 99;
 				align-items: center;
+				background-color: #cccccc;
 				border-top: 1px solid rgba(255, 255, 255, 0.07);
-
 				&.transparent {
-					background-color: #181a209e;
+					background-color: #cccccc;
 				}
-
 				.container {
 					flex-direction: row;
 					align-items: center;
 					justify-content: space-between;
-
+					padding: 20px 24px;
 					.logo-box {
 						img {
-							width: 150px;
+							width: auto;
+							margin-top: -30px;
+							height: 80px;
+							padding-left: 80px;
+							padding-right: 80px;
 							cursor: pointer;
 						}
 					}
-
 					.router-box {
+						padding-top: 30px;
+						margin-left: 50px;
 						position: relative;
 						width: 617px;
+						gap: 32px;
 						display: flex;
 						flex-direction: row;
 						justify-content: space-between;
-
 						div {
 							position: relative;
-							color: #eeeeeeed;
+							color: #4c4c4ced;
 							font-family: $font;
-							font-size: 15px;
+							font-size: 18px;
 							font-style: normal;
 							font-weight: 600;
 							line-height: normal;
 							cursor: pointer;
-
+							// &:hover {
+							// 	color: #e06834;
+							// }
 							.community_menu {
 								position: absolute;
 								left: -177%;
@@ -102,7 +109,6 @@ body::-webkit-scrollbar {
 								height: 33px;
 								background: white;
 								transition: all ease 2s;
-
 								&:before {
 									content: '';
 									display: block;
@@ -111,20 +117,19 @@ body::-webkit-scrollbar {
 									right: 50%;
 									width: 10px;
 									height: 10px;
-									background: white;
+									background: rgb(255, 255, 255);
 									transform: translateY(-50%) rotate(45deg);
 									z-index: 0;
 								}
 							}
 						}
 					}
-
 					.user-box {
+						margin-right: -80px;
 						width: 270px;
 						display: flex;
 						flex-direction: row;
 						justify-content: flex-end;
-
 						.join-box {
 							width: 184px;
 							height: 47px;
@@ -132,14 +137,12 @@ body::-webkit-scrollbar {
 							align-items: center;
 							justify-content: center;
 							border-radius: 60px;
-							border: 1px solid #ffffff;
+							border: 1px solid #646464;
 							cursor: pointer;
-
 							svg {
-								color: #ffffff;
+								color: #777777;
 								margin-right: 10px;
 							}
-
 							span {
 								font-family: $font;
 								font-size: 14px;
@@ -149,7 +152,6 @@ body::-webkit-scrollbar {
 								color: #ffffff;
 							}
 						}
-
 						.login-user {
 							img {
 								width: 42px;
@@ -159,26 +161,21 @@ body::-webkit-scrollbar {
 							}
 						}
 					}
-
 					.lan-box {
-						margin-left: 28px;
+						margin-left: 8px;
 						display: flex;
 						align-items: center;
-
 						.notification-icon {
-							color: white;
+							color: rgb(41, 41, 41);
 						}
-
 						.btn-lang {
 							border-radius: 4px;
-
 							img {
 								width: 24px;
 								height: 17px;
 								border-radius: 2px;
 							}
 						}
-
 						.img-flag {
 							width: 24px;
 							height: 17px;
@@ -250,8 +247,6 @@ body::-webkit-scrollbar {
 							font-weight: 400;
 							line-height: 26px;
 						}
-
-						
 					}
 				}
 
@@ -816,11 +811,10 @@ body::-webkit-scrollbar {
 						width: 220px;
 						flex-shrink: 0;
 						margin-top: -25px;
-
 					}
 
 					.text {
-						color: #CCC;
+						color: #ccc;
 						font-size: 14px;
 						opacity: 0.9;
 						margin-bottom: 30px;
@@ -857,7 +851,7 @@ body::-webkit-scrollbar {
 					}
 
 					span {
-						color: #CCC;
+						color: #ccc;
 						display: block;
 						font-size: 14px;
 						opacity: 0.8;
@@ -868,15 +862,12 @@ body::-webkit-scrollbar {
 							opacity: 1;
 						}
 					}
-
 				}
-
 
 				.shop-contact {
 					flex: 1;
 					min-width: 270px;
 					margin-right: 50px;
-
 
 					strong {
 						font-size: 18px;
@@ -897,7 +888,6 @@ body::-webkit-scrollbar {
 							font-size: 14px;
 							line-height: 1.6;
 							margin-bottom: 15px;
-
 
 							.label {
 								color: #fff;
@@ -937,7 +927,6 @@ body::-webkit-scrollbar {
 				justify-content: flex-end;
 				align-items: flex-end;
 
-
 				img {
 					height: 24px;
 					width: auto;
@@ -945,9 +934,6 @@ body::-webkit-scrollbar {
 			}
 		}
 	}
-
-
-
 }
 
 .MuiPaper-root.MuiMenu-paper {

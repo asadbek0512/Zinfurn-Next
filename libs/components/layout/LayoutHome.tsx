@@ -13,6 +13,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import Footer from '../Footer';
+import HeaderFilter from '../homepage/HeaderFilter';
 
 const withLayoutMain = (Component: any) => {
 	return (props: any) => {
@@ -64,7 +65,7 @@ const withLayoutMain = (Component: any) => {
 						<Stack className={'header-main'}>
 							<FiberContainer />
 							<Stack className={'container'}>
-								{/* <HeaderFilter /> */}
+								<HeaderFilter />
 							</Stack>
 						</Stack>
 

@@ -24,5 +24,4 @@ export interface PropertyUpdate {
 	constructedAt?: Date;
 	soldAt?: Date;
 	deletedAt?: Date;
-  }
-  
+}
