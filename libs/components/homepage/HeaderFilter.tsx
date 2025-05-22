@@ -223,8 +223,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 			if (searchFilter?.search?.materialList?.length == 0) {
 				delete searchFilter.search.materialList;
 			}
-            
-            if (searchFilter?.search?.colorList?.length == 0) {
+
+			if (searchFilter?.search?.colorList?.length == 0) {
 				delete searchFilter.search.colorList;
 			}
 
@@ -264,9 +264,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							<ExpandMoreIcon />
 						</Box>
 					</Stack>
-                    <Stack className={'search-box-other'}>
-						<Box className={'advanced-filter'} onClick={() => advancedFilterHandler(true)}>
-						</Box>
+					<Stack className={'search-box-other'}>
+						<Box className={'advanced-filter'} onClick={() => advancedFilterHandler(true)}></Box>
 						<Box className={'search-btn'} onClick={pushSearchHandler}>
 							<img src="/img/icons/search_white.svg" alt="" />
 						</Box>
@@ -277,7 +276,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						{propertyCategory.map((location: string) => {
 							return (
 								<div onClick={() => propertyCategorySelectHandler(location)} key={location}>
-									<img src={`img/banner/cities/${location}.webp`} alt="" />
+									<img src={`img/banner/cities/${location}.jpg`} alt="" />
 									<span>{location}</span>
 								</div>
 							);
@@ -287,11 +286,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
 						{propertyType.map((type: string) => {
 							return (
-								<div
-									style={{ backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.webp)` }}
-									onClick={() => propertyTypeSelectHandler(type)}
-									key={type}
-								>
+								<div onClick={() => propertyTypeSelectHandler(type)} key={type}>
+									<img src={`img/banner/types/${type}.jpg`} alt="" />
 									<span>{type}</span>
 								</div>
 							);
@@ -300,14 +296,24 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 
 					<div className={`filter-rooms ${openRooms ? 'on' : ''}`} ref={roomsRef}>
 						{propertyMaterial.map((material: string) => {
-							return <span onClick={() => propertyMaterialSelectHandler(material)}>{material}</span>;
+							return (
+								<div onClick={() => propertyMaterialSelectHandler(material)} key={material}>
+									<img src={`img/banner/materials/${material}.jpg`} alt="" />
+									<span>{material}</span>
+								</div>
+							);
 						})}
 					</div>
 
-					<div className={`filter-rooms ${openColor ? 'on' : ''}`} ref={colorRef}>
-						{propertyColor.map((color: string) => {
-							return <span onClick={() => propertyColorSelectHandler(color)}>{color}</span>;
-						})}
+					<div className={`filter-colors ${openColor ? 'on' : ''}`} ref={colorRef}>
+						{propertyColor.map((color: string) => (
+							<span
+								key={color}
+								className={color}
+								onClick={() => propertyColorSelectHandler(color)}
+								title={color}
+							></span>
+						))}
 					</div>
 				</Stack>
 			</>

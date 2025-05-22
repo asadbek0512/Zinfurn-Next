@@ -12,6 +12,8 @@ export interface TotalCounter {
 }
 
 export interface Property {
+	views: number;
+	likes: number;
 	_id: string;
 	propertyType: PropertyType;
 	propertyStatus?: PropertyStatus;

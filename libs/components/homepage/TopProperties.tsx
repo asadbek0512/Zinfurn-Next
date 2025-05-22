@@ -41,17 +41,16 @@ const TopProperties = (props: TopPropertiesProps) => {
 			}
 		});
 	/** HANDLERS **/
-	
+
 		const likePropertyHandler = async (user: T, id: string) => {
 			try {
 				if (!id) return;
 				if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 				//execute likePropertyHandler Mutation
 				await likeTargetProperty({ variables: { input: id } });
-	
+
 				//execute getPropertiesRefetch
 				await getPropertiesRefetch({input: initialInput})
-	
 				await sweetTopSmallSuccessAlert('success', 800);
 			} catch (err: any) {
 				console.log('ERROR, likePropertyHandler', err.message);
