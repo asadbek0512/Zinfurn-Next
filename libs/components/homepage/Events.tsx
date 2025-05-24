@@ -1,94 +1,165 @@
 import React from 'react';
-import { Stack, Box } from '@mui/material';
-import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { Stack, Box, Button } from '@mui/material';
 
-interface EventData {
-	eventTitle: string;
-	city: string;
+interface PromoData {
+	title: string;
+	subtitle: string;
 	description: string;
+	discount: string;
+	buttonText: string;
 	imageSrc: string;
+	backgroundColor: string;
+	isGaming?: boolean;
 }
-const eventsData: EventData[] = [
+
+const promoData: PromoData[] = [
 	{
-		eventTitle: 'Paradise City Theme Park',
-		city: 'Incheon',
-		description:
-			'Experience magic and wonder in Incheon with a visit to the night-themed indoor theme park Wonderbox at Paradise City!',
-		imageSrc: '/img/events/INCHEON.webp',
+		title: 'Latest Gaming',
+		subtitle: 'Chairs',
+		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed',
+		discount: 'Flat 20% Discount',
+		buttonText: 'Shop Now',
+		imageSrc: '/img/banner/game5.png', // Replace with your actual image path
+		backgroundColor: '#f5f5f5',
+		isGaming: true,
 	},
 	{
-		eventTitle: 'Taebaeksan Snow Festival',
-		city: 'Seoul',
-		description: 'If you have the opportunity to travel to South Korea, do not miss the Taebaeksan Snow Festival!',
-		imageSrc: '/img/events/SEOUL.webp',
-	},
-	{
-		eventTitle: 'Suseong Lake Event',
-		city: 'Daegu',
-		description: 'The Suseong Lake Festival is a culture and arts festival held alongside Suseongmot Lake!',
-		imageSrc: '/img/events/DAEGU.webp',
-	},
-	{
-		eventTitle: 'Sand Festival',
-		city: 'Busan',
-		description:
-			'Haeundae Sand Festival, the nation’s largest eco-friendly exhibition on sand, is held at Haeundae Beach!',
-		imageSrc: '/img/events/BUSAN.webp',
+		title: 'Wood Chair',
+		subtitle: 'Collection',
+		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed',
+		discount: 'Flat 15% Discount',
+		buttonText: 'Shop Now',
+		imageSrc: '/img/banner/chair3.png', // Replace with your actual image path
+		backgroundColor: '#f4a92b',
+		isGaming: false,
 	},
 ];
 
-const EventCard = ({ event }: { event: EventData }) => {
-	const device = useDeviceDetect();
+const PromoCard = ({ promo }: { promo: PromoData }) => {
+	return (
+		<Stack
+			className="promo-card"
+			style={{
+				backgroundColor: promo.backgroundColor,
+				position: 'relative',
+				borderRadius: '16px',
+				padding: '40px 30px',
+				minHeight: '300px',
+				display: 'flex',
+				flexDirection: 'row',
+				alignItems: 'center',
+				justifyContent: 'space-between',
+				overflow: 'hidden',
+			}}
+		>
+			<Box component={'div'} className="promo-content" style={{ flex: 1, zIndex: 2 }}>
+				<Box
+					component={'div'}
+					className="discount-badge"
+					style={{
+						fontSize: '14px',
+						fontWeight: '500',
+						color: promo.isGaming ? '#666' : '#8B4513',
+						marginBottom: '8px',
+					}}
+				>
+					{promo.discount}
+				</Box>
 
-	if (device === 'mobile') {
-		return <div>EVENT CARD</div>;
-	} else {
-		return (
-			<Stack
-				className="event-card"
+				<Box
+					component={'div'}
+					className="promo-title"
+					style={{
+						fontSize: '32px',
+						fontWeight: '700',
+						lineHeight: '1.2',
+						color: promo.isGaming ? '#333' : '#fff',
+						marginBottom: '12px',
+					}}
+				>
+					{promo.title}
+					<br />
+					{promo.subtitle}
+				</Box>
+
+				<Box
+					component={'div'}
+					className="promo-description"
+					style={{
+						fontSize: '14px',
+						fontWeight: '400',
+						color: promo.isGaming ? '#666' : 'rgba(255,255,255,0.9)',
+						marginBottom: '24px',
+						lineHeight: '1.5',
+						maxWidth: '250px',
+					}}
+				>
+					{promo.description}
+				</Box>
+
+				<Button
+					className="shop-button"
+					style={{
+						backgroundColor: '#4a6741',
+						color: '#fff',
+						padding: '12px 24px',
+						borderRadius: '25px',
+						fontSize: '14px',
+						fontWeight: '500',
+						textTransform: 'none',
+						border: 'none',
+						cursor: 'pointer',
+						display: 'flex',
+						alignItems: 'center',
+						gap: '8px',
+					}}
+				>
+					{promo.buttonText}
+					<span style={{ fontSize: '16px' }}>→</span>
+				</Button>
+			</Box>
+
+			<Box
+				component={'div'}
+				className="promo-image"
 				style={{
-					backgroundImage: `url(${event?.imageSrc})`,
-					backgroundSize: 'cover',
-					backgroundPosition: 'center',
+					position: 'absolute',
+					right: '-70px',
+					top: '56%',
+					transform: 'translateY(-50%)',
+					width: '350px',
+					height: '850px',
+					backgroundImage: `url(${promo.imageSrc})`,
+					backgroundSize: 'contain',
 					backgroundRepeat: 'no-repeat',
+					backgroundPosition: 'center',
+					zIndex: 1,
 				}}
-			>
-				<Box component={'div'} className={'info'}>
-					<strong>{event?.city}</strong>
-					<span>{event?.eventTitle}</span>
-				</Box>
-				<Box component={'div'} className={'more'}>
-					<span>{event?.description}</span>
-				</Box>
-			</Stack>
-		);
-	}
+			/>
+		</Stack>
+	);
 };
 
-const Events = () => {
-	const device = useDeviceDetect();
-
-	if (device === 'mobile') {
-		return <div>EVENT CARD</div>;
-	} else {
-		return (
-			<Stack className={'events'}>
-				<Stack className={'container'}>
-					<Stack className={'info-box'}>
-						<Box component={'div'} className={'left'}>
-							<span className={'white'}>Events</span>
-							<p className={'white'}>Events waiting your attention!</p>
-						</Box>
-					</Stack>
-					<Stack className={'card-wrapper'}>
-						{eventsData.map((event: EventData) => {
-							return <EventCard event={event} key={event?.eventTitle} />;
-						})}
-					</Stack>
+const PromoBanners = () => {
+	return (
+		<Stack className="promo-banners" style={{ padding: '40px 0' }}>
+			<Stack className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+				<Stack
+					className="banners-wrapper"
+					style={{
+						display: 'grid',
+						gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+						gap: '24px',
+						width: '100%',
+					}}
+				>
+					{promoData.map((promo: PromoData, index: number) => (
+						<PromoCard promo={promo} key={index} />
+					))}
 				</Stack>
 			</Stack>
-		);
-	}
+		</Stack>
+	);
 };
 
-export default Events;
+export default PromoBanners;

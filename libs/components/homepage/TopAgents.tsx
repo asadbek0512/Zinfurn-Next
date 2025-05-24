@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, Link } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -23,19 +23,19 @@ const TopAgents = (props: TopAgentsProps) => {
 	const [topAgents, setTopAgents] = useState<Member[]>([]);
 
 	/** APOLLO REQUESTS **/
-		const {
-			loading: getPropertiesLoading,
-			data: getAgentsData,
-			error: getAgentsError,
-			refetch: getAgemtsRefetch,
-		} = useQuery(GET_AGENTS, {
-			fetchPolicy: "cache-and-network",
-			variables: {input: initialInput},
-			notifyOnNetworkStatusChange: true,
-			onCompleted: (data: T) => {
-				setTopAgents(data?.getAgents?.list)
-			}
-		});
+	const {
+		loading: getPropertiesLoading,
+		data: getAgentsData,
+		error: getAgentsError,
+		refetch: getAgemtsRefetch,
+	} = useQuery(GET_AGENTS, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: initialInput },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setTopAgents(data?.getAgents?.list);
+		},
+	});
 	/** HANDLERS **/
 
 	if (device === 'mobile') {
@@ -74,12 +74,9 @@ const TopAgents = (props: TopAgentsProps) => {
 							<span>Top Agents</span>
 							<p>Our Top Agents always ready to serve you</p>
 						</Box>
-						<Box component={'div'} className={'right'}>
-							<div className={'more-box'}>
-								<span>See All Agents</span>
-								<img src="/img/icons/rightup.svg" alt="" />
-							</div>
-						</Box>
+						<Link href="/property" className="view-button">
+							All Properties
+						</Link>
 					</Stack>
 					<Stack className={'wrapper'}>
 						<Box component={'div'} className={'switch-btn swiper-agents-prev'}>

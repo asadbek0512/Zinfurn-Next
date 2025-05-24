@@ -1,57 +1,51 @@
 import React from 'react';
 
-const categories = [
-	{
-		title: 'Kitchen',
-		count: '1200+ Items',
-		items: [
-			'Dining Table',
-			'Kitchen Cabinet',
-			'Bar Stool',
-			'Pantry Organizer',
-			'Dish Rack',
-			'Kitchen Island',
-			'Cutlery Holder',
-			'Microwave Stand',
-		],
-		image: '/img/banner/92.jpg', // o'zgartirilmagan
-		size: 'large',
-	},
-	{
-		title: 'Living Room',
-		count: '950+ Items',
-		items: ['Sofa', 'Coffee Table', 'TV Stand', 'Bookshelf'],
-		image: '/img/banner/98.jpg', // o'zgartirilmagan
-		size: 'small',
-	},
-	{
-		title: 'Bedroom',
-		count: '800+ Items',
-		items: ['Bed Frame', 'Wardrobe', 'Nightstand', 'Dresser'],
-		image: '/img/banner/96.jpg', // o'zgartirilmagan
-		size: 'small',
-	},
-];
+const items = [
+  {
+    id: 1,
+    title: "Minimal Chair",
+    subtitle: "Modern Living Room",
+    image: "/img/banner/93.jpg",
+    className: "large-top-left",
+  },
+  {
+    id: 2,
+    title: "Modern Chair",
+    subtitle: "",
+    image: "/img/banner/98.jpg",
+    className: "small-bottom-left",
+  },
+  {
+    id: 3,
+    title: "Modern Sofa Set",
+    subtitle: "",
+    image: "/img/banner/89.jpg",
+    className: "small-bottom-middle",
+  },
+  {
+    id: 4,
+    title: "Modern Interior Collection Sets",
+    subtitle: "",
+    image: "/img/banner/99.jpg",
+    className: "very-large-right",
+  },
+]
 
-export default function CategoryCards() {
-	return (
-		<div className='category-filter' >
-			<div className="category-grid">
-				{categories.map((cat, idx) => (
-					<div key={idx} className={`block ${cat.size}`}>
-          <img src={cat.image} alt={cat.title} className="block-img" />
+export default function CategoryGrid() {
+  return (
+    <div className="category-grid">
+      {items.map((item) => (
+        <div className={`box ${item.className}`} key={item.id}>
+          <img src={item.image || "/placeholder.svg"} alt={item.title} />
           <div className="overlay">
-            <div className="count">{cat.count}</div>
-            <h3>{cat.title}</h3>
-            <ul>
-              {cat.items.map((item, i) => (
-                <li key={i}>{item}</li>
-              ))}
-            </ul>
+            <div className="content">
+              <h3>{item.title}</h3>
+              {item.subtitle && <p>{item.subtitle}</p>}
+              <button className="explore-btn">Explore</button>
+            </div>
           </div>
         </div>
-				))}
-			</div>
-		</div>
-	);
+      ))}
+    </div>
+  )
 }

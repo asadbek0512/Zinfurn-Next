@@ -71,8 +71,8 @@ mutation Login($input: LoginInput!) {
 `;
 
 export const UPDATE_MEMBER = gql`
-mutation Login($input: LoginInput!) {
-    login(input: $input){
+mutation UpdateMember($input: MemberUpdate!) {
+    updateMember(input: $input) {
         _id
         memberType
         memberStatus
@@ -100,6 +100,7 @@ mutation Login($input: LoginInput!) {
         accessToken
     }
 }
+
 `;
 
 export const LIKE_TARGET_MEMBER = gql`
