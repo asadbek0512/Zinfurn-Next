@@ -50,9 +50,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 			await likeTargetProperty({ variables: { input: id } });
 
 			//execute getPropertiesRefetch
-			await getPropertiesRefetch({input: initialInput})
-
-			await sweetTopSmallSuccessAlert('success', 800);
+			await getPropertiesRefetch({ input: initialInput });
 		} catch (err: any) {
 			console.log('ERROR, likePropertyHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
@@ -85,7 +83,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 								{trendProperties.map((property: Property) => {
 									return (
 										<SwiperSlide key={property._id} className={'trend-property-slide'}>
-											<TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler}/>
+											<TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
 										</SwiperSlide>
 									);
 								})}
@@ -101,17 +99,23 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Trend Properties <img  className={'icons'}src="img/icons/stol.png"/></span>
+							<span>
+								Trend Properties <img className={'icons'} src="img/icons/stol.png" />
+							</span>
 							<p>Easily explore our carefully curated categories to find your favorite items</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
-							<div className={'pagination-box'}>
-								<WestIcon className={'swiper-trend-prev'} />
-								<div className={'swiper-trend-pagination'}></div>
-								<EastIcon className={'swiper-trend-next'} />
+							<div className="pagination-box">
+								<button className="nav-button prev swiper-trend-prev">
+									<WestIcon />
+								</button>
+								<button className="nav-button next swiper-trend-next">
+									<EastIcon />
+								</button>
 							</div>
 						</Box>
 					</Stack>
+
 					<Stack className={'card-box'}>
 						{trendProperties.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
@@ -122,13 +126,10 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 								className={'trend-property-swiper'}
 								slidesPerView={'auto'}
 								spaceBetween={15}
-								modules={[Autoplay, Navigation, Pagination]}
+								modules={[Autoplay, Navigation]}
 								navigation={{
 									nextEl: '.swiper-trend-next',
 									prevEl: '.swiper-trend-prev',
-								}}
-								pagination={{
-									el: '.swiper-trend-pagination',
 								}}
 							>
 								{trendProperties.map((property: Property) => {

@@ -7,6 +7,8 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
+		background-color: #f8f7f4;
+
 		.container {
 			display: flex;
 			flex-direction: column;
@@ -62,18 +64,84 @@
 				flex-direction: row;
 				flex-wrap: wrap;
 			}
-			.pagination {
+
+			.pagination-config {
+				width: 100%;
+				max-width: 500px;
+				margin: 20px auto;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				span {
-					margin-top: 20px;
-					color: #181a20;
-					font-family: $font;
-					font-size: 14px;
-					font-style: normal;
-					font-weight: 400;
-					line-height: 26px; /* 185.714% */
+				gap: 16px;
+
+				.pagination-box {
+					width: 100%;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+					.MuiPagination-root {
+						.MuiPaginationItem-root {
+							min-width: 36px;
+							height: 36px;
+							margin: 0 3px;
+							border-radius: 6px;
+							font-family: $font;
+							font-size: 14px;
+							font-weight: 500;
+							color: #666;
+							border: 1px solid #ddd;
+							background: #fff;
+							transition: all 0.2s ease;
+
+							&:hover {
+								background: #f5f5f5;
+								border-color:rgb(70, 80, 99);
+								color: rgb(65, 76, 95);
+							}
+
+							&.Mui-selected {
+								background:rgb(68, 76, 90);
+								color: #fff;
+								border-color: rgb(63, 75, 96);
+
+								&:hover {
+									background: rgb(67, 79, 101);
+								}
+							}
+
+							&.MuiPaginationItem-previousNext {
+								border-radius: 6px;
+
+								.MuiSvgIcon-root {
+									font-size: 16px;
+								}
+							}
+
+							&.MuiPaginationItem-ellipsis {
+								border: none;
+								background: transparent;
+								color: #999;
+							}
+						}
+					}
+				}
+
+				.total-result {
+					p {
+						color: #666;
+						text-align: center;
+						font-family: $font;
+						font-size: 14px;
+						font-weight: 400;
+						line-height: 1.4;
+						margin: 0;
+
+						.highlight {
+							color: #cf6422;
+							font-weight: 600;
+						}
+					}
 				}
 			}
 		}

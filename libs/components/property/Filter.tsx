@@ -13,7 +13,13 @@ import {
 	IconButton,
 } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { PropertyCategory, PropertyColor, PropertyCondition, PropertyMaterial, PropertyType } from '../../enums/property.enum';
+import {
+	PropertyCategory,
+	PropertyColor,
+	PropertyCondition,
+	PropertyMaterial,
+	PropertyType,
+} from '../../enums/property.enum';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { useRouter } from 'next/router';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
@@ -41,7 +47,6 @@ const Filter = (props: FilterType) => {
 	const [propertyType, setPropertyType] = useState<PropertyType[]>(Object.values(PropertyType));
 	const [searchText, setSearchText] = useState<string>('');
 	const [showMore, setShowMore] = useState<boolean>(false);
-
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -285,13 +290,13 @@ const Filter = (props: FilterType) => {
 							conditionList: newConditions.length > 0 ? newConditions : undefined,
 						},
 					})}`,
-					{ scroll: false }
+					{ scroll: false },
 				);
 			} catch (err: any) {
-				console.log("ERROR, propertyConditionSelectHandler:", err);
+				console.log('ERROR, propertyConditionSelectHandler:', err);
 			}
 		},
-		[searchFilter]
+		[searchFilter],
 	);
 
 	const propertyOptionSelectHandler = useCallback(
@@ -299,46 +304,43 @@ const Filter = (props: FilterType) => {
 			try {
 				const isChecked = e.target.checked;
 				const value = e.target.value;
+				const currentOptions = searchFilter?.search?.options || [];
+
+				let newOptions = [];
+
 				if (isChecked) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, options: [...(searchFilter?.search?.options || []), value] },
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: { ...searchFilter.search, options: [...(searchFilter?.search?.options || []), value] },
-						})}`,
-						{ scroll: false },
-					);
-				} else if (searchFilter?.search?.options?.includes(value)) {
-					await router.push(
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								options: searchFilter?.search?.options?.filter((item: string) => item !== value),
-							},
-						})}`,
-						`/property?input=${JSON.stringify({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								options: searchFilter?.search?.options?.filter((item: string) => item !== value),
-							},
-						})}`,
-						{ scroll: false },
-					);
+					// Agar yangi option tanlansa, avvalgisini olib tashlab, yangisini qo'shamiz
+					newOptions = [value];
+				} else {
+					// Agar joriy option olib tashlansa, bo'sh array
+					newOptions = currentOptions.filter((option) => option !== value);
 				}
 
-				console.log('propertyOptionSelectHandler:', e.target.value);
+				await router.push(
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+							options: newOptions,
+						},
+					})}`,
+					`/property?input=${JSON.stringify({
+						...searchFilter,
+						search: {
+							...searchFilter.search,
+							options: newOptions,
+						},
+					})}`,
+					{ scroll: false },
+				);
+
+				console.log('propertyOptionSelectHandler:', value, 'checked:', isChecked, 'newOptions:', newOptions);
 			} catch (err: any) {
 				console.log('ERROR, propertyOptionSelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
-
 
 	const propertyMaterialSelectHandler = useCallback(
 		async (material: PropertyMaterial | '') => {
@@ -361,7 +363,7 @@ const Filter = (props: FilterType) => {
 							},
 						})}`,
 						undefined,
-						{ scroll: false }
+						{ scroll: false },
 					);
 				} else {
 					const updatedFilter = { ...searchFilter };
@@ -377,7 +379,7 @@ const Filter = (props: FilterType) => {
 							},
 						})}`,
 						undefined,
-						{ scroll: false }
+						{ scroll: false },
 					);
 				}
 
@@ -386,9 +388,8 @@ const Filter = (props: FilterType) => {
 				console.log('ERROR, propertyMaterialSelectHandler:', err);
 			}
 		},
-		[searchFilter]
+		[searchFilter],
 	);
-
 
 	const propertyColorHandler = useCallback(
 		async (color: PropertyColor) => {
@@ -489,13 +490,12 @@ const Filter = (props: FilterType) => {
 		}
 	};
 
-
 	if (device === 'mobile') {
 		return <div>PROPERTIES FILTER</div>;
 	} else {
 		return (
 			<Stack className={'filter-main'}>
-				<Stack className={'find-your-home'} mb={'40px'}>
+				{/* <Stack className={'find-your-home'} mb={'40px'}>
 					<Typography className={'title-main'}>Find Your Home</Typography>
 					<Stack className={'input-box'}>
 						<OutlinedInput
@@ -533,10 +533,12 @@ const Filter = (props: FilterType) => {
 							</IconButton>
 						</Tooltip>
 					</Stack>
-				</Stack>
+				</Stack> */}
 
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>Property Type</Typography>
+					<Typography className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>
+						Property Type
+					</Typography>
 					<Stack
 						className="property-type1"
 						onMouseEnter={() => setShowMore(true)}
@@ -563,13 +565,10 @@ const Filter = (props: FilterType) => {
 							</Stack>
 						))}
 					</Stack>
-
 				</Stack>
 
 				<Stack className="find-your-home" mb="30px">
-					<p className="title">
-						Category
-					</p>
+					<p className="title">Category</p>
 					<Stack
 						className="property-location"
 						onMouseEnter={() => setShowMore(true)}
@@ -602,11 +601,13 @@ const Filter = (props: FilterType) => {
 
 				<Stack className={'find-your-home'} mb={'30px'}>
 					<Typography className={'title'}>Condition</Typography>
-					<Stack className="button-group">
+					<Stack className="button-group2">
 						<Button
 							sx={{
 								borderRadius: 0,
-								border: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW) ? '2px solid #181A20' : '1px solid #b9b9b9',
+								border: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW)
+									? '2px solid #181A20'
+									: '1px solid #b9b9b9',
 								borderLeft: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW) ? undefined : 'none',
 							}}
 							onClick={() => propertyConditionSelectHandler(PropertyCondition.NEW)}
@@ -616,7 +617,9 @@ const Filter = (props: FilterType) => {
 						<Button
 							sx={{
 								borderRadius: 0,
-								border: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED) ? '2px solid #181A20' : '1px solid #b9b9b9',
+								border: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED)
+									? '2px solid #181A20'
+									: '1px solid #b9b9b9',
 								borderLeft: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED) ? undefined : 'none',
 							}}
 							onClick={() => propertyConditionSelectHandler(PropertyCondition.USED)}
@@ -624,10 +627,6 @@ const Filter = (props: FilterType) => {
 							USED
 						</Button>
 					</Stack>
-
-
-
-
 				</Stack>
 
 				<Stack className={'find-your-home'}>
@@ -659,24 +658,50 @@ const Filter = (props: FilterType) => {
 				</Stack>
 
 				<Stack className={'find-your-home'} mb={'30px'}>
+					<Typography className={'title'}>Options</Typography>
+					<Stack className={'input-box'}>
+						<Checkbox
+							id={'ForSale'}
+							className="property-checkbox"
+							color="default"
+							size="small"
+							value={'propertyIsOnSale'}
+							checked={(searchFilter?.search?.options || []).includes('propertyIsOnSale')}
+							onChange={propertyOptionSelectHandler}
+						/>
+						<label htmlFor={'ForSale'} style={{ cursor: 'pointer' }}>
+							<Typography className="propert-type">For Sale</Typography>
+						</label>
+					</Stack>
+					<Stack className={'input-box'}>
+						<Checkbox
+							id={'propertyInStock'}
+							className="property-checkbox"
+							color="default"
+							size="small"
+							value={'propertyInStock'}
+							checked={(searchFilter?.search?.options || []).includes('propertyInStock')}
+							onChange={propertyOptionSelectHandler}
+						/>
+						<label htmlFor={'propertyInStock'} style={{ cursor: 'pointer' }}>
+							<Typography className="propert-type">In Stock</Typography>
+						</label>
+					</Stack>
+				</Stack>
+
+				<Stack className={'find-your-home'} mb={'30px'}>
 					<Typography className={'title'}>Material</Typography>
 					<Stack className="button-group">
 						{(['WOOD', 'METAL', 'PLASTIC', 'GLASS'] as PropertyMaterial[]).map((material, index, array) => (
 							<Button
 								key={material}
 								sx={{
-									borderRadius:
-										index === 0
-											? '12px 0 0 12px'
-											: index === array.length - 1
-												? '0 12px 12px 0'
-												: 0,
+									borderRadius: index === 0 ? '12px 0 0 12px' : index === array.length - 1 ? '0 12px 12px 0' : 0,
 									border: searchFilter?.search?.materialList?.includes(material)
 										? '2px solid #181A20'
 										: '1px solid #b9b9b9',
-									borderLeft: index !== 0 && !searchFilter?.search?.materialList?.includes(material)
-										? 'none'
-										: undefined,
+									borderLeft:
+										index !== 0 && !searchFilter?.search?.materialList?.includes(material) ? 'none' : undefined,
 								}}
 								onClick={() => propertyMaterialSelectHandler(material)}
 							>
@@ -689,16 +714,18 @@ const Filter = (props: FilterType) => {
 				<Stack className={'find-your-home'} mb={'30px'}>
 					<Typography className={'title'}>Color</Typography>
 
-					<Stack className="button-group1" flexWrap="wrap" gap={1}
+					<Stack
+						className="button-group1"
+						flexWrap="wrap"
+						gap={1}
 						onMouseEnter={() => setShowMore(true)}
 						onMouseLeave={() => {
 							if (!searchFilter?.search?.categoryList) {
 								setShowMore(false);
 							}
-						}}>
-						{(
-							['WHITE', 'BLACK', 'BROWN', 'GRAY', 'BEIGE', 'BLUE', 'GREEN'] as PropertyColor[]
-						).map((color) => (
+						}}
+					>
+						{(['WHITE', 'BLACK', 'BROWN', 'GRAY', 'BEIGE', 'BLUE', 'GREEN'] as PropertyColor[]).map((color) => (
 							<Button
 								key={color}
 								sx={{
@@ -707,9 +734,7 @@ const Filter = (props: FilterType) => {
 									justifyContent: 'space-between',
 									gap: '4px',
 									borderRadius: '12px',
-									border: searchFilter?.search?.colorList?.includes(color)
-										? '2px solid #181A20'
-										: '1px solid #ffffff',
+									border: searchFilter?.search?.colorList?.includes(color) ? '2px solid #181A20' : '1px solid #ffffff',
 									backgroundColor: '#fff',
 									color: '#000',
 									minWidth: '100px',
@@ -736,9 +761,6 @@ const Filter = (props: FilterType) => {
 						))}
 					</Stack>
 				</Stack>
-
-
-				
 			</Stack>
 		);
 	}

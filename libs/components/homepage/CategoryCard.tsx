@@ -1,37 +1,63 @@
+'use client';
+
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import { PropertyCategory } from '../../enums/property.enum';
 
 const items = [
   {
     id: 1,
-    title: "Minimal Chair",
-    subtitle: "Modern Living Room",
+    title: "Kitchen Collection",
+    subtitle: "Modern and Practical",
     image: "/img/banner/93.jpg",
     className: "large-top-left",
+    category: PropertyCategory.KITCHEN,
   },
   {
     id: 2,
-    title: "Modern Chair",
-    subtitle: "",
-    image: "/img/banner/98.jpg",
+    title: "Office Furniture",
+    subtitle: "Work in Style",
+    image: "/img/banner/office7.jpg",
     className: "small-bottom-left",
+    category: PropertyCategory.OFFICE,
   },
   {
     id: 3,
-    title: "Modern Sofa Set",
-    subtitle: "",
-    image: "/img/banner/89.jpg",
+    title: "Bathroom Interior",
+    subtitle: "Refresh Your Space",
+    image: "/img/banner/bathroom3.jpg",
     className: "small-bottom-middle",
+    category: PropertyCategory.BATHROOM,
   },
   {
     id: 4,
-    title: "Modern Interior Collection Sets",
-    subtitle: "",
-    image: "/img/banner/99.jpg",
+    title: "Home Essentials",
+    subtitle: "Comfort for Your Living Space",
+    image: "/img/banner/home1.jpg",
     className: "very-large-right",
+    category: PropertyCategory.HOME,
   },
-]
+];
+
 
 export default function CategoryGrid() {
+  const router = useRouter();
+
+  const handleClick = (category: string) => {
+    const searchFilter = {
+      page: 1,
+      limit: 9,
+      search: {
+        pricesRange: { start: 0, end: 2000000 },
+        categoryList: [category],
+      },
+    };
+
+    const query = `/property?input=${encodeURIComponent(JSON.stringify(searchFilter))}`;
+
+    router.push(query);
+  };
+
   return (
     <div className="category-grid">
       {items.map((item) => (
@@ -41,11 +67,13 @@ export default function CategoryGrid() {
             <div className="content">
               <h3>{item.title}</h3>
               {item.subtitle && <p>{item.subtitle}</p>}
-              <button className="explore-btn">Explore</button>
+              <button className="explore-btn" onClick={() => handleClick(item.category)}>
+                Explore
+              </button>
             </div>
           </div>
         </div>
       ))}
     </div>
-  )
+  );
 }

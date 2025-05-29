@@ -2,10 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Stack, Box, Modal, Divider, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CloseIcon from '@mui/icons-material/Close';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import {
 	PropertyCategory,
 	PropertyColor,

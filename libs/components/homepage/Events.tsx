@@ -1,5 +1,6 @@
 import React from 'react';
 import { Stack, Box, Button } from '@mui/material';
+import { useRouter } from 'next/router';
 
 interface PromoData {
 	title: string;
@@ -10,6 +11,7 @@ interface PromoData {
 	imageSrc: string;
 	backgroundColor: string;
 	isGaming?: boolean;
+	filterOption?: string; // Yangi field qo'shdik
 }
 
 const promoData: PromoData[] = [
@@ -19,9 +21,10 @@ const promoData: PromoData[] = [
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed',
 		discount: 'Flat 20% Discount',
 		buttonText: 'Shop Now',
-		imageSrc: '/img/banner/game5.png', // Replace with your actual image path
+		imageSrc: '/img/banner/game5.png',
 		backgroundColor: '#f5f5f5',
 		isGaming: true,
+		filterOption: 'propertyIsOnSale', // Gaming chairs uchun sale filter
 	},
 	{
 		title: 'Wood Chair',
@@ -29,13 +32,31 @@ const promoData: PromoData[] = [
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed',
 		discount: 'Flat 15% Discount',
 		buttonText: 'Shop Now',
-		imageSrc: '/img/banner/chair3.png', // Replace with your actual image path
+		imageSrc: '/img/banner/chair3.png',
 		backgroundColor: '#f4a92b',
-		isGaming: false,
+		isGaming: true,
+		filterOption: 'propertyIsOnSale', // Wood chairs uchun stock filter
 	},
 ];
 
 const PromoCard = ({ promo }: { promo: PromoData }) => {
+	const router = useRouter();
+
+	const handleShopNowClick = () => {
+		const filterParams = {
+			page: 1,
+			limit: 9,
+			sort: 'createdAt',
+			direction: 'DESC',
+			search: {
+				options: [promo.filterOption]
+			}
+		};
+
+		const encodedParams = encodeURIComponent(JSON.stringify(filterParams));
+		router.push(`/property?input=${encodedParams}`);
+	};
+
 	return (
 		<Stack
 			className="promo-card"
@@ -99,6 +120,7 @@ const PromoCard = ({ promo }: { promo: PromoData }) => {
 
 				<Button
 					className="shop-button"
+					onClick={handleShopNowClick}
 					style={{
 						backgroundColor: '#4a6741',
 						color: '#fff',

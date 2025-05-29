@@ -47,93 +47,54 @@
 			.right {
 				display: flex;
 				flex-direction: row;
-				align-items: flex-end;
-
+				align-items: center;
+				justify-content: flex-end;
+				margin-top: 20px;
+			
 				.pagination-box {
 					display: flex;
-					flex-direction: row;
 					align-items: center;
-
-					.swiper-pagination-bullet.swiper-pagination-bullet-active {
-						background: #000000;
-					}
-
-					.swiper-trend-next {
-						margin-left: 20px;
+					gap: 12px;
+			
+					.nav-button {
+						width: 48px;
+						height: 32px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						border-radius: 9999px;
+						border: 1px solid  #cf6422;
 						cursor: pointer;
-					}
-
-					.swiper-trend-prev {
-						margin-right: 20px;
-						cursor: pointer;
-					}
-
-					.swiper-top-next {
-						margin-left: 20px;
-						cursor: pointer;
-					}
-
-					.swiper-top-prev {
-						margin-right: 20px;
-						cursor: pointer;
-					}
-				}
-
-				.more-box {
-					display: flex;
-					flex-direction: row;
-					cursor: pointer;
-					align-items: center;
-
-					span {
-						color: #181a20;
-						font-family: $font;
-						font-size: 15px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-						text-transform: capitalize;
-					}
-
-					img {
-						margin-left: 10px;
-						width: 16px;
-						height: 16px;
-					}
-				}
-
-				.btn-box {
-					display: flex;
-					flex-direction: row;
-
-					button {
-						border-radius: 6px;
-						background: rgba(255, 255, 255, 0.07);
-						color: #ffffff;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 500;
-						line-height: 28px;
-						text-transform: capitalize;
-
-						&:first-child {
-							margin-right: 20px;
+						transition: all 0.3s ease;
+						padding: 0;
+			
+						svg {
+							font-size: 18px;
 						}
-
-						&.active {
-							border: 1px solid #181a20;
-							background: #fff;
-							color: #181a20;
-							font-family: $font;
-							font-size: 14px;
-							font-style: normal;
-							font-weight: 500;
-							line-height: 28px;
+					}
+			
+					.prev {
+						background-color: #fff;
+			
+						svg {
+							color:  #cf6422;
 						}
+					}
+			
+					.next {
+						background-color: #cf6422;
+			
+						svg {
+							color: #fff;
+						}
+					}
+			
+					.nav-button:hover {
+						opacity: 0.85;
 					}
 				}
 			}
+			
 		}
 
 		// File: CategoryCards.scss
@@ -142,7 +103,7 @@
 			grid-template-areas:
 				'large-top-left large-top-left very-large-right'
 				'small-bottom-left small-bottom-middle very-large-right';
-			grid-template-columns: 1fr 1fr 1.5fr;
+			grid-template-columns: 1.6fr 1fr 2.4fr;
 			grid-template-rows: 240px 180px;
 			gap: 16px;
 			max-width: 1300px;
@@ -215,16 +176,16 @@
 					grid-area: large-top-left;
 
 					.overlay {
-						background: rgba(245, 245, 245, 0.15);
-						color: #333;
+						background: linear-gradient(to top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+						color: #171717;
 					}
 				}
 
 				&.small-bottom-left,
 				&.small-bottom-middle {
 					.overlay {
-						background: rgba(245, 245, 245, 0.15);
-						color: #333;
+						background: linear-gradient(to top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+						color: #e7e7e7;
 					}
 				}
 
@@ -242,20 +203,22 @@
 					.overlay {
 						background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2));
 						color: white;
-						justify-content: center;
-						align-items: center;
-						text-align: center;
+						display: flex;
+						flex-direction: column;
+						justify-content: flex-end;
 					}
 
 					h3 {
+						margin-top: 170px;
 						font-size: 28px;
-						margin-bottom: 16px;
+						margin-bottom: 2px;
 					}
 
 					.explore-btn {
 						background: white;
 						color: #333;
 						padding: 8px 24px;
+						margin-bottom: 70px;
 					}
 				}
 			}
@@ -278,12 +241,12 @@
 		}
 
 		.trend-properties {
-			padding: 48px 0px 56px;
+			padding: 48px 0 56px;
 			width: 100%;
 			height: 697px;
 			display: flex;
 			flex-direction: row;
-			background: #ffffff;
+			background: #fff;
 
 			.container {
 				flex-direction: column;
@@ -292,11 +255,13 @@
 					height: 40px;
 					padding-bottom: 5px;
 				}
+
 				.card-box {
 					position: relative;
 					margin-top: 64px;
 					display: flex;
 					flex-direction: row;
+
 					.empty-list {
 						width: 100%;
 						height: 280px;
@@ -304,11 +269,13 @@
 						justify-content: center;
 						align-items: center;
 					}
+
 					.trend-property-swiper {
 						width: 100%;
 						height: 410px;
 						display: flex;
 						flex-direction: row;
+
 						.trend-property-slide {
 							width: auto;
 							height: auto;
@@ -326,10 +293,10 @@
 						cursor: pointer;
 						transition: all 0.3s ease-in-out;
 						overflow: hidden;
-						// box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-						// &:hover {
-						// 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-						// }
+
+						&:hover {
+							transform: translateY(-4px);
+						}
 					}
 
 					.product-image-container {
@@ -340,7 +307,7 @@
 						overflow: hidden;
 
 						&:hover .product-image {
-							transform: scale(1.05); // Faqat container hover bo'lganda zoom
+							transform: scale(1.05);
 						}
 					}
 
@@ -355,35 +322,33 @@
 					.top-badges {
 						position: absolute;
 						top: 12px;
-						width: calc(100% - 24px); // 12px padding from each side
-						display: flex;
-						justify-content: space-between; // chap va o'ng elementlarni chetlatadi
 						left: 12px;
 						right: 12px;
+						width: calc(100% - 24px);
+						display: flex;
+						justify-content: space-between;
+					}
+
+					.discount-badge,
+					.category-badge {
+						border-radius: 4px;
+						padding: 4px 8px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
 					}
 
 					.discount-badge {
 						background-color: #cf6422;
-						border-radius: 4px;
-						padding: 4px 8px;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						order: 1; // chap tomonda bo'lishi uchun
 					}
 
 					.category-badge {
 						background-color: rgba(0, 0, 0, 0.7);
-						border-radius: 4px;
-						padding: 4px 8px;
-						display: flex;
-						align-items: center;
-						justify-content: center;
 					}
 
 					.discount-text,
 					.category-text {
-						color: white;
+						color: #fff;
 						font-size: 12px;
 						font-weight: 500;
 						letter-spacing: 0.5px;
@@ -393,7 +358,7 @@
 						padding: 12px;
 						display: flex;
 						flex-direction: column;
-						gap: 2px;
+						gap: 4px;
 					}
 
 					.title-views-container {
@@ -415,16 +380,16 @@
 						display: flex;
 						align-items: center;
 						gap: 4px;
-					}
 
-					.views-icon {
-						font-size: 18px;
-						color: #888;
-					}
+						.views-icon {
+							font-size: 18px;
+							color: #888;
+						}
 
-					.views-count {
-						font-size: 14px;
-						color: #888;
+						.views-count {
+							font-size: 14px;
+							color: #888;
+						}
 					}
 
 					.price-like-container {
@@ -437,43 +402,44 @@
 						display: flex;
 						gap: 10px;
 						align-items: baseline;
-					}
 
-					.original-price {
-						font-size: 14px;
-						color: #888;
-						text-decoration: line-through;
-					}
+						.original-price {
+							font-size: 14px;
+							color: #888;
+							text-decoration: line-through;
+						}
 
-					.discounted-price {
-						font-size: 18px;
-						font-weight: 700;
-						color: #6e331a;
+						.discounted-price {
+							font-size: 18px;
+							font-weight: 700;
+							color: #6e331a;
+						}
 					}
 
 					.likes-container {
 						display: flex;
 						align-items: center;
-					}
 
-					.like-button {
-						padding: 6px;
-						transition: all 0.2s ease;
-						margin: 0;
+						.like-button {
+							padding: 6px;
+							transition: all 0.2s ease;
+							margin: 0;
 
-						&:hover {
-							transform: scale(1.1);
+							&:hover {
+								transform: scale(1.1);
+							}
+
+							svg {
+								font-size: 20px;
+							}
 						}
 
-						svg {
-							font-size: 20px;
+						.likes-count {
+							font-size: 18px;
+							color: #41332d;
+							font-weight: 500;
+							margin-left: 2px;
 						}
-					}
-					.likes-count {
-						font-size: 18px;
-						color: #41332d;
-						font-weight: 500;
-						margin-left: 2px; // sonlar siljimasligi uchun
 					}
 				}
 			}
@@ -948,19 +914,6 @@
 					transition: all 0.3s ease;
 					width: fit-content;
 
-					&::before {
-						content: '';
-						position: absolute;
-						bottom: -8px;
-						left: 0;
-						width: 100%;
-						height: 2px;
-						background: #cf6422;
-						transform: scaleX(0);
-						transform-origin: right;
-						transition: transform 0.3s ease;
-					}
-
 					&::after {
 						content: '→';
 						font-size: 18px;
@@ -990,7 +943,7 @@
 					@media (max-width: 480px) {
 						margin: 30px 0 0 auto;
 						font-size: 14px;
-						
+
 						&::after {
 							font-size: 16px;
 							margin-left: 6px;
@@ -1228,12 +1181,12 @@
 			display: flex;
 			flex-direction: row;
 			background: #f6f6f6;
-		
+
 			.container {
 				position: relative;
 				flex-direction: column;
 				align-items: center;
-		
+
 				.view-button {
 					display: inline-flex;
 					align-items: center;
@@ -1278,7 +1231,7 @@
 					@media (max-width: 480px) {
 						margin: 30px 0 0 auto;
 						font-size: 14px;
-						
+
 						&::after {
 							font-size: 16px;
 							margin-left: 6px;
@@ -1292,7 +1245,7 @@
 					flex-direction: row;
 					align-items: center;
 					justify-content: space-between;
-		
+
 					.switch-btn {
 						width: 53px;
 						height: 53px;
@@ -1303,36 +1256,36 @@
 						background: #ffffff;
 						filter: drop-shadow(0px 10px 35px rgba(5, 16, 54, 0.1));
 						cursor: pointer;
-		
+
 						svg {
 							width: 14px;
 							height: 14px;
 						}
-		
+
 						&.swiper-agents-next {
 							transform: rotate(180deg);
 						}
 					}
-		
+
 					.card-wrapper {
 						width: 1174px;
 						height: 280px;
 						display: flex;
 						flex-direction: row;
-		
+
 						.top-agents-swiper {
 							width: 99.7%;
 							height: 380px;
 							display: flex;
 							flex-direction: row;
-		
+
 							.top-agents-slide {
 								width: auto;
 								height: auto;
 								display: flex;
 							}
 						}
-		
+
 						.top-agent-card {
 							width: 285px;
 							height: 320px;
@@ -1343,11 +1296,11 @@
 							overflow: hidden;
 							box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 							margin: 0 10px;
-		
+
 							.agent-image-container {
 								width: 100%;
 								height: 180px;
-								
+
 								img {
 									width: 100%;
 									height: 100%;
@@ -1355,11 +1308,11 @@
 									border-radius: 0;
 								}
 							}
-		
+
 							.agent-info {
 								padding: 15px;
 								text-align: center;
-								
+
 								strong {
 									color: #181a20;
 									font-family: $font;
@@ -1368,7 +1321,7 @@
 									line-height: 1.4;
 									display: block;
 								}
-		
+
 								span {
 									color: #181a20;
 									font-family: $font;
@@ -1637,13 +1590,13 @@
 					.green-title {
 						font-size: 38px;
 						font-weight: 700;
-						color:  #cf6422;
+						color: #cf6422;
 						// color: #4a6741;
 					}
 				}
 
 				.view-button {
-					background-color:  #cf6422;
+					background-color: #cf6422;
 					// background-color: #4a6741;
 					color: #fff;
 					padding: 10px 16px;
@@ -1654,7 +1607,7 @@
 					transition: background-color 0.2s;
 
 					&:hover {
-						background-color:  #cf6e32
+						background-color: #cf6e32;
 					}
 				}
 			}
@@ -1680,7 +1633,7 @@
 						min-width: 100px;
 
 						&:hover {
-							border-color:  rgb(147, 69, 20);
+							border-color: rgb(147, 69, 20);
 						}
 
 						&.active {

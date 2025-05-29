@@ -36,12 +36,17 @@ const withLayoutBasic = (Component: any) => {
 				case '/agent':
 					title = 'Agents';
 					desc = 'Home / For Rent';
-					bgImage = '/img/banner/agents.webp';
+					bgImage = '/img/banner/agents8.jpg';
 					break;
 				case '/agent/detail':
 					title = 'Agent Page';
 					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/agents.jpg';
+					break;
+				case '/repairService':
+					title = 'Service Page';
+					desc = 'Home / For Repair';
+					bgImage = '/img/banner/service2.jpg';
 					break;
 				case '/mypage':
 					title = 'my page';

@@ -14,11 +14,6 @@ export interface RepairPropertyInput {
 }
 
 export interface RepairPISearch {
-    conditionList: any;
-    conditionList: any;
-    categoryList: any;
-    colorList: never[];
-    materialList: any;
 	memberId?: string;
 	typeList?: RepairPropertyType[];
 	repairPropertyStatus?: RepairPropertyStatus;

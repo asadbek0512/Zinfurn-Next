@@ -156,7 +156,6 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 
 			await likeTargetProperty({ variables: { input: id } });
 			await getPropertiesRefetch({ input: getCurrentInput() });
-			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, likePropertyHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();

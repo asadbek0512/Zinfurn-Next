@@ -2,7 +2,7 @@ import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Stack, Box, Button, Pagination } from '@mui/material';
+import { Stack, Box, Button, Pagination, Typography } from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import AgentCard from '../../libs/components/common/AgentCard';
@@ -120,7 +120,6 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			});
 	
 			await getAgentsRefetch({ input: searchFilter });
-			await sweetTopSmallSuccessAlert('success', 808);
 		} catch (err: any) {
 			console.log('ERROR, likeMemberHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
@@ -184,28 +183,29 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 								return <AgentCard agent={agent} key={agent._id} likeMemberHandler={likeMemberHandler} />;
 							})
 						)}
+						
 					</Stack>
-					<Stack className={'pagination'}>
-						<Stack className="pagination-box">
-							{agents.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
-								<Stack className="pagination-box">
-									<Pagination
-										page={currentPage}
-										count={Math.ceil(total / searchFilter.limit)}
-										onChange={paginationChangeHandler}
-										shape="circular"
-										color="primary"
-									/>
-								</Stack>
-							)}
-						</Stack>
+					<Stack className="pagination-config">
+								{agents.length !== 0 && (
+									<Stack className="pagination-box">
+										<Pagination
+											className="custom-pagination"
+											page={currentPage}
+											count={Math.ceil(total / searchFilter.limit)}
+											onChange={paginationChangeHandler}
+											shape="circular"
+										/>
+									</Stack>
+								)}
 
-						{agents.length !== 0 && (
-							<span>
-								Total {total} agent{total > 1 ? 's' : ''} available
-							</span>
-						)}
-					</Stack>
+								{agents.length !== 0 && (
+									<Stack className="total-result">
+										<Typography>
+											Total {total} watch{total > 1 ? 'es' : 'ch'} in stock
+										</Typography>
+									</Stack>
+								)}
+							</Stack>
 				</Stack>
 			</Stack>
 		);
