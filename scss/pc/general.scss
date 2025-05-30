@@ -250,13 +250,12 @@
 				bottom: 0;
 				background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
 				border-radius: 8px;
-				
 			}
 		}
 	}
 
 	.agent-desc {
-		padding-left: 20px ;
+		padding-left: 20px;
 		padding-right: 20px;
 		margin-top: 23px;
 		display: flex;
@@ -317,7 +316,7 @@
 
 			.view-cnt {
 				font-size: 12px;
-				color:  #d6793f;
+				color: #d6793f;
 				margin-right: 8px;
 				font-weight: 500;
 			}
@@ -370,88 +369,187 @@
 .agent-general-card .buttons .MuiIconButton-root:has(.MuiSvgIcon-colorPrimary) {
 	animation: pulse 2s infinite;
 }
-.community-general-card-config {
-	position: relative;
+
+// Vertical Cards (News)
+.vertical-card {
+	width: 330px;
 	height: auto;
-	gap: 20px;
-	border-radius: 12px;
+	display: block;
+	text-decoration: none ;
+	color: inherit;
+	box-sizing: border-box;
+	transition: transform 0.3s ease;
 	cursor: pointer;
-	.image-box {
-		width: 100%;
-		height: 283px;
-		.card-img {
-			width: 100%;
-			height: 100%;
-			border-radius: 12px;
+
+	&:hover {
+		text-decoration: none ;
+
+		.community-img {
+			.hover-actions {
+				opacity: 1;
+				visibility: visible;
+			}
 		}
 	}
-	.desc-box {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
+
+	.community-img {
 		width: 100%;
-		height: 80px;
-		.title {
-			color: #717171;
-			font-family: $font;
-			font-size: 13px;
-			font-style: normal;
-			font-weight: 400;
-			line-height: normal;
+		height: 260px;
+		background-size: cover;
+		background-position: center;
+		border-radius: 30px;
+		background-color: #e8dcc0;
+		position: relative;
+		box-sizing: border-box;
+		overflow: hidden;
+
+		// Hoverda qoraroq fon
+		&::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background-color: rgba(0, 0, 0, 0.15);
+			opacity: 0;
+			transition: opacity 0.3s ease;
+			z-index: 1;
 		}
-		.desc {
-			color: #181a20;
-			font-family: $font;
+
+		&:hover::after {
+			opacity: 1;
+		}
+
+		.date-badge {
+			position: absolute;
+			bottom: -1px;
+			left: 50%;
+			transform: translateX(-50%);
+			background-color: #cf6422;
+			color: white;
+			padding: 15px 30px;
+			border-radius: 30px 30px 0 0;
+			border: 2px solid #fff;
+			font-weight: 500;
 			font-size: 15px;
-			font-style: normal;
-			font-weight: 600;
-			line-height: 26px;
-			text-transform: capitalize;
+			text-transform: uppercase;
+			box-sizing: border-box;
+			z-index: 3;
 		}
-		.buttons {
-			width: auto;
+
+		.hover-actions {
+			position: absolute;
+			bottom: 0px; // 30px dan 15px ga tushirildi
+			left: 0;
+			right: 0;
 			display: flex;
-			flex-direction: row;
-			justify-content: center;
+			justify-content: space-between;
 			align-items: center;
-			svg {
-				width: 24px;
-				height: 24px;
-				cursor: pointer;
+			padding: 0px 15px;
+			padding-right: 20px;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.3s ease;
+			z-index: 2;
+			pointer-events: none;
+
+			&.visible {
+				opacity: 1;
+				visibility: visible;
+				pointer-events: auto;
 			}
-			.view-cnt {
-				font-size: 13px;
+
+			.action-item {
+				display: flex;
+				align-items: center;
+				gap: 0px;
+				padding: 8px 1px;
+				border-radius: 25px;
+				box-shadow: 0 4px 15px rgba(225, 225, 225, 0.1);
+				transition: all 0.3s ease;
+				pointer-events: auto;
+
+				&:hover {
+					transform: scale(1.05);
+				}
+
+				.action-btn {
+					padding: 4px ;
+					min-width: auto;
+					width: 36px;
+					height: 36px ;
+					border-radius: 50% ;
+
+					&:hover {
+						background-color: rgba(207, 100, 34, 0.1);
+					}
+
+					.MuiSvgIcon-root {
+						font-size: 25px;
+						color: #ffffff ; // barcha iconlar oq rang
+
+						&.liked-icon {
+							color: #c40606 ; // oq rangga o'zgartirildi
+						}
+					}
+
+					&:hover {
+						.MuiSvgIcon-root {
+							&.like-icon,
+							&.view-icon {
+								color: #ffffff ;
+							}
+						}
+					}
+				}
+
+				.action-count {
+					font-size: 18px;
+					font-weight: 600;
+					color: #ffffff ; // oq rang !important bilan
+					min-width: 20px;
+					text-align: center;
+				}
 			}
 		}
 	}
-	.date-box {
-		position: absolute;
-		width: 70px;
-		height: 69.014px;
-		align-items: center;
-		justify-content: center;
-		top: 235px;
-		right: 20px;
-		border-radius: 12px;
-		background: #fff;
-		box-shadow: 0px 6px 15px 0px rgba(64, 79, 104, 0.05);
-		.month {
-			color: #181a20;
-			text-align: center;
-			font-family: $font;
-			font-size: 13px;
-			font-style: normal;
-			font-weight: 400;
-			line-height: normal;
-		}
-		.day {
-			color: #181a20;
-			font-family: $font;
-			font-size: 20px;
-			font-style: normal;
+
+	.card-content {
+		padding-top: 12px;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		box-sizing: border-box;
+
+		strong {
+			font-size: 18px;
 			font-weight: 600;
-			line-height: normal;
+			color: #131313;
+			margin-bottom: 8px;
+			line-height: 1.2;
+			word-break: break-word;
+			white-space: normal;
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		span {
+			color: #888;
+			font-size: 13px;
+			line-height: 1.4;
+			word-break: break-word;
+			margin-bottom: 10px;
+			white-space: normal;
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		.read-more {
+			color: #cf6422;
+			font-size: 13px;
+			font-weight: 500;
+			text-decoration: underline;
+			margin-top: auto;
 		}
 	}
 }
+
+

@@ -1,13 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Stack, Typography } from '@mui/material';
+import { Box, Link, Stack, Typography, IconButton } from '@mui/material';
 import { BoardArticle } from '../../types/board-article/board-article';
 import Moment from 'react-moment';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -18,16 +17,15 @@ interface CommunityCardProps {
 	likeArticleHandler: any;
 }
 
-const CommunityCard = (props: CommunityCardProps) => {
-	const { boardArticle, size = 'normal', likeArticleHandler } = props;
+const CommunityCard = ({ boardArticle, size = 'normal', likeArticleHandler }: CommunityCardProps) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const imagePath: string = boardArticle?.articleImage
+
+	const imagePath = boardArticle?.articleImage
 		? `${REACT_APP_API_URL}/${boardArticle?.articleImage}`
 		: '/img/community/communityImg.png';
 
-	/** HANDLERS **/
 	const chooseArticleHandler = (e: React.SyntheticEvent, boardArticle: BoardArticle) => {
 		router.push(
 			{
@@ -39,62 +37,47 @@ const CommunityCard = (props: CommunityCardProps) => {
 		);
 	};
 
-	const goMemberPage = (id: string) => {
-		if (id === user?._id) router.push('/mypage');
-		else router.push(`/member?memberId=${id}`);
-	};
-
 	if (device === 'mobile') {
 		return <div>COMMUNITY CARD MOBILE</div>;
-	} else {
-		return (
-			<Stack
-				sx={{ width: size === 'small' ? '285px' : '317px' }}
-				className="community-general-card-config"
-				onClick={(e) => chooseArticleHandler(e, boardArticle)}
-			>
-				<Stack className="image-box">
-					<img src={imagePath} alt="" className="card-img" />
-				</Stack>
-				<Stack className="desc-box" sx={{ marginTop: '-20px' }}>
-					<Stack>
-						<Typography
-							className="desc"
-							onClick={(e) => {
-								e.stopPropagation();
-								goMemberPage(boardArticle?.memberData?._id as string);
-							}}
-						>
-							{boardArticle?.memberData?.memberNick}
-						</Typography>
-						<Typography className="title">{boardArticle?.articleTitle}</Typography>
-					</Stack>
-					<Stack className={'buttons'}>
-						<IconButton color={'default'}>
-							<RemoveRedEyeIcon />
-						</IconButton>
-						<Typography className="view-cnt">{boardArticle?.articleViews}</Typography>
-						<IconButton color={'default'} onClick={(e:any) => likeArticleHandler(e,user, boardArticle?._id)}>
-							{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
-								<FavoriteIcon color={'primary'} />
-							) : (
-								<FavoriteBorderIcon />
-							)}
-						</IconButton>
-						<Typography className="view-cnt">{boardArticle?.articleLikes}</Typography>
-					</Stack>
-				</Stack>
-				<Stack className="date-box">
-					<Moment className="month" format={'MMMM'}>
-						{boardArticle?.createdAt}
-					</Moment>
-					<Typography className="day">
-						<Moment format={'DD'}>{boardArticle?.createdAt}</Moment>
-					</Typography>
-				</Stack>
-			</Stack>
-		);
 	}
+
+	return (
+		<Stack onClick={(e) => chooseArticleHandler(e, boardArticle)}>
+			<Box component="div" className="vertical-card">
+				<Box component="div" className="community-img" sx={{ backgroundImage: `url(${imagePath})` }}>
+					<Box component="div" className="date-badge">
+						<Moment format="DD MMM YYYY">{boardArticle?.createdAt}</Moment>
+					</Box>
+
+					<Stack direction="row" spacing={1} className="hover-actions">
+						<Stack direction="row" spacing={0.5} alignItems="center" className="action-item">
+							<IconButton className="action-btn" onClick={(e: any) => likeArticleHandler(e, user, boardArticle?._id)}>
+								{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
+									<FavoriteIcon className="liked-icon" />
+								) : (
+									<FavoriteBorderIcon className="like-icon" />
+								)}
+							</IconButton>
+							<Typography className="action-count">{boardArticle?.articleLikes}</Typography>
+						</Stack>
+
+						<Stack direction="row" spacing={0.5} alignItems="center" className="action-item">
+							<IconButton className="action-btn">
+								<RemoveRedEyeIcon className="view-icon" />
+							</IconButton>
+							<Typography className="action-count">{boardArticle?.articleViews}</Typography>
+						</Stack>
+					</Stack>
+				</Box>
+
+				<Stack className="card-content" spacing={0.5}>
+					<Typography component="strong">{boardArticle?.articleTitle}</Typography>
+					<Typography component="span">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Typography>
+					<Typography className="read-more">Read More</Typography>
+				</Stack>
+			</Box>
+		</Stack>
+	);
 };
 
 export default CommunityCard;

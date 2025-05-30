@@ -54,7 +54,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			setTotal(data?.getAgents?.metaCounter[0]?.total);
 		},
 	});
-	
+
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.input) {
@@ -112,13 +112,13 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
-	
+
 			await likeTargetMember({
 				variables: {
 					input: id,
 				},
 			});
-	
+
 			await getAgentsRefetch({ input: searchFilter });
 		} catch (err: any) {
 			console.log('ERROR, likeMemberHandler:', err.message);
@@ -183,29 +183,28 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 								return <AgentCard agent={agent} key={agent._id} likeMemberHandler={likeMemberHandler} />;
 							})
 						)}
-						
 					</Stack>
 					<Stack className="pagination-config">
-								{agents.length !== 0 && (
-									<Stack className="pagination-box">
-										<Pagination
-											className="custom-pagination"
-											page={currentPage}
-											count={Math.ceil(total / searchFilter.limit)}
-											onChange={paginationChangeHandler}
-											shape="circular"
-										/>
-									</Stack>
-								)}
-
-								{agents.length !== 0 && (
-									<Stack className="total-result">
-										<Typography>
-											Total {total} watch{total > 1 ? 'es' : 'ch'} in stock
-										</Typography>
-									</Stack>
-								)}
+						{agents.length !== 0 && (
+							<Stack className="pagination-box">
+								<Pagination
+									className="custom-pagination"
+									page={currentPage}
+									count={Math.ceil(total / searchFilter.limit)}
+									onChange={paginationChangeHandler}
+									shape="circular"
+								/>
 							</Stack>
+						)}
+
+						{agents.length !== 0 && (
+							<Stack className="total-result">
+								<Typography>
+									Total {total} watch{total > 1 ? 'es' : 'ch'} in stock
+								</Typography>
+							</Stack>
+						)}
+					</Stack>
 				</Stack>
 			</Stack>
 		);

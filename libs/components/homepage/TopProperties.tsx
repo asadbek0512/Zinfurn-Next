@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Stack, Box, Typography, IconButton, Link } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import WestIcon from '@mui/icons-material/West';
-import EastIcon from '@mui/icons-material/East';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
