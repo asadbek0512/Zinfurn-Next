@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, IconButton, Badge } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
@@ -14,13 +14,15 @@ import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import { useReactiveVar } from '@apollo/client';
-import { userVar } from '../../apollo/store';
+import { socketVar, userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
+import NotificationModal from './common/NotificationModal';
 
 const Top = () => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
+	const socket = useReactiveVar(socketVar);
 	const { t, i18n } = useTranslation('common');
 	const router = useRouter();
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
@@ -32,6 +34,9 @@ const Top = () => {
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+	const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
+	const [notificationAnchor, setNotificationAnchor] = React.useState<null | HTMLElement>(null);
+	const notificationOpen = Boolean(notificationAnchor);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -57,6 +62,50 @@ const Top = () => {
 		const jwt = getJwtToken();
 		if (jwt) updateUserInfo(jwt);
 	}, []);
+
+	useEffect(() => {
+		if (socket && user?._id) {
+			console.log('TopBasic: Setting up notification listener', {
+				socketState: socket.readyState,
+				userId: user._id,
+			});
+
+			socket.onmessage = (msg) => {
+				try {
+					const data = JSON.parse(msg.data);
+					console.log('TopBasic: Received message:', data);
+
+					if (data.event === 'notification') {
+						console.log('TopBasic: Received notification:', data.payload);
+						// Update badge state for new notifications
+						if (data.payload.status === 'WAIT') {
+							setHasUnreadNotifications(true);
+						}
+					} else if (data.event === 'unreadNotifications') {
+						console.log('TopBasic: Received initial unread notifications:', data.payload);
+						// If there are any unread notifications, show the badge
+						if (data.payload && data.payload.length > 0) {
+							setHasUnreadNotifications(true);
+						}
+					}
+				} catch (error) {
+					console.error('TopBasic: Error processing message:', error);
+				}
+			};
+
+			socket.onerror = (error) => {
+				console.error('TopBasic: WebSocket error:', error);
+			};
+		}
+
+		return () => {
+			if (socket) {
+				console.log('TopBasic: Cleaning up notification listener');
+				socket.onmessage = null;
+				socket.onerror = null;
+			}
+		};
+	}, [socket, user]);
 
 	/** HANDLERS **/
 	const langClick = (e: any) => {
@@ -95,6 +144,18 @@ const Top = () => {
 		} else {
 			setAnchorEl(null);
 		}
+	};
+
+	const handleNotificationClick = (event: React.MouseEvent<HTMLElement>) => {
+		setNotificationAnchor(event.currentTarget);
+	};
+
+	const handleNotificationClose = () => {
+		setNotificationAnchor(null);
+	};
+
+	const handleUnreadCountChange = (count: number) => {
+		setHasUnreadNotifications(count > 0);
 	};
 
 	const StyledMenu = styled((props: MenuProps) => (
@@ -165,7 +226,6 @@ const Top = () => {
 				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
 					<Stack className={'container'}>
 						<Box component={'div'} className={'router-box'}>
-							
 							<Link href={'/'}>
 								<div>{t('Home')}</div>
 							</Link>
@@ -184,7 +244,6 @@ const Top = () => {
 								<img src="/img/logo/11.png" alt="" />
 							</Link>
 
-							
 							<Link href={'/community?articleCategory=FREE'}>
 								<div> {t('Community')} </div>
 							</Link>
@@ -197,8 +256,8 @@ const Top = () => {
 								<div> {t('CS')} </div>
 							</Link>
 						</Box>
-						
-						<Box component={'div'} className={'user-box'} >
+
+						<Box component={'div'} className={'user-box'}>
 							{user?._id ? (
 								<>
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
@@ -237,7 +296,23 @@ const Top = () => {
 							)}
 
 							<div className={'lan-box'}>
-								{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
+								
+								{user?._id && (
+									<>
+										<IconButton onClick={handleNotificationClick} size="small" sx={{ mr: 2 }}>
+											<Badge color="error" variant="dot" invisible={!hasUnreadNotifications}>
+												<NotificationsOutlinedIcon className={'notification-icon'} />
+											</Badge>
+										</IconButton>
+										<NotificationModal
+											anchorEl={notificationAnchor}
+											open={notificationOpen}
+											onClose={handleNotificationClose}
+											onUnreadCountChange={handleUnreadCountChange}
+										/>
+									</>
+								)}
+
 								<Button
 									disableRipple
 									className="btn-lang"

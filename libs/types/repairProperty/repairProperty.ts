@@ -13,7 +13,6 @@ export interface TotalCounter {
 
 export interface RepairProperty {
     _id: string;
-    repairUserId: string;
     repairPropertyType: RepairPropertyType;
     repairPropertyStatus?: RepairPropertyStatus;
     repairPropertyAddress: string;

@@ -370,6 +370,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Button>
 									</Box>
 								</Stack>
+
+								
 							</Stack>
 							<Stack className={'right-config'}>
 								<Stack className={'info-box'}>

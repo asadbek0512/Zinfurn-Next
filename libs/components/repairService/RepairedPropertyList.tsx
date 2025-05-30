@@ -78,7 +78,7 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 	};
 
 	const pushDetailHandler = async (propertyId: string) => {
-		await router.push({ pathname: '/repair/detail', query: { id: propertyId } });
+		await router.push({ pathname: '/repairService/detail', query: { id: propertyId } });
 	};
 
   const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {

@@ -786,7 +786,6 @@ export const GET_REPAIRPROPERTY = gql`
 query GetRepairProperty($input: String!) {
     getRepairProperty(repairId: $input) {
         _id
-        repairUserId
         repairPropertyType
         repairPropertyStatus
         repairPropertyAddress
@@ -842,7 +841,6 @@ query GetRepairProperties($input: RepairPropertiesInquiry!) {
     getRepairProperties(input: $input) {
         list {
             _id
-            repairUserId
             repairPropertyType
             repairPropertyStatus
             repairPropertyAddress
@@ -902,7 +900,6 @@ query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
     getTechnicianProperties(input: $input) {
         list {
             _id
-            repairUserId
             repairPropertyType
             repairPropertyStatus
             repairPropertyAddress
@@ -962,7 +959,6 @@ query GetRepairFavorites($input: RepairOrdinaryInquiry!) {
     getRepairFavorites(input: $input) {
         list {
             _id
-            repairUserId
             repairPropertyType
             repairPropertyStatus
             repairPropertyAddress
@@ -1022,7 +1018,6 @@ query GetRepairVisited($input: RepairOrdinaryInquiry!) {
     getRepairVisited(input: $input) {
         list {
             _id
-            repairUserId
             repairPropertyType
             repairPropertyStatus
             repairPropertyAddress

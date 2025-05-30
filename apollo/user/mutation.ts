@@ -385,7 +385,6 @@ export const CREATE_REPAIRPROPERTY = gql`
 mutation CreateRepairProperty($input: RepairPropertyInput!) {
     createRepairProperty(input: $input) {
         _id
-        repairUserId
         repairPropertyType
         repairPropertyStatus
         repairPropertyAddress
@@ -408,7 +407,6 @@ export const LIKE_TARGET_REPAIRPROPERTY = gql`
 mutation LikeTargetRepairProperty($input: String!) {
     likeTargetRepairProperty(repairId: $input) {
         _id
-        repairUserId
         repairPropertyType
         repairPropertyStatus
         repairPropertyAddress
