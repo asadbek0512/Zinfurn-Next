@@ -39,8 +39,8 @@ const Review = (props: ReviewProps) => {
 							<Typography className={'name'} onClick={() => goMemberPage(comment?.memberData?._id as string)}>
 								{comment.memberData?.memberNick}
 							</Typography>
-							<Typography className={'date'}>
-								<Moment format={'DD MMMM, YYYY'}>{comment.createdAt}</Moment>
+							<Typography className={'member-type'}>
+								{comment.memberData?.memberType}
 							</Typography>
 						</Stack>
 					</Stack>

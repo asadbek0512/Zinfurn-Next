@@ -11,7 +11,7 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_BOARD_ARTICLE } from '../../../apollo/user/mutation';
 import { sweetErrorHandling, sweetTopSuccessAlert } from '../../sweetAlert';
-import { Message } from '../../enums/common_enum';
+import { Message } from '../../enums/common.enum';
 
 const TuiEditor = () => {
 	const editorRef = useRef<Editor>(null),
@@ -64,9 +64,9 @@ const TuiEditor = () => {
 
 			const responseImage = response.data.data.imageUploader;
 			console.log('=responseImage: ', responseImage);
-			memoizedValues.articleImage = responseImage;// bu articilemizni imageni qayerdaligini saqlab qoyayapmiz
+			memoizedValues.articleImage = responseImage; // bu articilemizni imageni qayerdaligini saqlab qoyayapmiz
 
-			return `${REACT_APP_API_URL}/${responseImage}`;// Bu rasmimizni backendga saqlab kelayapti
+			return `${REACT_APP_API_URL}/${responseImage}`; // Bu rasmimizni backendga saqlab kelayapti
 		} catch (err) {
 			console.log('Error, uploadImage:', err);
 		}
@@ -86,17 +86,17 @@ const TuiEditor = () => {
 			const editor = editorRef.current;
 			const articleContent = editor?.getInstance().getHTML() as string;
 			memoizedValues.articleContent = articleContent;
-	
+
 			if (memoizedValues.articleContent === '' && memoizedValues.articleTitle === '') {
 				throw new Error(Message.INSERT_ALL_INPUTS);
 			}
-	
+
 			await createboardArticle({
 				variables: {
 					input: { ...memoizedValues, articleCategory },
 				},
 			});
-	
+
 			await sweetTopSuccessAlert('Article is created successfully', 700);
 			await router.push({
 				pathname: '/mypage',
@@ -109,7 +109,7 @@ const TuiEditor = () => {
 			sweetErrorHandling(new Error(Message.INSERT_ALL_INPUTS)).then();
 		}
 	};
-	
+
 	const doDisabledCheck = () => {
 		if (memoizedValues.articleContent === '' || memoizedValues.articleTitle === '') {
 			return true;

@@ -1,5 +1,5 @@
 import { CommentGroup } from '../../enums/comment.enum';
-import { Direction } from '../../enums/common_enum';
+import { Direction } from '../../enums/common.enum';
 
 export interface CommentInput {
 	commentGroup: CommentGroup;

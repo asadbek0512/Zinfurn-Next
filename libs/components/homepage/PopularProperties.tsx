@@ -7,7 +7,7 @@ import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
-import { Message } from '../../enums/common_enum';
+import { Message } from '../../enums/common.enum';
 import FlashSaleCards from './PopularPropertyCard';
 
 interface FlashSaleProps {

@@ -30,7 +30,7 @@ import { GET_PROPERTIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
-import { Direction, Message } from '../../libs/enums/common_enum';
+import { Direction, Message } from '../../libs/enums/common.enum';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
@@ -287,7 +287,6 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 
 						<Stack className="main-config" mb={'76px'}>
 							<Stack component={'div'} className={'top-bar'}>
-
 								<Box component={'div'} className={'view-modes'}>
 									<Button
 										className={`view-btn ${viewMode === 'grid-1' ? 'active' : ''}`}
@@ -378,7 +377,6 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 										</Menu>
 									</div>
 								</Box>
-
 							</Stack>
 
 							<Stack className={`list-config ${viewMode}`}>

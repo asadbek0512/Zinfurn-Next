@@ -184,6 +184,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 							})
 						)}
 					</Stack>
+
 					<Stack className="pagination-config">
 						{agents.length !== 0 && (
 							<Stack className="pagination-box">
@@ -205,6 +206,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 							</Stack>
 						)}
 					</Stack>
+					
 				</Stack>
 			</Stack>
 		);

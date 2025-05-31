@@ -1,4 +1,4 @@
-import { Direction } from '../../enums/common_enum';
+import { Direction } from '../../enums/common.enum';
 import { PropertyType } from '../../enums/property.enum';
 import { RepairPropertyStatus, RepairPropertyType } from '../../enums/repairProperty.enum';
 

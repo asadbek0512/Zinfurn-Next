@@ -44,12 +44,12 @@ const Join: NextPage = () => {
 	const doLogin = useCallback(async () => {
 		console.warn(input);
 		try {
-			await logIn(input.nick, input.password);
-			await router.push(`${router.query.referrer ?? '/'}`);
+		 await logIn(input.nick, input.password);
+		 window.location.href = router.query.referrer?.toString() ?? '/';
 		} catch (err: any) {
-			await sweetMixinErrorAlert(err.message);
+		 await sweetMixinErrorAlert(err.message);
 		}
-	}, [input]);
+	 }, [input]);
 
 	const doSignUp = useCallback(async () => {
 		console.warn(input);

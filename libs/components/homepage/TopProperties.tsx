@@ -11,7 +11,7 @@ import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
-import { Message } from '../../enums/common_enum';
+import { Message } from '../../enums/common.enum';
 import { useRouter } from 'next/router';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
@@ -279,8 +279,6 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 						Trend Properties
 					</Box>
 				</Box>
-
-			
 
 				<Stack className="card-box">
 					{properties.length === 0 ? (

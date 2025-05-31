@@ -3,7 +3,6 @@ import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
-import Review from '../../libs/components/property/Review';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
 import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
@@ -32,7 +31,8 @@ import { T } from '../../libs/types/common';
 import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { create } from 'domain';
-import { Direction, Message } from '../../libs/enums/common_enum';
+import { Direction, Message } from '../../libs/enums/common.enum';
+import Review from '../../libs/components/property/Review';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -279,7 +279,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						</Stack>
 						<Stack className={'property-desc-config'}>
 							<Stack className={'left-config'}>
-
 								<Stack className={'prop-desc-config'}>
 									<Stack className={'top'}>
 										<Typography className={'title'}>Property Description</Typography>
@@ -330,7 +329,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Stack className={'reviews-config'}>
 										<Stack className={'filter-box'}>
 											<Stack className={'review-cnt'}>
-												
 												<Typography className={'reviews'}>{commentTotal} reviews</Typography>
 											</Stack>
 										</Stack>
@@ -370,8 +368,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Button>
 									</Box>
 								</Stack>
-
-								
 							</Stack>
 							<Stack className={'right-config'}>
 								<Stack className={'info-box'}>
@@ -390,7 +386,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												<Typography className={'name'}>{property?.memberData?.memberNick}</Typography>
 											</Link>
 											<Stack className={'phone-number'}>
-											
 												<Typography className={'number'}>{property?.memberData?.memberPhone}</Typography>
 											</Stack>
 											<Typography className={'listings'}>View Listings</Typography>
@@ -416,11 +411,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								<Stack className={'info-box'}>
 									<Button className={'send-message'}>
 										<Typography className={'title'}>Send Message</Typography>
-										
 									</Button>
 								</Stack>
 							</Stack>
 						</Stack>
+						
 						{destinationProperties.length !== 0 && (
 							<Stack className={'similar-properties-config'}>
 								<Stack className={'title-pagination-box'}>

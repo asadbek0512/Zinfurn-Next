@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, CircularProgress, IconButton, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
@@ -22,9 +22,15 @@ import { GET_COMMENTS, GET_REPAIRPROPERTIES, GET_REPAIRPROPERTY } from '../../ap
 import { T } from '../../libs/types/common';
 import { CREATE_COMMENT, LIKE_TARGET_REPAIRPROPERTY } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
-import { Direction, Message } from '../../libs/enums/common_enum';
+import { Direction, Message } from '../../libs/enums/common.enum';
 import { RepairProperty } from '../../libs/types/repairProperty/repairProperty';
 import Review from '../../libs/components/property/Review';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import RateReviewIcon from '@mui/icons-material/RateReview';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import DescriptionIcon from '@mui/icons-material/Description';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -38,6 +44,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	dayjs.extend(relativeTime);
 
 	const [repairPropertyId, setRepairPropertyId] = useState<string | null>(null);
 	const [repairProperty, setRepairProperty] = useState<RepairProperty | null>(null);
@@ -168,16 +175,30 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				},
 			});
 
-			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, likeRepairPropertyHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
 
-	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
-		commentInquiry.page = value;
-		setCommentInquiry({ ...commentInquiry });
+	const getRatingByMemberType = (type: string) => {
+		switch (type) {
+			case 'ADMIN':
+				return { score: '5.0', stars: '★★★★★' };
+			case 'TECHNICIAN':
+				return { score: '4.5', stars: '★★★★☆' };
+			case 'AGENT':
+				return { score: '3.5', stars: '★★★☆☆' };
+			case 'USER':
+				return { score: '3.0', stars: '★★☆☆☆' };
+			default:
+				return { score: '0.0', stars: '☆☆☆☆☆' };
+		}
+	};
+
+	const commentPaginationChangeHandler = async (_event: ChangeEvent<unknown>, value: number) => {
+		const updatedInquiry = { ...commentInquiry, page: value };
+		setCommentInquiry(updatedInquiry);
 	};
 
 	const createCommentHandler = async () => {
@@ -211,81 +232,168 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	return (
 		<Stack className="repair-detail" direction="column" spacing={4}>
-			<Stack className="repair-detail__main" direction={{ xs: 'column', md: 'row' }} spacing={3}>
-				{/* Left Image Card */}
-				<Box component={'div'} className="repair-detail__image-box">
-					<img src={`${REACT_APP_API_URL}/${slideImage}`} alt="Repair Image" className="repair-detail__image" />
+			<Stack className="repair-detail" direction={{ xs: 'column', md: 'row' }} spacing={3}>
+				{/* Left - Image */}
+				<Box component="div" className="repair-detail__image-box">
+					<img src={`${REACT_APP_API_URL}/${slideImage}`} alt="Repair" className="repair-detail__image" />
 				</Box>
 
-				{/* Right Info Card */}
+				{/* Right - Info */}
 				<Stack className="repair-detail__info" spacing={2}>
-					<Typography className="repair-detail__member">Member: {repairProperty?.memberData?.memberNick}</Typography>
-
-					<Stack direction="row" spacing={2} alignItems="center">
-						<FavoriteIcon fontSize="small" />
-						<Typography>{repairProperty?.repairPropertyLikes || 0}</Typography>
-						<RemoveRedEyeIcon fontSize="small" sx={{ marginLeft: 2 }} />
-						<Typography>{repairProperty?.repairPropertyViews || 0}</Typography>
+					{/* Member */}
+					<Stack direction="row" alignItems="center" spacing={2} className="repair-detail__member-box">
+						<Avatar
+							src={`${REACT_APP_API_URL}/${repairProperty?.memberData?.memberImage}`}
+							alt={repairProperty?.memberData?.memberNick}
+							className="repair-detail__member-avatar"
+						/>
+						<Typography className="repair-detail__member-nick">{repairProperty?.memberData?.memberNick}</Typography>
 					</Stack>
 
-					<Typography className="repair-detail__address">Address: {repairProperty?.repairPropertyAddress}</Typography>
+					{/* Likes & Views */}
+					<Stack
+						direction="row"
+						spacing={1.5}
+						alignItems="center"
+						justifyContent="flex-start"
+						className="repair-detail__stats"
+					>
+						{/* Views */}
+						<IconButton color="default" disableRipple>
+							<RemoveRedEyeIcon />
+						</IconButton>
+						<Typography className="view-cnt">{repairProperty?.repairPropertyViews || 0}</Typography>
 
-					<Typography className="repair-detail__desc">{repairProperty?.repairPropertyDescription}</Typography>
+						{/* Likes */}
+						{repairProperty?._id && (
+							<IconButton
+								color="default"
+								onClick={(e) => {
+									e.stopPropagation();
+									likeRepairPropertyHandler(user, repairProperty._id); // endi string 100%
+								}}
+							>
+								{repairProperty.meLiked && repairProperty.meLiked[0]?.myFavorite ? (
+									<FavoriteIcon style={{ color: 'red' }} />
+								) : (
+									<FavoriteIcon />
+								)}
+							</IconButton>
+						)}
 
-					<Typography className="repair-detail__created">
-						Created at: {moment(repairProperty?.createdAt).format('YYYY-MM-DD HH:mm')}
-					</Typography>
+						<Typography className="view-cnt">{repairProperty?.repairPropertyLikes || 0}</Typography>
+					</Stack>
+
+					{/* Address */}
+					<Stack direction="row" className="repair-detail__info-item">
+						<LocationOnIcon fontSize="small" />
+						<Typography className="repair-detail__address">{repairProperty?.repairPropertyAddress}</Typography>
+					</Stack>
+
+					<Stack direction="row" className="repair-detail__info-item">
+						<DescriptionIcon fontSize="small" />
+						<Typography className="repair-detail__desc">{repairProperty?.repairPropertyDescription}</Typography>
+					</Stack>
+
+					<Stack direction="row" className="repair-detail__info-item">
+						<AccessTimeIcon fontSize="small" />
+						<Typography className="repair-detail__created">
+							{moment(repairProperty?.createdAt).format('YYYY-MM-DD HH:mm')}
+						</Typography>
+					</Stack>
 				</Stack>
 			</Stack>
 
 			{/* Comments */}
 			<Stack className="repair-detail__comments" spacing={3}>
-				<Typography variant="h6">Comments</Typography>
-
-				{commentTotal !== 0 && (
-					<Stack className="reviews-config">
-						<Stack className="filter-box">
-							<Stack className="review-cnt">
-								<Typography className="reviews">{commentTotal} reviews</Typography>
-							</Stack>
+				<Stack className="reviews-config">
+					<Stack className="leave-review-config">
+						<Stack direction="row" alignItems="center" spacing={1}>
+							<RateReviewIcon sx={{ color: '#d89801' }} />
+							<Typography className="main-title">Write a Review</Typography>
 						</Stack>
 
-						<Stack className="review-list">
-						{repairPropertyComments?.map((comment: Comment) => {
-												return <Review comment={comment} key={comment?._id} />;
-											})}
+						<Typography className="review-title">Review</Typography>
 
-							<Box component="div" className="pagination-box">
-								<MuiPagination
-									count={Math.ceil(commentTotal / commentInquiry.limit)}
-									page={commentInquiry.page}
-									onChange={commentPaginationChangeHandler}
-									shape="circular"
-									color="primary"
-								/>
-							</Box>
-						</Stack>
+						<textarea
+							onChange={({ target: { value } }) => {
+								setInsertCommentData({ ...insertCommentData, commentContent: value });
+							}}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter' && !e.shiftKey) {
+									e.preventDefault();
+									if (insertCommentData.commentContent.trim() !== '' && user?._id) {
+										createCommentHandler();
+									}
+								}
+							}}
+							value={insertCommentData.commentContent}
+						></textarea>
+
+						<Box className="submit-btn" component="div">
+							<Button
+								className="submit-review"
+								disabled={insertCommentData.commentContent.trim() === '' || !user?._id}
+								onClick={createCommentHandler}
+							>
+								<Typography className="title">Submit Review</Typography>
+							</Button>
+						</Box>
 					</Stack>
-				)}
 
-				<Stack className="leave-review-config">
-					<Typography className="main-title">Leave A Review</Typography>
-					<Typography className="review-title">Review</Typography>
-					<textarea
-						onChange={({ target: { value } }) => {
-							setInsertCommentData({ ...insertCommentData, commentContent: value });
-						}}
-						value={insertCommentData.commentContent}
-					></textarea>
-					<Box className="submit-btn" component="div">
-						<Button 
-							className="submit-review"
-							disabled={insertCommentData.commentContent === '' || user?._id === ''}
-							onClick={createCommentHandler}
-						>
-							<Typography className="title">Submit Review</Typography>
-						</Button>
-					</Box>
+					{commentTotal !== 0 && (
+						<>
+							<Stack className="filter-box">
+								<Stack className="review-cnt">
+									<Typography className="reviews">Review List</Typography>
+									<Typography className="Show">Showing 1-5 of {commentTotal} results</Typography>
+								</Stack>
+							</Stack>
+
+							<Stack className="review-list">
+								{repairPropertyComments?.map((comment: Comment) => {
+									const memberType = comment.memberData?.memberType;
+									const { score, stars } = memberType
+										? getRatingByMemberType(memberType)
+										: { score: '-', stars: '☆☆☆☆☆' };
+
+									return (
+										<Stack className="single-review" key={comment._id} spacing={1}>
+											<Review comment={comment} />
+											<Typography className="review-stars" sx={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+												<span style={{ fontSize: '16px', color: '#d89801' }}>{stars}</span>
+												<span style={{ fontSize: '13px', color: '#181a20' }}>{score}</span>
+											</Typography>
+											<Typography className="created-at" fontSize={12} color="text.secondary">
+												{dayjs(comment.createdAt).fromNow()}
+											</Typography>
+										</Stack>
+									);
+								})}
+
+								{repairPropertyComments.length !== 0 && (
+									<Stack className="pagination-config">
+										<Box component="div" className="pagination-box">
+											<MuiPagination
+												className="custom-pagination"
+												page={commentInquiry.page}
+												count={Math.ceil(commentTotal / commentInquiry.limit)}
+												onChange={commentPaginationChangeHandler}
+												shape="circular"
+												color="primary"
+											/>
+										</Box>
+
+										<Stack className="total-result">
+											<Typography>
+												Total {commentTotal} review{commentTotal > 1 ? 's' : ''}
+											</Typography>
+										</Stack>
+									</Stack>
+								)}
+							</Stack>
+						</>
+					)}
 				</Stack>
 			</Stack>
 		</Stack>

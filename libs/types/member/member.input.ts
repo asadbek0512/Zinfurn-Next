@@ -1,4 +1,4 @@
-import { Direction } from '../../enums/common_enum';
+import { Direction } from '../../enums/common.enum';
 import { MemberAuthType, MemberStatus, MemberType } from '../../enums/member.enum';
 
 export interface MemberInput {
@@ -7,14 +7,13 @@ export interface MemberInput {
 	memberPhone: string;
 	memberType?: MemberType;
 	memberAuthType?: MemberAuthType;
-    memberEmail?: string;
+	memberEmail?: string;
 }
 
 export interface LoginInput {
 	memberNick: string;
 	memberPassword: string;
-    memberEmail?: string;
-
+	memberEmail?: string;
 }
 
 interface AISearch {
@@ -29,13 +28,12 @@ export interface AgentsInquiry {
 	search: AISearch;
 }
 
-export interface TechnicianInquiry{
-    page: number;
-    limit: number;
-    sort?: string
-    direction?: Direction
-    search: AISearch;
-
+export interface TechnicianInquiry {
+	page: number;
+	limit: number;
+	sort?: string;
+	direction?: Direction;
+	search: AISearch;
 }
 
 interface MISearch {

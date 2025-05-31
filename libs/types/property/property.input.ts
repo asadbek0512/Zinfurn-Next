@@ -1,12 +1,19 @@
-import { Direction } from '../../enums/common_enum';
-import { PropertyCategory, PropertyColor, PropertyCondition, PropertyMaterial, PropertyStatus, PropertyType } from '../../enums/property.enum';
+import { Direction } from '../../enums/common.enum';
+import {
+	PropertyCategory,
+	PropertyColor,
+	PropertyCondition,
+	PropertyMaterial,
+	PropertyStatus,
+	PropertyType,
+} from '../../enums/property.enum';
 
 export interface PropertyInput {
 	propertyType: PropertyType;
 	propertyStatus?: PropertyStatus;
-	propertyCategory: PropertyCategory;     //// PropertyLocation
-	propertyMaterial: PropertyMaterial;		// bedsList?
-	propertyColor: PropertyColor;			// squaresRange?
+	propertyCategory: PropertyCategory; //// PropertyLocation
+	propertyMaterial: PropertyMaterial; // bedsList?
+	propertyColor: PropertyColor; // squaresRange?
 	propertySize?: string;
 	propertyTitle: string;
 	propertyPrice: number;
@@ -18,7 +25,7 @@ export interface PropertyInput {
 	propertyBarter?: boolean;
 	propertyRent?: boolean;
 	propertyInStock?: boolean;
-	propertyCondition: PropertyCondition;	//roomsList
+	propertyCondition: PropertyCondition; //roomsList
 	propertyBrand?: string;
 	propertyOriginCountry?: string;
 	soldAt?: Date;
@@ -26,19 +33,17 @@ export interface PropertyInput {
 	constructedAt?: Date;
 }
 
-
 export interface PISearch {
-	memberId?: string;   					/// memberId?: string;
-	categoryList?: PropertyCategory[];		// locationList?: PropertyLocation[];
-	typeList?: PropertyType[];				// typeList?: PropertyType[];
-	conditionList?: PropertyCondition[];	// roomsList?: Number[];
-	materialList?: PropertyMaterial[]; 				// bedsList?: Number[];
-	colorList?: PropertyColor[];					// squaresRange?: Range 
+	memberId?: string; /// memberId?: string;
+	categoryList?: PropertyCategory[]; // locationList?: PropertyLocation[];
+	typeList?: PropertyType[]; // typeList?: PropertyType[];
+	conditionList?: PropertyCondition[]; // roomsList?: Number[];
+	materialList?: PropertyMaterial[]; // bedsList?: Number[];
+	colorList?: PropertyColor[]; // squaresRange?: Range
 	pricesRange?: Range;
 	options?: string[];
 	text?: string;
 }
-
 
 export interface PropertiesInquiry {
 	page: number;
@@ -63,7 +68,6 @@ export interface AgentPropertiesInquiry {
 interface ALPISearch {
 	propertyStatus?: PropertyStatus;
 	propertyCategory?: PropertyCategory[];
-
 }
 
 export interface AllPropertiesInquiry {

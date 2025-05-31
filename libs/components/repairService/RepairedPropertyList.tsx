@@ -19,7 +19,7 @@ import { GET_REPAIRPROPERTIES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { LIKE_TARGET_REPAIRPROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
-import { Message } from '../../enums/common_enum';
+import { Message } from '../../enums/common.enum';
 import { RepairPropertiesInquiry } from '../../types/repairProperty/repairProperty.input';
 import { RepairProperty } from '../../types/repairProperty/repairProperty';
 import { REACT_APP_API_URL } from '../../config';
@@ -81,10 +81,9 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 		await router.push({ pathname: '/repairService/detail', query: { id: propertyId } });
 	};
 
-  const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
+	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
 		const newFilter = { ...searchFilter, page: value };
 		setSearchFilter(newFilter);
-
 	};
 
 	const getRepairTypeColor = (type: string) => {
