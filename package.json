@@ -75,7 +75,7 @@
 		"styled-jsx": "^5.0.0",
 		"subscriptions-transport-ws": "^0.9.19",
 		"sweetalert2": "^11.7.27",
-		"swiper": "^8.3.1",
+		"swiper": "8",
 		"three": "0.150.1",
 		"valtio": "1.10.3",
 		"view": "^1.1.1"

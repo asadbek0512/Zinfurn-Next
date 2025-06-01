@@ -47,6 +47,8 @@ import {
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -75,6 +77,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		commentContent: '',
 		commentRefId: '',
 	});
+	const images = property?.propertyImages ?? [];
+	const currentIndex = images.indexOf(slideImage);
+
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
 	const [createComment] = useMutation(CREATE_COMMENT);
@@ -235,6 +240,18 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setQuantity((prev) => Math.max(1, prev + change));
 	};
 
+	const prevImage = () => {
+		if (currentIndex === -1) return;
+		const prevIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
+		setSlideImage(images[prevIndex]);
+	};
+
+	const nextImage = () => {
+		if (currentIndex === -1) return;
+		const nextIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
+		setSlideImage(images[nextIndex]);
+	};
+
 	if (getPropertiesLoading) {
 		return (
 			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1800px' }}>
@@ -256,16 +273,23 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</Stack>
 							<Stack className="productGrid">
 								<Stack className="imageSection">
-									<Stack className="mainImageContainer">
+									<Stack className="mainImageContainer" style={{ position: 'relative' }}>
+										<IconButton onClick={prevImage} className="prev-button" aria-label="Previous image">
+											<ArrowBackIosIcon fontSize="small" />
+										</IconButton>
+
 										<img
 											src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
 											alt="main-image"
 											className="mainImage"
 										/>
+										<IconButton onClick={nextImage} className="next-button" aria-label="Next image">
+											<ArrowForwardIosIcon fontSize="small" />
+										</IconButton>
 									</Stack>
 
 									<Stack className="thumbnailContainer">
-										{(property?.propertyImages ?? []).map((subImg: string) => {
+										{images.map((subImg) => {
 											const imagePath = `${REACT_APP_API_URL}/${subImg}`;
 											return (
 												<Stack
@@ -380,7 +404,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 									<Stack className="productMeta">
 										<Stack className="metaRow">
-											<span className="metaLabel">Tags :</span>
+											<span className="metaLabel1">Tags :</span>
 											<span className="metaValue">{property?.propertyType}</span>
 										</Stack>
 
