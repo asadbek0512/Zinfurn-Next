@@ -33,7 +33,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 					className="product-image"
 					component="div"
 					sx={{
-						backgroundImage: `url(${REACT_APP_API_URL}/${property.propertyImages})`,
+						backgroundImage: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`,
 					}}
 				/>
 

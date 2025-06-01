@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
+import { Box, Button, Chip, CircularProgress, IconButton, Rating, Stack, Tab, Tabs, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
@@ -33,6 +33,20 @@ import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } f
 import { create } from 'domain';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import Review from '../../libs/components/property/Review';
+import {
+	Add,
+	ChevronLeft,
+	ChevronRight,
+	Facebook,
+	FavoriteBorder,
+	Instagram,
+	Pinterest,
+	Remove,
+	Twitter,
+} from '@mui/icons-material';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import RateReviewIcon from '@mui/icons-material/RateReview';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -46,6 +60,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	dayjs.extend(relativeTime);
 	const [propertyId, setPropertyId] = useState<string | null>(null);
 	const [property, setProperty] = useState<Property | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
@@ -53,12 +68,13 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [propertyComments, setPropertyComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
+	const [quantity, setQuantity] = useState(1);
+	const [tabIndex, setTabIndex] = useState(0);
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
 		commentGroup: CommentGroup.PROPERTY,
 		commentContent: '',
 		commentRefId: '',
 	});
-
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
 	const [createComment] = useMutation(CREATE_COMMENT);
@@ -172,11 +188,24 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					},
 				},
 			});
-
-			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, likePropertyHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const getRatingByMemberType = (type: string) => {
+		switch (type) {
+			case 'ADMIN':
+				return { score: '5.0', stars: '★★★★★' };
+			case 'TECHNICIAN':
+				return { score: '4.5', stars: '★★★★☆' };
+			case 'AGENT':
+				return { score: '3.5', stars: '★★★☆☆' };
+			case 'USER':
+				return { score: '3.0', stars: '★★☆☆☆' };
+			default:
+				return { score: '0.0', stars: '☆☆☆☆☆' };
 		}
 	};
 
@@ -198,6 +227,14 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	};
 
+	const handleTabChange = (_: any, newIndex: number) => {
+		setTabIndex(newIndex);
+	};
+
+	const handleQuantityChange = (change: number) => {
+		setQuantity((prev) => Math.max(1, prev + change));
+	};
+
 	if (getPropertiesLoading) {
 		return (
 			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1800px' }}>
@@ -213,162 +250,384 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			<div id={'property-detail-page'}>
 				<div className={'container'}>
 					<Stack className={'property-detail-config'}>
-						<Stack className={'property-info-config'}>
-							<Stack className={'info'}>
-								<Stack className={'left-box'}>
-									<Typography className={'title-main'}>{property?.propertyTitle}</Typography>
-									<Stack className={'top-box'}>
-										<Typography className={'city'}>{property?.propertyCategory}</Typography>
-										<Stack className={'divider'}></Stack>
-										<Stack className={'divider'}></Stack>
-										<Typography className={'date'}>{moment().diff(property?.createdAt, 'days')} days ago</Typography>
+						<Stack className="productContainer">
+							<Stack className="back-link" onClick={() => router.push('/property')}>
+								← Back to property
+							</Stack>
+							<Stack className="productGrid">
+								<Stack className="imageSection">
+									<Stack className="mainImageContainer">
+										<img
+											src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
+											alt="main-image"
+											className="mainImage"
+										/>
 									</Stack>
-									<Stack className={'bottom-box'}>
-										<Stack className="option">
-											<Typography>{property?.propertyMaterial} </Typography>
-										</Stack>
-										<Stack className="option">
-											<Typography>{property?.propertyCondition} </Typography>
-										</Stack>
-										<Stack className="option">
-											<Typography>{property?.propertyColor} </Typography>
-										</Stack>
+
+									<Stack className="thumbnailContainer">
+										{(property?.propertyImages ?? []).map((subImg: string) => {
+											const imagePath = `${REACT_APP_API_URL}/${subImg}`;
+											return (
+												<Stack
+													className={`thumbnail ${slideImage === subImg ? 'active' : ''}`}
+													onClick={() => changeImageHandler(subImg)}
+													key={subImg}
+												>
+													<img src={imagePath} alt="sub-image" />
+												</Stack>
+											);
+										})}
 									</Stack>
 								</Stack>
 
-								<Stack className={'right-box'}>
+								<Stack className="productInfo">
+									<Typography className="category">{property?.propertyCategory}</Typography>
+
+									<Stack className="titleRow">
+										<Typography variant="h4" className="title">
+											{property?.propertyTitle}
+										</Typography>
+										<Chip
+											label={property?.propertyInStock ? 'In Stock' : 'Out of Stock'}
+											sx={{
+												backgroundColor: property?.propertyInStock ? ' #d1fae5' : '#fbc1bf',
+												color: property?.propertyInStock ? '#065f46' : '#9b0b0b',
+												fontWeight: 600,
+												px: 2,
+												py: 0.5,
+												borderRadius: '20px',
+											}}
+										/>
+									</Stack>
+
+									<Stack className="ratingRow">
+										<Stack className="rating">
+											<Rating readOnly size="small" value={4.9} precision={0.1} sx={{ color: '#ffc107' }} />
+											<Typography variant="body2" sx={{ fontWeight: 500 }}>
+												4.9
+											</Typography>
+										</Stack>
+									</Stack>
+
+									<Stack className="priceRow">
+										<Typography className="currentPrice">
+											${property?.propertySalePrice || property?.propertyPrice}
+										</Typography>
+										{property?.propertySalePrice && (
+											<Typography className="originalPrice">${property?.propertyPrice}</Typography>
+										)}
+									</Stack>
+
+									<Typography className="description">
+										{property?.propertyDesc || 'No description provided.'}
+									</Typography>
+
+									<Stack className="colorSection" direction="row" alignItems="center" gap={1}>
+										<Typography className="colorLabel">Color: {property?.propertyColor?.toLowerCase()}</Typography>
+
+										{property?.propertyColor && (
+											<Stack
+												className="colorDot"
+												sx={{
+													width: '20px',
+													height: '20px',
+													borderRadius: '50%',
+													backgroundColor: property.propertyColor.toLowerCase(),
+													border: '1px solid #999',
+												}}
+											/>
+										)}
+									</Stack>
+
+									<Stack className="quantityControl1">
+										<Stack className="quantityControl" direction="row" alignItems="center" spacing={1}>
+											<IconButton onClick={() => handleQuantityChange(-1)}>
+												<Remove />
+											</IconButton>
+											<input
+												type="number"
+												value={quantity}
+												onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+												className="quantityInput"
+											/>
+											<IconButton onClick={() => handleQuantityChange(1)}>
+												<Add />
+											</IconButton>
+										</Stack>
+
+										<Stack className="actionButtons">
+											<Button className="addToCartBtn" variant="contained">
+												Add To Cart
+											</Button>
+										</Stack>
+									</Stack>
+
 									<Stack className="buttons">
 										<Stack className="button-box">
+											<span className="metaLabel">Views :</span>
 											<RemoveRedEyeIcon fontSize="medium" />
 											<Typography>{property?.propertyViews}</Typography>
 										</Stack>
-										<Stack className="button-box">
+										<Stack className="button-box" onClick={() => likePropertyHandler(user, property!._id)}>
 											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-												<FavoriteIcon color="primary" fontSize={'medium'} />
+												<FavoriteIcon color="primary" fontSize="medium" />
 											) : (
-												<FavoriteBorderIcon
-													fontSize={'medium'}
-													// @ts-ignore
-													onClick={() => likePropertyHandler(user, property?._id)}
-												/>
+												<FavoriteBorderIcon fontSize="medium" />
 											)}
 											<Typography>{property?.propertyLikes}</Typography>
 										</Stack>
 									</Stack>
-									<Typography>${formatterStr(property?.propertyPrice)}</Typography>
-								</Stack>
-							</Stack>
-							<Stack className={'images'}>
-								<Stack className={'main-image'}>
-									<img
-										src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
-										alt={'main-image'}
-									/>
-								</Stack>
-								<Stack className={'sub-images'}>
-									{property?.propertyImages?.map((subImg: string) => {
-										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
-										return (
-											<Stack className={'sub-img-box'} onClick={() => changeImageHandler(subImg)} key={subImg}>
-												<img src={imagePath} alt={'sub-image'} />
+
+									<Stack className="productMeta">
+										<Stack className="metaRow">
+											<span className="metaLabel">Tags :</span>
+											<span className="metaValue">{property?.propertyType}</span>
+										</Stack>
+
+										<Stack className="metaRow">
+											<span className="metaLabel">Material :</span>
+											<span className="metaValue">{property?.propertyMaterial}</span>
+										</Stack>
+
+										<Stack className="shareRow">
+											<span className="shareLabel">Share :</span>
+											<Stack className="shareButtons">
+												<IconButton size="small" className="facebook">
+													<Facebook fontSize="small" />
+												</IconButton>
+												<IconButton size="small" className="twitter">
+													<Twitter fontSize="small" />
+												</IconButton>
+												<IconButton size="small" className="pinterest">
+													<Pinterest fontSize="small" />
+												</IconButton>
+												<IconButton size="small" className="instagram">
+													<Instagram fontSize="small" />
+												</IconButton>
 											</Stack>
-										);
-									})}
+										</Stack>
+									</Stack>
 								</Stack>
 							</Stack>
 						</Stack>
-						<Stack className={'property-desc-config'}>
-							<Stack className={'left-config'}>
-								<Stack className={'prop-desc-config'}>
-									<Stack className={'top'}>
-										<Typography className={'title'}>Property Description</Typography>
-										<Typography className={'desc'}>{property?.propertyDesc ?? 'No Description!'}</Typography>
-									</Stack>
-									<Stack className={'bottom'}>
-										<Typography className={'title'}>Property Details</Typography>
-										<Stack className={'info-box'}>
-											<Stack className={'left'}>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Price</Typography>
-													<Typography className={'data'}>${formatterStr(property?.propertyPrice)}</Typography>
-												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Property Size</Typography>
-													<Typography className={'data'}>{property?.propertyColor} m2</Typography>
-												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Rooms</Typography>
-													<Typography className={'data'}>{property?.propertyCondition}</Typography>
-												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Bedrooms</Typography>
-													<Typography className={'data'}>{property?.propertyMaterial}</Typography>
-												</Box>
-											</Stack>
-											<Stack className={'right'}>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Year Built</Typography>
-													<Typography className={'data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
-												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Property Type</Typography>
-													<Typography className={'data'}>{property?.propertyType}</Typography>
-												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Property Options</Typography>
-													<Typography className={'data'}>
-														For {property?.propertyBarter && 'Barter'} {property?.propertyRent && 'Rent'}
-													</Typography>
-												</Box>
-											</Stack>
-										</Stack>
-									</Stack>
-								</Stack>
 
-								{commentTotal !== 0 && (
-									<Stack className={'reviews-config'}>
-										<Stack className={'filter-box'}>
-											<Stack className={'review-cnt'}>
-												<Typography className={'reviews'}>{commentTotal} reviews</Typography>
-											</Stack>
+						<Stack className={'property-desc-config'}>
+							<Stack className="left-config">
+								<Tabs value={tabIndex} onChange={handleTabChange} className="property-tabs">
+									<Tab label="Description" />
+									<Tab label={`Reviews (${commentTotal})`} />
+								</Tabs>
+
+								{tabIndex === 0 && (
+									<Stack className="prop-desc-config">
+										<Stack className="top-section">
+											<Typography className="main-title">Property Description</Typography>
+											<Typography className="description-text">
+												{property?.propertyDesc ?? 'No Description!'}
+											</Typography>
 										</Stack>
-										<Stack className={'review-list'}>
-											{propertyComments?.map((comment: Comment) => {
-												return <Review comment={comment} key={comment?._id} />;
-											})}
-											<Box component={'div'} className={'pagination-box'}>
-												<MuiPagination
-													page={commentInquiry.page}
-													count={Math.ceil(commentTotal / commentInquiry.limit)}
-													onChange={commentPaginationChangeHandler}
-													shape="circular"
-													color="primary"
-												/>
-											</Box>
+
+										<Stack className="bottom-section" direction="row">
+											<Stack className="details-container">
+												{/* Features Section */}
+												<Box component="div" className="details-section">
+													<Box component="div" className="section-header">
+														<Typography className="header-text">Features</Typography>
+														<Typography className="header-text">Details</Typography>
+													</Box>
+
+													<Box component="div" className="detail-row">
+														<span className="detail-label">Brand</span>
+														<span className="detail-value">{property?.propertyTitle || 'N/A'}</span>
+													</Box>
+
+													<Box component="div" className="detail-row alternate">
+														<span className="detail-label">Color</span>
+														<span className="detail-value">{property?.propertyColor || 'N/A'}</span>
+													</Box>
+
+													<Box component="div" className="detail-row">
+														<span className="detail-label">Product Dimensions</span>
+														<span className="detail-value">
+															{property?.propertySize ? `${property.propertySize} cm` : 'N/A'}
+														</span>
+													</Box>
+
+													<Box component="div" className="detail-row alternate">
+														<span className="detail-label">Size</span>
+														<span className="detail-value">
+															{property?.propertySize ? `${property.propertySize} cm` : 'N/A'}
+														</span>
+													</Box>
+
+													<Box component="div" className="detail-row">
+														<span className="detail-label">Material</span>
+														<span className="detail-value">{property?.propertyMaterial || 'N/A'}</span>
+													</Box>
+
+													<Box component="div" className="detail-row alternate">
+														<span className="detail-label">Style</span>
+														<span className="detail-value">{property?.propertyType || 'Modern'}</span>
+													</Box>
+
+													<Box component="div" className="detail-row">
+														<span className="detail-label">Unit Count</span>
+														<span className="detail-value">1.0 Count</span>
+													</Box>
+												</Box>
+
+												{/* Information Section */}
+												<Box component="div" className="details-section">
+													<Box component="div" className="section-header">
+														<Typography className="header-text">Features</Typography>
+														<Typography className="header-text">Information</Typography>
+													</Box>
+
+													<Box component="div" className="detail-row">
+														<span className="detail-label">Category</span>
+														<span className="detail-value">{property?.propertyCategory || 'N/A'}</span>
+													</Box>
+
+													<Box component="div" className="detail-row alternate">
+														<span className="detail-label">Customer Reviews</span>
+														<span className="detail-value"> </span>
+														<Rating readOnly size="small" value={4.9} precision={0.1} sx={{ color: '#ffc107' }} />
+													</Box>
+
+													<Box component="div" className="detail-row">
+														<span className="detail-label">Product Dimensions</span>
+														<span className="detail-value">
+															{property?.propertySize ? `${property.propertySize} cm` : 'N/A'}
+														</span>
+													</Box>
+
+													<Box component="div" className="detail-row alternate">
+														<span className="detail-label">Price</span>
+														<span className="detail-value">${formatterStr(property?.propertyPrice)}</span>
+													</Box>
+
+													{property?.propertyIsOnSale && (
+														<>
+															<Box component="div" className="detail-row">
+																<span className="detail-label">Sale Price</span>
+																<span className="detail-value">${formatterStr(property?.propertySalePrice)}</span>
+															</Box>
+
+															<Box component="div" className="detail-row alternate">
+																<span className="detail-label">Sale Ends</span>
+																<span className="detail-value">
+																	{moment(property?.propertySaleExpiresAt).format('DD MMM YYYY')}
+																</span>
+															</Box>
+														</>
+													)}
+
+													<Box component="div" className="detail-row">
+														<span className="detail-label">Condition</span>
+														<span className="detail-value">{property?.propertyCondition || 'New'}</span>
+													</Box>
+												</Box>
+											</Stack>
 										</Stack>
 									</Stack>
 								)}
 
-								<Stack className={'leave-review-config'}>
-									<Typography className={'main-title'}>Leave A Review</Typography>
-									<Typography className={'review-title'}>Review</Typography>
-									<textarea
-										onChange={({ target: { value } }: any) => {
-											setInsertCommentData({ ...insertCommentData, commentContent: value });
-										}}
-										value={insertCommentData.commentContent}
-									></textarea>
-									<Box className={'submit-btn'} component={'div'}>
-										<Button
-											className={'submit-review'}
-											disabled={insertCommentData.commentContent === '' || user?._id === ''}
-											onClick={createCommentHandler}
-										>
-											<Typography className={'title'}>Submit Review</Typography>
-										</Button>
-									</Box>
-								</Stack>
+								{tabIndex === 1 && (
+									<Stack className="repair-detail__comments" spacing={3}>
+										<Stack className="reviews-config">
+											<Stack className="leave-review-config">
+												<Stack direction="row" alignItems="center" spacing={1}>
+													<RateReviewIcon sx={{ color: '#d89801' }} />
+													<Typography className="main-title">Write a Review</Typography>
+												</Stack>
+
+												<Typography className="review-title">Review</Typography>
+
+												<textarea
+													onChange={({ target: { value } }) => {
+														setInsertCommentData({ ...insertCommentData, commentContent: value });
+													}}
+													onKeyDown={(e) => {
+														if (e.key === 'Enter' && !e.shiftKey) {
+															e.preventDefault();
+															if (insertCommentData.commentContent.trim() !== '' && user?._id) {
+																createCommentHandler();
+															}
+														}
+													}}
+													value={insertCommentData.commentContent}
+												></textarea>
+
+												<Box component="div" className="submit-btn">
+													<Button
+														className="submit-review"
+														disabled={insertCommentData.commentContent.trim() === '' || !user?._id}
+														onClick={createCommentHandler}
+													>
+														<Typography className="title">Submit Review</Typography>
+													</Button>
+												</Box>
+											</Stack>
+
+											{commentTotal !== 0 && (
+												<>
+													<Stack className="filter-box">
+														<Stack className="review-cnt">
+															<Typography className="reviews">Review List</Typography>
+															<Typography className="Show">Showing 1-5 of {commentTotal} results</Typography>
+														</Stack>
+													</Stack>
+
+													<Stack className="review-list">
+														{propertyComments?.map((comment: any) => {
+															const memberType = comment.memberData?.memberType;
+															const { score, stars } = memberType
+																? getRatingByMemberType(memberType)
+																: { score: '-', stars: '☆☆☆☆☆' };
+
+															return (
+																<Stack className="single-review" key={comment._id} spacing={1}>
+																	<Review comment={comment} />
+																	<Typography
+																		className="review-stars"
+																		sx={{ display: 'flex', alignItems: 'center', gap: '7px' }}
+																	>
+																		<span style={{ fontSize: '16px', color: '#d89801' }}>{stars}</span>
+																		<span style={{ fontSize: '13px', color: '#181a20' }}>{score}</span>
+																	</Typography>
+																	<Typography className="created-at" fontSize={12} color="text.secondary">
+																		{dayjs(comment.createdAt).fromNow()}
+																	</Typography>
+																</Stack>
+															);
+														})}
+
+														<Stack className="pagination-config">
+															<Box component="div" className="pagination-box">
+																<MuiPagination
+																	className="custom-pagination"
+																	page={commentInquiry.page}
+																	count={Math.ceil(commentTotal / commentInquiry.limit)}
+																	onChange={commentPaginationChangeHandler}
+																	shape="circular"
+																	color="primary"
+																/>
+															</Box>
+
+															<Stack className="total-result">
+																<Typography>
+																	Total {commentTotal} review{commentTotal > 1 ? 's' : ''}
+																</Typography>
+															</Stack>
+														</Stack>
+													</Stack>
+												</>
+											)}
+										</Stack>
+									</Stack>
+								)}
 							</Stack>
+
 							<Stack className={'right-config'}>
 								<Stack className={'info-box'}>
 									<Typography className={'main-title'}>Get More Information</Typography>
@@ -392,22 +651,22 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 									</Stack>
 								</Stack>
+
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Name</Typography>
 									<input type={'text'} placeholder={'Enter your name'} />
 								</Stack>
+
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Phone</Typography>
 									<input type={'text'} placeholder={'Enter your phone'} />
 								</Stack>
-								<Stack className={'info-box'}>
-									<Typography className={'sub-title'}>Email</Typography>
-									<input type={'text'} placeholder={'creativelayers088'} />
-								</Stack>
+
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Message</Typography>
-									<textarea placeholder={'Hello, I am interested in \n' + '[Renovated property at  floor]'}></textarea>
+									<textarea placeholder={'Hello, I am interested in \n' + '[Renovated property at floor]'}></textarea>
 								</Stack>
+
 								<Stack className={'info-box'}>
 									<Button className={'send-message'}>
 										<Typography className={'title'}>Send Message</Typography>
@@ -415,7 +674,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 							</Stack>
 						</Stack>
-						
+
 						{destinationProperties.length !== 0 && (
 							<Stack className={'similar-properties-config'}>
 								<Stack className={'title-pagination-box'}>
@@ -445,7 +704,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									>
 										{destinationProperties.map((property: Property) => {
 											return (
-												<SwiperSlide className={'similar-homes-slide'} key={property.propertyTitle}>
+												<SwiperSlide className={'similar-homes-slide'} key={property._id}>
 													<PropertyBigCard
 														property={property}
 														likePropertyHandler={likePropertyHandler}

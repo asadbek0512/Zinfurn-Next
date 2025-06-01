@@ -48,7 +48,7 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 					component="div"
 					className="product-image"
 					sx={{
-						backgroundImage: `url(${REACT_APP_API_URL}/${property.propertyImages})`,
+						backgroundImage: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`,
 					}}
 				/>
 				<Box component="div" className="top-badges">

@@ -107,6 +107,7 @@ const AdminMenuList = (props: any) => {
 		Cs: [
 			{ title: 'FAQ', url: '/_admin/cs/faq' },
 			{ title: 'Notice', url: '/_admin/cs/notice' },
+			{ title: 'Terms', url: '/_admin/cs/terms' },
 		],
 	};
 
