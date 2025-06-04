@@ -13,11 +13,11 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 interface PropertyBigCardProps {
 	property: Property;
-	likePropertyHandler?: any
+	likePropertyHandler?: any;
 }
 
 const PropertyBigCard = (props: PropertyBigCardProps) => {
-	const { property,likePropertyHandler } = props;
+	const { property, likePropertyHandler } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
@@ -27,72 +27,76 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 		router.push(`/property/detail?id=${propertyId}`);
 	};
 
+	const discountPercent =
+		property.propertyPrice && property.propertySalePrice
+			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
+			: 0;
+
 	if (device === 'mobile') {
 		return <div>APARTMENT BIG CARD</div>;
 	} else {
 		return (
-			<Stack className="property-big-card-box" onClick={() => goPropertyDetatilPage(property?._id)}>
-				<Box
-					component={'div'}
-					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages?.[0]})` }}
-				>
-					{property?.propertyRank && property?.propertyRank >= 50 && (
-						<div className={'status'}>
-							<img src="/img/icons/electricity.svg" alt="" />
-							<span>top</span>
-						</div>
-					)}
+			<Box className="product-card" component="div">
+				<Box className="product-image-container" component="div" onClick={() => goPropertyDetatilPage(property._id)}>
+					<Box
+						className="product-image"
+						component="div"
+						sx={{
+							backgroundImage: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`,
+						}}
+					/>
 
-					<div className={'price'}>${formatterStr(property?.propertyPrice)}</div>
+					<Box className="top-badges" component="div">
+						{/* Sale badge chap tomonda */}
+						{discountPercent > 0 && (
+							<Box className="discount-badge" component="div">
+								<Typography className="discount-text">-{discountPercent}%</Typography>
+							</Box>
+						)}
+
+						{/* Category badge o'ng tomonda */}
+						<Box className="category-badge" component="div">
+							<Typography className="category-text">{property.propertyCategory}</Typography>
+						</Box>
+					</Box>
 				</Box>
-				<Box component={'div'} className={'info'}>
-					<strong className={'title'}>{property?.propertyTitle}</strong>
-					<p className={'desc'}>{property?.propertyAddress}</p>
-					<div className={'options'}>
-						<div>
-							<img src="/img/icons/bed.svg" alt="" />
-							<span>{property?.propertyBeds} bed</span>
-						</div>
-						<div>
-							<img src="/img/icons/room.svg" alt="" />
-							<span>{property?.propertyRooms} rooms</span>
-						</div>
-						<div>
-							<img src="/img/icons/expand.svg" alt="" />
-							<span>{property?.propertySquare} m2</span>
-						</div>
-					</div>
-					<Divider sx={{ mt: '15px', mb: '17px' }} />
-					<div className={'bott'}>
-						<div>
-							{property?.propertyRent ? <p>Rent</p> : <span>Rent</span>}
-							{property?.propertyBarter ? <p>Barter</p> : <span>Barter</span>}
-						</div>
-						<div className="buttons-box">
-							<IconButton color={'default'} onClick={() => likePropertyHandler(user, property?._id)}>
-								<RemoveRedEyeIcon />
-							</IconButton>
-							<Typography className="view-cnt">{property?.propertyViews}</Typography>
+
+				<Box className="product-info-container" component="div">
+					<Box className="title-views-container" component="div">
+						<Typography className="product-title">{property.propertyTitle}</Typography>
+					</Box>
+
+					<Box className="price-like-container" component="div">
+						<Box className="price-container" component="div">
+							{property.propertySalePrice ? (
+								<>
+									<Typography className="original-price">${property.propertyPrice}</Typography>
+									<Typography className="discounted-price">${property.propertySalePrice}</Typography>
+								</>
+							) : (
+								<Typography className="discounted-price">${property.propertyPrice}</Typography>
+							)}
+						</Box>
+
+						<Box className="likes-container" component="div">
 							<IconButton
-								color={'default'}
+								className="like-button"
 								onClick={(e) => {
 									e.stopPropagation();
-									likePropertyHandler(user, property?._id)
+									likePropertyHandler(user, property._id);
 								}}
-
 							>
-								{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-									<FavoriteIcon style={{ color: 'red' }} />
-								) : (
-									<FavoriteIcon />
-								)}
+								<FavoriteIcon
+									style={{
+										color: property?.meLiked?.[0]?.myFavorite ? 'red' : '#41332d',
+									}}
+								/>
 							</IconButton>
-							<Typography className="view-cnt">{property?.propertyLikes}</Typography>
-						</div>
-					</div>
+							<Typography className="likes-count">{property?.propertyLikes}</Typography>
+						</Box>
+					</Box>
 				</Box>
-			</Stack>
+			</Box>
 		);
 	}
 };

@@ -103,10 +103,10 @@ const AgentTooltip = ({ agent }: { agent: any }) => {
 					</Typography>
 				</Box>
 
-				<Box component={'div'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+				<Box component="div" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 					<StarIcon sx={{ fontSize: 18, opacity: 0.8 }} />
 					<Typography variant="body2">
-						<strong>{agent?.memberRating || 0}</strong> Rating
+						<strong>{agent?.memberRank || 0}</strong>/10 Rating
 					</Typography>
 				</Box>
 			</Box>
@@ -126,7 +126,7 @@ const AgentCard = (props: AgentCardProps) => {
 	const { agent, likeMemberHandler } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
-	
+
 	const imagePath: string = agent?.memberImage
 		? `${REACT_APP_API_URL}/${agent?.memberImage}`
 		: '/img/profile/defaultUser.svg';
@@ -164,167 +164,167 @@ const AgentCard = (props: AgentCardProps) => {
 					component="div"
 					className="agent-general-card"
 					sx={{
-						position: "relative",
-						width: "300px",
-						height: "360px",
-						borderRadius: "16px",
-						overflow: "hidden",
-						cursor: "pointer",
-						transition: "transform 0.3s ease, box-shadow 0.3s ease",
-						"&:hover": {
-							transform: "translateY(-5px)",
-							boxShadow: "0px 15px 30px rgba(0, 0, 0, 0.1)",
+						position: 'relative',
+						width: '300px',
+						height: '360px',
+						borderRadius: '16px',
+						overflow: 'hidden',
+						cursor: 'pointer',
+						transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+						'&:hover': {
+							transform: 'translateY(-5px)',
+							boxShadow: '0px 15px 30px rgba(0, 0, 0, 0.1)',
 						},
 					}}
 					onClick={handleAgentClick}
 				>
-				{/* Main Image */}
-				<Box
-					component="img"
-					src={imagePath}
-					alt={agent?.memberNick}
-					sx={{
-						width: "100%",
-						height: "100%",
-						objectFit: "cover",
-						borderRadius: "16px",
-					}}
-				/>
+					{/* Main Image */}
+					<Box
+						component="img"
+						src={imagePath}
+						alt={agent?.memberNick}
+						sx={{
+							width: '100%',
+							height: '100%',
+							objectFit: 'cover',
+							borderRadius: '16px',
+						}}
+					/>
 
-				{/* Properties Badge */}
-				<Box
-					component="div"
-					sx={{
-						position: "absolute",
-						top: "16px",
-						left: "16px",
-						backgroundColor: "rgba(45, 55, 72, 0.9)",
-						color: "white",
-						padding: "6px 12px",
-						borderRadius: "20px",
-						fontSize: "12px",
-						fontWeight: "500",
-					}}
-				>
-					{agent?.memberProperties} properties
-				</Box>
+					{/* Properties Badge */}
+					<Box
+						component="div"
+						sx={{
+							position: 'absolute',
+							top: '16px',
+							left: '16px',
+							backgroundColor: 'rgba(45, 55, 72, 0.9)',
+							color: 'white',
+							padding: '6px 12px',
+							borderRadius: '20px',
+							fontSize: '12px',
+							fontWeight: '500',
+						}}
+					>
+						{agent?.memberProperties} properties
+					</Box>
 
-				{/* Bottom Overlay Banner */}
-				<Box
-					component="div"
-					sx={{
-						position: "absolute",
-						bottom: 0,
-						left: 0,
-						right: 0,
-						backgroundColor: "rgba(45, 55, 72, 0.9)",
-						borderBottomLeftRadius: "16px",
-						borderBottomRightRadius: "16px",
-						padding: "20px",
-						display: "flex",
-						justifyContent: "space-between",
-						alignItems: "center",
-					}}
-				>
-					<Box component="div">
-						<Link
-							href={{
-								pathname: '/agent/detail',
-								query: { agentId: agent?._id },
-							}}
-							style={{ textDecoration: 'none' }}
-						>
+					{/* Bottom Overlay Banner */}
+					<Box
+						component="div"
+						sx={{
+							position: 'absolute',
+							bottom: 0,
+							left: 0,
+							right: 0,
+							backgroundColor: 'rgba(45, 55, 72, 0.9)',
+							borderBottomLeftRadius: '16px',
+							borderBottomRightRadius: '16px',
+							padding: '20px',
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+						}}
+					>
+						<Box component="div">
+							<Link
+								href={{
+									pathname: '/agent/detail',
+									query: { agentId: agent?._id },
+								}}
+								style={{ textDecoration: 'none' }}
+							>
+								<Typography
+									variant="h6"
+									sx={{
+										color: 'white',
+										fontWeight: '600',
+										fontSize: '18px',
+										lineHeight: 1.2,
+										mb: 0.5,
+										'&:hover': {
+											color: 'rgba(255, 255, 255, 0.8)',
+										},
+									}}
+								>
+									{agent?.memberFullName ?? agent?.memberNick}
+								</Typography>
+							</Link>
 							<Typography
-								variant="h6"
+								variant="body2"
 								sx={{
-									color: "white",
-									fontWeight: "600",
-									fontSize: "18px",
+									color: 'rgba(255, 255, 255, 0.8)',
+									fontSize: '14px',
 									lineHeight: 1.2,
-									mb: 0.5,
-									"&:hover": {
-										color: "rgba(255, 255, 255, 0.8)",
+								}}
+							>
+								Agent
+							</Typography>
+						</Box>
+
+						<Stack direction="row" spacing={0.5} alignItems="center" sx={{ transform: 'translateY(10px)' }}>
+							{/* View Button */}
+							<IconButton
+								size="small"
+								sx={{
+									color: 'white',
+									backgroundColor: 'rgba(255, 255, 255, 0.1)',
+									width: '32px',
+									height: '32px',
+									'&:hover': {
+										backgroundColor: 'rgba(255, 255, 255, 0.2)',
 									},
 								}}
 							>
-								{agent?.memberFullName ?? agent?.memberNick}
+								<RemoveRedEyeIcon sx={{ fontSize: '16px' }} />
+							</IconButton>
+							<Typography
+								sx={{
+									color: 'white',
+									fontSize: '12px',
+									minWidth: '20px',
+									textAlign: 'center',
+								}}
+							>
+								{agent?.memberViews}
 							</Typography>
-						</Link>
-						<Typography
-							variant="body2"
-							sx={{
-								color: "rgba(255, 255, 255, 0.8)",
-								fontSize: "14px",
-								lineHeight: 1.2,
-							}}
-						>
-							Agent
-						</Typography>
+
+							{/* Like Button */}
+							<IconButton
+								size="small"
+								onClick={(e) => {
+									e.stopPropagation();
+									likeMemberHandler(user, agent?._id);
+								}}
+								sx={{
+									color: 'white',
+									backgroundColor: 'rgba(255, 255, 255, 0.1)',
+									width: '32px',
+									height: '32px',
+									'&:hover': {
+										backgroundColor: 'rgba(255, 255, 255, 0.2)',
+									},
+								}}
+							>
+								{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
+									<FavoriteIcon sx={{ fontSize: '16px', color: '#ff4757' }} />
+								) : (
+									<FavoriteBorderIcon sx={{ fontSize: '16px' }} />
+								)}
+							</IconButton>
+							<Typography
+								sx={{
+									color: 'white',
+									fontSize: '12px',
+									minWidth: '20px',
+									textAlign: 'center',
+								}}
+							>
+								{agent?.memberLikes}
+							</Typography>
+						</Stack>
 					</Box>
-
-					<Stack direction="row" spacing={0.5} alignItems="center" sx={{ transform: "translateY(10px)" }}>
-						{/* View Button */}
-						<IconButton
-							size="small"
-							sx={{
-								color: "white",
-								backgroundColor: "rgba(255, 255, 255, 0.1)",
-								width: "32px",
-								height: "32px",
-								"&:hover": {
-									backgroundColor: "rgba(255, 255, 255, 0.2)",
-								},
-							}}
-						>
-							<RemoveRedEyeIcon sx={{ fontSize: "16px" }} />
-						</IconButton>
-						<Typography 
-							sx={{ 
-								color: "white", 
-								fontSize: "12px",
-								minWidth: "20px",
-								textAlign: "center"
-							}}
-						>
-							{agent?.memberViews}
-						</Typography>
-
-						{/* Like Button */}
-						<IconButton
-							size="small"
-							onClick={(e) => {
-								e.stopPropagation();
-								likeMemberHandler(user, agent?._id);
-							}}
-							sx={{
-								color: "white",
-								backgroundColor: "rgba(255, 255, 255, 0.1)",
-								width: "32px",
-								height: "32px",
-								"&:hover": {
-									backgroundColor: "rgba(255, 255, 255, 0.2)",
-								},
-							}}
-						>
-							{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
-								<FavoriteIcon sx={{ fontSize: "16px", color: "#ff4757" }} />
-							) : (
-								<FavoriteBorderIcon sx={{ fontSize: "16px" }} />
-							)}
-						</IconButton>
-						<Typography 
-							sx={{ 
-								color: "white", 
-								fontSize: "12px",
-								minWidth: "20px",
-								textAlign: "center"
-							}}
-						>
-							{agent?.memberLikes}
-						</Typography>
-					</Stack>
 				</Box>
-			</Box>
 			</Tooltip>
 		);
 	}

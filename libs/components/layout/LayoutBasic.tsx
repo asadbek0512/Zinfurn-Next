@@ -41,7 +41,7 @@ const withLayoutBasic = (Component: any) => {
 				case '/agent/detail':
 					title = 'Agent Page';
 					desc = 'Home / For Rent';
-					bgImage = '/img/banner/agents.jpg';
+					bgImage = '/img/banner/agent9.jpeg';
 					break;
 				case '/repairService':
 					title = 'Service Page';

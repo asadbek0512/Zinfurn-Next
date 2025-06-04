@@ -20,7 +20,14 @@ import { Messages, REACT_APP_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
 import { GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
+import RateReviewIcon from '@mui/icons-material/RateReview';
 import { T } from '../../libs/types/common';
+import Review from '../../libs/components/property/Review';
+import { Pagination as MuiPagination } from '@mui/material';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import dayjs from 'dayjs';
+
+
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -32,6 +39,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	dayjs.extend(relativeTime);
 	const [agentId, setAgentId] = useState<string | null>(null);
 	const [agent, setAgent] = useState<Member | null>(null);
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
@@ -152,7 +160,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	const createCommentHandler = async () => {
 		try {
 			if (!user._id) throw new Error(Messages.error2);
-			if (user._id === agentId) throw new Error("Cannot write a review for yourself");
+			if (user._id === agentId) throw new Error('Cannot write a review for yourself');
 
 			await createComment({
 				variables: {
@@ -162,7 +170,6 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			setInsertCommentData({ ...insertCommentData, commentContent: '' });
 
 			await getCommentsRefetch({ input: commentInquiry });
-
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
 		}
@@ -180,10 +187,24 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			});
 			await getPropertiesRefetch({ input: searchFilter });
 
-			await sweetTopSmallSuccessAlert('success', 808);
 		} catch (err: any) {
 			console.log('ERROR, likePropertyHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const getRatingByMemberType = (type: string) => {
+		switch (type) {
+			case 'ADMIN':
+				return { score: '5.0', stars: '★★★★★' };
+			case 'TECHNICIAN':
+				return { score: '4.5', stars: '★★★★☆' };
+			case 'AGENT':
+				return { score: '3.5', stars: '★★★☆☆' };
+			case 'USER':
+				return { score: '3.0', stars: '★★☆☆☆' };
+			default:
+				return { score: '0.0', stars: '☆☆☆☆☆' };
 		}
 	};
 
@@ -220,11 +241,12 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 								);
 							})}
 						</Stack>
-						<Stack className={'pagination'}>
-							{propertyTotal ? (
+						<Stack className="pagination-config">
+							{propertyTotal > 0 ? (
 								<>
 									<Stack className="pagination-box">
 										<Pagination
+											className="custom-pagination"
 											page={searchFilter.page}
 											count={Math.ceil(propertyTotal / searchFilter.limit) || 1}
 											onChange={propertyPaginationChangeHandler}
@@ -232,77 +254,115 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 											color="primary"
 										/>
 									</Stack>
-									<span>
-										Total {propertyTotal} propert{propertyTotal > 1 ? 'ies' : 'y'} available
-									</span>
+
+									<Stack className="total-result">
+										<Typography>
+											Total {propertyTotal} propert{propertyTotal !== 1 ? 'ies' : 'y'} available
+										</Typography>
+									</Stack>
 								</>
 							) : (
-								<div className={'no-data'}>
-									<img src="/img/icons/icoAlert.svg" alt="" />
-									<p>No properties found!</p>
-								</div>
+								<Stack className="no-data">
+									<img src="/img/icons/icoAlert.svg" alt="No properties" />
+									<Typography>No properties found!</Typography>
+								</Stack>
 							)}
 						</Stack>
 					</Stack>
-					<Stack className={'review-box'}>
-						<Stack className={'main-intro'}>
-							<span>Reviews</span>
-							<p>we are glad to see you again</p>
-						</Stack>
-						{commentTotal !== 0 && (
-							<Stack className={'review-wrap'}>
-								<Box component={'div'} className={'title-box'}>
-									<StarIcon />
-									<span>
-										{commentTotal} review{commentTotal > 1 ? 's' : ''}
-									</span>
-								</Box>
-								{agentComments?.map((comment: Comment) => {
-									return <ReviewCard comment={comment} key={comment?._id} />;
-								})}
-								<Box component={'div'} className={'pagination-box'}>
-									<Pagination
-										page={commentInquiry.page}
-										count={Math.ceil(commentTotal / commentInquiry.limit) || 1}
-										onChange={commentPaginationChangeHandler}
-										shape="circular"
-										color="primary"
-									/>
+
+					{/* Comments */}
+					<Stack className="repair-detail__comments" spacing={3}>
+						<Stack className="reviews-config">
+							<Stack className="leave-review-config">
+								<Stack direction="row" alignItems="center" spacing={1}>
+									<RateReviewIcon sx={{ color: '#d89801' }} />
+									<Typography className="main-title">Write a Review</Typography>
+								</Stack>
+
+								<Typography className="review-title">Review</Typography>
+
+								<textarea
+									onChange={({ target: { value } }) => {
+										setInsertCommentData({ ...insertCommentData, commentContent: value });
+									}}
+									onKeyDown={(e) => {
+										if (e.key === 'Enter' && !e.shiftKey) {
+											e.preventDefault();
+											if (insertCommentData.commentContent.trim() !== '' && user?._id) {
+												createCommentHandler();
+											}
+										}
+									}}
+									value={insertCommentData.commentContent}
+								></textarea>
+
+								<Box className="submit-btn" component="div">
+									<Button
+										className="submit-review"
+										disabled={insertCommentData.commentContent.trim() === '' || !user?._id}
+										onClick={createCommentHandler}
+									>
+										<Typography className="title">Submit Review</Typography>
+									</Button>
 								</Box>
 							</Stack>
-						)}
 
-						<Stack className={'leave-review-config'}>
-							<Typography className={'main-title'}>Leave A Review</Typography>
-							<Typography className={'review-title'}>Review</Typography>
-							<textarea
-								onChange={({ target: { value } }: any) => {
-									setInsertCommentData({ ...insertCommentData, commentContent: value });
-								}}
-								value={insertCommentData.commentContent}
-							></textarea>
-							<Box className={'submit-btn'} component={'div'}>
-								<Button
-									className={'submit-review'}
-									disabled={insertCommentData.commentContent === '' || user?._id === ''}
-									onClick={createCommentHandler}
-								>
-									<Typography className={'title'}>Submit Review</Typography>
-									<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
-										<g clipPath="url(#clip0_6975_3642)">
-											<path
-												d="M16.1571 0.5H6.37936C6.1337 0.5 5.93491 0.698792 5.93491 0.944458C5.93491 1.19012 6.1337 1.38892 6.37936 1.38892H15.0842L0.731781 15.7413C0.558156 15.915 0.558156 16.1962 0.731781 16.3698C0.818573 16.4566 0.932323 16.5 1.04603 16.5C1.15974 16.5 1.27345 16.4566 1.36028 16.3698L15.7127 2.01737V10.7222C15.7127 10.9679 15.9115 11.1667 16.1572 11.1667C16.4028 11.1667 16.6016 10.9679 16.6016 10.7222V0.944458C16.6016 0.698792 16.4028 0.5 16.1571 0.5Z"
-												fill="#181A20"
-											/>
-										</g>
-										<defs>
-											<clipPath id="clip0_6975_3642">
-												<rect width="16" height="16" fill="white" transform="translate(0.601562 0.5)" />
-											</clipPath>
-										</defs>
-									</svg>
-								</Button>
-							</Box>
+							{commentTotal !== 0 && (
+								<>
+									<Stack className="filter-box">
+										<Stack className="review-cnt">
+											<Typography className="reviews">Review List</Typography>
+											<Typography className="Show">Showing 1-5 of {commentTotal} results</Typography>
+										</Stack>
+									</Stack>
+
+									<Stack className="review-list">
+										{agentComments?.map((comment: Comment) => {
+											const memberType = comment.memberData?.memberType;
+											const { score, stars } = memberType
+												? getRatingByMemberType(memberType)
+												: { score: '-', stars: '☆☆☆☆☆' };
+
+											return (
+												<Stack className="single-review" key={comment._id} spacing={1}>
+													<Review comment={comment} />
+													<Typography
+														className="review-stars"
+														sx={{ display: 'flex', alignItems: 'center', gap: '7px' }}
+													>
+														<span style={{ fontSize: '16px', color: '#d89801' }}>{stars}</span>
+														<span style={{ fontSize: '13px', color: '#181a20' }}>{score}</span>
+													</Typography>
+													<Typography className="created-at" fontSize={12} color="text.secondary">
+														{dayjs(comment.createdAt).fromNow()}
+													</Typography>
+												</Stack>
+											);
+										})}
+
+										{agentComments.length !== 0 && (
+											<Stack className="pagination-config">
+												<Box component="div" className="pagination-box">
+													<MuiPagination
+														className="custom-pagination"
+														page={commentInquiry.page}
+														count={Math.ceil(commentTotal / commentInquiry.limit)}
+														onChange={commentPaginationChangeHandler}
+														shape="circular"
+														color="primary"
+													/>
+												</Box>
+
+												<Stack className="total-result">
+													<Typography>
+														Total {commentTotal} review{commentTotal > 1 ? 's' : ''}
+													</Typography>
+												</Stack>
+											</Stack>
+										)}
+									</Stack>
+								</>
+							)}
 						</Stack>
 					</Stack>
 				</Stack>
@@ -314,7 +374,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 AgentDetail.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 9,
+		limit: 6,
 		search: {
 			memberId: '',
 		},

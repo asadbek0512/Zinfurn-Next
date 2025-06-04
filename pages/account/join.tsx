@@ -80,6 +80,7 @@ const Join: NextPage = () => {
 								<span>{loginView ? 'login' : 'signup'}</span>
 								<p>{loginView ? 'Login' : 'Sign'} in with this account across the following sites.</p>
 							</Box>
+
 							<Box className={'input-wrap'}>
 								<div className={'input-box'}>
 									<span>Nickname</span>
@@ -122,6 +123,7 @@ const Join: NextPage = () => {
 									</div>
 								)}
 							</Box>
+
 							<Box className={'register'}>
 								{!loginView && (
 									<div className={'type-option'}>
@@ -186,6 +188,7 @@ const Join: NextPage = () => {
 									</Button>
 								)}
 							</Box>
+
 							<Box className={'ask-info'}>
 								{loginView ? (
 									<p>
@@ -205,6 +208,7 @@ const Join: NextPage = () => {
 									</p>
 								)}
 							</Box>
+							
 						</Stack>
 						<Stack className={'right'}></Stack>
 					</Stack>

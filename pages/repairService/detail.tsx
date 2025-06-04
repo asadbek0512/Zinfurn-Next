@@ -31,6 +31,7 @@ import RateReviewIcon from '@mui/icons-material/RateReview';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import PhoneIcon from '@mui/icons-material/Phone';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -45,7 +46,6 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	dayjs.extend(relativeTime);
-
 	const [repairPropertyId, setRepairPropertyId] = useState<string | null>(null);
 	const [repairProperty, setRepairProperty] = useState<RepairProperty | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
@@ -231,6 +231,9 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	return (
 		<Stack className="repair-detail" direction="column" spacing={4}>
+			<Stack className="back-link" onClick={() => router.push('/repairService')}>
+				← Back to property
+			</Stack>
 			<Stack className="repair-detail" direction={{ xs: 'column', md: 'row' }} spacing={3}>
 				{/* Left - Image */}
 				<Box component="div" className="repair-detail__image-box">
@@ -287,6 +290,11 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					<Stack direction="row" className="repair-detail__info-item">
 						<LocationOnIcon fontSize="small" />
 						<Typography className="repair-detail__address">{repairProperty?.repairPropertyAddress}</Typography>
+					</Stack>
+
+					<Stack direction="row" className="repair-detail__info-item">
+						<PhoneIcon fontSize="small" />
+						<Typography className="repair-detail__address">{repairProperty?.memberData?.memberPhone}</Typography>
 					</Stack>
 
 					<Stack direction="row" className="repair-detail__info-item">

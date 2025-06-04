@@ -1,162 +1,152 @@
-.property-big-card-box {
-	position: relative;
-	margin-right: 8px;
-	margin-left: 8px;
-	margin-bottom: 35px;
-	width: 410px;
-	height: 455px;
+.product-card {
+	width: 400px;
+	height: 500px;
 	display: flex;
 	flex-direction: column;
-	.card-img {
-		position: relative;
+	position: relative;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+	overflow: hidden;
+	border-radius: 15px;
+	background: #fff;
+	padding-left: 15px;
+
+	.product-image-container {
 		width: 100%;
-		height: 264px;
-		background-size: cover;
-		border-radius: 12px 12px 0px 0px;
-		cursor: pointer;
-		div.status {
-			position: absolute;
-			padding: 6px 34px;
-			left: 20px;
-			top: 20px;
-			display: flex;
-			align-items: center;
-			border-radius: 6px;
-			background: #eb6753;
-			img {
-				width: 14px;
-				height: 14px;
-			}
-			span {
-				margin-left: 5px;
-				color: #fff;
-				font-family: $font;
-				font-size: 12px;
-				font-style: normal;
-				font-weight: 600;
-				line-height: normal;
-				text-transform: uppercase;
-			}
+		height: 350px;
+		border-radius: 15px;
+		position: relative;
+		overflow: hidden;
+
+		.product-image {
+			width: 100%;
+			height: 100%;
+			background-size: cover;
+			background-position: center;
+			transition: transform 0.3s ease-in-out;
 		}
-		div.price {
+
+		.top-badges {
 			position: absolute;
-			padding: 8px 12px;
-			left: 20px;
-			bottom: 20px;
-			border-radius: 6px;
-			background: #fff;
-			color: #181a20;
-			font-family: $font;
-			font-size: 15px;
-			font-style: normal;
-			font-weight: 600;
-			line-height: normal;
+			top: 12px;
+			left: 12px;
+			right: 12px;
+			display: flex;
+			justify-content: space-between;
+
+			.discount-badge,
+			.category-badge {
+				border-radius: 4px;
+				padding: 4px 8px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 12px;
+				font-weight: 500;
+				letter-spacing: 0.5px;
+				color: #fff;
+			}
+
+			.discount-badge {
+				background-color: #cf6422;
+			}
+
+			.category-badge {
+				background-color: rgba(0, 0, 0, 0.7);
+			}
 		}
 	}
-	.info {
-		padding: 20px 22px 17px;
+
+	.product-info-container {
+		padding: 12px;
 		display: flex;
 		flex-direction: column;
-		box-sizing: border-box;
-		border-radius: 0px 0px 12px 12px;
-		border: 1px solid #ddd;
-		border-top: none;
-		background: #fff;
-		.title {
-			overflow: hidden;
-			color: #181a20;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			font-family: $font;
-			font-size: 15px;
-			font-style: normal;
-			font-weight: 600;
-			line-height: normal;
-			text-transform: capitalize;
-			cursor: pointer;
-		}
-		.desc {
-			margin-top: 5px;
-			overflow: hidden;
-			color: #717171;
-			font-family: $font;
-			font-size: 13px;
-			font-style: normal;
-			font-weight: 400;
-			line-height: normal;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-		.options {
-			margin-top: 15px;
+		gap: 4px;
+
+		.title-views-container {
 			display: flex;
-			flex-direction: row;
 			justify-content: space-between;
-			div {
+			align-items: flex-start;
+			gap: 8px;
+
+			.product-title {
+				font-size: 16px;
+				font-weight: 600;
+				color: #41332d;
+				line-height: 1.3;
+				flex: 1;
+			}
+
+			.views-container {
 				display: flex;
-				flex-direction: row;
-				img {
-					margin-right: 5px;
-					width: 17px;
-					height: 17px;
+				align-items: center;
+				gap: 4px;
+
+				.views-icon {
+					font-size: 18px;
+					color: #888;
 				}
-				span {
-					color: #181a20;
-					font-family: $font;
-					font-size: 13px;
-					font-style: normal;
-					font-weight: 400;
-					line-height: normal;
+
+				.views-count {
+					font-size: 14px;
+					color: #888;
 				}
 			}
 		}
-		.bott {
+
+		.price-like-container {
 			display: flex;
-			flex-direction: row;
 			justify-content: space-between;
 			align-items: center;
-			div {
-				width: 65px;
+
+			.price-container {
 				display: flex;
-				flex-direction: row;
+				gap: 10px;
+				align-items: baseline;
+
+				.original-price {
+					font-size: 14px;
+					color: #888;
+					text-decoration: line-through;
+				}
+
+				.discounted-price {
+					font-size: 18px;
+					font-weight: 700;
+					color: #6e331a;
+				}
+			}
+
+			.likes-container {
+				display: flex;
 				align-items: center;
-				justify-content: space-between;
-			}
-			p {
-				color: #181a20;
-				font-family: $font;
-				font-size: 13px;
-				font-style: normal;
-				font-weight: 500;
-				line-height: normal;
-				text-transform: capitalize;
-			}
-			span {
-				margin-left: 6px;
-				color: rgba(143, 143, 143, 0.54);
-				font-family: $font;
-				font-size: 15px;
-				font-style: normal;
-				font-weight: 500;
-				line-height: normal;
-				text-transform: capitalize;
-			}
-			button {
-				margin-left: 15px;
-				width: 16px;
-				height: 16px;
-				box-sizing: border-box;
-			}
-			.buttons-box {
-				width: auto;
-				height: auto;
-				display: flex;
-				flex-direction: row;
-				gap: 7px;
+
+				.like-button {
+					padding: 6px;
+					transition: all 0.2s ease;
+					margin: 0;
+
+					&:hover {
+						transform: scale(1.1);
+					}
+
+					svg {
+						font-size: 20px;
+					}
+				}
+
+				.likes-count {
+					font-size: 18px;
+					color: #41332d;
+					font-weight: 500;
+					margin-left: 4px;
+				}
 			}
 		}
 	}
 }
+
+
 .agent-general-card {
 	height: 380px;
 	width: 300px;
