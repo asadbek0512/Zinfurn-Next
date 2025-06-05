@@ -21,6 +21,7 @@ const withLayoutBasic = (Component: any) => {
 		const device = useDeviceDetect();
 		const [authHeader, setAuthHeader] = useState<boolean>(false);
 		const user = useReactiveVar(userVar);
+		const isJoinPage = Component.name === 'Join';
 
 		const memoizedValues = useMemo(() => {
 			let title = '',
@@ -69,10 +70,10 @@ const withLayoutBasic = (Component: any) => {
 					bgImage = '/img/banner/header2.svg';
 					break;
 				case '/account/join':
-					title = 'Login/Signup';
-					desc = 'Authentication Process';
-					bgImage = '/img/banner/header2.svg';
-					setAuthHeader(true);
+					// title = 'Login/Signup';
+					// desc = 'Authentication Process';
+					// bgImage = '/img/banner/header2.svg';
+					// setAuthHeader(true);
 					break;
 				case '/member':
 					title = 'Member Page';
@@ -128,19 +129,21 @@ const withLayoutBasic = (Component: any) => {
 							<Top />
 						</Stack>
 
-						<Stack
-							className={`header-basic ${authHeader && 'auth'}`}
-							style={{
-								backgroundImage: `url(${memoizedValues.bgImage})`,
-								backgroundSize: 'cover',
-								boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
-							}}
-						>
-							<Stack className={'container'}>
-								<strong>{t(memoizedValues.title)}</strong>
-								<span>{t(memoizedValues.desc)}</span>
-							</Stack>
-						</Stack>
+						{!isJoinPage && (
+            <Stack
+              className={`header-basic ${authHeader && 'auth'}`}
+              style={{
+                backgroundImage: `url(${memoizedValues.bgImage})`,
+                backgroundSize: 'cover',
+                boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
+              }}
+            >
+              <Stack className={'container'}>
+                <strong>{t(memoizedValues.title)}</strong>
+                <span>{t(memoizedValues.desc)}</span>
+              </Stack>
+            </Stack>
+          )}
 
 						<Stack id={'main'}>
 							<Component {...props} />

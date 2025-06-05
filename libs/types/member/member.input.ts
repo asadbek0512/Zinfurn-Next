@@ -8,12 +8,14 @@ export interface MemberInput {
 	memberType?: MemberType;
 	memberAuthType?: MemberAuthType;
 	memberEmail?: string;
+	memberFullName?: string;
 }
 
 export interface LoginInput {
 	memberNick: string;
 	memberPassword: string;
 	memberEmail?: string;
+	
 }
 
 interface AISearch {

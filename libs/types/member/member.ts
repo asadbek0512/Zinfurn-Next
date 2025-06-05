@@ -9,6 +9,7 @@ export interface Member {
 	memberAuthType: MemberAuthType;
 	memberPhone: string;
 	memberNick: string;
+	memberEmail?: string;
 	memberPassword?: string;
 	memberFullName?: string;
 	memberImage?: string;

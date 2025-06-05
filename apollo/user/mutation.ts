@@ -32,8 +32,11 @@ mutation Signup($input: MemberInput!) {
         createdAt
         updatedAt
         accessToken
+        memberEmail
     }
 }
+
+
 
 `;
 
@@ -65,6 +68,8 @@ mutation Login($input: LoginInput!) {
         createdAt
         updatedAt
         accessToken
+        memberEmail
+
     }
 }
 

@@ -31,51 +31,65 @@ export const logIn = async (nick: string, password: string): Promise<void> => {
 };
 
 const requestJwtToken = async ({
-	nick,
-	password,
+  nick,
+  password,
 }: {
-	nick: string;
-	password: string;
+  nick: string;
+  password: string;
 }): Promise<{ jwtToken: string }> => {
-	const apolloClient = await initializeApollo();
+  const apolloClient = await initializeApollo();
 
-	try {
-		const result = await apolloClient.mutate({
-			mutation: LOGIN,
-			variables: { input: { memberNick: nick, memberPassword: password } },
-			fetchPolicy: 'network-only',
-		});
+  const isEmail = nick.includes('@');
 
-		console.log('---------- login ----------');
-		const { accessToken } = result?.data?.login;
+  const input = {
+    memberPassword: password,
+    ...(isEmail ? { memberEmail: nick } : { memberNick: nick }),
+  };
 
-		return { jwtToken: accessToken };
-	} catch (err: any) {
-		console.log('request token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0].message) {
-			case 'Definer: login and password do not match':
-				await sweetMixinErrorAlert('Please check your password again');
-				break;
-			case 'Definer: user has been blocked!':
-				await sweetMixinErrorAlert('User has been blocked!');
-				break;
-		}
-		throw new Error('token error');
-	}
+  try {
+    const result = await apolloClient.mutate({
+      mutation: LOGIN,
+      variables: { input },
+      fetchPolicy: 'network-only',
+    });
+
+    const { accessToken } = result?.data?.login;
+
+    return { jwtToken: accessToken };
+  } catch (err: any) {
+    console.log('request token err', err.graphQLErrors);
+    switch (err.graphQLErrors[0].message) {
+      case 'Definer: login and password do not match':
+        await sweetMixinErrorAlert('Please check your password again');
+        break;
+      case 'Definer: user has been blocked!':
+        await sweetMixinErrorAlert('User has been blocked!');
+        break;
+    }
+    throw new Error('token error');
+  }
 };
 
-export const signUp = async (nick: string, password: string, phone: string, type: string): Promise<void> => {
+
+
+export const signUp = async (
+	nick: string, 
+	password: string, 
+	phone: string, 
+	email: string, 
+	type: string
+): Promise<void> => {
 	try {
-		const { jwtToken } = await requestSignUpJwtToken({ nick, password, phone, type });
+		const { jwtToken } = await requestSignUpJwtToken({ nick, password, phone, email, type });
 
 		if (jwtToken) {
 			updateStorage({ jwtToken });
 			updateUserInfo(jwtToken);
 		}
 	} catch (err) {
-		console.warn('login err', err);
+		console.warn('signup err', err);
 		logOut();
-		// throw new Error('Login Err');
+		// throw new Error('Signup Err');
 	}
 };
 
@@ -83,11 +97,13 @@ const requestSignUpJwtToken = async ({
 	nick,
 	password,
 	phone,
+	email,
 	type,
 }: {
 	nick: string;
 	password: string;
 	phone: string;
+	email: string;
 	type: string;
 }): Promise<{ jwtToken: string }> => {
 	const apolloClient = await initializeApollo();
@@ -96,26 +112,40 @@ const requestSignUpJwtToken = async ({
 		const result = await apolloClient.mutate({
 			mutation: SIGN_UP,
 			variables: {
-				input: { memberNick: nick, memberPassword: password, memberPhone: phone, memberType: type },
+				input: { 
+					memberNick: nick, 
+					memberPassword: password, 
+					memberPhone: phone, 
+					memberEmail: email,
+					memberType: type 
+				},
 			},
 			fetchPolicy: 'network-only',
 		});
 
-		console.log('---------- login ----------');
+		console.log('---------- signup ----------');
 		const { accessToken } = result?.data?.signup;
 
 		return { jwtToken: accessToken };
 	} catch (err: any) {
-		console.log('request token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0].message) {
+		console.log('request signup token err', err.graphQLErrors);
+		switch (err.graphQLErrors[0]?.message) {
 			case 'Definer: login and password do not match':
 				await sweetMixinErrorAlert('Please check your password again');
 				break;
 			case 'Definer: user has been blocked!':
 				await sweetMixinErrorAlert('User has been blocked!');
 				break;
+			case 'Definer: email already exists':
+				await sweetMixinErrorAlert('This email is already registered');
+				break;
+			case 'Definer: nick already exists':
+				await sweetMixinErrorAlert('This nickname is already taken');
+				break;
+			default:
+				await sweetMixinErrorAlert('Registration failed. Please try again.');
 		}
-		throw new Error('token error');
+		throw new Error('signup token error');
 	}
 };
 
@@ -170,6 +200,7 @@ const deleteUserInfo = () => {
 		memberType: '',
 		memberStatus: '',
 		memberAuthType: '',
+		memberEmail: '',
 		memberPhone: '',
 		memberNick: '',
 		memberFullName: '',
