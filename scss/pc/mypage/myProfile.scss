@@ -170,6 +170,33 @@
 						}
 					}
 				}
+				.email-box {
+					width: 48%;
+					gap: 10px;
+					.title {
+						color: #181a20;
+						font-family: $font;
+						font-size: 12px;
+						font-style: normal;
+						font-weight: 600;
+						line-height: normal;
+					}
+					input {
+						height: 55px;
+						outline: none;
+						padding: 0px 15px;
+						border-radius: 8px;
+						border: 1px solid #ddd;
+						::placeholder {
+							color: #717171;
+							font-family: $font;
+							font-size: 12px;
+							font-style: normal;
+							font-weight: 400;
+							line-height: 26px;
+						}
+					}
+				}
 				.about-me-box {
 					gap: 10px;
 					.title {
@@ -202,7 +229,7 @@
 						align-self: flex-end;
 						margin-top: 30px;
 						border-radius: 12px;
-						background-color: #000000;
+						background-color: #bc4b05;
 						p {
 							color: #fff;
 							font-family: $font;
@@ -213,7 +240,7 @@
 						}
 					}
 					button:disabled {
-						background: #181a2045;
+						background:  #692b04;
 					}
 				}
 			}

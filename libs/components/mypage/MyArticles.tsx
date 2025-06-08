@@ -54,7 +54,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 
 			await likeTargetBoardArticle({
 				variables: {
-					input: id , 
+					input: id,
 				},
 			});
 
@@ -65,7 +65,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 			console.log('ERROR, likeBoArticleHandler:', err.message);
 			await sweetMixinErrorAlert(err.message);
 		}
-	}
+	};
 
 	if (device === 'mobile') {
 		return <>ARTICLE PAGE MOBILE</>;
@@ -91,15 +91,24 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 							);
 						})
 					) : (
-						<div className={'no-data'}>
-							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Articles found!</p>
+						<div
+							className="no-data"
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								marginLeft: '250px',
+								marginTop: '58px',
+							}}
+						>
+							<img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} />
+								<p style={{ fontSize: '18px', color: '#555', marginTop: '8px', 	marginLeft: '45px' }}>No Articles found!</p>
 						</div>
 					)}
 				</Stack>
 
 				{boardArticles?.length > 0 && (
-					<Stack className="pagination-conf">
+					<Stack className="pagination-config">
 						<Stack className="pagination-box">
 							<Pagination
 								count={Math.ceil(totalCount / searchCommunity.limit)}

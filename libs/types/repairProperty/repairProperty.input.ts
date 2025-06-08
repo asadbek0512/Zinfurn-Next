@@ -3,7 +3,7 @@ import { PropertyType } from '../../enums/property.enum';
 import { RepairPropertyStatus, RepairPropertyType } from '../../enums/repairProperty.enum';
 
 export interface RepairPropertyInput {
-	repairPropertyType: PropertyType;
+	repairPropertyType: RepairPropertyType;
 	repairPropertyStatus?: RepairPropertyStatus;
 	repairPropertyAddress: string;
 	repairPropertyDescription: string;

@@ -10,6 +10,8 @@ import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { GET_FAVORITES } from '../../../apollo/user/query';
 import { Messages } from '../../config';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
+import PropertyBigCard from '../common/PropertyBigCard';
+import TrendPropertyCard from '../homepage/TrendPropertyCard';
 
 const MyFavorites: NextPage = () => {
 	const device = useDeviceDetect();
@@ -73,13 +75,29 @@ const MyFavorites: NextPage = () => {
 				<Stack className="favorites-list-box">
 					{myFavorites?.length ? (
 						myFavorites?.map((property: Property) => {
-							return <PropertyCard property={property} likePropertyHandler={likePropertyHandler} myFavorites={true} />;
+							// MyFavorites komponentida
+							return (
+								<TrendPropertyCard
+									property={property}
+									likePropertyHandler={likePropertyHandler}
+									myFavorites={true}
+								/>
+							);
 						})
 					) : (
-						<div className={'no-data'}>
-							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Favorites found!</p>
-						</div>
+						<div
+						className="no-data"
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							marginLeft: '250px',
+							marginTop: '58px',
+						}}
+					>
+						<img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} />
+							<p style={{ fontSize: '18px', color: '#555', marginTop: '8px', 	marginLeft: '45px' }}>No Articles found!</p>
+					</div>
 					)}
 				</Stack>
 				{myFavorites?.length ? (

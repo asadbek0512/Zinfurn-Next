@@ -20,6 +20,8 @@ import MemberFollowings from '../../libs/components/member/MemberFollowings';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { Messages } from '../../libs/config';
+import AddRepairProperty from '../../libs/components/mypage/AddNewRepairProperty';
+import MyRepairProperty from '../../libs/components/mypage/MyRepairProperty';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -112,6 +114,7 @@ const MyPage: NextPage = () => {
 			<div id="my-page" style={{ position: 'relative' }}>
 				<div className="container">
 					<Stack className={'my-page'}>
+						
 						<Stack className={'back-frame'}>
 							<Stack className={'left-config'}>
 								<MyMenu />
@@ -119,7 +122,9 @@ const MyPage: NextPage = () => {
 							<Stack className="main-config" mb={'76px'}>
 								<Stack className={'list-config'}>
 									{category === 'addProperty' && <AddProperty />}
+									{category === 'addRepairProperty' && <AddRepairProperty />}
 									{category === 'myProperties' && <MyProperties />}
+									{category === 'myRepairProperty' && <MyRepairProperty />}
 									{category === 'myFavorites' && <MyFavorites />}
 									{category === 'recentlyVisited' && <RecentlyVisited />}
 									{category === 'myArticles' && <MyArticles />}

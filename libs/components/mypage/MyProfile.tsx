@@ -18,7 +18,8 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const [updateData, setUpdateData] = useState<MemberUpdate>(initialValues);
 
 	/** APOLLO REQUESTS **/
-	const [updateMember] = useMutation(UPDATE_MEMBER)
+	const [updateMember] = useMutation(UPDATE_MEMBER);
+
 	/** LIFECYCLES **/
 	useEffect(() => {
 		setUpdateData({
@@ -27,6 +28,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			memberPhone: user.memberPhone,
 			memberAddress: user.memberAddress,
 			memberImage: user.memberImage,
+			memberEmail: user.memberEmail, // EMAIL QO'SHILDI
 		});
 	}, [user]);
 
@@ -101,7 +103,8 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			updateData.memberNick === '' ||
 			updateData.memberPhone === '' ||
 			updateData.memberAddress === '' ||
-			updateData.memberImage === ''
+			updateData.memberImage === '' ||
+			updateData.memberEmail === '' // EMAIL VALIDATION QO'SHILDI
 		) {
 			return true;
 		}
@@ -120,6 +123,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 						<Typography className="sub-title">We are glad to see you again!</Typography>
 					</Stack>
 				</Stack>
+
 				<Stack className="top-box">
 					<Stack className="photo-box">
 						<Typography className="title">Photo</Typography>
@@ -149,32 +153,143 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 							</Stack>
 						</Stack>
 					</Stack>
+
 					<Stack className="small-input-box">
 						<Stack className="input-box">
-							<Typography className="title">Username</Typography>
+							<Typography className="title">
+								{/* User Icon */}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									style={{ marginRight: '8px', verticalAlign: 'middle' }}
+								>
+									<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+									<circle cx="12" cy="7" r="4" />
+								</svg>
+								Username
+							</Typography>
 							<input
 								type="text"
 								placeholder="Your username"
-								value={updateData.memberNick}
+								value={updateData.memberNick || ''}
 								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberNick: value })}
 							/>
 						</Stack>
 						<Stack className="input-box">
-							<Typography className="title">Phone</Typography>
+							<Typography className="title">
+								{/* Phone Icon */}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									style={{ marginRight: '8px', verticalAlign: 'middle' }}
+								>
+									<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+								</svg>
+								Phone
+							</Typography>
 							<input
 								type="text"
 								placeholder="Your Phone"
-								value={updateData.memberPhone}
+								value={updateData.memberPhone || ''}
 								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberPhone: value })}
 							/>
 						</Stack>
+						{/* EMAIL INPUT BOX - SMALL-INPUT-BOX ICHIGA KO'CHIRILDI */}
+						<Stack className="input-box">
+							<Typography className="title">
+								{/* Email Icon */}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									style={{ marginRight: '8px', verticalAlign: 'middle' }}
+								>
+									<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+									<polyline points="22,6 12,13 2,6" />
+								</svg>
+								Email
+							</Typography>
+							<input
+								type="email"
+								placeholder="Your email address"
+								value={updateData.memberEmail || ''}
+								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberEmail: value })}
+							/>
+						</Stack>
+						<Stack className="input-box">
+							<Typography className="title">
+								{/* User Icon */}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									style={{ marginRight: '8px', verticalAlign: 'middle' }}
+								>
+									<circle cx="12" cy="8" r="4" />
+									<path d="M6 20c0-3.33 2.67-6 6-6s6 2.67 6 6" />
+								</svg>
+								Full Name
+							</Typography>
+
+							<input
+								type="text"
+								placeholder="Your full name"
+								value={updateData.memberFullName || ''}
+								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberFullName: value })}
+							/>
+						</Stack>
 					</Stack>
+
 					<Stack className="address-box">
-						<Typography className="title">Address</Typography>
+						<Typography className="title">
+							{/* Location Icon */}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="2"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								style={{ marginRight: '8px', verticalAlign: 'middle' }}
+							>
+								<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+								<circle cx="12" cy="10" r="3" />
+							</svg>
+							Address
+						</Typography>
 						<input
 							type="text"
 							placeholder="Your address"
-							value={updateData.memberAddress}
+							value={updateData.memberAddress || ''}
 							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberAddress: value })}
 						/>
 					</Stack>
@@ -208,6 +323,7 @@ MyProfile.defaultProps = {
 		memberNick: '',
 		memberPhone: '',
 		memberAddress: '',
+		memberEmail: '', // EMAIL QO'SHILDI
 	},
 };
 

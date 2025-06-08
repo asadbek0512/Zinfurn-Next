@@ -10,6 +10,12 @@ import IconButton from '@mui/material/IconButton';
 import { REACT_APP_API_URL } from '../../config';
 import { logOut } from '../../auth';
 import { sweetConfirmAlert, sweetMixinErrorAlert } from '../../sweetAlert';
+import WeekendIcon from '@mui/icons-material/Weekend';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import ArticleIcon from '@mui/icons-material/Article';
+import GroupIcon from '@mui/icons-material/Group';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 const MyMenu = () => {
 	const device = useDeviceDetect();
@@ -39,6 +45,7 @@ const MyMenu = () => {
 							alt={'member-photo'}
 						/>
 					</Box>
+
 					<Stack className={'user-info'}>
 						<Typography className={'user-name'}>{user?.memberNick}</Typography>
 						<Box component={'div'} className={'user-phone'}>
@@ -53,7 +60,42 @@ const MyMenu = () => {
 							<Typography className={'view-list'}>{user?.memberType}</Typography>
 						)}
 					</Stack>
+
+					<Box component="div" className={'user-stats'}>
+						{user?.memberType === 'AGENT' && (
+							<Box component="div" className={'stat-item'}>
+								<WeekendIcon className="stat-icon" />
+								<Typography className={'stat-number'}>{user?.memberProperties || 0}</Typography>
+								<Typography className={'stat-label'}>Furniture</Typography>
+							</Box>
+						)}
+
+						<Box component="div" className={'stat-item'}>
+							<ArticleIcon className={'stat-icon'} />
+							<Typography className={'stat-number'}>{user?.memberArticles || 0}</Typography>
+							<Typography className={'stat-label'}>Articles</Typography>
+						</Box>
+
+						<Box component="div" className={'stat-item'}>
+							<GroupIcon className={'stat-icon'} />
+							<Typography className={'stat-number'}>{user?.memberFollowers || 0}</Typography>
+							<Typography className={'stat-label'}>Followers</Typography>
+						</Box>
+
+						<Box component="div" className={'stat-item'}>
+							<PersonAddIcon className={'stat-icon'} />
+							<Typography className={'stat-number'}>{user?.memberFollowings || 0}</Typography>
+							<Typography className={'stat-label'}>Following</Typography>
+						</Box>
+
+						<Box component="div" className={'stat-item'}>
+							<FavoriteIcon className={'stat-icon'} />
+							<Typography className={'stat-number'}>{user?.memberLikes || 0}</Typography>
+							<Typography className={'stat-label'}>Likes</Typography>
+						</Box>
+					</Box>
 				</Stack>
+
 				<Stack className={'sections'}>
 					<Stack className={'section'} style={{ height: user.memberType === 'AGENT' ? '228px' : '153px' }}>
 						<Typography className="title" variant={'h5'}>
@@ -80,7 +122,7 @@ const MyMenu = () => {
 													Add Property
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '40px' }}>
-													<PortraitIcon style={{ color: 'red' }} />
+													<PortraitIcon style={{ color: '#ff9736' }} />
 												</IconButton>
 											</div>
 										</Link>
@@ -103,13 +145,65 @@ const MyMenu = () => {
 													My Properties
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '36px' }}>
-													<PortraitIcon style={{ color: 'red' }} />
+													<PortraitIcon style={{ color: '#ff9736' }} />
 												</IconButton>
 											</div>
 										</Link>
 									</ListItem>
 								</>
 							)}
+
+							{user.memberType === 'TECHNICIAN' && (
+								<>
+									<ListItem className={pathname === 'addRepairProperty' ? 'focus' : ''}>
+										<Link
+											href={{
+												pathname: '/mypage',
+												query: { category: 'addRepairProperty' },
+											}}
+											scroll={false}
+										>
+											<div className={'flex-box'}>
+												{category === 'addRepairProperty' ? (
+													<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} />
+												) : (
+													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
+												)}
+												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+													Add Repair
+												</Typography>
+												<IconButton aria-label="delete" sx={{ ml: '40px' }}>
+													<PortraitIcon style={{ color: '#ff9736' }} />
+												</IconButton>
+											</div>
+										</Link>
+									</ListItem>
+									<ListItem className={pathname === 'myRepairProperty' ? 'focus' : ''}>
+										<Link
+											href={{
+												pathname: '/mypage',
+												query: { category: 'myRepairProperty' }, // 's' ni olib tashlang
+											}}
+											scroll={false}
+										>
+											<div className={'flex-box'}>
+												{category === 'myRepairProperty' ? ( // Bu ham 's' siz
+													<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} />
+												) : (
+													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
+												)}
+												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+													My Repair
+												</Typography>
+												<IconButton aria-label="delete" sx={{ ml: '36px' }}>
+													<PortraitIcon style={{ color: '#ff9736' }} />
+												</IconButton>
+											</div>
+										</Link>
+									</ListItem>
+								</>
+							)}
+
 							<ListItem className={pathname === 'myFavorites' ? 'focus' : ''}>
 								<Link
 									href={{
@@ -131,6 +225,7 @@ const MyMenu = () => {
 									</div>
 								</Link>
 							</ListItem>
+
 							<ListItem className={pathname === 'recentlyVisited' ? 'focus' : ''}>
 								<Link
 									href={{
@@ -152,6 +247,7 @@ const MyMenu = () => {
 									</div>
 								</Link>
 							</ListItem>
+
 							<ListItem className={pathname === 'followers' ? 'focus' : ''}>
 								<Link
 									href={{
@@ -175,21 +271,21 @@ const MyMenu = () => {
 												<path
 													id="XMLID_351_"
 													d="M52.25,64.001c0,34.601,28.149,62.749,62.75,62.749c34.602,0,62.751-28.148,62.751-62.749
-		S149.602,1.25,115,1.25C80.399,1.25,52.25,29.4,52.25,64.001z"
+			S149.602,1.25,115,1.25C80.399,1.25,52.25,29.4,52.25,64.001z"
 												/>
 												<path
 													id="XMLID_352_"
 													d="M217.394,262.357c2.929,2.928,6.768,4.393,10.606,4.393c3.839,0,7.678-1.465,10.607-4.394
-		c5.857-5.858,5.857-15.356-0.001-21.214l-19.393-19.391l19.395-19.396c5.857-5.858,5.857-15.356-0.001-21.214
-		c-5.858-5.857-15.356-5.856-21.214,0.001l-30,30.002c-2.813,2.814-4.393,6.629-4.393,10.607c0,3.979,1.58,7.794,4.394,10.607
-		L217.394,262.357z"
+			c5.857-5.858,5.857-15.356-0.001-21.214l-19.393-19.391l19.395-19.396c5.857-5.858,5.857-15.356-0.001-21.214
+			c-5.858-5.857-15.356-5.856-21.214,0.001l-30,30.002c-2.813,2.814-4.393,6.629-4.393,10.607c0,3.979,1.58,7.794,4.394,10.607
+			L217.394,262.357z"
 												/>
 												<path
 													id="XMLID_439_"
 													d="M15,286.75h125.596c19.246,24.348,49.031,40,82.404,40c57.896,0,105-47.103,105-105
-		c0-57.896-47.104-105-105-105c-34.488,0-65.145,16.716-84.297,42.47c-7.764-1.628-15.695-2.47-23.703-2.47
-		c-63.411,0-115,51.589-115,115C0,280.034,6.716,286.75,15,286.75z M223,146.75c41.355,0,75,33.645,75,75s-33.645,75-75,75
-		s-75-33.645-75-75S181.644,146.75,223,146.75z"
+			c0-57.896-47.104-105-105-105c-34.488,0-65.145,16.716-84.297,42.47c-7.764-1.628-15.695-2.47-23.703-2.47
+			c-63.411,0-115,51.589-115,115C0,280.034,6.716,286.75,15,286.75z M223,146.75c41.355,0,75,33.645,75,75s-33.645,75-75,75
+			s-75-33.645-75-75S181.644,146.75,223,146.75z"
 												/>
 											</g>
 										</svg>
@@ -199,6 +295,7 @@ const MyMenu = () => {
 									</div>
 								</Link>
 							</ListItem>
+
 							<ListItem className={pathname === 'followings' ? 'focus' : ''}>
 								<Link
 									href={{
@@ -222,21 +319,21 @@ const MyMenu = () => {
 												<path
 													id="XMLID_337_"
 													d="M177.75,64.001C177.75,29.4,149.601,1.25,115,1.25c-34.602,0-62.75,28.15-62.75,62.751
-		S80.398,126.75,115,126.75C149.601,126.75,177.75,98.602,177.75,64.001z"
+			S80.398,126.75,115,126.75C149.601,126.75,177.75,98.602,177.75,64.001z"
 												/>
 												<path
 													id="XMLID_338_"
 													d="M228.606,181.144c-5.858-5.857-15.355-5.858-21.214-0.001c-5.857,5.857-5.857,15.355,0,21.214
-		l19.393,19.396l-19.393,19.391c-5.857,5.857-5.857,15.355,0,21.214c2.93,2.929,6.768,4.394,10.607,4.394
-		c3.838,0,7.678-1.465,10.605-4.393l30-29.998c2.813-2.814,4.395-6.629,4.395-10.607c0-3.978-1.58-7.793-4.394-10.607
-		L228.606,181.144z"
+			l19.393,19.396l-19.393,19.391c-5.857,5.857-5.857,15.355,0,21.214c2.93,2.929,6.768,4.394,10.607,4.394
+			c3.838,0,7.678-1.465,10.605-4.393l30-29.998c2.813-2.814,4.395-6.629,4.395-10.607c0-3.978-1.58-7.793-4.394-10.607
+			L228.606,181.144z"
 												/>
 												<path
 													id="XMLID_340_"
 													d="M223,116.75c-34.488,0-65.145,16.716-84.298,42.47c-7.763-1.628-15.694-2.47-23.702-2.47
-		c-63.412,0-115,51.589-115,115c0,8.284,6.715,15,15,15h125.596c19.246,24.348,49.03,40,82.404,40c57.896,0,105-47.103,105-105
-		C328,163.854,280.896,116.75,223,116.75z M223,296.75c-41.356,0-75-33.645-75-75s33.644-75,75-75c41.354,0,75,33.645,75,75
-		S264.354,296.75,223,296.75z"
+			c-63.412,0-115,51.589-115,115c0,8.284,6.715,15,15,15h125.596c19.246,24.348,49.03,40,82.404,40c57.896,0,105-47.103,105-105
+			C328,163.854,280.896,116.75,223,116.75z M223,296.75c-41.356,0-75-33.645-75-75s33.644-75,75-75c41.354,0,75,33.645,75,75
+			S264.354,296.75,223,296.75z"
 												/>
 											</g>
 										</svg>
@@ -249,7 +346,8 @@ const MyMenu = () => {
 							</ListItem>
 						</List>
 					</Stack>
-					<Stack className={'section'} sx={{ marginTop: '10px' }}>
+
+					<Stack className={'section'} sx={{ marginTop: user.memberType === 'TECHNICIAN' ? '80px' : '10px' }}>
 						<div>
 							<Typography className="title" variant={'h5'}>
 								Community
@@ -299,7 +397,7 @@ const MyMenu = () => {
 							</List>
 						</div>
 					</Stack>
-					<Stack className={'section'} sx={{ marginTop: '30px' }}>
+					<Stack className={'section'} sx={{ marginTop: '-120px' }}>
 						<Typography className="title" variant={'h5'}>
 							MANAGE ACCOUNT
 						</Typography>
@@ -312,13 +410,12 @@ const MyMenu = () => {
 									}}
 									scroll={false}
 								>
-									<div className={'flex-box'}>
-										{category === 'myProfile' ? (
-											<img className={'com-icon'} src={'/img/icons/userWhite.svg'} alt={'com-icon'} />
-										) : (
-											<img className={'com-icon'} src={'/img/icons/user.svg'} alt={'com-icon'} />
-										)}
-										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+									<div className="flex-box">
+										<AccountCircleOutlinedIcon
+											className="com-icon"
+											style={{ color: category === 'myProfile' ? '#fff' : '#000' }}
+										/>
+										<Typography className="sub-title" variant="subtitle1" component="p">
 											My Profile
 										</Typography>
 									</div>

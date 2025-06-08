@@ -14,6 +14,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 interface PropertyBigCardProps {
 	property: Property;
 	likePropertyHandler?: any;
+  myFavorites?: boolean;
 }
 
 const PropertyBigCard = (props: PropertyBigCardProps) => {

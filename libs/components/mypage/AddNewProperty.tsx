@@ -561,6 +561,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 						</Stack>
 					</Stack>
 				</div>
+				
 			</div>
 		);
 	}

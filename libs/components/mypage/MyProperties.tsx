@@ -40,6 +40,8 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 		},
 	});
 
+
+	
 	/** HANDLERS **/
 	const paginationHandler = (e: T, value: number) => {
 		setSearchFilter({ ...searchFilter, page: value });
@@ -125,10 +127,19 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 						</Stack>
 
 						{agentProperties?.length === 0 ? (
-							<div className={'no-data'}>
-								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Property found!</p>
-							</div>
+							<div
+							className="no-data"
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								marginLeft: '250px',
+								marginTop: '58px',
+							}}
+						>
+							<img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} />
+								<p style={{ fontSize: '18px', color: '#555', marginTop: '8px', 	marginLeft: '45px' }}>No Articles found!</p>
+						</div>
 						) : (
 							agentProperties.map((property: Property) => {
 								return (
@@ -157,6 +168,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 								</Stack>
 							</Stack>
 						)}
+						
 					</Stack>
 				</Stack>
 			</div>
@@ -167,7 +179,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 MyProperties.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 5,
+		limit: 4,
 		sort: 'createdAt',
 		search: {
 			propertyStatus: 'ACTIVE',

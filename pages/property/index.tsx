@@ -415,6 +415,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									</Stack>
 								)}
 							</Stack>
+							
 						</Stack>
 					</Stack>
 				</div>

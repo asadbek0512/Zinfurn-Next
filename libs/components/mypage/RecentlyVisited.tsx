@@ -5,8 +5,12 @@ import { Pagination, Stack, Typography } from '@mui/material';
 import PropertyCard from '../property/PropertyCard';
 import { Property } from '../../types/property/property';
 import { T } from '../../types/common';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { GET_VISITED } from '../../../apollo/user/query';
+import TrendPropertyCard from '../homepage/TrendPropertyCard';
+import { Messages } from '../../config';
+import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+import { sweetMixinErrorAlert } from '../../sweetAlert';
 
 const RecentlyVisited: NextPage = () => {
 	const device = useDeviceDetect();
@@ -15,6 +19,7 @@ const RecentlyVisited: NextPage = () => {
 	const [searchVisited, setSearchVisited] = useState<T>({ page: 1, limit: 6 });
 
 	/** APOLLO REQUESTS **/
+	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
 
 	const {
 		loading: getVisitedLoading,
@@ -37,6 +42,24 @@ const RecentlyVisited: NextPage = () => {
 		setSearchVisited({ ...searchVisited, page: value });
 	};
 
+	const likePropertyHandler = async (user: any, id: string) => {
+		try {
+			if (!id) return;
+			if (!user?._id) throw new Error(Messages.error2);
+
+			await likeTargetProperty({
+				variables: {
+					input: id,
+				},
+			});
+
+			await getVisitedRefetch({ input: searchVisited });
+		} catch (err: any) {
+			console.log('ERROR, likePropertyHandler:', err.message);
+			await sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
 	if (device === 'mobile') {
 		return <div>NESTAR MY FAVORITES MOBILE</div>;
 	} else {
@@ -51,12 +74,21 @@ const RecentlyVisited: NextPage = () => {
 				<Stack className="favorites-list-box">
 					{recentlyVisited?.length ? (
 						recentlyVisited?.map((property: Property) => {
-							return <PropertyCard property={property} recentlyVisited={true} />;
+							return <TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} recentlyVisited={true} />;
 						})
 					) : (
-						<div className={'no-data'}>
-							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Recently Visited Properties found!</p>
+						<div
+							className="no-data"
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								marginLeft: '250px',
+								marginTop: '58px',
+							}}
+						>
+							<img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} />
+								<p style={{ fontSize: '18px', color: '#555', marginTop: '8px', 	marginLeft: '45px' }}>No Articles found!</p>
 						</div>
 					)}
 				</Stack>

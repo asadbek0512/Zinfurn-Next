@@ -103,6 +103,7 @@ mutation UpdateMember($input: MemberUpdate!) {
         createdAt
         updatedAt
         accessToken
+        memberEmail
     }
 }
 
@@ -426,4 +427,66 @@ mutation LikeTargetRepairProperty($input: String!) {
         createdAt
     }
 }
+`;
+
+
+
+export const GET_TECHNICIAN_PROPERTIES = gql`
+query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
+    getTechnicianProperties(input: $input) {
+        list {
+            _id
+            repairPropertyType
+            repairPropertyStatus
+            repairPropertyAddress
+            repairPropertyDescription
+            repairPropertyImages
+            repairPropertyViews
+            repairPropertyLikes
+            repairPropertyComments
+            memberId
+            deletedAt
+            constructedAt
+            createdAt
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+            memberData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberProperties
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberWarnings
+                memberBlocks
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
+
+ 
+
 `;

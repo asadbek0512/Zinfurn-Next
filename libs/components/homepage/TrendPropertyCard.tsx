@@ -11,6 +11,8 @@ import { userVar } from '../../../apollo/store';
 interface TrendPropertyCardProps {
 	property: Property;
 	likePropertyHandler: (user: any, propertyId: string) => void;
+  myFavorites?: boolean;
+	recentlyVisited?: boolean;
 }
 
 const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardProps) => {
@@ -55,10 +57,6 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 			<Box className="product-info-container" component="div">
 				<Box className="title-views-container" component="div">
 					<Typography className="product-title">{property.propertyTitle}</Typography>
-					<Box className="views-container" component="div">
-						{/* <RemoveRedEyeIcon className="views-icon" /> */}
-						{/* <Typography className="views-count">{property.propertyViews || 0}</Typography> */}
-					</Box>
 				</Box>
 
 				<Box className="price-like-container" component="div">

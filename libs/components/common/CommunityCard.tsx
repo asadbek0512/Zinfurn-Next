@@ -12,12 +12,13 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 interface CommunityCardProps {
+	
 	boardArticle: BoardArticle;
 	size?: string;
 	likeArticleHandler: any;
 }
 
-const CommunityCard = ({ boardArticle, size = 'normal', likeArticleHandler }: CommunityCardProps) => {
+const CommunityCard = ({ boardArticle, likeArticleHandler }: CommunityCardProps) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
