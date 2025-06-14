@@ -14,6 +14,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import Footer from '../Footer';
 import HeaderFilter from '../homepage/HeaderFilter';
+import HeroSection from '../common/HeroSection';
 
 const withLayoutMain = (Component: any) => {
 	return (props: any) => {
@@ -55,7 +56,7 @@ const withLayoutMain = (Component: any) => {
 				<>
 					<Head>
 						<title>Zinfurn</title>
-						<meta name={'title'} content={`Nestar`} />
+						<meta name={'title'} content={`Zinfurn`} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>
@@ -64,6 +65,7 @@ const withLayoutMain = (Component: any) => {
 
 						<Stack className={'header-main'}>
 							<FiberContainer />
+							<HeroSection />
 							<Stack className={'container'}>
 								<HeaderFilter />
 							</Stack>

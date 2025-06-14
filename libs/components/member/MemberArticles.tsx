@@ -79,39 +79,53 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 	} else {
 		return (
 			<div id="member-articles-page">
-				<Stack className="main-title-box">
+			<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">Articles</Typography>
+						<Typography className="main-title">Article</Typography>
 					</Stack>
 				</Stack>
-				<Stack className="articles-list-box">
-					{memberBoArticles?.length === 0 && (
-						<div className={'no-data'}>
-							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Articles found!</p>
+				<Stack className="article-list-box">
+					{memberBoArticles?.length > 0 ? (
+						memberBoArticles?.map((boardArticle: BoardArticle) => {
+							return (
+								<CommunityCard
+									boardArticle={boardArticle}
+									key={boardArticle?._id}
+									size={'small'}
+									likeArticleHandler={likeArticleHandler}
+								/>
+							);
+						})
+					) : (
+						<div
+							className="no-data"
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								marginLeft: '250px',
+								marginTop: '58px',
+							}}
+						>
+							<img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} />
+								<p style={{ fontSize: '18px', color: '#555', marginTop: '8px', 	marginLeft: '45px' }}>No Articles found!</p>
 						</div>
 					)}
-					{memberBoArticles?.map((boardArticle: BoardArticle) => {
-						return <CommunityCard 
-						boardArticle={boardArticle} 
-						likeArticleHandler={likeArticleHandler}
-						key={boardArticle?._id} 
-						size={'small'} />;
-					})}
 				</Stack>
-				{memberBoArticles?.length !== 0 && (
+
+				{memberBoArticles?.length > 0 && (
 					<Stack className="pagination-config">
 						<Stack className="pagination-box">
 							<Pagination
-								count={Math.ceil(total / searchFilter.limit) || 1}
+								count={Math.ceil(total / searchFilter.limit)}
 								page={searchFilter.page}
 								shape="circular"
 								color="primary"
 								onChange={paginationHandler}
 							/>
 						</Stack>
-						<Stack className="total-result">
-							<Typography>{total} property available</Typography>
+						<Stack className="total">
+							<Typography>Total {total ?? 0} article(s) available</Typography>
 						</Stack>
 					</Stack>
 				)}

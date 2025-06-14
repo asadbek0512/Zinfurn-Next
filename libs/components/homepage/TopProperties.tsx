@@ -31,6 +31,7 @@ interface ProductCardProps {
 const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	const [isHovered, setIsHovered] = useState(false);
 
 	const pushDetailHandler = (id: string) => {
 		router.push({ pathname: '/property/detail', query: { id } });
@@ -41,14 +42,25 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
 			: 0;
 
+	// Hover qilganda 2-chi rasm, aks holda 1-chi rasm
+	const backgroundImage = isHovered && property?.propertyImages?.[1]
+		? `url(${REACT_APP_API_URL}/${property.propertyImages[1]})`
+		: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`;
+
 	return (
-		<Box component="div" className="product-card">
+		<Box 
+			component="div" 
+			className="product-card"
+			onMouseEnter={() => setIsHovered(true)}
+			onMouseLeave={() => setIsHovered(false)}
+		>
 			<Box component="div" className="product-image-container" onClick={() => pushDetailHandler(property._id)}>
 				<Box
 					component="div"
 					className="product-image"
 					sx={{
-						backgroundImage: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`,
+						backgroundImage: backgroundImage,
+						transition: 'background-image 0.3s ease-in-out'
 					}}
 				/>
 				<Box component="div" className="top-badges">

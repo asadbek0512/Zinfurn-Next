@@ -9,75 +9,95 @@ import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
 import FlashSaleCards from './PopularPropertyCard';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 interface FlashSaleProps {
-	initialInput: PropertiesInquiry;
+    initialInput: PropertiesInquiry;
 }
 
 const FlashSale = (props: FlashSaleProps) => {
-	const { initialInput } = props;
-	const [flashSaleProperties, setFlashSaleProperties] = useState<Property[]>([]);
+    const { initialInput } = props;
+    const device = useDeviceDetect();
+    const [flashSaleProperties, setFlashSaleProperties] = useState<Property[]>([]);
 
-	/** APOLLO REQUESTS **/
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+    /** APOLLO REQUESTS **/
+    const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
 
-	// Flash sale uchun filter - faqat sale bo'lgan propertylar
-	const saleInput = {
-		...initialInput,
-		search: {
-			...initialInput.search,
-			propertyIsOnSale: true,
-		},
-	};
+    const {
+        loading: getPropertiesLoading,
+        data: getPropertiesData,
+        error: getPropertiesError,
+        refetch: getPropertiesRefetch,
+    } = useQuery(GET_PROPERTIES, {
+        fetchPolicy: 'cache-and-network',
+        variables: { input: initialInput },
+        notifyOnNetworkStatusChange: true,
+        onCompleted: (data: T) => {
+            console.log('FlashSale - Query completed:', data);
+            console.log('FlashSale - Properties list:', data?.getProperties?.list);
+            setFlashSaleProperties(data?.getProperties?.list);
+        },
+        onError: (error) => {
+            console.log('FlashSale - Query error:', error);
+        }
+    });
 
-	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
-	} = useQuery(GET_PROPERTIES, {
-		fetchPolicy: 'cache-and-network',
-		variables: { input: saleInput },
-		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setFlashSaleProperties(data?.getProperties?.list);
-		},
-	});
+    /** HANDLERS **/
+    const likePropertyHandler = async (user: T, id: string) => {
+        try {
+            if (!id) return;
+            if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+            
+            // Execute likeTargetProperty Mutation
+            await likeTargetProperty({ variables: { input: id } });
+            
+            // Execute getPropertiesRefetch
+            await getPropertiesRefetch({ input: initialInput });
+            await sweetTopSmallSuccessAlert('success', 800);
+        } catch (err: any) {
+            console.log('ERROR, likePropertyHandler', err.message);
+            sweetMixinErrorAlert(err.message).then();
+        }
+    };
 
-	/** HANDLERS **/
-	const likePropertyHandler = async (user: T, id: string) => {
-		try {
-			if (!id) return;
-			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+    // Debug logs
+    console.log('FlashSale - initialInput:', initialInput);
+    console.log('FlashSale - flashSaleProperties:', flashSaleProperties);
+    console.log('FlashSale - loading:', getPropertiesLoading);
+    console.log('FlashSale - error:', getPropertiesError);
 
-			// Execute likeTargetProperty Mutation
-			await likeTargetProperty({ variables: { input: id } });
+    if (getPropertiesError) {
+        console.error('FlashSale GraphQL Error:', getPropertiesError);
+        return (
+            <Box component={'div'} style={{ padding: '20px', color: 'red' }}>
+                Error loading flash sale properties: {getPropertiesError.message}
+            </Box>
+        );
+    }
 
-			// Execute getPropertiesRefetch
-			await getPropertiesRefetch({ input: saleInput });
+    if (getPropertiesLoading) {
+        return (
+            <Box component={'div'} style={{ padding: '20px' }}>
+                Loading flash sale properties...
+            </Box>
+        );
+    }
 
-			await sweetTopSmallSuccessAlert('success', 800);
-		} catch (err: any) {
-			console.log('ERROR, likePropertyHandler', err.message);
-			sweetMixinErrorAlert(err.message).then();
-		}
-	};
-
-	return (
-		<Box component={'div'}>
-			<FlashSaleCards properties={flashSaleProperties} likePropertyHandler={likePropertyHandler} />
-		</Box>
-	);
+    return (
+        <Box component={'div'}>
+            <FlashSaleCards properties={flashSaleProperties} likePropertyHandler={likePropertyHandler} />
+        </Box>
+    );
 };
 
 FlashSale.defaultProps = {
-	initialInput: {
-		page: 1,
-		limit: 8,
-		sort: 'propertyLikes',
-		direction: 'DESC',
-		search: {},
-	},
+    initialInput: {
+        page: 1,
+        limit: 6,
+				sort: 'createdAt',     
+        direction: 'DESC',
+        search: {},
+    },
 };
 
 export default FlashSale;

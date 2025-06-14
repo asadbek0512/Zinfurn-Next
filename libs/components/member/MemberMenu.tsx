@@ -60,8 +60,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 						</Box>
 						<Typography className={'view-list'}>{member?.memberType}</Typography>
 					</Stack>
-				</Stack>
-				<Stack className="follow-button-box">
+					<Stack className="follow-button-box">
 					{member?.meFollowed && member?.meFollowed[0]?.myFollowing ? (
 						<>
 							<Button
@@ -83,6 +82,9 @@ const MemberMenu = (props: MemberMenuProps) => {
 						</Button>
 					)}
 				</Stack>
+				</Stack>
+			
+				
 				<Stack className={'sections'}>
 					<Stack className={'section'}>
 						<Typography className="title" variant={'h5'}>

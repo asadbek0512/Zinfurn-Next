@@ -65,7 +65,7 @@ const MyMenu = () => {
 						{user?.memberType === 'AGENT' && (
 							<Box component="div" className={'stat-item'}>
 								<WeekendIcon className="stat-icon" />
-								<Typography className={'stat-number'}>{user?.memberProperties || 0}</Typography>
+								<Typography className={'stat-number'}>{user?.memberProperties }</Typography>
 								<Typography className={'stat-label'}>Furniture</Typography>
 							</Box>
 						)}

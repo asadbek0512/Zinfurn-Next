@@ -74,13 +74,13 @@
 						cursor: pointer;
 						transition: background-color 0.2s;
 
-						background-color: #035304;
-						color: #fff;
+						// background-color: #035304;
+						color: #000000;
 						left: 25px;
 						box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-						&:hover {
-							background-color: #014c05;
-						}
+						// &:hover {
+						// 	// background-color: #014c05;
+						// }
 					}
 
 					.next-button {
@@ -93,13 +93,13 @@
 						cursor: pointer;
 						transition: background-color 0.2s;
 
-						background-color: #fc6202;
+						// background-color: #fc6202;
 						color: black;
 						right: 25px;
 						box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-						&:hover {
-							background-color: #fe6f16;
-						}
+						// &:hover {
+						// 	background-color: #fe6f16;
+						// }
 					}
 				}
 

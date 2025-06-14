@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Stack, Typography, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
@@ -11,13 +11,14 @@ import { userVar } from '../../../apollo/store';
 interface TrendPropertyCardProps {
 	property: Property;
 	likePropertyHandler: (user: any, propertyId: string) => void;
-  myFavorites?: boolean;
+	myFavorites?: boolean;
 	recentlyVisited?: boolean;
 }
 
 const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardProps) => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	const [isHovered, setIsHovered] = useState(false);
 
 	const pushDetailHandler = (id: string) => {
 		router.push({ pathname: '/property/detail', query: { id } });
@@ -28,14 +29,25 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
 			: 0;
 
+	// Hover qilganda 2-chi rasm, aks holda 1-chi rasm
+	const backgroundImage = isHovered && property?.propertyImages?.[1]
+		? `url(${REACT_APP_API_URL}/${property.propertyImages[1]})`
+		: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`;
+
 	return (
-		<Box className="product-card" component="div">
+		<Box 
+			className="product-card" 
+			component="div"
+			onMouseEnter={() => setIsHovered(true)}
+			onMouseLeave={() => setIsHovered(false)}
+		>
 			<Box className="product-image-container" component="div" onClick={() => pushDetailHandler(property._id)}>
 				<Box
 					className="product-image"
 					component="div"
 					sx={{
-						backgroundImage: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`,
+						backgroundImage: backgroundImage,
+						transition: 'background-image 0.3s ease-in-out'
 					}}
 				/>
 

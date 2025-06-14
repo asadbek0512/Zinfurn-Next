@@ -105,7 +105,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 MyProperties.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 5,
+		limit: 3,
 		sort: 'createdAt',
 		search: {
 			memberId: '',

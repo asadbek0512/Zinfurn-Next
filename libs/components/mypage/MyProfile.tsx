@@ -10,6 +10,8 @@ import { userVar } from '../../../apollo/store';
 import { MemberUpdate } from '../../types/member/member.update';
 import { UPDATE_MEMBER } from '../../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinSuccessAlert } from '../../sweetAlert';
+import EditIcon from "@mui/icons-material/Edit";
+
 
 const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -127,30 +129,32 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 				<Stack className="top-box">
 					<Stack className="photo-box">
 						<Typography className="title">Photo</Typography>
-						<Stack className="image-big-box">
-							<Stack className="image-box">
+
+						<Stack className="image-wrapper">
+							<Stack className="image-container">
 								<img
 									src={
 										updateData?.memberImage
 											? `${REACT_APP_API_URL}/${updateData?.memberImage}`
 											: `/img/profile/defaultUser.svg`
 									}
-									alt=""
+									alt="Profile"
 								/>
-							</Stack>
-							<Stack className="upload-big-box">
+
+								<label htmlFor="hidden-input" className="edit-icon">
+									<EditIcon style={{ fontSize: 18, color: '#fff' }} />
+								</label>
+
 								<input
 									type="file"
-									hidden
 									id="hidden-input"
-									onChange={uploadImage}
+									hidden
 									accept="image/jpg, image/jpeg, image/png"
+									onChange={uploadImage}
 								/>
-								<label htmlFor="hidden-input" className="labeler">
-									<Typography>Upload Profile Image</Typography>
-								</label>
-								<Typography className="upload-text">A photo must be in JPG, JPEG or PNG format!</Typography>
 							</Stack>
+
+							<Typography className="upload-text">A photo must be in JPG, JPEG or PNG format!</Typography>
 						</Stack>
 					</Stack>
 

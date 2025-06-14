@@ -37,7 +37,6 @@
 @import '/scss/pc/repairService/repairService.scss';
 @import '/scss/pc/repairService/detail.scss';
 
-
 body {
 	-ms-overflow-style: none;
 	/* for Internet Explorer, Edge */
@@ -58,25 +57,37 @@ body::-webkit-scrollbar {
 				position: fixed;
 				padding: 22px 0px;
 				width: 100%;
-				height: 75px;
+				height: 80px;
 				display: flex;
 				flex-direction: row;
 				box-sizing: border-box;
+				// background-color: #f8f7f4;
 				z-index: 99;
 				align-items: center;
-				background-color: #f8f7f4;
 				border-top: 1px solid rgba(255, 255, 255, 0.07);
+
 				&.transparent {
 					background-color: #f8f7f4;
-
-					// opacity: 0.8;
+					opacity: 0.9;
+					// Barcha ichki elementlarning rangini o'zgartiramiz
+					.router-box div,
+					.join-box span,
+					.join-box svg,
+					.notification-icon {
+						color: #3c3c3c !important;
+					}
 				}
+
 				.container {
 					flex-direction: row;
 					align-items: center;
 					justify-content: space-between;
 					padding: 20px 24px;
+
 					.logo-box {
+						position: relative;
+						display: inline-block;
+					
 						img {
 							width: auto;
 							margin-top: -30px;
@@ -84,8 +95,33 @@ body::-webkit-scrollbar {
 							padding-left: 80px;
 							padding-right: 80px;
 							cursor: pointer;
+							transition: opacity 0.1s ease;
+						}
+					
+						.logo111 {
+							opacity: 1;
+							position: relative;
+						}
+					
+						.logo11 {
+							opacity: 0;
+							position: absolute;
+							top: 0;
+							left: 0;
+						}
+					
+						&.transparent {
+							.logo111 {
+								opacity: 0;
+							}
+					
+							.logo11 {
+								opacity: 1;
+							}
 						}
 					}
+					
+
 					.router-box {
 						padding-top: 30px;
 						margin-left: 50px;
@@ -95,18 +131,16 @@ body::-webkit-scrollbar {
 						display: flex;
 						flex-direction: row;
 						justify-content: space-between;
+
 						div {
 							position: relative;
-							color: #4c4c4ced;
+							color: #323131ed;
+							color: #ffffffed;
 							font-family: $font;
 							font-size: 18px;
-							font-style: normal;
 							font-weight: 600;
-							line-height: normal;
 							cursor: pointer;
-							// &:hover {
-							// 	color: #e06834;
-							// }
+
 							.community_menu {
 								position: absolute;
 								left: -177%;
@@ -115,6 +149,7 @@ body::-webkit-scrollbar {
 								height: 33px;
 								background: white;
 								transition: all ease 2s;
+
 								&:before {
 									content: '';
 									display: block;
@@ -123,19 +158,20 @@ body::-webkit-scrollbar {
 									right: 50%;
 									width: 10px;
 									height: 10px;
-									background: rgb(255, 255, 255);
+									background: white;
 									transform: translateY(-50%) rotate(45deg);
 									z-index: 0;
 								}
 							}
 						}
 					}
+
 					.user-box {
 						margin-right: -80px;
 						width: 270px;
 						display: flex;
-						flex-direction: row;
 						justify-content: flex-end;
+
 						.join-box {
 							width: 184px;
 							height: 47px;
@@ -145,47 +181,45 @@ body::-webkit-scrollbar {
 							border-radius: 60px;
 							border: 1px solid #646464;
 							cursor: pointer;
+
 							svg {
-								color: #777777;
+								color: #777;
 								margin-right: 10px;
 							}
+
 							span {
 								font-family: $font;
 								font-size: 14px;
-								font-style: normal;
 								font-weight: 600;
-								line-height: normal;
-								color: #ffffff;
+								color: #fff;
 							}
 						}
-						.login-user {
-							img {
-								width: 42px;
-								height: 42px;
-								border-radius: 50%;
-								object-fit: cover;
-							}
+
+						.login-user img {
+							width: 42px;
+							height: 42px;
+							border-radius: 50%;
+							object-fit: cover;
 						}
 					}
+
 					.lan-box {
 						margin-left: 8px;
 						display: flex;
 						align-items: center;
+
 						.notification-icon {
-							color: rgb(41, 41, 41);
+							color: rgb(255, 255, 255);
 						}
-						.btn-lang {
-							border-radius: 4px;
-							img {
-								width: 24px;
-								height: 17px;
-								border-radius: 2px;
-							}
-						}
+
+						.btn-lang img,
 						.img-flag {
 							width: 24px;
 							height: 17px;
 							border-radius: 2px;
+						}
+
+						.img-flag {
 							margin-right: 8px;
 						}
 					}
@@ -198,13 +232,16 @@ body::-webkit-scrollbar {
 		position: relative;
 		width: 100%;
 		height: 700px;
-		background-image: url('/img/banner/112.jpg');
+		background-image: url('/img/banner/Home-1-.jpg');
+		// background-image: url('/img/banner/112.jpg');
+
 		background-size: 100%;
 		background-repeat: no-repeat;
 
 		.container {
 			position: relative;
-			margin-top: -50px;
+			// margin-top: 50px;
+			padding-bottom: 30px;
 			flex-direction: column;
 			align-items: center;
 
@@ -272,7 +309,7 @@ body::-webkit-scrollbar {
 						align-items: center;
 						justify-content: center;
 						border-radius: 55px;
-						background: #cf6422;
+						background: #ff6b35;
 						cursor: pointer;
 
 						svg {

@@ -1,4 +1,5 @@
 {
+
   "Home": "Home",
   "Properties": "Properties",
   "Agents": "Agents",
@@ -19,5 +20,8 @@
   "my page": "my page",
   "Community Detail": "Community Detail",
   "Login/Signup": "Login/Signup",
-  "Member Page": "Member Page"
+  "Member Page": "Member Page",
+  "Repair Services": "Repair Services",
+  "We don't just build — we repair. Our skilled craftsmen bring new life to broken furniture. Explore our service page to view repaired items and find expert technicians ready to help.": "We don't just build — we repair. Our skilled craftsmen bring new life to broken furniture. Explore our service page to view repaired items and find expert technicians ready to help.",
+  "Explore Repair Service": "Explore Repair Service"
 }

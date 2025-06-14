@@ -146,6 +146,17 @@ const Top = () => {
 		}
 	};
 
+	const [isTransparent, setIsTransparent] = useState(true);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			setIsTransparent(window.scrollY < 50);
+		};
+
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
+
 	const handleNotificationClick = (event: React.MouseEvent<HTMLElement>) => {
 		setNotificationAnchor(event.currentTarget);
 	};
@@ -240,18 +251,21 @@ const Top = () => {
 								<div> {t('Service')} </div>
 							</Link>
 
-							<Link href={'/'} className={'logo-box'}>
-								<img src="/img/logo/11.png" alt="" />
+							<Link href="/" className={`logo-box ${isTransparent ? 'transparent' : ''}`}>
+								<img src="/img/logo/12.png" alt="Logo 11" className="logo11" />
+								<img src="/img/logo/11.png" alt="Logo 12" className="logo111" />
 							</Link>
 
 							<Link href={'/community?articleCategory=FREE'}>
 								<div> {t('Community')} </div>
 							</Link>
+
 							{user?._id && (
 								<Link href={'/mypage'}>
 									<div> {t('My Page')} </div>
 								</Link>
 							)}
+
 							<Link href={'/cs'}>
 								<div> {t('CS')} </div>
 							</Link>
@@ -296,7 +310,6 @@ const Top = () => {
 							)}
 
 							<div className={'lan-box'}>
-								
 								{user?._id && (
 									<>
 										<IconButton onClick={handleNotificationClick} size="small" sx={{ mr: 2 }}>

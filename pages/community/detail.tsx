@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Button, Stack, Typography, Tab, Tabs, IconButton, Backdrop, Pagination } from '@mui/material';
+import { Button, Stack, Typography, Tab, Tabs, IconButton, Backdrop, Pagination, Box } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import Moment from 'react-moment';
@@ -24,7 +24,12 @@ import { BoardArticle } from '../../libs/types/board-article/board-article';
 import { CREATE_COMMENT, LIKE_TARGET_BOARD_ARTICLE, UPDATE_COMMENT } from '../../apollo/user/mutation';
 import { GET_BOARD_ARTICLE, GET_COMMENTS } from '../../apollo/user/query';
 import { Messages } from '../../libs/config';
-import { sweetConfirmAlert, sweetMixinErrorAlert, sweetMixinSuccessAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import {
+	sweetConfirmAlert,
+	sweetMixinErrorAlert,
+	sweetMixinSuccessAlert,
+	sweetTopSmallSuccessAlert,
+} from '../../libs/sweetAlert';
 import { CommentUpdate } from '../../libs/types/comment/comment.update';
 
 const ToastViewerComponent = dynamic(() => import('../../libs/components/community/TViewer'), { ssr: false });
@@ -162,7 +167,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			await getCommentsRefetch({ input: searchFilter });
 			await boardArticleRefetch({ input: articleId });
 			setComment('');
-			await sweetMixinSuccessAlert("Successfully commented!");
+			await sweetMixinSuccessAlert('Successfully commented!');
 		} catch (error: any) {
 			await sweetMixinErrorAlert(error.message);
 		}
@@ -245,44 +250,6 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			<div id="community-detail-page">
 				<div className="container">
 					<Stack className="main-box">
-						<Stack className="left-config">
-							<Stack className={'image-info'}>
-								<img src={'/img/logo/logoText.svg'} />
-								<Stack className={'community-name'}>
-									<Typography className={'name'}>Community Board Article</Typography>
-								</Stack>
-							</Stack>
-							<Tabs
-								orientation="vertical"
-								aria-label="lab API tabs example"
-								TabIndicatorProps={{
-									style: { display: 'none' },
-								}}
-								onChange={tabChangeHandler}
-								value={articleCategory}
-							>
-								<Tab
-									value={'FREE'}
-									label={'Free Board'}
-									className={`tab-button ${articleCategory === 'FREE' ? 'active' : ''}`}
-								/>
-								<Tab
-									value={'RECOMMEND'}
-									label={'Recommendation'}
-									className={`tab-button ${articleCategory === 'RECOMMEND' ? 'active' : ''}`}
-								/>
-								<Tab
-									value={'NEWS'}
-									label={'News'}
-									className={`tab-button ${articleCategory === 'NEWS' ? 'active' : ''}`}
-								/>
-								<Tab
-									value={'HUMOR'}
-									label={'Humor'}
-									className={`tab-button ${articleCategory === 'HUMOR' ? 'active' : ''}`}
-								/>
-							</Tabs>
-						</Stack>
 						<div className="community-detail-config">
 							<Stack className="title-box">
 								<Stack className="left">
@@ -304,6 +271,9 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 								>
 									Write
 								</Button>
+							</Stack>
+							<Stack className="back-link" onClick={() => router.push('/community?articleCategory=FREE')}>
+								← Back to property
 							</Stack>
 							<div className="config">
 								<Stack className="first-box-config">
@@ -334,9 +304,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 														style={{ color: 'primary.main' }}
 													/>
 												) : (
-													<ThumbUpOffAltIcon
-														onClick={() => likeBoardArticleHandler(user, boardArticle?._id)}
-													/>
+													<ThumbUpOffAltIcon onClick={() => likeBoardArticleHandler(user, boardArticle?._id)} />
 												)}
 												<Typography className="text">{boardArticle?.articleLikes}</Typography>
 											</Stack>
@@ -364,15 +332,14 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 														style={{ color: 'primary.main' }}
 													/>
 												) : (
-													<ThumbUpOffAltIcon
-														onClick={() => likeBoardArticleHandler(user, boardArticle?._id)}
-													/>
+													<ThumbUpOffAltIcon onClick={() => likeBoardArticleHandler(user, boardArticle?._id)} />
 												)}
 												<Typography className="text">{boardArticle?.articleLikes}</Typography>
 											</Button>
 										</Stack>
 									</Stack>
 								</Stack>
+
 								<Stack
 									className="second-box-config"
 									sx={{ borderBottom: total > 0 ? 'none' : '1px solid #eee', border: '1px solid #eee' }}
@@ -395,6 +362,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										</Stack>
 									</Stack>
 								</Stack>
+
 								{total > 0 && (
 									<Stack className="comments">
 										<Typography className="comments-title">Comments</Typography>
@@ -515,15 +483,19 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										</Stack>
 									);
 								})}
+
 								{total > 0 && (
-									<Stack className="pagination-box">
-										<Pagination
-											count={Math.ceil(total / searchFilter.limit) || 1}
-											page={searchFilter.page}
-											shape="circular"
-											color="primary"
-											onChange={paginationHandler}
-										/>
+									<Stack className="pagination-config">
+										<Box component="div" className="pagination-box">
+											<Pagination
+												className="custom-pagination"
+												count={Math.ceil(total / searchFilter.limit) || 1}
+												page={searchFilter.page}
+												shape="circular"
+												color="primary"
+												onChange={paginationHandler}
+											/>
+										</Box>
 									</Stack>
 								)}
 							</div>
