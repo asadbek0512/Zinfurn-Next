@@ -50,6 +50,7 @@ import RateReviewIcon from '@mui/icons-material/RateReview';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import TrendPropertyCard from '../../libs/components/homepage/TrendPropertyCard';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -78,6 +79,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		commentContent: '',
 		commentRefId: '',
 	});
+	
+	// Zoom state
+	const [isZoomed, setIsZoomed] = useState<boolean>(false);
+	const [mousePosition, setMousePosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+	
 	const images = property?.propertyImages ?? [];
 	const currentIndex = images.indexOf(slideImage);
 
@@ -118,7 +124,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				sort: 'createdAt',
 				direction: Direction.DESC,
 				search: {
-					locationList: property?.propertyCategory ? [property?.propertyCategory] : [],
+					categoryList: property?.propertyCategory ? [property?.propertyCategory] : [],
 				},
 			},
 		},
@@ -172,6 +178,22 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
 		setSlideImage(image);
+	};
+
+	// Zoom handlers
+	const handleMouseEnter = (): void => {
+		setIsZoomed(true);
+	};
+
+	const handleMouseLeave = (): void => {
+		setIsZoomed(false);
+	};
+
+	const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>): void => {
+		const rect = e.currentTarget.getBoundingClientRect();
+		const x = ((e.clientX - rect.left) / rect.width) * 100;
+		const y = ((e.clientY - rect.top) / rect.height) * 100;
+		setMousePosition({ x, y });
 	};
 
 	const likePropertyHandler = async (user: T, id: string) => {
@@ -274,23 +296,49 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</Stack>
 							<Stack className="productGrid">
 								<Stack className="imageSection">
-									<Stack className="mainImageContainer" style={{ position: 'relative' }}>
+									<Stack className="mainImageContainer">
 										<IconButton onClick={prevImage} className="prev-button" aria-label="Previous image">
 											<ArrowBackIosIcon fontSize="small" />
 										</IconButton>
 
-										<img
-											src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
-											alt="main-image"
-											className="mainImage"
-										/>
+										<div
+											className="image-zoom-container"
+											onMouseEnter={handleMouseEnter}
+											onMouseLeave={handleMouseLeave}
+											onMouseMove={handleMouseMove}
+										>
+											<img
+												src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
+												alt="main-image"
+												className="mainImage"
+												style={{
+													transform: isZoomed ? 'scale(2)' : 'scale(1)',
+													transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
+												}}
+											/>
+
+											{/* Zoom Icon Overlay - sichqoncha bilan birga harakat qiladi */}
+											{!isZoomed && (
+												<div 
+													className="zoom-icon-overlay"
+													style={{
+														left: `${mousePosition.x}%`,
+														top: `${mousePosition.y}%`,
+														transform: 'translate(-50%, -50%)'
+													}}
+												>
+													<ZoomInIcon style={{ color: 'white', fontSize: '64px' }} />
+												</div>
+											)}
+										</div>
+
 										<IconButton onClick={nextImage} className="next-button" aria-label="Next image">
 											<ArrowForwardIosIcon fontSize="small" />
 										</IconButton>
 									</Stack>
 
 									<Stack className="thumbnailContainer">
-										{images.map((subImg) => {
+										{images.map((subImg: string) => {
 											const imagePath = `${REACT_APP_API_URL}/${subImg}`;
 											return (
 												<Stack
@@ -305,6 +353,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 								</Stack>
 
+								
 								<Stack className="productInfo">
 									<Typography className="category">{property?.propertyCategory}</Typography>
 
@@ -715,44 +764,49 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						</Stack>
 
 						{destinationProperties.length !== 0 && (
-                <Stack className="similar-properties-config">
-                  <Stack className="header-row">
-                    <Stack className="title-box">
-                      <Typography className="main-title">Similar Timepieces</Typography>
-                      <Typography className="sub-title">You may also be interested in</Typography>
-                    </Stack>
-                  </Stack>
-
-                  <div className="swiper-arrows">
-                    <WestIcon className="swiper-prev" />
-                    <EastIcon className="swiper-next" />
-                  </div>
-
-                  <div className="swiper-container">
-                    <Swiper
-                      slidesPerView="auto"
-                      spaceBetween={35}
-                      navigation={{
-                        nextEl: '.swiper-next',
-                        prevEl: '.swiper-prev',
-                      }}
-                      modules={[Navigation]}
-                    >
-                      {destinationProperties.map((property: Property) => {
-                        return (
-                          <SwiperSlide key={property.propertyCategory}>
-                            <PropertyBigCard
-                              property={property}
-                              likePropertyHandler={likePropertyHandler}
-                              key={property?._id}
-                            />
-                          </SwiperSlide>
-                        );
-                      })}
-                    </Swiper>
-                  </div>
-                </Stack>
-              )}
+							<Stack className={'similar-properties-config'}>
+								<Stack className={'title-pagination-box'}>
+									<Stack className={'title-box'}>
+										<Typography className="main-title">Destination Furniture</Typography>
+										<Typography className="sub-title">Comfort, style, and durability — all in one place</Typography>
+									</Stack>
+									<Box component={'div'} className={'right'}>
+										<div className="pagination-box">
+											<button className={'swiper-similar-prev'}>
+												<WestIcon />
+											</button>
+											<button className={'swiper-similar-next'}>
+												<EastIcon />
+											</button>
+										</div>
+									</Box>
+								</Stack>
+								<Stack className={'cards-box'}>
+									<Swiper
+										className={'similar-homes-swiper'}
+										slidesPerView={'auto'}
+										spaceBetween={35}
+										modules={[Autoplay, Navigation, Pagination]}
+										navigation={{
+											nextEl: '.swiper-similar-next',
+											prevEl: '.swiper-similar-prev',
+										}}
+									>
+										{destinationProperties.map((property: Property) => {
+											return (
+												<SwiperSlide className={'similar-homes-slide'} key={property.propertyTitle}>
+													<PropertyBigCard
+														property={property}
+														likePropertyHandler={likePropertyHandler}
+														key={property?._id}
+													/>
+												</SwiperSlide>
+											);
+										})}
+									</Swiper>
+								</Stack>
+							</Stack>
+						)}
 					</Stack>
 				</div>
 			</div>

@@ -231,17 +231,45 @@ body::-webkit-scrollbar {
 	.header-main {
 		position: relative;
 		width: 100%;
-		height: 700px;
+		height: 800px;
+		background-size: cover; // Sal kattaroq qilamiz - zoom uchun
+		// background-repeat: no-repeat;
+		// background-position: center center;
+		// overflow: hidden; // Chiqib ketgan qismlarni yashiradi
+		
+		// Standart rasm
 		background-image: url('/img/banner/Home-1-.jpg');
-		// background-image: url('/img/banner/112.jpg');
-
-		background-size: 100%;
-		background-repeat: no-repeat;
-
+		
+		// Asosiy animatsiya - zoom in/out va yumshoq o'tish
+		transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		animation: backgroundZoom 8s ease-in-out infinite alternate;
+		
+		// Dinamik class'lar - HeroSection'dan boshqariladi
+		&.slide-0 {
+			background-image: url('/img/banner/Home-1-.jpg');
+			animation: slideZoom0 0.8s ease-out forwards, backgroundZoom 8s ease-in-out 0.8s infinite alternate;
+		}
+		
+		&.slide-1 {
+			background-image: url('/img/banner/Home-2-.jpg');
+			animation: slideZoom1 0.8s ease-out forwards, backgroundZoom 8s ease-in-out 0.8s infinite alternate;
+		}
+		
+		&.slide-2 {
+			background-image: url('/img/banner/Home-3-.jpg');
+			animation: slideZoom2 0.8s ease-out forwards, backgroundZoom 8s ease-in-out 0.8s infinite alternate;
+		}
+		
+		// Overlay gradient - rasimni yanada chiroyli qilish uchun
+		
+		
+		// Shimmer effect - premium ko'rinish uchun
+		
+		
 		.container {
 			position: relative;
-			// margin-top: 50px;
-			padding-bottom: 30px;
+			// margin-top: -80px;
+			padding-bottom: 60px;
 			flex-direction: column;
 			align-items: center;
 

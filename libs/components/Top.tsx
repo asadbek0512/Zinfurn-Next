@@ -37,6 +37,7 @@ const Top = () => {
 	const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
 	const [notificationAnchor, setNotificationAnchor] = React.useState<null | HTMLElement>(null);
 	const notificationOpen = Boolean(notificationAnchor);
+	const [isTransparent, setIsTransparent] = useState(true);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -48,15 +49,41 @@ const Top = () => {
 		}
 	}, [router]);
 
+	// Birlashtirgan navbar scroll logic
 	useEffect(() => {
-		switch (router.pathname) {
-			case '/property/detail':
-				setBgColor(true);
-				break;
-			default:
-				break;
-		}
-	}, [router]);
+		const checkInitialState = () => {
+			const isDetailPage =
+				router.pathname === '/property/detail' ||
+				router.pathname === '/repairService/detail' ||
+				router.pathname === '/account/join';
+			const scrolled = window.scrollY >= 50;
+
+			setColorChange(scrolled || isDetailPage);
+			setIsTransparent(!isDetailPage && !scrolled);
+			setBgColor(isDetailPage);
+		};
+
+		const handleScroll = () => {
+			const isDetailPage =
+				router.pathname === '/property/detail' ||
+				router.pathname === '/repairService/detail' ||
+				router.pathname === '/account/join';
+			const scrolled = window.scrollY >= 50;
+
+			setColorChange(scrolled || isDetailPage);
+			setIsTransparent(!isDetailPage && !scrolled);
+		};
+
+		// Darhol tekshirish (route o'zgarishida)
+		checkInitialState();
+
+		// Scroll listener qo'shish
+		window.addEventListener('scroll', handleScroll);
+
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
+	}, [router.pathname]);
 
 	useEffect(() => {
 		const jwt = getJwtToken();
@@ -126,14 +153,6 @@ const Top = () => {
 		[router],
 	);
 
-	const changeNavbarColor = () => {
-		if (window.scrollY >= 50) {
-			setColorChange(true);
-		} else {
-			setColorChange(false);
-		}
-	};
-
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
@@ -145,17 +164,6 @@ const Top = () => {
 			setAnchorEl(null);
 		}
 	};
-
-	const [isTransparent, setIsTransparent] = useState(true);
-
-	useEffect(() => {
-		const handleScroll = () => {
-			setIsTransparent(window.scrollY < 50);
-		};
-
-		window.addEventListener('scroll', handleScroll);
-		return () => window.removeEventListener('scroll', handleScroll);
-	}, []);
 
 	const handleNotificationClick = (event: React.MouseEvent<HTMLElement>) => {
 		setNotificationAnchor(event.currentTarget);
@@ -206,10 +214,6 @@ const Top = () => {
 			},
 		},
 	}));
-
-	if (typeof window !== 'undefined') {
-		window.addEventListener('scroll', changeNavbarColor);
-	}
 
 	if (device == 'mobile') {
 		return (

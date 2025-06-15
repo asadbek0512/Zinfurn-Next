@@ -130,7 +130,23 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 					input: repairPropertyData,
 				},
 			});
+			
+			// State ni tozalash
+			setRepairPropertyData({
+			// @ts-ignore
+				repairPropertyType: '', // birinchi enum qiymatini olish
+				repairPropertyAddress: '',
+				repairPropertyDescription: '',
+				repairPropertyImages: [],
+			});
+			
+			// Input ref ni tozalash
+			if (inputRef.current) {
+				inputRef.current.value = '';
+			}
+			
 			await sweetMixinSuccessAlert('Repair property created successfully.');
+			
 			await router.push({
 				pathname: '/mypage',
 				query: {
@@ -140,7 +156,7 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
 		}
-	}, [repairPropertyData ]);
+	}, [repairPropertyData]);
 
 	if (user?.memberType !== 'TECHNICIAN') {
 		router.back();

@@ -16,6 +16,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import GroupIcon from '@mui/icons-material/Group';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import HandymanIcon from '@mui/icons-material/Handyman';
 
 const MyMenu = () => {
 	const device = useDeviceDetect();
@@ -65,8 +66,16 @@ const MyMenu = () => {
 						{user?.memberType === 'AGENT' && (
 							<Box component="div" className={'stat-item'}>
 								<WeekendIcon className="stat-icon" />
-								<Typography className={'stat-number'}>{user?.memberProperties }</Typography>
+								<Typography className={'stat-number'}>{user?.memberProperties}</Typography>
 								<Typography className={'stat-label'}>Furniture</Typography>
+							</Box>
+						)}
+
+						{user?.memberType === 'TECHNICIAN' && (
+							<Box component="div" className={'stat-item'}>
+								<HandymanIcon className="stat-icon" />
+								<Typography className={'stat-number'}>{user?.memberProperties}</Typography>
+								<Typography className={'stat-label'}>Repair</Typography>
 							</Box>
 						)}
 

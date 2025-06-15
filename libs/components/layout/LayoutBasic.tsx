@@ -13,6 +13,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import Footer from '../Footer';
+import SalesToast from '../common/SalesToast';
 
 const withLayoutBasic = (Component: any) => {
 	return (props: any) => {
@@ -148,6 +149,8 @@ const withLayoutBasic = (Component: any) => {
 						<Stack id={'footer'}>
 							<Footer />
 						</Stack>
+
+						<SalesToast />
 					</Stack>
 				</>
 			);

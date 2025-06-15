@@ -56,50 +56,103 @@
 					height: 580px;
 					overflow: hidden;
 
+					// Zoom container styles
+					.image-zoom-container {
+						width: 100%;
+						height: 100%;
+						position: relative;
+						overflow: hidden;
+						border-radius: 8px;
+						cursor: zoom-in; // Sichqoncha lupa ikoniga aylanadi
+
+						&:hover {
+							cursor: zoom-in;
+
+							.zoom-icon-overlay {
+								opacity: 1;
+							}
+						}
+
+						// Zoom holati uchun
+						&.zoomed {
+							cursor: zoom-out;
+						}
+					}
+
 					.mainImage {
 						margin-left: -20px;
 						width: 550px;
 						height: 100%;
 						object-fit: contain;
 						display: flex;
+						transition: transform 0.3s ease;
+						user-select: none; // Rasmni tanlashni oldini oladi
+					}
+
+					// Zoom icon overlay
+					.zoom-icon-overlay {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+						background-color: rgba(0, 0, 0, 0.6);
+						border-radius: 50%;
+						padding: 16px; // Padding kattalashtirish
+						opacity: 0;
+						transition: opacity 0.3s ease;
+						pointer-events: none;
+						z-index: 2;
+
+						// Icon razmerini kattalashtirish
+						svg {
+							font-size: 32px !important; // Yoki width: 32px; height: 32px;
+							color: white;
+						}
+
+						// Material-UI icon uchun
+						.MuiSvgIcon-root {
+							font-size: 32px !important;
+							width: 32px;
+							height: 32px;
+						}
 					}
 
 					.prev-button {
 						position: absolute;
-						left: 5px;
+						left: 25px;
 						top: 50%;
 						transform: translateY(-50%);
 						border-radius: 10px;
 						padding: 13px;
 						cursor: pointer;
 						transition: background-color 0.2s;
-
-						// background-color: #035304;
 						color: #000000;
-						left: 25px;
 						box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-						// &:hover {
-						// 	// background-color: #014c05;
-						// }
+						z-index: 3;
+						background-color: rgba(255, 255, 255, 0.9);
+
+						&:hover {
+							background-color: rgba(255, 255, 255, 1);
+						}
 					}
 
 					.next-button {
 						position: absolute;
-						right: 5px;
+						right: 25px;
 						top: 50%;
 						transform: translateY(-50%);
 						border-radius: 10px;
 						padding: 13px;
 						cursor: pointer;
 						transition: background-color 0.2s;
-
-						// background-color: #fc6202;
 						color: black;
-						right: 25px;
 						box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-						// &:hover {
-						// 	background-color: #fe6f16;
-						// }
+						z-index: 3;
+						background-color: rgba(255, 255, 255, 0.9);
+
+						&:hover {
+							background-color: rgba(255, 255, 255, 1);
+						}
 					}
 				}
 
@@ -121,6 +174,14 @@
 							height: 100%;
 							object-fit: cover;
 							border-radius: 6px;
+						}
+
+						&.active {
+							border-color: #f17f0e;
+						}
+
+						&:hover {
+							border-color: #f17f0e;
 						}
 					}
 				}
@@ -1021,9 +1082,47 @@
 						}
 					}
 					.pagination-box {
-						flex-direction: row;
+						display: flex;
 						align-items: center;
-						gap: 22px;
+						gap: 12px;
+
+						.swiper-similar-prev,
+						.swiper-similar-next {
+							width: 48px;
+							height: 32px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							border-radius: 9999px;
+							border: 1px solid #cf6422;
+							cursor: pointer;
+							transition: all 0.3s ease;
+							padding: 0;
+
+							svg {
+								font-size: 18px;
+							}
+
+							&:hover {
+								opacity: 0.85;
+							}
+						}
+
+						.swiper-similar-prev {
+							background-color: #fff;
+
+							svg {
+								color: #cf6422;
+							}
+						}
+
+						.swiper-similar-next {
+							background-color: #cf6422;
+
+							svg {
+								color: #fff;
+							}
+						}
 					}
 				}
 				.cards-box {

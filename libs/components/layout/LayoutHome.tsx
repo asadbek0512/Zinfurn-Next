@@ -15,6 +15,7 @@ import 'swiper/css/navigation';
 import Footer from '../Footer';
 import HeaderFilter from '../homepage/HeaderFilter';
 import HeroSection from '../common/HeroSection';
+import SalesToast from '../common/SalesToast';
 
 const withLayoutMain = (Component: any) => {
 	return (props: any) => {
@@ -80,6 +81,9 @@ const withLayoutMain = (Component: any) => {
 						<Stack id={'footer'}>
 							<Footer />
 						</Stack>
+
+						<SalesToast />
+
 					</Stack>
 				</>
 			);
