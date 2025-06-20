@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { RepairProperty } from '../../types/repairProperty/repairProperty';
+import { useTranslation } from 'next-i18next';
 
 interface TopRepairPropertyCardProps {
 	repairProperty: RepairProperty;
@@ -17,6 +18,7 @@ const TopRepairPropertyCard = (props: TopRepairPropertyCardProps) => {
 	const { repairProperty, likeRepairPropertyHandler } = props;
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	const { t } = useTranslation('common');
 
 	const pushDetailHandler = async (propertyId: string) => {
 		await router.push({ pathname: '/repairService/detail', query: { id: propertyId } });
@@ -42,18 +44,22 @@ const TopRepairPropertyCard = (props: TopRepairPropertyCardProps) => {
 				<p className={'desc'}>{repairProperty?.repairPropertyAddress}</p>
 				<div className={'options'}>
 					<div>
-						<img src="/img/icons/bed.svg" alt="" />
-						<span>{repairProperty?.repairPropertyType}</span>
+						<img src="/img/icons/bed.svg" alt={t('Property type')} />
+						<span>{t(repairProperty?.repairPropertyType || '')}</span>
 					</div>
 				</div>
 				<Divider sx={{ mt: '15px', mb: '17px' }} />
 				<div className={'bott'}>
 					<div className="view-like-box">
-						<IconButton color={'default'}>
+						<IconButton color={'default'} aria-label={t('View count')}>
 							<RemoveRedEyeIcon />
 						</IconButton>
 						<Typography className="view-cnt">{repairProperty?.repairPropertyViews}</Typography>
-						<IconButton color={'default'} onClick={() => likeRepairPropertyHandler(user, repairProperty?._id)}>
+						<IconButton
+							color={'default'}
+							onClick={() => likeRepairPropertyHandler(user, repairProperty?._id)}
+							aria-label={repairProperty?.meLiked?.[0]?.myFavorite ? t('Unlike') : t('Like')}
+						>
 							{repairProperty?.meLiked?.[0]?.myFavorite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon />}
 						</IconButton>
 						<Typography className="view-cnt">{repairProperty?.repairPropertyLikes}</Typography>

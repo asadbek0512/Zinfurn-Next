@@ -6,6 +6,7 @@ import { PropertiesInquiry } from '../../types/property/property.input';
 import { useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
+import { useTranslation } from 'next-i18next';
 
 interface SalesToastProps {
 	initialInput: PropertiesInquiry;
@@ -18,47 +19,47 @@ interface TimeLeft {
 	seconds: number;
 }
 
-// Global state for toast index - sahifalar o'rtasida saqlanadi
+// Global state for toast index - persists between pages
 let globalToastIndex = 0;
 let globalSaleProperties: Property[] = [];
 let lastUpdateTime = 0;
 
 // Animations
 const slideIn = keyframes`
-	0% {
-		transform: translateX(100%);
-		opacity: 0;
-	}
-	100% {
-		transform: translateX(0);
-		opacity: 1;
-	}
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 `;
 
 const slideOut = keyframes`
-	0% {
-		transform: translateX(0);
-		opacity: 1;
-	}
-	100% {
-		transform: translateX(100%);
-		opacity: 0;
-	}
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 `;
 
-// Styled Components
+// Styled Components (unchanged)
 const ToastContainer = styled(Box)(({ theme }) => ({
 	position: 'fixed',
 	bottom: '24px',
 	right: '24px',
-	width: '480px', // 400px -> 480px
+	width: '480px',
 	backgroundColor: 'rgba(0, 0, 0, 0.9)',
 	backdropFilter: 'blur(10px)',
-	borderRadius: '16px', // 12px -> 16px
-	padding: '24px', // 16px -> 24px
+	borderRadius: '16px',
+	padding: '24px',
 	display: 'flex',
 	alignItems: 'center',
-	gap: '16px', // 12px -> 16px
+	gap: '16px',
 	zIndex: 9999,
 	boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
 	border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -69,17 +70,17 @@ const ToastContainer = styled(Box)(({ theme }) => ({
 		animation: `${slideOut} 0.8s ease-out forwards`,
 	},
 	[theme.breakpoints.down('sm')]: {
-		width: '340px', // 320px -> 380px
+		width: '340px',
 		right: '12px',
 		bottom: '12px',
-		padding: '18px', // 16px -> 20px
+		padding: '18px',
 	},
 }));
 
 const ProductImage = styled(Avatar)({
-	width: '70px', // 60px -> 80px
-	height: '70px', // 60px -> 80px
-	borderRadius: '12px', // 8px -> 12px
+	width: '70px',
+	height: '70px',
+	borderRadius: '12px',
 	'& img': {
 		objectFit: 'cover',
 	},
@@ -89,21 +90,21 @@ const ContentBox = styled(Box)({
 	flex: 1,
 	display: 'flex',
 	flexDirection: 'column',
-	gap: '5px', // 4px -> 6px
+	gap: '5px',
 });
 
 const PurchaseText = styled(Typography)({
 	color: '#ffffff',
-	fontSize: '14px', // 12px -> 14px
+	fontSize: '14px',
 	opacity: 0.8,
 	fontWeight: 400,
 });
 
 const ProductTitle = styled(Typography)({
 	color: '#ffffff',
-	fontSize: '16px', // 14px -> 16px
+	fontSize: '16px',
 	fontWeight: 600,
-	lineHeight: 1.3, // 1.2 -> 1.3
+	lineHeight: 1.3,
 	display: '-webkit-box',
 	WebkitLineClamp: 2,
 	WebkitBoxOrient: 'vertical',
@@ -112,7 +113,7 @@ const ProductTitle = styled(Typography)({
 
 const LocationText = styled(Typography)({
 	color: '#ffffff',
-	fontSize: '13px', // 11px -> 13px
+	fontSize: '13px',
 	opacity: 0.7,
 	fontWeight: 400,
 });
@@ -121,43 +122,43 @@ const DiscountBox = styled(Box)({
 	display: 'flex',
 	flexDirection: 'column',
 	alignItems: 'flex-end',
-	gap: '6px', // 4px -> 6px
+	gap: '6px',
 });
 
 const DiscountBadge = styled(Box)(({ theme }) => ({
 	backgroundColor: '#ff4757',
 	color: '#ffffff',
-	padding: '6px 12px', // 4px 8px -> 6px 12px
-	borderRadius: '8px', // 6px -> 8px
-	fontSize: '14px', // 12px -> 14px
+	padding: '6px 12px',
+	borderRadius: '8px',
+	fontSize: '14px',
 	fontWeight: 700,
 	textAlign: 'center',
-	minWidth: '60px', // 50px -> 60px
+	minWidth: '60px',
 }));
 
 const TimerBox = styled(Box)({
 	display: 'flex',
 	alignItems: 'center',
-	gap: '3px', // 2px -> 3px
-	fontSize: '15px', // 13px -> 15px
+	gap: '3px',
+	fontSize: '15px',
 	color: '#ffffff',
 	opacity: 0.8,
-	fontWeight: 500, // Added font weight
+	fontWeight: 500,
 });
 
 const CloseButton = styled(Box)({
 	position: 'absolute',
-	top: '4px', // 2px -> 4px
-	right: '4px', // 2px -> 4px
-	width: '24px', // 20px -> 24px
-	height: '24px', // 20px -> 24px
+	top: '4px',
+	right: '4px',
+	width: '24px',
+	height: '24px',
 	borderRadius: '50%',
 	backgroundColor: 'rgba(255, 255, 255, 0.2)',
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
 	cursor: 'pointer',
-	fontSize: '14px', // 12px -> 14px
+	fontSize: '14px',
 	color: '#ffffff',
 	'&:hover': {
 		backgroundColor: 'rgba(255, 255, 255, 0.3)',
@@ -165,6 +166,7 @@ const CloseButton = styled(Box)({
 });
 
 const SalesToast = (props: SalesToastProps) => {
+	const { t } = useTranslation('common');
 	const { initialInput } = props;
 	const [saleProperties, setSaleProperties] = useState<Property[]>(globalSaleProperties);
 	const [currentToastIndex, setCurrentToastIndex] = useState(globalToastIndex);
@@ -179,12 +181,10 @@ const SalesToast = (props: SalesToastProps) => {
 		onCompleted: (data: T) => {
 			const properties = data?.getProperties?.list || [];
 			const saleProps = getSaleProperties(properties);
-			
-			// Global state'ni yangilash
+
 			globalSaleProperties = saleProps;
 			setSaleProperties(saleProps);
-			
-			// Agar properties o'zgarmagan bo'lsa, avvalgi index'ni saqlash
+
 			if (saleProps.length > 0 && globalToastIndex >= saleProps.length) {
 				globalToastIndex = 0;
 				setCurrentToastIndex(0);
@@ -239,38 +239,31 @@ const SalesToast = (props: SalesToastProps) => {
 		setAnimationClass('toast-enter');
 		setIsVisible(true);
 
-		// Update timer for current property
 		const currentProperty = saleProperties[currentToastIndex];
 		if (currentProperty?.propertySaleExpiresAt) {
 			setTimeLeft(calculateTimeLeft(currentProperty.propertySaleExpiresAt));
 		}
 
-		// Hide toast after 5 seconds
 		setTimeout(() => {
 			setAnimationClass('toast-exit');
 			setTimeout(() => {
 				setIsVisible(false);
-				// Global index'ni yangilash
 				globalToastIndex = (globalToastIndex + 1) % saleProperties.length;
 				setCurrentToastIndex(globalToastIndex);
 			}, 800);
 		}, 5000);
 	};
 
-	// Show toast every 15 seconds
 	useEffect(() => {
 		if (saleProperties.length === 0) return;
 
 		const now = Date.now();
 		const timeSinceLastUpdate = now - lastUpdateTime;
-		
-		// Agar komponent yangi yuklangan bo'lsa yoki 15 soniyadan ortiq vaqt o'tgan bo'lsa
+
 		if (lastUpdateTime === 0 || timeSinceLastUpdate >= 15000) {
-			// Darhol ko'rsatish
 			showToast();
 			lastUpdateTime = now;
 		} else {
-			// Qolgan vaqtni kutish
 			const remainingTime = 15000 - timeSinceLastUpdate;
 			setTimeout(() => {
 				showToast();
@@ -278,7 +271,6 @@ const SalesToast = (props: SalesToastProps) => {
 			}, remainingTime);
 		}
 
-		// Har 15 soniyada ko'rsatish
 		const interval = setInterval(() => {
 			showToast();
 			lastUpdateTime = Date.now();
@@ -287,7 +279,6 @@ const SalesToast = (props: SalesToastProps) => {
 		return () => clearInterval(interval);
 	}, [saleProperties, currentToastIndex]);
 
-	// Update timer every second for current visible toast
 	useEffect(() => {
 		if (!isVisible || saleProperties.length === 0) return;
 
@@ -323,15 +314,21 @@ const SalesToast = (props: SalesToastProps) => {
 			/>
 
 			<ContentBox>
-				<PurchaseText>Someone purchased a</PurchaseText>
+				<PurchaseText>{t('Someone purchased a')}</PurchaseText>
 				<ProductTitle>{currentProperty.propertyTitle}</ProductTitle>
-				<LocationText>Category: {currentProperty.propertyCategory || 'Unknown Category'}</LocationText>
+				<LocationText>
+					{t('Category')}: {t(currentProperty.propertyCategory || t('Unknown Category'))}
+				</LocationText>
 			</ContentBox>
 
 			<DiscountBox>
-				{discountPercentage > 0 && <DiscountBadge>{discountPercentage}% OFF</DiscountBadge>}
+				{discountPercentage > 0 && (
+					<DiscountBadge>
+						{discountPercentage}% {t('OFF')}
+					</DiscountBadge>
+				)}
 				<TimerBox>
-					{timeLeft.days > 0 && `${formatTime(timeLeft.days)}d `}
+					{timeLeft.days > 0 && `${formatTime(timeLeft.days)}${t('d')} `}
 					{formatTime(timeLeft.hours)}:{formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}
 				</TimerBox>
 			</DiscountBox>

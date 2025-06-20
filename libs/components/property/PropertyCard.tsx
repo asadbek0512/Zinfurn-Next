@@ -12,6 +12,7 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { useTranslation } from 'next-i18next';
 
 interface PropertyCardType {
 	property: Property;
@@ -25,6 +26,7 @@ const PropertyCard = (props: PropertyCardType) => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const [isHovered, setIsHovered] = useState(false);
+	const { t } = useTranslation('common');
 
 	// Debugging uchun
 	console.log('Property images:', property?.propertyImages);
@@ -74,7 +76,7 @@ const PropertyCard = (props: PropertyCardType) => {
 
 					{/* Category badge - chap tarafda */}
 					<Box component={'div'} className={'category-badge'}>
-						<Typography>{property?.propertyCategory}</Typography>
+						<Typography>{t(property?.propertyCategory)}</Typography>
 					</Box>
 				</Stack>
 
@@ -106,13 +108,13 @@ const PropertyCard = (props: PropertyCardType) => {
 					{/* Property details */}
 					<Stack className="details">
 						<Box component={'div'} className="detail-item">
-							<Typography>{property?.propertyType}</Typography>
+							<Typography>{t(property?.propertyType)}</Typography>
 						</Box>
 						<Box component={'div'} className="detail-item">
-							<Typography>{property?.propertyMaterial}</Typography>
+							<Typography>{t(property?.propertyMaterial)}</Typography>
 						</Box>
 						<Box component={'div'} className="detail-item">
-							<Typography>{property?.propertyCondition}</Typography>
+							<Typography>{t(property?.propertyCondition)}</Typography>
 						</Box>
 						<Box component={'div'} className="detail-item color-item">
 							<Box
@@ -120,7 +122,7 @@ const PropertyCard = (props: PropertyCardType) => {
 								className="color-indicator"
 								style={{ backgroundColor: property?.propertyColor?.toLowerCase() || '#ccc' }}
 							></Box>
-							<Typography>{property?.propertyColor}</Typography>
+							<Typography>{t(property?.propertyColor)}</Typography>
 						</Box>
 					</Stack>
 

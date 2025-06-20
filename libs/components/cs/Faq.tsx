@@ -7,8 +7,10 @@ import { useQuery } from '@apollo/client';
 import { GET_ALL_NOTICES } from '../../../apollo/user/query';
 import { NoticeCategory, NoticeStatus } from '../../enums/notice.enum';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useTranslation } from 'next-i18next';
 
 const Faq = () => {
+	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
 	const [expanded, setExpanded] = useState<string | false>('panel1');
 
@@ -26,12 +28,12 @@ const Faq = () => {
 	};
 
 	if (device === 'mobile') {
-		return <div>FAQ MOBILE</div>;
+		return <div>{t('FAQ MOBILE')}</div>;
 	}
 
 	if (loading) {
 		return (
-			<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+			<Box component="div" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
 				<CircularProgress />
 			</Box>
 		);
@@ -39,20 +41,20 @@ const Faq = () => {
 
 	return (
 		<Stack className={'faq-content'}>
-			<Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
+			<Box component="div" sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
 				<Typography variant="h4" component="h1" className={'title'} sx={{ mb: 0 }}>
-					Frequently Asked Questions
+					{t('Frequently Asked Questions')}
 				</Typography>
 				<Typography variant="body2" color="text.secondary" sx={{ flex: 1 }}>
-					Find answers to common questions about our services
+					{t('Find answers to common questions about our services')}
 				</Typography>
 			</Box>
 
-			<Box className={'wrap'}>
+			<Box component="div" className={'wrap'}>
 				{faqData?.getAllNotices?.list
-					.slice()
-					.reverse()
-					.map((faq: any, index: number) => (
+					?.slice()
+					?.reverse()
+					?.map((faq: any, index: number) => (
 						<Accordion
 							key={faq._id}
 							expanded={expanded === `panel${index + 1}`}
@@ -84,7 +86,7 @@ const Faq = () => {
 									},
 								}}
 							>
-								<Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+								<Box component="div" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
 									<HelpOutlineIcon sx={{ color: '#3B82F6' }} />
 									<Typography sx={{ color: '#1E293B', fontWeight: 500 }}>{faq.noticeTitle}</Typography>
 								</Box>

@@ -10,6 +10,7 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { useTranslation } from 'next-i18next';
 
 interface PropertyBigCardProps {
 	property: Property;
@@ -22,6 +23,7 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
+	const { t } = useTranslation('common');
 
 	/** HANDLERS **/
 	const goPropertyDetatilPage = (propertyId: string) => {
@@ -57,7 +59,7 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 
 						{/* Category badge o'ng tomonda */}
 						<Box className="category-badge" component="div">
-							<Typography className="category-text">{property.propertyCategory}</Typography>
+							<Typography className="category-text">{t(property.propertyCategory)}</Typography>
 						</Box>
 					</Box>
 				</Box>

@@ -33,6 +33,7 @@ import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/swee
 import { Direction, Message } from '../../libs/enums/common.enum';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -75,6 +76,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [sortingOpen, setSortingOpen] = useState(false);
 	const [filterSortName, setFilterSortName] = useState('New');
 	const [searchText, setSearchText] = useState<string>('');
+	const { t } = useTranslation('common');
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
@@ -316,7 +318,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 											value={searchText}
 											type={'text'}
 											className={'search-input'}
-											placeholder={'Search...'}
+											placeholder={t('search_placeholder')}
 											onChange={(e: any) => setSearchText(e.target.value)}
 											onKeyDown={(event: any) => {
 												if (event.key === 'Enter') {
@@ -330,7 +332,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 											}
 										/>
 										<img src={'/img/icons/search_icon.png'} alt={''} />
-										<Tooltip title="Reset">
+										<Tooltip title={t('reset')}>
 											<IconButton onClick={refreshHandler}>
 												<RefreshIcon />
 											</IconButton>
@@ -339,10 +341,10 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								</Stack>
 
 								<Box component={'div'} className={'right'}>
-									<span className="sort">Sort by</span>
+									<span className="sort">{t('sort_by')}</span>
 									<div>
 										<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
-											{filterSortName}
+											{t(filterSortName)}
 										</Button>
 										<Menu
 											anchorEl={anchorEl}
@@ -356,7 +358,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 												disableRipple
 												sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 18px' }}
 											>
-												New
+												{t('new')}
 											</MenuItem>
 											<MenuItem
 												onClick={sortingHandler}
@@ -364,7 +366,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 												disableRipple
 												sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
 											>
-												Lowest Price
+												{t('lowest_price')}
 											</MenuItem>
 											<MenuItem
 												onClick={sortingHandler}
@@ -372,7 +374,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 												disableRipple
 												sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
 											>
-												Highest Price
+												{t('highest_price')}
 											</MenuItem>
 										</Menu>
 									</div>
@@ -383,7 +385,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								{properties?.length === 0 ? (
 									<div className={'no-data'}>
 										<img src="/img/icons/icoAlert.svg" alt="" />
-										<p style={{ color: 'black' }}>No Properties found!</p>
+										<p style={{ color: 'black' }}>{t('no_properties_found')}</p>
 									</div>
 								) : (
 									properties.map((property: Property) => {
@@ -409,13 +411,10 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 
 								{properties.length !== 0 && (
 									<Stack className="total-result">
-										<Typography>
-											Total {total} watch{total > 1 ? 'es' : 'ch'} in stock
-										</Typography>
+										<Typography>{t('total_properties_count', { count: total })}</Typography>
 									</Stack>
 								)}
 							</Stack>
-							
 						</Stack>
 					</Stack>
 				</div>

@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { useTranslation } from 'next-i18next';
 
 interface ProductsCollectionProps {
 	latestInput: PropertiesInquiry;
@@ -32,7 +33,7 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [isHovered, setIsHovered] = useState(false);
-
+	const { t } = useTranslation('common'); 
 	const pushDetailHandler = (id: string) => {
 		router.push({ pathname: '/property/detail', query: { id } });
 	};
@@ -42,14 +43,14 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
 			: 0;
 
-	// Hover qilganda 2-chi rasm, aks holda 1-chi rasm
-	const backgroundImage = isHovered && property?.propertyImages?.[1]
-		? `url(${REACT_APP_API_URL}/${property.propertyImages[1]})`
-		: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`;
+	const backgroundImage =
+		isHovered && property?.propertyImages?.[1]
+			? `url(${REACT_APP_API_URL}/${property.propertyImages[1]})`
+			: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`;
 
 	return (
-		<Box 
-			component="div" 
+		<Box
+			component="div"
 			className="product-card"
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
@@ -60,19 +61,17 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 					className="product-image"
 					sx={{
 						backgroundImage: backgroundImage,
-						transition: 'background-image 0.3s ease-in-out'
+						transition: 'background-image 0.3s ease-in-out',
 					}}
 				/>
 				<Box component="div" className="top-badges">
-					{/* Sale badge chap tomonda */}
 					{discountPercent > 0 && (
 						<Box component="div" className="discount-badge">
 							<Typography className="discount-text">-{discountPercent}%</Typography>
 						</Box>
 					)}
-					{/* Category badge o'ng tomonda */}
 					<Box component="div" className="category-badge">
-						<Typography className="category-text">{property.propertyCategory}</Typography>
+					<Typography className="category-text">{t(property.propertyCategory)}</Typography>
 					</Box>
 				</Box>
 			</Box>
@@ -124,12 +123,12 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 	const [properties, setProperties] = useState<Property[]>([]);
 
 	const user = useReactiveVar(userVar);
+	const { t } = useTranslation('common');
 
-	// Current input based on active tab
 	const getCurrentInput = () => {
 		switch (activeTab) {
 			case 'all':
-				return { ...latestInput, limit: 6 }; // All products with 6 limit
+				return { ...latestInput, limit: 6 };
 			case 'top':
 				return { ...latestInput, limit: 6 };
 			case 'popular':
@@ -141,7 +140,6 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 		}
 	};
 
-	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
 
 	const {
@@ -158,7 +156,6 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 		},
 	});
 
-	/** HANDLERS **/
 	const likePropertyHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
@@ -174,7 +171,6 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 
 	const handleTabChange = (tab: string) => {
 		setActiveTab(tab);
-		// Refetch data for the new tab
 		const inputMap = {
 			all: { ...latestInput, limit: 6 },
 			top: latestInput,
@@ -192,44 +188,42 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 			<Stack className="products-collection mobile">
 				<Stack className="container">
 					<Stack className="info-box">
-						<Typography className="section-subtitle">Our Products</Typography>
-						<Typography className="section-title">Our Products Collections</Typography>
+						<Typography className="section-subtitle">{t('Our Products')}</Typography>
+						<Typography className="section-title">{t('Our Products Collections')}</Typography>
 					</Stack>
 
 					<Box component="div" className="tabs-container">
-						{/* Birinchi qator - All Products */}
 						<Box component="div" className="top-tab-row">
 							<Box
 								component="div"
 								className={`tab-item ${activeTab === 'all' ? 'active' : ''}`}
 								onClick={() => handleTabChange('all')}
 							>
-								All Products
+								{t('All Products')}
 							</Box>
 						</Box>
 
-						{/* Ikkinchi qator - Qolgan 3 ta tab */}
 						<Box component="div" className="bottom-tabs-row">
 							<Box
 								component="div"
 								className={`tab-item ${activeTab === 'top' ? 'active' : ''}`}
 								onClick={() => handleTabChange('top')}
 							>
-								Top Properties
+								{t('Top Properties')}
 							</Box>
 							<Box
 								component="div"
 								className={`tab-item ${activeTab === 'popular' ? 'active' : ''}`}
 								onClick={() => handleTabChange('popular')}
 							>
-								Popular Properties
+								{t('Popular Properties')}
 							</Box>
 							<Box
 								component="div"
 								className={`tab-item ${activeTab === 'trend' ? 'active' : ''}`}
 								onClick={() => handleTabChange('trend')}
 							>
-								Trend Properties
+								{t('Trend Properties')}
 							</Box>
 						</Box>
 					</Box>
@@ -237,7 +231,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 					<Stack className="card-box">
 						{properties.length === 0 ? (
 							<Box component="div" className="empty-list">
-								No Products Found
+								{t('No Products Found')}
 							</Box>
 						) : (
 							<Swiper
@@ -264,8 +258,8 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 		<Stack className="products-collection">
 			<Stack className="container">
 				<Stack className="info-box">
-					<Typography className="section-subtitle">Our Properties</Typography>
-					<Typography className="section-title">Properties Collections</Typography>
+					<Typography className="section-subtitle">{t('Our Properties')}</Typography>
+					<Typography className="section-title">{t('Properties Collections')}</Typography>
 				</Stack>
 
 				<Box component="div" className="tabs-container">
@@ -274,28 +268,28 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 						className={`tab-item ${activeTab === 'top' ? 'active' : ''}`}
 						onClick={() => handleTabChange('top')}
 					>
-						Top Properties
+						{t('Top Properties')}
 					</Box>
 					<Box
 						component="div"
 						className={`tab-item ${activeTab === 'popular' ? 'active' : ''}`}
 						onClick={() => handleTabChange('popular')}
 					>
-						Popular Properties
+						{t('Popular Properties')}
 					</Box>
 					<Box
 						component="div"
 						className={`tab-item ${activeTab === 'trend' ? 'active' : ''}`}
 						onClick={() => handleTabChange('trend')}
 					>
-						Trend Properties
+						{t('Trend Properties')}
 					</Box>
 				</Box>
 
 				<Stack className="card-box">
 					{properties.length === 0 ? (
 						<Box component="div" className="empty-list">
-							No Products Found
+							{t('No Products Found')}
 						</Box>
 					) : (
 						<Box component="div" className="products-grid">
@@ -307,7 +301,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 				</Stack>
 
 				<Link href="/property" className="view-button">
-					All Properties
+					{t('All Properties')}
 				</Link>
 			</Stack>
 		</Stack>
@@ -317,21 +311,21 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 ProductsCollection.defaultProps = {
 	latestInput: {
 		page: 1,
-		limit: 12, // 8 dan 12 ga oshirdim
+		limit: 12,
 		sort: 'createdAt',
 		direction: 'DESC',
 		search: {},
 	},
 	bestSellersInput: {
 		page: 1,
-		limit: 12, // 8 dan 12 ga oshirdim
+		limit: 12,
 		sort: 'propertyLikes',
 		direction: 'DESC',
 		search: {},
 	},
 	featuredInput: {
 		page: 1,
-		limit: 12, // 8 dan 12 ga oshirdim
+		limit: 12,
 		sort: 'propertyRank',
 		direction: 'DESC',
 		search: {},

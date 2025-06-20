@@ -4,6 +4,8 @@ import { Stack, Box, Typography, IconButton } from "@mui/material"
 import { Instagram, Twitter } from "@mui/icons-material"
 import useDeviceDetect from "../../hooks/useDeviceDetect"
 import type { Member } from "../../types/member/member"
+import { useTranslation } from 'next-i18next';
+
 
 interface TopAgentProps {
   agent: Member
@@ -11,6 +13,7 @@ interface TopAgentProps {
 
 const TopAgentCard = (props: TopAgentProps) => {
   const { agent } = props
+  const { t } = useTranslation('common');
   const device = useDeviceDetect()
   const router = useRouter()
   const agentImage = agent?.memberImage
@@ -202,7 +205,7 @@ const TopAgentCard = (props: TopAgentProps) => {
                 lineHeight: 1.2,
               }}
             >
-              {agent?.memberType}
+            {t(agent?.memberType)}
             </Typography>
           </Box>
 

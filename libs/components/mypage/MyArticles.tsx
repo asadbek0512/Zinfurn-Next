@@ -11,8 +11,10 @@ import { LIKE_TARGET_BOARD_ARTICLE } from '../../../apollo/user/mutation';
 import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { Messages } from '../../config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
+	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const [searchCommunity, setSearchCommunity] = useState({
@@ -41,6 +43,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 			setTotalCount(data?.getBoardArticles?.metaCounter?.[0]?.total);
 		},
 	});
+
 	/** HANDLERS **/
 	const paginationHandler = (e: T, value: number) => {
 		setSearchCommunity({ ...searchCommunity, page: value });
@@ -60,7 +63,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 
 			await boardArticlesRefetch({ input: searchCommunity });
 
-			await sweetTopSmallSuccessAlert('Success!', 750);
+			await sweetTopSmallSuccessAlert(t('Success!'), 750);
 		} catch (err: any) {
 			console.log('ERROR, likeBoArticleHandler:', err.message);
 			await sweetMixinErrorAlert(err.message);
@@ -74,8 +77,8 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 			<div id="my-articles-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">Article</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+						<Typography className="main-title">{t('Article')}</Typography>
+						<Typography className="sub-title">{t('We are glad to see you again!')}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="article-list-box">
@@ -102,7 +105,9 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 							}}
 						>
 							<img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} />
-								<p style={{ fontSize: '18px', color: '#555', marginTop: '8px', 	marginLeft: '45px' }}>No Articles found!</p>
+							<p style={{ fontSize: '18px', color: '#555', marginTop: '8px', marginLeft: '45px' }}>
+								{t('No Articles found!')}
+							</p>
 						</div>
 					)}
 				</Stack>
@@ -119,7 +124,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 							/>
 						</Stack>
 						<Stack className="total">
-							<Typography>Total {totalCount ?? 0} article(s) available</Typography>
+							<Typography>{t('Total {{count}} article(s) available', { count: totalCount ?? 0 })}</Typography>
 						</Stack>
 					</Stack>
 				)}

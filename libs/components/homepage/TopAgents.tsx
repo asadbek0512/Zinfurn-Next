@@ -11,6 +11,7 @@ import { AgentsInquiry } from '../../types/member/member.input';
 import { useQuery } from '@apollo/client';
 import { T } from '../../types/common';
 import { GET_AGENTS } from '../../../apollo/user/query';
+import { useTranslation } from 'next-i18next'; // Tarjima funksiyasi
 
 interface TopAgentsProps {
 	initialInput: AgentsInquiry;
@@ -20,9 +21,10 @@ const TopAgents = (props: TopAgentsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const { t } = useTranslation('common'); // Tarjima hook
+
 	const [topAgents, setTopAgents] = useState<Member[]>([]);
 
-	/** APOLLO REQUESTS **/
 	const {
 		loading: getPropertiesLoading,
 		data: getAgentsData,
@@ -36,14 +38,13 @@ const TopAgents = (props: TopAgentsProps) => {
 			setTopAgents(data?.getAgents?.list);
 		},
 	});
-	/** HANDLERS **/
 
 	if (device === 'mobile') {
 		return (
 			<Stack className={'top-agents'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Top Agents</span>
+						<span>{t('Top Agents')}</span>
 					</Stack>
 					<Stack className={'wrapper'}>
 						<Swiper
@@ -53,13 +54,11 @@ const TopAgents = (props: TopAgentsProps) => {
 							spaceBetween={29}
 							modules={[Autoplay]}
 						>
-							{topAgents.map((agent: Member) => {
-								return (
-									<SwiperSlide className={'top-agents-slide'} key={agent?._id}>
-										<TopAgentCard agent={agent} key={agent?.memberNick} />
-									</SwiperSlide>
-								);
-							})}
+							{topAgents.map((agent: Member) => (
+								<SwiperSlide className={'top-agents-slide'} key={agent?._id}>
+									<TopAgentCard agent={agent} key={agent?.memberNick} />
+								</SwiperSlide>
+							))}
 						</Swiper>
 					</Stack>
 				</Stack>
@@ -71,11 +70,11 @@ const TopAgents = (props: TopAgentsProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Top Agents</span>
-							<p>Our Top Agents always ready to serve you</p>
+							<span>{t('Top Agents')}</span>
+							<p>{t('Our Top Agents always ready to serve you')}</p>
 						</Box>
 						<Link href="/property" className="view-button">
-							All Properties
+							{t('All Properties')}
 						</Link>
 					</Stack>
 					<Stack className={'wrapper'}>
@@ -93,13 +92,11 @@ const TopAgents = (props: TopAgentsProps) => {
 									prevEl: '.swiper-agents-prev',
 								}}
 							>
-								{topAgents.map((agent: Member) => {
-									return (
-										<SwiperSlide className={'top-agents-slide'} key={agent?._id}>
-											<TopAgentCard agent={agent} key={agent?.memberNick} />
-										</SwiperSlide>
-									);
-								})}
+								{topAgents.map((agent: Member) => (
+									<SwiperSlide className={'top-agents-slide'} key={agent?._id}>
+										<TopAgentCard agent={agent} key={agent?.memberNick} />
+									</SwiperSlide>
+								))}
 							</Swiper>
 						</Box>
 						<Box component={'div'} className={'switch-btn swiper-agents-next'}>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/material';
+import { useTranslation } from 'next-i18next'; // Tarjima uchun qo‘shildi
 import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { useMutation, useQuery } from '@apollo/client';
@@ -17,6 +18,7 @@ interface FlashSaleProps {
 
 const FlashSale = (props: FlashSaleProps) => {
 	const { initialInput } = props;
+	const { t } = useTranslation('common'); // Tarjima funksiyasi
 	const device = useDeviceDetect();
 	const [flashSaleProperties, setFlashSaleProperties] = useState<Property[]>([]);
 
@@ -62,7 +64,7 @@ const FlashSale = (props: FlashSaleProps) => {
 		console.error('FlashSale GraphQL Error:', getPropertiesError);
 		return (
 			<Box component={'div'} style={{ padding: '20px', color: 'red' }}>
-				Error loading flash sale properties: {getPropertiesError.message}
+				{t('Error loading flash sale properties')}: {getPropertiesError.message}
 			</Box>
 		);
 	}
@@ -70,7 +72,7 @@ const FlashSale = (props: FlashSaleProps) => {
 	if (getPropertiesLoading) {
 		return (
 			<Box component={'div'} style={{ padding: '20px' }}>
-				Loading flash sale properties...
+				{t('Loading flash sale properties')}...
 			</Box>
 		);
 	}

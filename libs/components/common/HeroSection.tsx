@@ -1,38 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Stack, Typography, Button, Box } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import { useTranslation } from 'next-i18next';
 
 const HeroSection = () => {
+	const { t } = useTranslation('common');
+
 	const [currentSlide, setCurrentSlide] = useState(0);
 
 	const slides = [
 		{
-			overline: 'TIMELESS ELEGANCE',
-			title: "Discover Furniture's For Living",
-			description:
+			overline: t('TIMELESS ELEGANCE'),
+			title: t("Discover Furniture's For Living"),
+			description: t(
 				'Consectetur a erat nam at. Facilisis magna etiam tempor orci. Sem et tortor consequat id. Fermentum egestas tellus. Nunc eu hendrerit turpis. Fusce non lectus sem.',
-			backgroundImage: '/img/banner/Home-1-.jpg', // Birinchi rasm
+			),
+			backgroundImage: '/img/banner/Home-1-.jpg',
 		},
 		{
-			overline: 'SMART SOLUTION',
-			title: 'Enjoy With Style & Comfort',
-			description:
+			overline: t('SMART SOLUTION'),
+			title: t('Enjoy With Style & Comfort'),
+			description: t(
 				'Feugiat pretium nibh ipsum consequat nisi vel pretium lectus quam. Aliquam ut porttitor leo a diam sollicitudin. Nam at lectus urna duis convallis.',
-			backgroundImage: '/img/banner/Home-2-.jpg', // Ikkinchi rasm
+			),
+			backgroundImage: '/img/banner/Home-2-.jpg',
 		},
 		{
-			overline: 'CREATE MEMORIES',
-			title: "Embrace The Beauty Of Furniture's",
-			description:
+			overline: t('CREATE MEMORIES'),
+			title: t("Embrace The Beauty Of Furniture's"),
+			description: t(
 				'Ut placerat orci nulla pellentesque posuere lorem ipsum dolor. A condimentum vitae sapien pellentesque habitant morbi tristique senectus.',
-			backgroundImage: '/img/banner/Home-3-.jpg', // Uchinchi rasm
+			),
+			backgroundImage: '/img/banner/Home-3-.jpg',
 		},
 	];
 
 	const nextSlide = () => {
 		const newSlide = (currentSlide + 1) % slides.length;
 		setCurrentSlide(newSlide);
-		// Header'ning class'ini o'zgartirish
+		updateHeaderBackground(newSlide);
+	};
+
+	const prevSlide = () => {
+		const newSlide = (currentSlide - 1 + slides.length) % slides.length;
+		setCurrentSlide(newSlide);
 		updateHeaderBackground(newSlide);
 	};
 
@@ -40,26 +51,15 @@ const HeroSection = () => {
 		window.location.href = '/property';
 	};
 
-	const prevSlide = () => {
-		const newSlide = (currentSlide - 1 + slides.length) % slides.length;
-		setCurrentSlide(newSlide);
-		// Header'ning class'ini o'zgartirish
-		updateHeaderBackground(newSlide);
-	};
-
-	// Header background'ini o'zgartirish funksiyasi
-			// @ts-ignore
+	// @ts-ignore
 	const updateHeaderBackground = (slideIndex) => {
-		const header = document.querySelector('.header-main'); // .header-main ga o'zgartirildi
+		const header = document.querySelector('.header-main');
 		if (header) {
-			// Eski class'larni olib tashlash
 			header.classList.remove('slide-0', 'slide-1', 'slide-2');
-			// Yangi class qo'shish
 			header.classList.add(`slide-${slideIndex}`);
 		}
 	};
 
-	// Component yuklanganda va currentSlide o'zgarganda ishga tushadi
 	useEffect(() => {
 		updateHeaderBackground(currentSlide);
 	}, [currentSlide]);
@@ -74,12 +74,12 @@ const HeroSection = () => {
 				alignItems: 'center',
 				justifyContent: 'center',
 				overflow: 'hidden',
-				transform: 'translateY(-90px)',
-				zIndex: 10, // Header'dan yuqori
-				backgroundColor: 'transparent', // To'liq shaffof
+				transform: 'translateY(-100px)',
+				zIndex: 10,
+				backgroundColor: 'transparent',
 			}}
 		>
-			{/* Background endi header orqali boshqariladi - shuning uchun bu yerda hech narsa yo'q */}
+			{/* Background handled via header, so empty here */}
 
 			{/* Navigation Arrows */}
 			<Box
@@ -135,12 +135,11 @@ const HeroSection = () => {
 					alignItems: 'center',
 					justifyContent: 'center',
 					transform: 'translateY(-10px)',
-					// Matn o'tishi uchun animatsiya
 					opacity: 1,
 					transition: 'all 0.3s ease-in-out',
 				}}
 				spacing={2}
-				key={currentSlide} // Bu key matnning qayta render bo'lishini ta'minlaydi
+				key={currentSlide}
 			>
 				<Typography
 					variant="overline"
@@ -180,7 +179,7 @@ const HeroSection = () => {
 				>
 					{slides[currentSlide].description}
 				</Typography>
-				<Box 
+				<Box
 					component={'div'}
 					sx={{
 						animation: 'fadeInUp 0.6s ease-out 0.3s both',
@@ -188,25 +187,19 @@ const HeroSection = () => {
 				>
 					<style>
 						{`
-						@keyframes fadeInUp {
-							0% { 
-								opacity: 0; 
-								transform: translateY(30px); 
-							}
-							100% { 
-								opacity: 1; 
-								transform: translateY(0); 
-							}
-						}
-						@keyframes slideOut {
-							0% { transform: translateX(0); }
-							100% { transform: translateX(-50px); opacity: 0; }
-						}
-						@keyframes slideIn {
-							0% { transform: translateX(50px); opacity: 0; }
-							100% { transform: translateX(0); opacity: 1; }
-						}
-						`}
+              @keyframes fadeInUp {
+                0% { opacity: 0; transform: translateY(30px); }
+                100% { opacity: 1; transform: translateY(0); }
+              }
+              @keyframes slideOut {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50px); opacity: 0; }
+              }
+              @keyframes slideIn {
+                0% { transform: translateX(50px); opacity: 0; }
+                100% { transform: translateX(0); opacity: 1; }
+              }
+            `}
 					</style>
 					<Button
 						onClick={handleClick}
@@ -267,7 +260,7 @@ const HeroSection = () => {
 								}}
 							/>
 						</Box>
-						<span style={{ marginLeft: '-8px' }}> Shop Now </span>
+						<span style={{ marginLeft: '-8px' }}>{t('Shop Now')}</span>
 					</Button>
 				</Box>
 			</Stack>

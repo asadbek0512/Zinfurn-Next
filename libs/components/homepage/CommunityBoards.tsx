@@ -8,6 +8,7 @@ import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
 import { T } from '../../types/common';
 import { BoardArticleCategory } from '../../enums/board-article.enum';
+import { useTranslation } from 'next-i18next';
 
 const CommunityBoards = () => {
 	const device = useDeviceDetect();
@@ -19,6 +20,7 @@ const CommunityBoards = () => {
 	});
 	const [newsArticles, setNewsArticles] = useState<BoardArticle[]>([]);
 	const [freeArticles, setFreeArticles] = useState<BoardArticle[]>([]);
+	const { t } = useTranslation('common');
 
 	/** APOLLO REQUESTS **/
 	const {
@@ -28,7 +30,13 @@ const CommunityBoards = () => {
 		refetch: getNewsArticlesRefetch,
 	} = useQuery(GET_BOARD_ARTICLES, {
 		fetchPolicy: 'network-only',
-		variables: { input: { ...searchCommunity, limit: 6, search: { articleCategory: BoardArticleCategory.NEWS } } },
+		variables: {
+			input: {
+				...searchCommunity,
+				limit: 6,
+				search: { articleCategory: BoardArticleCategory.NEWS },
+			},
+		},
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			setNewsArticles(data?.getBoardArticles?.list);
@@ -42,7 +50,13 @@ const CommunityBoards = () => {
 		refetch: getFreeArticlesRefetch,
 	} = useQuery(GET_BOARD_ARTICLES, {
 		fetchPolicy: 'network-only',
-		variables: { input: { ...searchCommunity, limit: 3, search: { articleCategory: BoardArticleCategory.FREE } } },
+		variables: {
+			input: {
+				...searchCommunity,
+				limit: 3,
+				search: { articleCategory: BoardArticleCategory.FREE },
+			},
+		},
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			setFreeArticles(data?.getBoardArticles?.list);
@@ -55,20 +69,20 @@ const CommunityBoards = () => {
 	};
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY BOARDS (MOBILE)</div>;
+		return <div>{t('COMMUNITY BOARDS (MOBILE)')}</div>;
 	} else {
 		return (
 			<Stack className={'community-board'}>
 				<Stack className={'container'}>
 					<div className="community-header">
 						<div className="left-text">
-						<Typography variant={'h1'}>News & Blogs</Typography>
-							<h2 className="main-title">Our Latest</h2>
-							<h2 className="green-title">News & Blogs</h2>
+							<Typography variant={'h1'}>{t('News & Blogs')}</Typography>
+							<h2 className="main-title">{t('Our Latest')}</h2>
+							<h2 className="green-title">{t('News & Blogs')}</h2>
 						</div>
 
 						<Link href="/community" className="view-button">
-							View All Blogs
+							{t('View All Blogs')}
 						</Link>
 					</div>
 
@@ -78,13 +92,13 @@ const CommunityBoards = () => {
 								className={`tab-btn ${activeTab === 'news' ? 'active' : ''}`}
 								onClick={() => handleTabChange('news')}
 							>
-								News
+								{t('News')}
 							</button>
 							<button
 								className={`tab-btn ${activeTab === 'free' ? 'active' : ''}`}
 								onClick={() => handleTabChange('free')}
 							>
-								Free
+								{t('Free')}
 							</button>
 						</div>
 

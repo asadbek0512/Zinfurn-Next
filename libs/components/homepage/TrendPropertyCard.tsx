@@ -7,6 +7,7 @@ import { Property } from '../../types/property/property';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { useTranslation } from 'next-i18next'; 
 
 interface TrendPropertyCardProps {
 	property: Property;
@@ -19,6 +20,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [isHovered, setIsHovered] = useState(false);
+	const { t } = useTranslation('common'); 
 
 	const pushDetailHandler = (id: string) => {
 		router.push({ pathname: '/property/detail', query: { id } });
@@ -30,13 +32,14 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 			: 0;
 
 	// Hover qilganda 2-chi rasm, aks holda 1-chi rasm
-	const backgroundImage = isHovered && property?.propertyImages?.[1]
-		? `url(${REACT_APP_API_URL}/${property.propertyImages[1]})`
-		: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`;
+	const backgroundImage =
+		isHovered && property?.propertyImages?.[1]
+			? `url(${REACT_APP_API_URL}/${property.propertyImages[1]})`
+			: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`;
 
 	return (
-		<Box 
-			className="product-card" 
+		<Box
+			className="product-card"
 			component="div"
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
@@ -47,7 +50,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 					component="div"
 					sx={{
 						backgroundImage: backgroundImage,
-						transition: 'background-image 0.3s ease-in-out'
+						transition: 'background-image 0.3s ease-in-out',
 					}}
 				/>
 
@@ -61,7 +64,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 
 					{/* Category badge o'ng tomonda */}
 					<Box className="category-badge" component="div">
-						<Typography className="category-text">{property.propertyCategory}</Typography>
+						<Typography className="category-text">{t(property.propertyCategory)}</Typography>
 					</Box>
 				</Box>
 			</Box>

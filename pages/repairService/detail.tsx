@@ -32,6 +32,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PhoneIcon from '@mui/icons-material/Phone';
+import { useTranslation } from 'next-i18next';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -42,6 +43,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 });
 
 const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
+	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
@@ -80,9 +82,6 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			if (data?.getRepairProperty) setSlideImage(data?.getRepairProperty?.repairPropertyImages?.[0]);
 		},
 	});
-
-	console.log('repairPropertyId:', repairPropertyId, repairProperty?._id);
-	console.log('slideImage:', getRepairPropertyData?.getRepairProperty?.repairPropertyImages?.[0], slideImage);
 
 	const {
 		loading: getRepairPropertiesLoading,
@@ -158,7 +157,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const likeRepairPropertyHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
-			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+			if (!user._id) throw new Error(t(Message.NOT_AUTHENTICATED));
 
 			await likeRepairProperty({ variables: { input: id } });
 
@@ -202,12 +201,13 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	const createCommentHandler = async () => {
 		try {
-			if (!user._id) throw Error(Message.NOT_AUTHENTICATED);
+			if (!user._id) throw Error(t(Message.NOT_AUTHENTICATED));
 			await createRepairComment({ variables: { input: insertCommentData } });
 
 			setInsertCommentData({ ...insertCommentData, commentContent: '' });
 
 			await getCommentsRefetch({ input: commentInquiry });
+			sweetTopSmallSuccessAlert(t('Review submitted successfully!'), 700);
 		} catch (err) {
 			await sweetErrorHandling(err);
 		}
@@ -232,12 +232,12 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	return (
 		<Stack className="repair-detail" direction="column" spacing={4}>
 			<Stack className="back-link" onClick={() => router.push('/repairService')}>
-				← Back to property
+				← {t('Back to property')}
 			</Stack>
 			<Stack className="repair-detail" direction={{ xs: 'column', md: 'row' }} spacing={3}>
 				{/* Left - Image */}
 				<Box component="div" className="repair-detail__image-box">
-					<img src={`${REACT_APP_API_URL}/${slideImage}`} alt="Repair" className="repair-detail__image" />
+					<img src={`${REACT_APP_API_URL}/${slideImage}`} alt={t('Repair')} className="repair-detail__image" />
 				</Box>
 
 				{/* Right - Info */}
@@ -272,7 +272,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								color="default"
 								onClick={(e) => {
 									e.stopPropagation();
-									likeRepairPropertyHandler(user, repairProperty._id); // endi string 100%
+									likeRepairPropertyHandler(user, repairProperty._id);
 								}}
 							>
 								{repairProperty.meLiked && repairProperty.meLiked[0]?.myFavorite ? (
@@ -317,10 +317,10 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					<Stack className="leave-review-config">
 						<Stack direction="row" alignItems="center" spacing={1}>
 							<RateReviewIcon sx={{ color: '#d89801' }} />
-							<Typography className="main-title">Write a Review</Typography>
+							<Typography className="main-title">{t('Write a Review')}</Typography>
 						</Stack>
 
-						<Typography className="review-title">Review</Typography>
+						<Typography className="review-title">{t('Review')}</Typography>
 
 						<textarea
 							onChange={({ target: { value } }) => {
@@ -343,7 +343,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								disabled={insertCommentData.commentContent.trim() === '' || !user?._id}
 								onClick={createCommentHandler}
 							>
-								<Typography className="title">Submit Review</Typography>
+								<Typography className="title">{t('Submit Review')}</Typography>
 							</Button>
 						</Box>
 					</Stack>
@@ -352,8 +352,10 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<>
 							<Stack className="filter-box">
 								<Stack className="review-cnt">
-									<Typography className="reviews">Review List</Typography>
-									<Typography className="Show">Showing 1-5 of {commentTotal} results</Typography>
+									<Typography className="reviews">{t('Review List')}</Typography>
+									<Typography className="Show">
+										{t('Showing 1-5 of {{total}} results', { total: commentTotal })}
+									</Typography>
 								</Stack>
 							</Stack>
 
@@ -393,7 +395,10 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 										<Stack className="total-result">
 											<Typography>
-												Total {commentTotal} review{commentTotal > 1 ? 's' : ''}
+												{t('Total {{total}} review{{plural}}', {
+													total: commentTotal,
+													plural: commentTotal > 1 ? 's' : '',
+												})}
 											</Typography>
 										</Stack>
 									</Stack>

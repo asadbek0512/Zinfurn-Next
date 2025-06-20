@@ -31,6 +31,8 @@ import {
 	sweetTopSmallSuccessAlert,
 } from '../../libs/sweetAlert';
 import { CommentUpdate } from '../../libs/types/comment/comment.update';
+import { useTranslation } from 'next-i18next';
+
 
 const ToastViewerComponent = dynamic(() => import('../../libs/components/community/TViewer'), { ssr: false });
 
@@ -44,6 +46,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const { query } = router;
+	const { t } = useTranslation('common');
 
 	const articleId = query?.id as string;
 	const articleCategory = query?.articleCategory as string;
@@ -253,9 +256,11 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 						<div className="community-detail-config">
 							<Stack className="title-box">
 								<Stack className="left">
-									<Typography className="title">{articleCategory} BOARD</Typography>
+									<Typography className="title">
+										{t(articleCategory)} {t('BOARD')}
+									</Typography>
 									<Typography className="sub-title">
-										Express your opinions freely here without content restrictions
+										{t('Express your opinions freely here without content restrictions')}
 									</Typography>
 								</Stack>
 								<Button
@@ -269,11 +274,11 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									}
 									className="right"
 								>
-									Write
+									{t('Write')}
 								</Button>
 							</Stack>
 							<Stack className="back-link" onClick={() => router.push('/community?articleCategory=FREE')}>
-								← Back to property
+								← {t('Back to property')}
 							</Stack>
 							<div className="config">
 								<Stack className="first-box-config">
@@ -344,11 +349,13 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									className="second-box-config"
 									sx={{ borderBottom: total > 0 ? 'none' : '1px solid #eee', border: '1px solid #eee' }}
 								>
-									<Typography className="title-text">Comments ({total})</Typography>
+									<Typography className="title-text">
+										{t('Comments')} ({total})
+									</Typography>
 									<Stack className="leave-comment">
 										<input
 											type="text"
-											placeholder="Leave a comment"
+											placeholder={t('Leave a comment')}
 											value={comment}
 											onChange={(e) => {
 												if (e.target.value.length > 100) return;
@@ -358,14 +365,14 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										/>
 										<Stack className="button-box">
 											<Typography>{wordsCnt}/100</Typography>
-											<Button onClick={createCommentHandler}>comment</Button>
+											<Button onClick={createCommentHandler}>{t('comment')}</Button>
 										</Stack>
 									</Stack>
 								</Stack>
 
 								{total > 0 && (
 									<Stack className="comments">
-										<Typography className="comments-title">Comments</Typography>
+										<Typography className="comments-title">{t('Comments')}</Typography>
 									</Stack>
 								)}
 								{comments?.map((commentData, index) => {
@@ -433,7 +440,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 																	}}
 																>
 																	<Typography variant="h4" color={'#b9b9b9'}>
-																		Update comment
+																		{t('Update comment')}
 																	</Typography>
 																	<Stack gap={'20px'}>
 																		<input
@@ -459,14 +466,14 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 																					color="inherit"
 																					onClick={() => cancelButtonHandler()}
 																				>
-																					Cancel
+																					{t('Cancel')}
 																				</Button>
 																				<Button
 																					variant="contained"
 																					color="inherit"
 																					onClick={() => updateButtonHandler(updatedCommentId, undefined)}
 																				>
-																					Update
+																					{t('Update')}
 																				</Button>
 																			</Stack>
 																		</Stack>

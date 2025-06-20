@@ -13,8 +13,10 @@ import { useRouter } from 'next/router';
 import { UPDATE_PROPERTY } from '../../../apollo/user/mutation';
 import { GET_AGENT_PROPERTIES } from '../../../apollo/user/query';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../sweetAlert';
+import { useTranslation } from 'next-i18next';
 
 const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
+	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
 	const [searchFilter, setSearchFilter] = useState<AgentPropertiesInquiry>(initialInput);
 	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
@@ -40,8 +42,6 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 		},
 	});
 
-
-	
 	/** HANDLERS **/
 	const paginationHandler = (e: T, value: number) => {
 		setSearchFilter({ ...searchFilter, page: value });
@@ -53,7 +53,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 
 	const deletePropertyHandler = async (id: string) => {
 		try {
-			if (await sweetConfirmAlert("Are you sure to delete this property?")) {
+			if (await sweetConfirmAlert(t('Are you sure to delete this property?'))) {
 				await updateProperty({
 					variables: {
 						input: {
@@ -71,7 +71,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 
 	const updatePropertyHandler = async (status: string, id: string) => {
 		try {
-			if (await sweetConfirmAlert(`Are you sure to change to ${status} status?`)) { 
+			if (await sweetConfirmAlert(t('Are you sure to change to {{status}} status?', { status }))) {
 				await updateProperty({
 					variables: {
 						input: {
@@ -81,7 +81,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 					},
 				});
 			}
-			await getAgentPropertiesRefetch({ input: searchFilter }); 
+			await getAgentPropertiesRefetch({ input: searchFilter });
 		} catch (err: any) {
 			await sweetErrorHandling(err);
 		}
@@ -98,8 +98,8 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 			<div id="my-property-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">My Properties</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+						<Typography className="main-title">{t('My Properties')}</Typography>
+						<Typography className="sub-title">{t('We are glad to see you again!')}</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="property-list-box">
@@ -108,38 +108,42 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 							onClick={() => changeStatusHandler(PropertyStatus.ACTIVE)}
 							className={searchFilter.search.propertyStatus === 'ACTIVE' ? 'active-tab-name' : 'tab-name'}
 						>
-							On Sale
+							{t('On Sale')}
 						</Typography>
 						<Typography
 							onClick={() => changeStatusHandler(PropertyStatus.SOLD)}
 							className={searchFilter.search.propertyStatus === 'SOLD' ? 'active-tab-name' : 'tab-name'}
 						>
-							On Sold
+							{t('On Sold')}
 						</Typography>
 					</Stack>
 					<Stack className="list-box">
 						<Stack className="listing-title-box">
-							<Typography className="title-text">Listing title</Typography>
-							<Typography className="title-text">Date Published</Typography>
-							<Typography className="title-text">Status</Typography>
-							<Typography className="title-text">View</Typography>
-							{searchFilter.search.propertyStatus === 'ACTIVE' && <Typography className="title-text">Action</Typography> }
+							<Typography className="title-text">{t('Listing title')}</Typography>
+							<Typography className="title-text">{t('Date Published')}</Typography>
+							<Typography className="title-text">{t('Status')}</Typography>
+							<Typography className="title-text">{t('View')}</Typography>
+							{searchFilter.search.propertyStatus === 'ACTIVE' && (
+								<Typography className="title-text">{t('Action')}</Typography>
+							)}
 						</Stack>
 
 						{agentProperties?.length === 0 ? (
 							<div
-							className="no-data"
-							style={{
-								display: 'flex',
-								flexDirection: 'column',
-								alignItems: 'center',
-								marginLeft: '250px',
-								marginTop: '58px',
-							}}
-						>
-							<img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} />
-								<p style={{ fontSize: '18px', color: '#555', marginTop: '8px', 	marginLeft: '45px' }}>No Articles found!</p>
-						</div>
+								className="no-data"
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+									marginLeft: '250px',
+									marginTop: '58px',
+								}}
+							>
+								<img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} />
+								<p style={{ fontSize: '18px', color: '#555', marginTop: '8px', marginLeft: '45px' }}>
+									{t('No Properties found!')}
+								</p>
+							</div>
 						) : (
 							agentProperties.map((property: Property) => {
 								return (
@@ -164,11 +168,10 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className="total-result">
-									<Typography>{total} property available</Typography>
+									<Typography>{t('{{total}} property available', { total })}</Typography>
 								</Stack>
 							</Stack>
 						)}
-						
 					</Stack>
 				</Stack>
 			</div>

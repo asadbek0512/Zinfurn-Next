@@ -12,8 +12,10 @@ import { GET_PROPERTY, GET_REPAIRPROPERTY } from '../../../apollo/user/query';
 import { RepairPropertyInput } from '../../types/repairProperty/repairProperty.input';
 import { RepairPropertyType } from '../../enums/repairProperty.enum';
 import { REACT_APP_API_URL } from '../../config';
+import { useTranslation } from 'next-i18next';
 
 const AddRepairProperty = ({ initialValues, ...props }: any) => {
+	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const inputRef = useRef<any>(null);
@@ -58,14 +60,14 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 			const selectedFiles = inputRef.current.files;
 
 			if (selectedFiles.length == 0) return false;
-			if (selectedFiles.length > 5) throw new Error('Cannot upload more than 5 images!');
+			if (selectedFiles.length > 5) throw new Error(t('Cannot upload more than 5 images!'));
 
 			formData.append(
 				'operations',
 				JSON.stringify({
 					query: `mutation ImagesUploader($files: [Upload!]!, $target: String!) { 
-						imagesUploader(files: $files, target: $target)
-				  }`,
+            imagesUploader(files: $files, target: $target)
+          }`,
 					variables: {
 						files: [null, null, null, null, null],
 						target: 'property',
@@ -95,12 +97,8 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 			});
 
 			const responseImages = response.data.data.imagesUploader;
-      
-			console.log('+responseImages: ', responseImages);
-
 			setRepairPropertyData({ ...repairPropertyData, repairPropertyImages: responseImages });
 		} catch (err: any) {
-			console.log('err: ', err.message);
 			await sweetMixinErrorAlert(err.message);
 		}
 	}
@@ -130,23 +128,21 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 					input: repairPropertyData,
 				},
 			});
-			
-			// State ni tozalash
+
 			setRepairPropertyData({
 			// @ts-ignore
-				repairPropertyType: '', // birinchi enum qiymatini olish
-				repairPropertyAddress: '',
+				repairPropertyType: undefined, // yoki null
+				repairPropertyData: '',
 				repairPropertyDescription: '',
 				repairPropertyImages: [],
 			});
-			
-			// Input ref ni tozalash
+
 			if (inputRef.current) {
 				inputRef.current.value = '';
 			}
-			
-			await sweetMixinSuccessAlert('Repair property created successfully.');
-			
+
+			await sweetMixinSuccessAlert(t('Repair property created successfully.'));
+
 			await router.push({
 				pathname: '/mypage',
 				query: {
@@ -162,51 +158,48 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 		router.back();
 	}
 
-	console.log('+repairPropertyData', repairPropertyData);
-
 	if (device === 'mobile') {
-		return <div>ADD NEW PROPERTY MOBILE PAGE</div>;
+		return <div>{t('ADD NEW PROPERTY MOBILE PAGE')}</div>;
 	} else {
 		return (
 			<div id="add-property-page">
 				<Stack className="main-title-box">
-					<Typography className="main-title">Add New Property</Typography>
-					<Typography className="sub-title">We are glad to see you again!</Typography>
+					<Typography className="main-title">{t('Add New Repair')}</Typography>
+					<Typography className="sub-title">{t('We are glad to see you again!')}</Typography>
 				</Stack>
 
 				<div>
 					<Stack className="config">
 						<Stack className="description-box">
 							<Stack className="config-column">
-								<Typography className="title">Property Type</Typography>
+								<Typography className="title">{t('Repair Type')}</Typography>
 								<select
 									className={'description-input'}
-									defaultValue={repairPropertyData.repairPropertyType || 'select'}
-									value={repairPropertyData.repairPropertyType || 'select'}
+									value={repairPropertyData.repairPropertyType || ''}
 									onChange={({ target: { value } }) =>
-										// @ts-ignore
-										setRepairPropertyData({ ...repairPropertyData, repairPropertyType: value })
+										setRepairPropertyData({
+											...repairPropertyData,
+											repairPropertyType: value as RepairPropertyType,
+										})
 									}
 								>
-									<>
-										<option selected={true} disabled={true} value={'select'}>
-											Select
+									<option value="" disabled>
+										{t('Select')}
+									</option>
+									{(Object.values(RepairPropertyType) as Array<RepairPropertyType>).map((type) => (
+										<option value={type} key={type}>
+											{t(type)}
 										</option>
-										{propertyType.map((type: any) => (
-											<option value={`${type}`} key={type}>
-												{type}
-											</option>
-										))}
-									</>
+									))}
 								</select>
 							</Stack>
 
 							<Stack className="config-column">
-								<Typography className="title">Property Address</Typography>
+								<Typography className="title">{t('Repair Address')}</Typography>
 								<input
 									type="text"
 									className="description-input"
-									placeholder={'Property Address'}
+									placeholder={t('Property Address')}
 									value={repairPropertyData.repairPropertyAddress}
 									onChange={({ target: { value } }) =>
 										setRepairPropertyData({ ...repairPropertyData, repairPropertyAddress: value })
@@ -214,12 +207,10 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 								/>
 							</Stack>
 
-							<Typography className="property-title">Property Description</Typography>
+							<Typography className="property-title">{t('Repair Description')}</Typography>
 							<Stack className="config-column">
-								<Typography className="title">Description</Typography>
+								<Typography className="title">{t('Description')}</Typography>
 								<textarea
-									name=""
-									id=""
 									className="description-text"
 									value={repairPropertyData.repairPropertyDescription}
 									onChange={({ target: { value } }) =>
@@ -229,7 +220,7 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 							</Stack>
 						</Stack>
 
-						<Typography className="upload-title">Upload photos of your property</Typography>
+						<Typography className="upload-title">{t('Upload photos of your Repair')}</Typography>
 						<Stack className="images-box">
 							<Stack className="upload-box">
 								<svg xmlns="http://www.w3.org/2000/svg" width="121" height="120" viewBox="0 0 121 120" fill="none">
@@ -274,8 +265,10 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 									</defs>
 								</svg>
 								<Stack className="text-box">
-									<Typography className="drag-title">Drag and drop images here</Typography>
-									<Typography className="format-title">Photos must be JPEG or PNG format and least 2048x768</Typography>
+									<Typography className="drag-title">{t('Drag and drop images here')}</Typography>
+									<Typography className="format-title">
+										{t('Photos must be JPEG or PNG format and least 2048x768')}
+									</Typography>
 								</Stack>
 								<Button
 									className="browse-button"
@@ -283,7 +276,7 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 										inputRef.current.click();
 									}}
 								>
-									<Typography className="browse-button-text">Browse Files</Typography>
+									<Typography className="browse-button-text">{t('Browse Files')}</Typography>
 									<input
 										ref={inputRef}
 										type="file"
@@ -321,7 +314,7 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 
 						<Stack className="buttons-row">
 							<Button className="next-button" disabled={doDisabledCheck()} onClick={insertRepairPropertyHandler}>
-								<Typography className="next-button-text">Save</Typography>
+								<Typography className="next-button-text">{t('Save')}</Typography>
 							</Button>
 						</Stack>
 					</Stack>

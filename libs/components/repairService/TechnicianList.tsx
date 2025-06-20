@@ -15,12 +15,14 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import StarIcon from '@mui/icons-material/Star';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import { Trans, useTranslation } from 'next-i18next';
 
 interface QualitySectionProps {
 	initialInput?: AgentsInquiry;
 }
 
 const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
+	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const [isVisible, setIsVisible] = useState(false);
@@ -44,7 +46,6 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 		onCompleted: (data: T) => {
 			const technicians = data?.getTechnicians?.list;
 			if (technicians && technicians.length > 0) {
-				// Eng yuqori reytingli technicianini olish
 				setTopTechnician(technicians[0]);
 			}
 		},
@@ -54,40 +55,40 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 		? `${process.env.REACT_APP_API_URL}/${topTechnician.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
-	const technicianName = topTechnician?.memberNick || 'Professional Craftsperson';
+	const technicianName = topTechnician?.memberNick || t('Professional Craftsperson');
 
 	const features = [
 		{
 			icon: HandymanIcon,
-			title: 'Reliable Repairs',
-			description: 'Strong, stable, and long-lasting fixes for all furniture types.',
+			title: t('Reliable Repairs'),
+			description: t('Strong, stable, and long-lasting fixes for all furniture types.'),
 			color: 'blue',
 		},
 		{
 			icon: BuildIcon,
-			title: 'Detailed Restoration',
-			description: 'We restore furniture to its original beauty, preserving its character.',
+			title: t('Detailed Restoration'),
+			description: t('We restore furniture to its original beauty, preserving its character.'),
 			color: 'green',
 		},
 		{
 			icon: DesignServicesIcon,
-			title: 'Custom Solutions',
-			description: 'We design and build furniture tailored to your needs.',
+			title: t('Custom Solutions'),
+			description: t('We design and build furniture tailored to your needs.'),
 			color: 'orange',
 		},
 		{
 			icon: ThumbUpAltIcon,
-			title: 'Trusted by Clients',
-			description: 'Over 10 years of experience and dozens of satisfied customers.',
+			title: t('Trusted by Clients'),
+			description: t('Over 10 years of experience and dozens of satisfied customers.'),
 			color: 'purple',
 		},
 	];
 
 	const stats = [
-		{ number: '10+', label: 'Years of Professional Repair Experience' },
-		{ number: '12K+', label: 'Satisfied Clients Served' },
-		{ number: '500+', label: 'Furniture Projects Handled' },
-		{ number: '99%', label: 'Client Satisfaction Rate' },
+		{ number: '10+', label: t('Years of Professional Repair Experience') },
+		{ number: '12K+', label: t('Satisfied Clients Served') },
+		{ number: '500+', label: t('Furniture Projects Handled') },
+		{ number: '99%', label: t('Client Satisfaction Rate') },
 	];
 
 	const rating = 4.5;
@@ -106,12 +107,11 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 		return stars;
 	}
 
-	// Loading holatini ko'rsatish
 	if (loadingTechnicians) {
 		return (
 			<Stack className="quality-section loading">
 				<Box component="div" className="loading-spinner">
-					Loading...
+					{t('Loading...')}
 				</Box>
 			</Stack>
 		);
@@ -125,32 +125,23 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 					{/* Image Section */}
 					<Box component="div" className="image-section">
 						<Box component="div" className="image-wrapper">
-							{/* Background decoration */}
 							<Box component="div" className="bg-decoration"></Box>
-
-							{/* Main image container */}
 							<Box component="div" className="image-container">
 								<img
 									src={technicianImage}
-									alt={`Professional furniture craftsperson - ${technicianName}`}
+									alt={t('Professional furniture craftsperson - {{name}}', { name: technicianName })}
 									className="main-image"
 								/>
-
-								{/* Overlay gradient */}
 								<Box component="div" className="overlay-gradient"></Box>
-
-								{/* Decorative border */}
 								<Box component="div" className="decorative-border"></Box>
 							</Box>
-
-							{/* Floating quality badge */}
 							<Box component="div" className="quality-badge">
 								<Box component="div" className="badge-content">
 									<Box component="div" className="stars">
 										{renderStars(rating)}
 									</Box>
 									<Typography component="span" className="badge-text">
-										Premium Quality
+										{t('Premium Quality')}
 									</Typography>
 								</Box>
 							</Box>
@@ -162,28 +153,30 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 						{/* Header */}
 						<Box component="div" className="header-section">
 							<Box component="div" className="quality-badge-header">
-								<Typography component="span">Our Product Quality</Typography>
+								<Typography component="span">{t('Our Product Quality')}</Typography>
 							</Box>
 
 							<Typography component="h2" className="main-title">
-								Setting the Standard for{' '}
+								{t('Setting the Standard for')}{' '}
 								<Typography component="span" className="gradient-text">
-									Quality Furniture
+									{t('Quality Furniture')}
 								</Typography>
 							</Typography>
 
 							<Typography component="p" className="description">
-								Our experienced technicians combine proven skills with practical knowledge to deliver high-quality
-								furniture. Every piece is built with care, precision, and attention to detail.
+								{t(
+									'Our experienced technicians combine proven skills with practical knowledge to deliver high-quality furniture. Every piece is built with care, precision, and attention to detail.',
+								)}
 							</Typography>
 
-							{/* Technician Highlight */}
 							{topTechnician && (
 								<Box component="div" className="technician-highlight">
 									<Typography component="p" className="technician-intro">
-										This service is led by <strong>{technicianName}</strong>, a professional furniture technician with
-										over 10 years of hands-on experience. He specializes in detailed restoration, reliable repairs, and
-										custom furniture work trusted by many satisfied clients.
+										<Trans
+											i18nKey="This service is led by <strong>{{name}}</strong>, a professional furniture technician with over 10 years of hands-on experience. He specializes in detailed restoration, reliable repairs, and custom furniture work trusted by many satisfied clients."
+											components={{ strong: <strong /> }}
+											values={{ name: technicianName }}
+										/>
 									</Typography>
 								</Box>
 							)}
@@ -192,7 +185,7 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 						{/* CTA Button */}
 						<Box component="div" className="cta-section">
 							<Button className="cta-button" onClick={() => router.push('/technicians')}>
-								<Typography component="span">Request Repair</Typography>
+								<Typography component="span">{t('Request Repair')}</Typography>
 								<ArrowRight className="arrow-icon" />
 							</Button>
 						</Box>
@@ -203,11 +196,12 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 				<Box component="div" className="features-section">
 					<Box component="div" className="features-header">
 						<Typography component="h3" className="features-title">
-							Why Choose Our Repair Service?
+							{t('Why Choose Our Repair Service?')}
 						</Typography>
 						<Typography component="p" className="features-description">
-							We blend years of hands-on experience with precise craftsmanship to deliver reliable, long-lasting
-							furniture repairs and custom work.
+							{t(
+								'We blend years of hands-on experience with precise craftsmanship to deliver reliable, long-lasting furniture repairs and custom work.',
+							)}
 						</Typography>
 					</Box>
 
@@ -224,11 +218,9 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 									<Box component="div" className="feature-icon">
 										{Icon && <Icon className="icon" />}
 									</Box>
-
 									<Typography component="h4" className="feature-title">
 										{feature.title}
 									</Typography>
-
 									<Typography component="p" className="feature-description">
 										{feature.description}
 									</Typography>
@@ -242,7 +234,7 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 				<Box component="div" className="stats-section">
 					<Box component="div" className="stats-container">
 						<Box component="div" className="stats-grid">
-							{stats.map((stat, index) => (
+							{stats.map((stat) => (
 								<Box key={stat.label} component="div" className="stat-item">
 									<Typography component="div" className="stat-number">
 										{stat.number}
@@ -260,7 +252,6 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 	);
 };
 
-// Default props
 QualitySection.defaultProps = {
 	initialInput: {
 		page: 1,

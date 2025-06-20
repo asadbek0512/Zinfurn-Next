@@ -12,6 +12,7 @@ import SupportIcon from '@mui/icons-material/Support';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import ArticleIcon from '@mui/icons-material/Article';
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -20,6 +21,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 });
 
 const CS: NextPage = (props: any) => {
+	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const tab = router.query.tab ?? 'notice';
@@ -36,38 +38,38 @@ const CS: NextPage = (props: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>CS PAGE MOBILE</h1>;
+		return <h1>{t('CS PAGE MOBILE')}</h1>;
 	}
 
 	return (
 		<div id="pc-wrap">
 			<Stack className={'cs-page'}>
 				<Stack className={'container'}>
-					<Box 	component={'div'} className={'cs-main-info'}>
-						<Box 	component={'div'} className={'info'}>
-							<Typography component="span">Customer Support</Typography>
+					<Box component={'div'} className={'cs-main-info'}>
+						<Box component={'div'} className={'info'}>
+							<Typography component="span">{t('Customer Support')}</Typography>
 							<Typography component="p">
-								<Link href="/">Home</Link> / Help
+								<Link href="/">{t('Home')}</Link> / {t('Help')}
 							</Typography>
 						</Box>
 
-						<Box 	component={'div'} className={'btns'}>
+						<Box component={'div'} className={'btns'}>
 							<div className={tab === 'notice' ? 'active' : ''} onClick={() => changeTabHandler('notice')}>
 								<SupportIcon />
-								Notices & Updates
+								{t('Notices & Updates')}
 							</div>
 							<div className={tab === 'faq' ? 'active' : ''} onClick={() => changeTabHandler('faq')}>
 								<QuestionAnswerIcon />
-								FAQ
+								{t('FAQ')}
 							</div>
 							<div className={tab === 'terms' ? 'active' : ''} onClick={() => changeTabHandler('terms')}>
 								<ArticleIcon />
-								Terms & Conditions
+								{t('Terms & Conditions')}
 							</div>
 						</Box>
 					</Box>
 
-					<Box	component={'div'} className={'cs-content'}>
+					<Box component={'div'} className={'cs-content'}>
 						{tab === 'notice' && <Notice />}
 						{tab === 'faq' && <Faq />}
 						{tab === 'terms' && <Terms />}

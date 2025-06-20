@@ -7,8 +7,10 @@ import { useQuery } from '@apollo/client';
 import { GET_ALL_NOTICES } from '../../../apollo/user/query';
 import { NoticeCategory, NoticeStatus } from '../../enums/notice.enum';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useTranslation } from 'next-i18next';
 
 const Notice = () => {
+	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
 
 	const { data: noticesData, loading } = useQuery(GET_ALL_NOTICES, {
@@ -21,12 +23,12 @@ const Notice = () => {
 	});
 
 	if (device === 'mobile') {
-		return <div>NOTICE MOBILE</div>;
+		return <div>{t('NOTICE MOBILE')}</div>;
 	}
 
 	if (loading) {
 		return (
-			<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+			<Box component="div" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
 				<CircularProgress />
 			</Box>
 		);
@@ -36,16 +38,17 @@ const Notice = () => {
 
 	return (
 		<Stack className={'notice-content'}>
-			<Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
+			<Box component="div" sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
 				<Typography variant="h4" component="h1" className={'title'} sx={{ mb: 0 }}>
-					Notice
+					{t('Notice')}
 				</Typography>
 				<Typography variant="body2" color="text.secondary" sx={{ flex: 1 }}>
-					Stay updated with our latest announcements and news
+					{t('Stay updated with our latest announcements and news')}
 				</Typography>
 			</Box>
 
 			<Box
+				component="div"
 				sx={{
 					backgroundColor: '#ffffff',
 					borderRadius: '12px',
@@ -54,8 +57,9 @@ const Notice = () => {
 				}}
 			>
 				{notices.map((notice: any, index: number) => (
-					<Box key={notice._id}>
+					<Box component="div" key={notice._id}>
 						<Box
+							component="div"
 							sx={{
 								display: 'flex',
 								alignItems: 'center',
@@ -73,7 +77,7 @@ const Notice = () => {
 								{format(new Date(notice.createdAt), 'MMM dd, yyyy')}
 							</Typography>
 						</Box>
-						<Box sx={{ p: 3, borderBottom: index < notices.length - 1 ? '1px solid #E2E8F0' : 'none' }}>
+						<Box component="div" sx={{ p: 3, borderBottom: index < notices.length - 1 ? '1px solid #E2E8F0' : 'none' }}>
 							<Typography sx={{ color: '#64748B', lineHeight: 1.8 }}>{notice.noticeContent}</Typography>
 						</Box>
 					</Box>

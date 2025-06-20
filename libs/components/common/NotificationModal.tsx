@@ -6,6 +6,7 @@ import { socketVar, userVar } from '../../../apollo/store';
 import ScrollableFeed from 'react-scrollable-feed';
 import { useSwipeable } from 'react-swipeable';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { useTranslation } from 'next-i18next';
 
 interface Notification {
 	id: string;
@@ -17,6 +18,7 @@ interface Notification {
 }
 
 const NotificationItem = ({ notification, onRead }: { notification: Notification; onRead: () => void }) => {
+	const { t } = useTranslation('common');
 	const handlers = useSwipeable({
 		onSwipedRight: () => {
 			if (notification.status === 'WAIT') {
@@ -53,7 +55,7 @@ const NotificationItem = ({ notification, onRead }: { notification: Notification
 				}}
 			>
 				<Stack spacing={1} sx={{ width: '100%' }}>
-					<Box 	component={'div'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+					<Box component={'div'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 						<Typography variant="body2" sx={{ fontSize: '20px' }}>
 							{getNotificationIcon(notification.type)}
 						</Typography>
@@ -69,7 +71,7 @@ const NotificationItem = ({ notification, onRead }: { notification: Notification
 						</Stack>
 					</Box>
 					<Typography variant="caption" color="text.secondary">
-						{format(new Date(notification.createdAt), 'MMM dd, yyyy HH:mm')}
+						{format(new Date(notification.createdAt), t('MMM dd, yyyy HH:mm'))}
 					</Typography>
 				</Stack>
 			</MenuItem>
@@ -88,6 +90,7 @@ const NotificationModal = ({
 	onClose: () => void;
 	onUnreadCountChange?: (count: number) => void;
 }) => {
+	const { t } = useTranslation('common');
 	const [notifications, setNotifications] = useState<Notification[]>([]);
 	const [unreadCount, setUnreadCount] = useState(0);
 	const socket = useReactiveVar(socketVar);
@@ -230,11 +233,11 @@ const NotificationModal = ({
 			>
 				<Stack direction="row" alignItems="center" spacing={1}>
 					<Typography variant="h6" sx={{ fontWeight: 600 }}>
-						Notifications
+						{t('Notifications')}
 					</Typography>
 					{unreadCount > 0 && (
 						<Typography variant="caption" color="primary">
-							{unreadCount} unread
+							{t('{{count}} unread', { count: unreadCount })}
 						</Typography>
 					)}
 				</Stack>
@@ -243,8 +246,8 @@ const NotificationModal = ({
 			<ScrollableFeed>
 				<Stack sx={{ maxHeight: '400px', overflow: 'auto' }}>
 					{notifications.length === 0 ? (
-						<Box 	component={'div'}  sx={{ p: 3, textAlign: 'center' }}>
-							<Typography color="text.secondary">No notifications yet</Typography>
+						<Box component={'div'} sx={{ p: 3, textAlign: 'center' }}>
+							<Typography color="text.secondary">{t('No notifications yet')}</Typography>
 						</Box>
 					) : (
 						notifications.map((notification) => (

@@ -4,7 +4,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper';
+import { Autoplay, Navigation } from 'swiper';
 import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import TrendPropertyCard from './TrendPropertyCard';
@@ -12,8 +12,9 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
-import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
+import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
+import { useTranslation } from 'next-i18next'; // Tarjima importi
 
 interface TrendPropertiesProps {
 	initialInput: PropertiesInquiry;
@@ -22,6 +23,8 @@ interface TrendPropertiesProps {
 const TrendProperties = (props: TrendPropertiesProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common'); // Tarjima funksiyasi
+
 	const [trendProperties, setTrendProperties] = useState<Property[]>([]);
 
 	/** APOLLO REQUESTS **/
@@ -40,16 +43,14 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 			setTrendProperties(data?.getProperties?.list);
 		},
 	});
-	/** HANDLERS **/
 
+	/** HANDLERS **/
 	const likePropertyHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
-			//execute likePropertyHandler Mutation
-			await likeTargetProperty({ variables: { input: id } });
 
-			//execute getPropertiesRefetch
+			await likeTargetProperty({ variables: { input: id } });
 			await getPropertiesRefetch({ input: initialInput });
 		} catch (err: any) {
 			console.log('ERROR, likePropertyHandler', err.message);
@@ -65,12 +66,12 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 			<Stack className={'trend-properties'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Trend Properties</span>
+						<span>{t('Trend Properties')}</span>
 					</Stack>
 					<Stack className={'card-box'}>
 						{trendProperties.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
-								Trends Empty
+								{t('Trends Empty')}
 							</Box>
 						) : (
 							<Swiper
@@ -80,13 +81,11 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 								spaceBetween={15}
 								modules={[Autoplay]}
 							>
-								{trendProperties.map((property: Property) => {
-									return (
-										<SwiperSlide key={property._id} className={'trend-property-slide'}>
-											<TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
-										</SwiperSlide>
-									);
-								})}
+								{trendProperties.map((property: Property) => (
+									<SwiperSlide key={property._id} className={'trend-property-slide'}>
+										<TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
+									</SwiperSlide>
+								))}
 							</Swiper>
 						)}
 					</Stack>
@@ -100,9 +99,9 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
 							<span>
-								Trend Properties <img className={'icons'} src="img/icons/stol.png" />
+								{t('Trend Properties')} <img className={'icons'} src="img/icons/stol.png" />
 							</span>
-							<p>Easily explore our carefully curated categories to find your favorite items</p>
+							<p>{t('Easily explore our carefully curated categories to find your favorite items')}</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className="pagination-box">
@@ -119,7 +118,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 					<Stack className={'card-box'}>
 						{trendProperties.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
-								Trends Empty
+								{t('Trends Empty')}
 							</Box>
 						) : (
 							<Swiper
@@ -132,13 +131,11 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 									prevEl: '.swiper-trend-prev',
 								}}
 							>
-								{trendProperties.map((property: Property) => {
-									return (
-										<SwiperSlide key={property._id} className={'trend-property-slide'}>
-											<TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
-										</SwiperSlide>
-									);
-								})}
+								{trendProperties.map((property: Property) => (
+									<SwiperSlide key={property._id} className={'trend-property-slide'}>
+										<TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
+									</SwiperSlide>
+								))}
 							</Swiper>
 						)}
 					</Stack>

@@ -51,6 +51,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import TrendPropertyCard from '../../libs/components/homepage/TrendPropertyCard';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import { useTranslation } from 'next-i18next';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -74,16 +75,17 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [commentTotal, setCommentTotal] = useState<number>(0);
 	const [quantity, setQuantity] = useState(1);
 	const [tabIndex, setTabIndex] = useState(0);
+	const { t } = useTranslation('common');
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
 		commentGroup: CommentGroup.PROPERTY,
 		commentContent: '',
 		commentRefId: '',
 	});
-	
+
 	// Zoom state
 	const [isZoomed, setIsZoomed] = useState<boolean>(false);
 	const [mousePosition, setMousePosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-	
+
 	const images = property?.propertyImages ?? [];
 	const currentIndex = images.indexOf(slideImage);
 
@@ -292,12 +294,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					<Stack className={'property-detail-config'}>
 						<Stack className="productContainer">
 							<Stack className="back-link" onClick={() => router.push('/property')}>
-								← Back to property
+								{t('back_to_property')}
 							</Stack>
 							<Stack className="productGrid">
 								<Stack className="imageSection">
 									<Stack className="mainImageContainer">
-										<IconButton onClick={prevImage} className="prev-button" aria-label="Previous image">
+										<IconButton onClick={prevImage} className="prev-button" aria-label={t('previous_image')}>
 											<ArrowBackIosIcon fontSize="small" />
 										</IconButton>
 
@@ -309,7 +311,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										>
 											<img
 												src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
-												alt="main-image"
+												alt={t('main_image')}
 												className="mainImage"
 												style={{
 													transform: isZoomed ? 'scale(2)' : 'scale(1)',
@@ -319,20 +321,20 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 											{/* Zoom Icon Overlay - sichqoncha bilan birga harakat qiladi */}
 											{!isZoomed && (
-												<div 
+												<div
 													className="zoom-icon-overlay"
 													style={{
 														left: `${mousePosition.x}%`,
 														top: `${mousePosition.y}%`,
-														transform: 'translate(-50%, -50%)'
+														transform: 'translate(-50%, -50%)',
 													}}
 												>
-													<ZoomInIcon style={{ color: 'white', fontSize: '64px' }} />
+													<ZoomInIcon style={{ color: 'white', fontSize: '4px' }} />
 												</div>
 											)}
 										</div>
 
-										<IconButton onClick={nextImage} className="next-button" aria-label="Next image">
+										<IconButton onClick={nextImage} className="next-button" aria-label={t('next_image')}>
 											<ArrowForwardIosIcon fontSize="small" />
 										</IconButton>
 									</Stack>
@@ -346,23 +348,24 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													onClick={() => changeImageHandler(subImg)}
 													key={subImg}
 												>
-													<img src={imagePath} alt="sub-image" />
+													<img src={imagePath} alt={t('sub_image')} />
 												</Stack>
 											);
 										})}
 									</Stack>
 								</Stack>
 
-								
 								<Stack className="productInfo">
-									<Typography className="category">{property?.propertyCategory}</Typography>
+									<Typography className="category">
+										{t(property?.propertyCategory || 'unknown_category', 'Category not available')}
+									</Typography>
 
 									<Stack className="titleRow">
 										<Typography variant="h4" className="title">
 											{property?.propertyTitle}
 										</Typography>
 										<Chip
-											label={property?.propertyInStock ? 'In Stock' : 'Out of Stock'}
+											label={property?.propertyInStock ? t('in_stock') : t('out_of_stock')}
 											sx={{
 												backgroundColor: property?.propertyInStock ? ' #d1fae5' : '#fbc1bf',
 												color: property?.propertyInStock ? '#065f46' : '#9b0b0b',
@@ -393,11 +396,13 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 
 									<Typography className="description">
-										{property?.propertyDesc || 'No description provided.'}
+										{property?.propertyDesc || t('no_description_provided')}
 									</Typography>
 
 									<Stack className="colorSection" direction="row" alignItems="center" gap={1}>
-										<Typography className="colorLabel">Color: {property?.propertyColor?.toLowerCase()}</Typography>
+										<Typography className="colorLabel">
+											{t('color')}: {t(property?.propertyColor || 'not_available')?.toLowerCase()}
+										</Typography>
 
 										{property?.propertyColor && (
 											<Stack
@@ -431,14 +436,14 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 										<Stack className="actionButtons">
 											<Button className="addToCartBtn" variant="contained">
-												Add To Cart
+												{t('add_to_cart')}
 											</Button>
 										</Stack>
 									</Stack>
 
 									<Stack className="buttons">
 										<Stack className="button-box">
-											<span className="metaLabel">Views :</span>
+											<span className="metaLabel">{t('views')} :</span>
 											<RemoveRedEyeIcon fontSize="medium" />
 											<Typography>{property?.propertyViews}</Typography>
 										</Stack>
@@ -454,17 +459,17 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 									<Stack className="productMeta">
 										<Stack className="metaRow">
-											<span className="metaLabel1">Tags :</span>
-											<span className="metaValue">{property?.propertyType}</span>
+											<span className="metaLabel1">{t('tags')} :</span>
+											<span className="metaValue">{t(property?.propertyType || 'not_available')}</span>
 										</Stack>
 
 										<Stack className="metaRow">
-											<span className="metaLabel">Material :</span>
-											<span className="metaValue">{property?.propertyMaterial}</span>
+											<span className="metaLabel">{t('material')} :</span>
+											<span className="metaValue">{t(property?.propertyMaterial || 'not_available')}</span>
 										</Stack>
 
 										<Stack className="shareRow">
-											<span className="shareLabel">Share :</span>
+											<span className="shareLabel">{t('share')} :</span>
 											<Stack className="shareButtons">
 												<IconButton size="small" className="facebook">
 													<Facebook fontSize="small" />
@@ -488,16 +493,16 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<Stack className={'property-desc-config'}>
 							<Stack className="left-config">
 								<Tabs value={tabIndex} onChange={handleTabChange} className="property-tabs">
-									<Tab label="Description" />
-									<Tab label={`Reviews (${commentTotal})`} />
+									<Tab label={t('description')} />
+									<Tab label={`${t('reviews')} (${commentTotal})`} />
 								</Tabs>
 
 								{tabIndex === 0 && (
 									<Stack className="prop-desc-config">
 										<Stack className="top-section">
-											<Typography className="main-title">Property Description</Typography>
+											<Typography className="main-title">{t('property_description')}</Typography>
 											<Typography className="description-text">
-												{property?.propertyDesc ?? 'No Description!'}
+												{property?.propertyDesc ?? t('no_description')}
 											</Typography>
 										</Stack>
 
@@ -506,89 +511,91 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												{/* Features Section */}
 												<Box component="div" className="details-section">
 													<Box component="div" className="section-header">
-														<Typography className="header-text">Features</Typography>
-														<Typography className="header-text">Details</Typography>
+														<Typography className="header-text">{t('features')}</Typography>
+														<Typography className="header-text">{t('details')}</Typography>
 													</Box>
 
 													<Box component="div" className="detail-row">
-														<span className="detail-label">Brand</span>
-														<span className="detail-value">{property?.propertyTitle || 'N/A'}</span>
+														<span className="detail-label">{t('brand')}</span>
+														<span className="detail-value">{property?.propertyTitle || t('not_available')}</span>
 													</Box>
 
 													<Box component="div" className="detail-row alternate">
-														<span className="detail-label">Color</span>
-														<span className="detail-value">{property?.propertyColor || 'N/A'}</span>
+														<span className="detail-label">{t('color')}</span>
+														<span className="detail-value">{property?.propertyColor || t('not_available')}</span>
 													</Box>
 
 													<Box component="div" className="detail-row">
-														<span className="detail-label">Product Dimensions</span>
+														<span className="detail-label">{t('product_dimensions')}</span>
 														<span className="detail-value">
-															{property?.propertySize ? `${property.propertySize} cm` : 'N/A'}
+															{property?.propertySize ? `${property.propertySize} ${t('cm')}` : t('not_available')}
 														</span>
 													</Box>
 
 													<Box component="div" className="detail-row alternate">
-														<span className="detail-label">Size</span>
+														<span className="detail-label">{t('size')}</span>
 														<span className="detail-value">
-															{property?.propertySize ? `${property.propertySize} cm` : 'N/A'}
+															{property?.propertySize ? `${property.propertySize} ${t('cm')}` : t('not_available')}
 														</span>
 													</Box>
 
 													<Box component="div" className="detail-row">
-														<span className="detail-label">Material</span>
-														<span className="detail-value">{property?.propertyMaterial || 'N/A'}</span>
+														<span className="detail-label">{t('material')}</span>
+														<span className="detail-value">{property?.propertyMaterial || t('not_available')}</span>
 													</Box>
 
 													<Box component="div" className="detail-row alternate">
-														<span className="detail-label">Style</span>
-														<span className="detail-value">{property?.propertyType || 'Modern'}</span>
+														<span className="detail-label">{t('style')}</span>
+														<span className="detail-value">{property?.propertyType || t('modern')}</span>
 													</Box>
 
 													<Box component="div" className="detail-row">
-														<span className="detail-label">Unit Count</span>
-														<span className="detail-value">1.0 Count</span>
+														<span className="detail-label">{t('unit_count')}</span>
+														<span className="detail-value">{t('count_value')}</span>
 													</Box>
 												</Box>
 
 												{/* Information Section */}
 												<Box component="div" className="details-section">
 													<Box component="div" className="section-header">
-														<Typography className="header-text">Features</Typography>
-														<Typography className="header-text">Information</Typography>
+														<Typography className="header-text">{t('features')}</Typography>
+														<Typography className="header-text">{t('information')}</Typography>
 													</Box>
 
 													<Box component="div" className="detail-row">
-														<span className="detail-label">Category</span>
-														<span className="detail-value">{property?.propertyCategory || 'N/A'}</span>
+														<span className="detail-label">{t('category')}</span>
+														<span className="detail-value">
+															{t((property?.propertyCategory as string) ?? 'not_available')}
+														</span>
 													</Box>
 
 													<Box component="div" className="detail-row alternate">
-														<span className="detail-label">Customer Reviews</span>
+														<span className="detail-label">{t('customer_reviews')}</span>
 														<span className="detail-value"> </span>
 														<Rating readOnly size="small" value={4.9} precision={0.1} sx={{ color: '#ffc107' }} />
 													</Box>
 
 													<Box component="div" className="detail-row">
-														<span className="detail-label">Product Dimensions</span>
+														<span className="detail-label">{t('product_dimensions')}</span>
 														<span className="detail-value">
-															{property?.propertySize ? `${property.propertySize} cm` : 'N/A'}
+															{property?.propertySize ? `${property.propertySize} ${t('cm')}` : t('not_available')}
 														</span>
 													</Box>
 
 													<Box component="div" className="detail-row alternate">
-														<span className="detail-label">Price</span>
+														<span className="detail-label">{t('price')}</span>
 														<span className="detail-value">${formatterStr(property?.propertyPrice)}</span>
 													</Box>
 
 													{property?.propertyIsOnSale && (
 														<>
 															<Box component="div" className="detail-row">
-																<span className="detail-label">Sale Price</span>
+																<span className="detail-label">{t('sale_price')}</span>
 																<span className="detail-value">${formatterStr(property?.propertySalePrice)}</span>
 															</Box>
 
 															<Box component="div" className="detail-row alternate">
-																<span className="detail-label">Sale Ends</span>
+																<span className="detail-label">{t('sale_ends')}</span>
 																<span className="detail-value">
 																	{moment(property?.propertySaleExpiresAt).format('DD MMM YYYY')}
 																</span>
@@ -597,8 +604,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													)}
 
 													<Box component="div" className="detail-row">
-														<span className="detail-label">Condition</span>
-														<span className="detail-value">{property?.propertyCondition || 'New'}</span>
+														<span className="detail-label">{t('condition')}</span>
+														<span className="detail-value">{property?.propertyCondition || t('new')}</span>
 													</Box>
 												</Box>
 											</Stack>
@@ -612,10 +619,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<Stack className="leave-review-config">
 												<Stack direction="row" alignItems="center" spacing={1}>
 													<RateReviewIcon sx={{ color: '#d89801' }} />
-													<Typography className="main-title">Write a Review</Typography>
+													<Typography className="main-title">{t('write_a_review')}</Typography>
 												</Stack>
 
-												<Typography className="review-title">Review</Typography>
+												<Typography className="review-title">{t('review')}</Typography>
 
 												<textarea
 													onChange={({ target: { value } }) => {
@@ -638,7 +645,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 														disabled={insertCommentData.commentContent.trim() === '' || !user?._id}
 														onClick={createCommentHandler}
 													>
-														<Typography className="title">Submit Review</Typography>
+														<Typography className="title">{t('submit_review')}</Typography>
 													</Button>
 												</Box>
 											</Stack>
@@ -647,8 +654,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												<>
 													<Stack className="filter-box">
 														<Stack className="review-cnt">
-															<Typography className="reviews">Review List</Typography>
-															<Typography className="Show">Showing 1-5 of {commentTotal} results</Typography>
+															<Typography className="reviews">{t('review_list')}</Typography>
+															<Typography className="Show">
+																{t('showing_results', { start: 1, end: 5, total: commentTotal })}
+															</Typography>
 														</Stack>
 													</Stack>
 
@@ -689,9 +698,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 															</Box>
 
 															<Stack className="total-result">
-																<Typography>
-																	Total {commentTotal} review{commentTotal > 1 ? 's' : ''}
-																</Typography>
+																<Typography>{t('total_reviews', { count: commentTotal })}</Typography>
 															</Stack>
 														</Stack>
 													</Stack>
@@ -704,7 +711,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 							<Stack className={'right-config'}>
 								<Stack className={'info-box'}>
-									<Typography className={'main-title'}>Get More Information</Typography>
+									<Typography className={'main-title'}>{t('get_more_information')}</Typography>
 									<Stack className={'image-info'}>
 										<img
 											className={'member-image'}
@@ -735,29 +742,29 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												</svg>
 												<Typography className={'number'}>{property?.memberData?.memberPhone}</Typography>
 											</Stack>
-											<Typography className={'listings'}>View Listings</Typography>
+											<Typography className={'listings'}>{t('view_listings')}</Typography>
 										</Stack>
 									</Stack>
 								</Stack>
 
 								<Stack className={'info-box'}>
-									<Typography className={'sub-title'}>Name</Typography>
-									<input type={'text'} placeholder={'Enter your name'} />
+									<Typography className={'sub-title'}>{t('name')}</Typography>
+									<input type={'text'} placeholder={t('enter_your_name')} />
 								</Stack>
 
 								<Stack className={'info-box'}>
-									<Typography className={'sub-title'}>Phone</Typography>
-									<input type={'text'} placeholder={'Enter your phone'} />
+									<Typography className={'sub-title'}>{t('phone')}</Typography>
+									<input type={'text'} placeholder={t('enter_your_phone')} />
 								</Stack>
 
 								<Stack className={'info-box'}>
-									<Typography className={'sub-title'}>Message</Typography>
-									<textarea placeholder={'Hello, I am interested in \n' + '[Renovated property at floor]'}></textarea>
+									<Typography className={'sub-title'}>{t('message')}</Typography>
+									<textarea placeholder={t('message_placeholder')}></textarea>
 								</Stack>
 
 								<Stack className={'info-box'}>
 									<Button className={'send-message'}>
-										<Typography className={'title'}>Send Message</Typography>
+										<Typography className={'title'}>{t('send_message')}</Typography>
 									</Button>
 								</Stack>
 							</Stack>
@@ -767,8 +774,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'similar-properties-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
-										<Typography className="main-title">Destination Furniture</Typography>
-										<Typography className="sub-title">Comfort, style, and durability — all in one place</Typography>
+										<Typography className="main-title">{t('destination_furniture')}</Typography>
+										<Typography className="sub-title">{t('comfort_style_durability')}</Typography>
 									</Stack>
 									<Box component={'div'} className={'right'}>
 										<div className="pagination-box">

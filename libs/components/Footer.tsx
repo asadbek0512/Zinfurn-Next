@@ -8,9 +8,11 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 
 import moment from 'moment';
+import { useTranslation } from 'next-i18next';
 
 const Footer = () => {
 	const device = useDeviceDetect();
+	const { t } = useTranslation('common');
 
 	if (device == 'mobile') {
 		return (
@@ -21,16 +23,16 @@ const Footer = () => {
 							<img src="/img/logo/logoWhite.svg" alt="" className={'logo'} />
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
-							<span>total free customer care</span>
-							<p>+82 10 4867 2909</p>
+							<span>{t('total free customer care')}</span>
+							<p>{t('+82 10 4867 2909')}</p>
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
-							<span>nee live</span>
-							<p>+82 10 4867 2909</p>
-							<span>Support?</span>
+							<span>{t('nee live')}</span>
+							<p>{t('+82 10 4867 2909')}</p>
+							<span>{t('Support?')}</span>
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
-							<p>follow us on social media</p>
+							<p>{t('follow us on social media')}</p>
 							<div className={'media-box'}>
 								<FacebookOutlinedIcon />
 								<TelegramIcon />
@@ -42,31 +44,33 @@ const Footer = () => {
 					<Stack className={'right'}>
 						<Box component={'div'} className={'bottom'}>
 							<div>
-								<strong>Popular Search</strong>
-								<span>Property for Rent</span>
-								<span>Property Low to hide</span>
+								<strong>{t('Popular Search')}</strong>
+								<span>{t('Property for Rent')}</span>
+								<span>{t('Property Low to hide')}</span>
 							</div>
 							<div>
-								<strong>Quick Links</strong>
-								<span>Terms of Use</span>
-								<span>Privacy Policy</span>
-								<span>Pricing Plans</span>
-								<span>Our Services</span>
-								<span>Contact Support</span>
-								<span>FAQs</span>
+								<strong>{t('Quick Links')}</strong>
+								<span>{t('Terms of Use')}</span>
+								<span>{t('Privacy Policy')}</span>
+								<span>{t('Pricing Plans')}</span>
+								<span>{t('Our Services')}</span>
+								<span>{t('Contact Support')}</span>
+								<span>{t('FAQs')}</span>
 							</div>
 							<div>
-								<strong>Discover</strong>
-								<span>Seoul</span>
-								<span>Gyeongido</span>
-								<span>Busan</span>
-								<span>Jejudo</span>
+								<strong>{t('Discover')}</strong>
+								<span>{t('Seoul')}</span>
+								<span>{t('Gyeongido')}</span>
+								<span>{t('Busan')}</span>
+								<span>{t('Jejudo')}</span>
 							</div>
 						</Box>
 					</Stack>
 				</Stack>
 				<Stack className={'second'}>
-					<span>© Nestar - All rights reserved. Nestar {moment().year()}</span>
+					<span>
+						{t('© Nestar - All rights reserved. Nestar')} {moment().year()}
+					</span>
 				</Stack>
 			</Stack>
 		);
@@ -75,22 +79,23 @@ const Footer = () => {
 			<Stack className={'footer-container'}>
 				<Stack component={'div'} className={'top'}>
 					<div className="left-content">
-						<strong>Sign up for 20% discount</strong>
-						<p>Unlock exclusive deals and trend alerts. Sign up now for the latest in furniture.</p>
+						<strong>{t('Sign up for 20% discount')}</strong>
+						<p>{t('Unlock exclusive deals and trend alerts. Sign up now for the latest in furniture.')}</p>
 					</div>
 					<div className="subscribe-form">
-						<input type="text" placeholder="Email" />
-						<button>Subscribe</button>
+						<input type="text" placeholder={t('Email')} />
+						<button>{t('Subscribe')}</button>
 					</div>
 				</Stack>
 				<Stack className={'main'}>
 					<Box component={'div'} className={'bottom'}>
-
 						<div className="footer-link">
-
 							<img src="/img/logo/11.png" alt="" className={'logo'} />
-							<div className='text'>Dear girls, stop giving yourself a hard time just because y
-								fit the set bars of beauty and fashion. Its Time To be an unpoolocash you with Costume County!</div>
+							<div className="text">
+								{t(
+									"Dear girls, stop giving yourself a hard time just because you don't fit the set bars of beauty and fashion. It's Time To be unapologetically you with Costume County!",
+								)}
+							</div>
 							<div className={'media-box'}>
 								<FacebookOutlinedIcon />
 								<TelegramIcon />
@@ -100,59 +105,59 @@ const Footer = () => {
 						</div>
 
 						<div className="footer-links">
-							<strong>Popular categories</strong>
-							<span>About us</span>
-							<span>Contact</span>
-							<span>Faq</span>
-							<span>Privacy policy</span>
-							<span>Return & exchange</span>
-							<span>Shipping policy</span>
-							<span>Terms & condition</span>
+							<strong>{t('Popular categories')}</strong>
+							<span>{t('About us')}</span>
+							<span>{t('Contact')}</span>
+							<span>{t('Faq')}</span>
+							<span>{t('Privacy policy')}</span>
+							<span>{t('Return & exchange')}</span>
+							<span>{t('Shipping policy')}</span>
+							<span>{t('Terms & condition')}</span>
 						</div>
 						<div className="footer-links">
-							<strong>Discover</strong>
-							<span>Home</span>
-							<span>Shop</span>
-							<span>Blog</span>
-							<span>Pages</span>
+							<strong>{t('Discover')}</strong>
+							<span>{t('Home')}</span>
+							<span>{t('Shop')}</span>
+							<span>{t('Blog')}</span>
+							<span>{t('Pages')}</span>
 						</div>
 						<div className="footer-links">
-							<strong>Quick links</strong>
-							<span>About us</span>
-							<span>Contact</span>
-							<span>Faq</span>
-							<span>Privacy policy</span>
-							<span>Return & exchange</span>
-							<span>Shipping policy</span>
-							<span>Terms & condition</span>
+							<strong>{t('quickLinks')}</strong>
+							<span>{t('About us')}</span>
+							<span>{t('Contact')}</span>
+							<span>{t('Faq')}</span>
+							<span>{t('Privacy policy')}</span>
+							<span>{t('Return & exchange')}</span>
+							<span>{t('Shipping policy')}</span>
+							<span>{t('Terms & condition')}</span>
 						</div>
 						<div className="shop-contact">
-							<strong>Shop contact</strong>
+							<strong>{t('Shop contact')}</strong>
 							<div className="contact-info">
 								<div className="info-row">
-									<span className="label">Hotline:</span>
-									<span className="value">Free 24/7</span>
+									<span className="label">{t('Hotline:')}</span>
+									<span className="value">{t('Free 24/7')}</span>
 								</div>
 								<div className="info-row">
-									<span className="label">Phone:</span>
-									<span className="value">+01 0123 456 789</span>
+									<span className="label">{t('Phone:')}</span>
+									<span className="value">{t('+01 0123 456 789')}</span>
 								</div>
 								<div className="info-row">
-									<span className="label">Address:</span>
-									<span className="value">1010 white street block, USA</span>
+									<span className="label">{t('Address:')}</span>
+									<span className="value">{t('1010 white street block, USA')}</span>
 								</div>
 								<div className="info-row">
-									<span className="label">Email:</span>
-									<span className="value">admin@gmail.com</span>
+									<span className="label">{t('Email:')}</span>
+									<span className="value">{t('admin@gmail.com')}</span>
 								</div>
 							</div>
 						</div>
-
-
 					</Box>
 				</Stack>
 				<Stack className={'second'}>
-					<span>© {moment().year()}, LogiC/O infotech Powered by Shopify</span>
+					<span>
+						© {moment().year()}, {t('LogiC/O infotech Powered by Shopify')}
+					</span>
 					<div className="payment-icons">
 						<img src="/img/icons/1.svg" alt="visa" />
 						<img src="/img/icons/2.svg" alt="mastercard" />

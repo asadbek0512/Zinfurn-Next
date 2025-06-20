@@ -14,6 +14,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import StarIcon from '@mui/icons-material/Star';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { useTranslation } from 'next-i18next';
 
 interface AgentCardProps {
 	agent: any;
@@ -22,6 +23,8 @@ interface AgentCardProps {
 
 // Custom Tooltip Component
 const AgentTooltip = ({ agent }: { agent: any }) => {
+	const { t } = useTranslation('common');
+	
 	return (
 		<Paper
 			elevation={3}
@@ -55,7 +58,7 @@ const AgentTooltip = ({ agent }: { agent: any }) => {
 						{agent?.memberFullName ?? agent?.memberNick}
 					</Typography>
 					<Typography variant="body2" sx={{ opacity: 0.9 }}>
-						Professional Agent
+						{t('professional_agent')}
 					</Typography>
 				</Box>
 			</Box>
@@ -64,49 +67,49 @@ const AgentTooltip = ({ agent }: { agent: any }) => {
 				<Box component={'div'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 					<HomeIcon sx={{ fontSize: 18, opacity: 0.8 }} />
 					<Typography variant="body2">
-						<strong>{agent?.memberProperties || 0}</strong> Properties
+						<strong>{agent?.memberProperties || 0}</strong> {t('properties')}
 					</Typography>
 				</Box>
 
 				<Box component={'div'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 					<ArticleIcon sx={{ fontSize: 18, opacity: 0.8 }} />
 					<Typography variant="body2">
-						<strong>{agent?.memberArticles || 0}</strong> Articles
+						<strong>{agent?.memberArticles || 0}</strong> {t('articles')}
 					</Typography>
 				</Box>
 
 				<Box component={'div'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 					<RemoveRedEyeIcon sx={{ fontSize: 18, opacity: 0.8 }} />
 					<Typography variant="body2">
-						<strong>{agent?.memberViews || 0}</strong> Profile Views
+						<strong>{agent?.memberViews || 0}</strong> {t('profile_views')}
 					</Typography>
 				</Box>
 
 				<Box component={'div'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 					<FavoriteIcon sx={{ fontSize: 18, opacity: 0.8 }} />
 					<Typography variant="body2">
-						<strong>{agent?.memberLikes || 0}</strong> Likes
+						<strong>{agent?.memberLikes || 0}</strong> {t('likes')}
 					</Typography>
 				</Box>
 
 				<Box component={'div'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 					<PeopleIcon sx={{ fontSize: 18, opacity: 0.8 }} />
 					<Typography variant="body2">
-						<strong>{agent?.memberFollowers || 0}</strong> Followers
+						<strong>{agent?.memberFollowers || 0}</strong> {t('followers')}
 					</Typography>
 				</Box>
 
 				<Box component={'div'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 					<PersonAddIcon sx={{ fontSize: 18, opacity: 0.8 }} />
 					<Typography variant="body2">
-						<strong>{agent?.memberFollowings || 0}</strong> Following
+						<strong>{agent?.memberFollowings || 0}</strong> {t('following')}
 					</Typography>
 				</Box>
 
 				<Box component="div" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 					<StarIcon sx={{ fontSize: 18, opacity: 0.8 }} />
 					<Typography variant="body2">
-						<strong>{agent?.memberRank || 0}</strong>/10 Rating
+						<strong>{agent?.memberRank || 0}</strong>/10 {t('rating')}
 					</Typography>
 				</Box>
 			</Box>
@@ -126,6 +129,7 @@ const AgentCard = (props: AgentCardProps) => {
 	const { agent, likeMemberHandler } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
+	const { t } = useTranslation('common');
 
 	const imagePath: string = agent?.memberImage
 		? `${REACT_APP_API_URL}/${agent?.memberImage}`
@@ -136,7 +140,7 @@ const AgentCard = (props: AgentCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>AGENT CARD</div>;
+		return <div>{t('agent_card_mobile')}</div>;
 	} else {
 		return (
 			<Tooltip
@@ -206,7 +210,7 @@ const AgentCard = (props: AgentCardProps) => {
 							fontWeight: '500',
 						}}
 					>
-						{agent?.memberProperties} properties
+						{agent?.memberProperties} {t('properties')}
 					</Box>
 
 					{/* Bottom Overlay Banner */}
@@ -258,7 +262,7 @@ const AgentCard = (props: AgentCardProps) => {
 									lineHeight: 1.2,
 								}}
 							>
-								Agent
+								{t('agent')}
 							</Typography>
 						</Box>
 

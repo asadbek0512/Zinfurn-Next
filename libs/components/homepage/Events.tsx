@@ -1,6 +1,7 @@
 import React from 'react';
 import { Stack, Box, Button } from '@mui/material';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next'; // Yangi import qo'shildi
 
 interface PromoData {
 	title: string;
@@ -11,36 +12,61 @@ interface PromoData {
 	imageSrc: string;
 	backgroundColor: string;
 	isGaming?: boolean;
-	filterOption?: string; // Yangi field qo'shdik
+	filterOption?: string;
 }
 
-const promoData: PromoData[] = [
-	{
-		title: 'Latest Gaming',
-		subtitle: 'Chairs',
-		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed',
-		discount: 'Flat 20% Discount',
-		buttonText: 'Shop Now',
-		imageSrc: '/img/banner/game5.png',
-		backgroundColor: '#f5f5f5',
-		isGaming: true,
-		filterOption: 'propertyIsOnSale', // Gaming chairs uchun sale filter
-	},
-	{
-		title: 'Wood Chair',
-		subtitle: 'Collection',
-		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed',
-		discount: 'Flat 15% Discount',
-		buttonText: 'Shop Now',
-		imageSrc: '/img/banner/chair3.png',
-		backgroundColor: '#f4a92b',
-		isGaming: true,
-		filterOption: 'propertyIsOnSale', // Wood chairs uchun stock filter
-	},
-];
+const PromoBanners = () => {
+	const { t } = useTranslation('common'); // Yangi qo'shildi
+
+	const promoData: PromoData[] = [
+		{
+			title: t('Latest Gaming'), // t() funktsiyasi qo'shildi
+			subtitle: t('Chairs'),
+			description: t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed'),
+			discount: t('Flat 20% Discount'),
+			buttonText: t('Shop Now'),
+			imageSrc: '/img/banner/game5.png',
+			backgroundColor: '#f5f5f5',
+			isGaming: true,
+			filterOption: 'propertyIsOnSale',
+		},
+		{
+			title: t('Wood Chair'), // t() funktsiyasi qo'shildi
+			subtitle: t('Collection'),
+			description: t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed'),
+			discount: t('Flat 15% Discount'),
+			buttonText: t('Shop Now'),
+			imageSrc: '/img/banner/chair3.png',
+			backgroundColor: '#f4a92b',
+			isGaming: true,
+			filterOption: 'propertyIsOnSale',
+		},
+	];
+
+	return (
+		<Stack className="promo-banners" style={{ padding: '40px 0' }}>
+			<Stack className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+				<Stack
+					className="banners-wrapper"
+					style={{
+						display: 'grid',
+						gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+						gap: '24px',
+						width: '100%',
+					}}
+				>
+					{promoData.map((promo: PromoData, index: number) => (
+						<PromoCard promo={promo} key={index} />
+					))}
+				</Stack>
+			</Stack>
+		</Stack>
+	);
+};
 
 const PromoCard = ({ promo }: { promo: PromoData }) => {
 	const router = useRouter();
+	const { t } = useTranslation('common'); // Yangi qo'shildi
 
 	const handleShopNowClick = () => {
 		const filterParams = {
@@ -49,8 +75,8 @@ const PromoCard = ({ promo }: { promo: PromoData }) => {
 			sort: 'createdAt',
 			direction: 'DESC',
 			search: {
-				options: [promo.filterOption]
-			}
+				options: [promo.filterOption],
+			},
 		};
 
 		const encodedParams = encodeURIComponent(JSON.stringify(filterParams));
@@ -158,28 +184,6 @@ const PromoCard = ({ promo }: { promo: PromoData }) => {
 					zIndex: 1,
 				}}
 			/>
-		</Stack>
-	);
-};
-
-const PromoBanners = () => {
-	return (
-		<Stack className="promo-banners" style={{ padding: '40px 0' }}>
-			<Stack className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-				<Stack
-					className="banners-wrapper"
-					style={{
-						display: 'grid',
-						gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-						gap: '24px',
-						width: '100%',
-					}}
-				>
-					{promoData.map((promo: PromoData, index: number) => (
-						<PromoCard promo={promo} key={index} />
-					))}
-				</Stack>
-			</Stack>
 		</Stack>
 	);
 };

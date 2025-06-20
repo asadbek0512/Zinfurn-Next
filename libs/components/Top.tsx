@@ -49,7 +49,6 @@ const Top = () => {
 		}
 	}, [router]);
 
-	// Birlashtirgan navbar scroll logic
 	useEffect(() => {
 		const checkInitialState = () => {
 			const isDetailPage =
@@ -74,10 +73,7 @@ const Top = () => {
 			setIsTransparent(!isDetailPage && !scrolled);
 		};
 
-		// Darhol tekshirish (route o'zgarishida)
 		checkInitialState();
-
-		// Scroll listener qo'shish
 		window.addEventListener('scroll', handleScroll);
 
 		return () => {
@@ -92,42 +88,30 @@ const Top = () => {
 
 	useEffect(() => {
 		if (socket && user?._id) {
-			console.log('TopBasic: Setting up notification listener', {
-				socketState: socket.readyState,
-				userId: user._id,
-			});
-
 			socket.onmessage = (msg) => {
 				try {
 					const data = JSON.parse(msg.data);
-					console.log('TopBasic: Received message:', data);
-
 					if (data.event === 'notification') {
-						console.log('TopBasic: Received notification:', data.payload);
-						// Update badge state for new notifications
 						if (data.payload.status === 'WAIT') {
 							setHasUnreadNotifications(true);
 						}
 					} else if (data.event === 'unreadNotifications') {
-						console.log('TopBasic: Received initial unread notifications:', data.payload);
-						// If there are any unread notifications, show the badge
 						if (data.payload && data.payload.length > 0) {
 							setHasUnreadNotifications(true);
 						}
 					}
 				} catch (error) {
-					console.error('TopBasic: Error processing message:', error);
+					console.error('Error processing message:', error);
 				}
 			};
 
 			socket.onerror = (error) => {
-				console.error('TopBasic: WebSocket error:', error);
+				console.error('WebSocket error:', error);
 			};
 		}
 
 		return () => {
 			if (socket) {
-				console.log('TopBasic: Cleaning up notification listener');
 				socket.onmessage = null;
 				socket.onerror = null;
 			}
@@ -225,13 +209,13 @@ const Top = () => {
 					<div>{t('Properties')}</div>
 				</Link>
 				<Link href={'/agent'}>
-					<div> {t('Agents')} </div>
+					<div>{t('Agents')}</div>
 				</Link>
 				<Link href={'/community?articleCategory=FREE'}>
-					<div> {t('Community')} </div>
+					<div>{t('Community')}</div>
 				</Link>
 				<Link href={'/cs'}>
-					<div> {t('CS')} </div>
+					<div>{t('CS')}</div>
 				</Link>
 			</Stack>
 		);
@@ -240,7 +224,14 @@ const Top = () => {
 			<Stack className={'navbar'}>
 				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
 					<Stack className={'container'}>
-						<Box component={'div'} className={'router-box'}>
+						<Box
+							component={'div'}
+							className={`router-box ${i18n.language === 'kr' ? 'korean-margin' : ''} ${
+								i18n.language === 'ru' ? 'russian-lang' : ''
+							} ${i18n.language === 'ar' ? 'arabic-lang' : ''} ${
+								i18n.language === 'uz' ? 'uzbek-lang' : ''
+							}`}
+						>
 							<Link href={'/'}>
 								<div>{t('Home')}</div>
 							</Link>
@@ -248,11 +239,11 @@ const Top = () => {
 								<div>{t('Properties')}</div>
 							</Link>
 							<Link href={'/agent'}>
-								<div> {t('Agents')} </div>
+								<div>{t('Agents')}</div>
 							</Link>
 
 							<Link href={'/repairService'}>
-								<div> {t('Service')} </div>
+								<div>{t('Service')}</div>
 							</Link>
 
 							<Link href="/" className={`logo-box ${isTransparent ? 'transparent' : ''}`}>
@@ -261,20 +252,19 @@ const Top = () => {
 							</Link>
 
 							<Link href={'/community?articleCategory=FREE'}>
-								<div> {t('Community')} </div>
+								<div>{t('Community')}</div>
 							</Link>
 
 							{user?._id && (
 								<Link href={'/mypage'}>
-									<div> {t('My Page')} </div>
+									<div>{t('My Page')}</div>
 								</Link>
 							)}
 
 							<Link href={'/cs'}>
-								<div> {t('CS')} </div>
+								<div>{t('CS')}</div>
 							</Link>
 						</Box>
-
 						<Box component={'div'} className={'user-box'}>
 							{user?._id ? (
 								<>
@@ -298,7 +288,7 @@ const Top = () => {
 									>
 										<MenuItem onClick={() => logOut()}>
 											<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
-											Logout
+											{t('Logout')}
 										</MenuItem>
 									</Menu>
 								</>
@@ -329,7 +319,6 @@ const Top = () => {
 										/>
 									</>
 								)}
-
 								<Button
 									disableRipple
 									className="btn-lang"
@@ -338,13 +327,12 @@ const Top = () => {
 								>
 									<Box component={'div'} className={'flag'}>
 										{lang !== null ? (
-											<img src={`/img/flag/lang${lang}.png`} alt={'usaFlag'} />
+											<img src={`/img/flag/lang${lang}.png`} alt={'flagIcon'} />
 										) : (
-											<img src={`/img/flag/langen.png`} alt={'usaFlag'} />
+											<img src={`/img/flag/langen.png`} alt={'flagIcon'} />
 										)}
 									</Box>
 								</Button>
-
 								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
 									<MenuItem disableRipple onClick={langChoice} id="en">
 										<img
@@ -352,7 +340,7 @@ const Top = () => {
 											src={'/img/flag/langen.png'}
 											onClick={langChoice}
 											id="en"
-											alt={'usaFlag'}
+											alt={'englishFlag'}
 										/>
 										{t('English')}
 									</MenuItem>
@@ -361,7 +349,7 @@ const Top = () => {
 											className="img-flag"
 											src={'/img/flag/langkr.png'}
 											onClick={langChoice}
-											id="uz"
+											id="kr"
 											alt={'koreanFlag'}
 										/>
 										{t('Korean')}
@@ -372,9 +360,29 @@ const Top = () => {
 											src={'/img/flag/langru.png'}
 											onClick={langChoice}
 											id="ru"
-											alt={'russiaFlag'}
+											alt={'russianFlag'}
 										/>
 										{t('Russian')}
+									</MenuItem>
+									<MenuItem disableRipple onClick={langChoice} id="ar">
+										<img
+											className="img-flag"
+											src={'/img/flag/langar.png'}
+											onClick={langChoice}
+											id="ar"
+											alt={'arabicFlag'}
+										/>
+										{t('Arabic')}
+									</MenuItem>
+									<MenuItem disableRipple onClick={langChoice} id="uz">
+										<img
+											className="img-flag"
+											src={'/img/flag/languz.png'}
+											onClick={langChoice}
+											id="uz"
+											alt={'uzbekFlag'}
+										/>
+										{t('Uzbek')}
 									</MenuItem>
 								</StyledMenu>
 							</div>

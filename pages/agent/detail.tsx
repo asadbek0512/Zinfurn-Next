@@ -26,8 +26,7 @@ import Review from '../../libs/components/property/Review';
 import { Pagination as MuiPagination } from '@mui/material';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
-
-
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -39,6 +38,8 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	const { t } = useTranslation('common');
+
 	dayjs.extend(relativeTime);
 	const [agentId, setAgentId] = useState<string | null>(null);
 	const [agent, setAgent] = useState<Member | null>(null);
@@ -186,7 +187,6 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 				},
 			});
 			await getPropertiesRefetch({ input: searchFilter });
-
 		} catch (err: any) {
 			console.log('ERROR, likePropertyHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
@@ -257,14 +257,15 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 									<Stack className="total-result">
 										<Typography>
-											Total {propertyTotal} propert{propertyTotal !== 1 ? 'ies' : 'y'} available
+											{t('Total')} {propertyTotal} {t('propert')}
+											{propertyTotal !== 1 ? t('ies') : t('y')} {t('available')}
 										</Typography>
 									</Stack>
 								</>
 							) : (
 								<Stack className="no-data">
 									<img src="/img/icons/icoAlert.svg" alt="No properties" />
-									<Typography>No properties found!</Typography>
+									<Typography>{t('No properties found!')}</Typography>
 								</Stack>
 							)}
 						</Stack>
@@ -276,10 +277,10 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							<Stack className="leave-review-config">
 								<Stack direction="row" alignItems="center" spacing={1}>
 									<RateReviewIcon sx={{ color: '#d89801' }} />
-									<Typography className="main-title">Write a Review</Typography>
+									<Typography className="main-title">{t('Write a Review')}</Typography>
 								</Stack>
 
-								<Typography className="review-title">Review</Typography>
+								<Typography className="review-title">{t('Review')}</Typography>
 
 								<textarea
 									onChange={({ target: { value } }) => {
@@ -302,7 +303,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 										disabled={insertCommentData.commentContent.trim() === '' || !user?._id}
 										onClick={createCommentHandler}
 									>
-										<Typography className="title">Submit Review</Typography>
+										<Typography className="title">{t('Submit Review')}</Typography>
 									</Button>
 								</Box>
 							</Stack>
@@ -311,8 +312,10 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 								<>
 									<Stack className="filter-box">
 										<Stack className="review-cnt">
-											<Typography className="reviews">Review List</Typography>
-											<Typography className="Show">Showing 1-5 of {commentTotal} results</Typography>
+											<Typography className="reviews">{t('Review List')}</Typography>
+											<Typography className="Show">
+												{t('Showing')} 1-5 {t('of')} {commentTotal} {t('results')}
+											</Typography>
 										</Stack>
 									</Stack>
 
@@ -355,7 +358,8 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 												<Stack className="total-result">
 													<Typography>
-														Total {commentTotal} review{commentTotal > 1 ? 's' : ''}
+														{t('Total')} {commentTotal} {t('review')}
+														{commentTotal > 1 ? t('s') : ''}
 													</Typography>
 												</Stack>
 											</Stack>

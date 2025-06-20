@@ -17,8 +17,10 @@ import GroupIcon from '@mui/icons-material/Group';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import HandymanIcon from '@mui/icons-material/Handyman';
+import { useTranslation } from 'next-i18next';
 
 const MyMenu = () => {
+	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const pathname = router.query.category ?? 'myProfile';
@@ -28,14 +30,14 @@ const MyMenu = () => {
 	/** HANDLERS **/
 	const logoutHandler = async () => {
 		try {
-			if (await sweetConfirmAlert('Do you want to logout?')) logOut();
+			if (await sweetConfirmAlert(t('Do you want to logout?'))) logOut();
 		} catch (err: any) {
 			console.log('ERROR, logoutHandler:', err.message);
 		}
 	};
 
 	if (device === 'mobile') {
-		return <div>MY MENU</div>;
+		return <div>{t('MY MENU')}</div>;
 	} else {
 		return (
 			<Stack width={'100%'} padding={'30px 24px'}>
@@ -55,10 +57,10 @@ const MyMenu = () => {
 						</Box>
 						{user?.memberType === 'ADMIN' ? (
 							<a href="/_admin/users" target={'_blank'}>
-								<Typography className={'view-list'}>{user?.memberType}</Typography>
+								<Typography className={'view-list'}>{t(user?.memberType)}</Typography>
 							</a>
 						) : (
-							<Typography className={'view-list'}>{user?.memberType}</Typography>
+							<Typography className={'view-list'}>{t(user?.memberType)}</Typography>
 						)}
 					</Stack>
 
@@ -67,7 +69,7 @@ const MyMenu = () => {
 							<Box component="div" className={'stat-item'}>
 								<WeekendIcon className="stat-icon" />
 								<Typography className={'stat-number'}>{user?.memberProperties}</Typography>
-								<Typography className={'stat-label'}>Furniture</Typography>
+								<Typography className={'stat-label'}>{t('Furniture')}</Typography>
 							</Box>
 						)}
 
@@ -75,32 +77,32 @@ const MyMenu = () => {
 							<Box component="div" className={'stat-item'}>
 								<HandymanIcon className="stat-icon" />
 								<Typography className={'stat-number'}>{user?.memberProperties}</Typography>
-								<Typography className={'stat-label'}>Repair</Typography>
+								<Typography className={'stat-label'}>{t('Repair')}</Typography>
 							</Box>
 						)}
 
 						<Box component="div" className={'stat-item'}>
 							<ArticleIcon className={'stat-icon'} />
 							<Typography className={'stat-number'}>{user?.memberArticles || 0}</Typography>
-							<Typography className={'stat-label'}>Articles</Typography>
+							<Typography className={'stat-label'}>{t('Articles')}</Typography>
 						</Box>
 
 						<Box component="div" className={'stat-item'}>
 							<GroupIcon className={'stat-icon'} />
 							<Typography className={'stat-number'}>{user?.memberFollowers || 0}</Typography>
-							<Typography className={'stat-label'}>Followers</Typography>
+							<Typography className={'stat-label'}>{t('Followers')}</Typography>
 						</Box>
 
 						<Box component="div" className={'stat-item'}>
 							<PersonAddIcon className={'stat-icon'} />
 							<Typography className={'stat-number'}>{user?.memberFollowings || 0}</Typography>
-							<Typography className={'stat-label'}>Following</Typography>
+							<Typography className={'stat-label'}>{t('Following')}</Typography>
 						</Box>
 
 						<Box component="div" className={'stat-item'}>
 							<FavoriteIcon className={'stat-icon'} />
 							<Typography className={'stat-number'}>{user?.memberLikes || 0}</Typography>
-							<Typography className={'stat-label'}>Likes</Typography>
+							<Typography className={'stat-label'}>{t('Likes')}</Typography>
 						</Box>
 					</Box>
 				</Stack>
@@ -108,7 +110,7 @@ const MyMenu = () => {
 				<Stack className={'sections'}>
 					<Stack className={'section'} style={{ height: user.memberType === 'AGENT' ? '228px' : '153px' }}>
 						<Typography className="title" variant={'h5'}>
-							MANAGE LISTINGS
+							{t('Manage Listings')}
 						</Typography>
 						<List className={'sub-section'}>
 							{user.memberType === 'AGENT' && (
@@ -128,7 +130,7 @@ const MyMenu = () => {
 													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													Add Property
+													{t('Add Property')}
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '40px' }}>
 													<PortraitIcon style={{ color: '#ff9736' }} />
@@ -151,7 +153,7 @@ const MyMenu = () => {
 													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													My Properties
+													{t('My Properties')}
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '36px' }}>
 													<PortraitIcon style={{ color: '#ff9736' }} />
@@ -179,7 +181,7 @@ const MyMenu = () => {
 													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													Add Repair
+													{t('Add Repair')}
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '40px' }}>
 													<PortraitIcon style={{ color: '#ff9736' }} />
@@ -191,18 +193,18 @@ const MyMenu = () => {
 										<Link
 											href={{
 												pathname: '/mypage',
-												query: { category: 'myRepairProperty' }, // 's' ni olib tashlang
+												query: { category: 'myRepairProperty' },
 											}}
 											scroll={false}
 										>
 											<div className={'flex-box'}>
-												{category === 'myRepairProperty' ? ( // Bu ham 's' siz
+												{category === 'myRepairProperty' ? (
 													<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} />
 												) : (
 													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													My Repair
+													{t('My Repair')}
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '36px' }}>
 													<PortraitIcon style={{ color: '#ff9736' }} />
@@ -229,7 +231,7 @@ const MyMenu = () => {
 										)}
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Favorites
+											{t('My Favorites')}
 										</Typography>
 									</div>
 								</Link>
@@ -251,7 +253,7 @@ const MyMenu = () => {
 										)}
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											Recently Visited
+											{t('Recently Visited')}
 										</Typography>
 									</div>
 								</Link>
@@ -299,7 +301,7 @@ const MyMenu = () => {
 											</g>
 										</svg>
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Followers
+											{t('My Followers')}
 										</Typography>
 									</div>
 								</Link>
@@ -348,7 +350,7 @@ const MyMenu = () => {
 										</svg>
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Followings
+											{t('My Followings')}
 										</Typography>
 									</div>
 								</Link>
@@ -359,7 +361,7 @@ const MyMenu = () => {
 					<Stack className={'section'} sx={{ marginTop: user.memberType === 'TECHNICIAN' ? '80px' : '10px' }}>
 						<div>
 							<Typography className="title" variant={'h5'}>
-								Community
+								{t('Community')}
 							</Typography>
 							<List className={'sub-section'}>
 								<ListItem className={pathname === 'myArticles' ? 'focus' : ''}>
@@ -378,7 +380,7 @@ const MyMenu = () => {
 											)}
 
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												Articles
+												{t('Articles')}
 											</Typography>
 										</div>
 									</Link>
@@ -398,7 +400,7 @@ const MyMenu = () => {
 												<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 											)}
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												Write Article
+												{t('Write Article')}
 											</Typography>
 										</div>
 									</Link>
@@ -408,7 +410,7 @@ const MyMenu = () => {
 					</Stack>
 					<Stack className={'section'} sx={{ marginTop: '-120px' }}>
 						<Typography className="title" variant={'h5'}>
-							MANAGE ACCOUNT
+							{t('Manage Account')}
 						</Typography>
 						<List className={'sub-section'}>
 							<ListItem className={pathname === 'myProfile' ? 'focus' : ''}>
@@ -425,7 +427,7 @@ const MyMenu = () => {
 											style={{ color: category === 'myProfile' ? '#fff' : '#000' }}
 										/>
 										<Typography className="sub-title" variant="subtitle1" component="p">
-											My Profile
+											{t('My Profile')}
 										</Typography>
 									</div>
 								</Link>
@@ -434,7 +436,7 @@ const MyMenu = () => {
 								<div className={'flex-box'}>
 									<img className={'com-icon'} src={'/img/icons/logout.svg'} alt={'com-icon'} />
 									<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-										Logout
+										{t('Logout')}
 									</Typography>
 								</div>
 							</ListItem>

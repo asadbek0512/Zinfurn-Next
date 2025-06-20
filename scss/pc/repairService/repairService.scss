@@ -159,6 +159,7 @@
 				}
 
 				.main-title {
+
 					font-size: 3rem;
 					font-weight: 700;
 					color: #111827;
@@ -167,6 +168,8 @@
 					font-family: $font;
 
 					.gradient-text {
+						display: flex;
+						flex-direction: row;
 						background: linear-gradient(45deg, #d97706, #f97316);
 						-webkit-background-clip: text;
 						background-clip: text;

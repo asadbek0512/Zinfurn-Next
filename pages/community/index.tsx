@@ -16,6 +16,7 @@ import { LIKE_TARGET_BOARD_ARTICLE } from '../../apollo/user/mutation';
 import { GET_BOARD_ARTICLES } from '../../apollo/user/query';
 import { Messages } from '../../libs/config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { useTranslation } from 'next-i18next'; // Translation import
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -26,6 +27,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 const Community: NextPage = ({ initialInput, ...props }: T) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const { t } = useTranslation('common'); // Translation hook
 	
 	// Barcha kategoriyalar uchun yagona state
 	const [allArticles, setAllArticles] = useState<{
@@ -164,9 +166,9 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		return (
 			<Stack className="category-section" key={category}>
 				<Stack className="category-header">
-					<Typography className="category-title">{title} BOARD</Typography>
+					<Typography className="category-title">{t(title)} {t('BOARD')}</Typography>
 					<Typography className="category-subtitle">
-						Express your opinions freely here without content restrictions
+						{t('Express your opinions freely here without content restrictions')}
 					</Typography>
 				</Stack>
 
@@ -187,7 +189,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 								className="see-more-btn"
 								onClick={() => toggleShowAll(category)}
 							>
-								{isShowingAll ? 'Show Less' : 'See More'}
+								{isShowingAll ? t('Show Less') : t('See More')}
 							</Button>
 						</Stack>
 					)}
@@ -205,7 +207,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 							</Stack>
 							<Stack className="total-info">
 								<Typography>
-									Total {total} article{total > 1 ? 's' : ''} in {title.toLowerCase()}
+									{t('Total')} {total} {t('article')}{total > 1 ? t('s') : ''} {t('in')} {t(title.toLowerCase())}
 								</Typography>
 							</Stack>
 						</Stack>
@@ -216,7 +218,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>COMMUNITY PAGE MOBILE</h1>;
+		return <h1>{t('COMMUNITY PAGE MOBILE')}</h1>;
 	} else {
 		return (
 			<div id="community-list-page">
@@ -224,7 +226,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 					<Stack className="main-box">
 						<Stack className="right-config">
 							<Stack className="header-section">
-								<Typography className="main-title">Community Board</Typography>
+								<Typography className="main-title">{t('Community Board')}</Typography>
 								<Button
 									onClick={() =>
 										router.push({
@@ -237,7 +239,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 									className="write-btn"
 									startIcon={<EditIcon />}
 								>
-									Article Write
+									{t('Article Write')}
 								</Button>
 							</Stack>
 

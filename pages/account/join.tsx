@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -15,6 +16,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 });
 
 const Join: NextPage = () => {
+	const { t } = useTranslation('common');
 	const router = useRouter();
 	const device = useDeviceDetect();
 	const [input, setInput] = useState({
@@ -49,7 +51,7 @@ const Join: NextPage = () => {
 	const doLogin = useCallback(async () => {
 		console.warn(input);
 		if (!input.memberEmail || !input.password) {
-			await sweetMixinErrorAlert('Email and password are required');
+			await sweetMixinErrorAlert(t('Email and password are required'));
 			return;
 		}
 
@@ -57,9 +59,9 @@ const Join: NextPage = () => {
 			const result = await logIn(input.memberEmail, input.password);
 			window.location.href = router.query.referrer?.toString() ?? '/';
 		} catch (err: any) {
-			await sweetMixinErrorAlert(err.message || 'Login failed');
+			await sweetMixinErrorAlert(err.message || t('Login failed'));
 		}
-	}, [input, router]);
+	}, [input, router, t]);
 
 	const doSignUp = useCallback(async () => {
 		console.warn(input);
@@ -78,7 +80,7 @@ const Join: NextPage = () => {
 	console.log('+input: ', input);
 
 	if (device === 'mobile') {
-		return <div>LOGIN MOBILE</div>;
+		return <div>{t('LOGIN MOBILE')}</div>;
 	} else {
 		return (
 			<Stack className={'join-page'}>
@@ -87,11 +89,11 @@ const Join: NextPage = () => {
 						<Stack className={'left'}>
 							{/* Title */}
 							<Box component="div" className={'info'}>
-								<span>{loginView ? 'Sign In' : 'Sign Up'}</span>
+								<span>{loginView ? t('Sign In') : t('Sign Up')}</span>
 								<p>
 									{loginView
-										? 'Please fill your detail to access your account.'
-										: 'Fill your information below or register with your social account.'}
+										? t('Please fill your detail to access your account.')
+										: t('Fill your information below or register with your social account.')}
 								</p>
 							</Box>
 
@@ -102,10 +104,10 @@ const Join: NextPage = () => {
 									<>
 										{/* NICKNAME */}
 										<div className={'input-box'}>
-											<span>Nickname</span>
+											<span>{t('Nickname')}</span>
 											<input
 												type="text"
-												placeholder="Enter your nickname"
+												placeholder={t('Enter your nickname')}
 												value={input.nick}
 												onChange={(e) => handleInput('nick', e.target.value)}
 												required={true}
@@ -114,10 +116,10 @@ const Join: NextPage = () => {
 
 										{/* EMAIL */}
 										<div className={'input-box'}>
-											<span>Email Address</span>
+											<span>{t('Email Address')}</span>
 											<input
 												type="email"
-												placeholder="Enter your email address"
+												placeholder={t('Enter your email address')}
 												value={input.memberEmail}
 												onChange={(e) => handleInput('memberEmail', e.target.value)}
 												required={true}
@@ -129,10 +131,10 @@ const Join: NextPage = () => {
 								{/* LOGIN FIELDS */}
 								{loginView && (
 									<div className={'input-box'}>
-										<span>Email or Nickname</span>
+										<span>{t('Email or Nickname')}</span>
 										<input
 											type="text"
-											placeholder="Enter email or nickname"
+											placeholder={t('Enter email or nickname')}
 											value={input.memberEmail}
 											onChange={(e) => handleInput('memberEmail', e.target.value)}
 											required={true}
@@ -147,10 +149,10 @@ const Join: NextPage = () => {
 
 								{/* PASSWORD - ikkala uchun ham */}
 								<div className={'input-box'} style={{ position: 'relative' }}>
-									<span>Password</span>
+									<span>{t('Password')}</span>
 									<input
 										type={showPassword ? 'text' : 'password'}
-										placeholder="Enter your password"
+										placeholder={t('Enter your password')}
 										value={input.password}
 										onChange={(e) => handleInput('password', e.target.value)}
 										required={true}
@@ -191,10 +193,10 @@ const Join: NextPage = () => {
 								{/* PHONE - faqat signup uchun */}
 								{!loginView && (
 									<div className={'input-box'}>
-										<span>Phone Number</span>
+										<span>{t('Phone Number')}</span>
 										<input
 											type="tel"
-											placeholder="Enter your phone number"
+											placeholder={t('Enter your phone number')}
 											value={input.phone}
 											onChange={(e) => handleInput('phone', e.target.value)}
 											required={true}
@@ -210,7 +212,7 @@ const Join: NextPage = () => {
 								{/* User Type - faqat signup uchun */}
 								{!loginView && (
 									<div className={'type-option'}>
-										<span className={'text'}>I want to be registered as:</span>
+										<span className={'text'}>{t('I want to be registered as:')}</span>
 										<div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
 											<FormGroup>
 												<FormControlLabel
@@ -222,7 +224,7 @@ const Join: NextPage = () => {
 															checked={input?.type === 'USER'}
 														/>
 													}
-													label="USER"
+													label={t('USER')}
 												/>
 											</FormGroup>
 											<FormGroup>
@@ -235,7 +237,7 @@ const Join: NextPage = () => {
 															checked={input?.type === 'AGENT'}
 														/>
 													}
-													label="AGENT"
+													label={t('AGENT')}
 												/>
 											</FormGroup>
 											<FormGroup>
@@ -248,7 +250,7 @@ const Join: NextPage = () => {
 															checked={input?.type === 'TECHNICIAN'}
 														/>
 													}
-													label="TECHNICIAN"
+													label={t('TECHNICIAN')}
 												/>
 											</FormGroup>
 										</div>
@@ -267,10 +269,10 @@ const Join: NextPage = () => {
 														size="small"
 													/>
 												}
-												label="Remember me"
+												label={t('Remember me')}
 											/>
 										</FormGroup>
-										<a>Forgot Password?</a>
+										<a>{t('Forgot Password?')}</a>
 									</div>
 								) : (
 									<div className={'terms-privacy'}>
@@ -280,7 +282,8 @@ const Join: NextPage = () => {
 											}
 											label={
 												<>
-													Agree with <a href="#">Terms & Condition</a> and <a href="#">Privacy Policy</a>
+													{t('Agree with')} <a href="#">{t('Terms & Condition')}</a> {t('and')}{' '}
+													<a href="#">{t('Privacy Policy')}</a>
 												</>
 											}
 										/>
@@ -303,7 +306,7 @@ const Join: NextPage = () => {
 											fontWeight: '600',
 										}}
 									>
-										Sign In
+										{t('Sign In')}
 									</Button>
 								) : (
 									<Button
@@ -327,19 +330,21 @@ const Join: NextPage = () => {
 											fontWeight: '600',
 										}}
 									>
-										Sign Up
+										{t('Sign Up')}
 									</Button>
 								)}
 
 								{/* Divider */}
 								<div className={'divider'}>
-									<span>or {loginView ? 'Sign In' : 'Sign Up'} with</span>
+									<span>
+										{t('or')} {loginView ? t('Sign In') : t('Sign Up')} {t('with')}
+									</span>
 								</div>
 
 								{/* Google Auth */}
 								<button className={'google-signin'} onClick={handleGoogleAuth}>
 									<img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
-									{loginView ? 'Sign In With Google' : 'Sign Up With Google'}
+									{loginView ? t('Sign In With Google') : t('Sign Up With Google')}
 								</button>
 							</Box>
 
@@ -347,13 +352,13 @@ const Join: NextPage = () => {
 							<Box component="div" className={'ask-info'}>
 								{loginView ? (
 									<p>
-										Don't have an account?
-										<b onClick={() => viewChangeHandler(false)}>Sign Up</b>
+										{t("Don't have an account?")}
+										<b onClick={() => viewChangeHandler(false)}>{t('Sign Up')}</b>
 									</p>
 								) : (
 									<p>
-										Already have an account?
-										<b onClick={() => viewChangeHandler(true)}>Sign In</b>
+										{t('Already have an account?')}
+										<b onClick={() => viewChangeHandler(true)}>{t('Sign In')}</b>
 									</p>
 								)}
 							</Box>
@@ -417,7 +422,7 @@ const Join: NextPage = () => {
 												}}
 											>
 												<img
-												src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face"
+													src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face"
 													alt="User 2"
 													style={{ width: '100%', height: '100%', objectFit: 'cover' }}
 												/>
@@ -508,7 +513,7 @@ const Join: NextPage = () => {
 												color: 'white',
 											}}
 										>
-											you
+											{t('you')}
 										</Box>
 									</Box>
 								</Box>
@@ -519,12 +524,11 @@ const Join: NextPage = () => {
 						<Stack className={`right ${loginView ? 'kitchen-bg' : 'living-bg'}`}>
 							<div className={'testimonial'}>
 								<div className={'quote'}>
-									"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-									totam rem aperiam, eaque ipsa quae ab illo inventore."
+								{t('Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.')}
 								</div>
 								<div className={'author'}>
-									<span className={'name'}>{loginView ? 'Cameron Williamson' : 'Annette Black'}</span>
-									<span className={'role'}>{loginView ? 'Interior Designer' : 'Architecture'}</span>
+									<span className={'name'}>{loginView ? t('Cameron Williamson') : t('Annette Black')}</span>
+									<span className={'role'}>{loginView ? t('Interior Designer') : t('Architecture')}</span>
 								</div>
 								<div className={'progress'}>
 									<div className={'dot active'}></div>

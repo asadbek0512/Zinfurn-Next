@@ -3,7 +3,6 @@ import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { useRouter } from 'next/router';
 import { FollowInquiry } from '../../types/follow/follow.input';
-import { useQuery, useReactiveVar } from '@apollo/client';
 import { Follower } from '../../types/follow/follow';
 import { REACT_APP_API_URL } from '../../config';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -11,16 +10,19 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { userVar } from '../../../apollo/store';
 import { T } from '../../types/common';
 import { GET_MEMBER_FOLLOWERS } from '../../../apollo/user/query';
+import { useTranslation } from 'next-i18next';
+import { useQuery, useReactiveVar } from '@apollo/client';
 
 interface MemberFollowsProps {
 	initialInput: FollowInquiry;
 	subscribeHandler: any;
 	unsubscribeHandler: any;
-	likeMemberHandler: any
+	likeMemberHandler: any;
 	redirectToMemberPageHandler: any;
 }
 
 const MemberFollowers = (props: MemberFollowsProps) => {
+	const { t } = useTranslation('common');
 	const { initialInput, subscribeHandler, unsubscribeHandler, likeMemberHandler, redirectToMemberPageHandler } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
@@ -71,19 +73,21 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 			<div id="member-follows-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">{category === 'followers' ? 'Followers' : 'Followings'}</Typography>
+						<Typography className="main-title">
+							{category === 'followers' ? t('Followers') : t('Followings')}
+						</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="follows-list-box">
 					<Stack className="listing-title-box">
-						<Typography className="title-text">Name</Typography>
-						<Typography className="title-text">Details</Typography>
-						<Typography className="title-text">Subscription</Typography>
+						<Typography className="title-text">{t('Name')}</Typography>
+						<Typography className="title-text">{t('Details')}</Typography>
+						<Typography className="title-text">{t('Subscription')}</Typography>
 					</Stack>
 					{memberFollowers?.length === 0 && (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Followers yet!</p>
+							<p>{t('No Followers yet!')}</p>
 						</div>
 					)}
 					{memberFollowers.map((follower: Follower) => {
@@ -102,11 +106,11 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 								</Stack>
 								<Stack className={'details-box'}>
 									<Box className={'info-box'} component={'div'}>
-										<p>Followers</p>
+										<p>{t('Followers_count')}</p>
 										<span>({follower?.followerData?.memberFollowers})</span>
 									</Box>
 									<Box className={'info-box'} component={'div'}>
-										<p>Followings</p>
+										<p>{t('Followings_count')}</p>
 										<span>({follower?.followerData?.memberFollowings})</span>
 									</Box>
 									<Box className={'info-box'} component={'div'}>
@@ -131,7 +135,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 									<Stack className="action-box">
 										{follower.meFollowed && follower.meFollowed[0]?.myFollowing ? (
 											<>
-												<Typography>Following</Typography>
+												<Typography>{t('Following')}</Typography>
 												<Button
 													variant="outlined"
 													sx={{ background: '#ed5858', ':hover': { background: '#ee7171' } }}
@@ -139,18 +143,18 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 														unsubscribeHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry)
 													}
 												>
-													Unfollow
+													{t('Unfollow')}
 												</Button>
 											</>
 										) : (
 											<Button
 												variant="contained"
 												sx={{ background: '#60eb60d4', ':hover': { background: '#60eb60d4' } }}
-												onClick={() => 
+												onClick={() =>
 													subscribeHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry)
 												}
 											>
-												Follow
+												{t('Follow')}
 											</Button>
 										)}
 									</Stack>
@@ -171,7 +175,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 							/>
 						</Stack>
 						<Stack className="total-result">
-							<Typography>{total} followers</Typography>
+							<Typography>{t('{{total}} followers', { total })}</Typography>
 						</Stack>
 					</Stack>
 				)}

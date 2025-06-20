@@ -7,6 +7,7 @@ import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { useTranslation } from 'next-i18next';
 
 interface ReviewProps {
 	comment: Comment;
@@ -14,6 +15,7 @@ interface ReviewProps {
 
 const Review = (props: ReviewProps) => {
 	const { comment } = props;
+	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
@@ -40,7 +42,7 @@ const Review = (props: ReviewProps) => {
 								{comment.memberData?.memberNick}
 							</Typography>
 							<Typography className={'member-type'}>
-								{comment.memberData?.memberType}
+								{t(comment.memberData?.memberType ?? '')}
 							</Typography>
 						</Stack>
 					</Stack>

@@ -31,6 +31,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import CommentIcon from '@mui/icons-material/Comment';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PersonIcon from '@mui/icons-material/Person';
+import { useTranslation } from 'next-i18next';
 
 interface RepairPropertiesGridProps {
 	initialInput: RepairPropertiesInquiry;
@@ -41,6 +42,7 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	const { t } = useTranslation('common');
 	const [repairProperties, setRepairProperties] = useState<RepairProperty[]>([]);
 	const [searchFilter, setSearchFilter] = useState<RepairPropertiesInquiry>(initialInput);
 	const [total, setTotal] = useState<number>(0);
@@ -67,10 +69,11 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 	const likeRepairPropertyHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
-			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+			if (!user._id) throw new Error(t(Message.NOT_AUTHENTICATED));
 
 			await likeTargetRepairProperty({ variables: { input: id } });
 			await getRepairPropertiesRefetch({ input: searchFilter });
+			sweetTopSmallSuccessAlert(t('Successfully updated!'), 700);
 		} catch (err: any) {
 			console.log('ERROR, likeRepairPropertyHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
@@ -99,28 +102,16 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 		}
 	};
 
-	const getRepairTypeText = (type: string) => {
-		switch (type) {
-			case 'FURNITURE':
-				return 'Furniture';
-			case 'ELECTRONICS':
-				return 'Electronics';
-			case 'APPLIANCES':
-				return 'Appliances';
-			default:
-				return type;
-		}
-	};
 
 	return (
 		<Stack className={'repair-properties-grid'}>
 			<Stack className={'container'}>
 				<Box component={'div'} className={'header'}>
 					<Typography variant="h4" component="h2" className={'main-title'}>
-						Repaired Properties
+						{t('Repaired Properties')}
 					</Typography>
 					<Typography variant="subtitle1" className={'subtitle'}>
-						Professional repairs by skilled craftsmen
+						{t('Professional repairs by skilled craftsmen')}
 					</Typography>
 				</Box>
 
@@ -144,7 +135,7 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 												{repairProperty?.memberData?.memberNick}
 											</Typography>
 											<Typography variant="caption" className={'craftsman-role'}>
-												Technician
+												{t('Technician')}
 											</Typography>
 										</Box>
 									</Box>
@@ -163,7 +154,7 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 									<CardContent className={'card-content'}>
 										{/* Type chip */}
 										<Chip
-											label={getRepairTypeText(repairProperty.repairPropertyType)}
+											label={t(repairProperty.repairPropertyType)}
 											size="small"
 											className={'type-chip'}
 											style={{
@@ -217,6 +208,7 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 														e.stopPropagation();
 														likeRepairPropertyHandler(user, repairProperty._id);
 													}}
+													aria-label={repairProperty?.meLiked?.[0]?.myFavorite ? t('Unlike') : t('Like')}
 												>
 													<FavoriteIcon fontSize="small" />
 												</IconButton>
@@ -248,7 +240,10 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 					{repairProperties.length > 0 && (
 						<Stack className="total-result">
 							<Typography>
-								Total {total} repair propert{total !== 1 ? 'ies' : 'y'} available
+								{t('Total {{total}} repair propert{{plural}} available', {
+									total,
+									plural: total !== 1 ? 'ies' : 'y',
+								})}
 							</Typography>
 						</Stack>
 					)}

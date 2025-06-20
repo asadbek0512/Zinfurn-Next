@@ -241,25 +241,28 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				<Stack className={'search-box'}>
 					<Stack className={'select-box'}>
 						<Box component={'div'} className={`box ${openLocation ? 'on' : ''}`} onClick={locationStateChangeHandler}>
-							<span>{searchFilter?.search?.categoryList ? searchFilter?.search?.categoryList[0] : t('Location')} </span>
+							<span>
+								{searchFilter?.search?.categoryList ? t(searchFilter?.search?.categoryList[0]) : t('Category')}
+							</span>
 							<ExpandMoreIcon />
 						</Box>
 						{/* @ts-ignore */}
 						<Box className={`box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
-							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Property type')} </span>
+							<span>{searchFilter?.search?.typeList ? t(searchFilter?.search?.typeList[0]) : t('Property type')}</span>
 							<ExpandMoreIcon />
 						</Box>
 						<Box className={`box ${openRooms ? 'on' : ''}`} onClick={materialStateChangeHandler}>
 							<span>
-								{searchFilter?.search?.materialList ? `${searchFilter?.search?.materialList[0]}` : t('Material')}
+								{searchFilter?.search?.materialList ? t(searchFilter?.search?.materialList[0]) : t('Material')}
 							</span>
 							<ExpandMoreIcon />
 						</Box>
 						<Box className={`box ${openColor ? 'on' : ''}`} onClick={colorStateChangeHandler}>
-							<span>{searchFilter?.search?.colorList ? `${searchFilter?.search?.colorList[0]}` : t('Color')}</span>
+							<span>{searchFilter?.search?.colorList ? t(searchFilter?.search?.colorList[0]) : t('Color')}</span>
 							<ExpandMoreIcon />
 						</Box>
 					</Stack>
+
 					<Stack className={'search-box-other'}>
 						<Box className={'advanced-filter'} onClick={() => advancedFilterHandler(true)}></Box>
 						<Box className={'search-btn'} onClick={pushSearchHandler}>
@@ -267,13 +270,13 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						</Box>
 					</Stack>
 
-					{/*MENU */}
+					{/* MENU */}
 					<div className={`filter-location ${openLocation ? 'on' : ''}`} ref={locationRef}>
 						{propertyCategory.map((location: string) => {
 							return (
 								<div onClick={() => propertyCategorySelectHandler(location)} key={location}>
 									<img src={`img/banner/cities/${location}.jpg`} alt="" />
-									<span>{location}</span>
+									<span>{t(location)}</span>
 								</div>
 							);
 						})}
@@ -284,7 +287,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							return (
 								<div onClick={() => propertyTypeSelectHandler(type)} key={type}>
 									<img src={`img/banner/types/${type}.jpg`} alt="" />
-									<span>{type}</span>
+									<span>{t(type)}</span>
 								</div>
 							);
 						})}
@@ -295,7 +298,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							return (
 								<div onClick={() => propertyMaterialSelectHandler(material)} key={material}>
 									<img src={`img/banner/materials/${material}.jpg`} alt="" />
-									<span>{material}</span>
+									<span>{t(material)}</span>
 								</div>
 							);
 						})}
@@ -307,7 +310,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 								key={color}
 								className={color}
 								onClick={() => propertyColorSelectHandler(color)}
-								title={color}
+								title={t(color)}
 							></span>
 						))}
 					</div>
