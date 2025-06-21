@@ -69,7 +69,7 @@ const Notice = () => {
 								borderBottom: '1px solid #E2E8F0',
 							}}
 						>
-							<NotificationsIcon sx={{ color: '#3B82F6' }} />
+							<NotificationsIcon sx={{ color: '#ff6b35' }} />
 							<Typography sx={{ color: '#1E293B', fontWeight: 600, fontSize: '1.1rem', flex: 1 }}>
 								{notice.noticeTitle}
 							</Typography>

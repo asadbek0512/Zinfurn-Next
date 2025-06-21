@@ -87,7 +87,7 @@ const Faq = () => {
 								}}
 							>
 								<Box component="div" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-									<HelpOutlineIcon sx={{ color: '#3B82F6' }} />
+									<HelpOutlineIcon sx={{ color: ' #ff6b35' }} />
 									<Typography sx={{ color: '#1E293B', fontWeight: 500 }}>{faq.noticeTitle}</Typography>
 								</Box>
 							</AccordionSummary>

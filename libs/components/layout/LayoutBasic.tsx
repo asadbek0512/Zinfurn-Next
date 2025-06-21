@@ -68,7 +68,7 @@ const withLayoutBasic = (Component: any) => {
 				case '/cs':
 					title = 'CS';
 					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/slider-02.webp';
 					break;
 				case '/member':
 					title = 'Member Page';

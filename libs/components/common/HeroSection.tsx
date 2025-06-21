@@ -60,6 +60,19 @@ const HeroSection = () => {
 		}
 	};
 
+	// Avtomatik aylanish uchun useEffect
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setCurrentSlide((prevSlide) => {
+				const newSlide = (prevSlide + 1) % slides.length;
+				updateHeaderBackground(newSlide);
+				return newSlide;
+			});
+		}, 10000); // 10 sekund = 10000 millisekund
+
+		return () => clearInterval(interval); // Cleanup function
+	}, [slides.length]);
+
 	useEffect(() => {
 		updateHeaderBackground(currentSlide);
 	}, [currentSlide]);
@@ -74,7 +87,7 @@ const HeroSection = () => {
 				alignItems: 'center',
 				justifyContent: 'center',
 				overflow: 'hidden',
-				transform: 'translateY(-100px)',
+				transform: 'translateY(-70px)',
 				zIndex: 10,
 				backgroundColor: 'transparent',
 			}}

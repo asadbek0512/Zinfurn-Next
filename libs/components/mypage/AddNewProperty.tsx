@@ -47,30 +47,35 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 				propertyId: router.query.propertyId,
 			},
 		},
+		skip: !router.query.propertyId,
+		onCompleted: (data) => {
+			if (data?.getProperty) {
+				setInsertPropertyData({
+					propertyTitle: data.getProperty.propertyTitle,
+					propertyPrice: data.getProperty.propertyPrice,
+					propertyType: data.getProperty.propertyType,
+					propertyCategory: data.getProperty.propertyCategory,
+					propertyDesc: data.getProperty.propertyDesc,
+					propertyMaterial: data.getProperty.propertyMaterial,
+					propertyColor: data.getProperty.propertyColor,
+					propertySize: data.getProperty.propertySize,
+					propertySalePrice: data.getProperty.propertySalePrice,
+					propertyIsOnSale: data.getProperty.propertyIsOnSale,
+					propertySaleExpiresAt: data.getProperty.propertySaleExpiresAt,
+					propertyInStock: data.getProperty.propertyInStock,
+					propertyCondition: data.getProperty.propertyCondition,
+					propertyImages: data.getProperty.propertyImages,
+				});
+			}
+		},
 	});
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		setInsertPropertyData({
-			...insertPropertyData,
-			propertyTitle: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyTitle : '',
-			propertyPrice: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyPrice : 0,
-			propertyType: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyType : '',
-			propertyCategory: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyCategory : '',
-			propertyDesc: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyDesc : '',
-			propertyMaterial: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyMaterial : '',
-			propertyColor: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyColor : '',
-			propertySize: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertySize : '',
-			propertySalePrice: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertySalePrice : 0,
-			propertyIsOnSale: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyIsOnSale : false,
-			propertySaleExpiresAt: getPropertyData?.getProperty
-				? getPropertyData?.getProperty?.propertySaleExpiresAt
-				: undefined,
-			propertyInStock: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyInStock : false,
-			propertyCondition: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyCondition : '',
-			propertyImages: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyImages : [],
-		});
-	}, [getPropertyLoading, getPropertyData]);
+		if (router.query.propertyId) {
+			getPropertyRefetch();
+		}
+	}, [router.query.propertyId]);
 
 	/** HANDLERS **/
 	async function uploadImages() {
@@ -124,33 +129,21 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 			await sweetMixinErrorAlert(err.message);
 		}
 	}
-
 	const doDisabledCheck = (): boolean => {
-		const {
-			propertyTitle = '',
-			propertyPrice = 0,
-			propertyType = '',
-			propertyCategory = '',
-			propertyCondition = '',
-			propertyMaterial = '',
-			propertyColor = '',
-			propertyDesc = '',
-			propertyImages = [],
-		} = insertPropertyData;
-
-		const isEmptyOrInvalid = (val: string) => !val.trim() || val === 'select';
-
-		return (
-			isEmptyOrInvalid(propertyTitle) ||
-			propertyPrice <= 0 ||
-			isEmptyOrInvalid(propertyType) ||
-			isEmptyOrInvalid(propertyCategory) ||
-			isEmptyOrInvalid(propertyCondition) ||
-			isEmptyOrInvalid(propertyMaterial) ||
-			isEmptyOrInvalid(propertyColor) ||
-			isEmptyOrInvalid(propertyDesc) ||
-			propertyImages.length === 0
-		);
+		if (
+			insertPropertyData.propertyTitle === '' ||
+			insertPropertyData.propertyPrice === 0 ||
+			!insertPropertyData.propertyType ||
+			!insertPropertyData.propertyCategory ||
+			!insertPropertyData.propertyCondition ||
+			!insertPropertyData.propertyMaterial ||
+			!insertPropertyData.propertyColor ||
+			insertPropertyData.propertyDesc === '' ||
+			(insertPropertyData.propertyImages?.length ?? 0) === 0 // Optional chaining + nullish coalescing
+		) {
+			return true;
+		}
+		return false;
 	};
 
 	const insertPropertyHandler = useCallback(async () => {
@@ -174,11 +167,28 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 	const updatePropertyHandler = useCallback(async () => {
 		try {
-			// @ts-ignore
-			insertPropertyData._id = getPropertyData?.getProperty?._id;
+			const updateData = {
+				_id: getPropertyData?.getProperty?._id,
+				propertyTitle: insertPropertyData.propertyTitle,
+				propertyPrice: insertPropertyData.propertyPrice,
+				propertyType: insertPropertyData.propertyType,
+				propertyCategory: insertPropertyData.propertyCategory,
+				propertyDesc: insertPropertyData.propertyDesc,
+				propertyMaterial: insertPropertyData.propertyMaterial,
+				propertyColor: insertPropertyData.propertyColor,
+				propertySize: insertPropertyData.propertySize,
+				propertySalePrice: insertPropertyData.propertySalePrice,
+				propertyIsOnSale: insertPropertyData.propertyIsOnSale,
+				propertySaleExpiresAt: insertPropertyData.propertySaleExpiresAt,
+				propertyInStock: insertPropertyData.propertyInStock,
+				propertyCondition: insertPropertyData.propertyCondition,
+				propertyImages: insertPropertyData.propertyImages,
+				propertyStatus: getPropertyData?.getProperty?.propertyStatus,
+			};
+
 			const result = await updateProperty({
 				variables: {
-					input: insertPropertyData,
+					input: updateData,
 				},
 			});
 			await sweetMixinSuccessAlert('This property has been updated successfully.');
@@ -191,7 +201,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
 		}
-	}, [insertPropertyData, getPropertyData?.getProperty?._id]);
+	}, [insertPropertyData, getPropertyData?.getProperty?._id, getPropertyData?.getProperty?.propertyStatus]);
 
 	if (user?.memberType !== 'AGENT') {
 		router.back();
@@ -574,15 +584,13 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 						</Stack>
 
 						<Stack className="buttons-row">
-							{router.query.propertyId ? (
-								<Button className="next-button" disabled={doDisabledCheck()} onClick={updatePropertyHandler}>
-									<Typography className="next-button-text">{t('Save')}</Typography>
-								</Button>
-							) : (
-								<Button className="next-button" disabled={doDisabledCheck()} onClick={insertPropertyHandler}>
-									<Typography className="next-button-text">{t('Save')}</Typography>
-								</Button>
-							)}
+							<Button
+								className="next-button"
+								disabled={doDisabledCheck()}
+								onClick={router.query.propertyId ? updatePropertyHandler : insertPropertyHandler}
+							>
+								<Typography className="next-button-text">{t('Save')}</Typography>
+							</Button>
 						</Stack>
 					</Stack>
 				</div>

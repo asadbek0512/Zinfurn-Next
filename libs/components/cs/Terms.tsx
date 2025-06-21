@@ -68,7 +68,7 @@ const Terms = () => {
 								borderBottom: '1px solid #E2E8F0',
 							}}
 						>
-							<ArticleIcon sx={{ color: '#3B82F6' }} />
+							<ArticleIcon sx={{ color: '#ff6b35' }} />
 							<Typography sx={{ color: '#1E293B', fontWeight: 600, fontSize: '1.1rem' }}>{term.noticeTitle}</Typography>
 						</Box>
 						<Box component="div" sx={{ p: 3, borderBottom: index < terms.length - 1 ? '1px solid #E2E8F0' : 'none' }}>
