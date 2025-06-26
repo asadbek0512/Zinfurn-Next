@@ -149,7 +149,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 
 						{properties.length !== 0 &&
 							properties.map((property: Property, index: number) => {
-								const propertyImage = `${REACT_APP_API_URL}/${property?.propertyImages[0]}`;
+								const propertyImage = `${REACT_APP_API_URL}/${property?.propertyImages}`;
 
 								return (
 									<TableRow hover key={property?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -177,7 +177,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 										</TableCell>
 										<TableCell align="center">{property.propertyPrice}</TableCell>
 										<TableCell align="center">{property.memberData?.memberNick}</TableCell>
-										<TableCell align="center">{property.propertyLocation}</TableCell>
+										<TableCell align="center">{property.propertyCategory}</TableCell>
 										<TableCell align="center">{property.propertyType}</TableCell>
 										<TableCell align="center">
 											{property.propertyStatus === PropertyStatus.DELETE && (

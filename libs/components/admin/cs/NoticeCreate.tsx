@@ -114,7 +114,7 @@ export const NoticeCreate = ({ onClose, editNotice, defaultCategory, disableCate
 					{editNotice ? 'Edit Notice' : 'Create New Notice'}
 				</Typography>
 
-				<Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+				<Box  component={'div'} sx={{ display: 'flex', gap: 2, mb: 2 }}>
 					{!disableCategory && (
 						<FormControl sx={{ width: '30%' }} variant="outlined">
 							<InputLabel id="category-label">Category</InputLabel>
@@ -179,7 +179,7 @@ export const NoticeCreate = ({ onClose, editNotice, defaultCategory, disableCate
 					}}
 				/>
 
-				<Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+				<Box  component={'div'} sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
 					<Button variant="outlined" onClick={onClose}>
 						Cancel
 					</Button>
