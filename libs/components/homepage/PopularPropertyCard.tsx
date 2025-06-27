@@ -153,6 +153,11 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 									<Typography className="timer-label-large">{t('Minutes')}</Typography>
 									<Typography className="timer-value-large">{formatTime(timeLeft[index]?.minutes || 0)}</Typography>
 								</Box>
+								<Typography className="timer-sep-large">:</Typography>
+								<Box component={'div'} className="timer-large">
+									<Typography className="timer-label-large">{t('Seconds')}</Typography>
+									<Typography className="timer-value-large">{formatTime(timeLeft[index]?.seconds || 0)}</Typography>
+								</Box>
 							</Box>
 
 							<Typography className="property-title">{property.propertyTitle}</Typography>

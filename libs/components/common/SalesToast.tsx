@@ -287,7 +287,7 @@ const SalesToast = (props: SalesToastProps) => {
 			if (currentProperty?.propertySaleExpiresAt) {
 				setTimeLeft(calculateTimeLeft(currentProperty.propertySaleExpiresAt));
 			}
-		}, 1000);
+		}, 20000);
 
 		return () => clearInterval(timer);
 	}, [isVisible, currentToastIndex, saleProperties]);
