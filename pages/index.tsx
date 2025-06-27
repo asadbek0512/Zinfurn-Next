@@ -24,6 +24,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 const Home: NextPage = () => {
 	const device = useDeviceDetect();
 	const [showLoader, setShowLoader] = useState(true);
+	const [logoLoaded, setLogoLoaded] = useState(false);
 
 	useEffect(() => {
 		AOS.init({
@@ -36,8 +37,10 @@ const Home: NextPage = () => {
 		});
 
 		const handleLoad = () => {
-			setShowLoader(false);
-			AOS.refresh();
+			if (logoLoaded) {
+				setShowLoader(false);
+				AOS.refresh();
+			}
 		};
 
 		if (document.readyState === 'complete') {
@@ -46,7 +49,7 @@ const Home: NextPage = () => {
 			window.addEventListener('load', handleLoad);
 			return () => window.removeEventListener('load', handleLoad);
 		}
-	}, []);
+	}, [logoLoaded]);
 
 	const Content = (
 		<Stack className="home-page">
@@ -82,7 +85,7 @@ const Home: NextPage = () => {
 			{showLoader && (
 				<div className="page-loader">
 					<div className="loader-content">
-						<img src="/img/banner/001..png" alt="Logo" className="logo" />
+						<img src="/img/banner/001..png" alt="Logo" className="logo" onLoad={() => setLogoLoaded(true)} />
 						<div className="dots">
 							<span>.</span>
 							<span>.</span>
@@ -136,7 +139,7 @@ const Home: NextPage = () => {
 				}
 
 				.logo {
-					width: 90px; /* oldingi 110px edi, sal kichik qildik */
+					width: 90px;
 					height: auto;
 				}
 
