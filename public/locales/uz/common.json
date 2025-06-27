@@ -236,7 +236,7 @@
   "likes": "Yoqtirishlar",
   "no_agents_found": "Agent topilmadi!",
   "total": "Jami",
-  "agents_in_stock": "omborda agent{{count === 1 ? '' : 'lar'}} mavjud",
+  "agents_in_stock": " agent mavjud",
   "professional_agent": "Professional agent",
   "properties": "Mebellar",
   "articles": "Maqolalar",

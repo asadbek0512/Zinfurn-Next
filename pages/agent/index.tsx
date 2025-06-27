@@ -203,12 +203,12 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						{agents.length !== 0 && (
 							<Stack className="total-result">
 								<Typography>
-									{t('total')} {total} {t('agents_in_stock', { count: total })}
+									{t('total')} {total} {t('agents_in_stock')}
 								</Typography>
 							</Stack>
 						)}
 					</Stack>
-					
+
 				</Stack>
 			</Stack>
 		);

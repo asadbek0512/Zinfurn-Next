@@ -235,7 +235,7 @@
   "likes": "Likes", 
   "no_agents_found": "No Agents found!",
   "total": "Total",
-  "agents_in_stock": "agent{{count === 1 ? '' : 's'}} in stock",
+  "agents_in_stock": "agents in stock",
   "professional_agent": "Professional Agent",
   "properties": "Furnitures",
   "articles": "Articles", 

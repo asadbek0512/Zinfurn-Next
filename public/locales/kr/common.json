@@ -237,7 +237,7 @@
   "likes": "좋아요", 
   "no_agents_found": "에이전트를 찾을 수 없습니다!",
   "total": "총",
-  "agents_in_stock": "{{count}}명의 에이전트가 있습니다",
+  "agents_in_stock": "명의 에이전트가 있습니다",
   "professional_agent": "전문 에이전트",
   "properties": "가구",
   "articles": "기사",

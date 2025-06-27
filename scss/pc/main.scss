@@ -253,7 +253,7 @@ body::-webkit-scrollbar {
 		// background-repeat: no-repeat;
 		// background-position: center center;
 		// overflow: hidden; // Chiqib ketgan qismlarni yashiradi
-
+		background-color: #000; // 
 		// Standart rasm
 		background-image: url('/img/banner/Home-1-.jpg');
 
@@ -983,7 +983,7 @@ body::-webkit-scrollbar {
 				.footer-links {
 					flex: 1;
 					min-width: 200px;
-					margin-right: 50px;
+					// margin-right: 50px;
 
 					strong {
 						font-size: 18px;
@@ -1015,6 +1015,8 @@ body::-webkit-scrollbar {
 						font-size: 18px;
 						font-weight: 600;
 						margin-bottom: 35px;
+						margin-left: -55px;
+						
 						display: block;
 					}
 
@@ -1030,6 +1032,7 @@ body::-webkit-scrollbar {
 							font-size: 14px;
 							line-height: 1.6;
 							margin-bottom: 15px;
+							margin-left: -135px;
 
 							.label {
 								color: #fff;

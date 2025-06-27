@@ -237,7 +237,7 @@
   "likes": "Лайки", 
   "no_agents_found": "Агенты не найдены!",
   "total": "Всего",
-  "agents_in_stock": "{{count}} агент{{count === 1 ? '' : count < 5 ? 'а' : 'ов'}} в наличии",
+  "agents_in_stock": " агент в наличии",
   "professional_agent": "Профессиональный агент",
   "properties": "Мебель",
   "articles": "Статьи",

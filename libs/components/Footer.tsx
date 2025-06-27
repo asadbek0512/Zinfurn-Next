@@ -3,7 +3,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import useDeviceDetect from '../hooks/useDeviceDetect';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, Link } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 
@@ -96,11 +96,24 @@ const Footer = () => {
 									"Dear girls, stop giving yourself a hard time just because you don't fit the set bars of beauty and fashion. It's Time To be unapologetically you with Costume County!",
 								)}
 							</div>
-							<div className={'media-box'}>
-								<FacebookOutlinedIcon />
-								<TelegramIcon />
-								<InstagramIcon />
-								<TwitterIcon />
+							<div className="media-box">
+								<a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: '#fff' }}>
+									<FacebookOutlinedIcon />
+								</a>
+								<a
+									href="https://t.me/Khusanov_Asadbek2000"
+									target="_blank"
+									rel="noopener noreferrer"
+									style={{ color: '#fff' }}
+								>
+									<TelegramIcon />
+								</a>
+								<a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: '#fff' }}>
+									<InstagramIcon />
+								</a>
+								<a href="https://twitter.com" target="_blank" rel="noopener noreferrer" style={{ color: '#fff' }}>
+									<TwitterIcon />
+								</a>
 							</div>
 						</div>
 
@@ -116,10 +129,29 @@ const Footer = () => {
 						</div>
 						<div className="footer-links">
 							<strong>{t('Discover')}</strong>
-							<span>{t('Home')}</span>
-							<span>{t('Shop')}</span>
-							<span>{t('Blog')}</span>
-							<span>{t('Pages')}</span>
+							<Link href="/">
+								<span>{t('Home')}</span>
+							</Link>
+
+							<Link href="/property">
+								<span>{t('Furniturres')}</span>
+							</Link>
+
+							<Link href="/agent">
+								<span>{t('Agents')}</span>
+							</Link>
+
+							<Link href="/repairService">
+								<span>{t('Service')}</span>
+							</Link>
+
+							<Link href="/community">
+								<span>{t('Community')}</span>
+							</Link>
+
+							<Link href="/cs">
+								<span>{t('CS')}</span>
+							</Link>
 						</div>
 						<div className="footer-links">
 							<strong>{t('quickLinks')}</strong>
@@ -140,7 +172,7 @@ const Footer = () => {
 								</div>
 								<div className="info-row">
 									<span className="label">{t('Phone:')}</span>
-									<span className="value">{t('+01 0123 456 789')}</span>
+									<span className="value">{t('+82 10 7329 5171')}</span>
 								</div>
 								<div className="info-row">
 									<span className="label">{t('Address:')}</span>
@@ -148,7 +180,7 @@ const Footer = () => {
 								</div>
 								<div className="info-row">
 									<span className="label">{t('Email:')}</span>
-									<span className="value">{t('admin@gmail.com')}</span>
+									<span className="value">{t('khusanovasadbek777@gmail.com')}</span>
 								</div>
 							</div>
 						</div>

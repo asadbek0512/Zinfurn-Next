@@ -236,7 +236,7 @@
   "likes": "الإعجابات",
   "no_agents_found": "لم يتم العثور على وكلاء!",
   "total": "الإجمالي",
-  "agents_in_stock": "{{count}} وكيل متاح",
+  "agents_in_stock": " وكيل متاح",
   "professional_agent": "وكيل محترف",
   "properties": "الأثاث",
   "articles": "مقالات",

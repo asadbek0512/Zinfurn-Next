@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { Stack, Typography, Button, Box } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { useTranslation } from 'next-i18next';
 
-const HeroSection = () => {
+interface Slide {
+	overline: string;
+	title: string;
+	description: string;
+	backgroundImage: string;
+}
+
+const HeroSection: React.FC = () => {
 	const { t } = useTranslation('common');
+	const [currentSlide, setCurrentSlide] = useState<number>(0);
 
-	const [currentSlide, setCurrentSlide] = useState(0);
-
-	const slides = [
+	const slides: Slide[] = [
 		{
 			overline: t('TIMELESS ELEGANCE'),
 			title: t("Discover Furniture's For Living"),
@@ -35,24 +41,8 @@ const HeroSection = () => {
 		},
 	];
 
-	const nextSlide = () => {
-		const newSlide = (currentSlide + 1) % slides.length;
-		setCurrentSlide(newSlide);
-		updateHeaderBackground(newSlide);
-	};
-
-	const prevSlide = () => {
-		const newSlide = (currentSlide - 1 + slides.length) % slides.length;
-		setCurrentSlide(newSlide);
-		updateHeaderBackground(newSlide);
-	};
-
-	const handleClick = () => {
-		window.location.href = '/property';
-	};
-
-	// @ts-ignore
-	const updateHeaderBackground = (slideIndex) => {
+	// updateHeaderBackground uchun aniq tip
+	const updateHeaderBackground = (slideIndex: number): void => {
 		const header = document.querySelector('.header-main');
 		if (header) {
 			header.classList.remove('slide-0', 'slide-1', 'slide-2');
@@ -60,7 +50,28 @@ const HeroSection = () => {
 		}
 	};
 
-	// Avtomatik aylanish uchun useEffect
+	const nextSlide = (): void => {
+		const newSlide = (currentSlide + 1) % slides.length;
+		setCurrentSlide(newSlide);
+		updateHeaderBackground(newSlide);
+	};
+
+	const prevSlide = (): void => {
+		const newSlide = (currentSlide - 1 + slides.length) % slides.length;
+		setCurrentSlide(newSlide);
+		updateHeaderBackground(newSlide);
+	};
+
+	const handleClick = (): void => {
+		window.location.href = '/property';
+	};
+
+	// currentSlide o'zgarganda darhol background yangilanadi
+	useLayoutEffect(() => {
+		updateHeaderBackground(currentSlide);
+	}, [currentSlide]);
+
+	// Avtomatik slayd o'zgarishi (10 soniya)
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setCurrentSlide((prevSlide) => {
@@ -68,32 +79,28 @@ const HeroSection = () => {
 				updateHeaderBackground(newSlide);
 				return newSlide;
 			});
-		}, 10000); // 10 sekund = 10000 millisekund
+		}, 10000);
 
-		return () => clearInterval(interval); // Cleanup function
+		return () => clearInterval(interval);
 	}, [slides.length]);
-
-	useEffect(() => {
-		updateHeaderBackground(currentSlide);
-	}, [currentSlide]);
 
 	return (
 		<Box
 			component={'div'}
 			sx={{
 				position: 'relative',
-				height: '500vh',
+				height: '100vh',
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
 				overflow: 'hidden',
-				transform: 'translateY(-70px)',
+				marginTop: '20px',
 				zIndex: 10,
 				backgroundColor: 'transparent',
+				
+				
 			}}
 		>
-			{/* Background handled via header, so empty here */}
-
 			{/* Navigation Arrows */}
 			<Box
 				component={'div'}
