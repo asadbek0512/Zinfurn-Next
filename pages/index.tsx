@@ -26,21 +26,18 @@ const Home: NextPage = () => {
 	const [showLoader, setShowLoader] = useState(true);
 
 	useEffect(() => {
+		AOS.init({
+			duration: 1200,
+			easing: 'ease-in-out',
+			once: true,
+			offset: 50,
+			delay: 0,
+			anchorPlacement: 'top-bottom',
+		});
+
 		const handleLoad = () => {
 			setShowLoader(false);
-			AOS.init({
-				duration: 1200,
-				easing: 'ease-in-out',
-				once: true,
-				offset: 50,
-				delay: 0,
-				anchorPlacement: 'top-bottom',
-				disable: false,
-			});
-
-			setTimeout(() => {
-				AOS.refresh();
-			}, 500);
+			AOS.refresh();
 		};
 
 		if (document.readyState === 'complete') {
@@ -139,7 +136,7 @@ const Home: NextPage = () => {
 				}
 
 				.logo {
-					width: 110px;
+					width: 90px; /* oldingi 110px edi, sal kichik qildik */
 					height: auto;
 				}
 
@@ -158,15 +155,12 @@ const Home: NextPage = () => {
 				.dots span:nth-child(2) {
 					animation-delay: 0.2s;
 				}
-
 				.dots span:nth-child(3) {
 					animation-delay: 0.4s;
 				}
-
 				.dots span:nth-child(4) {
 					animation-delay: 0.6s;
 				}
-
 				.dots span:nth-child(5) {
 					animation-delay: 0.8s;
 				}
