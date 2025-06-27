@@ -80,7 +80,7 @@ const Chat = () => {
 				case 'message':
 					const newMessage: MessagePayload = data;
 					messagesList.push(newMessage);
-					setMessagesList([...messagesList])
+					setMessagesList([...messagesList]);
 					break;
 			}
 		};
@@ -132,7 +132,11 @@ const Chat = () => {
 		<Stack className="chatting">
 			{openButton ? (
 				<button className="chat-button" onClick={handleOpenChat}>
-					{open ? <CloseFullscreenIcon /> : <MarkChatUnreadIcon />}
+					{open ? (
+						<CloseFullscreenIcon />
+					) : (
+						<img src="/img/banner/001..png" alt="Chat" style={{ width: '33px', height: '28px' }} />
+					)}
 				</button>
 			) : null}
 			<Stack className={`chat-frame ${open ? 'open' : ''}`}>
