@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutMain from '../libs/components/layout/LayoutHome';
@@ -23,46 +23,113 @@ export const getStaticProps = async ({ locale }: any) => ({
 
 const Home: NextPage = () => {
 	const device = useDeviceDetect();
+	const [isLoaded, setIsLoaded] = useState(false);
 
 	useEffect(() => {
-		if (typeof window !== 'undefined') {
+		const handleReady = () => {
 			AOS.init({
 				duration: 1200,
 				easing: 'ease-in-out',
-				once: true, // ❗ faqat bir marta animatsiya qilish
+				once: true,
 				offset: 50,
 				delay: 0,
 				anchorPlacement: 'top-bottom',
 				disable: false,
 			});
 
-			// DOM to'liq yuklangach elementlarni aniqlash uchun refresh
-			setTimeout(() => {
-				AOS.refresh();
-			}, 1000);
+			AOS.refresh();
+			setIsLoaded(true);
+		};
+
+		if (document.readyState === 'complete') {
+			handleReady();
+		} else {
+			window.addEventListener('load', handleReady);
+			return () => window.removeEventListener('load', handleReady);
 		}
 	}, []);
 
-	if (device === 'mobile') {
+	if (!isLoaded) {
 		return (
-			<Stack className="home-page">
-				<div data-aos="fade-up">
-					<TrendProperties />
+			<>
+				<div className="page-loader">
+					<div className="loader-content">
+						<img src="/img/banner/001..png" alt="Logo" className="logo" />
+						<div className="dots">
+							<span>.</span>
+							<span>.</span>
+							<span>.</span>
+							<span>.</span>
+						</div>
+					</div>
 				</div>
-				<div data-aos="fade-up">
-					<Advertisement />
-				</div>
-				<div data-aos="fade-up">
-					<TopProperties />
-				</div>
-				<div data-aos="fade-up">
-					<TopAgents />
-				</div>
-			</Stack>
+
+				<style jsx>{`
+					.page-loader {
+						position: fixed;
+						top: 0;
+						left: 0;
+						z-index: 9999;
+						width: 100%;
+						height: 100vh;
+						background-color: #fff;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
+
+					.loader-content {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						gap: 12px;
+					}
+
+					.logo {
+						width: 100px;
+						height: auto;
+					}
+
+					.dots {
+						display: flex;
+						gap: 5px;
+					}
+
+					.dots span {
+						font-size: 36px;
+						font-weight: bold;
+						color: #333;
+						animation: blink 1.4s infinite;
+					}
+
+					.dots span:nth-child(2) {
+						animation-delay: 0.2s;
+					}
+
+					.dots span:nth-child(3) {
+						animation-delay: 0.4s;
+					}
+
+					.dots span:nth-child(4) {
+						animation-delay: 0.6s;
+					}
+
+					@keyframes blink {
+						0%,
+						80%,
+						100% {
+							opacity: 0;
+						}
+						40% {
+							opacity: 1;
+						}
+					}
+				`}</style>
+			</>
 		);
 	}
 
-	return (
+	const Content = (
 		<Stack className="home-page">
 			<div data-aos="fade-up">
 				<CategoryCards />
@@ -89,6 +156,25 @@ const Home: NextPage = () => {
 				<CommunityBoards />
 			</div>
 		</Stack>
+	);
+
+	return device === 'mobile' ? (
+		<Stack className="home-page">
+			<div data-aos="fade-up">
+				<TrendProperties />
+			</div>
+			<div data-aos="fade-up">
+				<Advertisement />
+			</div>
+			<div data-aos="fade-up">
+				<TopProperties />
+			</div>
+			<div data-aos="fade-up">
+				<TopAgents />
+			</div>
+		</Stack>
+	) : (
+		Content
 	);
 };
 
