@@ -42,7 +42,7 @@ const Home: NextPage = () => {
 			anchorPlacement: 'top-bottom',
 		});
 
-		// Loader tugagandan keyin AOS refresh qilish uchun kichik kechikma qo'shamiz
+		// Loader tugagandan keyin AOS refresh qilish uchun kichik
 		const handlePageLoad = () => {
 			if (logoLoaded) {
 				setShowLoader(false);
