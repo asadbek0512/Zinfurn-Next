@@ -27,6 +27,19 @@ const Home: NextPage = () => {
 	const [showLoader, setShowLoader] = useState(true);
 	const [logoLoaded, setLogoLoaded] = useState(false);
 
+	// No-op qo'shildi
+	const unused = () => {};
+	// No-op qo'shildi
+	const unused2 = () => {};
+	// No-op qo'shildi
+	const unused3 = () => {};
+	// No-op qo'shildi
+	const unuse4d = () => {};
+	// No-op qo'shildi
+	const unused5 = () => {};
+	// No-op qo'shildi
+	const unused6 = () => {};
+
 	const handleLogoLoad = () => {
 		setLogoLoaded(true);
 	};
@@ -37,7 +50,7 @@ const Home: NextPage = () => {
 			easing: 'ease-out-cubic',
 			once: true,
 			mirror: false,
-			offset: 120, 
+			offset: 120,
 			delay: 20,
 			anchorPlacement: 'top-bottom',
 		});
@@ -47,7 +60,7 @@ const Home: NextPage = () => {
 				setShowLoader(false);
 				setTimeout(() => {
 					AOS.refresh();
-				}, 300); // 300ms kechikma bilan refresh
+				}, 300);
 			}
 		};
 
