@@ -37,12 +37,11 @@ const Home: NextPage = () => {
 			easing: 'ease-out-cubic',
 			once: true,
 			mirror: false,
-			offset: 120, // pastga kirganda oldinroq animatsiya ishga tushadi
+			offset: 120, 
 			delay: 20,
 			anchorPlacement: 'top-bottom',
 		});
 
-		// Loader tugagandan keyin AOS refresh qilish uchun kichik
 		const handlePageLoad = () => {
 			if (logoLoaded) {
 				setShowLoader(false);
@@ -123,11 +122,11 @@ const Home: NextPage = () => {
 						<div data-aos="fade-up" data-aos-delay="100">
 							<Advertisement />
 						</div>
-						<div data-aos="fade-up" data-aos-delay="200">
-							<TopProperties />
-						</div>
 						<div data-aos="fade-up" data-aos-delay="300">
 							<TopAgents />
+						</div>
+						<div data-aos="fade-up" data-aos-delay="200">
+							<TopProperties />
 						</div>
 					</Stack>
 				) : (
