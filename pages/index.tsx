@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NextPage } from 'next';
+import Image from 'next/image';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutMain from '../libs/components/layout/LayoutHome';
 import CommunityBoards from '../libs/components/homepage/CommunityBoards';
@@ -26,55 +27,63 @@ const Home: NextPage = () => {
 	const [showLoader, setShowLoader] = useState(true);
 	const [logoLoaded, setLogoLoaded] = useState(false);
 
+	const handleLogoLoad = () => {
+		setLogoLoaded(true);
+	};
+
 	useEffect(() => {
 		AOS.init({
 			duration: 1200,
-			easing: 'ease-in-out',
+			easing: 'ease-out-cubic',
 			once: true,
-			offset: 50,
-			delay: 0,
+			mirror: false,
+			offset: 120, // pastga kirganda oldinroq animatsiya ishga tushadi
+			delay: 20,
 			anchorPlacement: 'top-bottom',
 		});
 
-		const handleLoad = () => {
+		// Loader tugagandan keyin AOS refresh qilish uchun kichik kechikma qo'shamiz
+		const handlePageLoad = () => {
 			if (logoLoaded) {
 				setShowLoader(false);
-				AOS.refresh();
+				setTimeout(() => {
+					AOS.refresh();
+				}, 300); // 300ms kechikma bilan refresh
 			}
 		};
 
 		if (document.readyState === 'complete') {
-			handleLoad();
+			handlePageLoad();
 		} else {
-			window.addEventListener('load', handleLoad);
-			return () => window.removeEventListener('load', handleLoad);
+			window.addEventListener('load', handlePageLoad);
+			return () => window.removeEventListener('load', handlePageLoad);
 		}
 	}, [logoLoaded]);
 
 	const Content = (
-		<Stack className="home-page">
-			<div data-aos="fade-up">
+		<Stack className="home-page" spacing={4}>
+			<div data-aos="fade-up" data-aos-delay="0">
 				<CategoryCards />
 			</div>
-			<div data-aos="fade-up">
+			<div data-aos="fade-up" data-aos-delay="100">
 				<TrendProperties />
 			</div>
-			<div data-aos="fade-up">
+			<div data-aos="fade-up" data-aos-delay="200">
 				<FlashSale />
 			</div>
-			<div data-aos="fade-up">
+			<div data-aos="fade-up" data-aos-delay="300">
 				<Advertisement />
 			</div>
-			<div data-aos="fade-up">
+			<div data-aos="fade-up" data-aos-delay="400">
 				<TopProperties />
 			</div>
-			<div data-aos="fade-up">
+			<div data-aos="fade-up" data-aos-delay="500">
 				<TopAgents />
 			</div>
-			<div data-aos="fade-up">
+			<div data-aos="fade-up" data-aos-delay="600">
 				<Events />
 			</div>
-			<div data-aos="fade-up">
+			<div data-aos="fade-up" data-aos-delay="700">
 				<CommunityBoards />
 			</div>
 		</Stack>
@@ -85,7 +94,15 @@ const Home: NextPage = () => {
 			{showLoader && (
 				<div className="page-loader">
 					<div className="loader-content">
-						<img src="/img/banner/001..png" alt="Logo" className="logo" onLoad={() => setLogoLoaded(true)} />
+						<Image
+							src="/img/banner/001..png"
+							alt="Logo"
+							width={110}
+							height={110}
+							onLoadingComplete={handleLogoLoad}
+							priority
+							className="logo"
+						/>
 						<div className="dots">
 							<span>.</span>
 							<span>.</span>
@@ -99,17 +116,17 @@ const Home: NextPage = () => {
 
 			{!showLoader &&
 				(device === 'mobile' ? (
-					<Stack className="home-page">
-						<div data-aos="fade-up">
+					<Stack className="home-page" spacing={4}>
+						<div data-aos="fade-up" data-aos-delay="0">
 							<TrendProperties />
 						</div>
-						<div data-aos="fade-up">
+						<div data-aos="fade-up" data-aos-delay="100">
 							<Advertisement />
 						</div>
-						<div data-aos="fade-up">
+						<div data-aos="fade-up" data-aos-delay="200">
 							<TopProperties />
 						</div>
-						<div data-aos="fade-up">
+						<div data-aos="fade-up" data-aos-delay="300">
 							<TopAgents />
 						</div>
 					</Stack>
