@@ -33,7 +33,6 @@ import {
 import { CommentUpdate } from '../../libs/types/comment/comment.update';
 import { useTranslation } from 'next-i18next';
 
-
 const ToastViewerComponent = dynamic(() => import('../../libs/components/community/TViewer'), { ssr: false });
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -104,11 +103,16 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			input: searchFilter,
 		},
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: any) => {
-			setComments(data?.getComments?.list);
-			setTotal(data?.getComments?.metaCounter?.[0]?.total ?? 0);
-		},
+		// onCompleted ni o'chiring
 	});
+
+	// Bu useEffect qo'shing:
+	useEffect(() => {
+		if (getCommentsData) {
+			setComments(getCommentsData?.getComments?.list);
+			setTotal(getCommentsData?.getComments?.metaCounter?.[0]?.total ?? 0);
+		}
+	}, [getCommentsData]);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -150,6 +154,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			setLikeLoading(false);
 		}
 	};
+
 	const createCommentHandler = async () => {
 		if (!comment) return;
 		try {
@@ -162,15 +167,20 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			};
 
 			await createComment({
-				variables: {
-					input: commentInput,
-				},
+				variables: { input: commentInput },
 			});
 
-			await getCommentsRefetch({ input: searchFilter });
+			// Refetch qilish va natijani olish
+			const refetchResult = await getCommentsRefetch({ input: searchFilter });
+
+			// Manual yangilash
+			if (refetchResult.data) {
+				setComments(refetchResult.data.getComments?.list);
+				setTotal(refetchResult.data.getComments?.metaCounter?.[0]?.total ?? 0);
+			}
+
 			await boardArticleRefetch({ input: articleId });
 			setComment('');
-			await sweetMixinSuccessAlert('Successfully commented!');
 		} catch (error: any) {
 			await sweetMixinErrorAlert(error.message);
 		}
@@ -280,6 +290,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 							<Stack className="back-link" onClick={() => router.push('/community?articleCategory=FREE')}>
 								← {t('Back to property')}
 							</Stack>
+
 							<div className="config">
 								<Stack className="first-box-config">
 									<Stack className="content-and-info">

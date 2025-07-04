@@ -74,7 +74,7 @@ const TopAgents = (props: TopAgentsProps) => {
 							<p>{t('Our Top Agents always ready to serve you')}</p>
 						</Box>
 						<Link href="/property" className="view-button">
-							{t('All Properties')}
+							{t('All Agents')}
 						</Link>
 					</Stack>
 					<Stack className={'wrapper'}>
