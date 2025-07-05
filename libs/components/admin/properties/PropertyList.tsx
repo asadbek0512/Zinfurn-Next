@@ -68,7 +68,7 @@ const headCells: readonly HeadCell[] = [
 		id: 'location',
 		numeric: false,
 		disablePadding: false,
-		label: 'LOCATION',
+		label: 'CATEGORY',
 	},
 	{
 		id: 'type',
@@ -149,7 +149,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 
 						{properties.length !== 0 &&
 							properties.map((property: Property, index: number) => {
-								const propertyImage = `${REACT_APP_API_URL}/${property?.propertyImages}`;
+								const propertyImage = `${REACT_APP_API_URL}/${property?.propertyImages?.[0]}`;
 
 								return (
 									<TableRow hover key={property?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

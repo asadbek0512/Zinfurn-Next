@@ -43,19 +43,28 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
 			_id
 			propertyType
 			propertyStatus
-			propertyLocation
-			propertyAddress
+			propertyCategory
+			propertyMaterial
+			propertyColor
+			propertySize
 			propertyTitle
 			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
+			propertySalePrice
+			propertyIsOnSale
+			propertySaleExpiresAt
 			propertyImages
 			propertyDesc
 			propertyBarter
 			propertyRent
+			propertyInStock
+			propertyCondition
+			propertyBrand
+			propertyOriginCountry
+			propertyAddress
+			propertyViews
+			propertyLikes
+			propertyComments
+			propertyRank
 			memberId
 			soldAt
 			deletedAt
@@ -72,19 +81,28 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
 			_id
 			propertyType
 			propertyStatus
-			propertyLocation
-			propertyAddress
+			propertyCategory
+			propertyMaterial
+			propertyColor
+			propertySize
 			propertyTitle
 			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
+			propertySalePrice
+			propertyIsOnSale
+			propertySaleExpiresAt
 			propertyImages
 			propertyDesc
 			propertyBarter
 			propertyRent
+			propertyInStock
+			propertyCondition
+			propertyBrand
+			propertyOriginCountry
+			propertyAddress
+			propertyViews
+			propertyLikes
+			propertyComments
+			propertyRank
 			memberId
 			soldAt
 			deletedAt
@@ -159,46 +177,46 @@ export const REMOVE_COMMENT_BY_ADMIN = gql`
  *************************/
 
 export const CREATE_NOTICE_BY_ADMIN = gql`
-  mutation CreateNotice($input: NoticeInput!) {
-    createNotice(input: $input) {
-      _id
-      noticeCategory
-      noticeStatus
-      noticeTitle
-      noticeContent
-      memberId
-      createdAt
-      updatedAt
-    }
-  }
+	mutation CreateNotice($input: NoticeInput!) {
+		createNotice(input: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
 `;
 
 export const UPDATE_NOTICE_BY_ADMIN = gql`
-  mutation UpdateNotice($noticeId: String!, $input: NoticeUpdate!) {
-    updateNotice(noticeId: $noticeId, input: $input) {
-      _id
-      noticeCategory
-      noticeStatus
-      noticeTitle
-      noticeContent
-      memberId
-      createdAt
-      updatedAt
-    }
-  }
+	mutation UpdateNotice($noticeId: String!, $input: NoticeUpdate!) {
+		updateNotice(noticeId: $noticeId, input: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
 `;
 
 export const REMOVE_NOTICE_BY_ADMIN = gql`
-  mutation RemoveNotice($input: String!) {
-    removeNotice(noticeId: $input) {
-      _id
-      noticeCategory
-      noticeStatus
-      noticeTitle
-      noticeContent
-      memberId
-      createdAt
-      updatedAt
-    }
-  }
+	mutation RemoveNotice($input: String!) {
+		removeNotice(noticeId: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
 `;
