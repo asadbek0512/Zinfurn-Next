@@ -938,16 +938,18 @@ body::-webkit-scrollbar {
 			padding: 60px 0;
 
 			.bottom {
-				margin-left: 100px;
-				margin-right: 100px;
-				width: 1560px;
+				width: 100%;
+				max-width: 1300px;
+				margin: 0 auto;
+				padding: 0 20px;
 				display: flex;
 				gap: 20px;
+				flex-wrap: wrap;
 
 				.footer-link {
 					flex: 1;
-					min-width: 380px;
-					margin-right: 50px;
+					min-width: 300px;
+					margin-right: 20px;
 
 					.logo {
 						width: 220px;
@@ -982,8 +984,7 @@ body::-webkit-scrollbar {
 
 				.footer-links {
 					flex: 1;
-					min-width: 200px;
-					// margin-right: 50px;
+					min-width: 180px;
 
 					strong {
 						font-size: 18px;
@@ -1008,15 +1009,12 @@ body::-webkit-scrollbar {
 
 				.shop-contact {
 					flex: 1;
-					min-width: 270px;
-					margin-right: 50px;
+					min-width: 220px;
 
 					strong {
 						font-size: 18px;
 						font-weight: 600;
 						margin-bottom: 35px;
-						margin-left: -55px;
-						
 						display: block;
 					}
 
@@ -1032,7 +1030,6 @@ body::-webkit-scrollbar {
 							font-size: 14px;
 							line-height: 1.6;
 							margin-bottom: 15px;
-							margin-left: -135px;
 
 							.label {
 								color: #fff;

@@ -180,7 +180,7 @@ const Footer = () => {
 								</div>
 								<div className="info-row">
 									<span className="label">{t('Email:')}</span>
-									<span className="value">{t('khusanovasadbek777@gmail.com')}</span>
+									<span className="value">{t('donidevx@gmail.com')}</span>
 								</div>
 							</div>
 						</div>
