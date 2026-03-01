@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box, IconButton, Badge } from '@mui/material';
+import { Stack, Box, IconButton, Badge, Drawer } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
@@ -201,22 +201,8 @@ const Top = () => {
 
 	if (device == 'mobile') {
 		return (
-			<Stack className={'top'}>
-				<Link href={'/'}>
-					<div>{t('Home')}</div>
-				</Link>
-				<Link href={'/property'}>
-					<div>{t('Properties')}</div>
-				</Link>
-				<Link href={'/agent'}>
-					<div>{t('Agents')}</div>
-				</Link>
-				<Link href={'/community?articleCategory=FREE'}>
-					<div>{t('Community')}</div>
-				</Link>
-				<Link href={'/cs'}>
-					<div>{t('CS')}</div>
-				</Link>
+			<Stack className={'mobile-navbar'}>
+		
 			</Stack>
 		);
 	} else {

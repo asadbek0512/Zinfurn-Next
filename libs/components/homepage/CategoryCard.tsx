@@ -4,9 +4,12 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { PropertyCategory } from '../../enums/property.enum';
 import { useTranslation } from 'next-i18next'; // Tarjima
+import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 const CategoryGrid = () => {
 	const router = useRouter();
+	const device = useDeviceDetect();
+
 	const { t } = useTranslation('common'); // common.json dan tarjima
 
 	const items = [
@@ -57,25 +60,28 @@ const CategoryGrid = () => {
 		const query = `/property?input=${encodeURIComponent(JSON.stringify(searchFilter))}`;
 		router.push(query);
 	};
-
-	return (
-		<div className="category-grid">
-			{items.map((item) => (
-				<div className={`box ${item.className}`} key={item.id}>
-					<img src={item.image || '/placeholder.svg'} alt={item.title} />
-					<div className="overlay">
-						<div className="content">
-							<h3>{item.title}</h3>
-							{item.subtitle && <p>{item.subtitle}</p>}
-							<button className="explore-btn" onClick={() => handleClick(item.category)}>
-								{t('Explore')}
-							</button>
+	if (device === 'mobile') {
+		return <div>HEADER FILTER MOBILE</div>;
+	} else {
+		return (
+			<div className="category-grid">
+				{items.map((item) => (
+					<div className={`box ${item.className}`} key={item.id}>
+						<img src={item.image || '/placeholder.svg'} alt={item.title} />
+						<div className="overlay">
+							<div className="content">
+								<h3>{item.title}</h3>
+								{item.subtitle && <p>{item.subtitle}</p>}
+								<button className="explore-btn" onClick={() => handleClick(item.category)}>
+									{t('Explore')}
+								</button>
+							</div>
 						</div>
 					</div>
-				</div>
-			))}
-		</div>
-	);
+				))}
+			</div>
+		);
+	}
 };
 
 export default CategoryGrid;

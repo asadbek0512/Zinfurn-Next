@@ -33,7 +33,7 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [isHovered, setIsHovered] = useState(false);
-	const { t } = useTranslation('common'); 
+	const { t } = useTranslation('common');
 	const pushDetailHandler = (id: string) => {
 		router.push({ pathname: '/property/detail', query: { id } });
 	};
@@ -71,7 +71,7 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 						</Box>
 					)}
 					<Box component="div" className="category-badge">
-					<Typography className="category-text">{t(property.propertyCategory)}</Typography>
+						<Typography className="category-text">{t(property.propertyCategory)}</Typography>
 					</Box>
 				</Box>
 			</Box>
@@ -184,74 +184,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 	};
 
 	if (device === 'mobile') {
-		return (
-			<Stack className="products-collection mobile">
-				<Stack className="container">
-					<Stack className="info-box">
-						<Typography className="section-subtitle">{t('Our Products')}</Typography>
-						<Typography className="section-title">{t('Our Products Collections')}</Typography>
-					</Stack>
-
-					<Box component="div" className="tabs-container">
-						<Box component="div" className="top-tab-row">
-							<Box
-								component="div"
-								className={`tab-item ${activeTab === 'all' ? 'active' : ''}`}
-								onClick={() => handleTabChange('all')}
-							>
-								{t('All Products')}
-							</Box>
-						</Box>
-
-						<Box component="div" className="bottom-tabs-row">
-							<Box
-								component="div"
-								className={`tab-item ${activeTab === 'top' ? 'active' : ''}`}
-								onClick={() => handleTabChange('top')}
-							>
-								{t('Top Properties')}
-							</Box>
-							<Box
-								component="div"
-								className={`tab-item ${activeTab === 'popular' ? 'active' : ''}`}
-								onClick={() => handleTabChange('popular')}
-							>
-								{t('Popular Properties')}
-							</Box>
-							<Box
-								component="div"
-								className={`tab-item ${activeTab === 'trend' ? 'active' : ''}`}
-								onClick={() => handleTabChange('trend')}
-							>
-								{t('Trend Properties')}
-							</Box>
-						</Box>
-					</Box>
-
-					<Stack className="card-box">
-						{properties.length === 0 ? (
-							<Box component="div" className="empty-list">
-								{t('No Products Found')}
-							</Box>
-						) : (
-							<Swiper
-								className="products-swiper"
-								slidesPerView="auto"
-								centeredSlides={true}
-								spaceBetween={15}
-								modules={[Autoplay]}
-							>
-								{properties.map((property: Property) => (
-									<SwiperSlide key={property._id} className="product-slide">
-										<ProductCard property={property} likePropertyHandler={likePropertyHandler} />
-									</SwiperSlide>
-								))}
-							</Swiper>
-						)}
-					</Stack>
-				</Stack>
-			</Stack>
-		);
+		return <div style={{ height: '50px' }}>Top Properties mobile</div>;
 	}
 
 	return (

@@ -15,65 +15,7 @@ const Footer = () => {
 	const { t } = useTranslation('common');
 
 	if (device == 'mobile') {
-		return (
-			<Stack className={'footer-container'}>
-				<Stack className={'main'}>
-					<Stack className={'left'}>
-						<Box component={'div'} className={'footer-box'}>
-							<img src="/img/logo/logoWhite.svg" alt="" className={'logo'} />
-						</Box>
-						<Box component={'div'} className={'footer-box'}>
-							<span>{t('total free customer care')}</span>
-							<p>{t('+82 10 4867 2909')}</p>
-						</Box>
-						<Box component={'div'} className={'footer-box'}>
-							<span>{t('nee live')}</span>
-							<p>{t('+82 10 4867 2909')}</p>
-							<span>{t('Support?')}</span>
-						</Box>
-						<Box component={'div'} className={'footer-box'}>
-							<p>{t('follow us on social media')}</p>
-							<div className={'media-box'}>
-								<FacebookOutlinedIcon />
-								<TelegramIcon />
-								<InstagramIcon />
-								<TwitterIcon />
-							</div>
-						</Box>
-					</Stack>
-					<Stack className={'right'}>
-						<Box component={'div'} className={'bottom'}>
-							<div>
-								<strong>{t('Popular Search')}</strong>
-								<span>{t('Property for Rent')}</span>
-								<span>{t('Property Low to hide')}</span>
-							</div>
-							<div>
-								<strong>{t('Quick Links')}</strong>
-								<span>{t('Terms of Use')}</span>
-								<span>{t('Privacy Policy')}</span>
-								<span>{t('Pricing Plans')}</span>
-								<span>{t('Our Services')}</span>
-								<span>{t('Contact Support')}</span>
-								<span>{t('FAQs')}</span>
-							</div>
-							<div>
-								<strong>{t('Discover')}</strong>
-								<span>{t('Seoul')}</span>
-								<span>{t('Gyeongido')}</span>
-								<span>{t('Busan')}</span>
-								<span>{t('Jejudo')}</span>
-							</div>
-						</Box>
-					</Stack>
-				</Stack>
-				<Stack className={'second'}>
-					<span>
-						{t('© Nestar - All rights reserved. Nestar')} {moment().year()}
-					</span>
-				</Stack>
-			</Stack>
-		);
+		return <div style={{ height: '50px' }}>Footer mobile</div>;
 	} else {
 		return (
 			<Stack className={'footer-container'}>

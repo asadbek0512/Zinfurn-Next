@@ -1,12 +1,277 @@
 @import '/scss/variables.scss';
 
 #mobile-wrap {
-  .top {
-    height: 100px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
+  .mobile-navbar {
+    .mobile-navbar-main {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      display: flex;
+      flex-direction: row;
+      box-sizing: border-box;
+      z-index: 99;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+
+      &.transparent {
+        background-color: #f8f7f4;
+        opacity: 0.9;
+        
+        .mobile-logo-box .logo-box img,
+        .notification-icon,
+        .btn-lang,
+        .hamburger-icon span {
+          filter: brightness(0.3);
+        }
+      }
+
+              .mobile-container {
+          width: 100%;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          padding: 15px 20px;
+
+          .mobile-logo-box {
+            .logo-box {
+              position: relative;
+              display: inline-block;
+
+              img {
+                width: auto;
+                height: 40px;
+                cursor: pointer;
+                transition: opacity 0.1s ease;
+              }
+
+              .logo111 {
+                opacity: 1;
+                position: relative;
+              }
+
+              .logo11 {
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+              }
+
+              &.transparent {
+                .logo111 {
+                  opacity: 0;
+                }
+
+                .logo11 {
+                  opacity: 1;
+                }
+              }
+            }
+          }
+
+                            .mobile-user-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .notification-icon {
+              color: rgb(255, 255, 255);
+              font-size: 18px;
+              cursor: pointer;
+            }
+
+            .btn-lang {
+              background: transparent;
+              border: none;
+              cursor: pointer;
+              padding: 5px;
+
+              img {
+                width: 20px;
+                height: 14px;
+                border-radius: 2px;
+              }
+            }
+
+            .mobile-menu-btn {
+              background: transparent;
+              border: none;
+              width: 30px;
+              height: 30px;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              .menu-icon {
+                width: 18px;
+                height: 14px;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                span {
+                  display: block;
+                  width: 100%;
+                  height: 2px;
+                  background: #ffffff;
+                  border-radius: 1px;
+                  transition: all 0.3s ease;
+                  transform-origin: center;
+                }
+              }
+            }
+          }
+      }
+    }
+
+    // Mobile Side Menu Styles
+    .mobile-side-menu {
+      .MuiBackdrop-root {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .MuiDrawer-paper {
+        width: 280px;
+        max-width: 90vw;
+        height: 100vh;
+        background: #f8f7f4;
+        border-radius: 0;
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+
+        &.MuiDrawer-paperAnchorRight {
+          transform: translateX(0);
+        }
+      }
+
+      .mobile-side-header {
+        padding: 20px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        background: #ffffff;
+        flex-shrink: 0;
+
+        .mobile-user-info {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+
+          .mobile-user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #646464;
+          }
+
+          .mobile-user-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            .mobile-user-name {
+              color: #3c3c3c;
+              font-family: $font;
+              font-size: 16px;
+              font-weight: 600;
+            }
+
+            .mobile-user-email {
+              color: #777;
+              font-family: $font;
+              font-size: 12px;
+            }
+          }
+        }
+
+        .mobile-login-link {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 15px;
+          background: #f8f7f4;
+          border-radius: 8px;
+          text-decoration: none;
+          border: 1px solid #646464;
+
+          svg {
+            color: #777;
+            font-size: 20px;
+          }
+
+          span {
+            color: #3c3c3c;
+            font-family: $font;
+            font-size: 14px;
+            font-weight: 600;
+          }
+        }
+      }
+
+      .mobile-side-items {
+        padding: 20px 0;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow-y: auto;
+
+        .mobile-side-item {
+          display: flex;
+          align-items: center;
+          padding: 15px 20px;
+          text-decoration: none;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.05);
+          }
+
+          div {
+            color: #3c3c3c;
+            font-family: $font;
+            font-size: 16px;
+            font-weight: 600;
+          }
+        }
+      }
+
+      .mobile-side-footer {
+        padding: 20px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        background: #ffffff;
+        flex-shrink: 0;
+
+        .mobile-logout-btn {
+          width: 100%;
+          background: transparent;
+          color: #3c3c3c;
+          border: 1px solid #646464;
+          border-radius: 8px;
+          padding: 12px;
+          font-family: $font;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.05);
+          }
+
+          svg {
+            margin-right: 8px;
+            color: #777;
+          }
+        }
+      }
+    }
   }
 
   .info-box {
@@ -856,3 +1121,4 @@
     }
   }
 }
+

@@ -130,16 +130,28 @@ const Home: NextPage = () => {
 				(device === 'mobile' ? (
 					<Stack className="home-page" spacing={4}>
 						<div data-aos="fade-up" data-aos-delay="0">
-							<TrendProperties />
+							<CategoryCards />
 						</div>
 						<div data-aos="fade-up" data-aos-delay="100">
-							<Advertisement />
-						</div>
-						<div data-aos="fade-up" data-aos-delay="300">
-							<TopAgents />
+							<TrendProperties />
 						</div>
 						<div data-aos="fade-up" data-aos-delay="200">
+							<FlashSale />
+						</div>
+						<div data-aos="fade-up" data-aos-delay="300">
+							<Advertisement />
+						</div>
+						<div data-aos="fade-up" data-aos-delay="400">
 							<TopProperties />
+						</div>
+						<div data-aos="fade-up" data-aos-delay="500">
+							<TopAgents />
+						</div>
+						<div data-aos="fade-up" data-aos-delay="600">
+							<Events />
+						</div>
+						<div data-aos="fade-up" data-aos-delay="700">
+							<CommunityBoards />
 						</div>
 					</Stack>
 				) : (
