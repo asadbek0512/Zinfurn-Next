@@ -55,8 +55,9 @@ const AiChat = () => {
 		setLoading(true);
 
 		try {
-			// To'liq manzilni ko'rsating (backend portingiz 3001 bo'lsa)
-			const res = await fetch('http://localhost:3001/api/ai-chat', {
+			const url = 'http://localhost:3001/api/ai-chat';
+			console.log('Sending message to:', url);
+			const res = await fetch(url, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ messages: updatedMessages }),
