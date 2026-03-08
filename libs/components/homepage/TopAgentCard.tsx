@@ -21,8 +21,7 @@ const TopAgentCard = (props: TopAgentProps) => {
 
 	/** HANDLERS **/
 	const handleAgentClick = () => {
-		// Navigate to agent profile
-		console.log('Navigate to agent:', agent?.memberNick);
+		router.push(`/profile/${agent.memberNick}`);
 	};
 
 	if (device === 'mobile') {
