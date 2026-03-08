@@ -863,13 +863,13 @@ body::-webkit-scrollbar {
 			}
 		}
 	}
-	
+
 	// AI Chat
 	.ai-chatting {
 		.ai-chat-button {
 			border: none;
 			position: fixed;
-			bottom: 155px;
+			// bottom: 380px;
 			right: 30px;
 			height: 50px;
 			width: 50px;
@@ -877,20 +877,27 @@ body::-webkit-scrollbar {
 			align-items: center;
 			justify-content: center;
 			border-radius: 50%;
-			background: #cf6422;
-			box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.2);
+			background: transparent; // 👈 orqa fon yo'q
+			box-shadow: none; // 👈 soya yo'q
 			transition: transform 0.3s;
 			z-index: 999;
-			color: #fff;
+			padding: 0;
 
 			&:hover {
 				cursor: pointer;
 				transform: scale(1.1);
-				background-color: #b85519;
+				background-color: transparent; // 👈 hover da ham fonsiz
+			}
+
+			img {
+				width: 50px; // 👈 rasm katta
+				height: 50px;
+				object-fit: contain;
 			}
 
 			svg {
-				color: #fff;
+				color: #cf6422;
+				font-size: 28px;
 			}
 		}
 

@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Avatar, Box, CircularProgress, Stack } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
-import SmartToyIcon from '@mui/icons-material/SmartToy';
 import ScrollableFeed from 'react-scrollable-feed';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 interface AiMessage {
 	role: 'user' | 'assistant';
@@ -18,6 +18,7 @@ const AiChat = () => {
 	const [openButton, setOpenButton] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
+	const { t } = useTranslation('common');
 
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
@@ -55,21 +56,22 @@ const AiChat = () => {
 		setLoading(true);
 
 		try {
-			const url = 'http://localhost:3001/api/ai-chat';
-			console.log('Sending message to:', url);
-			const res = await fetch(url, {
+			const response = await fetch('/api/ai-chat', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ messages: updatedMessages }),
+				body: JSON.stringify({
+					messages: updatedMessages,
+					locale: router.locale || 'en',
+				}),
 			});
 
-			const data = await res.json();
+			const data = await response.json();
 			const aiMessage: AiMessage = { role: 'assistant', content: data.reply };
 			setMessages((prev) => [...prev, aiMessage]);
 		} catch (err) {
 			const errMessage: AiMessage = {
 				role: 'assistant',
-				content: "Xatolik yuz berdi. Iltimos qayta urinib ko'ring.",
+				content: t('AI error message'),
 			};
 			setMessages((prev) => [...prev, errMessage]);
 		} finally {
@@ -79,26 +81,57 @@ const AiChat = () => {
 
 	return (
 		<Stack className="ai-chatting">
+			<style>{`
+				@keyframes ai-float {
+					0%   { transform: translateY(0px) scale(1); }
+					50%  { transform: translateY(-8px) scale(1.05); }
+					100% { transform: translateY(0px) scale(1); }
+				}
+				@keyframes ai-pulse-ring {
+					0%   { box-shadow: 0 0 0 0 rgba(207, 100, 34, 0.5); }
+					70%  { box-shadow: 0 0 0 12px rgba(207, 100, 34, 0); }
+					100% { box-shadow: 0 0 0 0 rgba(207, 100, 34, 0); }
+				}
+				.ai-btn-open {
+					animation: ai-float 2.5s ease-in-out infinite, ai-pulse-ring 2.5s ease-in-out infinite;
+				}
+				.ai-btn-open:hover {
+					animation: none;
+					transform: scale(1.1);
+				}
+			`}</style>
+
 			{openButton ? (
-				<button className="ai-chat-button" onClick={handleToggle}>
-					{open ? <CloseFullscreenIcon /> : <SmartToyIcon />}
+				<button
+					className={`ai-chat-button ${!open ? 'ai-btn-open' : ''}`}
+					onClick={handleToggle}
+					style={{
+						bottom: open ? '155px' : '380px',
+						background: open ? '#cf6422' : 'transparent',
+						boxShadow: open ? '0px 0px 10px 0px rgba(50,50,50,0.2)' : 'none',
+					}}
+				>
+					{open ? (
+						<CloseFullscreenIcon style={{ color: '#fff' }} />
+					) : (
+						<img src="/img/ai1.webp" alt="AI" style={{ width: 54, height: 74 }} />
+					)}
 				</button>
 			) : null}
+
 			<Stack className={`ai-chat-frame ${open ? 'open' : ''}`}>
 				<Box className="ai-chat-top" component="div">
-					<SmartToyIcon style={{ marginRight: '8px', color: '#cf6422' }} />
-					<span>Zinfurn AI Yordamchi</span>
+					<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} />
+					<span>{t('Zinfurn AI Assistant')}</span>
 				</Box>
 				<Box className="ai-chat-content" component="div">
 					<ScrollableFeed>
 						<Stack className="ai-chat-main">
 							<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-								<Avatar sx={{ bgcolor: '#cf6422', width: 32, height: 32 }}>
-									<SmartToyIcon sx={{ fontSize: 18 }} />
+								<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+									<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} />
 								</Avatar>
-								<div className="ai-msg-left">
-									Salom! Men Zinfurn mebel do'konining AI yordamchisiman. Mebel haqida savol bering!
-								</div>
+								<div className="ai-msg-left">{t('AI Welcome Message')}</div>
 							</Box>
 							{messages.map((msg, idx) =>
 								msg.role === 'user' ? (
@@ -115,8 +148,8 @@ const AiChat = () => {
 									</Box>
 								) : (
 									<Box key={idx} flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-										<Avatar sx={{ bgcolor: '#cf6422', width: 32, height: 32, flexShrink: 0 }}>
-											<SmartToyIcon sx={{ fontSize: 18 }} />
+										<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+											<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
 										</Avatar>
 										<div className="ai-msg-left">{msg.content}</div>
 									</Box>
@@ -124,8 +157,8 @@ const AiChat = () => {
 							)}
 							{loading && (
 								<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-									<Avatar sx={{ bgcolor: '#cf6422', width: 32, height: 32, flexShrink: 0 }}>
-										<SmartToyIcon sx={{ fontSize: 18 }} />
+									<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+										<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
 									</Avatar>
 									<div className="ai-msg-left ai-typing">
 										<span></span>
@@ -141,7 +174,7 @@ const AiChat = () => {
 					<input
 						type="text"
 						className="ai-msg-input"
-						placeholder="Mebel haqida savol bering..."
+						placeholder={t('AI Input Placeholder')}
 						value={input}
 						onChange={getInputHandler}
 						onKeyDown={getKeyHandler}

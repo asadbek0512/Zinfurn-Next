@@ -488,5 +488,9 @@
   "Home / For Repair": "الصفحة الرئيسية / للإصلاح",
   "Arabic": "العربية",
   "Uzbek": "الأوزبكية",
-  "All Agents": "جميع الوكلاء"
+  "All Agents": "جميع الوكلاء",
+  "Zinfurn AI Assistant": "مساعد Zinfurn الذكي",
+"AI Welcome Message": "مرحباً! أنا مساعد الذكاء الاصطناعي لمتجر Zinfurn للأثاث. اسألني عن الأثاث!",
+"AI Input Placeholder": "اسأل عن الأثاث...",
+"AI error message": "حدث خطأ. يرجى المحاولة مرة أخرى."
 }

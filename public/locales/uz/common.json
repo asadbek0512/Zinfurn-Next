@@ -484,6 +484,10 @@
   "Home / For Repair": "Bosh sahifa / Ta’mirlash",
   "Arabic": "Arabcha",
   "Uzbek": "O‘zbekcha",
-  "All Agents": "Barcha agentlar"
+  "All Agents": "Barcha agentlar",
+  "Zinfurn AI Assistant": "Zinfurn AI Yordamchi",
+  "AI Welcome Message": "Salom! Men Zinfurn mebel do'konining AI yordamchisiman. Mebel haqida savol bering!",
+  "AI Input Placeholder": "Mebel haqida savol bering...",
+  "AI error message": "Xatolik yuz berdi. Iltimos qayta urinib ko'ring."
 
 }

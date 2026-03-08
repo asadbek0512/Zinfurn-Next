@@ -485,7 +485,11 @@
   "Home / For Repair": "Главная / Для ремонта",
   "Arabic": "Арабский",
   "Uzbek": "Узбекский",
-  "All Agents": "Все агенты"
+  "All Agents": "Все агенты",
+  "Zinfurn AI Assistant": "Zinfurn ИИ Помощник",
+"AI Welcome Message": "Здравствуйте! Я ИИ-помощник магазина мебели Zinfurn. Задайте вопрос о мебели!",
+"AI Input Placeholder": "Спросите о мебели...",
+"AI error message": "Произошла ошибка. Пожалуйста, попробуйте снова."
 
 
 }
