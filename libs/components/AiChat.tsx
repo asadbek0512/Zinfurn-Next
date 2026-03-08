@@ -82,24 +82,26 @@ const AiChat = () => {
 	return (
 		<Stack className="ai-chatting">
 			<style>{`
-				@keyframes ai-float {
-					0%   { transform: translateY(0px) scale(1); }
-					50%  { transform: translateY(-8px) scale(1.05); }
-					100% { transform: translateY(0px) scale(1); }
-				}
-				@keyframes ai-pulse-ring {
-					0%   { box-shadow: 0 0 0 0 rgba(207, 100, 34, 0.5); }
-					70%  { box-shadow: 0 0 0 12px rgba(207, 100, 34, 0); }
-					100% { box-shadow: 0 0 0 0 rgba(207, 100, 34, 0); }
-				}
-				.ai-btn-open {
-					animation: ai-float 2.5s ease-in-out infinite, ai-pulse-ring 2.5s ease-in-out infinite;
-				}
-				.ai-btn-open:hover {
-					animation: none;
-					transform: scale(1.1);
-				}
-			`}</style>
+    @keyframes ai-float {
+        0%   { transform: translateY(0px); }
+        50%  { transform: translateY(-8px); }
+        100% { transform: translateY(0px); }
+    }
+    @keyframes ai-pulse-ring {
+        0%   { box-shadow: 0 0 0 0 rgba(207, 100, 34, 0.4); }
+        70%  { box-shadow: 0 0 0 14px rgba(207, 100, 34, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(207, 100, 34, 0); }
+    }
+    .ai-btn-open {
+        animation: ai-float 2.5s ease-in-out infinite, ai-pulse-ring 2.5s ease-in-out infinite;
+    }
+    .ai-btn-open:hover {
+        animation: ai-float 2.5s ease-in-out infinite, ai-pulse-ring 2.5s ease-in-out infinite;
+        filter: drop-shadow(0 0 12px rgba(255, 200, 80, 0.85)) 
+                drop-shadow(0 0 24px rgba(255, 160, 40, 0.5));
+        transition: filter 0.4s ease;
+    }
+`}</style>
 
 			{openButton ? (
 				<button
