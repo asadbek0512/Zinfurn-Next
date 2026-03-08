@@ -82,43 +82,70 @@ const AiChat = () => {
 	return (
 		<Stack className="ai-chatting">
 			<style>{`
-    @keyframes ai-float {
-        0%   { transform: translateY(0px); }
-        50%  { transform: translateY(-8px); }
-        100% { transform: translateY(0px); }
-    }
-    @keyframes ai-pulse-ring {
-        0%   { box-shadow: 0 0 0 0 rgba(207, 100, 34, 0.4); }
-        70%  { box-shadow: 0 0 0 14px rgba(207, 100, 34, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(207, 100, 34, 0); }
-    }
-    .ai-btn-open {
-        animation: ai-float 2.5s ease-in-out infinite, ai-pulse-ring 2.5s ease-in-out infinite;
-    }
-    .ai-btn-open:hover {
-        animation: ai-float 2.5s ease-in-out infinite, ai-pulse-ring 2.5s ease-in-out infinite;
-        filter: drop-shadow(0 0 12px rgba(255, 200, 80, 0.85)) 
-                drop-shadow(0 0 24px rgba(255, 160, 40, 0.5));
-        transition: filter 0.4s ease;
-    }
-`}</style>
+				@keyframes ai-float {
+					0%   { transform: translateY(0px); }
+					50%  { transform: translateY(-8px); }
+					100% { transform: translateY(0px); }
+				}
+				@keyframes ai-pulse-ring {
+					0%   { box-shadow: 0 0 0 0 rgba(207, 100, 34, 0.4); }
+					70%  { box-shadow: 0 0 0 14px rgba(207, 100, 34, 0); }
+					100% { box-shadow: 0 0 0 0 rgba(207, 100, 34, 0); }
+				}
+				.ai-btn-open {
+					animation: ai-float 2.5s ease-in-out infinite, ai-pulse-ring 2.5s ease-in-out infinite;
+				}
+				.ai-btn-open:hover {
+					animation: ai-float 2.5s ease-in-out infinite, ai-pulse-ring 2.5s ease-in-out infinite;
+					filter: drop-shadow(0 0 12px rgba(255, 200, 80, 0.85)) 
+							drop-shadow(0 0 24px rgba(255, 160, 40, 0.5));
+					transition: filter 0.4s ease;
+				}
+			`}</style>
 
 			{openButton ? (
-				<button
-					className={`ai-chat-button ${!open ? 'ai-btn-open' : ''}`}
-					onClick={handleToggle}
-					style={{
-						bottom: open ? '155px' : '380px',
-						background: open ? '#cf6422' : 'transparent',
-						boxShadow: open ? '0px 0px 10px 0px rgba(50,50,50,0.2)' : 'none',
-					}}
-				>
-					{open ? (
-						<CloseFullscreenIcon style={{ color: '#fff' }} />
-					) : (
-						<img src="/img/ai1.webp" alt="AI" style={{ width: 54, height: 74 }} />
+				<>
+					{/* Ochish buttoni — faqat chat yopiq bo'lganda */}
+					{!open && (
+						<button
+							className="ai-chat-button ai-btn-open"
+							onClick={handleToggle}
+							style={{
+								bottom: '380px',
+								background: 'transparent',
+								boxShadow: 'none',
+								zIndex: 99999,
+							}}
+						>
+							<img src="/img/ai1.webp" alt="AI" style={{ width: 54, height: 74 }} />
+						</button>
 					)}
-				</button>
+
+					{/* Yopish buttoni — faqat chat ochiq bo'lganda, pastda alohida */}
+					{open && (
+						<button
+							onClick={handleToggle}
+							style={{
+								position: 'fixed',
+								bottom: '100px', // 👈 pastda turadi
+								right: '30px',
+								width: '50px',
+								height: '50px',
+								borderRadius: '50%',
+								background: '#cf6422',
+								border: 'none',
+								cursor: 'pointer',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								boxShadow: '0px 0px 10px 0px rgba(50,50,50,0.3)',
+								zIndex: 99999, // 👈 hamma narsa ustida
+							}}
+						>
+							<CloseFullscreenIcon style={{ color: '#fff' }} />
+						</button>
+					)}
+				</>
 			) : null}
 
 			<Stack className={`ai-chat-frame ${open ? 'open' : ''}`}>
