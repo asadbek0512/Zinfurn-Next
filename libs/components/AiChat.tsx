@@ -34,12 +34,9 @@ const AiChat = () => {
 		setOpen((prev) => !prev);
 	};
 
-	const getInputHandler = useCallback(
-		(e: React.ChangeEvent<HTMLInputElement>) => {
-			setInput(e.target.value);
-		},
-		[],
-	);
+	const getInputHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		setInput(e.target.value);
+	}, []);
 
 	const getKeyHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === 'Enter') {
@@ -58,7 +55,8 @@ const AiChat = () => {
 		setLoading(true);
 
 		try {
-			const res = await fetch('/api/ai-chat', {
+			// To'liq manzilni ko'rsating (backend portingiz 3001 bo'lsa)
+			const res = await fetch('http://localhost:3001/api/ai-chat', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ messages: updatedMessages }),
@@ -70,7 +68,7 @@ const AiChat = () => {
 		} catch (err) {
 			const errMessage: AiMessage = {
 				role: 'assistant',
-				content: 'Xatolik yuz berdi. Iltimos qayta urinib ko\'ring.',
+				content: "Xatolik yuz berdi. Iltimos qayta urinib ko'ring.",
 			};
 			setMessages((prev) => [...prev, errMessage]);
 		} finally {
@@ -149,7 +147,11 @@ const AiChat = () => {
 						disabled={loading}
 					/>
 					<button className="ai-send-btn" onClick={sendMessage} disabled={loading}>
-						{loading ? <CircularProgress size={18} style={{ color: '#fff' }} /> : <SendIcon style={{ color: '#fff' }} />}
+						{loading ? (
+							<CircularProgress size={18} style={{ color: '#fff' }} />
+						) : (
+							<SendIcon style={{ color: '#fff' }} />
+						)}
 					</button>
 				</Box>
 			</Stack>
