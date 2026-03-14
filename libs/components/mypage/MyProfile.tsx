@@ -104,7 +104,6 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const doDisabledCheck = () => {
 		if (
 			updateData.memberNick === '' ||
-			updateData.memberPhone === '' ||
 			updateData.memberAddress === '' ||
 			updateData.memberImage === '' ||
 			updateData.memberEmail === ''

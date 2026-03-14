@@ -74,7 +74,7 @@ const Join: NextPage = () => {
 	}, [input, router]);
 	(Join as any).hideTop = true;
 	const handleGoogleAuth = () => {
-		// Google authentication logic
+		window.location.href = 'http://localhost:4001/auth/google';
 	};
 
 	console.log('+input: ', input);
@@ -524,7 +524,9 @@ const Join: NextPage = () => {
 						<Stack className={`right ${loginView ? 'kitchen-bg' : 'living-bg'}`}>
 							<div className={'testimonial'}>
 								<div className={'quote'}>
-								{t('Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.')}
+									{t(
+										'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.',
+									)}
 								</div>
 								<div className={'author'}>
 									<span className={'name'}>{loginView ? t('Cameron Williamson') : t('Annette Black')}</span>
