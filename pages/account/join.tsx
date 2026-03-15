@@ -74,7 +74,7 @@ const Join: NextPage = () => {
 	}, [input, router]);
 	(Join as any).hideTop = true;
 	const handleGoogleAuth = () => {
-		window.location.href = 'http://localhost:4001/auth/google';
+		window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
 	};
 
 	console.log('+input: ', input);
