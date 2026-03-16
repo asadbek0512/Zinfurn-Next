@@ -316,34 +316,55 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 					</Stack>
 
 					{/* Google va Telegram bog'lash tugmalari */}
-					<Stack className="about-me-box" style={{ gap: '12px', marginBottom: '16px', flexDirection: 'row' }}>
-						{/* Google bog'lash - faqat memberGoogleId bo'sh bo'lsa */}
+					<Stack
+						className="about-me-box"
+						style={{
+							gap: '12px',
+							marginBottom: '16px',
+							flexDirection: 'row',
+							justifyContent: 'center',
+							alignItems: 'center',
+							flexWrap: 'wrap',
+						}}
+					>
+						{/* Google bog'lash */}
 						{!user.memberGoogleId && (
 							<Button
 								onClick={handleLinkGoogle}
 								style={{
-									width: '100%',
-									padding: '12px',
+									flex: user.memberTelegramId ? '0 0 auto' : '1',
+									maxWidth: user.memberTelegramId ? '220px' : '100%',
+									padding: '10px 20px',
 									background: '#fff',
 									border: '1px solid #ddd',
 									borderRadius: '24px',
 									display: 'flex',
 									alignItems: 'center',
+									justifyContent: 'center',
 									gap: '8px',
+									boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
+									textTransform: 'none',
 								}}
 							>
 								<img
 									src="https://developers.google.com/identity/images/g-logo.png"
 									alt="Google"
-									style={{ width: '20px' }}
+									style={{ width: '18px' }}
 								/>
-								<Typography style={{ color: '#333', textTransform: 'none' }}>{t('Link Google Account')}</Typography>
+								<Typography style={{ color: '#333', textTransform: 'none', fontSize: '13px', fontWeight: 500 }}>
+									{t('Link Google')}
+								</Typography>
 							</Button>
 						)}
 
-						{/* Telegram bog'lash - faqat memberTelegramId bo'sh bo'lsa */}
+						{/* Telegram bog'lash */}
 						{!user.memberTelegramId && (
 							<div
+								style={{
+									flex: user.memberGoogleId ? '0 0 auto' : '1',
+									display: 'flex',
+									justifyContent: 'center',
+								}}
 								ref={(el) => {
 									if (el && !el.querySelector('script')) {
 										const script = document.createElement('script');
@@ -352,6 +373,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 										script.setAttribute('data-size', 'large');
 										script.setAttribute('data-onauth', 'onTelegramLinkAuth(user)');
 										script.setAttribute('data-request-access', 'write');
+										script.setAttribute('data-radius', '24');
 										script.async = true;
 										el.appendChild(script);
 									}
