@@ -387,12 +387,7 @@ const Join: NextPage = () => {
 
 								{/* Telegram Auth */}
 								<div
-									style={{
-										width: '100%',
-										display: 'flex',
-										justifyContent: 'center',
-										marginTop: '12px',
-									}}
+									className={'telegram-signin'}
 									ref={(el) => {
 										if (el && !el.querySelector('script')) {
 											const script = document.createElement('script');
@@ -401,7 +396,7 @@ const Join: NextPage = () => {
 											script.setAttribute('data-size', 'large');
 											script.setAttribute('data-onauth', 'onTelegramAuth(user)');
 											script.setAttribute('data-request-access', 'write');
-											script.setAttribute('data-radius', '24');
+											script.setAttribute('data-radius', '8');
 											script.async = true;
 											el.appendChild(script);
 										}

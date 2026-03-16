@@ -159,7 +159,9 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 								<img
 									src={
 										updateData?.memberImage
-											? `${REACT_APP_API_URL}/${updateData?.memberImage}`
+											? updateData.memberImage.startsWith('http')
+												? updateData.memberImage
+												: `${REACT_APP_API_URL}/${updateData?.memberImage}`
 											: `/img/profile/defaultUser.svg`
 									}
 									alt="Profile"

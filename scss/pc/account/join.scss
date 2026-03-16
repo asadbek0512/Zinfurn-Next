@@ -362,6 +362,17 @@
 			height: 20px;
 		}
 	}
+	.telegram-signin {
+		width: 100%;
+		margin-bottom: 20px;
+	
+		iframe {
+			width: 100% !important;
+			height: 44px !important;
+			border-radius: 8px !important;
+			border: 1px solid #333 !important;
+		}
+	}
 
 	.divider {
 		display: flex;
