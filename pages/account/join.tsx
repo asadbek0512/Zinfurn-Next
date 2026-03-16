@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
@@ -8,6 +8,7 @@ import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
+import { setJwtToken, updateUserInfo } from '../../libs/auth';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -76,6 +77,43 @@ const Join: NextPage = () => {
 	const handleGoogleAuth = () => {
 		window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
 	};
+
+	const handleTelegramAuth = async (telegramData: any) => {
+		try {
+			const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/telegram`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(telegramData),
+			});
+			const data = await response.json();
+			if (data.token) {
+				setJwtToken(data.token);
+				updateUserInfo(data.token);
+				window.location.href = '/';
+			}
+		} catch (err) {
+			await sweetMixinErrorAlert('Telegram login failed');
+		}
+	};
+	useEffect(() => {
+		(window as any).onTelegramAuth = async (telegramData: any) => {
+			try {
+				const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/telegram`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(telegramData),
+				});
+				const data = await response.json();
+				if (data.token) {
+					setJwtToken(data.token);
+					updateUserInfo(data.token);
+					window.location.href = '/';
+				}
+			} catch (err) {
+				await sweetMixinErrorAlert('Telegram login failed');
+			}
+		};
+	}, []);
 
 	console.log('+input: ', input);
 
@@ -347,6 +385,22 @@ const Join: NextPage = () => {
 									{loginView ? t('Sign In With Google') : t('Sign Up With Google')}
 								</button>
 							</Box>
+
+							{/* Telegram Auth */}
+							<div
+								ref={(el) => {
+									if (el && !el.querySelector('script')) {
+										const script = document.createElement('script');
+										script.src = 'https://telegram.org/js/telegram-widget.js?22';
+										script.setAttribute('data-telegram-login', 'zinfurn_auth_bot');
+										script.setAttribute('data-size', 'large');
+										script.setAttribute('data-onauth', 'onTelegramAuth(user)');
+										script.setAttribute('data-request-access', 'write');
+										script.async = true;
+										el.appendChild(script);
+									}
+								}}
+							/>
 
 							{/* Switch View */}
 							<Box component="div" className={'ask-info'}>

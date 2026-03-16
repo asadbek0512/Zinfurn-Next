@@ -82,7 +82,10 @@ body::-webkit-scrollbar {
 					flex-direction: row;
 					align-items: center;
 					justify-content: space-between;
-					padding: 20px 24px;
+					// BITTA O'ZGARISH: padding-right 24px → 80px
+					// Bu notification + bayroqni CS ga yaqinroq qiladi
+					// va 110% zoom / 13" ekranda ham sig'adi
+					padding: 20px 80px 20px 24px;
 
 					.logo-box {
 						position: relative;
@@ -240,6 +243,7 @@ body::-webkit-scrollbar {
 						}
 					}
 				}
+
 			}
 		}
 	}
@@ -282,18 +286,20 @@ body::-webkit-scrollbar {
 			.search-box {
 				position: relative;
 				// border: 1px solid #d59413;
-				padding: 16px 29px;
-				width: 950px;
+				padding: 16px clamp(12px, 2vw, 29px);
+				max-width: 950px;
+				width: min(95%, 950px);
 				height: 96px;
 				display: flex;
 				flex-direction: row;
 				justify-content: center;
 				background: rgba(174, 173, 173, 0.28);
 				border-radius: 20px;
+				box-sizing: border-box;
 
 				.select-box {
-					width: 812px;
-					gap: 30px;
+					width: 100%;
+					gap: clamp(12px, 2vw, 30px);
 					display: flex;
 					flex-direction: row;
 					justify-content: space-between;
@@ -356,8 +362,9 @@ body::-webkit-scrollbar {
 
 				.filter-location {
 					position: absolute;
-					padding: 40px 60px;
-					width: 1094px;
+					padding: 40px clamp(20px, 4vw, 60px);
+					max-width: 1094px;
+					width: min(95vw, 1094px);
 					min-height: 120px;
 					height: auto;
 					top: 96px;
@@ -365,7 +372,7 @@ body::-webkit-scrollbar {
 					display: flex;
 					flex-direction: row;
 					flex-wrap: wrap;
-					gap: 40px;
+					gap: clamp(20px, 3vw, 40px);
 					visibility: hidden;
 					border-radius: 12px;
 					background: #ffffff;
@@ -412,8 +419,9 @@ body::-webkit-scrollbar {
 
 				.filter-type {
 					position: absolute;
-					padding: 40px 60px;
-					width: 1094px;
+					padding: 40px clamp(20px, 4vw, 60px);
+					max-width: 1094px;
+					width: min(95vw, 1094px);
 					min-height: 120px;
 					height: auto;
 					top: 96px;
@@ -421,7 +429,7 @@ body::-webkit-scrollbar {
 					display: flex;
 					flex-direction: row;
 					flex-wrap: wrap;
-					gap: 40px;
+					gap: clamp(20px, 3vw, 40px);
 					visibility: hidden;
 					border-radius: 12px;
 					background: #ffffff;
@@ -468,8 +476,9 @@ body::-webkit-scrollbar {
 
 				.filter-rooms {
 					position: absolute;
-					padding: 40px 20px;
-					width: 1094px;
+					padding: 40px clamp(10px, 1.5vw, 20px);
+					max-width: 1094px;
+					width: min(95vw, 1094px);
 					min-height: 120px;
 					height: auto;
 					top: 96px;
@@ -477,7 +486,7 @@ body::-webkit-scrollbar {
 					display: flex;
 					flex-direction: row;
 					flex-wrap: wrap;
-					gap: 40px;
+					gap: clamp(20px, 3vw, 40px);
 					visibility: hidden;
 					border-radius: 20px;
 					background: #ffffff;
@@ -524,8 +533,9 @@ body::-webkit-scrollbar {
 
 				.filter-colors {
 					position: absolute;
-					padding: 40px 90px;
-					width: 960px;
+					padding: 40px clamp(30px, 6vw, 90px);
+					max-width: 960px;
+					width: min(95vw, 960px);
 					min-height: 120px;
 					height: auto;
 					top: 96px;
@@ -533,7 +543,7 @@ body::-webkit-scrollbar {
 					display: flex;
 					flex-direction: row;
 					flex-wrap: wrap;
-					gap: 70px;
+					gap: clamp(30px, 5vw, 70px);
 					visibility: hidden;
 					border-radius: 12px;
 					background: #ffffff;
@@ -1551,4 +1561,45 @@ body::-webkit-scrollbar {
 	height: 17px;
 	border-radius: 2px;
 	margin-right: 8px;
+}
+
+// ============================================================
+// LAPTOP BREAKPOINTS — 13" / 14" ekranlar va zoom 110-125%
+// ============================================================
+
+@media screen and (max-width: 1366px) {
+	#pc-wrap {
+		// Header main search
+		.header-main .container .search-box {
+			max-width: 860px;
+			height: 84px;
+
+			.select-box .box {
+				padding: 18px 14px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 1280px) {
+	#pc-wrap {
+		// Search box
+		.header-main .container .search-box {
+			max-width: 800px;
+			height: 80px;
+			padding: 12px 14px;
+
+			.select-box {
+				gap: 8px;
+
+				.box {
+					padding: 14px 10px;
+
+					span {
+						font-size: 12px;
+					}
+				}
+			}
+		}
+	}
 }
