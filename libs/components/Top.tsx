@@ -200,11 +200,7 @@ const Top = () => {
 	}));
 
 	if (device == 'mobile') {
-		return (
-			<Stack className={'mobile-navbar'}>
-		
-			</Stack>
-		);
+		return <Stack className={'mobile-navbar'}></Stack>;
 	} else {
 		return (
 			<Stack className={'navbar'}>
@@ -214,9 +210,7 @@ const Top = () => {
 							component={'div'}
 							className={`router-box ${i18n.language === 'kr' ? 'korean-margin' : ''} ${
 								i18n.language === 'ru' ? 'russian-lang' : ''
-							} ${i18n.language === 'ar' ? 'arabic-lang' : ''} ${
-								i18n.language === 'uz' ? 'uzbek-lang' : ''
-							}`}
+							} ${i18n.language === 'ar' ? 'arabic-lang' : ''} ${i18n.language === 'uz' ? 'uzbek-lang' : ''}`}
 						>
 							<Link href={'/'}>
 								<div>{t('Home')}</div>
@@ -257,7 +251,11 @@ const Top = () => {
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
 										<img
 											src={
-												user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
+												user?.memberImage
+													? user.memberImage.startsWith('http')
+														? user.memberImage
+														: `${REACT_APP_API_URL}/${user.memberImage}`
+													: '/img/profile/defaultUser.svg'
 											}
 											alt=""
 										/>

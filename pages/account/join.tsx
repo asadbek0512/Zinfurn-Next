@@ -388,6 +388,7 @@ const Join: NextPage = () => {
 								{/* Telegram Auth */}
 								<div
 									className={'telegram-signin'}
+									style={{ width: '100%' }}
 									ref={(el) => {
 										if (el && !el.querySelector('script')) {
 											const script = document.createElement('script');
