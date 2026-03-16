@@ -18,7 +18,6 @@ export function setJwtToken(token: string) {
 export const logIn = async (nick: string, password: string): Promise<void> => {
 	try {
 		const { jwtToken } = await requestJwtToken({ nick, password });
-
 		if (jwtToken) {
 			updateStorage({ jwtToken });
 			updateUserInfo(jwtToken);
@@ -26,62 +25,53 @@ export const logIn = async (nick: string, password: string): Promise<void> => {
 	} catch (err) {
 		console.warn('login err', err);
 		logOut();
-		// throw new Error('Login Err');
 	}
 };
 
 const requestJwtToken = async ({
-  nick,
-  password,
+	nick,
+	password,
 }: {
-  nick: string;
-  password: string;
+	nick: string;
+	password: string;
 }): Promise<{ jwtToken: string }> => {
-  const apolloClient = await initializeApollo();
-
-  const isEmail = nick.includes('@');
-
-  const input = {
-    memberPassword: password,
-    ...(isEmail ? { memberEmail: nick } : { memberNick: nick }),
-  };
-
-  try {
-    const result = await apolloClient.mutate({
-      mutation: LOGIN,
-      variables: { input },
-      fetchPolicy: 'network-only',
-    });
-
-    const { accessToken } = result?.data?.login;
-
-    return { jwtToken: accessToken };
-  } catch (err: any) {
-    console.log('request token err', err.graphQLErrors);
-    switch (err.graphQLErrors[0].message) {
-      case 'Definer: login and password do not match':
-        await sweetMixinErrorAlert('Please check your password again');
-        break;
-      case 'Definer: user has been blocked!':
-        await sweetMixinErrorAlert('User has been blocked!');
-        break;
-    }
-    throw new Error('token error');
-  }
+	const apolloClient = await initializeApollo();
+	const isEmail = nick.includes('@');
+	const input = {
+		memberPassword: password,
+		...(isEmail ? { memberEmail: nick } : { memberNick: nick }),
+	};
+	try {
+		const result = await apolloClient.mutate({
+			mutation: LOGIN,
+			variables: { input },
+			fetchPolicy: 'network-only',
+		});
+		const { accessToken } = result?.data?.login;
+		return { jwtToken: accessToken };
+	} catch (err: any) {
+		console.log('request token err', err.graphQLErrors);
+		switch (err.graphQLErrors[0].message) {
+			case 'Definer: login and password do not match':
+				await sweetMixinErrorAlert('Please check your password again');
+				break;
+			case 'Definer: user has been blocked!':
+				await sweetMixinErrorAlert('User has been blocked!');
+				break;
+		}
+		throw new Error('token error');
+	}
 };
 
-
-
 export const signUp = async (
-	nick: string, 
-	password: string, 
-	phone: string, 
-	email: string, 
-	type: string
+	nick: string,
+	password: string,
+	phone: string,
+	email: string,
+	type: string,
 ): Promise<void> => {
 	try {
 		const { jwtToken } = await requestSignUpJwtToken({ nick, password, phone, email, type });
-
 		if (jwtToken) {
 			updateStorage({ jwtToken });
 			updateUserInfo(jwtToken);
@@ -89,7 +79,6 @@ export const signUp = async (
 	} catch (err) {
 		console.warn('signup err', err);
 		logOut();
-		// throw new Error('Signup Err');
 	}
 };
 
@@ -107,25 +96,22 @@ const requestSignUpJwtToken = async ({
 	type: string;
 }): Promise<{ jwtToken: string }> => {
 	const apolloClient = await initializeApollo();
-
 	try {
 		const result = await apolloClient.mutate({
 			mutation: SIGN_UP,
 			variables: {
-				input: { 
-					memberNick: nick, 
-					memberPassword: password, 
-					memberPhone: phone, 
+				input: {
+					memberNick: nick,
+					memberPassword: password,
+					memberPhone: phone,
 					memberEmail: email,
-					memberType: type 
+					memberType: type,
 				},
 			},
 			fetchPolicy: 'network-only',
 		});
-
 		console.log('---------- signup ----------');
 		const { accessToken } = result?.data?.signup;
-
 		return { jwtToken: accessToken };
 	} catch (err: any) {
 		console.log('request signup token err', err.graphQLErrors);
@@ -156,7 +142,6 @@ export const updateStorage = ({ jwtToken }: { jwtToken: any }) => {
 
 export const updateUserInfo = (jwtToken: any) => {
 	if (!jwtToken) return false;
-
 	const claims = decodeJWT<CustomJwtPayload>(jwtToken);
 	userVar({
 		_id: claims._id ?? '',
@@ -178,11 +163,13 @@ export const updateUserInfo = (jwtToken: any) => {
 		memberArticles: claims.memberArticles,
 		memberPoints: claims.memberPoints,
 		memberFollowers: claims.memberFollowers,
-		memberFollowings:claims.memberFollowings,
+		memberFollowings: claims.memberFollowings,
 		memberLikes: claims.memberLikes,
 		memberViews: claims.memberViews,
 		memberWarnings: claims.memberWarnings,
 		memberBlocks: claims.memberBlocks,
+		memberTelegramId: claims.memberTelegramId ?? '',
+		memberGoogleId: claims.memberGoogleId ?? '',
 	});
 };
 
@@ -214,11 +201,13 @@ const deleteUserInfo = () => {
 		memberRank: 0,
 		memberArticles: 0,
 		memberPoints: 0,
-		memberFollowers:0,
+		memberFollowers: 0,
 		memberFollowings: 0,
 		memberLikes: 0,
 		memberViews: 0,
 		memberWarnings: 0,
 		memberBlocks: 0,
+		memberTelegramId: '',
+		memberGoogleId: '',
 	});
 };

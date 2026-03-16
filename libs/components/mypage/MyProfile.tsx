@@ -35,6 +35,27 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 		});
 	}, [user]);
 
+	// Telegram widget useEffect
+	useEffect(() => {
+		(window as any).onTelegramLinkAuth = async (telegramData: any) => {
+			try {
+				const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/link/telegram`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ memberId: user._id, ...telegramData }),
+				});
+				const data = await response.json();
+				if (data.token) {
+					updateStorage({ jwtToken: data.token });
+					updateUserInfo(data.token);
+					await sweetMixinSuccessAlert('Telegram linked successfully!');
+				}
+			} catch (err) {
+				console.log('Telegram link error:', err);
+			}
+		};
+	}, [user._id]);
+
 	/** HANDLERS **/
 	const uploadImage = async (e: any) => {
 		try {
@@ -100,6 +121,11 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			sweetErrorHandling(err).then();
 		}
 	}, [updateData]);
+
+	// Google bog'lash
+	const handleLinkGoogle = () => {
+		window.location.href = `${process.env.REACT_APP_API_URL}/auth/link/google?state=${user._id}`;
+	};
 
 	const doDisabledCheck = () => {
 		if (
@@ -288,6 +314,59 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberAddress: value })}
 						/>
 					</Stack>
+
+					{/* Google va Telegram bog'lash tugmalari */}
+					<Stack className="about-me-box" style={{ gap: '12px', marginBottom: '16px', flexDirection: 'row' }}>
+						{/* Google bog'lash - faqat memberGoogleId bo'sh bo'lsa */}
+						{!user.memberGoogleId && (
+							<Button
+								onClick={handleLinkGoogle}
+								style={{
+									width: '100%',
+									padding: '12px',
+									background: '#fff',
+									border: '1px solid #ddd',
+									borderRadius: '24px',
+									display: 'flex',
+									alignItems: 'center',
+									gap: '8px',
+								}}
+							>
+								<img
+									src="https://developers.google.com/identity/images/g-logo.png"
+									alt="Google"
+									style={{ width: '20px' }}
+								/>
+								<Typography style={{ color: '#333', textTransform: 'none' }}>{t('Link Google Account')}</Typography>
+							</Button>
+						)}
+
+						{/* Telegram bog'lash - faqat memberTelegramId bo'sh bo'lsa */}
+						{!user.memberTelegramId && (
+							<div
+								ref={(el) => {
+									if (el && !el.querySelector('script')) {
+										const script = document.createElement('script');
+										script.src = 'https://telegram.org/js/telegram-widget.js?22';
+										script.setAttribute('data-telegram-login', 'zinfurn_auth_bot');
+										script.setAttribute('data-size', 'large');
+										script.setAttribute('data-onauth', 'onTelegramLinkAuth(user)');
+										script.setAttribute('data-request-access', 'write');
+										script.async = true;
+										el.appendChild(script);
+									}
+								}}
+							/>
+						)}
+
+						{/* Ikkalasi ham bog'langan bo'lsa */}
+						{user.memberGoogleId && user.memberTelegramId && (
+							<Typography style={{ color: 'green', textAlign: 'center', fontSize: '14px' }}>
+								✅ {t('All accounts linked')}
+							</Typography>
+						)}
+					</Stack>
+
 					<Stack className="about-me-box">
 						<Button className="update-button" onClick={updatePropertyHandler} disabled={doDisabledCheck()}>
 							<Typography>{t('Update Profile')}</Typography>

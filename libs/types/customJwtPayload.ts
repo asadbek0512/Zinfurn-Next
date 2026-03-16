@@ -22,4 +22,6 @@ export interface CustomJwtPayload extends JwtPayload {
 	memberViews: number;
 	memberWarnings: number;
 	memberBlocks: number;
+	memberTelegramId?: string;  // ← qo'shing
+  memberGoogleId?: string;    // ← qo'shing
 }

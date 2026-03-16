@@ -25,6 +25,8 @@ export const userVar = makeVar<CustomJwtPayload>({
 	memberFollowings: 0,
 	memberWarnings: 0,
 	memberBlocks: 0,
+	memberTelegramId: '',   // ← qo'shing
+  memberGoogleId: '',     // ← qo'shing
 });
 
 // @ts-ignore
