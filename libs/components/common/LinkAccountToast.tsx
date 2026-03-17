@@ -31,10 +31,10 @@ const slideOut = keyframes`
 // Styled Components
 const ToastContainer = styled(Box)(({ theme }) => ({
 	position: 'fixed',
-	top: '24px',
+	top: '100px',
 	right: '24px',
 	width: '280px',
-	backgroundColor: 'rgba(0, 0, 0, 0.65)',
+	backgroundColor: 'rgba(0, 0, 0, 0.5)',
 	backdropFilter: 'blur(10px)',
 	borderRadius: '12px',
 	padding: '16px',
@@ -42,8 +42,8 @@ const ToastContainer = styled(Box)(({ theme }) => ({
 	alignItems: 'center',
 	gap: '12px',
 	zIndex: 9999,
-	boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
-	border: '1px solid rgba(255, 255, 255, 0.15)',
+	boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
+	border: '1px solid rgba(255, 255, 255, 0.1)',
 	cursor: 'pointer',
 	'&.toast-enter': {
 		animation: `${slideIn} 0.6s ease-out forwards`,
@@ -52,12 +52,12 @@ const ToastContainer = styled(Box)(({ theme }) => ({
 		animation: `${slideOut} 0.6s ease-out forwards`,
 	},
 	'&:hover': {
-		backgroundColor: 'rgba(0, 0, 0, 0.75)',
+		backgroundColor: 'rgba(0, 0, 0, 0.6)',
 	},
 	[theme.breakpoints.down('sm')]: {
 		width: '240px',
 		right: '12px',
-		top: '12px',
+		top: '90px',
 		padding: '14px',
 	},
 }));
