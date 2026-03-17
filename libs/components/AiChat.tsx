@@ -21,11 +21,12 @@ const AiChat = () => {
 	const { t } = useTranslation('common');
 
 	useEffect(() => {
+		if (!router.isReady) return;
 		const timeoutId = setTimeout(() => {
 			setOpenButton(true);
 		}, 100);
 		return () => clearTimeout(timeoutId);
-	}, []);
+	}, [router.isReady]);
 
 	useEffect(() => {
 		setOpenButton(false);

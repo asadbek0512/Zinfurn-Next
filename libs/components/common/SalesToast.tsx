@@ -5,6 +5,7 @@ import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
+import { useRouter } from 'next/router';
 import { T } from '../../types/common';
 import { useTranslation } from 'next-i18next';
 
@@ -167,6 +168,7 @@ const CloseButton = styled(Box)({
 
 const SalesToast = (props: SalesToastProps) => {
 	const { t } = useTranslation('common');
+	const router = useRouter();
 	const { initialInput } = props;
 	const [saleProperties, setSaleProperties] = useState<Property[]>(globalSaleProperties);
 	const [currentToastIndex, setCurrentToastIndex] = useState(globalToastIndex);
@@ -299,7 +301,7 @@ const SalesToast = (props: SalesToastProps) => {
 		}, 800);
 	};
 
-	if (!isVisible || saleProperties.length === 0) return null;
+	if (!isVisible || saleProperties.length === 0 || !router.isReady) return null;
 
 	const currentProperty = saleProperties[currentToastIndex];
 	const discountPercentage = calculateSalePercentage(currentProperty.propertyPrice, currentProperty.propertySalePrice);
