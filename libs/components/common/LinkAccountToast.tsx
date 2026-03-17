@@ -1,56 +1,80 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Container } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, Typography } from '@mui/material';
+import { styled, keyframes } from '@mui/material/styles';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 
+// Animations
+const slideIn = keyframes`
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+
+const slideOut = keyframes`
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+`;
+
 // Styled Components
 const ToastContainer = styled(Box)(({ theme }) => ({
 	position: 'fixed',
-	top: '80px',
-	left: '50%',
-	transform: 'translateX(-50%)',
-	width: '90%',
-	maxWidth: '600px',
-	backgroundColor: '#2A2A2A',
-	borderRadius: '10px',
-	padding: '20px 24px',
+	top: '24px',
+	right: '24px',
+	width: '280px',
+	backgroundColor: 'rgba(0, 0, 0, 0.65)',
+	backdropFilter: 'blur(10px)',
+	borderRadius: '12px',
+	padding: '16px',
 	display: 'flex',
 	alignItems: 'center',
-	gap: '16px',
-	zIndex: 9998,
-	boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)',
+	gap: '12px',
+	zIndex: 9999,
+	boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
 	border: '1px solid rgba(255, 255, 255, 0.15)',
 	cursor: 'pointer',
-	transition: 'all 0.2s ease',
+	'&.toast-enter': {
+		animation: `${slideIn} 0.6s ease-out forwards`,
+	},
+	'&.toast-exit': {
+		animation: `${slideOut} 0.6s ease-out forwards`,
+	},
 	'&:hover': {
-		backgroundColor: '#333333',
-		boxShadow: '0 12px 32px rgba(0, 0, 0, 0.3)',
-		transform: 'translateX(-50%) translateY(-2px)',
+		backgroundColor: 'rgba(0, 0, 0, 0.75)',
 	},
 	[theme.breakpoints.down('sm')]: {
-		width: '85%',
-		top: '70px',
-		padding: '16px 18px',
-		maxWidth: '400px',
+		width: '240px',
+		right: '12px',
+		top: '12px',
+		padding: '14px',
 	},
 }));
 
 const IconBox = styled(Box)({
-	width: '40px',
-	height: '40px',
-	borderRadius: '8px',
+	width: '32px',
+	height: '32px',
+	borderRadius: '6px',
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
 	flexShrink: 0,
 	backgroundColor: 'rgba(255, 255, 255, 0.1)',
 	'& img': {
-		width: '24px',
-		height: '24px',
+		width: '20px',
+		height: '20px',
 		objectFit: 'contain',
-		filter: 'brightness(1.1)',
 	},
 });
 
@@ -58,38 +82,38 @@ const ContentBox = styled(Box)({
 	flex: 1,
 	display: 'flex',
 	flexDirection: 'column',
-	gap: '4px',
+	gap: '2px',
 });
 
 const MessageText = styled(Typography)({
-	fontSize: '15px',
+	fontSize: '13px',
 	fontWeight: 600,
-	lineHeight: 1.3,
+	lineHeight: 1.2,
 	color: '#FFFFFF',
 });
 
 const SubtextText = styled(Typography)({
-	fontSize: '12px',
-	color: 'rgba(255, 255, 255, 0.7)',
+	fontSize: '11px',
+	color: 'rgba(255, 255, 255, 0.6)',
 	fontWeight: 400,
 });
 
 const CloseButton = styled(Box)({
 	position: 'absolute',
-	top: '8px',
-	right: '8px',
-	width: '24px',
-	height: '24px',
+	top: '4px',
+	right: '4px',
+	width: '18px',
+	height: '18px',
 	borderRadius: '50%',
-	backgroundColor: 'rgba(255, 255, 255, 0.15)',
+	backgroundColor: 'rgba(255, 255, 255, 0.1)',
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
 	cursor: 'pointer',
-	fontSize: '14px',
+	fontSize: '12px',
 	color: '#FFFFFF',
 	'&:hover': {
-		backgroundColor: 'rgba(255, 255, 255, 0.25)',
+		backgroundColor: 'rgba(255, 255, 255, 0.2)',
 	},
 });
 
@@ -97,6 +121,7 @@ const LinkAccountToast = () => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [isVisible, setIsVisible] = useState(false);
+	const [animationClass, setAnimationClass] = useState('');
 	const [toastConfig, setToastConfig] = useState<{
 		message: string;
 		subtext: string;
@@ -123,36 +148,48 @@ const LinkAccountToast = () => {
 		// Show toast if one exists but not the other
 		if (hasGoogleId && !hasTelegramId) {
 			setToastConfig({
-				message: 'Connect your Telegram account',
-				subtext: 'Link Telegram to keep your account secure',
+				message: 'Connect Telegram',
+				subtext: 'Link for security',
 				icon: 'https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg',
 			});
-			setIsVisible(true);
+			showToast();
 		} else if (hasTelegramId && !hasGoogleId) {
 			setToastConfig({
-				message: 'Connect your Google account',
-				subtext: 'Link Google to add extra security to your account',
+				message: 'Connect Google',
+				subtext: 'Link for security',
 				icon: 'https://developers.google.com/identity/images/g-logo.png',
 			});
-			setIsVisible(true);
+			showToast();
 		} else {
 			setIsVisible(false);
 		}
 	}, [user._id, user.memberGoogleId, user.memberTelegramId, router.isReady, router.pathname]);
 
+	const showToast = () => {
+		setAnimationClass('toast-enter');
+		setIsVisible(true);
+	};
+
 	const handleClose = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		setIsVisible(false);
+		setAnimationClass('toast-exit');
+		setTimeout(() => {
+			setIsVisible(false);
+		}, 600);
 	};
 
 	const handleClick = () => {
-		router.push('/mypage?category=myProfile');
+		setAnimationClass('toast-exit');
+		setTimeout(() => {
+			setIsVisible(false);
+			router.push('/mypage?category=myProfile');
+		}, 600);
 	};
 
 	if (!isVisible || !toastConfig) return null;
 
 	return (
-		<ToastContainer onClick={handleClick}>
+		<ToastContainer className={animationClass} onClick={handleClick}>
 			<CloseButton onClick={handleClose}>×</CloseButton>
 
 			<IconBox>
