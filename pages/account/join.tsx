@@ -31,9 +31,6 @@ const Join: NextPage = () => {
 	const [rememberMe, setRememberMe] = useState<boolean>(true);
 	const [agreeTerms, setAgreeTerms] = useState<boolean>(false);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
-	const [telegramPhoto, setTelegramPhoto] = useState(
-		typeof window !== 'undefined' ? localStorage.getItem('telegramPhoto') || '' : '',
-	);
 
 	/** HANDLERS **/
 	const viewChangeHandler = (state: boolean) => {
@@ -101,11 +98,6 @@ const Join: NextPage = () => {
 	useEffect(() => {
 		(window as any).onTelegramAuth = async (telegramData: any) => {
 			try {
-				// photo_url ni saqlaymiz
-				if (telegramData.photo_url) {
-					localStorage.setItem('telegramPhoto', telegramData.photo_url);
-					setTelegramPhoto(telegramData.photo_url);
-				}
 				const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/telegram`, {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
@@ -432,13 +424,6 @@ const Join: NextPage = () => {
 											style={{ width: '20px', height: '20px' }}
 										/>
 										{loginView ? t('Sign In With Telegram') : t('Sign Up With Telegram')}
-										{telegramPhoto && (
-											<img
-												src={telegramPhoto}
-												alt="user"
-												style={{ width: '28px', height: '28px', borderRadius: '50%', marginLeft: 'auto' }}
-											/>
-										)}
 									</button>
 								</div>
 							</Box>
