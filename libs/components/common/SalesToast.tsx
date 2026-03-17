@@ -301,7 +301,7 @@ const SalesToast = (props: SalesToastProps) => {
 		}, 800);
 	};
 
-	if (!isVisible || saleProperties.length === 0 || !router.isReady) return null;
+	if (!isVisible || saleProperties.length === 0 || !router.isReady || router.pathname === '/account/join') return null;
 
 	const currentProperty = saleProperties[currentToastIndex];
 	const discountPercentage = calculateSalePercentage(currentProperty.propertyPrice, currentProperty.propertySalePrice);

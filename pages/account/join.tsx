@@ -400,6 +400,17 @@ const Join: NextPage = () => {
 											script.setAttribute('data-radius', '8');
 											script.async = true;
 											el.appendChild(script);
+
+											// iframe yuklanganidan keyin style qo'shamiz
+											script.onload = () => {
+												setTimeout(() => {
+													const iframe = el.querySelector('iframe');
+													if (iframe) {
+														iframe.style.width = '100%';
+														iframe.style.minWidth = '100%';
+													}
+												}, 500);
+											};
 										}
 									}}
 								/>

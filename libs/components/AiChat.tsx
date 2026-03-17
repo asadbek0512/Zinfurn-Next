@@ -30,7 +30,12 @@ const AiChat = () => {
 
 	useEffect(() => {
 		setOpenButton(false);
-	}, [router.pathname]);
+		if (!router.isReady) return;
+		const timeoutId = setTimeout(() => {
+			setOpenButton(true);
+		}, 800);
+		return () => clearTimeout(timeoutId);
+	}, [router.pathname, router.isReady]);
 
 	const handleToggle = () => {
 		setOpen((prev) => !prev);
