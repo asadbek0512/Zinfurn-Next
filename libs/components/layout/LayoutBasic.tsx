@@ -155,7 +155,6 @@ const withLayoutBasic = (Component: any) => {
 						</Stack>
 
 						<SalesToast />
-						<SalesToast />
 						<LinkAccountToast />
 					</Stack>
 				</>
