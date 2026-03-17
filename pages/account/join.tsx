@@ -387,9 +387,18 @@ const Join: NextPage = () => {
 
 								{/* Telegram Auth */}
 								<div style={{ width: '100%', position: 'relative' }}>
-									{/* Ko'rinmas Telegram widget */}
+									{/* Telegram widget — ko'rinmas lekin bosiladi */}
 									<div
-										style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}
+										className={'telegram-hidden'}
+										style={{
+											position: 'absolute',
+											top: 0,
+											left: 0,
+											width: '100%',
+											height: '100%',
+											opacity: 0,
+											zIndex: 2,
+										}}
 										ref={(el) => {
 											if (el && !el.querySelector('script')) {
 												const script = document.createElement('script');
@@ -404,14 +413,10 @@ const Join: NextPage = () => {
 											}
 										}}
 									/>
-									{/* O'zimizning chiroyli tugma */}
+									{/* O'zimizning chiroyli tugma — orqada */}
 									<button
 										className={'google-signin'}
-										onClick={() => {
-											const iframe = document.querySelector('.telegram-hidden iframe') as HTMLIFrameElement;
-											if (iframe) iframe.click();
-										}}
-										style={{ marginBottom: 0 }}
+										style={{ marginBottom: 0, position: 'relative', zIndex: 1, width: '100%' }}
 									>
 										<img
 											src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
