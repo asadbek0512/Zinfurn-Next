@@ -386,34 +386,41 @@ const Join: NextPage = () => {
 								</button>
 
 								{/* Telegram Auth */}
-								<div
-									className={'telegram-signin'}
-									style={{ width: '100%' }}
-									ref={(el) => {
-										if (el && !el.querySelector('script')) {
-											const script = document.createElement('script');
-											script.src = 'https://telegram.org/js/telegram-widget.js?22';
-											script.setAttribute('data-telegram-login', 'zinfurn_auth_bot');
-											script.setAttribute('data-size', 'large');
-											script.setAttribute('data-onauth', 'onTelegramAuth(user)');
-											script.setAttribute('data-request-access', 'write');
-											script.setAttribute('data-radius', '8');
-											script.async = true;
-											el.appendChild(script);
-
-											// iframe yuklanganidan keyin style qo'shamiz
-											script.onload = () => {
-												setTimeout(() => {
-													const iframe = el.querySelector('iframe');
-													if (iframe) {
-														iframe.style.width = '100%';
-														iframe.style.minWidth = '100%';
-													}
-												}, 500);
-											};
-										}
-									}}
-								/>
+								<div style={{ width: '100%', position: 'relative' }}>
+									{/* Ko'rinmas Telegram widget */}
+									<div
+										style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}
+										ref={(el) => {
+											if (el && !el.querySelector('script')) {
+												const script = document.createElement('script');
+												script.src = 'https://telegram.org/js/telegram-widget.js?22';
+												script.setAttribute('data-telegram-login', 'zinfurn_auth_bot');
+												script.setAttribute('data-size', 'large');
+												script.setAttribute('data-onauth', 'onTelegramAuth(user)');
+												script.setAttribute('data-request-access', 'write');
+												script.setAttribute('data-radius', '8');
+												script.async = true;
+												el.appendChild(script);
+											}
+										}}
+									/>
+									{/* O'zimizning chiroyli tugma */}
+									<button
+										className={'google-signin'}
+										onClick={() => {
+											const iframe = document.querySelector('.telegram-hidden iframe') as HTMLIFrameElement;
+											if (iframe) iframe.click();
+										}}
+										style={{ marginBottom: 0 }}
+									>
+										<img
+											src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
+											alt="Telegram"
+											style={{ width: '20px', height: '20px' }}
+										/>
+										{loginView ? t('Sign In With Telegram') : t('Sign Up With Telegram')}
+									</button>
+								</div>
 							</Box>
 
 							{/* Switch View */}
