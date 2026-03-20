@@ -210,9 +210,10 @@ const Chat = () => {
 							{messagesList.map((ele: MessagePayload, index: number) => {
 								const { text, memberData } = ele;
 								const memberImage = memberData?.memberImage
-									? `${REACT_APP_API_URL}/${memberData.memberImage}`
+									? memberData.memberImage.startsWith('http')
+										? memberData.memberImage
+										: `${REACT_APP_API_URL}/${memberData.memberImage}`
 									: '/img/profile/defaultUser.svg';
-
 								return memberData?._id === user?._id ? (
 									<Box
 										key={`msg-right-${index}`}
