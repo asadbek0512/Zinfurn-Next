@@ -717,7 +717,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											className={'member-image'}
 											src={
 												property?.memberData?.memberImage
-													? `${REACT_APP_API_URL}/${property?.memberData?.memberImage}`
+													? (property?.memberData?.memberImage?.startsWith('http') ? property?.memberData?.memberImage : `${REACT_APP_API_URL}/${property?.memberData?.memberImage}`)
 													: '/img/profile/defaultUser.svg'
 											}
 										/>

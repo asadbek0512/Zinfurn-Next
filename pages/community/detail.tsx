@@ -87,7 +87,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 		onCompleted: (data: any) => {
 			setBoardArticle(data?.getBoardArticle);
 			if (data?.getBoardArticle?.memberData?.memberImage) {
-				setMemberImage(`${process.env.REACT_APP_API_URL}/${data.getBoardArticle.memberData.memberImage}`);
+				setMemberImage(data.getBoardArticle.memberData.memberImage?.startsWith('http') ? data.getBoardArticle.memberData.memberImage : `${process.env.REACT_APP_API_URL}/${data.getBoardArticle.memberData.memberImage}`);
 			}
 		},
 	});

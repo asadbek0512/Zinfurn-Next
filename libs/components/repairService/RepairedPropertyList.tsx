@@ -125,7 +125,7 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 									{/* Craftsman info header - Instagram style */}
 									<Box component={'div'} className={'craftsman-header'}>
 										<Avatar
-											src={`${REACT_APP_API_URL}/${repairProperty?.memberData?.memberImage || ''}`}
+											src={repairProperty?.memberData?.memberImage?.startsWith('http') ? `${repairProperty?.memberData?.memberImage}` : `${REACT_APP_API_URL}/${repairProperty?.memberData?.memberImage || ''}`}
 											className={'craftsman-avatar'}
 										>
 											<PersonIcon />

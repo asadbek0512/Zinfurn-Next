@@ -245,7 +245,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					{/* Member */}
 					<Stack direction="row" alignItems="center" spacing={2} className="repair-detail__member-box">
 						<Avatar
-							src={`${REACT_APP_API_URL}/${repairProperty?.memberData?.memberImage}`}
+							src={repairProperty?.memberData?.memberImage?.startsWith('http') ? `${repairProperty?.memberData?.memberImage}` : `${REACT_APP_API_URL}/${repairProperty?.memberData?.memberImage}`}
 							alt={repairProperty?.memberData?.memberNick}
 							className="repair-detail__member-avatar"
 						/>

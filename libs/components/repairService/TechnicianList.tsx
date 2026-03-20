@@ -52,7 +52,7 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 	});
 
 	const technicianImage = topTechnician?.memberImage
-		? `${process.env.REACT_APP_API_URL}/${topTechnician.memberImage}`
+		? (topTechnician.memberImage.startsWith('http') ? topTechnician.memberImage : `${process.env.REACT_APP_API_URL}/${topTechnician.memberImage}`)
 		: '/img/profile/defaultUser.svg';
 
 	const technicianName = topTechnician?.memberNick || t('Professional Craftsperson');

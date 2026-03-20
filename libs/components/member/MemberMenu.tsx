@@ -48,7 +48,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 				<Stack className={'profile'}>
 					<Box component={'div'} className={'profile-img'}>
 						<img
-							src={member?.memberImage ? `${REACT_APP_API_URL}/${member?.memberImage}` : '/img/profile/defaultUser.svg'}
+							src={member?.memberImage ? (member?.memberImage?.startsWith('http') ? member?.memberImage : `${REACT_APP_API_URL}/${member?.memberImage}`) : '/img/profile/defaultUser.svg'}
 							alt={'member-photo'}
 						/>
 					</Box>

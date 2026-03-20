@@ -45,7 +45,7 @@ const AgentTooltip = ({ agent }: { agent: any }) => {
 						height: 60,
 						borderRadius: '50%',
 						backgroundImage: `url(${
-							agent?.memberImage ? `${REACT_APP_API_URL}/${agent?.memberImage}` : '/img/profile/defaultUser.svg'
+							agent?.memberImage ? (agent?.memberImage?.startsWith('http') ? agent?.memberImage : `${REACT_APP_API_URL}/${agent?.memberImage}`) : '/img/profile/defaultUser.svg'
 						})`,
 						backgroundSize: 'cover',
 						backgroundPosition: 'center',
@@ -132,7 +132,7 @@ const AgentCard = (props: AgentCardProps) => {
 	const { t } = useTranslation('common');
 
 	const imagePath: string = agent?.memberImage
-		? `${REACT_APP_API_URL}/${agent?.memberImage}`
+		? (agent?.memberImage?.startsWith('http') ? agent?.memberImage : `${REACT_APP_API_URL}/${agent?.memberImage}`)
 		: '/img/profile/defaultUser.svg';
 
 	const handleAgentClick = () => {

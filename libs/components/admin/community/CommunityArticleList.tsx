@@ -175,7 +175,7 @@ const CommunityArticleList = (props: CommunityArticleListProps) => {
 												alt="Remy Sharp"
 												src={
 													article?.memberData?.memberImage
-														? `${REACT_APP_API_URL}/${article?.memberData?.memberImage}`
+														? (article?.memberData?.memberImage?.startsWith('http') ? article?.memberData?.memberImage : `${REACT_APP_API_URL}/${article?.memberData?.memberImage}`)
 														: `/img/profile/defaultUser.svg`
 												}
 												sx={{ ml: '2px', mr: '10px' }}

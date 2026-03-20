@@ -158,7 +158,7 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 						{members.length !== 0 &&
 							members.map((member: Member, index: number) => {
 								const member_image = member.memberImage
-									? `${REACT_APP_API_URL}/${member.memberImage}`
+									? (member.memberImage.startsWith('http') ? member.memberImage : `${REACT_APP_API_URL}/${member.memberImage}`)
 									: '/img/profile/defaultUser.svg';
 								return (
 									<TableRow hover key={member?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

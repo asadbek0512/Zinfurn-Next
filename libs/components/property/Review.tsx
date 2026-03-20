@@ -21,7 +21,7 @@ const Review = (props: ReviewProps) => {
 	const user = useReactiveVar(userVar);
 	const [value, setValue] = React.useState<number | null>(2);
 	const imagePath: string = comment?.memberData?.memberImage
-		? `${REACT_APP_API_URL}/${comment?.memberData?.memberImage}`
+		? (comment?.memberData?.memberImage?.startsWith('http') ? comment?.memberData?.memberImage : `${REACT_APP_API_URL}/${comment?.memberData?.memberImage}`)
 		: '/img/profile/defaultUser.svg';
 
 	/** HANDLERS **/

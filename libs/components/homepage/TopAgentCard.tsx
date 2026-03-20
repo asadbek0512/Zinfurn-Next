@@ -16,7 +16,7 @@ const TopAgentCard = (props: TopAgentProps) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const agentImage = agent?.memberImage
-		? `${process.env.REACT_APP_API_URL}/${agent?.memberImage}`
+		? (agent?.memberImage?.startsWith('http') ? agent?.memberImage : `${process.env.REACT_APP_API_URL}/${agent?.memberImage}`)
 		: '/img/profile/defaultUser.svg';
 
 	/** HANDLERS **/
