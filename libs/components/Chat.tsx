@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Avatar, Box, Stack } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
+import DoneIcon from '@mui/icons-material/Done';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { useRouter } from 'next/router';
 import ScrollableFeed from 'react-scrollable-feed';
 import { RippleBadge } from '../../scss/MaterialTheme/styled';
@@ -32,6 +34,7 @@ const Chat = () => {
 	const [messageInput, setMessageInput] = useState<string>('');
 	const [open, setOpen] = useState(false);
 	const [openButton, setOpenButton] = useState(false);
+	const [readMessages, setReadMessages] = useState<Set<number>>(new Set());
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const socket = useReactiveVar(socketVar);
@@ -79,6 +82,9 @@ const Chat = () => {
 					case 'getMessages':
 						const list: MessagePayload[] = data.list ?? [];
 						setMessagesList(list);
+						// Mark all existing messages as read (2 ticks)
+						const allIndices = new Set(list.map((_, idx) => idx));
+						setReadMessages(allIndices);
 						break;
 					case 'message':
 						const newMessage: MessagePayload = data;
@@ -141,6 +147,17 @@ const Chat = () => {
 		const message = JSON.stringify({ event: 'message', data: messageInput.trim() });
 		console.log('📤 Sending message:', message);
 		socket.send(message);
+		
+		// Mark this new message as read after 5 seconds (1 tick → 2 ticks)
+		const newMessageIndex = messagesList.length;
+		setTimeout(() => {
+			setReadMessages(prev => {
+				const newSet = new Set(prev);
+				newSet.add(newMessageIndex);
+				return newSet;
+			});
+		}, 5000);
+		
 		setMessageInput('');
 	};
 
@@ -224,7 +241,22 @@ const Chat = () => {
 										justifyContent="flex-end"
 										sx={{ m: '10px 0px' }}
 									>
-										<div className="msg-right">{text}</div>
+										<div className="msg-right" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+											{text}
+											{readMessages.has(index) ? (
+												<DoneAllIcon style={{ 
+													fontSize: '16px', 
+													color: '#64B5F6',
+													transition: 'color 0.5s ease'
+												}} />
+											) : (
+												<DoneIcon style={{ 
+													fontSize: '16px', 
+													color: '#2196F3',
+													transition: 'color 0.5s ease'
+												}} />
+											)}
+										</div>
 									</Box>
 								) : (
 									<Box
@@ -235,7 +267,10 @@ const Chat = () => {
 										component="div"
 									>
 										<Avatar alt={memberData?.memberNick ?? 'User'} src={memberImage} />
-										<div className="msg-left">{text}</div>
+										<div className="msg-left" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+											{text}
+											<DoneAllIcon style={{ fontSize: '16px', color: '#fff' }} />
+										</div>
 									</Box>
 								);
 							})}
