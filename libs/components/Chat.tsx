@@ -10,6 +10,7 @@ import { socketVar, userVar } from '../../apollo/store';
 import { Member } from '../types/member/member';
 import { Messages, REACT_APP_API_URL } from '../config';
 import { sweetErrorAlert } from '../sweetAlert';
+import { getJwtToken } from '../../libs/auth';
 
 interface MessagePayload {
 	event: string;
@@ -35,12 +36,40 @@ const Chat = () => {
 	const user = useReactiveVar(userVar);
 	const socket = useReactiveVar(socketVar);
 
+	// Initialize WebSocket connection
+	useEffect(() => {
+		if (socket && socket.readyState === WebSocket.OPEN) {
+			console.log('✅ WebSocket already connected');
+			return;
+		}
+
+		const wsUrl = process.env.REACT_APP_API_WS ?? 'ws://localhost:3007';
+		const token = getJwtToken();
+		const ws = new WebSocket(`${wsUrl}?token=${token || ''}`);
+
+		ws.onopen = () => {
+			console.log('✅ WebSocket connection established!');
+			socketVar(ws);
+		};
+
+		ws.onerror = (error) => {
+			console.error('❌ WebSocket error:', error);
+		};
+
+		return () => {
+			if (ws.readyState === WebSocket.OPEN) {
+				ws.close();
+			}
+		};
+	}, []);
+
 	useEffect(() => {
 		if (!socket) return;
 
 		const handleMessage = (msg: MessageEvent) => {
 			try {
 				const data = JSON.parse(msg.data);
+				console.log('📨 Received:', data);
 
 				switch (data.event) {
 					case 'info':
@@ -105,10 +134,13 @@ const Chat = () => {
 			return;
 		}
 		if (!socket || socket.readyState !== WebSocket.OPEN) {
+			console.error('❌ Socket not connected:', socket?.readyState);
 			sweetErrorAlert('Connection error. Please refresh the page.');
 			return;
 		}
-		socket.send(JSON.stringify({ event: 'message', data: messageInput.trim() }));
+		const message = JSON.stringify({ event: 'message', data: messageInput.trim() });
+		console.log('📤 Sending message:', message);
+		socket.send(message);
 		setMessageInput('');
 	};
 

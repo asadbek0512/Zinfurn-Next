@@ -20,7 +20,7 @@ function getHeaders() {
 
 const tokenRefreshLink = new TokenRefreshLink({
 	accessTokenField: 'accessToken',
-	isTokenValidOrUndefined: () => {
+	isTokenValidOrUndefined: async () => {
 		return true;
 	}, // @ts-ignore
 	fetchAccessToken: () => {
