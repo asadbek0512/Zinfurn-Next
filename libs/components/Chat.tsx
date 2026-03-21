@@ -5,6 +5,8 @@ import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
+import ReplyIcon from '@mui/icons-material/Reply';
+import CloseIcon from '@mui/icons-material/Close';
 import { useRouter } from 'next/router';
 import ScrollableFeed from 'react-scrollable-feed';
 import { RippleBadge } from '../../scss/MaterialTheme/styled';
@@ -21,6 +23,10 @@ interface MessagePayload {
 	event: string;
 	text: string;
 	memberData: Member | null;
+	replyTo?: {
+		text: string;
+		memberNick: string;
+	};
 }
 
 interface InfoPayload {
@@ -40,34 +46,27 @@ const Chat = () => {
 	const [openButton, setOpenButton] = useState(false);
 	const [readMessages, setReadMessages] = useState<Set<number>>(new Set());
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+	const [replyTo, setReplyTo] = useState<MessagePayload | null>(null);
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const socket = useReactiveVar(socketVar);
 
-	// Initialize WebSocket connection
 	useEffect(() => {
-		if (socket && socket.readyState === WebSocket.OPEN) {
-			console.log('✅ WebSocket already connected');
-			return;
-		}
+		if (socket && socket.readyState === WebSocket.OPEN) return;
 
 		const wsUrl = process.env.REACT_APP_API_WS ?? 'ws://localhost:3007';
 		const token = getJwtToken();
 		const ws = new WebSocket(`${wsUrl}?token=${token || ''}`);
 
 		ws.onopen = () => {
-			console.log('✅ WebSocket connection established!');
 			socketVar(ws);
 		};
-
 		ws.onerror = (error) => {
 			console.error('❌ WebSocket error:', error);
 		};
 
 		return () => {
-			if (ws.readyState === WebSocket.OPEN) {
-				ws.close();
-			}
+			if (ws.readyState === WebSocket.OPEN) ws.close();
 		};
 	}, []);
 
@@ -76,24 +75,33 @@ const Chat = () => {
 
 		const handleMessage = (msg: MessageEvent) => {
 			try {
-				const data = JSON.parse(msg.data);
-				console.log('📨 Received:', data);
+				const parsedData = JSON.parse(msg.data);
+				console.log('📨 MESSAGE RECEIVED:', JSON.stringify(parsedData));
 
-				switch (data.event) {
+				switch (parsedData.event) {
 					case 'info':
-						const newInfo: InfoPayload = data;
-						setOnlineUsers(newInfo.totalClients);
+						setOnlineUsers(parsedData.totalClients);
 						break;
 					case 'getMessages':
-						const list: MessagePayload[] = data.list ?? [];
+						const list: MessagePayload[] = parsedData.list ?? [];
 						setMessagesList(list);
-						// Mark all existing messages as read (2 ticks)
-						const allIndices = new Set(list.map((_, idx) => idx));
+						const allIndices = new Set(list.map((_: any, idx: number) => idx));
 						setReadMessages(allIndices);
 						break;
 					case 'message':
-						const newMessage: MessagePayload = data;
-						setMessagesList((prev) => [...prev, newMessage]);
+						console.log('💬 NEW MESSAGE replyTo:', parsedData.replyTo);
+						// Check if this message is already added (optimistic update)
+						setMessagesList((prev) => {
+							// Check if message with same text and member already exists (to avoid duplicates)
+							const isDuplicate = prev.some(
+								(m) => m.text === parsedData.text && m.memberData?._id === parsedData.memberData?._id
+							);
+							if (isDuplicate) {
+								console.log('⚠️ Duplicate message, skipping');
+								return prev;
+							}
+							return [...prev, parsedData];
+						});
 						break;
 					default:
 						break;
@@ -110,9 +118,7 @@ const Chat = () => {
 	}, [socket]);
 
 	useEffect(() => {
-		const timeoutId = setTimeout(() => {
-			setOpenButton(true);
-		}, 100);
+		const timeoutId = setTimeout(() => setOpenButton(true), 100);
 		return () => clearTimeout(timeoutId);
 	}, []);
 
@@ -120,24 +126,22 @@ const Chat = () => {
 		setOpenButton(false);
 	}, [router.pathname]);
 
-	const handleOpenChat = () => {
-		setOpen((prevState) => !prevState);
-	};
+	const handleOpenChat = () => setOpen((prev) => !prev);
 
 	const getInputMessageHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-		const text = e.target.value;
-		setMessageInput(text);
+		setMessageInput(e.target.value);
 	}, []);
 
 	const getKeyHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		try {
-			if (e.key === 'Enter') {
-				onClickHandler();
-			}
-		} catch (err: any) {
-			console.error('Key handler error:', err);
-		}
+		if (e.key === 'Enter') onClickHandler();
 	};
+
+	const handleSetReply = (message: MessagePayload) => {
+		console.log('🔁 Setting reply to:', message);
+		setReplyTo(message);
+	};
+
+	const handleCancelReply = () => setReplyTo(null);
 
 	const onClickHandler = () => {
 		if (!messageInput.trim()) {
@@ -145,18 +149,37 @@ const Chat = () => {
 			return;
 		}
 		if (!socket || socket.readyState !== WebSocket.OPEN) {
-			console.error('❌ Socket not connected:', socket?.readyState);
 			sweetErrorAlert('Connection error. Please refresh the page.');
 			return;
 		}
-		const message = JSON.stringify({ event: 'message', data: messageInput.trim() });
-		console.log('📤 Sending message:', message);
-		socket.send(message);
 
-		// Mark this new message as read after 5 seconds (1 tick → 2 ticks)
+		const messagePayload: any = { event: 'message', data: messageInput.trim() };
+		if (replyTo) {
+			messagePayload.replyTo = {
+				text: replyTo.text,
+				memberNick: replyTo.memberData?.memberNick ?? 'User',
+			};
+		}
+
+		console.log('📤 SENDING:', JSON.stringify(messagePayload));
+		socket.send(JSON.stringify(messagePayload));
+
+		// Add message optimistically to the list with replyTo data
+		const optimisticMessage: MessagePayload = {
+			event: 'message',
+			text: messageInput.trim(),
+			memberData: user as any,
+			replyTo: replyTo ? {
+				text: replyTo.text,
+				memberNick: replyTo.memberData?.memberNick ?? 'User',
+			} : undefined,
+		};
+		
+		setMessagesList((prev) => [...prev, optimisticMessage]);
+
 		const newMessageIndex = messagesList.length;
 		setTimeout(() => {
-			setReadMessages(prev => {
+			setReadMessages((prev) => {
 				const newSet = new Set(prev);
 				newSet.add(newMessageIndex);
 				return newSet;
@@ -165,55 +188,44 @@ const Chat = () => {
 
 		setMessageInput('');
 		setShowEmojiPicker(false);
+		setReplyTo(null);
 	};
 
 	const handleEmojiSelect = (emoji: any) => {
-		setMessageInput(prev => prev + emoji.native);
-		// Don't close picker - let user select multiple emojis
-	};
-
-	const toggleEmojiPicker = () => {
-		setShowEmojiPicker(prev => !prev);
+		setMessageInput((prev) => prev + emoji.native);
 	};
 
 	return (
 		<Stack className="chatting">
 			{openButton ? (
 				<>
-					{/* Ochish buttoni — faqat chat yopiq bo'lganda */}
 					{!open && (
 						<button
 							className="chat-button"
 							onClick={handleOpenChat}
-							style={{
-								bottom: '155px',
-								right: '30px',
-								zIndex: 100,
-							}}
+							style={{ bottom: '155px', right: '30px', zIndex: 100 }}
 						>
 							<img src="/img/banner/001..png" alt="Chat" style={{ width: '33px', height: '28px' }} />
 						</button>
 					)}
-
-					{/* Yopish buttoni — faqat chat ochiq bo'lganda, hamma narsa ustida */}
 					{open && (
 						<button
 							onClick={handleOpenChat}
 							style={{
 								position: 'fixed',
-								bottom: '100px', // 👈 pastda
+								bottom: '100px',
 								right: '30px',
 								width: '50px',
 								height: '50px',
 								borderRadius: '50%',
-								background: '#fff', // real chat rangi
+								background: '#fff',
 								border: 'none',
 								cursor: 'pointer',
 								display: 'flex',
 								alignItems: 'center',
 								justifyContent: 'center',
 								boxShadow: '0px 0px 10px 0px rgba(50,50,50,0.3)',
-								zIndex: 99999, // 👈 hamma narsa ustida
+								zIndex: 99999,
 							}}
 						>
 							<CloseFullscreenIcon style={{ color: '#333' }} />
@@ -222,11 +234,7 @@ const Chat = () => {
 				</>
 			) : null}
 
-			{/* Chat frame — ochilganda hamma narsa ustida */}
-			<Stack
-				className={`chat-frame ${open ? 'open' : ''}`}
-				style={{ zIndex: open ? 99998 : 100 }} // 👈 ochilganda ustida
-			>
+			<Stack className={`chat-frame ${open ? 'open' : ''}`} style={{ zIndex: open ? 99998 : 100 }}>
 				<Box className={'chat-top'} component={'div'}>
 					<div style={{ fontFamily: 'Nunito' }}>Online Chat</div>
 					<RippleBadge style={{ margin: '-18px 0 0 21px' }} badgeContent={onlineUsers} />
@@ -240,52 +248,102 @@ const Chat = () => {
 							</Box>
 
 							{messagesList.map((ele: MessagePayload, index: number) => {
-								const { text, memberData } = ele;
+								const { text, memberData, replyTo: messageReplyTo } = ele;
 								const memberImage = memberData?.memberImage
 									? memberData.memberImage.startsWith('http')
 										? memberData.memberImage
 										: `${REACT_APP_API_URL}/${memberData.memberImage}`
 									: '/img/profile/defaultUser.svg';
+
 								return memberData?._id === user?._id ? (
 									<Box
 										key={`msg-right-${index}`}
 										component="div"
 										flexDirection="row"
-										style={{ display: 'flex' }}
+										style={{ display: 'flex', margin: '10px 0px' }}
 										alignItems="flex-end"
 										justifyContent="flex-end"
-										sx={{ m: '10px 0px' }}
 									>
-										<div className="msg-right" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-											{text}
-											{readMessages.has(index) ? (
-												<DoneAllIcon style={{
-													fontSize: '16px',
-													color: '#64B5F6',
-													transition: 'color 0.5s ease'
-												}} />
-											) : (
-												<DoneIcon style={{
-													fontSize: '16px',
-													color: '#2196F3',
-													transition: 'color 0.5s ease'
-												}} />
+										<button
+											onClick={() => handleSetReply(ele)}
+											style={{ background: 'none', border: 'none', padding: '4px', cursor: 'pointer', opacity: 0.5 }}
+										>
+											<ReplyIcon style={{ fontSize: '14px', color: '#999' }} />
+										</button>
+
+										<div className="msg-right" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+											{messageReplyTo && (
+												<div
+													style={{
+														background: 'rgba(0,136,204,0.15)',
+														borderLeft: '3px solid #0088cc',
+														borderRadius: '6px',
+														padding: '5px 8px',
+														marginBottom: '4px',
+													}}
+												>
+													<div style={{ fontSize: '11px', fontWeight: 700, color: '#1976D2', marginBottom: '2px' }}>
+														↩ {messageReplyTo.memberNick}
+													</div>
+													<div style={{ fontSize: '12px', color: '#1976D2' }}>
+														{messageReplyTo.text.length > 40
+															? messageReplyTo.text.substring(0, 40) + '...'
+															: messageReplyTo.text}
+													</div>
+												</div>
 											)}
+											<div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+												{text}
+												{readMessages.has(index) ? (
+													<DoneAllIcon style={{ fontSize: '16px', color: '#64B5F6', transition: 'color 0.5s ease' }} />
+												) : (
+													<DoneIcon style={{ fontSize: '16px', color: '#2196F3', transition: 'color 0.5s ease' }} />
+												)}
+											</div>
 										</div>
 									</Box>
 								) : (
 									<Box
 										key={`msg-left-${index}`}
-										flexDirection="row"
-										style={{ display: 'flex' }}
-										sx={{ m: '10px 0px' }}
 										component="div"
+										flexDirection="row"
+										style={{ display: 'flex', margin: '10px 0px' }}
 									>
 										<Avatar alt={memberData?.memberNick ?? 'User'} src={memberImage} />
-										<div className="msg-left" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-											{text}
-											<DoneAllIcon style={{ fontSize: '16px', color: '#fff' }} />
+
+										<div className="msg-left" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+											{messageReplyTo && (
+												<div
+													style={{
+														background: 'rgba(0,0,0,0.08)',
+														borderLeft: '3px solid #5aad7f',
+														borderRadius: '6px',
+														padding: '5px 8px',
+														marginBottom: '4px',
+													}}
+												>
+													<div style={{ fontSize: '11px', fontWeight: 700, color: '#5aad7f', marginBottom: '2px' }}>
+														↩ {messageReplyTo.memberNick}
+													</div>
+													<div style={{ fontSize: '12px', color: '#444' }}>
+														{messageReplyTo.text.length > 40
+															? messageReplyTo.text.substring(0, 40) + '...'
+															: messageReplyTo.text}
+													</div>
+												</div>
+											)}
+											<div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+												{text}
+												<DoneAllIcon style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)' }} />
+											</div>
 										</div>
+
+										<button
+											onClick={() => handleSetReply(ele)}
+											style={{ background: 'none', border: 'none', padding: '4px', cursor: 'pointer', opacity: 0.5 }}
+										>
+											<ReplyIcon style={{ fontSize: '14px', color: '#999' }} />
+										</button>
 									</Box>
 								);
 							})}
@@ -293,7 +351,11 @@ const Chat = () => {
 					</ScrollableFeed>
 				</Box>
 
-				<Box className={'chat-bott'} component={'div'} style={{ position: 'relative', display: 'flex', alignItems: 'center', paddingRight: '8px' }}>
+				<Box
+					className={'chat-bott'}
+					component={'div'}
+					style={{ position: 'relative', display: 'flex', alignItems: 'center', paddingRight: '8px' }}
+				>
 					{showEmojiPicker && (
 						<ClickAwayListener onClickAway={() => setShowEmojiPicker(false)}>
 							<div
@@ -323,19 +385,56 @@ const Chat = () => {
 							</div>
 						</ClickAwayListener>
 					)}
+
+					{replyTo && (
+						<div
+							style={{
+								position: 'absolute',
+								bottom: '100%',
+								left: 0,
+								right: 0,
+								background: '#f5f5f5',
+								borderLeft: '4px solid #0088cc',
+								borderRadius: '8px 8px 0 0',
+								padding: '10px 12px',
+								margin: '0 8px',
+								boxShadow: '0 -2px 8px rgba(0,0,0,0.1)',
+							}}
+						>
+							<div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+								<div style={{ flex: 1, overflow: 'hidden' }}>
+									<div style={{ fontSize: '12px', color: '#0088cc', fontWeight: 600, marginBottom: '4px' }}>
+										Replying to {replyTo.memberData?.memberNick ?? 'User'}
+									</div>
+									<div
+										style={{
+											fontSize: '13px',
+											color: '#666',
+											whiteSpace: 'nowrap',
+											overflow: 'hidden',
+											textOverflow: 'ellipsis',
+										}}
+									>
+										{replyTo.text}
+									</div>
+								</div>
+								<CloseIcon onClick={handleCancelReply} style={{ cursor: 'pointer', color: '#999', fontSize: '20px' }} />
+							</div>
+						</div>
+					)}
+
 					<input
 						type={'text'}
 						name={'message'}
 						className={'msg-input'}
-						placeholder={'Type message'}
+						placeholder={replyTo ? 'Reply...' : 'Type message'}
 						value={messageInput}
 						onChange={getInputMessageHandler}
 						onKeyDown={getKeyHandler}
 						style={{ flex: 1 }}
 					/>
 					<button
-						className={'emoji-btn'}
-						onClick={toggleEmojiPicker}
+						onClick={() => setShowEmojiPicker((prev) => !prev)}
 						style={{
 							background: 'none',
 							border: 'none',
@@ -343,15 +442,17 @@ const Chat = () => {
 							padding: '8px',
 							display: 'flex',
 							alignItems: 'center',
-							justifyContent: 'center',
-							margin: '0 2px',
 							minWidth: '36px',
 							minHeight: '36px',
 						}}
 					>
 						<SentimentSatisfiedOutlinedIcon style={{ fontSize: '26px', color: '#666' }} />
 					</button>
-					<button className={'send-msg-btn'} onClick={onClickHandler} style={{ minWidth: '42px', minHeight: '42px', marginLeft: '2px' }}>
+					<button
+						className={'send-msg-btn'}
+						onClick={onClickHandler}
+						style={{ minWidth: '42px', minHeight: '42px', marginLeft: '2px' }}
+					>
 						<SendIcon style={{ color: '#fff' }} />
 					</button>
 				</Box>
