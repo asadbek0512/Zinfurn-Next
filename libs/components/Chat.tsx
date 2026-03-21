@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Avatar, Box, Stack } from '@mui/material';
+import { Avatar, Box, Stack, ClickAwayListener } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 import { useRouter } from 'next/router';
 import ScrollableFeed from 'react-scrollable-feed';
 import { RippleBadge } from '../../scss/MaterialTheme/styled';
@@ -13,6 +14,8 @@ import { Member } from '../types/member/member';
 import { Messages, REACT_APP_API_URL } from '../config';
 import { sweetErrorAlert } from '../sweetAlert';
 import { getJwtToken } from '../../libs/auth';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
 
 interface MessagePayload {
 	event: string;
@@ -29,12 +32,14 @@ interface InfoPayload {
 
 const Chat = () => {
 	const chatContentRef = useRef<HTMLDivElement>(null);
+	const emojiPickerRef = useRef<HTMLDivElement>(null);
 	const [messagesList, setMessagesList] = useState<MessagePayload[]>([]);
 	const [onlineUsers, setOnlineUsers] = useState<number>(0);
 	const [messageInput, setMessageInput] = useState<string>('');
 	const [open, setOpen] = useState(false);
 	const [openButton, setOpenButton] = useState(false);
 	const [readMessages, setReadMessages] = useState<Set<number>>(new Set());
+	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const socket = useReactiveVar(socketVar);
@@ -147,7 +152,7 @@ const Chat = () => {
 		const message = JSON.stringify({ event: 'message', data: messageInput.trim() });
 		console.log('📤 Sending message:', message);
 		socket.send(message);
-		
+
 		// Mark this new message as read after 5 seconds (1 tick → 2 ticks)
 		const newMessageIndex = messagesList.length;
 		setTimeout(() => {
@@ -157,8 +162,18 @@ const Chat = () => {
 				return newSet;
 			});
 		}, 5000);
-		
+
 		setMessageInput('');
+		setShowEmojiPicker(false);
+	};
+
+	const handleEmojiSelect = (emoji: any) => {
+		setMessageInput(prev => prev + emoji.native);
+		// Don't close picker - let user select multiple emojis
+	};
+
+	const toggleEmojiPicker = () => {
+		setShowEmojiPicker(prev => !prev);
 	};
 
 	return (
@@ -244,14 +259,14 @@ const Chat = () => {
 										<div className="msg-right" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 											{text}
 											{readMessages.has(index) ? (
-												<DoneAllIcon style={{ 
-													fontSize: '16px', 
+												<DoneAllIcon style={{
+													fontSize: '16px',
 													color: '#64B5F6',
 													transition: 'color 0.5s ease'
 												}} />
 											) : (
-												<DoneIcon style={{ 
-													fontSize: '16px', 
+												<DoneIcon style={{
+													fontSize: '16px',
 													color: '#2196F3',
 													transition: 'color 0.5s ease'
 												}} />
@@ -278,7 +293,36 @@ const Chat = () => {
 					</ScrollableFeed>
 				</Box>
 
-				<Box className={'chat-bott'} component={'div'}>
+				<Box className={'chat-bott'} component={'div'} style={{ position: 'relative', display: 'flex', alignItems: 'center', paddingRight: '8px' }}>
+					{showEmojiPicker && (
+						<ClickAwayListener onClickAway={() => setShowEmojiPicker(false)}>
+							<div
+								ref={emojiPickerRef}
+								style={{
+									position: 'absolute',
+									bottom: '55px',
+									right: '45px',
+									zIndex: 1000,
+									boxShadow: '0px 4px 20px rgba(0,0,0,0.15)',
+									borderRadius: '8px',
+								}}
+							>
+								<Picker
+									data={data}
+									onEmojiSelect={handleEmojiSelect}
+									theme="light"
+									locale="en"
+									set="native"
+									showPreview={false}
+									showSkinTones={false}
+									emojiSize={20}
+									maxFrequentRows={2}
+									navPosition="top"
+									searchPosition="sticky"
+								/>
+							</div>
+						</ClickAwayListener>
+					)}
 					<input
 						type={'text'}
 						name={'message'}
@@ -287,8 +331,27 @@ const Chat = () => {
 						value={messageInput}
 						onChange={getInputMessageHandler}
 						onKeyDown={getKeyHandler}
+						style={{ flex: 1 }}
 					/>
-					<button className={'send-msg-btn'} onClick={onClickHandler}>
+					<button
+						className={'emoji-btn'}
+						onClick={toggleEmojiPicker}
+						style={{
+							background: 'none',
+							border: 'none',
+							cursor: 'pointer',
+							padding: '8px',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							margin: '0 2px',
+							minWidth: '36px',
+							minHeight: '36px',
+						}}
+					>
+						<SentimentSatisfiedOutlinedIcon style={{ fontSize: '26px', color: '#666' }} />
+					</button>
+					<button className={'send-msg-btn'} onClick={onClickHandler} style={{ minWidth: '42px', minHeight: '42px', marginLeft: '2px' }}>
 						<SendIcon style={{ color: '#fff' }} />
 					</button>
 				</Box>
