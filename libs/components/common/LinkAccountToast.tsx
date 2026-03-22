@@ -183,9 +183,9 @@ const LinkAccountToast = () => {
 		setTimeout(() => {
 			setIsVisible(false);
 			// Direct link to Google or Telegram
-			if (toastConfig.message === 'Connect Google') {
+			if (toastConfig?.message === 'Connect Google') {
 				window.location.href = `${process.env.REACT_APP_API_URL}/auth/link/google?state=${user._id}`;
-			} else if (toastConfig.message === 'Connect Telegram') {
+			} else if (toastConfig?.message === 'Connect Telegram') {
 				// For Telegram, redirect to mypage where user can initiate Telegram link
 				router.push('/mypage?category=myProfile&linkTelegram=true');
 			}
