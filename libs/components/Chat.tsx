@@ -378,17 +378,17 @@ const Chat = () => {
 											{messageReplyTo && (
 												<div
 													style={{
-														background: 'rgba(0,0,0,0.08)',
-														borderLeft: '3px solid #5aad7f',
+														background: 'rgba(255,255,255,0.15)',
+														borderLeft: '3px solid #fff',
 														borderRadius: '6px',
 														padding: '5px 8px',
 														marginBottom: '4px',
 													}}
 												>
-													<div style={{ fontSize: '11px', fontWeight: 700, color: '#5aad7f', marginBottom: '2px' }}>
+													<div style={{ fontSize: '11px', fontWeight: 700, color: '#fff', marginBottom: '2px' }}>
 														↩ {messageReplyTo.memberNick}
 													</div>
-													<div style={{ fontSize: '12px', color: '#444' }}>
+													<div style={{ fontSize: '12px', color: '#fff' }}>
 														{messageReplyTo.text.length > 40
 															? messageReplyTo.text.substring(0, 40) + '...'
 															: messageReplyTo.text}
@@ -400,7 +400,7 @@ const Chat = () => {
 												<DoneAllIcon style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)' }} />
 											</div>
 											{messageTime && (
-												<div style={{ fontSize: '11px', color: '#888', alignSelf: 'flex-end', marginTop: '2px' }}>
+												<div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)', alignSelf: 'flex-end', marginTop: '2px' }}>
 													{messageTime}
 												</div>
 											)}
