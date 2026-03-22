@@ -54,6 +54,20 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 				console.log('Telegram link error:', err);
 			}
 		};
+		
+		// Auto-trigger Telegram link if coming from toast
+		const query = new URLSearchParams(window.location.search);
+		if (query.get('linkTelegram') === 'true') {
+			// Remove query param
+			query.delete('linkTelegram');
+			window.history.replaceState({}, '', `${window.location.pathname}?${query.toString()}`);
+			
+			// Trigger Telegram widget after short delay
+			setTimeout(() => {
+				const telegramBtn = document.querySelector('.telegram-link-btn') as HTMLButtonElement;
+				if (telegramBtn) telegramBtn.click();
+			}, 500);
+		}
 	}, [user._id]);
 
 	/** HANDLERS **/
@@ -362,6 +376,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 						{/* Telegram bog'lash */}
 						{!user.memberTelegramId && (
 							<div
+								className="telegram-link-btn"
 								style={{
 									flex: user.memberGoogleId ? '0 0 auto' : '1',
 									display: 'flex',
