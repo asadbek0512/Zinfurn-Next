@@ -27,6 +27,7 @@ interface MessagePayload {
 		text: string;
 		memberNick: string;
 	};
+	createdAt?: string;
 }
 
 interface InfoPayload {
@@ -51,6 +52,16 @@ const Chat = () => {
 	const user = useReactiveVar(userVar);
 	const socket = useReactiveVar(socketVar);
 
+	// Format timestamp like Telegram (HH:mm or date)
+	const formatMessageTime = (createdAt?: string) => {
+		if (!createdAt) return '';
+		const date = new Date(createdAt);
+		if (isNaN(date.getTime())) return '';
+		const hours = date.getHours().toString().padStart(2, '0');
+		const minutes = date.getMinutes().toString().padStart(2, '0');
+		return `${hours}:${minutes}`;
+	};
+
 	useEffect(() => {
 		if (socket && socket.readyState === WebSocket.OPEN) return;
 
@@ -58,9 +69,56 @@ const Chat = () => {
 		const token = getJwtToken();
 		const ws = new WebSocket(`${wsUrl}?token=${token || ''}`);
 
+		ws.onmessage = (msg: MessageEvent) => {
+			try {
+				const parsedData = JSON.parse(msg.data);
+				console.log('📨 MESSAGE RECEIVED:', JSON.stringify(parsedData));
+
+				switch (parsedData.event) {
+					case 'info':
+						setOnlineUsers(parsedData.totalClients);
+						break;
+					case 'getMessages':
+						console.log('RAW LIST:', JSON.stringify(parsedData.list)); // ← SHU QATOR
+						const list: MessagePayload[] = (parsedData.list ?? []).map((msg: any) => ({
+							event: msg.event,
+							text: msg.text,
+							memberData: msg.memberData,
+							replyTo: msg.replyTo ? { text: msg.replyTo.text, memberNick: msg.replyTo.memberNick } : undefined,
+							createdAt: msg.createdAt ?? new Date().toISOString(),
+						}));
+						setMessagesList(list);
+						const allIndices = new Set(list.map((_: any, idx: number) => idx));
+						setReadMessages(allIndices);
+						break;
+					case 'message':
+						if (parsedData.memberData?._id !== user._id) {
+							setMessagesList((prev) => [
+								...prev,
+								{
+									event: parsedData.event,
+									text: parsedData.text,
+									memberData: parsedData.memberData,
+									replyTo: parsedData.replyTo
+										? { text: parsedData.replyTo.text, memberNick: parsedData.replyTo.memberNick }
+										: undefined,
+									createdAt: parsedData.createdAt ?? new Date().toISOString(),
+								},
+							]);
+						}
+						break;
+					default:
+						break;
+				}
+			} catch (err) {
+				console.error('WebSocket message parse error:', err);
+			}
+		};
+
 		ws.onopen = () => {
 			socketVar(ws);
 		};
+
 		ws.onerror = (error) => {
 			console.error('❌ WebSocket error:', error);
 		};
@@ -69,7 +127,6 @@ const Chat = () => {
 			if (ws.readyState === WebSocket.OPEN) ws.close();
 		};
 	}, []);
-
 	useEffect(() => {
 		if (!socket) return;
 
@@ -83,25 +140,22 @@ const Chat = () => {
 						setOnlineUsers(parsedData.totalClients);
 						break;
 					case 'getMessages':
-						const list: MessagePayload[] = parsedData.list ?? [];
+						console.log('RAW FROM SERVER:', parsedData.list);
+						const list: MessagePayload[] = (parsedData.list ?? []).map((msg: any) => ({
+							event: msg.event,
+							text: msg.text,
+							memberData: msg.memberData,
+							replyTo: msg.replyTo
+								? {
+										text: msg.replyTo.text,
+										memberNick: msg.replyTo.memberNick,
+								  }
+								: undefined,
+							createdAt: msg.createdAt ?? new Date().toISOString(),
+						}));
 						setMessagesList(list);
 						const allIndices = new Set(list.map((_: any, idx: number) => idx));
 						setReadMessages(allIndices);
-						break;
-					case 'message':
-						console.log('💬 NEW MESSAGE replyTo:', parsedData.replyTo);
-						// Check if this message is already added (optimistic update)
-						setMessagesList((prev) => {
-							// Check if message with same text and member already exists (to avoid duplicates)
-							const isDuplicate = prev.some(
-								(m) => m.text === parsedData.text && m.memberData?._id === parsedData.memberData?._id
-							);
-							if (isDuplicate) {
-								console.log('⚠️ Duplicate message, skipping');
-								return prev;
-							}
-							return [...prev, parsedData];
-						});
 						break;
 					default:
 						break;
@@ -160,8 +214,7 @@ const Chat = () => {
 				memberNick: replyTo.memberData?.memberNick ?? 'User',
 			};
 		}
-
-		console.log('📤 SENDING:', JSON.stringify(messagePayload));
+		console.log('SENDING:', JSON.stringify(messagePayload));
 		socket.send(JSON.stringify(messagePayload));
 
 		// Add message optimistically to the list with replyTo data
@@ -169,12 +222,15 @@ const Chat = () => {
 			event: 'message',
 			text: messageInput.trim(),
 			memberData: user as any,
-			replyTo: replyTo ? {
-				text: replyTo.text,
-				memberNick: replyTo.memberData?.memberNick ?? 'User',
-			} : undefined,
+			replyTo: replyTo
+				? {
+						text: replyTo.text,
+						memberNick: replyTo.memberData?.memberNick ?? 'User',
+				  }
+				: undefined,
+			createdAt: new Date().toISOString(), // ← SHU QATORNI QO'SHING
 		};
-		
+
 		setMessagesList((prev) => [...prev, optimisticMessage]);
 
 		const newMessageIndex = messagesList.length;
@@ -248,7 +304,9 @@ const Chat = () => {
 							</Box>
 
 							{messagesList.map((ele: MessagePayload, index: number) => {
-								const { text, memberData, replyTo: messageReplyTo } = ele;
+								const { text, memberData, replyTo: messageReplyTo, createdAt } = ele;
+								const messageTime = formatMessageTime(createdAt);
+								console.log(`Message #${index}:`, { text, createdAt, messageTime, replyTo: messageReplyTo });
 								const memberImage = memberData?.memberImage
 									? memberData.memberImage.startsWith('http')
 										? memberData.memberImage
@@ -300,6 +358,11 @@ const Chat = () => {
 													<DoneIcon style={{ fontSize: '16px', color: '#2196F3', transition: 'color 0.5s ease' }} />
 												)}
 											</div>
+											{messageTime && (
+												<div style={{ fontSize: '11px', color: '#888', alignSelf: 'flex-end', marginTop: '2px' }}>
+													{messageTime}
+												</div>
+											)}
 										</div>
 									</Box>
 								) : (
@@ -336,6 +399,11 @@ const Chat = () => {
 												{text}
 												<DoneAllIcon style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)' }} />
 											</div>
+											{messageTime && (
+												<div style={{ fontSize: '11px', color: '#888', alignSelf: 'flex-end', marginTop: '2px' }}>
+													{messageTime}
+												</div>
+											)}
 										</div>
 
 										<button
