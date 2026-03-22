@@ -306,12 +306,17 @@ const Chat = () => {
 							{messagesList.map((ele: MessagePayload, index: number) => {
 								const { text, memberData, replyTo: messageReplyTo, createdAt } = ele;
 								const messageTime = formatMessageTime(createdAt);
-								console.log(`Message #${index}:`, { text, createdAt, messageTime, replyTo: messageReplyTo });
 								const memberImage = memberData?.memberImage
 									? memberData.memberImage.startsWith('http')
 										? memberData.memberImage
 										: `${REACT_APP_API_URL}/${memberData.memberImage}`
 									: '/img/profile/defaultUser.svg';
+								
+								// Check for message grouping (same user consecutive messages)
+								const prevMsg = messagesList[index - 1];
+								const nextMsg = messagesList[index + 1];
+								const isPrevSameUser = prevMsg?.memberData?._id === memberData?._id;
+								const isNextSameUser = nextMsg?.memberData?._id === memberData?._id;
 
 								return memberData?._id === user?._id ? (
 									<Box
@@ -350,19 +355,26 @@ const Chat = () => {
 													</div>
 												</div>
 											)}
-											<div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+											<div style={{ display: 'inline' }}>
 												{text}
-												{readMessages.has(index) ? (
-													<DoneAllIcon style={{ fontSize: '16px', color: '#64B5F6', transition: 'color 0.5s ease' }} />
-												) : (
-													<DoneIcon style={{ fontSize: '16px', color: '#2196F3', transition: 'color 0.5s ease' }} />
-												)}
-											</div>
-											{messageTime && (
-												<div style={{ fontSize: '11px', color: '#888', alignSelf: 'flex-end', marginTop: '2px' }}>
+												<span style={{ 
+													float: 'right', 
+													marginLeft: '8px', 
+													marginTop: '4px',
+													fontSize: '11px', 
+													color: '#888',
+													display: 'inline-flex',
+													alignItems: 'center',
+													gap: '2px'
+												}}>
 													{messageTime}
-												</div>
-											)}
+													{readMessages.has(index) ? (
+														<DoneAllIcon style={{ fontSize: '16px', color: '#64B5F6', transition: 'color 0.5s ease' }} />
+													) : (
+														<DoneIcon style={{ fontSize: '16px', color: '#2196F3', transition: 'color 0.5s ease' }} />
+													)}
+												</span>
+											</div>
 										</div>
 									</Box>
 								) : (
@@ -370,11 +382,22 @@ const Chat = () => {
 										key={`msg-left-${index}`}
 										component="div"
 										flexDirection="row"
-										style={{ display: 'flex', margin: '10px 0px' }}
+										style={{ display: 'flex', margin: isPrevSameUser ? '2px 0' : '10px 0' }}
+										alignItems="flex-end"
 									>
-										<Avatar alt={memberData?.memberNick ?? 'User'} src={memberImage} />
+										{/* Avatar — show only on LAST message of group */}
+										{isNextSameUser
+											? <div style={{ width: '40px', minWidth: '40px' }} />
+											: <Avatar alt={memberData?.memberNick ?? 'User'} src={memberImage} />
+										}
 
 										<div className="msg-left" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+											{/* Nickname — show only on FIRST message of group */}
+											{!isPrevSameUser && (
+												<div style={{ fontSize: '12px', fontWeight: 700, color: '#00FA9A', marginBottom: '4px' }}>
+													{memberData?.memberNick ?? 'User'}
+												</div>
+											)}
 											{messageReplyTo && (
 												<div
 													style={{
@@ -395,15 +418,23 @@ const Chat = () => {
 													</div>
 												</div>
 											)}
-											<div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+											<div style={{ display: 'inline' }}>
 												{text}
-												<DoneAllIcon style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)' }} />
+												{messageTime && (
+													<span style={{
+														float: 'right',
+														marginLeft: '8px',
+														marginTop: '4px',
+														fontSize: '11px',
+														color: 'rgba(255,255,255,0.7)',
+														display: 'inline-flex',
+														alignItems: 'center',
+														gap: '2px'
+													}}>
+														{messageTime}
+													</span>
+												)}
 											</div>
-											{messageTime && (
-												<div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)', alignSelf: 'flex-end', marginTop: '2px' }}>
-													{messageTime}
-												</div>
-											)}
 										</div>
 
 										<button
