@@ -38,6 +38,31 @@ const Join: NextPage = () => {
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 	const [phoneError, setPhoneError] = useState<string>('');
 
+	const handleTelegramAuth = () => {
+		// Telegram widget ochiladi
+	};
+
+	useEffect(() => {
+		// Telegram widget callback
+		(window as any).onTelegramAuth = async (telegramData: any) => {
+			try {
+				const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/telegram`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(telegramData),
+				});
+				const data = await response.json();
+				if (data.token) {
+					setJwtToken(data.token);
+					updateUserInfo(data.token);
+					window.location.href = '/';
+				}
+			} catch (err) {
+				await sweetMixinErrorAlert('Telegram login failed');
+			}
+		};
+	}, []);
+
 	/** HANDLERS **/
 	const viewChangeHandler = (state: boolean) => {
 		setLoginView(state);
@@ -108,43 +133,6 @@ const Join: NextPage = () => {
 	const handleGoogleAuth = () => {
 		window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
 	};
-
-	const handleTelegramAuth = async (telegramData: any) => {
-		try {
-			const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/telegram`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(telegramData),
-			});
-			const data = await response.json();
-			if (data.token) {
-				setJwtToken(data.token);
-				updateUserInfo(data.token);
-				window.location.href = '/';
-			}
-		} catch (err) {
-			await sweetMixinErrorAlert('Telegram login failed');
-		}
-	};
-	useEffect(() => {
-		(window as any).onTelegramAuth = async (telegramData: any) => {
-			try {
-				const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/telegram`, {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(telegramData),
-				});
-				const data = await response.json();
-				if (data.token) {
-					setJwtToken(data.token);
-					updateUserInfo(data.token);
-					window.location.href = '/';
-				}
-			} catch (err) {
-				await sweetMixinErrorAlert('Telegram login failed');
-			}
-		};
-	}, []);
 
 	console.log('+input: ', input);
 
@@ -425,19 +413,9 @@ const Join: NextPage = () => {
 								</button>
 
 								{/* Telegram Auth */}
-								<div style={{ width: '100%', position: 'relative' }}>
-									{/* Telegram widget — ko'rinmas lekin bosiladi */}
+								<div className="telegram-wrapper" style={{ position: 'relative', width: '100%', height: '48px', marginBottom: '20px' }}>
+									{/* Telegram widget - yashirin, lekin bosiladigan */}
 									<div
-										className={'telegram-hidden'}
-										style={{
-											position: 'absolute',
-											top: 0,
-											left: 0,
-											width: '100%',
-											height: '100%',
-											opacity: 0,
-											zIndex: 2,
-										}}
 										ref={(el) => {
 											if (el && !el.querySelector('script')) {
 												const script = document.createElement('script');
@@ -446,16 +424,23 @@ const Join: NextPage = () => {
 												script.setAttribute('data-size', 'large');
 												script.setAttribute('data-onauth', 'onTelegramAuth(user)');
 												script.setAttribute('data-request-access', 'write');
-												script.setAttribute('data-radius', '8');
 												script.async = true;
 												el.appendChild(script);
 											}
 										}}
+										style={{
+											position: 'absolute',
+											top: 0,
+											left: 0,
+											width: '100%',
+											height: '100%',
+											opacity: 0,
+											zIndex: 2,
+											cursor: 'pointer',
+										}}
 									/>
-									{/* O'zimizning chiroyli tugma — orqada */}
-									<button
-										className={'telegram-signin'}
-									>
+									{/* Ko'rinadigan tugma */}
+									<button className={'telegram-signin'} style={{ pointerEvents: 'none' }}>
 										<img
 											src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
 											alt="Telegram"

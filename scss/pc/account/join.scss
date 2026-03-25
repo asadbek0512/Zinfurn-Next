@@ -456,16 +456,17 @@
 		margin-bottom: 20px;
 		cursor: pointer;
 		transition: all 0.3s ease;
-
-		&:hover {
-			border-color: #cf6422;
-			background: rgba(207, 100, 34, 0.05);
-		}
+		pointer-events: none !important;
 
 		img {
 			width: 20px;
 			height: 20px;
 		}
+	}
+
+	.telegram-wrapper:hover .telegram-signin {
+		border-color: #cf6422 !important;
+		background: rgba(207, 100, 34, 0.05) !important;
 	}
 
 	.divider {
