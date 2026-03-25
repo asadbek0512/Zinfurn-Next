@@ -2,13 +2,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import { setJwtToken, updateUserInfo } from '../../libs/auth';
+import {
+	PhoneInput,
+	defaultCountries,
+} from 'react-international-phone';
+import 'react-international-phone/style.css';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -31,6 +36,7 @@ const Join: NextPage = () => {
 	const [rememberMe, setRememberMe] = useState<boolean>(true);
 	const [agreeTerms, setAgreeTerms] = useState<boolean>(false);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const [phoneError, setPhoneError] = useState<string>('');
 
 	/** HANDLERS **/
 	const viewChangeHandler = (state: boolean) => {
@@ -49,6 +55,18 @@ const Join: NextPage = () => {
 		});
 	}, []);
 
+	const handlePhoneChange = (phone: string, country: any) => {
+		// Validatsiya - phone uzunligini tekshirish
+		if (phone && phone.replace(/\D/g, '').length < 6) {
+			setPhoneError(t('Invalid phone number'));
+		} else {
+			setPhoneError('');
+		}
+
+		// Backendga yuborish uchun to'liq format
+		handleInput('phone', phone);
+	};
+
 	const doLogin = useCallback(async () => {
 		console.warn(input);
 		if (!input.memberEmail || !input.password) {
@@ -66,13 +84,26 @@ const Join: NextPage = () => {
 
 	const doSignUp = useCallback(async () => {
 		console.warn(input);
+		
+		// Phone validatsiyasi
+		if (!input.phone) {
+			await sweetMixinErrorAlert(t('Phone number is required'));
+			return;
+		}
+		
+		// Simple validation - raqam borligini tekshirish
+		if (input.phone.length < 6) {
+			await sweetMixinErrorAlert(t('Invalid phone number'));
+			return;
+		}
+		
 		try {
 			await signUp(input.nick, input.password, input.phone, input.memberEmail, input.type);
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
 			await sweetMixinErrorAlert(err.message);
 		}
-	}, [input, router]);
+	}, [input, router, t]);
 	(Join as any).hideTop = true;
 	const handleGoogleAuth = () => {
 		window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
@@ -232,16 +263,23 @@ const Join: NextPage = () => {
 								{!loginView && (
 									<div className={'input-box'}>
 										<span>{t('Phone Number')}</span>
-										<input
-											type="tel"
-											placeholder={t('Enter your phone number')}
+										<PhoneInput
 											value={input.phone}
-											onChange={(e) => handleInput('phone', e.target.value)}
-											required={true}
-											onKeyDown={(event) => {
-												if (event.key === 'Enter') doSignUp();
-											}}
+											onChange={handlePhoneChange}
+											countries={defaultCountries}
+											className="react-international-phone-container"
 										/>
+										{phoneError && (
+											<Typography
+												sx={{
+													color: '#f44336',
+													fontSize: '12px',
+													marginTop: '4px',
+												}}
+											>
+												{phoneError}
+											</Typography>
+										)}
 									</div>
 								)}
 							</Box>
@@ -355,7 +393,8 @@ const Join: NextPage = () => {
 											input.password === '' ||
 											input.phone === '' ||
 											input.type === '' ||
-											!agreeTerms
+											!agreeTerms ||
+											phoneError !== ''
 										}
 										onClick={doSignUp}
 										sx={{
@@ -415,8 +454,7 @@ const Join: NextPage = () => {
 									/>
 									{/* O'zimizning chiroyli tugma — orqada */}
 									<button
-										className={'google-signin'}
-										style={{ marginBottom: '20px', position: 'relative', zIndex: 1, width: '100%' }}
+										className={'telegram-signin'}
 									>
 										<img
 											src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { Stack } from '@mui/material';
@@ -22,6 +22,7 @@ import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mu
 import { Messages } from '../../libs/config';
 import AddRepairProperty from '../../libs/components/mypage/AddNewRepairProperty';
 import MyRepairProperty from '../../libs/components/mypage/MyRepairProperty';
+import { getJwtToken } from '../../libs/auth/index';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -34,6 +35,7 @@ const MyPage: NextPage = () => {
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
 	const category: any = router.query?.category ?? 'myProfile';
+	const [isLoading, setIsLoading] = useState(true);
 
 	/** APOLLO REQUESTS **/
 	const [subscribe] = useMutation(SUBSCRIBE);
@@ -42,8 +44,24 @@ const MyPage: NextPage = () => {
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		if (!user._id) router.push('/').then();
-	}, [user]);
+		// Token mavjudligini tekshirish va loading state boshqaruvi
+		const token = getJwtToken();
+		if (!token) {
+			router.push('/').then();
+		} else {
+			setIsLoading(false);
+		}
+	}, []);
+
+	useEffect(() => {
+		if (!isLoading && !user._id) {
+			router.push('/').then();
+		}
+	}, [user, isLoading]);
+
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
 
 	/** HANDLERS **/
 	const subscribeHandler = async (id: string, refetch: any, query: any) => {

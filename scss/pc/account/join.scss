@@ -109,6 +109,87 @@
 								box-shadow: 0 0 0 3px rgba(207, 100, 34, 0.1);
 							}
 						}
+
+						/* React International Phone Input styles */
+						.react-international-phone-container {
+							width: 100%;
+							display: flex;
+							align-items: center;
+							border: 1px solid #333;
+							border-radius: 8px;
+							background: transparent;
+							transition: all 0.3s ease;
+
+							&:focus-within {
+								border-color: #cf6422;
+								box-shadow: 0 0 0 3px rgba(207, 100, 34, 0.1);
+							}
+
+							.react-international-phone-country-selector {
+								border: none !important;
+								border-right: 1px solid #333 !important;
+								border-radius: 8px 0 0 8px !important;
+								background: #ffffff !important;
+								height: 38px;
+								width: 48px !important;
+								padding: 0 !important;
+								margin: 0 !important;
+								display: flex !important;
+								align-items: center !important;
+								justify-content: center !important;
+
+								&:hover {
+									background: rgba(207, 100, 34, 0.05) !important;
+								}
+
+								img {
+									width: 22px;
+									height: 22px;
+									object-fit: contain;
+									border: none !important;
+									box-shadow: none !important;
+									outline: none !important;
+								}
+							}
+
+							.react-international-phone-input {
+								flex: 1;
+								height: 38px;
+								padding: 10px 14px !important;
+								border: none !important;
+								border-radius: 0 8px 8px 0 !important;
+								background: transparent !important;
+								color: #2c2c2c;
+								font-size: 14px;
+								transition: all 0.3s ease;
+
+								&::placeholder {
+									color: #999;
+									font-style: italic;
+								}
+
+								&:focus {
+									outline: none;
+									box-shadow: none;
+								}
+							}
+						}
+
+						.react-international-phone-dropdown {
+							border-radius: 8px;
+							max-height: 300px;
+							overflow-y: auto;
+							box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+							border: 1px solid #333;
+						}
+
+						.react-international-phone-dropdown-input {
+							padding: 8px 12px;
+							border: 1px solid #ddd;
+							border-radius: 4px;
+							margin: 8px;
+							width: calc(100% - 24px);
+						}
 					}
 				}
 
@@ -362,14 +443,28 @@
 
 	.telegram-signin {
 		width: 100%;
+		padding: 12px;
+		border: 1px solid #333;
+		border-radius: 8px;
+		background: transparent;
+		color: #2c2c2c;
+		font-size: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
 		margin-bottom: 20px;
+		cursor: pointer;
+		transition: all 0.3s ease;
 
-		iframe {
-			width: 100% !important;
-			height: 44px !important;
-			border-radius: 8px !important;
-			border: none !important;
-			box-shadow: none !important;
+		&:hover {
+			border-color: #cf6422;
+			background: rgba(207, 100, 34, 0.05);
+		}
+
+		img {
+			width: 20px;
+			height: 20px;
 		}
 	}
 

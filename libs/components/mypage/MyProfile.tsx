@@ -74,6 +74,8 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const uploadImage = async (e: any) => {
 		try {
 			const image = e.target.files[0];
+			if (!image) return;
+
 			console.log('+image:', image);
 
 			const formData = new FormData();
@@ -81,7 +83,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 				'operations',
 				JSON.stringify({
 					query: `mutation ImageUploader($file: Upload!, $target: String!) {
-            imageUploader(file: $file, target: $target) 
+            imageUploader(file: $file, target: $target)
           }`,
 					variables: {
 						file: null,
@@ -142,14 +144,23 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	};
 
 	const doDisabledCheck = () => {
+		// Faqat yangilangan ma'lumotlarni tekshirish - agar barcha bo'sh bo'lsa disable
 		if (
-			updateData.memberNick === '' ||
-			updateData.memberAddress === '' ||
-			updateData.memberImage === '' ||
-			updateData.memberEmail === ''
+			updateData.memberNick === user.memberNick &&
+			updateData.memberPhone === user.memberPhone &&
+			updateData.memberAddress === user.memberAddress &&
+			updateData.memberEmail === user.memberEmail &&
+			updateData.memberFullName === user.memberFullName
 		) {
+			return true; // Hech narsa o'zgarmagan
+		}
+		
+		// Email formatini tekshirish
+		if (updateData.memberEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(updateData.memberEmail)) {
 			return true;
 		}
+		
+		return false;
 	};
 
 	if (device === 'mobile') {
@@ -244,10 +255,14 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 								{t('Phone')}
 							</Typography>
 							<input
-								type="text"
+								type="tel"
 								placeholder={t('Your Phone')}
 								value={updateData.memberPhone || ''}
-								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberPhone: value })}
+								onChange={({ target: { value } }) => {
+									// Faqat raqamlarni qabul qilish
+									const numbersOnly = value.replace(/[^0-9+]/g, '');
+									setUpdateData({ ...updateData, memberPhone: numbersOnly });
+								}}
 							/>
 						</Stack>
 						<Stack className="input-box">
