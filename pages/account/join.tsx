@@ -36,7 +36,10 @@ const Join: NextPage = () => {
 	const [rememberMe, setRememberMe] = useState<boolean>(true);
 	const [agreeTerms, setAgreeTerms] = useState<boolean>(false);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+	const [confirmPassword, setConfirmPassword] = useState<string>('');
 	const [phoneError, setPhoneError] = useState<string>('');
+	const [detectedCountry, setDetectedCountry] = useState<string>('kr');
 
 	const handleTelegramAuth = () => {
 		// Telegram widget ochiladi
@@ -61,6 +64,17 @@ const Join: NextPage = () => {
 				await sweetMixinErrorAlert('Telegram login failed');
 			}
 		};
+	}, []);
+
+	useEffect(() => {
+		fetch('https://ipapi.co/json/')
+			.then((res) => res.json())
+			.then((data) => {
+				if (data.country_code) {
+					setDetectedCountry(data.country_code.toLowerCase());
+				}
+			})
+			.catch(() => setDetectedCountry('kr'));
 	}, []);
 
 	/** HANDLERS **/
@@ -109,26 +123,32 @@ const Join: NextPage = () => {
 
 	const doSignUp = useCallback(async () => {
 		console.warn(input);
-		
+
+		// Confirm Password validatsiyasi
+		if (input.password !== confirmPassword) {
+			await sweetMixinErrorAlert(t('Passwords do not match'));
+			return;
+		}
+
 		// Phone validatsiyasi
 		if (!input.phone) {
 			await sweetMixinErrorAlert(t('Phone number is required'));
 			return;
 		}
-		
+
 		// Simple validation - raqam borligini tekshirish
 		if (input.phone.length < 6) {
 			await sweetMixinErrorAlert(t('Invalid phone number'));
 			return;
 		}
-		
+
 		try {
 			await signUp(input.nick, input.password, input.phone, input.memberEmail, input.type);
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
 			await sweetMixinErrorAlert(err.message);
 		}
-	}, [input, router, t]);
+	}, [input, router, t, confirmPassword]);
 	(Join as any).hideTop = true;
 	const handleGoogleAuth = () => {
 		window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
@@ -247,6 +267,57 @@ const Join: NextPage = () => {
 									</Box>
 								</div>
 
+								{/* CONFIRM PASSWORD - faqat signup uchun */}
+								{!loginView && (
+									<div className={'input-box'} style={{ position: 'relative' }}>
+										<span>{t('Confirm Password')}</span>
+										<input
+											type={showConfirmPassword ? 'text' : 'password'}
+											placeholder={t('Confirm your password')}
+											value={confirmPassword}
+											onChange={(e) => setConfirmPassword(e.target.value)}
+											required={true}
+											onKeyDown={(event) => {
+												if (event.key === 'Enter') doSignUp();
+											}}
+											style={{
+												borderColor: confirmPassword && confirmPassword !== input.password
+													? '#f44336'
+													: confirmPassword && confirmPassword === input.password
+														? '#4caf50'
+														: undefined,
+											}}
+										/>
+										<Box
+											component="div"
+											sx={{
+												position: 'absolute',
+												right: 12,
+												top: 35,
+												cursor: 'pointer',
+												color: '#666',
+												fontSize: '18px',
+												userSelect: 'none',
+											}}
+											onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+										>
+											{showConfirmPassword ? (
+												<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+													<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+													<path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+													<path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+													<line x1="2" y1="2" x2="22" y2="22" />
+												</svg>
+											) : (
+												<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+													<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+													<circle cx="12" cy="12" r="3" />
+												</svg>
+											)}
+										</Box>
+									</div>
+								)}
+
 								{/* PHONE - faqat signup uchun */}
 								{!loginView && (
 									<div className={'input-box'}>
@@ -255,6 +326,7 @@ const Join: NextPage = () => {
 											value={input.phone}
 											onChange={handlePhoneChange}
 											countries={defaultCountries}
+											defaultCountry={detectedCountry}
 											className="react-international-phone-container"
 										/>
 										{phoneError && (
@@ -379,6 +451,8 @@ const Join: NextPage = () => {
 											input.nick === '' ||
 											input.memberEmail === '' ||
 											input.password === '' ||
+											confirmPassword === '' ||
+											input.password !== confirmPassword ||
 											input.phone === '' ||
 											input.type === '' ||
 											!agreeTerms ||

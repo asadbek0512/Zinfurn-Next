@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Stack, Box, Typography, IconButton, Link } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import { Property } from '../../types/property/property';
@@ -102,11 +103,11 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 								likePropertyHandler(user, property._id);
 							}}
 						>
-							<FavoriteIcon
-								style={{
-									color: property?.meLiked?.[0]?.myFavorite ? 'red' : '#41332d',
-								}}
-							/>
+							{property?.meLiked?.[0]?.myFavorite ? (
+								<FavoriteIcon style={{ color: 'red' }} />
+							) : (
+								<FavoriteBorderIcon style={{ color: '#bbb' }} />
+							)}
 						</IconButton>
 						<Typography className="likes-count">{property?.propertyLikes}</Typography>
 					</Box>

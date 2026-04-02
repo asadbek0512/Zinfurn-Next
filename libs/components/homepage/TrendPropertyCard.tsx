@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Stack, Typography, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useRouter } from 'next/router';
 import { Property } from '../../types/property/property';
@@ -94,11 +95,11 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 								likePropertyHandler(user, property._id);
 							}}
 						>
-							<FavoriteIcon
-								style={{
-									color: property?.meLiked?.[0]?.myFavorite ? 'red' : '#41332d',
-								}}
-							/>
+							{property?.meLiked?.[0]?.myFavorite ? (
+								<FavoriteIcon style={{ color: 'red' }} />
+							) : (
+								<FavoriteBorderIcon style={{ color: '#bbb' }} />
+							)}
 						</IconButton>
 						<Typography className="likes-count">{property?.propertyLikes}</Typography>
 					</Box>

@@ -156,7 +156,7 @@ const PropertyCard = (props: PropertyCardType) => {
 									) : property?.meLiked?.[0]?.myFavorite ? (
 										<FavoriteIcon style={{ color: 'red' }} />
 									) : (
-										<FavoriteBorderIcon />
+										<FavoriteBorderIcon style={{ color: '#bbb' }} />
 									)}
 								</IconButton>
 								<Typography>{property?.propertyLikes || 0}</Typography>
