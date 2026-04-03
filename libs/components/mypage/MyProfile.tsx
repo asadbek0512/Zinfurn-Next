@@ -140,7 +140,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 
 	// Google bog'lash
 	const handleLinkGoogle = () => {
-		window.location.href = `${process.env.REACT_APP_API_URL}/auth/link/google?state=${user._id}`;
+		window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google?state=${user._id}`;
 	};
 
 	const doDisabledCheck = () => {
