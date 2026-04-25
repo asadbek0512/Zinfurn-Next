@@ -10,6 +10,7 @@ interface Slide {
 	description: string;
 	mobileDescription: string;
 	backgroundImage: string;
+	mobileBackgroundImage: string;
 }
 
 const HeroSection: React.FC = () => {
@@ -24,6 +25,7 @@ const HeroSection: React.FC = () => {
 			description: t('Consectetur a erat nam at. Facilisis magna etiam tempor orci. Sem et tortor consequat id. Fermentum egestas tellus. Nunc eu hendrerit turpis. Fusce non lectus sem.'),
 			mobileDescription: t('Quality pieces that elevate your home with timeless style.'),
 			backgroundImage: '/img/banner/Home-1-.jpg',
+			mobileBackgroundImage: '/img/banner/mobail1.png',
 		},
 		{
 			overline: t('SMART SOLUTION'),
@@ -31,6 +33,7 @@ const HeroSection: React.FC = () => {
 			description: t('Feugiat pretium nibh ipsum consequat nisi vel pretium lectus quam. Aliquam ut porttitor leo a diam sollicitudin. Nam at lectus urna duis convallis.'),
 			mobileDescription: t('Modern furniture designed for comfort and everyday living.'),
 			backgroundImage: '/img/banner/Home-2-.jpg',
+			mobileBackgroundImage: '/img/banner/mobail2.png',
 		},
 		{
 			overline: t('CREATE MEMORIES'),
@@ -38,6 +41,7 @@ const HeroSection: React.FC = () => {
 			description: t('Ut placerat orci nulla pellentesque posuere lorem ipsum dolor. A condimentum vitae sapien pellentesque habitant morbi tristique senectus.'),
 			mobileDescription: t('Beautiful spaces start with the right furniture choices.'),
 			backgroundImage: '/img/banner/Home-3-.jpg',
+			mobileBackgroundImage: '/img/banner/mobail3.png',
 		},
 	];
 
