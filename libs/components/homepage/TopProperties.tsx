@@ -119,6 +119,7 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 
 const ProductsCollection = (props: ProductsCollectionProps) => {
 	const { latestInput, bestSellersInput, featuredInput } = props;
+	const router = useRouter();
 	const device = useDeviceDetect();
 	const [activeTab, setActiveTab] = useState('top');
 	const [properties, setProperties] = useState<Property[]>([]);
