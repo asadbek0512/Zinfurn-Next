@@ -43,6 +43,10 @@ const withLayoutMain = (Component: any) => {
 							<Top />
 						</Stack>
 
+						<div className={'mobile-header-main'}>
+							<HeroSection />
+						</div>
+
 						<Stack id={'main'}>
 							<Component {...props} />
 						</Stack>

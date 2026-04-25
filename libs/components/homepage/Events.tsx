@@ -1,7 +1,8 @@
 import React from 'react';
 import { Stack, Box, Button } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useTranslation } from 'next-i18next'; // Yangi import qo'shildi
+import { useTranslation } from 'next-i18next';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 interface PromoData {
 	title: string;
@@ -16,7 +17,8 @@ interface PromoData {
 }
 
 const PromoBanners = () => {
-	const { t } = useTranslation('common'); // Yangi qo'shildi
+	const { t } = useTranslation('common');
+	const device = useDeviceDetect();
 
 	const promoData: PromoData[] = [
 		{
@@ -43,6 +45,16 @@ const PromoBanners = () => {
 		},
 	];
 
+	if (device === 'mobile') {
+		return (
+			<div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+				{promoData.map((promo, index) => (
+					<PromoCard promo={promo} key={index} />
+				))}
+			</div>
+		);
+	}
+
 	return (
 		<Stack className="promo-banners" style={{ padding: '40px 0' }}>
 			<Stack className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
@@ -66,7 +78,9 @@ const PromoBanners = () => {
 
 const PromoCard = ({ promo }: { promo: PromoData }) => {
 	const router = useRouter();
-	const { t } = useTranslation('common'); // Yangi qo'shildi
+	const { t } = useTranslation('common');
+	const device = useDeviceDetect();
+	const [hovered, setHovered] = React.useState(false);
 
 	const handleShopNowClick = () => {
 		const filterParams = {
@@ -83,9 +97,52 @@ const PromoCard = ({ promo }: { promo: PromoData }) => {
 		router.push(`/property?input=${encodedParams}`);
 	};
 
+	if (device === 'mobile') {
+		return (
+			<div
+				onMouseEnter={() => setHovered(true)}
+				onMouseLeave={() => setHovered(false)}
+				style={{
+					backgroundColor: promo.backgroundColor, borderRadius: '14px',
+					padding: '16px 12px', minHeight: '110px', position: 'relative',
+					overflow: 'hidden', display: 'flex', flexDirection: 'row',
+					alignItems: 'center', justifyContent: 'space-between',
+					cursor: 'pointer',
+				}}
+			>
+				<div style={{ flex: 1, zIndex: 2 }}>
+					<div style={{ fontSize: '11px', fontWeight: 500, color: promo.isGaming ? '#666' : '#8B4513', marginBottom: '4px' }}>
+						{promo.discount}
+					</div>
+					<div style={{ fontSize: '20px', fontWeight: 700, color: promo.isGaming ? '#333' : '#fff', lineHeight: 1.2, marginBottom: '10px' }}>
+						{promo.title}<br />{promo.subtitle}
+					</div>
+					<button onClick={handleShopNowClick} style={{
+						background: '#cf6422', color: '#fff', border: 'none',
+						borderRadius: '20px', padding: '6px 14px', fontSize: '11px',
+						fontWeight: 500, cursor: 'pointer'
+					}}>
+						{promo.buttonText} →
+					</button>
+				</div>
+				<div style={{
+					position: 'absolute', right: '-10px', top: '50%',
+					transform: hovered ? 'translateY(-50%) scale(1.1)' : 'translateY(-50%) scale(1)',
+					transition: 'transform 0.3s ease',
+					width: '140px', height: '160px',
+					backgroundImage: `url(${promo.imageSrc})`,
+					backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center',
+					zIndex: 1,
+				}} />
+			</div>
+		);
+	}
+
 	return (
 		<Stack
 			className="promo-card"
+			onMouseEnter={() => setHovered(true)}
+			onMouseLeave={() => setHovered(false)}
 			style={{
 				backgroundColor: promo.backgroundColor,
 				position: 'relative',
@@ -97,6 +154,7 @@ const PromoCard = ({ promo }: { promo: PromoData }) => {
 				alignItems: 'center',
 				justifyContent: 'space-between',
 				overflow: 'hidden',
+				cursor: 'pointer',
 			}}
 		>
 			<Box component={'div'} className="promo-content" style={{ flex: 1, zIndex: 2 }}>
@@ -174,7 +232,8 @@ const PromoCard = ({ promo }: { promo: PromoData }) => {
 					position: 'absolute',
 					right: '-70px',
 					top: '56%',
-					transform: 'translateY(-50%)',
+					transform: hovered ? 'translateY(-50%) scale(1.1)' : 'translateY(-50%) scale(1)',
+					transition: 'transform 0.3s ease',
 					width: '350px',
 					height: '850px',
 					backgroundImage: `url(${promo.imageSrc})`,

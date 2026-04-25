@@ -41,7 +41,51 @@ const TopAgents = (props: TopAgentsProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<div style={{ height: '50px' }}>Top Agents mobile</div>
+			<div style={{ padding: '16px 0', background: '#f8f7f4' }}>
+				{/* Header */}
+				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '0 16px 12px' }}>
+					<div>
+						<div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+							<div style={{ width: '30px', height: '2px', background: '#cf6422' }} />
+							<span style={{ fontSize: '12px', fontWeight: 500, color: '#000' }}>{t('Top Agents')}</span>
+						</div>
+						<div style={{ fontSize: '18px', fontWeight: 700, color: '#333' }}>{t('Our Top Agents')}</div>
+					</div>
+					<span onClick={() => router.push('/agent')} style={{ fontSize: '12px', color: '#cf6422', fontWeight: 500, cursor: 'pointer' }}>
+						{t('All Agents')} →
+					</span>
+				</div>
+
+				{/* Swiper */}
+				{topAgents.length === 0 ? (
+					<div style={{ textAlign: 'center', padding: '32px', color: '#aaa' }}>{t('No Agents')}</div>
+				) : (
+					<Swiper slidesPerView={2.2} spaceBetween={10} touchStartPreventDefault={false} style={{ paddingLeft: '16px', paddingRight: '8px' }}>
+						{topAgents.map((agent: Member) => {
+							const agentImage = agent?.memberImage
+								? (agent.memberImage.startsWith('http') ? agent.memberImage : `${process.env.REACT_APP_API_URL}/${agent.memberImage}`)
+								: '/img/profile/defaultUser.svg';
+							return (
+								<SwiperSlide key={agent._id}>
+									<div style={{ position: 'relative', height: '200px', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer' }}
+										onClick={() => router.push({ pathname: '/agent/detail', query: { agentId: agent._id } })}>
+										<img src={agentImage} alt={agent.memberNick}
+											style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+										<div style={{
+											position: 'absolute', bottom: 0, left: 0, right: 0,
+											background: 'rgba(45,55,72,0.88)', padding: '10px 12px',
+											borderBottomLeftRadius: '12px', borderBottomRightRadius: '12px'
+										}}>
+											<div style={{ fontSize: '13px', fontWeight: 600, color: '#fff' }}>{agent.memberNick}</div>
+											<div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.8)', marginTop: '2px' }}>{t(agent.memberType)}</div>
+										</div>
+									</div>
+								</SwiperSlide>
+							);
+						})}
+					</Swiper>
+				)}
+			</div>
 		);
 	} else {
 		return (

@@ -2,6 +2,7 @@ import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { Stack, Typography, Button, Box } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { useTranslation } from 'next-i18next';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 interface Slide {
 	overline: string;
@@ -12,38 +13,33 @@ interface Slide {
 
 const HeroSection: React.FC = () => {
 	const { t } = useTranslation('common');
+	const device = useDeviceDetect();
 	const [currentSlide, setCurrentSlide] = useState<number>(0);
 
 	const slides: Slide[] = [
 		{
 			overline: t('TIMELESS ELEGANCE'),
 			title: t("Discover Furniture's For Living"),
-			description: t(
-				'Consectetur a erat nam at. Facilisis magna etiam tempor orci. Sem et tortor consequat id. Fermentum egestas tellus. Nunc eu hendrerit turpis. Fusce non lectus sem.',
-			),
+			description: t('Quality pieces that elevate your home with timeless style.'),
 			backgroundImage: '/img/banner/Home-1-.jpg',
 		},
 		{
 			overline: t('SMART SOLUTION'),
 			title: t('Enjoy With Style & Comfort'),
-			description: t(
-				'Feugiat pretium nibh ipsum consequat nisi vel pretium lectus quam. Aliquam ut porttitor leo a diam sollicitudin. Nam at lectus urna duis convallis.',
-			),
+			description: t('Modern furniture designed for comfort and everyday living.'),
 			backgroundImage: '/img/banner/Home-2-.jpg',
 		},
 		{
 			overline: t('CREATE MEMORIES'),
 			title: t("Embrace The Beauty Of Furniture's"),
-			description: t(
-				'Ut placerat orci nulla pellentesque posuere lorem ipsum dolor. A condimentum vitae sapien pellentesque habitant morbi tristique senectus.',
-			),
+			description: t('Beautiful spaces start with the right furniture choices.'),
 			backgroundImage: '/img/banner/Home-3-.jpg',
 		},
 	];
 
 	// updateHeaderBackground uchun aniq tip
 	const updateHeaderBackground = (slideIndex: number): void => {
-		const header = document.querySelector('.header-main');
+		const header = document.querySelector('.header-main') || document.querySelector('.mobile-header-main');
 		if (header) {
 			header.classList.remove('slide-0', 'slide-1', 'slide-2');
 			header.classList.add(`slide-${slideIndex}`);
@@ -89,7 +85,7 @@ const HeroSection: React.FC = () => {
 			component={'div'}
 			sx={{
 				position: 'relative',
-				height: '100vh',
+				height: device === 'mobile' ? '46vh' : '100vh',
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
@@ -106,7 +102,7 @@ const HeroSection: React.FC = () => {
 				component={'div'}
 				sx={{
 					position: 'absolute',
-					left: '2rem',
+					left: device === 'mobile' ? '0.5rem' : '2rem',
 					top: '50%',
 					transform: 'translateY(-50%)',
 					zIndex: 3,
@@ -119,13 +115,13 @@ const HeroSection: React.FC = () => {
 				className="hero-prev"
 				onClick={prevSlide}
 			>
-				<ArrowBack sx={{ fontSize: '3rem' }} />
+				<ArrowBack sx={{ fontSize: device === 'mobile' ? '1.8rem' : '3rem' }} />
 			</Box>
 			<Box
 				component={'div'}
 				sx={{
 					position: 'absolute',
-					right: '2rem',
+					right: device === 'mobile' ? '0.5rem' : '2rem',
 					top: '50%',
 					transform: 'translateY(-50%)',
 					zIndex: 3,
@@ -138,23 +134,24 @@ const HeroSection: React.FC = () => {
 				className="hero-next"
 				onClick={nextSlide}
 			>
-				<ArrowForward sx={{ fontSize: '3rem' }} />
+				<ArrowForward sx={{ fontSize: device === 'mobile' ? '1.8rem' : '3rem' }} />
 			</Box>
 
 			{/* Main Content */}
 			<Stack
 				sx={{
-					position: 'relative',
+					position: 'absolute',
+					top: device === 'mobile' ? '12%' : '50%',
+					left: '50%',
+					transform: device === 'mobile' ? 'translateX(-50%)' : 'translate(-50%, -50%)',
 					zIndex: 2,
 					textAlign: 'center',
 					color: 'white',
-					maxWidth: '90%',
-					width: '100%',
+					width: '80%',
 					px: 4,
 					display: 'flex',
+					flexDirection: 'column',
 					alignItems: 'center',
-					justifyContent: 'center',
-					transform: 'translateY(-10px)',
 					opacity: 1,
 					transition: 'all 0.3s ease-in-out',
 				}}
@@ -166,7 +163,7 @@ const HeroSection: React.FC = () => {
 					sx={{
 						color: '#ff6b35',
 						letterSpacing: '0.2em',
-						fontSize: '1rem',
+						fontSize: device === 'mobile' ? '0.7rem' : '1rem',
 						fontWeight: 500,
 						animation: 'fadeInUp 0.6s ease-out',
 					}}
@@ -176,7 +173,7 @@ const HeroSection: React.FC = () => {
 				<Typography
 					variant="h1"
 					sx={{
-						fontSize: { xs: '1.8rem', md: '3.2rem' },
+						fontSize: { xs: '1.3rem', md: '3.2rem' },
 						fontWeight: 300,
 						lineHeight: 1.2,
 						mb: 2,
@@ -188,10 +185,10 @@ const HeroSection: React.FC = () => {
 				<Typography
 					variant="body1"
 					sx={{
-						fontSize: '1.1rem',
+						fontSize: device === 'mobile' ? '0.72rem' : '1.1rem',
 						lineHeight: 1.6,
 						color: '#cccccc',
-						maxWidth: '500px',
+						maxWidth: device === 'mobile' ? '260px' : '500px',
 						mx: 'auto',
 						mb: 3,
 						animation: 'fadeInUp 0.6s ease-out 0.2s both',
@@ -199,12 +196,18 @@ const HeroSection: React.FC = () => {
 				>
 					{slides[currentSlide].description}
 				</Typography>
-				<Box
-					component={'div'}
-					sx={{
-						animation: 'fadeInUp 0.6s ease-out 0.3s both',
-					}}
-				>
+			</Stack>
+
+			{/* Shop Now Button */}
+			<Box
+				component={'div'}
+				sx={{
+					position: device === 'mobile' ? 'absolute' : 'relative',
+					bottom: device === 'mobile' ? '28%' : 'auto',
+					zIndex: 2,
+					animation: 'fadeInUp 0.6s ease-out 0.3s both',
+				}}
+			>
 					<style>
 						{`
               @keyframes fadeInUp {
@@ -227,10 +230,10 @@ const HeroSection: React.FC = () => {
 						sx={{
 							backgroundColor: '#ff6b35',
 							color: 'white',
-							px: 3,
-							py: 0.6,
+							px: device === 'mobile' ? 1.5 : 3,
+							py: device === 'mobile' ? 0.3 : 0.6,
 							borderRadius: '50px',
-							fontSize: '0.9rem',
+							fontSize: device === 'mobile' ? '0.72rem' : '0.9rem',
 							fontWeight: 600,
 							textTransform: 'none',
 							display: 'flex',
@@ -257,8 +260,8 @@ const HeroSection: React.FC = () => {
 							component={'div'}
 							className="arrow-circle"
 							sx={{
-								width: 40,
-								height: 40,
+								width: device === 'mobile' ? 28 : 40,
+								height: device === 'mobile' ? 28 : 40,
 								borderRadius: '50%',
 								backgroundColor: 'white',
 								display: 'flex',
@@ -266,7 +269,7 @@ const HeroSection: React.FC = () => {
 								justifyContent: 'center',
 								transition: 'all 0.3s ease',
 								position: 'relative',
-								left: -16,
+								left: device === 'mobile' ? -8 : -16,
 								overflow: 'hidden',
 							}}
 						>
@@ -280,10 +283,9 @@ const HeroSection: React.FC = () => {
 								}}
 							/>
 						</Box>
-						<span style={{ marginLeft: '-8px' }}>{t('Shop Now')}</span>
+						<span style={{ marginLeft: device === 'mobile' ? '-4px' : '-8px' }}>{t('Shop Now')}</span>
 					</Button>
 				</Box>
-			</Stack>
 		</Box>
 	);
 };

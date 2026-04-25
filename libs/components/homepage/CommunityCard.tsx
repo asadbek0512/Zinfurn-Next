@@ -60,7 +60,51 @@ const CommunityCard = (props: CommunityCardProps) => {
 	}, [article?.createdAt, i18n.language]);
 
 	if (device === 'mobile') {
-		return <div>{t('COMMUNITY CARD MOBILE')}</div>;
+		if (vertical) {
+			return (
+				<Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+					<div style={{ cursor: 'pointer' }}>
+						<div style={{ position: 'relative', height: '130px', borderRadius: '16px', background: '#e8dcc0', backgroundImage: `url(${articleImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+							<div style={{
+								position: 'absolute', bottom: '-1px', left: '50%', transform: 'translateX(-50%)',
+								background: '#cf6422', color: '#fff', padding: '4px 12px',
+								borderRadius: '12px 12px 0 0', border: '2px solid #fff',
+								fontSize: '9px', fontWeight: 500, whiteSpace: 'nowrap'
+							}}>
+								{formattedDate}
+							</div>
+						</div>
+						<div style={{ padding: '8px 2px 4px' }}>
+							<div style={{ fontSize: '11px', fontWeight: 600, color: '#2c2c2c', lineHeight: 1.3, marginBottom: '4px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+								{article?.articleTitle}
+							</div>
+							<div style={{ fontSize: '9px', color: '#888', lineHeight: 1.4, marginBottom: '5px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+								{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}
+							</div>
+							<div style={{ fontSize: '10px', color: '#cf6422', fontWeight: 500, textDecoration: 'underline' }}>{t('Read More')}</div>
+						</div>
+					</div>
+				</Link>
+			);
+		} else {
+			return (
+				<Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+					<div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '10px', background: '#fff', borderRadius: '10px', boxShadow: '0 3px 15px rgba(0,0,0,0.08)', cursor: 'pointer', overflow: 'hidden' }}>
+						<img src={articleImage} alt={article?.articleTitle}
+							style={{ width: '60px', height: '60px', borderRadius: '6px', objectFit: 'cover', background: '#e8dcc0', flexShrink: 0 }} />
+						<div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '3px' }}>
+							<div style={{ fontSize: '11px', fontWeight: 600, color: '#2c2c2c', lineHeight: 1.3, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+								{article?.articleTitle}
+							</div>
+							<div style={{ fontSize: '9px', color: '#888', lineHeight: 1.4, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+								{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}
+							</div>
+							<div style={{ fontSize: '10px', color: '#cf6422', fontWeight: 500, textDecoration: 'underline' }}>{t('Read More')}</div>
+						</div>
+					</div>
+				</Link>
+			);
+		}
 	}
 
 	if (vertical) {

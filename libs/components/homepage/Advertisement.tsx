@@ -17,38 +17,47 @@ export default function InnovationSection() {
 
 	if (device === 'mobile') {
 		return (
-			<Box component="section" sx={{ background: '#f8f7f4', py: 4 }}>
-				<Box component="div" className="container">
-					<Stack spacing={3} className="mobileContent" alignItems="center">
-						{/* Rasm */}
-						<Box component="div" className="mobileImageContainer">
-							<img src="/img/banner/usta.jpg" alt="Craftsman repairing furniture" className="mobileImage" />
-						</Box>
+			<Box component="section" sx={{ background: '#f8f7f4', py: 3, px: 1 }}>
+				<div style={{
+					display: 'flex', flexDirection: 'row', alignItems: 'center',
+					borderTop: '8px solid #e66414', borderBottom: '8px solid #e66414',
+					borderLeft: '8px solid #e66414', borderRight: 'none',
+					borderRadius: '24px 0 0 24px', gap: '0',
+					background: '#f8f7f4', overflow: 'hidden'
+				}}>
+					{/* Rasm */}
+					<div style={{ flexShrink: 0 }}>
+						<img
+							src="/img/banner/usta.jpg"
+							alt="Craftsman repairing furniture"
+							style={{ width: '155px', height: '185px', objectFit: 'cover', borderRadius: '8px 0 0 8px', display: 'block' }}
+						/>
+					</div>
 
-						{/* Iconlar */}
-						<Stack direction="row" spacing={1} className="mobileIcons" justifyContent="center">
-							<HandymanIcon color="primary" />
-							<HomeRepairServiceIcon color="secondary" />
-						</Stack>
-
-						{/* Sarlavha */}
-						<Typography variant="h5" component="h2" textAlign="center">
+					{/* Matn */}
+					<div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '12px 12px 12px 20px', flex: 1 }}>
+						<div style={{ display: 'flex', gap: '6px', background: '#f8f3e3', borderRadius: '8px', padding: '5px 8px', width: 'fit-content' }}>
+							<HandymanIcon style={{ fontSize: '15px', color: '#c9a55a' }} />
+							<HomeRepairServiceIcon style={{ fontSize: '15px', color: '#c9a55a' }} />
+						</div>
+						<div style={{ fontSize: '14px', fontWeight: 600, color: '#333', lineHeight: 1.3 }}>
 							{t('Repair Services')}
-						</Typography>
-
-						{/* Matn */}
-						<Typography variant="body2" textAlign="center">
-							{t(
-								"We don't just build — we repair. Our skilled craftsmen bring new life to broken furniture. Explore our service page to view repaired items and find expert technicians ready to help.",
-							)}
-						</Typography>
-
-						{/* Tugma */}
-						<Button variant="contained" onClick={handleNavigate}>
+						</div>
+						<div style={{ fontSize: '10px', color: '#555', lineHeight: 1.5 }}>
+							{t("We repair broken furniture. Expert craftsmen ready to help.")}
+						</div>
+						<button
+							onClick={handleNavigate}
+							style={{
+								background: '#e66414', color: '#fff', border: 'none',
+								borderRadius: '8px', padding: '6px 12px', fontSize: '10px',
+								fontWeight: 600, cursor: 'pointer', width: 'fit-content', alignSelf: 'flex-start'
+							}}
+						>
 							{t('Explore Repair Service')}
-						</Button>
-					</Stack>
-				</Box>
+						</button>
+					</div>
+				</div>
 			</Box>
 		);
 	} else {

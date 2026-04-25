@@ -15,7 +15,59 @@ const Footer = () => {
 	const { t } = useTranslation('common');
 
 	if (device == 'mobile') {
-		return <div style={{ height: '50px' }}>Footer mobile</div>;
+		return (
+			<div className={'mobile-footer'}>
+				<div className={'mobile-footer-top'}>
+					<div className={'mobile-footer-subscribe'}>
+						<strong>{t('Sign up for 20% discount')}</strong>
+						<p>{t('Unlock exclusive deals and trend alerts. Sign up now for the latest in furniture.')}</p>
+						<div className={'mobile-subscribe-form'}>
+							<input type="text" placeholder={t('Email')} />
+							<button>{t('Subscribe')}</button>
+						</div>
+					</div>
+					<div className={'mobile-footer-socials'}>
+						<a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+							<FacebookOutlinedIcon />
+						</a>
+						<a href="https://t.me/Khusanov_Asadbek2000" target="_blank" rel="noopener noreferrer">
+							<TelegramIcon />
+						</a>
+						<a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+							<InstagramIcon />
+						</a>
+						<a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+							<TwitterIcon />
+						</a>
+					</div>
+				</div>
+
+				<div className={'mobile-footer-links'}>
+					<span className={'mobile-footer-col-title'}>{t('Discover')}</span>
+					<span className={'mobile-footer-col-title'}>{t('Help')}</span>
+					<Link href="/"><span>{t('Home')}</span></Link>
+					<span>{t('About us')}</span>
+					<Link href="/property"><span>{t('Furniturres')}</span></Link>
+					<span>{t('Faq')}</span>
+					<Link href="/agent"><span>{t('Agents')}</span></Link>
+					<span>{t('Privacy policy')}</span>
+					<Link href="/repairService"><span>{t('Service')}</span></Link>
+					<span>{t('Contact')}</span>
+					<Link href="/community"><span>{t('Community')}</span></Link>
+					<span>{t('Terms & condition')}</span>
+				</div>
+
+				<div className={'mobile-footer-bottom'}>
+					<div className={'mobile-footer-payments'}>
+						<img src="/img/icons/1.svg" alt="visa" />
+						<img src="/img/icons/2.svg" alt="mastercard" />
+						<img src="/img/icons/3.svg" alt="amex" />
+						<img src="/img/icons/4.svg" alt="paypal" />
+					</div>
+					<span>© {moment().year()} Zinfurn. {t('All rights reserved.')}</span>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<Stack className={'footer-container'}>

@@ -234,7 +234,71 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>HEADER FILTER MOBILE</div>;
+		return (
+			<div className={'mobile-filter-bar'}>
+				<div className={'mobile-filter-row'}>
+					<div className={`mobile-filter-btn ${openLocation ? 'active' : ''}`} onClick={locationStateChangeHandler} ref={locationRef}>
+						<span>{searchFilter?.search?.categoryList ? t(searchFilter.search.categoryList[0]) : t('Category')}</span>
+						<ExpandMoreIcon fontSize="small" />
+						{openLocation && (
+							<div className={'mobile-filter-dropdown'}>
+								{propertyCategory.map((cat) => (
+									<div key={cat} className={'mobile-filter-option'} onClick={(e) => { e.stopPropagation(); propertyCategorySelectHandler(cat); }}>
+										{t(cat)}
+									</div>
+								))}
+							</div>
+						)}
+					</div>
+
+					<div className={`mobile-filter-btn ${openType ? 'active' : ''}`} onClick={typeStateChangeHandler} ref={typeRef}>
+						<span>{searchFilter?.search?.typeList ? t(searchFilter.search.typeList[0]) : t('Type')}</span>
+						<ExpandMoreIcon fontSize="small" />
+						{openType && (
+							<div className={'mobile-filter-dropdown'}>
+								{propertyType.map((type) => (
+									<div key={type} className={'mobile-filter-option'} onClick={(e) => { e.stopPropagation(); propertyTypeSelectHandler(type); }}>
+										{t(type)}
+									</div>
+								))}
+							</div>
+						)}
+					</div>
+
+					<div className={`mobile-filter-btn ${openRooms ? 'active' : ''}`} onClick={materialStateChangeHandler} ref={roomsRef}>
+						<span>{searchFilter?.search?.materialList ? t(searchFilter.search.materialList[0]) : t('Material')}</span>
+						<ExpandMoreIcon fontSize="small" />
+						{openRooms && (
+							<div className={'mobile-filter-dropdown'}>
+								{propertyMaterial.map((mat) => (
+									<div key={mat} className={'mobile-filter-option'} onClick={(e) => { e.stopPropagation(); propertyMaterialSelectHandler(mat); }}>
+										{t(mat)}
+									</div>
+								))}
+							</div>
+						)}
+					</div>
+
+					<div className={`mobile-filter-btn ${openColor ? 'active' : ''}`} onClick={colorStateChangeHandler} ref={colorRef}>
+						<span>{searchFilter?.search?.colorList ? t(searchFilter.search.colorList[0]) : t('Color')}</span>
+						<ExpandMoreIcon fontSize="small" />
+						{openColor && (
+							<div className={'mobile-filter-dropdown'}>
+								{propertyColor.map((color) => (
+									<div key={color} className={'mobile-filter-option'} onClick={(e) => { e.stopPropagation(); propertyColorSelectHandler(color); }}>
+										{t(color)}
+									</div>
+								))}
+							</div>
+						)}
+					</div>
+				</div>
+
+				<button className={'mobile-filter-search'} onClick={pushSearchHandler}>
+					<img src="/img/icons/search_white.svg" alt="search" />
+				</button>
+			</div>
+		);
 	} else {
 		return (
 			<>

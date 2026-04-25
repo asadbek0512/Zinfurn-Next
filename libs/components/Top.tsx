@@ -38,6 +38,7 @@ const Top = () => {
 	const [notificationAnchor, setNotificationAnchor] = React.useState<null | HTMLElement>(null);
 	const notificationOpen = Boolean(notificationAnchor);
 	const [isTransparent, setIsTransparent] = useState(true);
+	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -200,7 +201,162 @@ const Top = () => {
 	}));
 
 	if (device == 'mobile') {
-		return <Stack className={'mobile-navbar'}></Stack>;
+		return (
+			<Stack className={'mobile-navbar'}>
+				<Stack className={`mobile-navbar-main ${isTransparent ? 'transparent' : ''}`}>
+					<Stack className={'mobile-container'} display={'flex'}>
+						{/* Logo */}
+						<div className={'mobile-logo-box'}>
+							<Link href={'/'}>
+								<div className={`logo-box ${isTransparent ? 'transparent' : ''}`}>
+									<img src="/img/logo/12.png" alt="Logo" className="logo11" />
+									<img src="/img/logo/11.png" alt="Logo" className="logo111" />
+								</div>
+							</Link>
+						</div>
+
+						{/* Right icons */}
+						<div className={'mobile-user-box'}>
+							{user?._id && (
+								<IconButton onClick={handleNotificationClick} size="small">
+									<Badge color="error" variant="dot" invisible={!hasUnreadNotifications}>
+										<NotificationsOutlinedIcon className={'notification-icon'} />
+									</Badge>
+								</IconButton>
+							)}
+
+							<Button
+								disableRipple
+								className="btn-lang"
+								onClick={langClick}
+							>
+								<Box component={'div'} className={'flag'}>
+									{lang !== null ? (
+										<img src={`/img/flag/lang${lang}.png`} alt={'flag'} />
+									) : (
+										<img src={`/img/flag/langen.png`} alt={'flag'} />
+									)}
+								</Box>
+							</Button>
+
+							{/* Hamburger */}
+							<button
+								className={'mobile-menu-btn'}
+								onClick={() => setMobileMenuOpen(true)}
+							>
+								<div className={'menu-icon'}>
+									<span />
+									<span />
+									<span />
+								</div>
+							</button>
+						</div>
+					</Stack>
+				</Stack>
+
+				{/* Language menu */}
+				<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
+					<MenuItem disableRipple onClick={langChoice} id="en">
+						<img className="img-flag" src={'/img/flag/langen.png'} onClick={langChoice} id="en" alt={'en'} />
+						{t('English')}
+					</MenuItem>
+					<MenuItem disableRipple onClick={langChoice} id="kr">
+						<img className="img-flag" src={'/img/flag/langkr.png'} onClick={langChoice} id="kr" alt={'kr'} />
+						{t('Korean')}
+					</MenuItem>
+					<MenuItem disableRipple onClick={langChoice} id="ru">
+						<img className="img-flag" src={'/img/flag/langru.png'} onClick={langChoice} id="ru" alt={'ru'} />
+						{t('Russian')}
+					</MenuItem>
+					<MenuItem disableRipple onClick={langChoice} id="ar">
+						<img className="img-flag" src={'/img/flag/langar.png'} onClick={langChoice} id="ar" alt={'ar'} />
+						{t('Arabic')}
+					</MenuItem>
+					<MenuItem disableRipple onClick={langChoice} id="uz">
+						<img className="img-flag" src={'/img/flag/languz.png'} onClick={langChoice} id="uz" alt={'uz'} />
+						{t('Uzbek')}
+					</MenuItem>
+				</StyledMenu>
+
+				{/* Notification modal */}
+				{user?._id && (
+					<NotificationModal
+						anchorEl={notificationAnchor}
+						open={notificationOpen}
+						onClose={handleNotificationClose}
+						onUnreadCountChange={handleUnreadCountChange}
+					/>
+				)}
+
+				{/* Side Drawer */}
+				<Drawer
+					className={'mobile-side-menu'}
+					anchor="right"
+					open={mobileMenuOpen}
+					onClose={() => setMobileMenuOpen(false)}
+				>
+					{/* Drawer header */}
+					<div className={'mobile-side-header'}>
+						{user?._id ? (
+							<div className={'mobile-user-info'}>
+								<img
+									className={'mobile-user-avatar'}
+									src={
+										user?.memberImage
+											? user.memberImage.startsWith('http')
+												? user.memberImage
+												: `${REACT_APP_API_URL}/${user.memberImage}`
+											: '/img/profile/defaultUser.svg'
+									}
+									alt=""
+								/>
+								<div className={'mobile-user-details'}>
+									<span className={'mobile-user-name'}>{user?.memberNick}</span>
+									<span className={'mobile-user-email'}>{user?.memberEmail || user?.memberPhone || ''}</span>
+								</div>
+							</div>
+						) : (
+							<Link href={'/account/join'} onClick={() => setMobileMenuOpen(false)}>
+								<div className={'mobile-login-link'}>
+									<AccountCircleOutlinedIcon />
+									<span>{t('Login')} / {t('Register')}</span>
+								</div>
+							</Link>
+						)}
+					</div>
+
+					{/* Nav links */}
+					<div className={'mobile-side-items'}>
+						{[
+							{ href: '/', label: t('Home') },
+							{ href: '/property', label: t('Properties') },
+							{ href: '/agent', label: t('Agents') },
+							{ href: '/repairService', label: t('Service') },
+							{ href: '/community?articleCategory=FREE', label: t('Community') },
+							...(user?._id ? [{ href: '/mypage', label: t('My Page') }] : []),
+							{ href: '/cs', label: t('CS') },
+						].map((item) => (
+							<Link key={item.href} href={item.href} className={'mobile-side-item'} onClick={() => setMobileMenuOpen(false)}>
+								<div>{item.label}</div>
+							</Link>
+						))}
+					</div>
+
+					{/* Drawer footer — logout */}
+					{user?._id && (
+						<div className={'mobile-side-footer'}>
+							<button
+								className={'mobile-logout-btn'}
+								onClick={() => { logOut(); setMobileMenuOpen(false); }}
+							>
+								<Logout fontSize="small" />
+								{t('Logout')}
+							</button>
+						</div>
+					)}
+				</Drawer>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className={'navbar'}>
