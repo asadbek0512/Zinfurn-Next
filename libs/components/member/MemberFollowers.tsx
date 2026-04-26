@@ -92,7 +92,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 									<img
 										src={imagePath}
 										alt=""
-										onClick={() => redirectToMemberPageHandler(follower?.followerData?._id)}
+										onClick={() => follower?.followerData?._id && redirectToMemberPageHandler(follower.followerData._id)}
 									/>
 									<div className="mob-myfollows-info">
 										<div className="mob-myfollows-nick">{follower?.followerData?.memberNick}</div>
@@ -174,7 +174,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 							: '/img/profile/defaultUser.svg';
 						return (
 							<Stack className="follows-card-box" key={follower._id}>
-								<Stack className={'info'} onClick={() => redirectToMemberPageHandler(follower?.followerData?._id)}>
+								<Stack className={'info'} onClick={() => follower?.followerData?._id && redirectToMemberPageHandler(follower.followerData._id)}>
 									<Stack className="image-box">
 										<img src={imagePath} alt="" />
 									</Stack>

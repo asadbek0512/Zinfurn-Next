@@ -239,7 +239,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 						className="mob-agd-avatar"
 						src={agentImg}
 						alt=""
-						onClick={() => redirectToMemberPageHandler(agent?._id)}
+						onClick={() => agent?._id && redirectToMemberPageHandler(agent._id)}
 						style={{ cursor: 'pointer' }}
 					/>
 					<h2 className="mob-agd-name">{agent?.memberFullName ?? agent?.memberNick}</h2>
@@ -413,7 +413,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							src={agent?.memberImage ? (agent?.memberImage?.startsWith('http') ? agent?.memberImage : `${REACT_APP_API_URL}/${agent?.memberImage}`) : '/img/profile/defaultUser.svg'}
 							alt=""
 						/>
-						<Box component={'div'} className={'info'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
+						<Box component={'div'} className={'info'} onClick={() => agent?._id && redirectToMemberPageHandler(agent._id)}>
 							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
 							<div>
 								<img src="/img/icons/call.svg" alt="" />
