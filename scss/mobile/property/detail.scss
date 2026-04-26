@@ -1,0 +1,945 @@
+@import '/scss/variables.scss';
+
+#mobile-wrap {
+  #mob-property-detail-page {
+    padding-top: 52px;
+    padding-bottom: 60px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    // Back link
+    .mob-det-back {
+      font-size: 13px;
+      font-weight: 600;
+      color: #cf6422;
+      padding: 10px 14px 6px;
+      cursor: pointer;
+      width: fit-content;
+    }
+
+    // Asosiy rasm
+    .mob-det-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 260px;
+      background: #f5f5f5;
+      overflow: hidden;
+
+      .mob-det-main-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+
+      .mob-det-prev,
+      .mob-det-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+        background: rgba(255,255,255,0.9);
+        border-radius: 8px;
+        padding: 4px;
+        width: 32px;
+        height: 32px;
+
+        svg { font-size: 16px; }
+      }
+
+      .mob-det-prev { left: 8px; }
+      .mob-det-next { right: 8px; }
+    }
+
+    // Thumbnaillar
+    .mob-det-thumbs {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      padding: 10px 14px 6px;
+      overflow-x: auto;
+      &::-webkit-scrollbar { display: none; }
+
+      .mob-det-thumb {
+        width: 58px;
+        height: 58px;
+        flex-shrink: 0;
+        border-radius: 6px;
+        border: 2px solid transparent;
+        cursor: pointer;
+        overflow: hidden;
+
+        img { width: 100%; height: 100%; object-fit: cover; }
+
+        &.active { border-color: #cf6422; }
+      }
+    }
+
+    // Mahsulot ma'lumotlari
+    .mob-det-info {
+      padding: 14px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-bottom: 1px solid #f0f0f0;
+
+      // Kategoriya + stock bir qatorda
+      .mob-det-top-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .mob-det-cat {
+          font-size: 11px;
+          font-weight: 600;
+          font-family: $font;
+          color: #cf6422;
+          background: #fff4ec;
+          padding: 3px 10px;
+          border-radius: 20px;
+          text-transform: capitalize;
+          border: 1px solid #f5c9a6;
+        }
+
+        .mob-det-stock {
+          font-size: 11px;
+          font-weight: 600;
+          font-family: $font;
+          padding: 3px 10px;
+          border-radius: 20px;
+
+          &.in  { background: #d1fae5; color: #065f46; }
+          &.out { background: #fbc1bf; color: #9b0b0b; }
+        }
+      }
+
+      // Sarlavha
+      .mob-det-title {
+        font-size: 19px;
+        font-weight: 700;
+        color: #181a20;
+        line-height: 1.3;
+        margin: 0;
+        font-family: $font;
+      }
+
+      // Reyting + ko'rishlar
+      .mob-det-rating {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+
+        // Yulduzlar sariq bo'lsin
+        .MuiRating-root { color: #ffc107; }
+        .MuiRating-iconEmpty { color: #ffc107 !important; }
+        .MuiRating-iconFilled { color: #ffc107 !important; }
+
+        .mob-det-rating-val {
+          font-size: 13px;
+          font-weight: 700;
+          color: #181a20;
+          font-family: $font;
+        }
+
+        .mob-det-rating-dot {
+          color: #ccc;
+          font-size: 14px;
+        }
+
+        .mob-det-views {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 13px;
+          font-weight: 500;
+          color: #555;
+          font-family: $font;
+
+          span { font-size: 13px; }
+        }
+      }
+
+      // Narx
+      .mob-det-price {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+
+        .mob-det-cur-price {
+          font-size: 22px;
+          font-weight: 700;
+          color: #181a20;
+          font-family: $font;
+        }
+
+        .mob-det-old-price {
+          font-size: 15px;
+          color: #aaa;
+          text-decoration: line-through;
+          font-family: $font;
+        }
+
+        .mob-det-sale-badge {
+          background: #cf6422;
+          color: #fff;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 2px 8px;
+          border-radius: 20px;
+          font-family: $font;
+        }
+      }
+
+      // Tavsif
+      .mob-det-desc {
+        font-size: 13px;
+        color: #666;
+        line-height: 1.65;
+        margin: 0;
+        font-family: $font;
+      }
+
+      // Ajratgich chiziq
+      .mob-det-divider {
+        width: 100%;
+        height: 1px;
+        background: #f0f0f0;
+      }
+
+      // Rang
+      .mob-det-color-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+
+        .mob-det-color-label {
+          font-size: 13px;
+          font-weight: 600;
+          color: #333;
+          font-family: $font;
+        }
+
+        .mob-det-color-dot {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          border: 1px solid #ddd;
+          display: inline-block;
+          flex-shrink: 0;
+        }
+
+        .mob-det-color-name {
+          font-size: 13px;
+          color: #555;
+          font-family: $font;
+          text-transform: capitalize;
+        }
+      }
+
+      // Miqdor + Savat + Like
+      .mob-det-qty-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+
+        .mob-det-qty {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          border: 1.5px solid #ddd;
+          border-radius: 50px;
+          height: 40px;
+
+          .MuiIconButton-root {
+            padding: 6px;
+            svg { font-size: 16px; }
+          }
+
+          .mob-det-qty-input {
+            width: 36px;
+            text-align: center;
+            border: none;
+            border-left: 1px solid #eee;
+            border-right: 1px solid #eee;
+            outline: none;
+            font-size: 14px;
+            font-family: $font;
+            background: transparent;
+            color: #181a20;
+          }
+        }
+
+        .mob-det-cart-btn {
+          flex: 1;
+          height: 42px;
+          background-color: #cf6422 !important;
+          color: #fff !important;
+          border-radius: 30px !important;
+          font-size: 13px !important;
+          font-weight: 600 !important;
+          font-family: $font !important;
+          text-transform: none !important;
+          box-shadow: none !important;
+        }
+
+        .mob-det-like-btn {
+          width: 42px;
+          height: 42px;
+          border: 1.5px solid #eee;
+          border-radius: 50%;
+          flex-shrink: 0;
+        }
+      }
+
+      // Meta qatorlari
+      .mob-det-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        padding-top: 2px;
+
+        .mob-det-meta-row {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .mob-det-meta-label {
+          font-size: 12px;
+          font-weight: 600;
+          color: #888;
+          min-width: 58px;
+          font-family: $font;
+        }
+
+        .mob-det-meta-val {
+          font-size: 13px;
+          color: #333;
+          font-family: $font;
+          text-transform: capitalize;
+        }
+
+        .mob-det-share-btns {
+          display: flex;
+          flex-direction: row;
+          gap: 2px;
+
+          .MuiIconButton-root {
+            padding: 4px;
+            color: #555;
+          }
+        }
+      }
+    }
+
+    // Tabs: Description / Reviews
+    .mob-det-tabs-section {
+      padding: 0 0 16px;
+
+      .mob-det-tabs {
+        border-bottom: 1px solid #eee;
+        padding: 0 14px;
+
+        .MuiTab-root {
+          font-size: 14px;
+          font-weight: 600;
+          font-family: $font;
+          text-transform: none;
+          min-width: 0;
+          padding: 10px 16px;
+          color: #666;
+        }
+
+        .Mui-selected {
+          color: #cf6422 !important;
+        }
+
+        .MuiTabs-indicator {
+          background-color: #cf6422;
+        }
+      }
+
+      .mob-det-desc-tab {
+        padding: 14px 14px 0;
+
+        .mob-det-tab-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: #181a20;
+          margin: 0 0 8px;
+          font-family: $font;
+        }
+
+        .mob-det-tab-text {
+          font-size: 13px;
+          color: #555;
+          line-height: 1.7;
+          margin: 0 0 16px;
+          font-family: $font;
+        }
+
+        .mob-det-table {
+          border-radius: 8px;
+          overflow: hidden;
+          border: 1px solid #e0e0e0;
+          margin-bottom: 4px;
+
+          .mob-det-table-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: #cf6422;
+
+            span {
+              font-size: 13px;
+              font-weight: 600;
+              color: #fff;
+              font-family: $font;
+            }
+          }
+
+          .mob-det-table-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 14px;
+            border-bottom: 1px solid #f0f0f0;
+            background: #fff;
+
+            &.alt { background: #f8f9fa; }
+            &:last-child { border-bottom: none; }
+
+            .mob-det-table-label {
+              font-size: 12px;
+              font-weight: 600;
+              color: #555;
+              flex: 1;
+              font-family: $font;
+            }
+
+            .mob-det-table-val {
+              font-size: 12px;
+              color: #333;
+              text-align: right;
+              flex: 1;
+              font-family: $font;
+              text-transform: capitalize;
+            }
+          }
+        }
+      }
+
+      // Yangi reviews tab
+      .mob-rev-tab {
+        display: flex;
+        flex-direction: column;
+
+        // ── Ro'yxat qismi ──
+        .mob-rev-list-section {
+          padding: 16px 14px 10px;
+
+          .mob-rev-list-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+
+            .mob-rev-list-title {
+              font-size: 16px;
+              font-weight: 700;
+              color: #181a20;
+              font-family: $font;
+            }
+
+            .mob-rev-count-badge {
+              background: #cf6422;
+              color: #fff;
+              font-size: 11px;
+              font-weight: 700;
+              font-family: $font;
+              padding: 2px 8px;
+              border-radius: 20px;
+              min-width: 20px;
+              text-align: center;
+            }
+          }
+
+          // Bo'sh holat
+          .mob-rev-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 32px 0 20px;
+            gap: 8px;
+
+            p {
+              font-size: 13px;
+              color: #bbb;
+              font-family: $font;
+              margin: 0;
+            }
+          }
+
+          // Har bir review card
+          .mob-rev-card {
+            background: #fafafa;
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+
+            .mob-rev-card-top {
+              display: flex;
+              flex-direction: row;
+              align-items: flex-start;
+              gap: 10px;
+              margin-bottom: 10px;
+
+              .mob-rev-avatar {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                object-fit: cover;
+                flex-shrink: 0;
+                border: 1.5px solid #eee;
+              }
+
+              .mob-rev-user {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                flex: 1;
+
+                .mob-rev-name {
+                  font-size: 13px;
+                  font-weight: 700;
+                  color: #181a20;
+                  font-family: $font;
+                }
+
+                .mob-rev-type {
+                  font-size: 11px;
+                  color: #aaa;
+                  font-family: $font;
+                  text-transform: capitalize;
+                }
+              }
+
+              .mob-rev-right {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 3px;
+                flex-shrink: 0;
+
+                .mob-rev-stars {
+                  font-size: 13px;
+                  color: #d89801;
+                  letter-spacing: 1px;
+                }
+
+                .mob-rev-date {
+                  font-size: 10px;
+                  color: #bbb;
+                  font-family: $font;
+                  white-space: nowrap;
+                }
+              }
+            }
+
+            .mob-rev-body {
+              font-size: 13px;
+              color: #444;
+              line-height: 1.65;
+              margin: 0;
+              font-family: $font;
+              padding-left: 48px;
+            }
+          }
+
+          // Pagination
+          .mob-rev-pagination {
+            display: flex;
+            justify-content: center;
+            padding: 6px 0 10px;
+
+            .MuiPaginationItem-root {
+              font-family: $font;
+              &.Mui-selected {
+                background: #cf6422;
+                color: #fff;
+              }
+            }
+          }
+        }
+
+        // ── Yozish maydoni ──
+        .mob-rev-write {
+          padding: 14px 14px 14px;
+          border-top: 1px solid #f0f0f0;
+          background: #fff;
+
+          .mob-rev-write-heading {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 12px;
+
+            span {
+              font-size: 15px;
+              font-weight: 700;
+              color: #181a20;
+              font-family: $font;
+            }
+          }
+
+          // Emoji panel
+          .mob-rev-emoji-panel {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 4px;
+            background: #f8f8f8;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 8px;
+
+            .mob-rev-emoji-item {
+              all: unset;
+              font-size: 20px;
+              text-align: center;
+              cursor: pointer;
+              padding: 4px;
+              border-radius: 8px;
+              transition: background 0.15s;
+              line-height: 1;
+
+              &:active { background: #eee; }
+            }
+          }
+
+          // Input qator
+          .mob-rev-input-row {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            gap: 6px;
+            background: #f4f4f4;
+            border-radius: 24px;
+            padding: 6px 6px 6px 4px;
+
+            .mob-rev-emoji-btn {
+              width: 34px;
+              height: 34px;
+              flex-shrink: 0;
+              color: #aaa;
+
+              svg { font-size: 20px; }
+
+              &.active { color: #cf6422; }
+            }
+
+            .mob-rev-textarea {
+              flex: 1;
+              border: none;
+              background: transparent;
+              outline: none;
+              resize: none;
+              font-size: 13px;
+              font-family: $font;
+              color: #181a20;
+              line-height: 1.5;
+              max-height: 100px;
+              padding: 6px 4px;
+              min-height: 34px;
+
+              &::placeholder { color: #bbb; font-size: 13px; }
+              &:disabled { opacity: 0.5; cursor: not-allowed; }
+            }
+
+            .mob-rev-send-btn {
+              width: 34px;
+              height: 34px;
+              flex-shrink: 0;
+              background: #cf6422 !important;
+              color: #fff !important;
+              border-radius: 50% !important;
+              padding: 0 !important;
+
+              &.Mui-disabled {
+                background: #e0e0e0 !important;
+                color: #bbb !important;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Get More Information
+    .mob-det-contact {
+      margin: 0 14px 16px;
+      padding: 16px;
+      background: #f8f9fa;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .mob-det-contact-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #181a20;
+        margin: 0 0 4px;
+        font-family: $font;
+      }
+
+      .mob-det-agent-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 6px;
+
+        .mob-det-agent-img {
+          width: 54px;
+          height: 50px;
+          border-radius: 8px;
+          object-fit: cover;
+          flex-shrink: 0;
+        }
+
+        .mob-det-agent-info {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+
+          .mob-det-agent-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #181a20;
+            font-family: $font;
+            cursor: pointer;
+            &:hover { color: #cf6422; }
+          }
+
+          .mob-det-agent-phone {
+            font-size: 12px;
+            color: #666;
+            font-family: $font;
+          }
+        }
+      }
+
+      .mob-det-input {
+        width: 100%;
+        height: 44px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 0 12px;
+        font-size: 13px;
+        font-family: $font;
+        outline: none;
+        background: #fff;
+      }
+
+      .mob-det-textarea {
+        width: 100%;
+        height: 90px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 13px;
+        font-family: $font;
+        outline: none;
+        resize: none;
+        background: #fff;
+      }
+
+      .mob-det-send-btn {
+        width: 100%;
+        height: 44px;
+        background: #cf6422;
+        color: #fff;
+        border: none;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        font-family: $font;
+        cursor: pointer;
+
+        &:hover { background: #b8541a; }
+      }
+    }
+
+    // O'xshash mahsulotlar
+    .mob-det-similar {
+      padding: 16px 14px 20px;
+      border-top: 1px solid #f0f0f0;
+
+      .mob-det-similar-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .mob-det-similar-title {
+          font-size: 17px;
+          font-weight: 700;
+          color: #181a20;
+          margin: 0;
+          font-family: $font;
+        }
+
+        .mob-det-similar-sub {
+          font-size: 12px;
+          color: #888;
+          margin: 2px 0 0;
+          font-family: $font;
+        }
+
+        .mob-det-similar-nav {
+          display: flex;
+          gap: 6px;
+
+          button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+          }
+        }
+      }
+
+      .mob-det-swiper {
+        width: 100%;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+// PropertyBigCard — mobile (portal emas, #mobile-wrap ichida)
+#mobile-wrap {
+  .mob-big-card {
+    width: 148px;
+    height: 210px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 6px rgba(24, 26, 32, 0.08);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+
+    .mob-big-card-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 130px;
+
+      .mob-big-card-img {
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: #f5f5f5;
+      }
+
+      .mob-big-card-sale {
+        position: absolute;
+        top: 7px;
+        right: 7px;
+        background: #cf6422;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 7px;
+        border-radius: 20px;
+        font-family: $font;
+      }
+
+      .mob-big-card-cat {
+        position: absolute;
+        top: 7px;
+        left: 7px;
+        background: rgba(0,0,0,0.6);
+        color: #fff;
+        font-size: 10px;
+        font-weight: 500;
+        padding: 2px 7px;
+        border-radius: 20px;
+        font-family: $font;
+        text-transform: capitalize;
+      }
+    }
+
+    .mob-big-card-info {
+      padding: 10px 10px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+
+      .mob-big-card-title {
+        font-size: 12px;
+        font-weight: 600;
+        color: #181a20;
+        font-family: $font;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .mob-big-card-bottom {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: auto;
+      }
+
+      .mob-big-card-price {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+
+        .mob-big-card-sale-price {
+          font-size: 13px;
+          font-weight: 700;
+          color: #cf6422;
+          font-family: $font;
+        }
+
+        .mob-big-card-orig-price {
+          font-size: 11px;
+          color: #aaa;
+          text-decoration: line-through;
+          font-family: $font;
+        }
+      }
+
+      .mob-big-card-like {
+        padding: 4px;
+      }
+    }
+  }
+}
+

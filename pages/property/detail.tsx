@@ -47,6 +47,8 @@ import {
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import SendIcon from '@mui/icons-material/Send';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import TrendPropertyCard from '../../libs/components/homepage/TrendPropertyCard';
@@ -75,6 +77,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [commentTotal, setCommentTotal] = useState<number>(0);
 	const [quantity, setQuantity] = useState(1);
 	const [tabIndex, setTabIndex] = useState(0);
+	const [showEmoji, setShowEmoji] = useState(false);
 	const { t } = useTranslation('common');
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
 		commentGroup: CommentGroup.PROPERTY,
@@ -157,6 +160,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.id) {
+			setProperty(null);
+			setSlideImage('');
 			setPropertyId(router.query.id as string);
 			setCommentInquiry({
 				...commentInquiry,
@@ -261,6 +266,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setTabIndex(newIndex);
 	};
 
+	const insertEmoji = (emoji: string) => {
+		setInsertCommentData((prev) => ({ ...prev, commentContent: prev.commentContent + emoji }));
+	};
+
 	const handleQuantityChange = (change: number) => {
 		setQuantity((prev) => Math.max(1, prev + change));
 	};
@@ -277,7 +286,16 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setSlideImage(images[nextIndex]);
 	};
 
-	if (getPropertiesLoading) {
+	const isPropertyReady = !!property && property._id === propertyId;
+
+	if (!isPropertyReady || getPropertiesLoading) {
+		if (device === 'mobile') {
+			return (
+				<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100vh' }}>
+					<CircularProgress size={'2rem'} sx={{ color: '#cf6422' }} />
+				</Stack>
+			);
+		}
 		return (
 			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1800px' }}>
 				<CircularProgress size={'4rem'} />
@@ -286,7 +304,335 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	}
 
 	if (device === 'mobile') {
-		return <div>PROPERTY DETAIL PAGE</div>;
+		return (
+			<div id="mob-property-detail-page">
+				{/* Back */}
+				<div className="mob-det-back" onClick={() => router.push('/property')}>
+					{t('back_to_property')}
+				</div>
+
+				{/* Asosiy rasm */}
+				<div className="mob-det-img-wrap">
+					<IconButton className="mob-det-prev" onClick={prevImage}><ArrowBackIosIcon fontSize="small" /></IconButton>
+					<img
+						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
+						alt={property?.propertyTitle || ''}
+						className="mob-det-main-img"
+					/>
+					<IconButton className="mob-det-next" onClick={nextImage}><ArrowForwardIosIcon fontSize="small" /></IconButton>
+				</div>
+
+				{/* Thumbnaillar */}
+				<div className="mob-det-thumbs">
+					{images.map((subImg: string) => (
+						<div
+							key={subImg}
+							className={`mob-det-thumb ${slideImage === subImg ? 'active' : ''}`}
+							onClick={() => changeImageHandler(subImg)}
+						>
+							<img src={`${REACT_APP_API_URL}/${subImg}`} alt="" />
+						</div>
+					))}
+				</div>
+
+				{/* Mahsulot ma'lumotlari */}
+				<div className="mob-det-info">
+
+					{/* Kategoriya + Stock badge */}
+					<div className="mob-det-top-row">
+						<span className="mob-det-cat">{t(property?.propertyCategory || '')}</span>
+						<span className={`mob-det-stock ${property?.propertyInStock ? 'in' : 'out'}`}>
+							{property?.propertyInStock ? t('in_stock') : t('out_of_stock')}
+						</span>
+					</div>
+
+					{/* Sarlavha */}
+					<h2 className="mob-det-title">{property?.propertyTitle}</h2>
+
+					{/* Reyting + ko'rishlar */}
+					<div className="mob-det-rating">
+						<Rating readOnly size="small" value={4.9} precision={0.1}
+							sx={{ color: '#ffc107', '& .MuiRating-iconEmpty': { color: '#ffc107' } }} />
+						<span className="mob-det-rating-val">4.9</span>
+						<span className="mob-det-rating-dot">·</span>
+						<span className="mob-det-views">
+							<RemoveRedEyeIcon sx={{ fontSize: 15 }} />
+							<span>{property?.propertyViews || 0} {t('views')}</span>
+						</span>
+					</div>
+
+					{/* Narx */}
+					<div className="mob-det-price">
+						<span className="mob-det-cur-price">
+							${formatterStr(property?.propertySalePrice || property?.propertyPrice)}
+						</span>
+						{property?.propertySalePrice && (
+							<span className="mob-det-old-price">${formatterStr(property?.propertyPrice)}</span>
+						)}
+						{property?.propertySalePrice && (
+							<span className="mob-det-sale-badge">
+								-{Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)}%
+							</span>
+						)}
+					</div>
+
+					{/* Qisqa tavsif */}
+					<p className="mob-det-desc">{property?.propertyDesc || t('no_description_provided')}</p>
+
+					<div className="mob-det-divider" />
+
+					{/* Rang */}
+					<div className="mob-det-color-row">
+						<span className="mob-det-color-label">{t('color')}:</span>
+						<span className="mob-det-color-dot" style={{ backgroundColor: property?.propertyColor?.toLowerCase() || '#ccc' }} />
+						<span className="mob-det-color-name">{t(property?.propertyColor || '')}</span>
+					</div>
+
+					{/* Miqdor + Savatchaga */}
+					<div className="mob-det-qty-row">
+						<div className="mob-det-qty">
+							<IconButton size="small" onClick={() => handleQuantityChange(-1)}><Remove fontSize="small" /></IconButton>
+							<input type="number" value={quantity}
+								onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+								className="mob-det-qty-input" />
+							<IconButton size="small" onClick={() => handleQuantityChange(1)}><Add fontSize="small" /></IconButton>
+						</div>
+						<Button variant="contained" className="mob-det-cart-btn">{t('add_to_cart')}</Button>
+						<IconButton className="mob-det-like-btn" onClick={() => likePropertyHandler(user, property!._id)}>
+							{property?.meLiked?.[0]?.myFavorite
+								? <FavoriteIcon sx={{ fontSize: 20, color: '#cf6422' }} />
+								: <FavoriteBorderIcon sx={{ fontSize: 20 }} />}
+						</IconButton>
+					</div>
+
+					<div className="mob-det-divider" />
+
+					{/* Meta */}
+					<div className="mob-det-meta">
+						<div className="mob-det-meta-row">
+							<span className="mob-det-meta-label">{t('tags')}</span>
+							<span className="mob-det-meta-val">{t(property?.propertyType || '')}</span>
+						</div>
+						<div className="mob-det-meta-row">
+							<span className="mob-det-meta-label">{t('material')}</span>
+							<span className="mob-det-meta-val">{t(property?.propertyMaterial || '')}</span>
+						</div>
+						<div className="mob-det-meta-row">
+							<span className="mob-det-meta-label">{t('share')}</span>
+							<div className="mob-det-share-btns">
+								<IconButton size="small"><Facebook sx={{ fontSize: 17 }} /></IconButton>
+								<IconButton size="small"><Twitter sx={{ fontSize: 17 }} /></IconButton>
+								<IconButton size="small"><Pinterest sx={{ fontSize: 17 }} /></IconButton>
+								<IconButton size="small"><Instagram sx={{ fontSize: 17 }} /></IconButton>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Tabs: Description / Reviews */}
+				<div className="mob-det-tabs-section">
+					<Tabs value={tabIndex} onChange={handleTabChange} className="mob-det-tabs">
+						<Tab label={t('description')} />
+						<Tab label={`${t('reviews')} (${commentTotal})`} />
+					</Tabs>
+
+					{tabIndex === 0 && (
+						<div className="mob-det-desc-tab">
+							<div className="mob-det-table">
+								<div className="mob-det-table-header">
+									<span>{t('features')}</span><span>{t('details')}</span>
+								</div>
+								{[
+									[t('brand'), property?.propertyTitle],
+									[t('color'), property?.propertyColor],
+									[t('size'), property?.propertySize ? `${property.propertySize} ${t('cm')}` : null],
+									[t('material'), property?.propertyMaterial],
+									[t('style'), property?.propertyType],
+								].map(([label, value], i) => (
+									<div key={i} className={`mob-det-table-row ${i % 2 === 1 ? 'alt' : ''}`}>
+										<span className="mob-det-table-label">{label}</span>
+										<span className="mob-det-table-val">{value || t('not_available')}</span>
+									</div>
+								))}
+							</div>
+
+							<div className="mob-det-table" style={{ marginTop: 12 }}>
+								<div className="mob-det-table-header">
+									<span>{t('features')}</span><span>{t('information')}</span>
+								</div>
+								{[
+									[t('category'), t(property?.propertyCategory || '')],
+									[t('price'), `$${formatterStr(property?.propertyPrice)}`],
+									[t('condition'), property?.propertyCondition],
+								].map(([label, value], i) => (
+									<div key={i} className={`mob-det-table-row ${i % 2 === 1 ? 'alt' : ''}`}>
+										<span className="mob-det-table-label">{label}</span>
+										<span className="mob-det-table-val">{value || t('not_available')}</span>
+									</div>
+								))}
+							</div>
+						</div>
+					)}
+
+					{tabIndex === 1 && (
+						<div className="mob-rev-tab">
+
+							{/* ── Yozish maydoni (TEPADA) ── */}
+							<div className="mob-rev-write">
+								<div className="mob-rev-write-heading">
+									<RateReviewIcon sx={{ color: '#d89801', fontSize: 18 }} />
+									<span>{t('write_a_review')}</span>
+								</div>
+								{showEmoji && (
+									<div className="mob-rev-emoji-panel">
+										{['😊','👍','❤️','⭐','🔥','🙏','😍','💯','🎉','😅','👌','✨'].map((e) => (
+											<button key={e} className="mob-rev-emoji-item" onClick={() => insertEmoji(e)}>{e}</button>
+										))}
+									</div>
+								)}
+								<div className="mob-rev-input-row">
+									<IconButton
+										className={`mob-rev-emoji-btn ${showEmoji ? 'active' : ''}`}
+										onClick={() => setShowEmoji((v) => !v)}
+										size="small"
+									>
+										<EmojiEmotionsIcon />
+									</IconButton>
+									<textarea
+										className="mob-rev-textarea"
+										rows={1}
+										placeholder={user?._id ? t('write_a_review') : t('login_to_review')}
+										value={insertCommentData.commentContent}
+										disabled={!user?._id}
+										onKeyDown={(e) => {
+											if (e.key === 'Enter' && !e.shiftKey) {
+												e.preventDefault();
+												if (insertCommentData.commentContent.trim() && user?._id) createCommentHandler();
+											}
+										}}
+										onChange={({ target: { value } }) => setInsertCommentData({ ...insertCommentData, commentContent: value })}
+									/>
+									<IconButton
+										className="mob-rev-send-btn"
+										disabled={!insertCommentData.commentContent.trim() || !user?._id}
+										onClick={createCommentHandler}
+										size="small"
+									>
+										<SendIcon sx={{ fontSize: 18 }} />
+									</IconButton>
+								</div>
+							</div>
+
+							{/* ── Reviews ro'yxati (PASTDA) ── */}
+							<div className="mob-rev-list-section">
+								<div className="mob-rev-list-header">
+									<span className="mob-rev-list-title">{t('reviews')}</span>
+									<span className="mob-rev-count-badge">{commentTotal}</span>
+								</div>
+
+								{commentTotal === 0 ? (
+									<div className="mob-rev-empty">
+										<RateReviewIcon sx={{ fontSize: 36, color: '#ddd' }} />
+										<p>{t('no_reviews_yet')}</p>
+									</div>
+								) : (
+									<>
+										{propertyComments?.map((comment: any) => {
+											const { stars, score } = getRatingByMemberType(comment.memberData?.memberType);
+											const avatarSrc = comment.memberData?.memberImage
+												? (comment.memberData.memberImage.startsWith('http')
+													? comment.memberData.memberImage
+													: `${REACT_APP_API_URL}/${comment.memberData.memberImage}`)
+												: '/img/profile/defaultUser.svg';
+											return (
+												<div key={comment._id} className="mob-rev-card">
+													<div className="mob-rev-card-top">
+														<img src={avatarSrc} alt="" className="mob-rev-avatar" />
+														<div className="mob-rev-user">
+															<span className="mob-rev-name">{comment.memberData?.memberNick}</span>
+															<span className="mob-rev-type">{t(comment.memberData?.memberType ?? '')}</span>
+														</div>
+														<div className="mob-rev-right">
+															<span className="mob-rev-stars">{stars}</span>
+															<span className="mob-rev-date">{dayjs(comment.createdAt).fromNow()}</span>
+														</div>
+													</div>
+													<p className="mob-rev-body">{comment.commentContent}</p>
+												</div>
+											);
+										})}
+
+										<div className="mob-rev-pagination">
+											<MuiPagination
+												page={commentInquiry.page}
+												count={Math.ceil(commentTotal / commentInquiry.limit)}
+												onChange={commentPaginationChangeHandler}
+												shape="circular"
+												color="primary"
+												size="small"
+											/>
+										</div>
+									</>
+								)}
+							</div>
+						</div>
+					)}
+				</div>
+
+				{/* Get More Information */}
+				<div className="mob-det-contact">
+					<p className="mob-det-contact-title">{t('get_more_information')}</p>
+					<div className="mob-det-agent-row">
+						<img
+							className="mob-det-agent-img"
+							src={property?.memberData?.memberImage
+								? (property.memberData.memberImage.startsWith('http') ? property.memberData.memberImage : `${REACT_APP_API_URL}/${property.memberData.memberImage}`)
+								: '/img/profile/defaultUser.svg'}
+							alt=""
+						/>
+						<div className="mob-det-agent-info">
+							<Link href={`/member?memberId=${property?.memberData?._id}`}>
+								<span className="mob-det-agent-name">{property?.memberData?.memberNick}</span>
+							</Link>
+							<span className="mob-det-agent-phone">{property?.memberData?.memberPhone}</span>
+						</div>
+					</div>
+					<input className="mob-det-input" type="text" placeholder={t('enter_your_name')} />
+					<input className="mob-det-input" type="text" placeholder={t('enter_your_phone')} />
+					<textarea className="mob-det-textarea" placeholder={t('message_placeholder')} />
+					<button className="mob-det-send-btn">{t('send_message')}</button>
+				</div>
+
+				{/* O'xshash mahsulotlar */}
+				{destinationProperties.length !== 0 && (
+					<div className="mob-det-similar">
+						<div className="mob-det-similar-header">
+							<div>
+								<p className="mob-det-similar-title">{t('destination_furniture')}</p>
+								<p className="mob-det-similar-sub">{t('comfort_style_durability')}</p>
+							</div>
+							<div className="mob-det-similar-nav">
+								<button className="swiper-mob-similar-prev"><WestIcon sx={{ fontSize: 16 }} /></button>
+								<button className="swiper-mob-similar-next"><EastIcon sx={{ fontSize: 16 }} /></button>
+							</div>
+						</div>
+						<Swiper
+							className="mob-det-swiper"
+							slidesPerView="auto"
+							spaceBetween={12}
+							modules={[Autoplay, Navigation]}
+							navigation={{ nextEl: '.swiper-mob-similar-next', prevEl: '.swiper-mob-similar-prev' }}
+						>
+							{destinationProperties.map((property: Property) => (
+								<SwiperSlide style={{ width: '152px', height: '210px' }} key={property._id}>
+									<PropertyBigCard property={property} likePropertyHandler={likePropertyHandler} key={property._id} />
+								</SwiperSlide>
+							))}
+						</Swiper>
+					</div>
+				)}
+			</div>
+		);
 	} else {
 		return (
 			<div id={'property-detail-page'}>

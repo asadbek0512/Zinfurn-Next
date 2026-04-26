@@ -28,6 +28,9 @@ import Review from '../../libs/components/property/Review';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import SendIcon from '@mui/icons-material/Send';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -62,6 +65,8 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		commentContent: '',
 		commentRefId: '',
 	});
+	const [showEmoji, setShowEmoji] = useState(false);
+	const insertEmoji = (emoji: string) => setInsertCommentData((prev) => ({ ...prev, commentContent: prev.commentContent + emoji }));
 
 	/** APOLLO REQUESTS **/
 	const [likeRepairProperty] = useMutation(LIKE_TARGET_REPAIRPROPERTY);
@@ -214,18 +219,160 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	};
 
 	if (getRepairPropertiesLoading) {
+		if (device === 'mobile') {
+			return <Stack sx={{ justifyContent: 'center', alignItems: 'center', width: '100%', height: '100vh' }}><CircularProgress size={'2rem'} sx={{ color: '#cf6422' }} /></Stack>;
+		}
+		return <Stack sx={{ justifyContent: 'center', alignItems: 'center', width: '100%', height: '1800px' }}><CircularProgress size={'4rem'} /></Stack>;
+	}
+
+	if (device === 'mobile') {
+		const techAvatar = repairProperty?.memberData?.memberImage?.startsWith('http')
+			? repairProperty.memberData.memberImage
+			: `${REACT_APP_API_URL}/${repairProperty?.memberData?.memberImage || ''}`;
+
 		return (
-			<Stack
-				sx={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-					width: '100%',
-					height: '1800px',
-				}}
-			>
-				<CircularProgress size={'4rem'} />
-			</Stack>
+			<div id="mob-repair-detail-page">
+				{/* Back */}
+				<div className="mob-rpd-back" onClick={() => router.push('/repairService')}>
+					<ArrowBackIosIcon sx={{ fontSize: 15 }} />
+					{t('Back to property')}
+				</div>
+
+				{/* Main image */}
+				<img
+					className="mob-rpd-img"
+					src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
+					alt=""
+				/>
+
+				{/* Info */}
+				<div className="mob-rpd-info">
+					<div className="mob-rpd-technician">
+						<img src={techAvatar} alt="" className="mob-rpd-tech-avatar" />
+						<div>
+							<p className="mob-rpd-tech-name">{repairProperty?.memberData?.memberNick}</p>
+							<p className="mob-rpd-tech-role">{t('Technician')}</p>
+						</div>
+					</div>
+
+					<div className="mob-rpd-stats">
+						<span className="mob-rpd-stat">
+							<RemoveRedEyeIcon />
+							{repairProperty?.repairPropertyViews ?? 0}
+						</span>
+						<button
+							className={`mob-rpd-like-btn ${repairProperty?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
+							onClick={() => repairProperty?._id && likeRepairPropertyHandler(user, repairProperty._id)}
+						>
+							<FavoriteIcon />
+							{repairProperty?.repairPropertyLikes ?? 0}
+						</button>
+					</div>
+
+					{repairProperty?.repairPropertyAddress && (
+						<div className="mob-rpd-row">
+							<LocationOnIcon />
+							<span>{repairProperty.repairPropertyAddress}</span>
+						</div>
+					)}
+					{repairProperty?.memberData?.memberPhone && (
+						<div className="mob-rpd-row">
+							<PhoneIcon />
+							<span>{repairProperty.memberData.memberPhone}</span>
+						</div>
+					)}
+					{repairProperty?.repairPropertyDescription && (
+						<div className="mob-rpd-row">
+							<DescriptionIcon />
+							<span>{repairProperty.repairPropertyDescription}</span>
+						</div>
+					)}
+					<span className="mob-rpd-date">
+						{moment(repairProperty?.createdAt).format('YYYY-MM-DD HH:mm')}
+					</span>
+				</div>
+
+				{/* Reviews */}
+				<div className="mob-rpd-reviews">
+					<div className="mob-rpd-rev-write">
+						<div className="mob-rpd-rev-heading">
+							<RateReviewIcon sx={{ color: '#d89801', fontSize: 18 }} />
+							<span>{t('write_a_review')}</span>
+						</div>
+						{showEmoji && (
+							<div className="mob-rpd-emoji-panel">
+								{['😊','👍','❤️','⭐','🔥','🙏','😍','💯','🎉','😅','👌','✨'].map((e) => (
+									<button key={e} className="mob-rpd-emoji-item" onClick={() => insertEmoji(e)}>{e}</button>
+								))}
+							</div>
+						)}
+						<div className="mob-rpd-input-row">
+							<IconButton className={`mob-rpd-emoji-btn ${showEmoji ? 'active' : ''}`} onClick={() => setShowEmoji((v) => !v)} size="small">
+								<EmojiEmotionsIcon />
+							</IconButton>
+							<textarea
+								className="mob-rpd-textarea"
+								rows={1}
+								placeholder={user?._id ? t('write_a_review') : t('login_to_review')}
+								value={insertCommentData.commentContent}
+								disabled={!user?._id}
+								onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (insertCommentData.commentContent.trim() && user?._id) createCommentHandler(); } }}
+								onChange={({ target: { value } }) => setInsertCommentData({ ...insertCommentData, commentContent: value })}
+							/>
+							<IconButton className="mob-rpd-send-btn" disabled={!insertCommentData.commentContent.trim() || !user?._id} onClick={createCommentHandler} size="small">
+								<SendIcon sx={{ fontSize: 18 }} />
+							</IconButton>
+						</div>
+					</div>
+
+					<div className="mob-rpd-rev-list">
+						<div className="mob-rpd-rev-list-header">
+							<span className="mob-rpd-rev-title">{t('reviews')}</span>
+							<span className="mob-rpd-rev-count">{commentTotal}</span>
+						</div>
+
+						{commentTotal === 0 ? (
+							<div className="mob-rpd-rev-empty">
+								<RateReviewIcon sx={{ fontSize: 32, color: '#ddd' }} />
+								<p>{t('no_reviews_yet')}</p>
+							</div>
+						) : (
+							<>
+								{repairPropertyComments.map((comment: Comment) => {
+									const { stars } = getRatingByMemberType(comment.memberData?.memberType ?? '');
+									const avatarSrc = comment.memberData?.memberImage
+										? (comment.memberData.memberImage.startsWith('http') ? comment.memberData.memberImage : `${REACT_APP_API_URL}/${comment.memberData.memberImage}`)
+										: '/img/profile/defaultUser.svg';
+									return (
+										<div key={comment._id} className="mob-rpd-rev-card">
+											<div className="mob-rpd-rev-top">
+												<img src={avatarSrc} alt="" className="mob-rpd-rev-avatar" />
+												<div className="mob-rpd-rev-user">
+													<span className="mob-rpd-rev-name">{comment.memberData?.memberNick}</span>
+													<span className="mob-rpd-rev-type">{t(comment.memberData?.memberType ?? '')}</span>
+												</div>
+												<div className="mob-rpd-rev-right">
+													<span className="mob-rpd-rev-stars">{stars}</span>
+													<span className="mob-rpd-rev-date">{dayjs(comment.createdAt).fromNow()}</span>
+												</div>
+											</div>
+											<p className="mob-rpd-rev-text">{comment.commentContent}</p>
+										</div>
+									);
+								})}
+								<div className="mob-rpd-rev-pagination">
+									<MuiPagination
+										page={commentInquiry.page}
+										count={Math.ceil(commentTotal / commentInquiry.limit)}
+										onChange={commentPaginationChangeHandler}
+										shape="circular" color="primary" size="small"
+									/>
+								</div>
+							</>
+						)}
+					</div>
+				</div>
+			</div>
 		);
 	}
 

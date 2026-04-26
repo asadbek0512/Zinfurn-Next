@@ -36,7 +36,43 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 			: 0;
 
 	if (device === 'mobile') {
-		return <div>APARTMENT BIG CARD</div>;
+		return (
+			<Box className="mob-big-card" component="div" onClick={() => goPropertyDetatilPage(property._id)}>
+				<Box className="mob-big-card-img-wrap" component="div">
+					<Box
+						className="mob-big-card-img"
+						component="div"
+						sx={{ backgroundImage: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})` }}
+					/>
+					{discountPercent > 0 && (
+						<span className="mob-big-card-sale">-{discountPercent}%</span>
+					)}
+					<span className="mob-big-card-cat">{t(property.propertyCategory)}</span>
+				</Box>
+				<Box className="mob-big-card-info" component="div">
+					<Typography className="mob-big-card-title">{property.propertyTitle}</Typography>
+					<Box className="mob-big-card-bottom" component="div">
+						<Box className="mob-big-card-price" component="div">
+							{property.propertySalePrice ? (
+								<>
+									<Typography className="mob-big-card-sale-price">${formatterStr(property.propertySalePrice)}</Typography>
+									<Typography className="mob-big-card-orig-price">${formatterStr(property.propertyPrice)}</Typography>
+								</>
+							) : (
+								<Typography className="mob-big-card-sale-price">${formatterStr(property.propertyPrice)}</Typography>
+							)}
+						</Box>
+						<IconButton
+							size="small"
+							className="mob-big-card-like"
+							onClick={(e) => { e.stopPropagation(); likePropertyHandler?.(user, property._id); }}
+						>
+							<FavoriteIcon style={{ fontSize: 16, color: property?.meLiked?.[0]?.myFavorite ? 'red' : '#ccc' }} />
+						</IconButton>
+					</Box>
+				</Box>
+			</Box>
+		);
 	} else {
 		return (
 			<Box className="product-card" component="div">

@@ -30,7 +30,22 @@ const Review = (props: ReviewProps) => {
 		else router.push(`/member?memberId=${id}`);
 	};
 	if (device === 'mobile') {
-		return <div>REVIEW</div>;
+		return (
+			<Stack className="mob-review-config">
+				<Stack className="mob-review-header">
+					<img src={imagePath} alt="" className="mob-review-avatar" />
+					<Stack className="mob-review-user-info">
+						<Typography className="mob-review-name" onClick={() => goMemberPage(comment?.memberData?._id as string)}>
+							{comment.memberData?.memberNick}
+						</Typography>
+						<Typography className="mob-review-type">
+							{t(comment.memberData?.memberType ?? '')}
+						</Typography>
+					</Stack>
+				</Stack>
+				<Typography className="mob-review-text">{comment.commentContent}</Typography>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className={'review-config'}>

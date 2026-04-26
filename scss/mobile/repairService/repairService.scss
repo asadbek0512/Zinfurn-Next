@@ -1,0 +1,708 @@
+@import '/scss/variables.scss';
+
+#mobile-wrap {
+
+  // ── Repair Service Index Page ──────────────────────────────
+  #mob-repair-service-page {
+    padding-top: 0;
+    padding-bottom: 80px;
+    background: #f6f6f6;
+    min-height: 100vh;
+
+    // ── Quality / Technician Section ──
+    .mob-quality-section {
+      background: #fff;
+      margin-bottom: 10px;
+
+      // Hero wrapper
+      .mob-quality-hero-wrap {
+        position: relative;
+        width: 100%;
+        height: 240px;
+        overflow: hidden;
+
+        .mob-quality-hero-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .mob-quality-hero-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.35) 0%,
+            rgba(0, 0, 0, 0.62) 100%
+          );
+        }
+
+        .mob-quality-hero-text {
+          position: absolute;
+          bottom: 20px;
+          left: 16px;
+          right: 16px;
+
+          .mob-quality-hero-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            font-family: $font;
+            margin: 0 0 4px;
+            line-height: 1.2;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+          }
+
+          .mob-quality-hero-desc {
+            font-size: 13px;
+            color: rgba(255,255,255,0.85);
+            font-family: $font;
+            margin: 0;
+          }
+        }
+      }
+
+      // Badge — yarmi rasimda, yarmi tashqarida
+      .mob-quality-badge-float {
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 16px;
+        margin-top: -14px;
+        position: relative;
+        z-index: 2;
+
+        .mob-quality-hero-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          background: #cf6422;
+          color: #fff;
+          font-size: 11px;
+          font-weight: 700;
+          font-family: $font;
+          padding: 6px 14px;
+          border-radius: 20px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+        }
+      }
+
+      // Description
+      .mob-quality-desc {
+        padding: 12px 14px 0;
+
+        .mob-quality-header-label {
+          font-size: 11px;
+          font-weight: 600;
+          color: #cf6422;
+          font-family: $font;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin: 0 0 4px;
+        }
+
+        .mob-quality-text {
+          font-size: 13px;
+          color: #555;
+          line-height: 1.65;
+          font-family: $font;
+          margin: 0;
+        }
+      }
+
+      // Stats row
+      .mob-quality-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+        margin: 16px 14px;
+        background: #f8f8f8;
+        border-radius: 12px;
+        overflow: hidden;
+
+        .mob-quality-stat {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 12px 6px;
+          border-right: 1px solid #eee;
+
+          &:last-child { border-right: none; }
+
+          .mob-quality-stat-num {
+            font-size: 15px;
+            font-weight: 700;
+            color: #cf6422;
+            font-family: $font;
+          }
+
+          .mob-quality-stat-label {
+            font-size: 9px;
+            color: #888;
+            font-family: $font;
+            text-align: center;
+            line-height: 1.3;
+            margin-top: 2px;
+          }
+        }
+      }
+
+      // Features grid
+      .mob-quality-features {
+        padding: 0 14px 16px;
+
+        .mob-quality-features-title {
+          font-size: 14px;
+          font-weight: 700;
+          color: #181a20;
+          font-family: $font;
+          margin: 0 0 12px;
+        }
+
+        .mob-quality-features-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+
+        .mob-quality-feature-card {
+          background: #fafafa;
+          border-radius: 12px;
+          padding: 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+
+          .mob-quality-feature-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg { font-size: 18px; }
+
+            &.blue  { background: #e3f2fd; svg { color: #1976d2; } }
+            &.green { background: #e8f5e9; svg { color: #388e3c; } }
+            &.orange{ background: #fff3e0; svg { color: #cf6422; } }
+            &.purple{ background: #f3e5f5; svg { color: #7b1fa2; } }
+          }
+
+          .mob-quality-feature-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #181a20;
+            font-family: $font;
+            margin: 0;
+          }
+
+          .mob-quality-feature-desc {
+            font-size: 11px;
+            color: #888;
+            font-family: $font;
+            line-height: 1.5;
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    // ── Repaired Properties Section ──
+    .mob-repair-list-section {
+      background: #fff;
+      padding: 16px 14px;
+
+      .mob-repair-list-header {
+        margin-bottom: 14px;
+
+        .mob-repair-list-title {
+          font-size: 17px;
+          font-weight: 700;
+          color: #181a20;
+          font-family: $font;
+          margin: 0 0 4px;
+        }
+
+        .mob-repair-list-sub {
+          font-size: 12px;
+          color: #888;
+          font-family: $font;
+          margin: 0;
+        }
+      }
+
+      .mob-repair-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      // Single repair card
+      .mob-repair-card {
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 1px 6px rgba(24,26,32,0.08);
+        cursor: pointer;
+
+        .mob-repair-card-craftsman {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 12px 8px;
+
+          .mob-repair-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #eee;
+          }
+
+          .mob-repair-craftsman-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #181a20;
+            font-family: $font;
+          }
+
+          .mob-repair-craftsman-role {
+            font-size: 11px;
+            color: #aaa;
+            font-family: $font;
+          }
+        }
+
+        .mob-repair-card-img {
+          width: 100%;
+          height: 180px;
+          object-fit: cover;
+          display: block;
+        }
+
+        .mob-repair-card-content {
+          padding: 10px 12px 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 7px;
+
+          .mob-repair-type-chip {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-family: $font;
+            width: fit-content;
+          }
+
+          .mob-repair-desc {
+            font-size: 13px;
+            font-weight: 600;
+            color: #181a20;
+            font-family: $font;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+
+          .mob-repair-address {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #888;
+            font-family: $font;
+
+            svg { font-size: 14px; color: #cf6422; }
+          }
+
+          .mob-repair-stats {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 8px;
+
+            .mob-repair-stats-left {
+              display: flex;
+              gap: 12px;
+
+              .mob-repair-stat {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                font-size: 12px;
+                color: #888;
+                font-family: $font;
+
+                svg { font-size: 15px; }
+              }
+            }
+
+            .mob-repair-like-btn {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              font-size: 12px;
+              color: #888;
+              font-family: $font;
+              cursor: pointer;
+              background: none;
+              border: none;
+              padding: 0;
+              outline: none;
+
+              svg { font-size: 17px; color: #888; }
+              &.liked svg { color: #cf6422; }
+            }
+          }
+        }
+      }
+
+      // Pagination
+      .mob-repair-pagination {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding-top: 16px;
+
+        .MuiPaginationItem-root {
+          font-family: $font;
+          &.Mui-selected { background: #cf6422; color: #fff; }
+        }
+
+        .mob-repair-total {
+          font-size: 12px;
+          color: #888;
+          font-family: $font;
+        }
+      }
+    }
+  }
+
+  // ── Repair Service Detail Page ──────────────────────────────
+  #mob-repair-detail-page {
+    padding-top: 52px;
+    padding-bottom: 80px;
+    background: #fff;
+    min-height: 100vh;
+
+    // Back arrow
+    .mob-rpd-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #cf6422;
+      padding: 8px 14px 4px;
+      cursor: pointer;
+      width: fit-content;
+    }
+
+    // Main image
+    .mob-rpd-img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+      background: #f5f5f5;
+    }
+
+    // Info section
+    .mob-rpd-info {
+      padding: 14px 14px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      // Technician row
+      .mob-rpd-technician {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .mob-rpd-tech-avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 1.5px solid #f0ebe6;
+          flex-shrink: 0;
+        }
+
+        .mob-rpd-tech-name {
+          font-size: 14px;
+          font-weight: 700;
+          color: #181a20;
+          font-family: $font;
+        }
+
+        .mob-rpd-tech-role {
+          font-size: 11px;
+          color: #aaa;
+          font-family: $font;
+        }
+      }
+
+      // Stats row
+      .mob-rpd-stats {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        .mob-rpd-stat {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-size: 13px;
+          color: #666;
+          font-family: $font;
+
+          svg { font-size: 17px; }
+        }
+
+        .mob-rpd-like-btn {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-size: 13px;
+          color: #666;
+          font-family: $font;
+          cursor: pointer;
+          background: none;
+          border: none;
+          padding: 0;
+
+          &.liked svg { color: #cf6422; }
+        }
+      }
+
+      // Info rows
+      .mob-rpd-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 13px;
+        color: #444;
+        font-family: $font;
+        line-height: 1.55;
+
+        svg { font-size: 17px; color: #cf6422; flex-shrink: 0; margin-top: 1px; }
+      }
+
+      .mob-rpd-date {
+        font-size: 12px;
+        color: #aaa;
+        font-family: $font;
+      }
+    }
+
+    // Reviews
+    .mob-rpd-reviews {
+      background: #fff;
+
+      .mob-rpd-rev-write {
+        padding: 14px 14px 10px;
+        border-bottom: 1px solid #f0f0f0;
+
+        .mob-rpd-rev-heading {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          margin-bottom: 12px;
+
+          span {
+            font-size: 15px;
+            font-weight: 700;
+            color: #181a20;
+            font-family: $font;
+          }
+        }
+
+        .mob-rpd-emoji-panel {
+          display: grid;
+          grid-template-columns: repeat(6, 1fr);
+          gap: 4px;
+          background: #f8f8f8;
+          border-radius: 12px;
+          padding: 10px;
+          margin-bottom: 8px;
+
+          .mob-rpd-emoji-item {
+            all: unset;
+            font-size: 20px;
+            text-align: center;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 8px;
+            line-height: 1;
+            &:active { background: #eee; }
+          }
+        }
+
+        .mob-rpd-input-row {
+          display: flex;
+          align-items: flex-end;
+          gap: 6px;
+          background: #f4f4f4;
+          border-radius: 24px;
+          padding: 6px 6px 6px 4px;
+
+          .mob-rpd-emoji-btn {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            color: #aaa;
+            svg { font-size: 20px; }
+            &.active { color: #cf6422; }
+          }
+
+          .mob-rpd-textarea {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            resize: none;
+            font-size: 13px;
+            font-family: $font;
+            color: #181a20;
+            line-height: 1.5;
+            max-height: 100px;
+            min-height: 34px;
+            padding: 6px 4px;
+
+            &::placeholder { color: #bbb; }
+            &:disabled { opacity: 0.5; }
+          }
+
+          .mob-rpd-send-btn {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            background: #cf6422 !important;
+            color: #fff !important;
+            border-radius: 50% !important;
+            padding: 0 !important;
+
+            &.Mui-disabled { background: #e0e0e0 !important; color: #bbb !important; }
+          }
+        }
+      }
+
+      .mob-rpd-rev-list {
+        padding: 14px;
+
+        .mob-rpd-rev-list-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 12px;
+
+          .mob-rpd-rev-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #181a20;
+            font-family: $font;
+          }
+
+          .mob-rpd-rev-count {
+            background: #cf6422;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-family: $font;
+          }
+        }
+
+        .mob-rpd-rev-empty {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 24px 0;
+          gap: 8px;
+          p { font-size: 13px; color: #bbb; font-family: $font; margin: 0; }
+        }
+
+        .mob-rpd-rev-card {
+          padding: 12px 0;
+          border-bottom: 1px solid #f0f0f0;
+          &:last-child { border-bottom: none; }
+
+          .mob-rpd-rev-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+
+            .mob-rpd-rev-avatar {
+              width: 36px;
+              height: 36px;
+              border-radius: 50%;
+              object-fit: cover;
+              flex-shrink: 0;
+              border: 1px solid #eee;
+            }
+
+            .mob-rpd-rev-user {
+              flex: 1;
+              .mob-rpd-rev-name {
+                font-size: 13px;
+                font-weight: 700;
+                color: #181a20;
+                font-family: $font;
+                display: block;
+              }
+              .mob-rpd-rev-type {
+                font-size: 11px;
+                color: #aaa;
+                font-family: $font;
+                text-transform: capitalize;
+              }
+            }
+
+            .mob-rpd-rev-right {
+              display: flex;
+              flex-direction: column;
+              align-items: flex-end;
+              gap: 2px;
+              flex-shrink: 0;
+              .mob-rpd-rev-stars { font-size: 12px; color: #d89801; }
+              .mob-rpd-rev-date { font-size: 10px; color: #bbb; font-family: $font; }
+            }
+          }
+
+          .mob-rpd-rev-text {
+            font-size: 13px;
+            color: #444;
+            line-height: 1.6;
+            margin: 0;
+            font-family: $font;
+            padding-left: 46px;
+          }
+        }
+
+        .mob-rpd-rev-pagination {
+          display: flex;
+          justify-content: center;
+          padding-top: 10px;
+
+          .MuiPaginationItem-root {
+            font-family: $font;
+            &.Mui-selected { background: #cf6422; color: #fff; }
+          }
+        }
+      }
+    }
+  }
+}

@@ -129,7 +129,69 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>{t('agents_page_mobile')}</h1>;
+		return (
+			<div id="mob-agent-list-page">
+				{/* Top bar */}
+				<div className="mob-agent-topbar">
+					<input
+						className="mob-agent-search"
+						type="text"
+						placeholder={t('search_for_agent')}
+						value={searchText}
+						onChange={(e) => setSearchText(e.target.value)}
+						onKeyDown={(e) => {
+							if (e.key === 'Enter') {
+								setSearchFilter({ ...searchFilter, search: { ...searchFilter.search, text: searchText } });
+							}
+						}}
+					/>
+					<Button
+						className="mob-agent-sort-btn"
+						onClick={sortingClickHandler}
+						endIcon={<KeyboardArrowDownRoundedIcon />}
+					>
+						{filterSortName}
+					</Button>
+					<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler}>
+						<MenuItem onClick={sortingHandler} id="recent">{t('recent')}</MenuItem>
+						<MenuItem onClick={sortingHandler} id="old">{t('oldest')}</MenuItem>
+						<MenuItem onClick={sortingHandler} id="likes">{t('likes')}</MenuItem>
+						<MenuItem onClick={sortingHandler} id="views">{t('views')}</MenuItem>
+					</Menu>
+				</div>
+
+				{/* Grid */}
+				{agents?.length === 0 ? (
+					<div className="mob-agent-nodata">
+						<img src="/img/icons/icoAlert.svg" alt="" />
+						<p>{t('no_agents_found')}</p>
+					</div>
+				) : (
+					<div className="mob-agent-grid">
+						{agents.map((agent: Member) => (
+							<AgentCard key={agent._id} agent={agent} likeMemberHandler={likeMemberHandler} />
+						))}
+					</div>
+				)}
+
+				{/* Pagination */}
+				{agents.length !== 0 && (
+					<div className="mob-agent-pagination">
+						<Pagination
+							page={currentPage}
+							count={Math.ceil(total / searchFilter.limit)}
+							onChange={paginationChangeHandler}
+							shape="circular"
+							color="primary"
+							size="small"
+						/>
+						<span className="mob-agent-total">
+							{t('total')} {total} {t('agents_in_stock')}
+						</span>
+					</div>
+				)}
+			</div>
+		);
 	} else {
 		return (
 			<Stack className={'agent-list-page'}>
@@ -218,9 +280,9 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 AgentList.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 10,
+		limit: 8,
 		sort: 'createdAt',
-		direction: 'DESC',
+		direction: 'ASC',
 		search: {},
 	},
 };

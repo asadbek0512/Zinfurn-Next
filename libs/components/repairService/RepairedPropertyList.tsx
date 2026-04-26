@@ -103,6 +103,87 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 	};
 
 
+	if (device === 'mobile') {
+		return (
+			<div className="mob-repair-list-section">
+				<div className="mob-repair-list-header">
+					<p className="mob-repair-list-title">{t('Repaired Properties')}</p>
+					<p className="mob-repair-list-sub">{t('Professional repairs by skilled craftsmen')}</p>
+				</div>
+
+				<div className="mob-repair-cards">
+					{repairProperties.map((repairProperty: RepairProperty) => {
+						const imageUrl = `${REACT_APP_API_URL}/${repairProperty?.repairPropertyImages?.[0] || ''}`;
+						const avatarSrc = repairProperty?.memberData?.memberImage?.startsWith('http')
+							? repairProperty.memberData.memberImage
+							: `${REACT_APP_API_URL}/${repairProperty?.memberData?.memberImage || ''}`;
+
+						return (
+							<div key={repairProperty._id} className="mob-repair-card" onClick={() => pushDetailHandler(repairProperty._id)}>
+								<div className="mob-repair-card-craftsman">
+									<img src={avatarSrc} alt="" className="mob-repair-avatar" />
+									<div>
+										<p className="mob-repair-craftsman-name">{repairProperty?.memberData?.memberNick}</p>
+										<p className="mob-repair-craftsman-role">{t('Technician')}</p>
+									</div>
+								</div>
+
+								<img src={imageUrl} alt="" className="mob-repair-card-img" />
+
+								<div className="mob-repair-card-content">
+									<span
+										className="mob-repair-type-chip"
+										style={{ backgroundColor: getRepairTypeColor(repairProperty.repairPropertyType) }}
+									>
+										{t(repairProperty.repairPropertyType)}
+									</span>
+									<p className="mob-repair-desc">{repairProperty.repairPropertyDescription}</p>
+									<div className="mob-repair-address">
+										<LocationOnIcon />
+										<span>{repairProperty.repairPropertyAddress}</span>
+									</div>
+									<div className="mob-repair-stats">
+										<div className="mob-repair-stats-left">
+											<span className="mob-repair-stat">
+												<RemoveRedEyeIcon />
+												{repairProperty.repairPropertyViews}
+											</span>
+											<span className="mob-repair-stat">
+												<CommentIcon />
+												{repairProperty.repairPropertyComments}
+											</span>
+										</div>
+										<button
+											className={`mob-repair-like-btn ${repairProperty?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
+											onClick={(e) => { e.stopPropagation(); likeRepairPropertyHandler(user, repairProperty._id); }}
+										>
+											<FavoriteIcon />
+											{repairProperty.repairPropertyLikes}
+										</button>
+									</div>
+								</div>
+							</div>
+						);
+					})}
+				</div>
+
+				{total > 0 && (
+					<div className="mob-repair-pagination">
+						<Pagination
+							page={searchFilter.page}
+							count={Math.ceil(total / searchFilter.limit)}
+							onChange={handlePaginationChange}
+							shape="circular"
+							color="primary"
+							size="small"
+						/>
+						<span className="mob-repair-total">{t('Total {{total}} repair propert{{plural}} available', { total, plural: total !== 1 ? 'ies' : 'y' })}</span>
+					</div>
+				)}
+			</div>
+		);
+	}
+
 	return (
 		<Stack className={'repair-properties-grid'}>
 			<Stack className={'container'}>

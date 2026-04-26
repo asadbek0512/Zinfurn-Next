@@ -2,9 +2,10 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
+import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
 import ReviewCard from '../../libs/components/agent/ReviewCard';
-import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
+import { Box, Button, IconButton, Pagination, Stack, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
@@ -21,6 +22,14 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
 import { GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import SendIcon from '@mui/icons-material/Send';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import PhoneIcon from '@mui/icons-material/Phone';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import PeopleIcon from '@mui/icons-material/People';
+import HomeIcon from '@mui/icons-material/Home';
 import { T } from '../../libs/types/common';
 import Review from '../../libs/components/property/Review';
 import { Pagination as MuiPagination } from '@mui/material';
@@ -54,6 +63,11 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		commentContent: '',
 		commentRefId: '',
 	});
+	const [showEmoji, setShowEmoji] = useState(false);
+
+	const insertEmoji = (emoji: string) => {
+		setInsertCommentData((prev) => ({ ...prev, commentContent: prev.commentContent + emoji }));
+	};
 
 	/** APOLLO REQUESTS **/
 	const [createComment] = useMutation(CREATE_COMMENT);
@@ -209,7 +223,181 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	};
 
 	if (device === 'mobile') {
-		return <div>AGENT DETAIL PAGE MOBILE</div>;
+		const agentImg = agent?.memberImage
+			? (agent.memberImage.startsWith('http') ? agent.memberImage : `${REACT_APP_API_URL}/${agent.memberImage}`)
+			: '/img/profile/defaultUser.svg';
+
+		return (
+			<div id="mob-agent-detail-page">
+
+				{/* Profile card */}
+				<div className="mob-agd-profile">
+					<div className="mob-agd-back" onClick={() => router.push('/agent')}>
+						<ArrowBackIosIcon sx={{ fontSize: 16 }} />
+					</div>
+					<img className="mob-agd-avatar" src={agentImg} alt="" />
+					<h2 className="mob-agd-name">{agent?.memberFullName ?? agent?.memberNick}</h2>
+					<span className="mob-agd-badge">{t('agent')}</span>
+					{agent?.memberPhone && (
+						<div className="mob-agd-phone">
+							<PhoneIcon />
+							<span>{agent.memberPhone}</span>
+						</div>
+					)}
+					<div className="mob-agd-stats">
+						<div className="mob-agd-stat">
+							<span className="mob-agd-stat-val">{agent?.memberProperties ?? 0}</span>
+							<span className="mob-agd-stat-label">{t('properties')}</span>
+						</div>
+						<div className="mob-agd-stat">
+							<span className="mob-agd-stat-val">{agent?.memberViews ?? 0}</span>
+							<span className="mob-agd-stat-label">{t('views')}</span>
+						</div>
+						<div className="mob-agd-stat">
+							<span className="mob-agd-stat-val">{agent?.memberLikes ?? 0}</span>
+							<span className="mob-agd-stat-label">{t('likes')}</span>
+						</div>
+						<div className="mob-agd-stat">
+							<span className="mob-agd-stat-val">{agent?.memberFollowers ?? 0}</span>
+							<span className="mob-agd-stat-label">{t('followers')}</span>
+						</div>
+					</div>
+				</div>
+
+				{/* Agent mahsulotlari */}
+				<div className="mob-agd-products">
+					<p className="mob-agd-section-title">{t('properties')}</p>
+					{agentProperties.length === 0 ? (
+						<div className="mob-agd-nodata">
+							<img src="/img/icons/icoAlert.svg" alt="" />
+							<p>{t('No properties found!')}</p>
+						</div>
+					) : (
+						<>
+							<div className="mob-agd-products-grid">
+								{agentProperties.map((property: Property) => (
+									<PropertyBigCard key={property._id} property={property} likePropertyHandler={likePropertyHandler} />
+								))}
+							</div>
+							{propertyTotal > searchFilter.limit && (
+								<div className="mob-agd-prod-pagination">
+									<Pagination
+										page={searchFilter.page}
+										count={Math.ceil(propertyTotal / searchFilter.limit)}
+										onChange={propertyPaginationChangeHandler}
+										shape="circular"
+										color="primary"
+										size="small"
+									/>
+								</div>
+							)}
+						</>
+					)}
+				</div>
+
+				{/* Reviews */}
+				<div className="mob-agd-reviews">
+					{/* Yozish */}
+					<div className="mob-agd-rev-write">
+						<div className="mob-agd-rev-heading">
+							<RateReviewIcon sx={{ color: '#d89801', fontSize: 18 }} />
+							<span>{t('write_a_review')}</span>
+						</div>
+						{showEmoji && (
+							<div className="mob-agd-emoji-panel">
+								{['😊','👍','❤️','⭐','🔥','🙏','😍','💯','🎉','😅','👌','✨'].map((e) => (
+									<button key={e} className="mob-agd-emoji-item" onClick={() => insertEmoji(e)}>{e}</button>
+								))}
+							</div>
+						)}
+						<div className="mob-agd-rev-input-row">
+							<IconButton
+								className={`mob-agd-emoji-btn ${showEmoji ? 'active' : ''}`}
+								onClick={() => setShowEmoji((v) => !v)}
+								size="small"
+							>
+								<EmojiEmotionsIcon />
+							</IconButton>
+							<textarea
+								className="mob-agd-textarea"
+								rows={1}
+								placeholder={user?._id ? t('write_a_review') : t('login_to_review')}
+								value={insertCommentData.commentContent}
+								disabled={!user?._id}
+								onKeyDown={(e) => {
+									if (e.key === 'Enter' && !e.shiftKey) {
+										e.preventDefault();
+										if (insertCommentData.commentContent.trim() && user?._id) createCommentHandler();
+									}
+								}}
+								onChange={({ target: { value } }) => setInsertCommentData({ ...insertCommentData, commentContent: value })}
+							/>
+							<IconButton
+								className="mob-agd-send-btn"
+								disabled={!insertCommentData.commentContent.trim() || !user?._id}
+								onClick={createCommentHandler}
+								size="small"
+							>
+								<SendIcon sx={{ fontSize: 18 }} />
+							</IconButton>
+						</div>
+					</div>
+
+					{/* Ro'yxat */}
+					<div className="mob-agd-rev-list">
+						<div className="mob-agd-rev-list-header">
+							<span className="mob-agd-rev-list-title">{t('reviews')}</span>
+							<span className="mob-agd-rev-count">{commentTotal}</span>
+						</div>
+
+						{commentTotal === 0 ? (
+							<div className="mob-agd-rev-empty">
+								<RateReviewIcon sx={{ fontSize: 32, color: '#ddd' }} />
+								<p>{t('no_reviews_yet')}</p>
+							</div>
+						) : (
+							<>
+								{agentComments.map((comment: Comment) => {
+									const { stars } = getRatingByMemberType(comment.memberData?.memberType ?? '');
+									const avatarSrc = comment.memberData?.memberImage
+										? (comment.memberData.memberImage.startsWith('http')
+											? comment.memberData.memberImage
+											: `${REACT_APP_API_URL}/${comment.memberData.memberImage}`)
+										: '/img/profile/defaultUser.svg';
+									return (
+										<div key={comment._id} className="mob-agd-rev-card">
+											<div className="mob-agd-rev-card-top">
+												<img src={avatarSrc} alt="" className="mob-agd-rev-avatar" />
+												<div className="mob-agd-rev-user">
+													<span className="mob-agd-rev-name">{comment.memberData?.memberNick}</span>
+													<span className="mob-agd-rev-type">{t(comment.memberData?.memberType ?? '')}</span>
+												</div>
+												<div className="mob-agd-rev-right">
+													<span className="mob-agd-rev-stars">{stars}</span>
+													<span className="mob-agd-rev-date">{dayjs(comment.createdAt).fromNow()}</span>
+												</div>
+											</div>
+											<p className="mob-agd-rev-text">{comment.commentContent}</p>
+										</div>
+									);
+								})}
+								<div className="mob-agd-rev-pagination">
+									<MuiPagination
+										page={commentInquiry.page}
+										count={Math.ceil(commentTotal / commentInquiry.limit)}
+										onChange={commentPaginationChangeHandler}
+										shape="circular"
+										color="primary"
+										size="small"
+									/>
+								</div>
+							</>
+						)}
+					</div>
+				</div>
+
+			</div>
+		);
 	} else {
 		return (
 			<Stack className={'agent-detail-page'}>
@@ -378,7 +566,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 AgentDetail.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 6,
+		limit: 4,
 		search: {
 			memberId: '',
 		},
@@ -394,4 +582,4 @@ AgentDetail.defaultProps = {
 	},
 };
 
-export default withLayoutBasic(AgentDetail);
+export default withLayoutFull(AgentDetail);

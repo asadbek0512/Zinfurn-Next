@@ -1,0 +1,565 @@
+@import '/scss/variables.scss';
+
+// ── Agent List Page ────────────────────────────────────────
+#mobile-wrap {
+  #mob-agent-list-page {
+    padding-top: 0;
+    padding-bottom: 80px;
+    background: #f6f6f6;
+    min-height: 100vh;
+
+    // Top bar
+    .mob-agent-topbar {
+      position: sticky;
+      top: 48px;
+      z-index: 10;
+      background: #fff;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-bottom: 1px solid #eee;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+
+      .mob-agent-search {
+        flex: 1;
+        height: 38px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 0 12px;
+        font-size: 13px;
+        font-family: $font;
+        outline: none;
+        background: #fafafa;
+
+        &::placeholder { color: #bbb; }
+      }
+
+      .mob-agent-sort-btn {
+        height: 38px;
+        padding: 0 10px;
+        border-radius: 10px;
+        border: 1px solid #ddd !important;
+        background: #fff;
+        font-size: 12px;
+        font-family: $font;
+        color: #333;
+        white-space: nowrap;
+        flex-shrink: 0;
+        text-transform: none;
+
+        .MuiButton-endIcon svg { font-size: 18px; color: #cf6422; }
+      }
+    }
+
+    // 2-ustunli grid
+    .mob-agent-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 12px;
+    }
+
+    // No data
+    .mob-agent-nodata {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 0;
+      gap: 10px;
+      img { width: 44px; opacity: 0.4; }
+      p { font-size: 13px; color: #bbb; font-family: $font; margin: 0; }
+    }
+
+    // Pagination
+    .mob-agent-pagination {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 0 16px;
+
+      .MuiPaginationItem-root {
+        font-family: $font;
+        &.Mui-selected { background: #cf6422; color: #fff; border-color: #cf6422; }
+      }
+
+      .mob-agent-total {
+        font-size: 12px;
+        color: #888;
+        font-family: $font;
+      }
+    }
+  }
+
+  // ── AgentCard ──────────────────────────────────────────
+  .mob-agent-card {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 6px rgba(24, 26, 32, 0.09);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+
+    .mob-agent-card-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+    }
+
+    .mob-agent-props-badge {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      background: rgba(24, 26, 32, 0.75);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-family: $font;
+    }
+
+    .mob-agent-card-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(0deg, rgba(10,10,14,0.97) 0%, rgba(10,10,14,0.85) 60%, transparent 100%);
+      padding: 36px 10px 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 4px;
+
+      .mob-agent-name-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        flex: 1;
+        overflow: hidden;
+
+        .mob-agent-name {
+          font-size: 13px;
+          font-weight: 700;
+          color: #fff;
+          font-family: $font;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .mob-agent-type {
+          font-size: 10px;
+          color: rgba(255,255,255,0.7);
+          font-family: $font;
+        }
+      }
+
+      .mob-agent-actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+
+        .mob-agent-views {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+          color: rgba(255,255,255,0.8);
+          font-size: 11px;
+          font-family: $font;
+
+          svg { font-size: 13px; }
+        }
+
+        .mob-agent-like-btn {
+          width: 28px;
+          height: 28px;
+          padding: 0;
+          color: #fff;
+
+          svg { font-size: 16px; }
+        }
+      }
+    }
+  }
+}
+
+// ── Agent Detail Page ──────────────────────────────────────
+#mobile-wrap {
+  #mob-agent-detail-page {
+    padding-top: 52px;
+    padding-bottom: 80px;
+    background: #f6f6f6;
+    min-height: 100vh;
+
+    // Profile card
+    .mob-agd-profile {
+      position: relative;
+      background: #fff;
+      margin: 12px 12px 0;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 1px 6px rgba(24,26,32,0.07);
+
+      .mob-agd-back {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+        cursor: pointer;
+        color: #cf6422;
+      }
+
+      .mob-agd-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #f0ebe6;
+      }
+
+      .mob-agd-name {
+        font-size: 18px;
+        font-weight: 700;
+        color: #181a20;
+        font-family: $font;
+        margin: 0;
+        text-align: center;
+      }
+
+      .mob-agd-badge {
+        font-size: 11px;
+        font-weight: 600;
+        background: #fff4ec;
+        color: #cf6422;
+        border: 1px solid #f5c9a6;
+        border-radius: 20px;
+        padding: 3px 12px;
+        font-family: $font;
+      }
+
+      .mob-agd-phone {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: #555;
+        font-family: $font;
+
+        svg { font-size: 16px; color: #cf6422; }
+      }
+
+      .mob-agd-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        width: 100%;
+        border-top: 1px solid #f0f0f0;
+        padding-top: 12px;
+        margin-top: 2px;
+
+        .mob-agd-stat {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 2px;
+          border-right: 1px solid #f0f0f0;
+
+          &:last-child { border-right: none; }
+
+          .mob-agd-stat-val {
+            font-size: 16px;
+            font-weight: 700;
+            color: #181a20;
+            font-family: $font;
+          }
+
+          .mob-agd-stat-label {
+            font-size: 10px;
+            color: #aaa;
+            font-family: $font;
+            text-align: center;
+          }
+        }
+      }
+    }
+
+    // Products section
+    .mob-agd-products {
+      margin: 12px 12px 0;
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 1px 6px rgba(24,26,32,0.07);
+
+      .mob-agd-section-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #181a20;
+        font-family: $font;
+        margin: 0 0 12px;
+      }
+
+      .mob-agd-products-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+
+        .mob-big-card {
+          width: 100%;
+          height: auto;
+
+          .mob-big-card-img-wrap {
+            height: 140px;
+          }
+        }
+      }
+
+      .mob-agd-nodata {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px 0;
+        gap: 8px;
+
+        img { width: 36px; opacity: 0.4; }
+        p { font-size: 13px; color: #bbb; font-family: $font; margin: 0; }
+      }
+
+      .mob-agd-prod-pagination {
+        display: flex;
+        justify-content: center;
+        padding-top: 10px;
+
+        .MuiPaginationItem-root {
+          font-family: $font;
+          &.Mui-selected { background: #cf6422; color: #fff; }
+        }
+      }
+    }
+
+    // Reviews section
+    .mob-agd-reviews {
+      margin: 12px 12px 0;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 1px 6px rgba(24,26,32,0.07);
+
+      .mob-agd-rev-write {
+        padding: 14px 14px 10px;
+        border-bottom: 1px solid #f0f0f0;
+
+        .mob-agd-rev-heading {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          margin-bottom: 12px;
+
+          span {
+            font-size: 15px;
+            font-weight: 700;
+            color: #181a20;
+            font-family: $font;
+          }
+        }
+
+        .mob-agd-rev-input-row {
+          display: flex;
+          align-items: flex-end;
+          gap: 6px;
+          background: #f4f4f4;
+          border-radius: 24px;
+          padding: 6px 6px 6px 4px;
+
+          .mob-agd-emoji-btn {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            color: #aaa;
+            svg { font-size: 20px; }
+            &.active { color: #cf6422; }
+          }
+
+          .mob-agd-textarea {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            resize: none;
+            font-size: 13px;
+            font-family: $font;
+            color: #181a20;
+            line-height: 1.5;
+            max-height: 100px;
+            min-height: 34px;
+            padding: 6px 4px;
+
+            &::placeholder { color: #bbb; }
+            &:disabled { opacity: 0.5; }
+          }
+
+          .mob-agd-send-btn {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            background: #cf6422 !important;
+            color: #fff !important;
+            border-radius: 50% !important;
+            padding: 0 !important;
+
+            &.Mui-disabled { background: #e0e0e0 !important; color: #bbb !important; }
+          }
+        }
+
+        .mob-agd-emoji-panel {
+          display: grid;
+          grid-template-columns: repeat(6, 1fr);
+          gap: 4px;
+          background: #f8f8f8;
+          border-radius: 12px;
+          padding: 10px;
+          margin-bottom: 8px;
+
+          .mob-agd-emoji-item {
+            all: unset;
+            font-size: 20px;
+            text-align: center;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 8px;
+            line-height: 1;
+            &:active { background: #eee; }
+          }
+        }
+      }
+
+      .mob-agd-rev-list {
+        padding: 14px;
+
+        .mob-agd-rev-list-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 12px;
+
+          .mob-agd-rev-list-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #181a20;
+            font-family: $font;
+          }
+
+          .mob-agd-rev-count {
+            background: #cf6422;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-family: $font;
+          }
+        }
+
+        .mob-agd-rev-empty {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 24px 0;
+          gap: 8px;
+
+          p { font-size: 13px; color: #bbb; font-family: $font; margin: 0; }
+        }
+
+        .mob-agd-rev-card {
+          padding: 12px 0;
+          border-bottom: 1px solid #f0f0f0;
+          &:last-child { border-bottom: none; }
+
+          .mob-agd-rev-card-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+
+            .mob-agd-rev-avatar {
+              width: 36px;
+              height: 36px;
+              border-radius: 50%;
+              object-fit: cover;
+              flex-shrink: 0;
+              border: 1px solid #eee;
+            }
+
+            .mob-agd-rev-user {
+              flex: 1;
+              .mob-agd-rev-name {
+                font-size: 13px;
+                font-weight: 700;
+                color: #181a20;
+                font-family: $font;
+                display: block;
+              }
+              .mob-agd-rev-type {
+                font-size: 11px;
+                color: #aaa;
+                font-family: $font;
+                text-transform: capitalize;
+              }
+            }
+
+            .mob-agd-rev-right {
+              display: flex;
+              flex-direction: column;
+              align-items: flex-end;
+              gap: 2px;
+              flex-shrink: 0;
+
+              .mob-agd-rev-stars { font-size: 12px; color: #d89801; }
+              .mob-agd-rev-date { font-size: 10px; color: #bbb; font-family: $font; }
+            }
+          }
+
+          .mob-agd-rev-text {
+            font-size: 13px;
+            color: #444;
+            line-height: 1.6;
+            margin: 0;
+            font-family: $font;
+            padding-left: 46px;
+          }
+        }
+
+        .mob-agd-rev-pagination {
+          display: flex;
+          justify-content: center;
+          padding-top: 10px;
+
+          .MuiPaginationItem-root {
+            font-family: $font;
+            &.Mui-selected { background: #cf6422; color: #fff; }
+          }
+        }
+      }
+    }
+  }
+}

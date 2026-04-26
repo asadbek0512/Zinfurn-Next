@@ -140,7 +140,34 @@ const AgentCard = (props: AgentCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>{t('agent_card_mobile')}</div>;
+		return (
+			<Box className="mob-agent-card" component="div" onClick={handleAgentClick}>
+				<img className="mob-agent-card-img" src={imagePath} alt={agent?.memberNick} />
+
+				<span className="mob-agent-props-badge">{agent?.memberProperties || 0} {t('properties')}</span>
+
+				<div className="mob-agent-card-bottom">
+					<div className="mob-agent-name-wrap">
+						<span className="mob-agent-name">{agent?.memberFullName ?? agent?.memberNick}</span>
+						<span className="mob-agent-type">{t('agent')}</span>
+					</div>
+					<div className="mob-agent-actions">
+						<span className="mob-agent-views">
+							<RemoveRedEyeIcon />
+							{agent?.memberViews}
+						</span>
+						<IconButton
+							className="mob-agent-like-btn"
+							onClick={(e) => { e.stopPropagation(); likeMemberHandler(user, agent?._id); }}
+						>
+							{agent?.meLiked?.[0]?.myFavorite
+								? <FavoriteIcon sx={{ color: '#ff4757' }} />
+								: <FavoriteBorderIcon />}
+						</IconButton>
+					</div>
+				</div>
+			</Box>
+		);
 	} else {
 		return (
 			<Tooltip

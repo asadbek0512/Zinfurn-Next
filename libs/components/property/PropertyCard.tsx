@@ -47,7 +47,57 @@ const PropertyCard = (props: PropertyCardType) => {
 			: 0;
 
 	if (device === 'mobile') {
-		return <div>PROPERTY CARD</div>;
+		return (
+			<Stack className="mob-property-card">
+				{/* Chap: Rasm */}
+				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }} className="mob-card-img-wrap">
+					<img src={imagePath} alt={property?.propertyTitle || 'Property'} className="mob-card-img" />
+					{discountPercent > 0 && <span className="mob-sale-badge">-{discountPercent}%</span>}
+					<span className="mob-cat-badge">{t(property?.propertyCategory)}</span>
+				</Link>
+
+				{/* O'ng: Ma'lumotlar */}
+				<Stack className="mob-card-info">
+					<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
+						<Typography className="mob-card-title">{property?.propertyTitle}</Typography>
+					</Link>
+
+					<Stack className="mob-card-price">
+						{discountPercent > 0 ? (
+							<>
+								<Typography className="mob-new-price">${formatterStr(property?.propertySalePrice)}</Typography>
+								<Typography className="mob-old-price">${formatterStr(property?.propertyPrice)}</Typography>
+							</>
+						) : (
+							<Typography className="mob-cur-price">${formatterStr(property?.propertyPrice)}</Typography>
+						)}
+					</Stack>
+
+					<Stack className="mob-card-tags">
+						<span className="mob-tag">{t(property?.propertyType)}</span>
+						<span className="mob-tag">{t(property?.propertyMaterial)}</span>
+						<span className="mob-tag">{t(property?.propertyCondition)}</span>
+						<span className="mob-tag mob-color-tag">
+							<span className="mob-color-dot" style={{ backgroundColor: property?.propertyColor?.toLowerCase() || '#ccc' }} />
+							{t(property?.propertyColor)}
+						</span>
+					</Stack>
+
+					{!recentlyVisited && (
+						<Stack className="mob-card-actions">
+							<span className="mob-action"><RemoveRedEyeIcon sx={{ fontSize: 15 }} />{property?.propertyViews || 0}</span>
+							<span className="mob-action"><ChatBubbleOutlineIcon sx={{ fontSize: 15 }} />{property?.propertyComments || 0}</span>
+							<span className="mob-action" onClick={() => likePropertyHandler?.(user, property?._id)}>
+								{myFavorites || property?.meLiked?.[0]?.myFavorite
+									? <FavoriteIcon sx={{ fontSize: 15, color: 'red' }} />
+									: <FavoriteBorderIcon sx={{ fontSize: 15, color: '#bbb' }} />}
+								{property?.propertyLikes || 0}
+							</span>
+						</Stack>
+					)}
+				</Stack>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className="card-config" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>

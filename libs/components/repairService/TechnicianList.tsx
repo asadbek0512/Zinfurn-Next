@@ -117,6 +117,67 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 		);
 	}
 
+	if (device === 'mobile') {
+		return (
+			<div className="mob-quality-section">
+				{/* Hero rasm + overlay + matn */}
+				<div className="mob-quality-hero-wrap">
+					<img src={technicianImage} alt={technicianName} className="mob-quality-hero-img" />
+					<div className="mob-quality-hero-overlay" />
+					<div className="mob-quality-hero-text">
+						<h2 className="mob-quality-hero-title">{t('Service Page')}</h2>
+						<p className="mob-quality-hero-desc">{t('Home / For Repair')}</p>
+					</div>
+				</div>
+
+				{/* Badge — yarmi rasimda, yarmi tashqarida, o'ng tomonda */}
+				<div className="mob-quality-badge-float">
+					<span className="mob-quality-hero-badge">⭐ {t('Premium Quality')}</span>
+				</div>
+
+				{/* Sarlavha + tavsif */}
+				<div className="mob-quality-desc">
+					<p className="mob-quality-header-label">{t('Our Product Quality')}</p>
+					<h2 className="mob-quality-title">
+						{t('Home to Repair')} <span>{t('Quality Furniture')}</span>
+					</h2>
+					<p className="mob-quality-text">
+						{t('Our experienced technicians combine proven skills with practical knowledge to deliver high-quality furniture. Every piece is built with care, precision, and attention to detail.')}
+					</p>
+				</div>
+
+				{/* Stats */}
+				<div className="mob-quality-stats">
+					{stats.map((stat) => (
+						<div key={stat.label} className="mob-quality-stat">
+							<span className="mob-quality-stat-num">{stat.number}</span>
+							<span className="mob-quality-stat-label">{stat.label}</span>
+						</div>
+					))}
+				</div>
+
+				{/* Features */}
+				<div className="mob-quality-features">
+					<p className="mob-quality-features-title">{t('Why Choose Our Repair Service?')}</p>
+					<div className="mob-quality-features-grid">
+						{features.map((feature) => {
+							const Icon = feature.icon;
+							return (
+								<div key={feature.title} className="mob-quality-feature-card">
+									<div className={`mob-quality-feature-icon ${feature.color}`}>
+										{Icon && <Icon className="icon" />}
+									</div>
+									<p className="mob-quality-feature-title">{feature.title}</p>
+									<p className="mob-quality-feature-desc">{feature.description}</p>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+			</div>
+		);
+	}
+
 	return (
 		<Stack className={`quality-section ${isVisible ? 'visible' : ''}`}>
 			<Box component="div" className="quality-container">

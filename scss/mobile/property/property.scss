@@ -1,0 +1,469 @@
+@import '/scss/variables.scss';
+
+// ── Filter Drawer (MUI Portal — #mobile-wrap dan tashqarida render bo'ladi) ──
+.mob-filter-drawer {
+  width: 300px;
+  height: 100%;
+  overflow-y: auto;
+  padding: 0 0 40px;
+  display: flex;
+  flex-direction: column;
+
+  .mob-filter-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid #eee;
+
+    .mob-filter-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #181a20;
+      font-family: $font;
+    }
+  }
+
+  // Filter ichidagi stilllar
+  .filter-main {
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    .find-your-home {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px !important;
+
+      .title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #181a20;
+        margin-bottom: 6px;
+        font-family: $font;
+      }
+
+      .title-main {
+        font-size: 13px;
+        font-weight: 600;
+        font-family: $font;
+      }
+
+      .input-box {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+
+        .property-checkbox {
+          width: 16px;
+          height: 15px;
+          margin-right: 8px;
+        }
+
+        .property_type,
+        .property-type,
+        .propert-type {
+          font-size: 13px;
+          font-family: $font;
+          color: #181a20;
+        }
+      }
+
+      .button-group2 {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        flex-wrap: wrap;
+
+        button {
+          flex: 1;
+          font-size: 12px;
+          padding: 7px 10px;
+          border-radius: 8px;
+          font-family: $font;
+          font-weight: 600;
+          text-transform: capitalize;
+        }
+      }
+
+      .button-group {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        flex-wrap: wrap;
+
+        button {
+          font-size: 11px;
+          padding: 5px 8px;
+          font-family: $font;
+          font-weight: 600;
+          text-transform: capitalize;
+          min-width: 0;
+        }
+      }
+
+      .button-group1 {
+        display: flex;
+        flex-direction: column;
+        height: auto !important;
+        padding: 10px 12px;
+        gap: 6px;
+        border-radius: 12px;
+        box-shadow: 0 1px 4px rgba(24, 26, 32, 0.12);
+        background: #fff;
+
+        button {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-size: 12px;
+          padding: 6px 10px;
+          border-radius: 10px;
+          font-family: $font;
+          font-weight: 500;
+          text-transform: capitalize;
+          box-shadow: 0 1px 3px rgba(24, 26, 32, 0.08);
+          background: #fff;
+          min-width: 0;
+        }
+      }
+
+      .property-location,
+      .property-type1 {
+        display: flex;
+        flex-direction: column;
+        height: auto !important;
+        max-height: 180px;
+        overflow-y: auto;
+        padding: 10px 12px;
+        gap: 8px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        background: #fff;
+
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+        &::-webkit-scrollbar-track { background: transparent; }
+        &::-webkit-scrollbar-thumb {
+          background: #ddd;
+          border-radius: 4px;
+        }
+      }
+
+      .square-year-input {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 0;
+
+        .central-divider {
+          width: 16px;
+          border: 1px solid #bbb;
+          flex-shrink: 0;
+        }
+
+        input {
+          flex: 1;
+          width: 100%;
+          height: 40px;
+          font-size: 12px;
+          border-radius: 8px;
+          border: 1px solid #ddd;
+          background: #fff;
+          outline: none;
+          padding-left: 10px;
+          font-family: $font;
+
+          &::placeholder {
+            color: #aaa;
+            font-size: 11px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ── Property List Page ─────────────────────────────────────
+#mobile-wrap {
+  #mob-property-list-page {
+    padding-top: 0;
+    padding-bottom: 80px;
+    background: #f6f6f6;
+    min-height: 100vh;
+
+    // Top Bar
+    .mob-top-bar {
+      position: sticky;
+      top: 48px;
+      z-index: 10;
+      background: #fff;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-bottom: 1px solid #eee;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+
+      .mob-filter-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        background: #fff;
+        flex-shrink: 0;
+        svg { font-size: 20px; color: #cf6422; }
+      }
+
+      .mob-search-box {
+        flex: 1;
+
+        .mob-search-input {
+          width: 100%;
+          height: 38px;
+          font-size: 13px;
+          font-family: $font;
+
+          fieldset { border-radius: 10px; border-color: #ddd; }
+          input { padding: 0 8px; font-size: 13px; }
+        }
+      }
+
+      .mob-sort-btn {
+        height: 38px;
+        padding: 0 10px;
+        border-radius: 10px;
+        border: 1px solid #ddd !important;
+        background: #fff;
+        font-size: 12px;
+        font-family: $font;
+        color: #333;
+        white-space: nowrap;
+        flex-shrink: 0;
+        text-transform: none;
+
+        .MuiButton-endIcon svg { font-size: 18px; color: #cf6422; }
+      }
+    }
+
+    // Card List
+    .mob-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px;
+    }
+
+    // Horizontal Card
+    .mob-property-card {
+      display: flex;
+      flex-direction: row;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(24, 26, 32, 0.07);
+      min-height: 130px;
+
+      .mob-card-img-wrap {
+        position: relative;
+        width: 130px;
+        min-width: 130px;
+        flex-shrink: 0;
+        display: block;
+        text-decoration: none;
+
+        .mob-card-img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          object-position: center;
+          display: block;
+        }
+
+        .mob-sale-badge {
+          position: absolute;
+          top: 7px;
+          right: 7px;
+          background: #cf6422;
+          color: #fff;
+          font-size: 10px;
+          font-weight: 600;
+          padding: 2px 6px;
+          border-radius: 20px;
+          font-family: $font;
+        }
+
+        .mob-cat-badge {
+          position: absolute;
+          top: 7px;
+          left: 7px;
+          background: rgba(0,0,0,0.65);
+          color: #fff;
+          font-size: 10px;
+          font-weight: 500;
+          padding: 2px 6px;
+          border-radius: 20px;
+          font-family: $font;
+          text-transform: capitalize;
+        }
+      }
+
+      .mob-card-info {
+        flex: 1;
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        overflow: hidden;
+
+        a { text-decoration: none; }
+
+        .mob-card-title {
+          font-size: 13px;
+          font-weight: 600;
+          color: #181a20;
+          font-family: $font;
+          line-height: 1.3;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .mob-card-price {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 6px;
+
+          .mob-new-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #eb6753;
+            font-family: $font;
+          }
+
+          .mob-old-price {
+            font-size: 11px;
+            color: #999;
+            text-decoration: line-through;
+            font-family: $font;
+          }
+
+          .mob-cur-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #181a20;
+            font-family: $font;
+          }
+        }
+
+        .mob-card-tags {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 4px;
+
+          .mob-tag {
+            padding: 2px 6px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 10px;
+            color: #181a20;
+            font-weight: 500;
+            font-family: $font;
+          }
+
+          .mob-color-tag {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+          }
+
+          .mob-color-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            flex-shrink: 0;
+          }
+        }
+
+        .mob-card-actions {
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+          margin-top: auto;
+          padding-top: 6px;
+          border-top: 1px solid #f0f0f0;
+
+          .mob-action {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 11px;
+            color: #888;
+            font-family: $font;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    // No data
+    .mob-no-data {
+      align-items: center;
+      justify-content: center;
+      padding: 60px 0;
+      gap: 12px;
+
+      img { width: 48px; opacity: 0.5; }
+      .MuiTypography-root { font-size: 14px; color: #aaa; font-family: $font; }
+    }
+
+    // Pagination
+    .mob-pagination {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px 20px;
+
+      .MuiPagination-root {
+        .MuiPaginationItem-root {
+          min-width: 32px;
+          height: 32px;
+          font-size: 13px;
+          border-radius: 6px;
+          font-family: $font;
+
+          &.Mui-selected {
+            background: #cf6422;
+            color: #fff;
+            border-color: #cf6422;
+          }
+        }
+      }
+
+      .mob-total {
+        font-size: 12px;
+        color: #888;
+        font-family: $font;
+      }
+    }
+  }
+}

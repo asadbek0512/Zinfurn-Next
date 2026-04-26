@@ -104,6 +104,20 @@ const withLayoutBasic = (Component: any) => {
 							<Top />
 						</Stack>
 
+						{!isJoinPage && memoizedValues.bgImage && router.pathname !== '/repairService' && (
+							<Stack
+								className="mob-header-basic"
+								style={{
+									backgroundImage: `url(${memoizedValues.bgImage})`,
+								}}
+							>
+								<Stack className="mob-header-content">
+									<strong>{t(memoizedValues.title)}</strong>
+									<span>{t(memoizedValues.desc)}</span>
+								</Stack>
+							</Stack>
+						)}
+
 						<Stack id={'main'}>
 							<Component {...props} />
 						</Stack>

@@ -493,8 +493,6 @@ const Filter = (props: FilterType) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>PROPERTIES FILTER</div>;
-	} else {
 		return (
 			<Stack className={'filter-main'}>
 				<Stack className={'find-your-home'} mb={'30px'}>
@@ -699,8 +697,8 @@ const Filter = (props: FilterType) => {
 									border: searchFilter?.search?.colorList?.includes(color) ? '2px solid #181A20' : '1px solid #ffffff',
 									backgroundColor: '#fff',
 									color: '#000',
-									minWidth: '100px',
-									fontSize: '187px',
+									minWidth: 'auto',
+									fontSize: '13px',
 									padding: '4px 10px',
 									textTransform: 'capitalize',
 									'&:hover': {
@@ -719,6 +717,84 @@ const Filter = (props: FilterType) => {
 										border: '1px solid #999',
 									}}
 								/>
+							</Button>
+						))}
+					</Stack>
+				</Stack>
+			</Stack>
+		);
+	} else {
+		return (
+			<Stack className={'filter-main'}>
+				<Stack className={'find-your-home'} mb={'30px'}>
+					<Typography className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>
+						{t('propertyType')}
+					</Typography>
+					<Stack
+						className="property-type1"
+						onMouseEnter={() => setShowMore(true)}
+						onMouseLeave={() => { if (!searchFilter?.search?.categoryList) setShowMore(false); }}
+					>
+						{propertyType.map((type: string) => (
+							<Stack className={'input-box'} key={type}>
+								<Checkbox id={type} className="property-checkbox" color="default" size="small" value={type} onChange={propertyTypeSelectHandler} checked={(searchFilter?.search?.typeList || []).includes(type as PropertyType)} />
+								<label style={{ cursor: 'pointer' }}><Typography className="property_type">{t(type)}</Typography></label>
+							</Stack>
+						))}
+					</Stack>
+				</Stack>
+				<Stack className="find-your-home" mb="30px">
+					<p className="title">{t('category')}</p>
+					<Stack className="property-location" onMouseEnter={() => setShowMore(true)} onMouseLeave={() => { if (!searchFilter?.search?.categoryList) setShowMore(false); }}>
+						{propertyCategory.map((location: string) => (
+							<Stack className="input-box" key={location}>
+								<Checkbox id={location} className="property-checkbox" color="default" size="small" value={location} checked={(searchFilter?.search?.categoryList || []).includes(location as PropertyCategory)} onChange={propertyLocationSelectHandler} />
+								<label htmlFor={location} style={{ cursor: 'pointer' }}><Typography className="property-type">{t(location)}</Typography></label>
+							</Stack>
+						))}
+					</Stack>
+				</Stack>
+				<Stack className={'find-your-home'} mb={'30px'}>
+					<Typography className={'title'}>{t('condition')}</Typography>
+					<Stack className="button-group2">
+						<Button sx={{ borderRadius: 0, border: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW) ? '2px solid #181A20' : '1px solid #b9b9b9', borderLeft: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW) ? undefined : 'none' }} onClick={() => propertyConditionSelectHandler(PropertyCondition.NEW)}>{t('NEW')}</Button>
+						<Button sx={{ borderRadius: 0, border: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED) ? '2px solid #181A20' : '1px solid #b9b9b9', borderLeft: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED) ? undefined : 'none' }} onClick={() => propertyConditionSelectHandler(PropertyCondition.USED)}>{t('USED')}</Button>
+					</Stack>
+				</Stack>
+				<Stack className={'find-your-home'}>
+					<Typography className={'title'}>{t('priceRange')}</Typography>
+					<Stack className="square-year-input">
+						<input type="number" placeholder={t('minPrice')} min={0} value={searchFilter?.search?.pricesRange?.start ?? 0} onChange={(e: any) => { if (e.target.value >= 0) propertyPriceHandler(e.target.value, 'start'); }} />
+						<div className="central-divider"></div>
+						<input type="number" placeholder={t('maxPrice')} value={searchFilter?.search?.pricesRange?.end ?? 0} onChange={(e: any) => { if (e.target.value >= 0) propertyPriceHandler(e.target.value, 'end'); }} />
+					</Stack>
+				</Stack>
+				<Stack className={'find-your-home'} mb={'30px'}>
+					<Typography className={'title'}>{t('options')}</Typography>
+					<Stack className={'input-box'}>
+						<Checkbox id={'ForSale'} className="property-checkbox" color="default" size="small" value={'propertyIsOnSale'} checked={(searchFilter?.search?.options || []).includes('propertyIsOnSale')} onChange={propertyOptionSelectHandler} />
+						<label htmlFor={'ForSale'} style={{ cursor: 'pointer' }}><Typography className="propert-type">{t('forSale')}</Typography></label>
+					</Stack>
+					<Stack className={'input-box'}>
+						<Checkbox id={'propertyInStock'} className="property-checkbox" color="default" size="small" value={'propertyInStock'} checked={(searchFilter?.search?.options || []).includes('propertyInStock')} onChange={propertyOptionSelectHandler} />
+						<label htmlFor={'propertyInStock'} style={{ cursor: 'pointer' }}><Typography className="propert-type">{t('inStock')}</Typography></label>
+					</Stack>
+				</Stack>
+				<Stack className={'find-your-home'} mb={'30px'}>
+					<Typography className={'title'}>{t('material')}</Typography>
+					<Stack className="button-group">
+						{(['WOOD', 'METAL', 'PLASTIC', 'GLASS'] as PropertyMaterial[]).map((material, index, array) => (
+							<Button key={material} sx={{ borderRadius: index === 0 ? '12px 0 0 12px' : index === array.length - 1 ? '0 12px 12px 0' : 0, border: searchFilter?.search?.materialList?.includes(material) ? '2px solid #181A20' : '1px solid #b9b9b9', borderLeft: index !== 0 && !searchFilter?.search?.materialList?.includes(material) ? 'none' : undefined }} onClick={() => propertyMaterialSelectHandler(material)}>{t(material)}</Button>
+						))}
+					</Stack>
+				</Stack>
+				<Stack className={'find-your-home'} mb={'30px'}>
+					<Typography className={'title'}>{t('color')}</Typography>
+					<Stack className="button-group1" flexWrap="wrap" gap={1} onMouseEnter={() => setShowMore(true)} onMouseLeave={() => { if (!searchFilter?.search?.categoryList) setShowMore(false); }}>
+						{(['WHITE', 'BLACK', 'BROWN', 'GRAY', 'BEIGE', 'BLUE', 'GREEN'] as PropertyColor[]).map((color) => (
+							<Button key={color} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px', borderRadius: '12px', border: searchFilter?.search?.colorList?.includes(color) ? '2px solid #181A20' : '1px solid #ffffff', backgroundColor: '#fff', color: '#000', minWidth: 'auto', fontSize: '13px', padding: '4px 10px', textTransform: 'capitalize', '&:hover': { backgroundColor: '#facc15' } }} onClick={() => propertyColorHandler(color)}>
+								{t(color)}
+								<Stack sx={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: color.toLowerCase(), border: '1px solid #999' }} />
 							</Button>
 						))}
 					</Stack>
