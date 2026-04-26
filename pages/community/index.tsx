@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { Stack, Typography, Button, Pagination } from '@mui/material';
+import { Stack, Typography, Button, Pagination, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CommunityCard from '../../libs/components/common/CommunityCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
@@ -12,6 +12,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { BoardArticlesInquiry } from '../../libs/types/board-article/board-article.input';
 import { BoardArticleCategory } from '../../libs/enums/board-article.enum';
 import { useMutation, useQuery } from '@apollo/client';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import { LIKE_TARGET_BOARD_ARTICLE } from '../../apollo/user/mutation';
 import { GET_BOARD_ARTICLES } from '../../apollo/user/query';
 import { Messages } from '../../libs/config';
@@ -217,8 +220,85 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		);
 	};
 
+	const renderCategoryMobile = (title: string, category: BoardArticleCategory) => {
+		const articles = allArticles[category];
+		const total = articles.length;
+		const isShowingAll = showAll[category];
+		const page = currentPages[category];
+		const totalPages = Math.ceil(total / 6);
+
+		if (total === 0) return null;
+
+		return (
+			<div key={category} style={{ marginBottom: '24px' }}>
+				<div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px', paddingLeft: '16px' }}>
+					<div style={{ width: '25px', height: '2px', background: '#cf6422' }} />
+					<span style={{ fontSize: '11px', fontWeight: 500, color: '#000' }}>{t(title)} {t('BOARD')}</span>
+				</div>
+				<div style={{ fontSize: '16px', fontWeight: 700, color: '#333', marginBottom: '12px', paddingLeft: '16px' }}>
+					{t('Express your opinions freely here')}
+				</div>
+
+				<div className="mob-articles-grid">
+					<Swiper
+						slidesPerView={2}
+						spaceBetween={10}
+						touchStartPreventDefault={false}
+						style={{ paddingLeft: '16px', paddingRight: '8px', overflow: 'visible' }}
+					>
+						{articles.map((boardArticle: BoardArticle) => (
+							<SwiperSlide key={boardArticle?._id}>
+								<CommunityCard
+									boardArticle={boardArticle}
+									key={boardArticle?._id}
+									likeArticleHandler={likeArticleHandler}
+								/>
+							</SwiperSlide>
+						))}
+					</Swiper>
+				</div>
+				
+				{isShowingAll && total > 6 && (
+					<div style={{ display: 'flex', justifyContent: 'center', marginTop: '16px' }}>
+						<Pagination
+							page={page}
+							count={totalPages}
+							onChange={(event, value) => paginationHandler(category, value)}
+							shape="circular"
+							color="primary"
+							size="small"
+						/>
+					</div>
+				)}
+			</div>
+		);
+	};
+
 	if (device === 'mobile') {
-		return <h1>{t('COMMUNITY PAGE MOBILE')}</h1>;
+		return (
+			<div style={{ padding: '20px 0 80px', background: '#f8f7f4', minHeight: '100vh' }}>
+				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px 16px' }}>
+					<div style={{ fontSize: '18px', fontWeight: 800, color: '#181a20' }}>{t('Community Board')}</div>
+					<Button
+						onClick={() =>
+							router.push({
+								pathname: '/mypage',
+								query: { category: 'writeArticle' },
+							})
+						}
+						style={{ background: '#cf6422', color: '#fff', textTransform: 'none', borderRadius: '8px', fontSize: '12px', padding: '5px 12px', fontWeight: 600 }}
+						startIcon={<EditIcon sx={{ fontSize: 16 }} />}
+					>
+						{t('Write')}
+					</Button>
+				</div>
+
+				{renderCategoryMobile('FREE', BoardArticleCategory.FREE)}
+				{renderCategoryMobile('RECOMMEND', BoardArticleCategory.RECOMMEND)}
+				{renderCategoryMobile('NEWS', BoardArticleCategory.NEWS)}
+				{renderCategoryMobile('HUMOR', BoardArticleCategory.HUMOR)}
+			</div>
+		);
 	} else {
 		return (
 			<div id="community-list-page">

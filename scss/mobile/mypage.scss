@@ -1,0 +1,1214 @@
+@import '/scss/variables.scss';
+
+/* ===== MY PAGE MOBILE ===== */
+#mob-mypage {
+  background: #f8f7f4;
+  min-height: 100vh;
+  padding-bottom: 80px;
+  font-family: $font;
+}
+
+/* Back header bar for content pages */
+.mob-mypage-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  padding-top: 48px;
+  height: calc(44px + 48px);
+  font-size: 15px;
+  font-weight: 600;
+  color: #181a20;
+  cursor: pointer;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  svg {
+    color: #cf6422;
+    font-size: 16px !important;
+  }
+}
+
+/* ===== MY MENU ===== */
+#mob-mymenu {
+  background: #f2f2f7;
+  min-height: 100vh;
+  padding-bottom: 80px;
+  font-family: $font;
+
+  .mob-mymenu-profile-card {
+    background: linear-gradient(160deg, #763711 0%, #cf6422 100%);
+    padding-top: calc(28px + 48px);
+    padding-bottom: 28px;
+    padding-left: 16px;
+    padding-right: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    .mob-mymenu-avatar-wrap img {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(255,255,255,0.85);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+
+    .mob-mymenu-name {
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.1px;
+      margin-top: 2px;
+    }
+
+    .mob-mymenu-type-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.2);
+      padding: 3px 14px;
+      border-radius: 20px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+  }
+
+  .mob-mymenu-stats {
+    display: flex;
+    background: #fff;
+    padding: 16px 0;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 16px;
+
+    .mob-mymenu-stat-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      border-right: 1px solid #ebebeb;
+
+      &:last-child { border-right: none; }
+
+      .mob-mymenu-stat-num {
+        font-size: 17px;
+        font-weight: 700;
+        color: #181a20;
+        line-height: 1;
+      }
+
+      .mob-mymenu-stat-label {
+        font-size: 10px;
+        font-weight: 500;
+        color: #aaa;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+    }
+  }
+
+  .mob-mymenu-section {
+    margin: 0 16px 12px;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+
+    .mob-mymenu-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #aaa;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 12px 16px 6px;
+    }
+
+    .mob-mymenu-item {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 12px 16px;
+      border-top: 1px solid #f4f4f4;
+      cursor: pointer;
+      transition: background 0.12s;
+
+      &:first-of-type { border-top: none; }
+      &:active { background: #f9f9f9; }
+
+      .mob-mymenu-item-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        svg { font-size: 19px; }
+
+        &.blue   { background: #e3f0ff; svg { color: #2196f3; } }
+        &.green  { background: #e6f9f0; svg { color: #27ae60; } }
+        &.orange { background: #fff3e0; svg { color: #cf6422; } }
+        &.red    { background: #fdecea; svg { color: #e74c3c; } }
+        &.purple { background: #f3e8ff; svg { color: #9b59b6; } }
+        &.teal   { background: #e0f7f5; svg { color: #009688; } }
+        &.indigo { background: #e8eaf6; svg { color: #3f51b5; } }
+        &.amber  { background: #fff8e1; svg { color: #f59e0b; } }
+      }
+
+      .mob-mymenu-item-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        min-width: 0;
+      }
+
+      .mob-mymenu-item-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #181a20;
+      }
+
+      .mob-mymenu-item-sub {
+        font-size: 12px;
+        color: #aaa;
+        font-weight: 400;
+      }
+
+      .mob-mymenu-item-chevron {
+        font-size: 16px !important;
+        color: #c8c8c8;
+        flex-shrink: 0;
+      }
+
+      &.logout {
+        .mob-mymenu-item-label { color: #e74c3c; font-weight: 600; }
+      }
+    }
+  }
+}
+
+/* ===== MY PROFILE ===== */
+#mob-myprofile {
+  background: #f8f7f4;
+  min-height: calc(100vh - 48px);
+  padding-bottom: 80px;
+  font-family: $font;
+
+  .mob-myprofile-header {
+    background: #fff;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 12px;
+
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #181a20;
+      margin: 0;
+    }
+
+    span {
+      font-size: 12px;
+      color: #999;
+    }
+  }
+
+  .mob-myprofile-photo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 16px;
+    background: #fff;
+    margin-bottom: 12px;
+
+    .mob-myprofile-img-wrap {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      margin-bottom: 10px;
+
+      img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #f0f0f0;
+      }
+
+      label {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 26px;
+        height: 26px;
+        background: #cf6422;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        svg { font-size: 13px; color: #fff; }
+      }
+    }
+
+    span {
+      font-size: 11px;
+      color: #aaa;
+      text-align: center;
+    }
+  }
+
+  .mob-myprofile-fields {
+    background: #fff;
+    border-radius: 12px;
+    margin: 0 12px 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+
+    .mob-myprofile-field {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f5f5f5;
+
+      &:last-child { border-bottom: none; }
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        margin-bottom: 6px;
+
+        svg { font-size: 14px; }
+      }
+
+      input {
+        width: 100%;
+        border: 1px solid #e8e8e8;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 14px;
+        font-family: $font;
+        color: #181a20;
+        background: #fafafa;
+        outline: none;
+        box-sizing: border-box;
+        transition: border-color 0.2s;
+
+        &:focus { border-color: #cf6422; background: #fff; }
+        &::placeholder { color: #ccc; }
+      }
+    }
+  }
+
+  .mob-myprofile-social {
+    margin: 0 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .mob-myprofile-social-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #333;
+      cursor: pointer;
+      text-transform: none;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+
+      img { width: 18px; height: 18px; }
+    }
+
+    .mob-myprofile-linked {
+      font-size: 13px;
+      color: #27ae60;
+      text-align: center;
+      padding: 10px;
+    }
+  }
+
+  .mob-myprofile-update-btn {
+    margin: 0 12px 20px;
+    width: calc(100% - 24px);
+    padding: 14px;
+    background: #cf6422;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: $font;
+    cursor: pointer;
+    text-transform: none;
+
+    &:disabled {
+      background: #e0e0e0;
+      color: #bbb;
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* ===== MY PROPERTIES ===== */
+#mob-myproperties {
+  background: #f8f7f4;
+  min-height: calc(100vh - 48px);
+  padding-bottom: 80px;
+  font-family: $font;
+
+  .mob-myprop-header {
+    background: #fff;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 12px;
+
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #181a20;
+      margin: 0 0 2px;
+    }
+
+    span { font-size: 12px; color: #999; }
+  }
+
+  .mob-myprop-tabs {
+    display: flex;
+    background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 12px;
+
+    .mob-myprop-tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: #999;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+
+      &.active {
+        color: #cf6422;
+        border-bottom-color: #cf6422;
+        font-weight: 700;
+      }
+    }
+  }
+
+  .mob-myprop-list {
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mob-myprop-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    .mob-myprop-card-img {
+      width: 100px;
+      height: 90px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .mob-myprop-card-body {
+      flex: 1;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+
+      .mob-myprop-card-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #181a20;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 4px;
+      }
+
+      .mob-myprop-card-date {
+        font-size: 11px;
+        color: #aaa;
+        margin-bottom: 4px;
+      }
+
+      .mob-myprop-card-status {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 20px;
+        background: rgba(39,174,96,0.12);
+        color: #27ae60;
+        margin-bottom: 6px;
+
+        &.sold { background: rgba(231,76,60,0.12); color: #e74c3c; }
+      }
+
+      .mob-myprop-card-actions {
+        display: flex;
+        gap: 6px;
+
+        button {
+          flex: 1;
+          height: 28px;
+          font-size: 11px;
+          font-family: $font;
+          border-radius: 6px;
+          cursor: pointer;
+          font-weight: 600;
+          border: none;
+
+          &.edit { background: #f0e8e0; color: #cf6422; }
+          &.delete { background: #fdf0ef; color: #e74c3c; }
+        }
+      }
+    }
+  }
+
+  .mob-myprop-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 16px;
+    gap: 8px;
+
+    img { width: 50px; height: 50px; opacity: 0.4; }
+    span { font-size: 14px; color: #bbb; }
+  }
+
+  .mob-myprop-pagination {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+  }
+}
+
+/* ===== MY REPAIR ===== */
+#mob-myrepair {
+  background: #f8f7f4;
+  min-height: calc(100vh - 48px);
+  padding-bottom: 80px;
+  font-family: $font;
+
+  .mob-myrepair-header {
+    background: #fff;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 12px;
+
+    h2 { font-size: 16px; font-weight: 700; color: #181a20; margin: 0 0 2px; }
+    span { font-size: 12px; color: #999; }
+  }
+
+  .mob-myrepair-list {
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mob-myrepair-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+
+    img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .mob-myrepair-card-body {
+      padding: 12px;
+
+      .mob-myrepair-type {
+        font-size: 14px;
+        font-weight: 700;
+        color: #181a20;
+        margin-bottom: 4px;
+      }
+
+      .mob-myrepair-address {
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        svg { font-size: 14px; color: #cf6422; }
+      }
+
+      .mob-myrepair-desc {
+        font-size: 12px;
+        color: #666;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .mob-myrepair-status {
+        display: inline-block;
+        margin-top: 8px;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+        background: rgba(207,100,34,0.1);
+        color: #cf6422;
+      }
+    }
+  }
+
+  .mob-myrepair-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 16px;
+    gap: 8px;
+
+    img { width: 50px; height: 50px; opacity: 0.4; }
+    span { font-size: 14px; color: #bbb; }
+  }
+
+  .mob-myrepair-pagination {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+  }
+}
+
+/* ===== MY FAVORITES / RECENTLY VISITED ===== */
+#mob-myfavorites,
+#mob-myvisited {
+  background: #f8f7f4;
+  min-height: calc(100vh - 48px);
+  padding-bottom: 80px;
+  font-family: $font;
+
+  .mob-fav-header {
+    background: #fff;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 12px;
+
+    h2 { font-size: 16px; font-weight: 700; color: #181a20; margin: 0 0 2px; }
+    span { font-size: 12px; color: #999; }
+  }
+
+  .mob-fav-list {
+    padding: 0 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 10px;
+  }
+
+  .mob-fav-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+
+    .mob-fav-card-img-wrap {
+      position: relative;
+      height: 140px;
+      overflow: hidden;
+      background: #fafafa;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 4px;
+        box-sizing: border-box;
+      }
+
+      .mob-fav-badge {
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+        background: #fff;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #181a20;
+      }
+
+      .mob-fav-like-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 32px;
+        height: 32px;
+        background: rgba(255,255,255,0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg { font-size: 18px; }
+      }
+    }
+
+    .mob-fav-card-body {
+      padding: 12px;
+
+      .mob-fav-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #181a20;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 4px;
+      }
+
+      .mob-fav-meta {
+        font-size: 12px;
+        color: #888;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+    }
+  }
+
+  .mob-fav-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 16px;
+    gap: 8px;
+
+    img { width: 50px; height: 50px; opacity: 0.4; }
+    span { font-size: 14px; color: #bbb; }
+  }
+
+  .mob-fav-pagination {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+  }
+}
+
+/* ===== MY ARTICLES ===== */
+#mob-myarticles {
+  background: #f8f7f4;
+  min-height: calc(100vh - 48px);
+  padding-bottom: 80px;
+  font-family: $font;
+
+  .mob-myarticles-header {
+    background: #fff;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 12px;
+
+    h2 { font-size: 16px; font-weight: 700; color: #181a20; margin: 0 0 2px; }
+    span { font-size: 12px; color: #999; }
+  }
+
+  .mob-myarticles-grid {
+    padding: 0 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .mob-myarticles-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 16px;
+    gap: 8px;
+
+    img { width: 50px; height: 50px; opacity: 0.4; }
+    span { font-size: 14px; color: #bbb; }
+  }
+
+  .mob-myarticles-pagination {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+  }
+}
+
+/* ===== WRITE ARTICLE ===== */
+#mob-writearticle {
+  background: #f8f7f4;
+  min-height: calc(100vh - 48px);
+  padding-bottom: 80px;
+  font-family: $font;
+
+  .mob-writearticle-header {
+    background: #fff;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 12px;
+
+    h2 { font-size: 16px; font-weight: 700; color: #181a20; margin: 0 0 2px; }
+    span { font-size: 12px; color: #999; }
+  }
+
+  .mob-writearticle-body {
+    padding: 0 12px;
+  }
+}
+
+/* ===== MOBILE TUI EDITOR ===== */
+.mob-teditor {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px;
+  font-family: $font;
+
+  .mob-teditor-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 6px;
+  }
+
+  .mob-teditor-field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mob-teditor-editor {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e8e8e8;
+
+    .toastui-editor-toolbar {
+      padding: 4px 6px;
+      gap: 2px;
+    }
+
+    .toastui-editor-toolbar-item-wrapper button {
+      width: 28px;
+      height: 28px;
+    }
+
+    .toastui-editor-defaultUI {
+      border: none;
+    }
+  }
+
+  .mob-teditor-img-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 44px;
+    background: #fff;
+    border: 1.5px dashed #cf6422;
+    border-radius: 12px;
+    font-family: $font;
+    font-size: 14px;
+    font-weight: 600;
+    color: #cf6422;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    .mob-teditor-img-icon { font-size: 18px; }
+    &:active { background: #fdf0e8; }
+  }
+
+  .mob-teditor-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .mob-teditor-preview-img {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #eee;
+    }
+  }
+
+  .mob-teditor-submit {
+    width: 100%;
+    height: 48px;
+    background: #cf6422;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-family: $font;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background 0.2s;
+
+    &:active { background: #b8531a; }
+  }
+}
+
+/* ===== FOLLOWERS / FOLLOWINGS ===== */
+#mob-myfollows {
+  background: #f8f7f4;
+  min-height: calc(100vh - 48px);
+  padding-bottom: 80px;
+  font-family: $font;
+
+  .mob-myfollows-header {
+    background: #fff;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 12px;
+
+    h2 { font-size: 16px; font-weight: 700; color: #181a20; margin: 0; }
+  }
+
+  .mob-myfollows-list {
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mob-myfollows-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .mob-myfollows-info {
+      flex: 1;
+      min-width: 0;
+
+      .mob-myfollows-nick {
+        font-size: 14px;
+        font-weight: 600;
+        color: #181a20;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .mob-myfollows-type {
+        font-size: 11px;
+        color: #999;
+      }
+    }
+
+    .mob-myfollows-actions {
+      display: flex;
+      gap: 6px;
+
+      button {
+        height: 30px;
+        padding: 0 12px;
+        font-size: 11px;
+        font-family: $font;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 600;
+
+        &.follow { background: #cf6422; color: #fff; border: none; }
+        &.unfollow { background: #fff; color: #cf6422; border: 1px solid #cf6422; }
+        &.like { background: #fff; color: #e74c3c; border: 1px solid #e0e0e0; padding: 0 10px; }
+      }
+    }
+  }
+
+  .mob-myfollows-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 16px;
+    gap: 8px;
+
+    img { width: 50px; height: 50px; opacity: 0.4; }
+    span { font-size: 14px; color: #bbb; }
+  }
+
+  .mob-myfollows-pagination {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+  }
+}
+
+/* ===== ADD PROPERTY ===== */
+#mob-addproperty {
+  background: #f8f7f4;
+  min-height: calc(100vh - 48px);
+  padding-bottom: 80px;
+
+  .mob-addprop-header {
+    background: #fff;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 12px;
+
+    h2 { font-size: 16px; font-weight: 700; color: #181a20; margin: 0 0 2px; }
+    span { font-size: 12px; color: #999; }
+  }
+
+  .mob-addprop-form {
+    background: #fff;
+    border-radius: 12px;
+    margin: 0 12px;
+    padding: 16px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+
+    .mob-addprop-row {
+      display: flex;
+      gap: 12px;
+      .mob-addprop-field { flex: 1; }
+    }
+
+    .mob-addprop-field {
+      margin-bottom: 14px;
+
+      label {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        color: #999;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+
+      input, textarea {
+        width: 100%;
+        border: 1px solid #e8e8e8;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 14px;
+        font-family: $font;
+        color: #181a20;
+        background: #fafafa;
+        outline: none;
+        box-sizing: border-box;
+
+        &:focus { border-color: #cf6422; background: #fff; }
+        &::placeholder { color: #ccc; }
+      }
+      
+      .mob-addprop-select {
+        width: 100%;
+        border-radius: 8px;
+        background: #fafafa;
+        font-family: $font;
+        font-size: 14px;
+        color: #181a20;
+        
+        fieldset {
+          border-color: #e8e8e8;
+        }
+
+        &.Mui-focused fieldset {
+          border-color: #cf6422 !important;
+        }
+        
+        .MuiSelect-select {
+           padding: 10px 12px;
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+    }
+
+    .mob-addprop-upload {
+      margin-bottom: 20px;
+
+      label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+        span { color: #cf6422; }
+      }
+
+      .mob-addprop-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        .mob-addprop-img-item {
+          position: relative;
+          width: 70px;
+          height: 70px;
+          border-radius: 8px;
+          overflow: hidden;
+
+          img { width: 100%; height: 100%; object-fit: cover; }
+
+          .delete-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 16px;
+            height: 16px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            line-height: 1;
+            cursor: pointer;
+          }
+        }
+
+        .mob-addprop-img-add {
+          width: 70px;
+          height: 70px;
+          border-radius: 8px;
+          background: #f5f5f5;
+          border: 1px dashed #ccc;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+
+          span { font-size: 24px; color: #999; }
+        }
+      }
+
+      p {
+        font-size: 10px;
+        color: #aaa;
+        margin-top: 6px;
+      }
+    }
+
+    .mob-addprop-btn {
+      width: 100%;
+      padding: 14px;
+      background: #cf6422;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: $font;
+
+      &:disabled { background: #e0e0e0; color: #bbb; cursor: not-allowed; }
+    }
+  }
+}
+
+/* ===== DEFAULT PAGINATION ===== */
+.pagination-config {
+  width: 100%;
+  margin: 20px auto;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center;
+  gap: 12px;
+
+  .pagination-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .MuiPagination-root {
+      .MuiPaginationItem-root {
+        min-width: 32px;
+        height: 32px;
+        margin: 0 2px;
+        border-radius: 6px;
+        font-family: $font;
+        font-size: 13px;
+        font-weight: 500;
+        color: #666;
+        border: 1px solid #ddd;
+        background: #fff;
+
+        &.Mui-selected {
+          background: #cf6422;
+          color: #fff;
+          border-color: #cf6422;
+        }
+
+        &.MuiPaginationItem-previousNext {
+          border-radius: 6px;
+        }
+      }
+    }
+  }
+
+  .total-result {
+    p {
+      color: #666;
+      text-align: center;
+      font-family: $font;
+      font-size: 12px;
+      font-weight: 400;
+      margin: 0;
+    }
+  }
+}

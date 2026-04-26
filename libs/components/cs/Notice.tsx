@@ -23,7 +23,23 @@ const Notice = () => {
 	});
 
 	if (device === 'mobile') {
-		return <div>{t('NOTICE MOBILE')}</div>;
+		if (loading) return <div className="mob-cs-loading"><CircularProgress size={28} sx={{ color: '#cf6422' }} /></div>;
+		const notices = noticesData?.getAllNotices?.list.slice().reverse() || [];
+		return (
+			<div className="mob-cs-notice">
+				{notices.length === 0 && <p className="mob-cs-empty">{t('No notices yet')}</p>}
+				{notices.map((notice: any, index: number) => (
+					<div key={notice._id} className="mob-cs-notice-card">
+						<div className="mob-cs-notice-top">
+							<NotificationsIcon sx={{ color: '#cf6422', fontSize: 18, flexShrink: 0 }} />
+							<span className="mob-cs-notice-title">{notice.noticeTitle}</span>
+							<span className="mob-cs-notice-date">{format(new Date(notice.createdAt), 'MMM dd')}</span>
+						</div>
+						<p className="mob-cs-notice-body">{notice.noticeContent}</p>
+					</div>
+				))}
+			</div>
+		);
 	}
 
 	if (loading) {

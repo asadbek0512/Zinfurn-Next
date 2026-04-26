@@ -18,6 +18,16 @@ import { socketVar, userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
 import NotificationModal from './common/NotificationModal';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import WeekendOutlinedIcon from '@mui/icons-material/WeekendOutlined';
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
+import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -37,7 +47,7 @@ const Top = () => {
 	const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
 	const [notificationAnchor, setNotificationAnchor] = React.useState<null | HTMLElement>(null);
 	const notificationOpen = Boolean(notificationAnchor);
-	const [isTransparent, setIsTransparent] = useState(true);
+	const [isTransparent, setIsTransparent] = useState(false);
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 	/** LIFECYCLES **/
@@ -51,27 +61,28 @@ const Top = () => {
 	}, [router]);
 
 	useEffect(() => {
-		const checkInitialState = () => {
-			const isDetailPage =
-				router.pathname === '/property/detail' ||
-				router.pathname === '/repairService/detail' ||
-				router.pathname === '/account/join';
-			const scrolled = window.scrollY >= 50;
+		const isJoinPage = router.pathname === '/account/join';
+		const isDetailPage =
+			router.pathname === '/property/detail' ||
+			router.pathname === '/repairService/detail';
 
+		// Solid white navbar only on these pages
+		const isSolidPage =
+			router.pathname === '/mypage' ||
+			router.pathname === '/member' ||
+			router.pathname === '/agent/detail';
+
+		const checkInitialState = () => {
+			const scrolled = window.scrollY >= 50;
 			setColorChange(scrolled || isDetailPage);
-			setIsTransparent(!isDetailPage && !scrolled);
-			setBgColor(isDetailPage);
+			setIsTransparent(!isSolidPage && !isDetailPage && !scrolled);
+			setBgColor(isDetailPage || isJoinPage);
 		};
 
 		const handleScroll = () => {
-			const isDetailPage =
-				router.pathname === '/property/detail' ||
-				router.pathname === '/repairService/detail' ||
-				router.pathname === '/account/join';
 			const scrolled = window.scrollY >= 50;
-
 			setColorChange(scrolled || isDetailPage);
-			setIsTransparent(!isDetailPage && !scrolled);
+			setIsTransparent(!isSolidPage && !isDetailPage && !scrolled);
 		};
 
 		checkInitialState();
@@ -298,28 +309,40 @@ const Top = () => {
 					{/* Drawer header */}
 					<div className={'mobile-side-header'}>
 						{user?._id ? (
-							<div className={'mobile-user-info'}>
-								<img
-									className={'mobile-user-avatar'}
-									src={
-										user?.memberImage
-											? user.memberImage.startsWith('http')
-												? user.memberImage
-												: `${REACT_APP_API_URL}/${user.memberImage}`
-											: '/img/profile/defaultUser.svg'
-									}
-									alt=""
-								/>
-								<div className={'mobile-user-details'}>
-									<span className={'mobile-user-name'}>{user?.memberNick}</span>
-									<span className={'mobile-user-email'}>{user?.memberEmail || user?.memberPhone || ''}</span>
+							<Link href={'/mypage'} onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none' }}>
+								<div className={'mobile-user-info'}>
+									<img
+										className={'mobile-user-avatar'}
+										src={
+											user?.memberImage
+												? user.memberImage.startsWith('http')
+													? user.memberImage
+													: `${REACT_APP_API_URL}/${user.memberImage}`
+												: '/img/profile/defaultUser.svg'
+										}
+										alt=""
+									/>
+									<div className={'mobile-user-details'}>
+										<span className={'mobile-user-name'}>{user?.memberNick}</span>
+										{user?.memberPhone
+											? <span className={'mobile-user-phone'}>{user.memberPhone}</span>
+											: <span className={'mobile-user-type'}>{t(user?.memberType || 'USER')}</span>
+										}
+									</div>
+									<ChevronRightIcon className={'mobile-user-chevron'} />
 								</div>
-							</div>
+							</Link>
 						) : (
-							<Link href={'/account/join'} onClick={() => setMobileMenuOpen(false)}>
+							<Link href={'/account/join'} onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none' }}>
 								<div className={'mobile-login-link'}>
-									<AccountCircleOutlinedIcon />
-									<span>{t('Login')} / {t('Register')}</span>
+									<div className={'mobile-login-avatar'}>
+										<AccountCircleOutlinedIcon />
+									</div>
+									<div className={'mobile-login-text'}>
+										<span className={'mobile-login-title'}>{t('Welcome!')}</span>
+										<span className={'mobile-login-sub'}>{t('Sign In')} / {t('Create Account')}</span>
+									</div>
+									<ChevronRightIcon className={'mobile-user-chevron'} />
 								</div>
 							</Link>
 						)}
@@ -328,18 +351,51 @@ const Top = () => {
 					{/* Nav links */}
 					<div className={'mobile-side-items'}>
 						{[
-							{ href: '/', label: t('Home') },
-							{ href: '/property', label: t('Properties') },
-							{ href: '/agent', label: t('Agents') },
-							{ href: '/repairService', label: t('Service') },
-							{ href: '/community?articleCategory=FREE', label: t('Community') },
-							...(user?._id ? [{ href: '/mypage', label: t('My Page') }] : []),
-							{ href: '/cs', label: t('CS') },
+							{ href: '/',                          label: t('Home'),       icon: <HomeOutlinedIcon />,    color: '#2196f3' },
+							{ href: '/property',                  label: t('Properties'), icon: <WeekendOutlinedIcon />, color: '#cf6422' },
+							{ href: '/agent',                     label: t('Agents'),     icon: <PeopleOutlinedIcon />,  color: '#27ae60' },
+							{ href: '/repairService',             label: t('Service'),    icon: <BuildOutlinedIcon />,   color: '#9b59b6' },
+							{ href: '/community?articleCategory=FREE', label: t('Community'), icon: <ForumOutlinedIcon />, color: '#f59e0b' },
+							...(user?._id ? [{ href: '/mypage', label: t('My Page'), icon: <PersonOutlinedIcon />, color: '#e74c3c' }] : []),
+							{ href: '/cs',                        label: t('CS'),         icon: <HelpOutlineIcon />,     color: '#009688' },
 						].map((item) => (
 							<Link key={item.href} href={item.href} className={'mobile-side-item'} onClick={() => setMobileMenuOpen(false)}>
-								<div>{item.label}</div>
+								<div className={'mobile-side-item-icon'} style={{ background: `${item.color}18`, color: item.color }}>
+									{item.icon}
+								</div>
+								<span className={'mobile-side-item-label'}>{item.label}</span>
+								<ChevronRightIcon className={'mobile-side-item-chevron'} />
 							</Link>
 						))}
+
+						{/* Chat & AI items — same section, below nav links */}
+						<div className={'mobile-side-divider'} />
+						<button
+							className={'mobile-side-item mobile-side-btn'}
+							onClick={() => {
+								window.dispatchEvent(new CustomEvent('toggle-mob-chat'));
+								setMobileMenuOpen(false);
+							}}
+						>
+							<div className={'mobile-side-item-icon'} style={{ background: '#1a1a2e18', color: '#1a1a2e' }}>
+								<ChatBubbleOutlineIcon />
+							</div>
+							<span className={'mobile-side-item-label'}>{t('Live Chat')}</span>
+							<ChevronRightIcon className={'mobile-side-item-chevron'} />
+						</button>
+						<button
+							className={'mobile-side-item mobile-side-btn'}
+							onClick={() => {
+								window.dispatchEvent(new CustomEvent('toggle-mob-ai'));
+								setMobileMenuOpen(false);
+							}}
+						>
+							<div className={'mobile-side-item-icon'} style={{ background: '#cf642218', color: '#cf6422' }}>
+								<SmartToyOutlinedIcon />
+							</div>
+							<span className={'mobile-side-item-label'}>{t('AI Assistant')}</span>
+							<ChevronRightIcon className={'mobile-side-item-chevron'} />
+						</button>
 					</div>
 
 					{/* Drawer footer — logout */}

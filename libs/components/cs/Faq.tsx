@@ -28,7 +28,27 @@ const Faq = () => {
 	};
 
 	if (device === 'mobile') {
-		return <div>{t('FAQ MOBILE')}</div>;
+		if (loading) return <div className="mob-cs-loading"><CircularProgress size={28} sx={{ color: '#cf6422' }} /></div>;
+		return (
+			<div className="mob-cs-faq">
+				{faqData?.getAllNotices?.list?.slice()?.reverse()?.map((faq: any, index: number) => (
+					<Accordion
+						key={faq._id}
+						expanded={expanded === `panel${index + 1}`}
+						onChange={handleChange(`panel${index + 1}`)}
+						className="mob-cs-faq-item"
+					>
+						<AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: '#cf6422' }} />} className="mob-cs-faq-summary">
+							<HelpOutlineIcon sx={{ color: '#cf6422', fontSize: 18, flexShrink: 0, mr: 1 }} />
+							<span className="mob-cs-faq-question">{faq.noticeTitle}</span>
+						</AccordionSummary>
+						<AccordionDetails className="mob-cs-faq-answer">
+							<p>{faq.noticeContent}</p>
+						</AccordionDetails>
+					</Accordion>
+				))}
+			</div>
+		);
 	}
 
 	if (loading) {

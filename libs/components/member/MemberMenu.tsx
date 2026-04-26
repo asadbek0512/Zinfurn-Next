@@ -41,7 +41,81 @@ const MemberMenu = (props: MemberMenuProps) => {
 	});
 
 	if (device === 'mobile') {
-		return <div>{t('MEMBER_MENU_MOBILE')}</div>;
+		const avatarSrc = member?.memberImage
+			? member.memberImage.startsWith('http')
+				? member.memberImage
+				: `${REACT_APP_API_URL}/${member.memberImage}`
+			: '/img/profile/defaultUser.svg';
+
+		return (
+			<div id="mob-member-menu">
+				<div className="mob-mem-profile-card">
+					<img className="mob-mem-avatar" src={avatarSrc} alt="" />
+					<div className="mob-mem-name">{member?.memberNick || 'User'}</div>
+					<div className="mob-mem-type-badge">{t(member?.memberType || '')}</div>
+					{member?.memberPhone && <div className="mob-mem-phone">{member.memberPhone}</div>}
+					<div className="mob-mem-follow-wrap">
+						{member?.meFollowed?.[0]?.myFollowing ? (
+							<button
+								className="mob-mem-unfollow-btn"
+								onClick={() => unsubscribeHandler(member?._id, getMemberRefetch, memberId)}
+							>
+								{t('Unfollow')}
+							</button>
+						) : (
+							<button
+								className="mob-mem-follow-btn"
+								onClick={() => subscribeHandler(member?._id, getMemberRefetch, memberId)}
+							>
+								{t('Follow')}
+							</button>
+						)}
+					</div>
+				</div>
+
+				<div className="mob-mem-stats">
+					{member?.memberType === 'AGENT' && (
+						<div className="mob-mem-stat-item">
+							<span className="mob-mem-stat-num">{member?.memberProperties || 0}</span>
+							<span className="mob-mem-stat-label">{t('Items')}</span>
+						</div>
+					)}
+					<div className="mob-mem-stat-item">
+						<span className="mob-mem-stat-num">{member?.memberArticles || 0}</span>
+						<span className="mob-mem-stat-label">{t('Articles')}</span>
+					</div>
+					<div className="mob-mem-stat-item">
+						<span className="mob-mem-stat-num">{member?.memberFollowers || 0}</span>
+						<span className="mob-mem-stat-label">{t('Followers')}</span>
+					</div>
+					<div className="mob-mem-stat-item">
+						<span className="mob-mem-stat-num">{member?.memberFollowings || 0}</span>
+						<span className="mob-mem-stat-label">{t('Following')}</span>
+					</div>
+					<div className="mob-mem-stat-item">
+						<span className="mob-mem-stat-num">{member?.memberLikes || 0}</span>
+						<span className="mob-mem-stat-label">{t('Likes')}</span>
+					</div>
+				</div>
+
+				<div className="mob-mem-tabs">
+					{member?.memberType === 'AGENT' && (
+						<Link href={{ pathname: '/member', query: { ...router.query, category: 'properties' } }} scroll={false}>
+							<div className={`mob-mem-tab ${category === 'properties' ? 'active' : ''}`}>{t('Properties')}</div>
+						</Link>
+					)}
+					<Link href={{ pathname: '/member', query: { ...router.query, category: 'followers' } }} scroll={false}>
+						<div className={`mob-mem-tab ${category === 'followers' ? 'active' : ''}`}>{t('Followers')}</div>
+					</Link>
+					<Link href={{ pathname: '/member', query: { ...router.query, category: 'followings' } }} scroll={false}>
+						<div className={`mob-mem-tab ${category === 'followings' ? 'active' : ''}`}>{t('Followings')}</div>
+					</Link>
+					<Link href={{ pathname: '/member', query: { ...router.query, category: 'articles' } }} scroll={false}>
+						<div className={`mob-mem-tab ${category === 'articles' ? 'active' : ''}`}>{t('Articles')}</div>
+					</Link>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<Stack width={'100%'} padding={'30px 24px'}>

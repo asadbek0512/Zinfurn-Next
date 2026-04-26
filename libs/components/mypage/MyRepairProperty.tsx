@@ -51,7 +51,57 @@ const MyRepairProperty: NextPage = ({ initialInput, ...props }: any) => {
   }
 
   if (device === 'mobile') {
-    return <div>{t('NESTAR_REPAIR_PROPERTIES_MOBILE')}</div>;
+    return (
+      <div id="mob-myrepair">
+        <div className="mob-myrepair-header">
+          <h2>{t('My Repair Properties')}</h2>
+          <span>{t('We are glad to see you again!')}</span>
+        </div>
+        <div className="mob-myrepair-list">
+          {technicianRepairProperties?.length === 0 ? (
+            <div className="mob-myrepair-empty">
+              <img src="/img/icons/icoAlert.svg" alt="" />
+              <span>{t('No Repair Property found!')}</span>
+            </div>
+          ) : (
+            technicianRepairProperties?.map((repairProperty: RepairProperty) => (
+              <div key={repairProperty._id} className="mob-myrepair-card">
+                <img
+                  src={
+                    repairProperty.repairPropertyImages?.length
+                      ? `${process.env.REACT_APP_API_URL}/${repairProperty.repairPropertyImages[0]}`
+                      : '/img/banner/Home-1-.jpg'
+                  }
+                  alt=""
+                />
+                <div className="mob-myrepair-card-body">
+                  <div className="mob-myrepair-type">{t(repairProperty.repairPropertyType)}</div>
+                  <div className="mob-myrepair-address">{repairProperty.repairPropertyAddress}</div>
+                  <div className="mob-myrepair-desc">{repairProperty.repairPropertyDescription}</div>
+                  <div className="mob-myrepair-status">{t('ACTIVE')}</div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+        {technicianRepairProperties?.length > 0 && (
+          <Stack className="pagination-config">
+            <Stack className="pagination-box">
+              <Pagination
+                count={Math.ceil(total / searchFilter.limit)}
+                page={searchFilter.page}
+                shape="circular"
+                color="primary"
+                onChange={paginationHandler}
+              />
+            </Stack>
+            <Stack className="total-result">
+              <Typography>{t('{{total}} property available', { total })}</Typography>
+            </Stack>
+          </Stack>
+        )}
+      </div>
+    );
   } else {
     return (
       <div id="my-property-page">

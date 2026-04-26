@@ -38,7 +38,37 @@ const CS: NextPage = (props: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>{t('CS PAGE MOBILE')}</h1>;
+		return (
+			<div id="mob-cs-page">
+				<div className="mob-cs-header">
+					<span className="mob-cs-title">{t('Customer Support')}</span>
+					<span className="mob-cs-breadcrumb">
+						<Link href="/">{t('Home')}</Link> / {t('Help')}
+					</span>
+				</div>
+
+				<div className="mob-cs-tabs">
+					<button className={`mob-cs-tab${tab === 'notice' ? ' active' : ''}`} onClick={() => changeTabHandler('notice')}>
+						<SupportIcon />
+						<span>{t('Notice')}</span>
+					</button>
+					<button className={`mob-cs-tab${tab === 'faq' ? ' active' : ''}`} onClick={() => changeTabHandler('faq')}>
+						<QuestionAnswerIcon />
+						<span>{t('FAQ')}</span>
+					</button>
+					<button className={`mob-cs-tab${tab === 'terms' ? ' active' : ''}`} onClick={() => changeTabHandler('terms')}>
+						<ArticleIcon />
+						<span>{t('Terms')}</span>
+					</button>
+				</div>
+
+				<div className="mob-cs-content">
+					{tab === 'notice' && <Notice />}
+					{tab === 'faq' && <Faq />}
+					{tab === 'terms' && <Terms />}
+				</div>
+			</div>
+		);
 	}
 
 	return (

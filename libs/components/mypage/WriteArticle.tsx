@@ -12,7 +12,17 @@ const WriteArticle: NextPage = () => {
 	const device = useDeviceDetect();
 
 	if (device === 'mobile') {
-		return <>ARTICLE PAGE MOBILE</>;
+		return (
+			<div id="mob-writearticle">
+				<div className="mob-writearticle-header">
+					<h2>{t('Write an Article')}</h2>
+					<span>{t('Feel free to write your ideas!')}</span>
+				</div>
+				<div className="mob-writearticle-body">
+					<TuiEditor />
+				</div>
+			</div>
+		);
 	} else
 		return (
 			<div id="write-article-page">

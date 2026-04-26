@@ -17,6 +17,12 @@ import GroupIcon from '@mui/icons-material/Group';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import HandymanIcon from '@mui/icons-material/Handyman';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import HistoryIcon from '@mui/icons-material/History';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import AddHomeIcon from '@mui/icons-material/AddHome';
+import BuildIcon from '@mui/icons-material/Build';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { useTranslation } from 'next-i18next';
 
 const MyMenu = () => {
@@ -37,7 +43,166 @@ const MyMenu = () => {
 	};
 
 	if (device === 'mobile') {
-		return <div>{t('MY MENU')}</div>;
+		const avatarSrc = user?.memberImage
+			? user.memberImage.startsWith('http')
+				? user.memberImage
+				: `${REACT_APP_API_URL}/${user.memberImage}`
+			: '/img/profile/defaultUser.svg';
+
+		const goTo = (cat: string) => router.push({ pathname: '/mypage', query: { category: cat } });
+
+		return (
+			<div id="mob-mymenu">
+				{/* Profile card */}
+				<div className="mob-mymenu-profile-card">
+					<div className="mob-mymenu-avatar-wrap">
+						<img src={avatarSrc} alt="avatar" />
+					</div>
+					<div className="mob-mymenu-name">{user?.memberNick || t('User')}</div>
+					<div className="mob-mymenu-type-badge">{t(user?.memberType || 'USER')}</div>
+				</div>
+
+				{/* Stats bar */}
+				<div className="mob-mymenu-stats">
+					{(user?.memberType === 'AGENT' || user?.memberType === 'TECHNICIAN') && (
+						<div className="mob-mymenu-stat-item">
+							<span className="mob-mymenu-stat-num">{user?.memberProperties || 0}</span>
+							<span className="mob-mymenu-stat-label">{user?.memberType === 'AGENT' ? t('Items') : t('Repair')}</span>
+						</div>
+					)}
+					<div className="mob-mymenu-stat-item">
+						<span className="mob-mymenu-stat-num">{user?.memberArticles || 0}</span>
+						<span className="mob-mymenu-stat-label">{t('Articles')}</span>
+					</div>
+					<div className="mob-mymenu-stat-item">
+						<span className="mob-mymenu-stat-num">{user?.memberFollowers || 0}</span>
+						<span className="mob-mymenu-stat-label">{t('Followers')}</span>
+					</div>
+					<div className="mob-mymenu-stat-item">
+						<span className="mob-mymenu-stat-num">{user?.memberFollowings || 0}</span>
+						<span className="mob-mymenu-stat-label">{t('Following')}</span>
+					</div>
+					<div className="mob-mymenu-stat-item">
+						<span className="mob-mymenu-stat-num">{user?.memberLikes || 0}</span>
+						<span className="mob-mymenu-stat-label">{t('Likes')}</span>
+					</div>
+				</div>
+
+				{/* Account */}
+				<div className="mob-mymenu-section">
+					<div className="mob-mymenu-section-title">{t('Account')}</div>
+					<div className="mob-mymenu-item" onClick={() => goTo('myProfile')}>
+						<div className="mob-mymenu-item-icon blue"><AccountCircleOutlinedIcon /></div>
+						<div className="mob-mymenu-item-text">
+							<span className="mob-mymenu-item-label">{t('My Profile')}</span>
+							{user?.memberPhone && <span className="mob-mymenu-item-sub">{user.memberPhone}</span>}
+						</div>
+						<ChevronRightIcon className="mob-mymenu-item-chevron" />
+					</div>
+				</div>
+
+				{/* Manage Listings */}
+				<div className="mob-mymenu-section">
+					<div className="mob-mymenu-section-title">{t('Manage Listings')}</div>
+
+					{user?.memberType === 'AGENT' && (
+						<>
+							<div className="mob-mymenu-item" onClick={() => goTo('addProperty')}>
+								<div className="mob-mymenu-item-icon green"><AddHomeIcon /></div>
+								<div className="mob-mymenu-item-text">
+									<span className="mob-mymenu-item-label">{t('Add Property')}</span>
+								</div>
+								<ChevronRightIcon className="mob-mymenu-item-chevron" />
+							</div>
+							<div className="mob-mymenu-item" onClick={() => goTo('myProperties')}>
+								<div className="mob-mymenu-item-icon orange"><WeekendIcon /></div>
+								<div className="mob-mymenu-item-text">
+									<span className="mob-mymenu-item-label">{t('My Properties')}</span>
+								</div>
+								<ChevronRightIcon className="mob-mymenu-item-chevron" />
+							</div>
+						</>
+					)}
+
+					{user?.memberType === 'TECHNICIAN' && (
+						<>
+							<div className="mob-mymenu-item" onClick={() => goTo('addRepairProperty')}>
+								<div className="mob-mymenu-item-icon green"><BuildIcon /></div>
+								<div className="mob-mymenu-item-text">
+									<span className="mob-mymenu-item-label">{t('Add Repair')}</span>
+								</div>
+								<ChevronRightIcon className="mob-mymenu-item-chevron" />
+							</div>
+							<div className="mob-mymenu-item" onClick={() => goTo('myRepairProperty')}>
+								<div className="mob-mymenu-item-icon orange"><HandymanIcon /></div>
+								<div className="mob-mymenu-item-text">
+									<span className="mob-mymenu-item-label">{t('My Repair')}</span>
+								</div>
+								<ChevronRightIcon className="mob-mymenu-item-chevron" />
+							</div>
+						</>
+					)}
+
+					<div className="mob-mymenu-item" onClick={() => goTo('myFavorites')}>
+						<div className="mob-mymenu-item-icon red"><FavoriteIcon /></div>
+						<div className="mob-mymenu-item-text">
+							<span className="mob-mymenu-item-label">{t('My Favorites')}</span>
+						</div>
+						<ChevronRightIcon className="mob-mymenu-item-chevron" />
+					</div>
+					<div className="mob-mymenu-item" onClick={() => goTo('recentlyVisited')}>
+						<div className="mob-mymenu-item-icon purple"><HistoryIcon /></div>
+						<div className="mob-mymenu-item-text">
+							<span className="mob-mymenu-item-label">{t('Recently Visited')}</span>
+						</div>
+						<ChevronRightIcon className="mob-mymenu-item-chevron" />
+					</div>
+					<div className="mob-mymenu-item" onClick={() => goTo('followers')}>
+						<div className="mob-mymenu-item-icon teal"><GroupIcon /></div>
+						<div className="mob-mymenu-item-text">
+							<span className="mob-mymenu-item-label">{t('My Followers')}</span>
+						</div>
+						<ChevronRightIcon className="mob-mymenu-item-chevron" />
+					</div>
+					<div className="mob-mymenu-item" onClick={() => goTo('followings')}>
+						<div className="mob-mymenu-item-icon indigo"><PersonAddIcon /></div>
+						<div className="mob-mymenu-item-text">
+							<span className="mob-mymenu-item-label">{t('My Followings')}</span>
+						</div>
+						<ChevronRightIcon className="mob-mymenu-item-chevron" />
+					</div>
+				</div>
+
+				{/* Community */}
+				<div className="mob-mymenu-section">
+					<div className="mob-mymenu-section-title">{t('Community')}</div>
+					<div className="mob-mymenu-item" onClick={() => goTo('myArticles')}>
+						<div className="mob-mymenu-item-icon amber"><ArticleIcon /></div>
+						<div className="mob-mymenu-item-text">
+							<span className="mob-mymenu-item-label">{t('Articles')}</span>
+						</div>
+						<ChevronRightIcon className="mob-mymenu-item-chevron" />
+					</div>
+					<div className="mob-mymenu-item" onClick={() => goTo('writeArticle')}>
+						<div className="mob-mymenu-item-icon green"><EditNoteIcon /></div>
+						<div className="mob-mymenu-item-text">
+							<span className="mob-mymenu-item-label">{t('Write Article')}</span>
+						</div>
+						<ChevronRightIcon className="mob-mymenu-item-chevron" />
+					</div>
+				</div>
+
+				{/* Logout */}
+				<div className="mob-mymenu-section">
+					<div className="mob-mymenu-item logout" onClick={logoutHandler}>
+						<div className="mob-mymenu-item-icon red"><LogoutIcon /></div>
+						<div className="mob-mymenu-item-text">
+							<span className="mob-mymenu-item-label">{t('Logout')}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<Stack width={'100%'} padding={'30px 24px'}>

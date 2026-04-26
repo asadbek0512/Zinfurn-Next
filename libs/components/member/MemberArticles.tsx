@@ -4,6 +4,7 @@ import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { useRouter } from 'next/router';
 import CommunityCard from '../common/CommunityCard';
+import { REACT_APP_API_URL } from '../../config';
 import { T } from '../../types/common';
 import { BoardArticle } from '../../types/board-article/board-article';
 import { BoardArticlesInquiry } from '../../types/board-article/board-article.input';
@@ -76,7 +77,54 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>{t('MEMBER_ARTICLES_MOBILE')}</div>;
+		return (
+			<div id="mob-member-articles">
+				{memberBoArticles?.length === 0 ? (
+					<div className="mob-mem-empty">
+						<img src="/img/icons/icoAlert.svg" alt="" />
+						<span>{t('No Articles!')}</span>
+					</div>
+				) : (
+					<div className="mob-mem-art-list">
+						{memberBoArticles.map((article: BoardArticle) => {
+							const imgSrc = article.articleImage
+								? `${REACT_APP_API_URL}/${article.articleImage}`
+								: '/img/banner/service1.jpg';
+							return (
+								<div
+									key={article._id}
+									className="mob-mem-art-card"
+									onClick={() => router.push({ pathname: '/community/detail', query: { id: article._id } })}
+								>
+									<img src={imgSrc} alt="" />
+									<div className="mob-mem-art-body">
+										<div className="mob-mem-art-cat">{t(article.articleCategory || '')}</div>
+										<div className="mob-mem-art-title">{article.articleTitle}</div>
+										<div className="mob-mem-art-views">👁 {article.articleViews || 0}</div>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				)}
+				{memberBoArticles?.length > 0 && (
+					<Stack className="pagination-config">
+						<Stack className="pagination-box">
+							<Pagination
+								count={Math.ceil(total / searchFilter.limit)}
+								page={searchFilter.page}
+								shape="circular"
+								color="primary"
+								onChange={paginationHandler}
+							/>
+						</Stack>
+						<Stack className="total-result">
+							<Typography>{t('Total {{total}} articles', { total })}</Typography>
+						</Stack>
+					</Stack>
+				)}
+			</div>
+		);
 	} else {
 		return (
 			<div id="member-articles-page">

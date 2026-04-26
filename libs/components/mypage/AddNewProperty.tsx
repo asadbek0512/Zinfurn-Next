@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography, Select, MenuItem, FormControl } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import {
 	PropertyCategory,
@@ -210,7 +210,321 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 	console.log('+insertPropertyData', insertPropertyData);
 
 	if (device === 'mobile') {
-		return <div>ADD NEW PROPERTY MOBILE PAGE</div>;
+		const isEdit = !!router.query.propertyId;
+		return (
+			<div id="mob-addproperty">
+				<div className="mob-addprop-header">
+					<h2>{isEdit ? t('Edit Property') : t('Add New Property')}</h2>
+					<span>{t('We are glad to see you again!')}</span>
+				</div>
+
+				<div className="mob-addprop-form">
+					<div className="mob-addprop-field">
+						<label>{t('Title')}</label>
+						<input
+							type="text"
+							placeholder={t('Title')}
+							value={insertPropertyData.propertyTitle}
+							onChange={({ target: { value } }) =>
+								setInsertPropertyData({ ...insertPropertyData, propertyTitle: value })
+							}
+						/>
+					</div>
+
+					<div className="mob-addprop-row">
+						<div className="mob-addprop-field">
+							<label>{t('Price')}</label>
+							<input
+								type="number"
+								placeholder={t('Price')}
+								value={insertPropertyData.propertyPrice || ''}
+								onChange={({ target: { value } }) => {
+									const parsed = parseInt(value, 10);
+									setInsertPropertyData({ ...insertPropertyData, propertyPrice: isNaN(parsed) ? 0 : parsed });
+								}}
+							/>
+						</div>
+						<div className="mob-addprop-field">
+							<label>{t('Type')}</label>
+							<Select
+								className="mob-addprop-select"
+								value={insertPropertyData.propertyType || ''}
+								displayEmpty
+								onChange={({ target: { value } }) =>
+									setInsertPropertyData({
+										...insertPropertyData,
+										propertyType: value as PropertyType,
+									})
+								}
+								MenuProps={{
+									PaperProps: {
+										sx: {
+											maxHeight: 300,
+											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+										}
+									}
+								}}
+							>
+								<MenuItem disabled value="">{t('Select')}</MenuItem>
+								{Object.values(PropertyType).map((type) => (
+									<MenuItem value={type} key={type}>{t(type)}</MenuItem>
+								))}
+							</Select>
+						</div>
+					</div>
+
+					<div className="mob-addprop-row">
+						<div className="mob-addprop-field">
+							<label>{t('Category')}</label>
+							<Select
+								className="mob-addprop-select"
+								value={insertPropertyData.propertyCategory || ''}
+								displayEmpty
+								onChange={({ target: { value } }) =>
+									setInsertPropertyData({
+										...insertPropertyData,
+										propertyCategory: value as PropertyCategory,
+									})
+								}
+								MenuProps={{
+									PaperProps: {
+										sx: {
+											maxHeight: 300,
+											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+										}
+									}
+								}}
+							>
+								<MenuItem disabled value="">{t('Select')}</MenuItem>
+								{Object.values(PropertyCategory).map((category) => (
+									<MenuItem key={category} value={category}>{t(category)}</MenuItem>
+								))}
+							</Select>
+						</div>
+						<div className="mob-addprop-field">
+							<label>{t('Size')}</label>
+							<input
+								type="text"
+								placeholder={t('Size (e.g. 120x80 cm)')}
+								value={insertPropertyData.propertySize || ''}
+								onChange={({ target: { value } }) =>
+									setInsertPropertyData({ ...insertPropertyData, propertySize: value })
+								}
+							/>
+						</div>
+					</div>
+
+					<div className="mob-addprop-row">
+						<div className="mob-addprop-field">
+							<label>{t('On Sale')}</label>
+							<Select
+								className="mob-addprop-select"
+								value={
+									insertPropertyData.propertyIsOnSale === undefined
+										? 'select'
+										: insertPropertyData.propertyIsOnSale
+										? 'yes'
+										: 'no'
+								}
+								displayEmpty
+								onChange={({ target: { value } }) =>
+									setInsertPropertyData({
+										...insertPropertyData,
+										propertyIsOnSale: value === 'yes',
+									})
+								}
+								MenuProps={{
+									PaperProps: {
+										sx: {
+											maxHeight: 300,
+											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+										}
+									}
+								}}
+							>
+								<MenuItem disabled value="select">{t('Select')}</MenuItem>
+								<MenuItem value="yes">{t('Yes')}</MenuItem>
+								<MenuItem value="no">{t('No')}</MenuItem>
+							</Select>
+						</div>
+						{insertPropertyData.propertyIsOnSale && (
+							<div className="mob-addprop-field">
+								<label>{t('Sale Price')}</label>
+								<input
+									type="number"
+									placeholder={t('Sale Price')}
+									value={insertPropertyData.propertySalePrice || ''}
+									onChange={({ target: { value } }) =>
+										setInsertPropertyData({
+											...insertPropertyData,
+											propertySalePrice: value === '' ? undefined : Number(value),
+										})
+									}
+								/>
+							</div>
+						)}
+					</div>
+					{insertPropertyData.propertyIsOnSale && (
+						<div className="mob-addprop-field">
+							<label>{t('Sale Expires At')}</label>
+							<input
+								type="date"
+								value={
+									insertPropertyData.propertySaleExpiresAt
+										? new Date(insertPropertyData.propertySaleExpiresAt).toISOString().slice(0, 10)
+										: ''
+								}
+								onChange={({ target: { value } }) =>
+									setInsertPropertyData({
+										...insertPropertyData,
+										propertySaleExpiresAt: value === '' ? undefined : new Date(value),
+									})
+								}
+							/>
+						</div>
+					)}
+
+					<div className="mob-addprop-row">
+						<div className="mob-addprop-field">
+							<label>{t('Condition')}</label>
+							<Select
+								className="mob-addprop-select"
+								value={insertPropertyData.propertyCondition || ''}
+								displayEmpty
+								onChange={({ target: { value } }) =>
+									setInsertPropertyData({
+										...insertPropertyData,
+										propertyCondition: value as PropertyCondition,
+									})
+								}
+								MenuProps={{
+									PaperProps: {
+										sx: {
+											maxHeight: 300,
+											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+										}
+									}
+								}}
+							>
+								<MenuItem disabled value="">{t('Select')}</MenuItem>
+								{Object.values(PropertyCondition).map((condition) => (
+									<MenuItem key={condition} value={condition}>{t(condition)}</MenuItem>
+								))}
+							</Select>
+						</div>
+						<div className="mob-addprop-field">
+							<label>{t('Material')}</label>
+							<Select
+								className="mob-addprop-select"
+								value={insertPropertyData.propertyMaterial || ''}
+								displayEmpty
+								onChange={({ target: { value } }) =>
+									setInsertPropertyData({
+										...insertPropertyData,
+										propertyMaterial: value as PropertyMaterial,
+									})
+								}
+								MenuProps={{
+									PaperProps: {
+										sx: {
+											maxHeight: 300,
+											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+										}
+									}
+								}}
+							>
+								<MenuItem disabled value="">{t('Select')}</MenuItem>
+								{Object.values(PropertyMaterial).map((material) => (
+									<MenuItem key={material} value={material}>{t(material)}</MenuItem>
+								))}
+							</Select>
+						</div>
+					</div>
+
+					<div className="mob-addprop-field">
+						<label>{t('Color')}</label>
+						<Select
+							className="mob-addprop-select"
+							value={insertPropertyData.propertyColor || ''}
+							displayEmpty
+							onChange={({ target: { value } }) =>
+								setInsertPropertyData({
+									...insertPropertyData,
+									propertyColor: value as PropertyColor,
+								})
+							}
+							MenuProps={{
+								PaperProps: {
+									sx: {
+										maxHeight: 300,
+										'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+									}
+								}
+							}}
+						>
+							<MenuItem disabled value="">{t('Select')}</MenuItem>
+							{propertyColorList.map((color: PropertyColor) => (
+								<MenuItem key={color} value={color}>{t(color)}</MenuItem>
+							))}
+						</Select>
+					</div>
+
+					<div className="mob-addprop-field">
+						<label>{t('Description')}</label>
+						<textarea
+							placeholder={t('Write some details...')}
+							value={insertPropertyData.propertyDesc || ''}
+							onChange={({ target: { value } }) =>
+								setInsertPropertyData({ ...insertPropertyData, propertyDesc: value })
+							}
+						/>
+					</div>
+
+					{/* Image Upload */}
+					<div className="mob-addprop-upload">
+						<label>{t('Upload Images')} <span>({insertPropertyData.propertyImages?.length || 0}/5)</span></label>
+						<div className="mob-addprop-gallery">
+							{insertPropertyData?.propertyImages?.map((image: string, idx: number) => {
+								return (
+									<div key={idx} className="mob-addprop-img-item">
+										<img src={`${REACT_APP_API_URL}/${image}`} alt="" />
+										<div className="delete-btn" onClick={() => {
+											const updatedImages = [...(insertPropertyData.propertyImages || [])];
+											updatedImages.splice(idx, 1);
+											setInsertPropertyData({ ...insertPropertyData, propertyImages: updatedImages })
+										}}>
+											&times;
+										</div>
+									</div>
+								);
+							})}
+							{(!insertPropertyData.propertyImages || insertPropertyData.propertyImages.length < 5) && (
+								<div className="mob-addprop-img-add" onClick={() => inputRef.current.click()}>
+									<span>+</span>
+								</div>
+							)}
+							<input
+								ref={inputRef}
+								type="file"
+								hidden
+								onChange={uploadImages}
+								multiple
+								accept="image/jpg, image/jpeg, image/png"
+							/>
+						</div>
+						<p>{t('JPEG or PNG • Min 2048x768 (Up to 5 images)')}</p>
+					</div>
+
+					<button
+						className="mob-addprop-btn"
+						disabled={doDisabledCheck()}
+						onClick={isEdit ? updatePropertyHandler : insertPropertyHandler}
+					>
+						{t('Save Property')}
+					</button>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<div id="add-property-page">

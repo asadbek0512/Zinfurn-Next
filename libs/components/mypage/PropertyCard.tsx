@@ -53,7 +53,37 @@ export const PropertyCard = (props: PropertyCardProps) => {
   };
 
   if (device === 'mobile') {
-    return <div>MOBILE PROPERTY CARD</div>;
+    const imgSrc = property.propertyImages?.[0]
+      ? `${process.env.REACT_APP_API_URL}/${property.propertyImages[0]}`
+      : '/img/banner/Home-1-.jpg';
+    const isSold = property.propertyStatus === PropertyStatus.SOLD;
+
+    return (
+      <div className="mob-myprop-card">
+        <img className="mob-myprop-card-img" src={imgSrc} alt="" />
+        <div className="mob-myprop-card-body">
+          <div className="mob-myprop-card-title">{property.propertyTitle}</div>
+          <div className="mob-myprop-card-date">
+            <Moment format="DD MMM, YYYY">{property.createdAt}</Moment>
+          </div>
+          <div className={`mob-myprop-card-status${isSold ? ' sold' : ''}`}>
+            {t(property.propertyStatus?.toString() || '')}
+          </div>
+          {!memberPage && (
+            <div className="mob-myprop-card-actions">
+              {!isSold && (
+                <button className="edit" onClick={() => pushEditProperty(property._id)}>
+                  {t('Edit')}
+                </button>
+              )}
+              <button className="delete" onClick={() => deletePropertyHandler?.(property._id)}>
+                {t('Delete')}
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
   } else
     return (
       <Stack className="property-card-box">

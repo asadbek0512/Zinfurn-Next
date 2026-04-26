@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState, useCallback } from 'react';
 import { Box, Button, FormControl, MenuItem, Stack, Typography, Select, TextField } from '@mui/material';
 import { BoardArticleCategory } from '../../enums/board-article.enum';
 import { Editor } from '@toast-ui/react-editor';
@@ -12,12 +12,16 @@ import { useMutation } from '@apollo/client';
 import { CREATE_BOARD_ARTICLE } from '../../../apollo/user/mutation';
 import { sweetErrorHandling, sweetTopSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 const TuiEditor = () => {
 	const editorRef = useRef<Editor>(null),
 		token = getJwtToken(),
 		router = useRouter();
+	const device = useDeviceDetect();
+	const imageInputRef = useRef<HTMLInputElement>(null);
 	const [articleCategory, setArticleCategory] = useState<BoardArticleCategory>(BoardArticleCategory.FREE);
+	const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
 	/** APOLLO REQUESTS **/
 	const [createboardArticle] = useMutation(CREATE_BOARD_ARTICLE);
@@ -81,6 +85,22 @@ const TuiEditor = () => {
 		memoizedValues.articleTitle = e.target.value;
 	};
 
+	const handleImagePickerChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
+		try {
+			const url = await uploadImage(file);
+			if (url) {
+				const editor = editorRef.current?.getInstance();
+				editor?.insertText(`\n![image](${url})\n`);
+				setUploadedImages((prev) => [...prev, url]);
+			}
+		} catch (err) {
+			console.log('Image upload error:', err);
+		}
+		e.target.value = '';
+	}, []);
+
 	const handleRegisterButton = async () => {
 		try {
 			const editor = editorRef.current;
@@ -115,6 +135,96 @@ const TuiEditor = () => {
 			return true;
 		}
 	};
+
+	if (device === 'mobile') {
+		return (
+			<div className="mob-teditor">
+				<div className="mob-teditor-field">
+					<label className="mob-teditor-label">Category</label>
+					<FormControl fullWidth size="small" sx={{ background: '#fff', borderRadius: '10px' }}>
+						<Select
+							value={articleCategory}
+							onChange={changeCategoryHandler}
+							displayEmpty
+							sx={{ borderRadius: '10px', fontSize: 14 }}
+						>
+							<MenuItem value={BoardArticleCategory.FREE}>Free</MenuItem>
+							<MenuItem value={BoardArticleCategory.HUMOR}>Humor</MenuItem>
+							<MenuItem value={BoardArticleCategory.NEWS}>News</MenuItem>
+							<MenuItem value={BoardArticleCategory.RECOMMEND}>Recommendation</MenuItem>
+						</Select>
+					</FormControl>
+				</div>
+
+				<div className="mob-teditor-field">
+					<label className="mob-teditor-label">Title</label>
+					<TextField
+						onChange={articleTitleHandler}
+						placeholder="Enter article title"
+						fullWidth
+						size="small"
+						sx={{
+							background: '#fff',
+							borderRadius: '10px',
+							'& .MuiOutlinedInput-root': { borderRadius: '10px', fontSize: 14 },
+						}}
+					/>
+				</div>
+
+				<div className="mob-teditor-field">
+					<label className="mob-teditor-label">Content</label>
+					<div className="mob-teditor-editor">
+						<Editor
+							initialValue={'Type here'}
+							placeholder={'Type here'}
+							previewStyle={'tab'}
+							height={'320px'}
+							// @ts-ignore
+							initialEditType={'WYSIWYG'}
+							toolbarItems={[
+								['heading', 'bold', 'italic', 'strike'],
+								['ul', 'ol'],
+							]}
+							ref={editorRef}
+							hooks={{
+								addImageBlobHook: async (image: any, callback: any) => {
+									const uploadedImageURL = await uploadImage(image);
+									callback(uploadedImageURL);
+									return false;
+								},
+							}}
+							events={{ load: function (param: any) {} }}
+						/>
+					</div>
+				</div>
+
+				{/* Image picker */}
+				<input
+					ref={imageInputRef}
+					type="file"
+					accept="image/*"
+					style={{ display: 'none' }}
+					onChange={handleImagePickerChange}
+				/>
+				<button className="mob-teditor-img-btn" onClick={() => imageInputRef.current?.click()}>
+					<span className="mob-teditor-img-icon">🖼</span>
+					<span>Add Image</span>
+				</button>
+
+				{uploadedImages.length > 0 && (
+					<div className="mob-teditor-previews">
+						{uploadedImages.map((url, i) => (
+							<img key={i} src={url} alt="" className="mob-teditor-preview-img" />
+						))}
+					</div>
+				)}
+
+				<button className="mob-teditor-submit" onClick={handleRegisterButton}>
+					Publish Article
+				</button>
+			</div>
+		);
+	}
 
 	return (
 		<Stack>

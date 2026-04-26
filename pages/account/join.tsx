@@ -157,7 +157,208 @@ const Join: NextPage = () => {
 	console.log('+input: ', input);
 
 	if (device === 'mobile') {
-		return <div>{t('LOGIN MOBILE')}</div>;
+		return (
+			<div id="mob-join-page">
+				<div className="mob-join-header">
+					<span className="mob-join-title">{loginView ? t('Sign In') : t('Create Account')}</span>
+					<span className="mob-join-desc">
+						{loginView
+							? t('Please fill your detail to access your account.')
+							: t('Fill your information below or register with your social account.')}
+					</span>
+				</div>
+
+				<div className="mob-join-form">
+					{/* NICKNAME - faqat signup uchun */}
+					{!loginView && (
+						<div className="mob-input-box">
+							<span>{t('Nickname')}</span>
+							<input
+								type="text"
+								placeholder={t('Enter your nickname')}
+								value={input.nick}
+								onChange={(e) => handleInput('nick', e.target.value)}
+							/>
+						</div>
+					)}
+
+					{/* EMAIL - faqat signup uchun */}
+					{!loginView && (
+						<div className="mob-input-box">
+							<span>{t('Email Address')}</span>
+							<input
+								type="email"
+								placeholder={t('Enter your email address')}
+								value={input.memberEmail}
+								onChange={(e) => handleInput('memberEmail', e.target.value)}
+							/>
+						</div>
+					)}
+
+					{/* LOGIN FIELDS */}
+					{loginView && (
+						<div className="mob-input-box">
+							<span>{t('Email or Nickname')}</span>
+							<input
+								type="text"
+								placeholder={t('Enter email or nickname')}
+								value={input.memberEmail}
+								onChange={(e) => handleInput('memberEmail', e.target.value)}
+								onKeyDown={(event) => {
+									if (event.key === 'Enter') doLogin();
+								}}
+							/>
+						</div>
+					)}
+
+					{/* PASSWORD */}
+					<div className="mob-input-box">
+						<span>{t('Password')}</span>
+						<input
+							type={showPassword ? 'text' : 'password'}
+							placeholder={t('Enter your password')}
+							value={input.password}
+							onChange={(e) => handleInput('password', e.target.value)}
+							onKeyDown={(event) => {
+								if (event.key === 'Enter' && loginView) doLogin();
+								if (event.key === 'Enter' && !loginView) doSignUp();
+							}}
+						/>
+						<Box component="div" className="mob-pass-eye" onClick={() => setShowPassword(!showPassword)}>
+							{showPassword ? (
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+									<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+									<path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+									<path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+									<line x1="2" y1="2" x2="22" y2="22" />
+								</svg>
+							) : (
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+									<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+									<circle cx="12" cy="12" r="3" />
+								</svg>
+							)}
+						</Box>
+					</div>
+
+					{/* CONFIRM PASSWORD - faqat signup uchun */}
+					{!loginView && (
+						<div className="mob-input-box">
+							<span>{t('Confirm Password')}</span>
+							<input
+								type={showConfirmPassword ? 'text' : 'password'}
+								placeholder={t('Confirm your password')}
+								value={confirmPassword}
+								onChange={(e) => setConfirmPassword(e.target.value)}
+								style={{
+									borderColor: confirmPassword && confirmPassword !== input.password ? '#f44336' : confirmPassword && confirmPassword === input.password ? '#4caf50' : undefined,
+								}}
+							/>
+							<Box component="div" className="mob-pass-eye" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+								{showConfirmPassword ? (
+									<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+										<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+										<path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+										<path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+										<line x1="2" y1="2" x2="22" y2="22" />
+									</svg>
+								) : (
+									<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+										<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+										<circle cx="12" cy="12" r="3" />
+									</svg>
+								)}
+							</Box>
+						</div>
+					)}
+
+					{/* PHONE - faqat signup uchun */}
+					{!loginView && (
+						<div className="mob-input-box">
+							<span>{t('Phone Number')}</span>
+							<PhoneInput
+								value={input.phone}
+								onChange={handlePhoneChange}
+								countries={defaultCountries}
+								defaultCountry={detectedCountry}
+								className="react-international-phone-container"
+							/>
+							{phoneError && <span className="mob-error-text">{phoneError}</span>}
+						</div>
+					)}
+
+					{/* User Type - faqat signup uchun */}
+					{!loginView && (
+						<div className="mob-join-types">
+							<span className="mob-type-title">{t('I want to be registered as:')}</span>
+							<div className="mob-type-options">
+								<FormControlLabel control={<Checkbox size="small" name="USER" onChange={checkUserTypeHandler} checked={input?.type === 'USER'} />} label={t('USER')} />
+								<FormControlLabel control={<Checkbox size="small" name="AGENT" onChange={checkUserTypeHandler} checked={input?.type === 'AGENT'} />} label={t('AGENT')} />
+								<FormControlLabel control={<Checkbox size="small" name="TECHNICIAN" onChange={checkUserTypeHandler} checked={input?.type === 'TECHNICIAN'} />} label={t('TECHNICIAN')} />
+							</div>
+						</div>
+					)}
+
+					{/* Terms & Privacy / Remember Me */}
+					<div className="mob-join-terms">
+						{loginView ? (
+							<>
+								<FormControlLabel control={<Checkbox checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} size="small" />} label={t('Remember me')} />
+								<span className="mob-forgot-link">{t('Forgot Password?')}</span>
+							</>
+						) : (
+							<FormControlLabel
+								control={<Checkbox checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} size="small" />}
+								label={<Typography>{t('Agree with')} <a>{t('Terms & Condition')}</a> {t('and')} <a>{t('Privacy Policy')}</a></Typography>}
+							/>
+						)}
+					</div>
+
+					<Button
+						className="mob-join-btn"
+						disabled={loginView ? (input.memberEmail === '' || input.password === '') : (input.nick === '' || input.memberEmail === '' || input.password === '' || confirmPassword === '' || input.password !== confirmPassword || input.phone === '' || input.type === '' || !agreeTerms || phoneError !== '')}
+						onClick={loginView ? doLogin : doSignUp}
+					>
+						{loginView ? t('Sign In') : t('Create Account')}
+					</Button>
+
+					<div className="mob-join-divider">
+						<span>{t('or')} {loginView ? t('Sign In') : t('Create Account')} {t('with')}</span>
+					</div>
+
+					<div className="mob-social-btns">
+						<button className="mob-social-btn" onClick={handleGoogleAuth}>
+							<img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
+							{loginView ? t('Sign In With Google') : t('Create Account With Google')}
+						</button>
+
+						<div className="mob-telegram-wrapper">
+							<div ref={(el) => {
+								if (el && !el.querySelector('script')) {
+									const script = document.createElement('script');
+									script.src = 'https://telegram.org/js/telegram-widget.js?22';
+									script.setAttribute('data-telegram-login', 'zinfurn_auth_bot');
+									script.setAttribute('data-size', 'large');
+									script.setAttribute('data-onauth', 'onTelegramAuth(user)');
+									script.setAttribute('data-request-access', 'write');
+									script.async = true;
+									el.appendChild(script);
+								}
+							}} className="mob-telegram-iframe-container" />
+							<button className="mob-social-btn" style={{ pointerEvents: 'none' }}>
+								<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" />
+								{loginView ? t('Sign In With Telegram') : t('Create Account With Telegram')}
+							</button>
+						</div>
+					</div>
+
+					<div className="mob-join-switch">
+						{loginView ? t("Don't have an account?") : t('Already have an account?')}
+						<span onClick={() => viewChangeHandler(!loginView)}>{loginView ? t('Create Account') : t('Sign In')}</span>
+					</div>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<Stack className={'join-page'}>
@@ -435,7 +636,7 @@ const Join: NextPage = () => {
 										sx={{
 											width: '100%',
 											padding: '14px',
-											background: '#2F5233',
+											background: '#cf6422',
 											borderRadius: '24px',
 											textTransform: 'none',
 											fontSize: '14px',
@@ -462,7 +663,7 @@ const Join: NextPage = () => {
 										sx={{
 											width: '100%',
 											padding: '14px',
-											background: '#2F5233',
+											background: '#cf6422',
 											borderRadius: '24px',
 											textTransform: 'none',
 											fontSize: '14px',

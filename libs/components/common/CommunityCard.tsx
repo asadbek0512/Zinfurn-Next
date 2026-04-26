@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Box, Link, Stack, Typography, IconButton } from '@mui/material';
@@ -9,6 +9,7 @@ import { userVar } from '../../../apollo/store';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useTranslation } from 'next-i18next';
 
 interface CommunityCardProps {
@@ -22,6 +23,17 @@ const CommunityCard = ({ boardArticle, likeArticleHandler }: CommunityCardProps)
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const { t, i18n } = useTranslation('common');
+	const [overlayVisible, setOverlayVisible] = useState(false);
+	const hideTimer = useRef<any>(null);
+
+	const handleTouchStart = () => {
+		if (hideTimer.current) clearTimeout(hideTimer.current);
+		setOverlayVisible(true);
+	};
+
+	const handleTouchEnd = () => {
+		hideTimer.current = setTimeout(() => setOverlayVisible(false), 900);
+	};
 
 	const imagePath = boardArticle?.articleImage
 		? `${REACT_APP_API_URL}/${boardArticle?.articleImage}`
@@ -81,7 +93,64 @@ const CommunityCard = ({ boardArticle, likeArticleHandler }: CommunityCardProps)
 	}, [boardArticle?.createdAt, i18n.language]);
 
 	if (device === 'mobile') {
-		return <div>{t('COMMUNITY CARD MOBILE')}</div>;
+		return (
+			<div
+				className="mob-comm-card"
+				onClick={(e) => chooseArticleHandler(e, boardArticle)}
+				onTouchStart={handleTouchStart}
+				onTouchEnd={handleTouchEnd}
+				style={{ cursor: 'pointer', background: '#fff', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 10px rgba(0,0,0,0.05)', height: '100%' }}
+			>
+				<div className="mob-comm-img-box" style={{ position: 'relative', height: '130px', background: '#e8dcc0', backgroundImage: `url(${imagePath})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+
+					{/* Dark overlay */}
+					<div className={`mob-comm-img-overlay${overlayVisible ? ' visible' : ''}`}></div>
+
+					{/* Sana badge - Markazda */}
+					<div style={{
+						position: 'absolute', bottom: '-1px', left: '50%', transform: 'translateX(-50%)',
+						background: '#cf6422', color: '#fff', padding: '6px 15px',
+						borderRadius: '10px 10px 0 0', border: '1.5px solid #fff',
+						fontSize: '9px', fontWeight: 600, whiteSpace: 'nowrap', zIndex: 4
+					}}>
+						{formattedDate}
+					</div>
+
+					{/* Like & Views */}
+					<div className={`mob-comm-stats-overlay${overlayVisible ? ' visible' : ''}`}>
+						<div 
+							onClick={(e) => {
+								e.stopPropagation();
+								likeArticleHandler(e, user, boardArticle?._id);
+							}}
+							style={{ position: 'absolute', bottom: '2px', left: '5px', display: 'flex', alignItems: 'center', gap: '3px', zIndex: 5 }}
+						>
+							{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
+								<FavoriteIcon sx={{ fontSize: 16, color: '#ff4757' }} />
+							) : (
+								<FavoriteBorderIcon sx={{ fontSize: 16, color: '#fff', filter: 'drop-shadow(0px 1px 2px rgba(0,0,0,0.6))' }} />
+							)}
+							<span style={{ color: '#fff', fontSize: '11px', fontWeight: 600, textShadow: '0px 1px 2px rgba(0,0,0,0.6)' }}>{boardArticle?.articleLikes}</span>
+						</div>
+
+						<div style={{ position: 'absolute', bottom: '2px', right: '5px', display: 'flex', alignItems: 'center', gap: '3px', zIndex: 5 }}>
+							<VisibilityIcon sx={{ fontSize: 16, color: '#fff', filter: 'drop-shadow(0px 1px 2px rgba(0,0,0,0.6))' }} />
+							<span style={{ color: '#fff', fontSize: '11px', fontWeight: 600, textShadow: '0px 1px 2px rgba(0,0,0,0.6)' }}>{boardArticle?.articleViews}</span>
+						</div>
+					</div>
+				</div>
+				
+				<div style={{ padding: '12px 8px 6px' }}>
+					<div style={{ fontSize: '12px', fontWeight: 700, color: '#181a20', lineHeight: 1.3, marginBottom: '4px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', height: '32px' }}>
+						{boardArticle?.articleTitle}
+					</div>
+					<div style={{ fontSize: '10px', color: '#888', lineHeight: 1.4, marginBottom: '6px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
+						{t('Lorem ipsum dolor sit amet...')}
+					</div>
+					<div style={{ fontSize: '10px', color: '#cf6422', fontWeight: 700, textDecoration: 'underline' }}>{t('Read More')}</div>
+				</div>
+			</div>
+		);
 	}
 
 	return (

@@ -22,7 +22,22 @@ const Terms = () => {
 	});
 
 	if (device === 'mobile') {
-		return <div>{t('TERMS MOBILE')}</div>;
+		if (loading) return <div className="mob-cs-loading"><CircularProgress size={28} sx={{ color: '#cf6422' }} /></div>;
+		const terms = termsData?.getAllNotices?.list.slice().reverse() || [];
+		return (
+			<div className="mob-cs-terms">
+				{terms.length === 0 && <p className="mob-cs-empty">{t('No terms yet')}</p>}
+				{terms.map((term: any, index: number) => (
+					<div key={term._id} className="mob-cs-terms-card">
+						<div className="mob-cs-terms-top">
+							<ArticleIcon sx={{ color: '#cf6422', fontSize: 18, flexShrink: 0 }} />
+							<span className="mob-cs-terms-title">{term.noticeTitle}</span>
+						</div>
+						<p className="mob-cs-terms-body">{term.noticeContent}</p>
+					</div>
+				))}
+			</div>
+		);
 	}
 
 	if (loading) {

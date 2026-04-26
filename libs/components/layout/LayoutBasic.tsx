@@ -104,7 +104,7 @@ const withLayoutBasic = (Component: any) => {
 							<Top />
 						</Stack>
 
-						{!isJoinPage && memoizedValues.bgImage && router.pathname !== '/repairService' && (
+						{!isJoinPage && memoizedValues.bgImage && router.pathname !== '/repairService' && router.pathname !== '/mypage' && router.pathname !== '/member' && (
 							<Stack
 								className="mob-header-basic"
 								style={{
@@ -125,6 +125,9 @@ const withLayoutBasic = (Component: any) => {
 						<Stack id={'footer'}>
 							<Footer />
 						</Stack>
+
+						<Chat />
+						<AiChat />
 					</Stack>
 				</>
 			);

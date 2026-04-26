@@ -2,9 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Avatar, Box, CircularProgress, Stack } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
+import CloseIcon from '@mui/icons-material/Close';
 import ScrollableFeed from 'react-scrollable-feed';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import useDeviceDetect from '../hooks/useDeviceDetect';
 
 interface AiMessage {
 	role: 'user' | 'assistant';
@@ -19,6 +21,7 @@ const AiChat = () => {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 	const { t } = useTranslation('common');
+	const device = useDeviceDetect();
 
 	useEffect(() => {
 		if (!router.isReady) return;
@@ -40,6 +43,12 @@ const AiChat = () => {
 	const handleToggle = () => {
 		setOpen((prev) => !prev);
 	};
+
+	useEffect(() => {
+		const handler = () => setOpen((prev) => !prev);
+		window.addEventListener('toggle-mob-ai', handler);
+		return () => window.removeEventListener('toggle-mob-ai', handler);
+	}, []);
 
 	const getInputHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
 		setInput(e.target.value);
@@ -84,6 +93,112 @@ const AiChat = () => {
 			setLoading(false);
 		}
 	};
+
+	const aiMessages = (
+		<>
+			<Box className="ai-chat-top" component="div">
+				<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} />
+				<span>{t('Zinfurn AI Assistant')}</span>
+			</Box>
+			<Box className="ai-chat-content" component="div">
+				<ScrollableFeed>
+					<Stack className="ai-chat-main">
+						<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
+							<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+								<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} />
+							</Avatar>
+							<div className="ai-msg-left">{t('AI Welcome Message')}</div>
+						</Box>
+						{messages.map((msg, idx) =>
+							msg.role === 'user' ? (
+								<Box key={idx} component="div" flexDirection="row" style={{ display: 'flex' }} alignItems="flex-end" justifyContent="flex-end" sx={{ m: '10px 0px' }}>
+									<div className="ai-msg-right">{msg.content}</div>
+								</Box>
+							) : (
+								<Box key={idx} flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
+									<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+										<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
+									</Avatar>
+									<div className="ai-msg-left">{msg.content}</div>
+								</Box>
+							),
+						)}
+						{loading && (
+							<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
+								<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+									<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
+								</Avatar>
+								<div className="ai-msg-left ai-typing"><span></span><span></span><span></span></div>
+							</Box>
+						)}
+					</Stack>
+				</ScrollableFeed>
+			</Box>
+			<Box className="ai-chat-bott" component="div">
+				<input type="text" className="ai-msg-input" placeholder={t('AI Input Placeholder')} value={input} onChange={getInputHandler} onKeyDown={getKeyHandler} disabled={loading} />
+				<button className="ai-send-btn" onClick={sendMessage} disabled={loading}>
+					{loading ? <CircularProgress size={18} style={{ color: '#fff' }} /> : <SendIcon style={{ color: '#fff' }} />}
+				</button>
+			</Box>
+		</>
+	);
+
+	if (device === 'mobile') {
+		return (
+			<Stack className="ai-chatting mob-ai-chatting">
+				{open && <div className="mob-chat-backdrop" onClick={handleToggle} />}
+				<Stack className={`ai-chat-frame ${open ? 'open' : ''}`}>
+					<Box className="ai-chat-top" component="div">
+						<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} />
+						<span>{t('Zinfurn AI Assistant')}</span>
+						<button onClick={handleToggle} style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px' }}>
+							<CloseIcon style={{ fontSize: 20, color: '#666' }} />
+						</button>
+					</Box>
+					<Box className="ai-chat-content" component="div">
+						<ScrollableFeed>
+							<Stack className="ai-chat-main">
+								<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
+									<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+										<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} />
+									</Avatar>
+									<div className="ai-msg-left">{t('AI Welcome Message')}</div>
+								</Box>
+								{messages.map((msg, idx) =>
+									msg.role === 'user' ? (
+										<Box key={idx} component="div" flexDirection="row" style={{ display: 'flex' }} alignItems="flex-end" justifyContent="flex-end" sx={{ m: '10px 0px' }}>
+											<div className="ai-msg-right">{msg.content}</div>
+										</Box>
+									) : (
+										<Box key={idx} flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
+											<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+												<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
+											</Avatar>
+											<div className="ai-msg-left">{msg.content}</div>
+										</Box>
+									),
+								)}
+								{loading && (
+									<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
+										<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+											<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
+										</Avatar>
+										<div className="ai-msg-left ai-typing"><span></span><span></span><span></span></div>
+									</Box>
+								)}
+							</Stack>
+						</ScrollableFeed>
+					</Box>
+					<Box className="ai-chat-bott" component="div">
+						<input type="text" className="ai-msg-input" placeholder={t('AI Input Placeholder')} value={input} onChange={getInputHandler} onKeyDown={getKeyHandler} disabled={loading} />
+						<button className="ai-send-btn" onClick={sendMessage} disabled={loading}>
+							{loading ? <CircularProgress size={18} style={{ color: '#fff' }} /> : <SendIcon style={{ color: '#fff' }} />}
+						</button>
+					</Box>
+				</Stack>
+			</Stack>
+		);
+	}
 
 	return (
 		<Stack className="ai-chatting">

@@ -5,18 +5,24 @@ import { Pagination, Stack, Typography } from '@mui/material';
 import PropertyCard from '../property/PropertyCard';
 import { Property } from '../../types/property/property';
 import { T } from '../../types/common';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { GET_FAVORITES } from '../../../apollo/user/query';
-import { Messages } from '../../config';
+import { Messages, REACT_APP_API_URL } from '../../config';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import PropertyBigCard from '../common/PropertyBigCard';
 import TrendPropertyCard from '../homepage/TrendPropertyCard';
 import { useTranslation } from 'next-i18next';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useRouter } from 'next/router';
+import { userVar } from '../../../apollo/store';
 
 const MyFavorites: NextPage = () => {
   const { t } = useTranslation('common');
   const device = useDeviceDetect();
+  const router = useRouter();
+  const user = useReactiveVar(userVar);
   const [myFavorites, setMyFavorites] = useState<Property[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 6 });
@@ -65,7 +71,79 @@ const MyFavorites: NextPage = () => {
   };
 
   if (device === 'mobile') {
-    return <div>NESTAR MY FAVORITES MOBILE</div>;
+    return (
+      <div id="mob-myfavorites">
+        <div className="mob-fav-header">
+          <h2>{t('My Favorites')}</h2>
+          <span>{t('We are glad to see you again!')}</span>
+        </div>
+        <div className="mob-fav-list">
+          {myFavorites?.length ? (
+            myFavorites.map((property: Property) => {
+              const imgSrc = property.propertyImages?.[0]
+                ? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
+                : '/img/banner/Home-1-.jpg';
+              const isLiked = property.meLiked?.[0]?.myFavorite;
+              return (
+                <div
+                  key={property._id}
+                  className="mob-fav-card"
+                  onClick={() => router.push({ pathname: '/property/detail', query: { id: property._id } })}
+                >
+                  <div className="mob-fav-card-img-wrap">
+                    <img src={imgSrc} alt="" />
+                    {property.propertyPrice && (
+                      <div className="mob-fav-badge">${property.propertyPrice.toLocaleString()}</div>
+                    )}
+                    <div
+                      className="mob-fav-like-btn"
+                      onClick={(e) => { e.stopPropagation(); likePropertyHandler(user, property._id); }}
+                    >
+                      {isLiked
+                        ? <FavoriteIcon sx={{ fontSize: 18, color: '#cf6422' }} />
+                        : <FavoriteBorderIcon sx={{ fontSize: 18, color: '#aaa' }} />
+                      }
+                    </div>
+                  </div>
+                  <div className="mob-fav-card-body">
+                    <div className="mob-fav-title">{property.propertyTitle}</div>
+                    <div className="mob-fav-meta">
+                      <span>{property.propertyCategory}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="mob-fav-empty">
+              <img src="/img/icons/icoAlert.svg" alt="" />
+              <span>{t('No Favorites found!')}</span>
+            </div>
+          )}
+        </div>
+        {myFavorites?.length > 0 && (
+          <Stack className="pagination-config">
+            <Stack className="pagination-box">
+              <Pagination
+                count={Math.ceil(total / searchFavorites.limit)}
+                page={searchFavorites.page}
+                shape="circular"
+                color="primary"
+                onChange={paginationHandler}
+              />
+            </Stack>
+            <Stack className="total-result">
+              <Typography>
+                {t('Total {{total}} favorite {{property}}', { 
+                  total, 
+                  property: total > 1 ? t('properties') : t('property') 
+                })}
+              </Typography>
+            </Stack>
+          </Stack>
+        )}
+      </div>
+    );
   } else {
     return (
       <div id="my-favorites-page">

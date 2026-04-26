@@ -235,7 +235,13 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 					<div className="mob-agd-back" onClick={() => router.push('/agent')}>
 						<ArrowBackIosIcon sx={{ fontSize: 16 }} />
 					</div>
-					<img className="mob-agd-avatar" src={agentImg} alt="" />
+					<img
+						className="mob-agd-avatar"
+						src={agentImg}
+						alt=""
+						onClick={() => redirectToMemberPageHandler(agent?._id)}
+						style={{ cursor: 'pointer' }}
+					/>
 					<h2 className="mob-agd-name">{agent?.memberFullName ?? agent?.memberNick}</h2>
 					<span className="mob-agd-badge">{t('agent')}</span>
 					{agent?.memberPhone && (

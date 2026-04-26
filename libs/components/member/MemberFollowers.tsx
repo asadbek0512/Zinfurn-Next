@@ -67,7 +67,85 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>NESTAR FOLLOWS MOBILE</div>;
+		return (
+			<div id="mob-myfollows">
+				<div className="mob-myfollows-header">
+					<h2>{t('My Followers')}</h2>
+				</div>
+				<div className="mob-myfollows-list">
+					{memberFollowers?.length === 0 ? (
+						<div className="mob-myfollows-empty">
+							<img src="/img/icons/icoAlert.svg" alt="" />
+							<span>{t('No Followers yet!')}</span>
+						</div>
+					) : (
+						memberFollowers.map((follower: Follower) => {
+							const imagePath = follower?.followerData?.memberImage
+								? follower.followerData.memberImage.startsWith('http')
+									? follower.followerData.memberImage
+									: `${REACT_APP_API_URL}/${follower.followerData.memberImage}`
+								: '/img/profile/defaultUser.svg';
+							const isFollowing = follower.meFollowed?.[0]?.myFollowing;
+							const isLiked = follower.meLiked?.[0]?.myFavorite;
+							return (
+								<div key={follower._id} className="mob-myfollows-card">
+									<img
+										src={imagePath}
+										alt=""
+										onClick={() => redirectToMemberPageHandler(follower?.followerData?._id)}
+									/>
+									<div className="mob-myfollows-info">
+										<div className="mob-myfollows-nick">{follower?.followerData?.memberNick}</div>
+										<div className="mob-myfollows-type">{t(follower?.followerData?.memberType || '')}</div>
+									</div>
+									<div className="mob-myfollows-actions">
+										<button
+											className="like"
+											onClick={() => likeMemberHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry)}
+										>
+											{isLiked ? <FavoriteIcon sx={{ fontSize: 14, color: '#e74c3c' }} /> : <FavoriteBorderIcon sx={{ fontSize: 14 }} />}
+										</button>
+										{user?._id !== follower?.followerId && (
+											isFollowing ? (
+												<button
+													className="unfollow"
+													onClick={() => unsubscribeHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry)}
+												>
+													{t('Unfollow')}
+												</button>
+											) : (
+												<button
+													className="follow"
+													onClick={() => subscribeHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry)}
+												>
+													{t('Follow')}
+												</button>
+											)
+										)}
+									</div>
+								</div>
+							);
+						})
+					)}
+				</div>
+				{memberFollowers?.length > 0 && (
+					<Stack className="pagination-config">
+						<Stack className="pagination-box">
+							<Pagination
+								count={Math.ceil(total / followInquiry.limit)}
+								page={followInquiry.page}
+								shape="circular"
+								color="primary"
+								onChange={paginationHandler}
+							/>
+						</Stack>
+						<Stack className="total-result">
+							<Typography>{t('{{total}} followers', { total })}</Typography>
+						</Stack>
+					</Stack>
+				)}
+			</div>
+		);
 	} else {
 		return (
 			<div id="member-follows-page">

@@ -23,6 +23,8 @@ import { Messages } from '../../libs/config';
 import AddRepairProperty from '../../libs/components/mypage/AddNewRepairProperty';
 import MyRepairProperty from '../../libs/components/mypage/MyRepairProperty';
 import { getJwtToken } from '../../libs/auth/index';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -34,6 +36,7 @@ const MyPage: NextPage = () => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
+	const { t } = useTranslation('common');
 	const category: any = router.query?.category ?? 'myProfile';
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -126,7 +129,45 @@ const MyPage: NextPage = () => {
 	};
 
 	if (device === 'mobile') {
-		return <div>MY PAGE</div>;
+		const mobileCategory = router.query?.category as string | undefined;
+
+		if (!mobileCategory) {
+			return <MyMenu />;
+		}
+
+		return (
+			<div id="mob-mypage">
+				<div className="mob-mypage-back" onClick={() => router.push('/mypage')}>
+					<ArrowBackIosNewIcon sx={{ fontSize: 13 }} />
+					<span>{t('My Page')}</span>
+				</div>
+				{mobileCategory === 'addProperty' && <AddProperty />}
+				{mobileCategory === 'addRepairProperty' && <AddRepairProperty />}
+				{mobileCategory === 'myProperties' && <MyProperties />}
+				{mobileCategory === 'myRepairProperty' && <MyRepairProperty />}
+				{mobileCategory === 'myFavorites' && <MyFavorites />}
+				{mobileCategory === 'recentlyVisited' && <RecentlyVisited />}
+				{mobileCategory === 'myArticles' && <MyArticles />}
+				{mobileCategory === 'writeArticle' && <WriteArticle />}
+				{mobileCategory === 'myProfile' && <MyProfile />}
+				{mobileCategory === 'followers' && (
+					<MemberFollowers
+						subscribeHandler={subscribeHandler}
+						unsubscribeHandler={unsubscribeHandler}
+						likeMemberHandler={likeMemberHandler}
+						redirectToMemberPageHandler={redirectToMemberPageHandler}
+					/>
+				)}
+				{mobileCategory === 'followings' && (
+					<MemberFollowings
+						subscribeHandler={subscribeHandler}
+						unsubscribeHandler={unsubscribeHandler}
+						likeMemberHandler={likeMemberHandler}
+						redirectToMemberPageHandler={redirectToMemberPageHandler}
+					/>
+				)}
+			</div>
+		);
 	} else {
 		return (
 			<div id="my-page" style={{ position: 'relative' }}>

@@ -8,6 +8,7 @@ import { PropertiesInquiry } from '../../types/property/property.input';
 import { T } from '../../types/common';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
+import { REACT_APP_API_URL } from '../../config';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { useTranslation } from 'next-i18next';
 
@@ -53,7 +54,58 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>{t('NESTAR_PROPERTIES_MOBILE')}</div>;
+		return (
+			<div id="mob-member-properties">
+				{agentProperties?.length === 0 ? (
+					<div className="mob-mem-empty">
+						<img src="/img/icons/icoAlert.svg" alt="" />
+						<span>{t('No Properties!')}</span>
+					</div>
+				) : (
+					<div className="mob-mem-prop-grid">
+						{agentProperties.map((property: Property) => {
+							const imgSrc = property.propertyImages?.[0]
+								? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
+								: '/img/banner/Home-1-.jpg';
+							return (
+								<div
+									key={property._id}
+									className="mob-mem-prop-card"
+									onClick={() => router.push({ pathname: '/property/detail', query: { id: property._id } })}
+								>
+									<div className="mob-mem-prop-img">
+										<img src={imgSrc} alt="" />
+										{property.propertyPrice && (
+											<div className="mob-mem-prop-price">${property.propertyPrice.toLocaleString()}</div>
+										)}
+									</div>
+									<div className="mob-mem-prop-body">
+										<div className="mob-mem-prop-title">{property.propertyTitle}</div>
+										<div className="mob-mem-prop-meta">{t(property.propertyCategory || '')}</div>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				)}
+				{agentProperties?.length > 0 && (
+					<Stack className="pagination-config">
+						<Stack className="pagination-box">
+							<Pagination
+								count={Math.ceil(total / searchFilter.limit)}
+								page={searchFilter.page}
+								shape="circular"
+								color="primary"
+								onChange={paginationHandler}
+							/>
+						</Stack>
+						<Stack className="total-result">
+							<Typography>{t('Total {{total}} properties', { total })}</Typography>
+						</Stack>
+					</Stack>
+				)}
+			</div>
+		);
 	} else {
 		return (
 			<div id="member-properties-page">
@@ -108,7 +160,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 MyProperties.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 3,
+		limit: 4,
 		sort: 'createdAt',
 		search: {
 			memberId: '',

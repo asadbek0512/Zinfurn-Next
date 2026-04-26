@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography, Select, MenuItem, FormControl } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import axios from 'axios';
 import { getJwtToken } from '../../auth';
@@ -159,7 +159,115 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 	}
 
 	if (device === 'mobile') {
-		return <div>{t('ADD NEW PROPERTY MOBILE PAGE')}</div>;
+		const isEdit = !!router.query.repairPropertyId;
+		return (
+			<div id="mob-addproperty">
+				<div className="mob-addprop-header">
+					<h2>{isEdit ? t('Edit Repair') : t('Add New Repair')}</h2>
+					<span>{t('We are glad to see you again!')}</span>
+				</div>
+
+				<div className="mob-addprop-form">
+					<div className="mob-addprop-field">
+						<label>{t('Repair Type')}</label>
+						<Select
+							className="mob-addprop-select"
+							value={repairPropertyData.repairPropertyType || ''}
+							displayEmpty
+							onChange={({ target: { value } }) =>
+								setRepairPropertyData({
+									...repairPropertyData,
+									repairPropertyType: value as RepairPropertyType,
+								})
+							}
+							MenuProps={{
+								PaperProps: {
+									sx: {
+										maxHeight: 300,
+										'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+									}
+								}
+							}}
+						>
+							<MenuItem value="" disabled>
+								{t('Select')}
+							</MenuItem>
+							{(Object.values(RepairPropertyType) as Array<RepairPropertyType>).map((type) => (
+								<MenuItem value={type} key={type}>
+									{t(type)}
+								</MenuItem>
+							))}
+						</Select>
+					</div>
+
+					<div className="mob-addprop-field">
+						<label>{t('Repair Address')}</label>
+						<input
+							type="text"
+							placeholder={t('Property Address')}
+							value={repairPropertyData.repairPropertyAddress}
+							onChange={({ target: { value } }) =>
+								setRepairPropertyData({ ...repairPropertyData, repairPropertyAddress: value })
+							}
+						/>
+					</div>
+
+					<div className="mob-addprop-field">
+						<label>{t('Description')}</label>
+						<textarea
+							placeholder={t('Write some details...')}
+							value={repairPropertyData.repairPropertyDescription}
+							onChange={({ target: { value } }) =>
+								setRepairPropertyData({ ...repairPropertyData, repairPropertyDescription: value })
+							}
+						></textarea>
+					</div>
+
+					{/* Image Upload */}
+					<div className="mob-addprop-upload">
+						<label>{t('Upload Images')} <span>({repairPropertyData.repairPropertyImages?.length || 0}/5)</span></label>
+						<div className="mob-addprop-gallery">
+							{repairPropertyData?.repairPropertyImages?.map((image: string, idx: number) => {
+								return (
+									<div key={idx} className="mob-addprop-img-item">
+										<img src={`${REACT_APP_API_URL}/${image}`} alt="" />
+										<div className="delete-btn" onClick={() => {
+											const updatedImages = [...(repairPropertyData.repairPropertyImages || [])];
+											updatedImages.splice(idx, 1);
+											setRepairPropertyData({ ...repairPropertyData, repairPropertyImages: updatedImages })
+										}}>
+											&times;
+										</div>
+									</div>
+								);
+							})}
+							{(!repairPropertyData.repairPropertyImages || repairPropertyData.repairPropertyImages.length < 5) && (
+								<div className="mob-addprop-img-add" onClick={() => inputRef.current.click()}>
+									<span>+</span>
+								</div>
+							)}
+							<input
+								ref={inputRef}
+								type="file"
+								hidden
+								onChange={uploadImages}
+								multiple
+								accept="image/jpg, image/jpeg, image/png"
+							/>
+						</div>
+						<p>{t('JPEG or PNG • Min 2048x768 (Up to 5 images)')}</p>
+					</div>
+
+					<button
+						className="mob-addprop-btn"
+						disabled={doDisabledCheck()}
+						onClick={insertRepairPropertyHandler}
+					>
+						{t('Save Property')}
+					</button>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<div id="add-property-page">

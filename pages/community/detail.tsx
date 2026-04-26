@@ -13,6 +13,8 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ChatIcon from '@mui/icons-material/Chat';
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import SendIcon from '@mui/icons-material/Send';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import dynamic from 'next/dynamic';
@@ -68,6 +70,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const [updatedCommentId, setUpdatedCommentId] = useState<string>('');
 	const [likeLoading, setLikeLoading] = useState<boolean>(false);
 	const [boardArticle, setBoardArticle] = useState<BoardArticle>();
+	const [showEmoji, setShowEmoji] = useState<boolean>(false);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetBoardArticle] = useMutation(LIKE_TARGET_BOARD_ARTICLE);
@@ -230,6 +233,13 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 		}
 	};
 
+	const insertEmoji = (emoji: string) => {
+		if (comment.length + emoji.length > 100) return;
+		const newVal = comment + emoji;
+		setComment(newVal);
+		setWordsCnt(newVal.length);
+	};
+
 	const getCommentMemberImage = (imageUrl: string | undefined) => {
 		if (imageUrl) return `${process.env.REACT_APP_API_URL}/${imageUrl}`;
 		else return '/img/community/articleImg.png';
@@ -257,7 +267,227 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY DETAIL PAGE MOBILE</div>;
+		return (
+			<div id="mob-community-detail">
+				{/* Back */}
+				<div className="mob-com-det-back" onClick={() => router.back()}>
+					<span>←</span>
+					<span>{t('Back')}</span>
+				</div>
+
+				{/* Category + Title */}
+				<div className="mob-com-det-header">
+					{articleCategory && <span className="mob-com-det-cat">{t(articleCategory)}</span>}
+					<div className="mob-com-det-title">{boardArticle?.articleTitle}</div>
+				</div>
+
+				{/* Author + Stats */}
+				<div className="mob-com-det-meta">
+					<img
+						className="mob-com-det-avatar"
+						src={memberImage}
+						alt=""
+						onClick={() => goMemberPage(boardArticle?.memberData?._id)}
+					/>
+					<div className="mob-com-det-meta-body">
+						<span className="mob-com-det-nick" onClick={() => goMemberPage(boardArticle?.memberData?._id)}>
+							{boardArticle?.memberData?.memberNick}
+						</span>
+						<div className="mob-com-det-meta-row">
+							<Moment className="mob-com-det-date" format="DD.MM.YY HH:mm">
+								{boardArticle?.createdAt}
+							</Moment>
+							<span className="mob-com-det-dot">·</span>
+							<span
+								className={`mob-com-det-stat-like${boardArticle?.meLiked?.[0]?.myFavorite ? ' liked' : ''}`}
+								onClick={() => likeBoardArticleHandler(user, boardArticle?._id)}
+							>
+								{boardArticle?.meLiked?.[0]?.myFavorite ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
+								{boardArticle?.articleLikes}
+							</span>
+							<span className="mob-com-det-dot">·</span>
+							<span className="mob-com-det-stat">
+								<VisibilityIcon />
+								{boardArticle?.articleViews}
+							</span>
+							<span className="mob-com-det-dot">·</span>
+							<span className="mob-com-det-stat">
+								<ChatBubbleOutlineRoundedIcon />
+								{boardArticle?.articleComments}
+							</span>
+						</div>
+					</div>
+				</div>
+
+				{/* Article content — rasm avval, matn pastida */}
+				{(() => {
+					const raw = boardArticle?.articleContent ?? '';
+					const imgMatch = raw.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+					const imgSrc = imgMatch ? imgMatch[2] : null;
+					const textOnly = imgSrc ? raw.replace(/!\[([^\]]*)\]\(([^)]+)\)/, '').trim() : raw;
+					return (
+						<>
+							{imgSrc && (
+								<div className="mob-com-det-article-img">
+									<img src={imgSrc} alt="" />
+								</div>
+							)}
+							<div className="mob-com-det-content">
+								<ToastViewerComponent markdown={textOnly} className="ytb_play" />
+							</div>
+						</>
+					);
+				})()}
+
+				{/* Like button */}
+				<div className="mob-com-det-like-row">
+					<button
+						className={`mob-com-det-like-btn${boardArticle?.meLiked?.[0]?.myFavorite ? ' liked' : ''}`}
+						onClick={() => likeBoardArticleHandler(user, boardArticle?._id)}
+					>
+						{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite
+							? <ThumbUpAltIcon />
+							: <ThumbUpOffAltIcon />}
+						<span>{boardArticle?.articleLikes}</span>
+					</button>
+				</div>
+
+				{/* Comments */}
+				<div className="mob-com-det-comments">
+					<div className="mob-com-det-cmts-title">{t('Comments')} ({total})</div>
+
+					{/* Input */}
+					<div className="mob-com-det-cmt-write">
+						<div className="mob-com-det-cmt-heading">
+							<ChatBubbleOutlineRoundedIcon sx={{ color: '#cf6422', fontSize: 18 }} />
+							<span>{t('Leave a comment')}</span>
+						</div>
+						{showEmoji && (
+							<div className="mob-com-det-emoji-panel">
+								{['😊','👍','❤️','⭐','🔥','🙏','😍','💯','🎉','😅','👌','✨'].map((e) => (
+									<button key={e} className="mob-com-det-emoji-item" onClick={() => insertEmoji(e)}>{e}</button>
+								))}
+							</div>
+						)}
+						<div className="mob-com-det-input-row">
+							<IconButton
+								className={`mob-com-det-emoji-btn${showEmoji ? ' active' : ''}`}
+								onClick={() => setShowEmoji((v) => !v)}
+								size="small"
+							>
+								<EmojiEmotionsIcon />
+							</IconButton>
+							<textarea
+								className="mob-com-det-textarea"
+								rows={1}
+								placeholder={user?._id ? t('Leave a comment') : t('Please login first')}
+								value={comment}
+								disabled={!user?._id}
+								onKeyDown={(e) => {
+									if (e.key === 'Enter' && !e.shiftKey) {
+										e.preventDefault();
+										if (comment.trim() && user?._id) createCommentHandler();
+									}
+								}}
+								onChange={(e) => {
+									if (e.target.value.length > 100) return;
+									setWordsCnt(e.target.value.length);
+									setComment(e.target.value);
+								}}
+							/>
+							<IconButton
+								className="mob-com-det-send-btn"
+								disabled={!comment.trim() || !user?._id}
+								onClick={createCommentHandler}
+								size="small"
+							>
+								<SendIcon sx={{ fontSize: 18 }} />
+							</IconButton>
+						</div>
+					</div>
+
+					{/* Comment list */}
+					{comments?.map((commentData) => (
+						<div key={commentData?._id} className="mob-com-det-cmt-card">
+							<div className="mob-com-det-cmt-top">
+								<img
+									src={getCommentMemberImage(commentData?.memberData?.memberImage)}
+									alt=""
+									onClick={() => goMemberPage(commentData?.memberData?._id as string)}
+								/>
+								<div className="mob-com-det-cmt-info">
+									<span className="mob-com-det-cmt-nick">{commentData?.memberData?.memberNick}</span>
+									<Moment className="mob-com-det-cmt-date" format="DD.MM.YY HH:mm">
+										{commentData?.createdAt}
+									</Moment>
+								</div>
+								{commentData?.memberId === user?._id && (
+									<div className="mob-com-det-cmt-btns">
+										<IconButton
+											size="small"
+											onClick={() => updateButtonHandler(commentData?._id, CommentStatus.DELETE)}
+										>
+											<DeleteForeverIcon fontSize="small" />
+										</IconButton>
+										<IconButton
+											size="small"
+											onClick={() => {
+												setUpdatedComment(commentData?.commentContent);
+												setUpdatedCommentWordsCnt(commentData?.commentContent?.length);
+												setUpdatedCommentId(commentData?._id);
+												setOpenBackdrop(true);
+											}}
+										>
+											<EditIcon fontSize="small" />
+										</IconButton>
+									</div>
+								)}
+							</div>
+							<div className="mob-com-det-cmt-text">{commentData?.commentContent}</div>
+						</div>
+					))}
+
+					{/* Pagination */}
+					{total > 0 && (
+						<Stack className="pagination-config">
+							<Box component="div" className="pagination-box">
+								<Pagination
+									className="custom-pagination"
+									count={Math.ceil(total / searchFilter.limit) || 1}
+									page={searchFilter.page}
+									shape="circular"
+									color="primary"
+									onChange={paginationHandler}
+								/>
+							</Box>
+						</Stack>
+					)}
+				</div>
+
+				{/* Edit comment bottom sheet */}
+				{openBackdrop && (
+					<div className="mob-com-det-edit-overlay" onClick={cancelButtonHandler}>
+						<div className="mob-com-det-edit-box" onClick={(e) => e.stopPropagation()}>
+							<div className="mob-com-det-edit-title">{t('Update comment')}</div>
+							<input
+								autoFocus
+								value={updatedComment}
+								onChange={(e) => updateCommentInputHandler(e.target.value)}
+								type="text"
+								className="mob-com-det-edit-input"
+							/>
+							<div className="mob-com-det-edit-footer">
+								<span>{updatedCommentWordsCnt}/100</span>
+								<div>
+									<button className="mob-com-det-edit-cancel" onClick={cancelButtonHandler}>{t('Cancel')}</button>
+									<button className="mob-com-det-edit-save" onClick={() => updateButtonHandler(updatedCommentId, undefined)}>{t('Update')}</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				)}
+			</div>
+		);
 	} else {
 		return (
 			<div id="community-detail-page">

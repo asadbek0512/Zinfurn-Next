@@ -164,7 +164,132 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <>MY PROFILE PAGE MOBILE</>;
+		return (
+			<div id="mob-myprofile">
+				<div className="mob-myprofile-header">
+					<h2>{t('My Profile')}</h2>
+					<span>{t('We are glad to see you again!')}</span>
+				</div>
+
+				{/* Photo upload */}
+				<div className="mob-myprofile-photo">
+					<div className="mob-myprofile-img-wrap">
+						<img
+							src={
+								updateData?.memberImage
+									? updateData.memberImage.startsWith('http')
+										? updateData.memberImage
+										: `${REACT_APP_API_URL}/${updateData.memberImage}`
+									: '/img/profile/defaultUser.svg'
+							}
+							alt="Profile"
+						/>
+						<label htmlFor="mob-hidden-input">
+							<EditIcon />
+						</label>
+						<input
+							type="file"
+							id="mob-hidden-input"
+							hidden
+							accept="image/jpg, image/jpeg, image/png"
+							onChange={uploadImage}
+						/>
+					</div>
+					<span>{t('A photo must be in JPG, JPEG or PNG format!')}</span>
+				</div>
+
+				{/* Fields */}
+				<div className="mob-myprofile-fields">
+					<div className="mob-myprofile-field">
+						<label>{t('Username')}</label>
+						<input
+							type="text"
+							placeholder={t('Your username')}
+							value={updateData.memberNick || ''}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberNick: value })}
+						/>
+					</div>
+					<div className="mob-myprofile-field">
+						<label>{t('Phone')}</label>
+						<input
+							type="tel"
+							placeholder={t('Your Phone')}
+							value={updateData.memberPhone || ''}
+							onChange={({ target: { value } }) => {
+								const numbersOnly = value.replace(/[^0-9+]/g, '');
+								setUpdateData({ ...updateData, memberPhone: numbersOnly });
+							}}
+						/>
+					</div>
+					<div className="mob-myprofile-field">
+						<label>{t('Email')}</label>
+						<input
+							type="email"
+							placeholder={t('Your email address')}
+							value={updateData.memberEmail || ''}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberEmail: value })}
+						/>
+					</div>
+					<div className="mob-myprofile-field">
+						<label>{t('Full Name')}</label>
+						<input
+							type="text"
+							placeholder={t('Your full name')}
+							value={updateData.memberFullName || ''}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberFullName: value })}
+						/>
+					</div>
+					<div className="mob-myprofile-field">
+						<label>{t('Address')}</label>
+						<input
+							type="text"
+							placeholder={t('Your address')}
+							value={updateData.memberAddress || ''}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberAddress: value })}
+						/>
+					</div>
+				</div>
+
+				{/* Social links */}
+				<div className="mob-myprofile-social">
+					{!user.memberGoogleId && (
+						<button className="mob-myprofile-social-btn" onClick={handleLinkGoogle}>
+							<img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
+							{t('Link Google')}
+						</button>
+					)}
+					{!user.memberTelegramId && (
+						<div
+							ref={(el) => {
+								if (el && !el.querySelector('script')) {
+									const script = document.createElement('script');
+									script.src = 'https://telegram.org/js/telegram-widget.js?22';
+									script.setAttribute('data-telegram-login', 'zinfurn_auth_bot');
+									script.setAttribute('data-size', 'large');
+									script.setAttribute('data-onauth', 'onTelegramLinkAuth(user)');
+									script.setAttribute('data-request-access', 'write');
+									script.setAttribute('data-radius', '24');
+									script.async = true;
+									el.appendChild(script);
+								}
+							}}
+						/>
+					)}
+					{user.memberGoogleId && user.memberTelegramId && (
+						<span className="mob-myprofile-linked">✅ {t('All accounts linked')}</span>
+					)}
+				</div>
+
+				{/* Update button */}
+				<button
+					className="mob-myprofile-update-btn"
+					onClick={updatePropertyHandler}
+					disabled={doDisabledCheck()}
+				>
+					{t('Update Profile')}
+				</button>
+			</div>
+		);
 	} else
 		return (
 			<div id="my-profile-page">
