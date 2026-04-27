@@ -7,6 +7,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 interface Slide {
 	overline: string;
 	title: string;
+	mobileTitle: string;
 	description: string;
 	mobileDescription: string;
 	backgroundImage: string;
@@ -22,24 +23,27 @@ const HeroSection: React.FC = () => {
 		{
 			overline: t('TIMELESS ELEGANCE'),
 			title: t("Discover Furniture's For Living"),
+			mobileTitle: t('Furniture For Living'),
 			description: t('Consectetur a erat nam at. Facilisis magna etiam tempor orci. Sem et tortor consequat id. Fermentum egestas tellus. Nunc eu hendrerit turpis. Fusce non lectus sem.'),
-			mobileDescription: t('Quality pieces that elevate your home with timeless style.'),
+			mobileDescription: t('Quality furniture pieces that elevate your home with timeless style and elegance.'),
 			backgroundImage: '/img/banner/Home-1-.jpg',
 			mobileBackgroundImage: '/img/banner/mobail1.png',
 		},
 		{
 			overline: t('SMART SOLUTION'),
 			title: t('Enjoy With Style & Comfort'),
+			mobileTitle: t('Style & Comfort'),
 			description: t('Feugiat pretium nibh ipsum consequat nisi vel pretium lectus quam. Aliquam ut porttitor leo a diam sollicitudin. Nam at lectus urna duis convallis.'),
-			mobileDescription: t('Modern furniture designed for comfort and everyday living.'),
+			mobileDescription: t('Modern furniture designed for comfort, durability, and everyday stylish living.'),
 			backgroundImage: '/img/banner/Home-2-.jpg',
 			mobileBackgroundImage: '/img/banner/mobail2.png',
 		},
 		{
 			overline: t('CREATE MEMORIES'),
 			title: t("Embrace The Beauty Of Furniture's"),
+			mobileTitle: t('Embrace The Beauty'),
 			description: t('Ut placerat orci nulla pellentesque posuere lorem ipsum dolor. A condimentum vitae sapien pellentesque habitant morbi tristique senectus.'),
-			mobileDescription: t('Beautiful spaces start with the right furniture choices.'),
+			mobileDescription: t('Beautiful spaces start with the right furniture choices for your unique home.'),
 			backgroundImage: '/img/banner/Home-3-.jpg',
 			mobileBackgroundImage: '/img/banner/mobail3.png',
 		},
@@ -93,7 +97,7 @@ const HeroSection: React.FC = () => {
 			component={'div'}
 			sx={{
 				position: 'relative',
-				height: device === 'mobile' ? '46vh' : '100vh',
+				height: device === 'mobile' ? '40vh' : '80vh',
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
@@ -111,7 +115,7 @@ const HeroSection: React.FC = () => {
 				sx={{
 					position: 'absolute',
 					left: device === 'mobile' ? '0.5rem' : '2rem',
-					top: '50%',
+					top: '40%',
 					transform: 'translateY(-50%)',
 					zIndex: 3,
 					cursor: 'pointer',
@@ -130,7 +134,7 @@ const HeroSection: React.FC = () => {
 				sx={{
 					position: 'absolute',
 					right: device === 'mobile' ? '0.5rem' : '2rem',
-					top: '50%',
+					top: '40%',
 					transform: 'translateY(-50%)',
 					zIndex: 3,
 					cursor: 'pointer',
@@ -149,7 +153,7 @@ const HeroSection: React.FC = () => {
 			<Stack
 				sx={{
 					position: 'absolute',
-					top: device === 'mobile' ? '12%' : '50%',
+					top: device === 'mobile' ? '18%' : '40%',
 					left: '50%',
 					transform: device === 'mobile' ? 'translateX(-50%)' : 'translate(-50%, -50%)',
 					zIndex: 2,
@@ -188,7 +192,7 @@ const HeroSection: React.FC = () => {
 						animation: 'fadeInUp 0.6s ease-out 0.1s both',
 					}}
 				>
-					{slides[currentSlide].title}
+					{device === 'mobile' ? slides[currentSlide].mobileTitle : slides[currentSlide].title}
 				</Typography>
 				<Typography
 					variant="body1"
@@ -211,7 +215,7 @@ const HeroSection: React.FC = () => {
 				component={'div'}
 				sx={{
 					position: 'absolute',
-					bottom: device === 'mobile' ? '28%' : '15%',
+					bottom: device === 'mobile' ? '32%' : '32%',
 					zIndex: 2,
 					animation: 'fadeInUp 0.6s ease-out 0.3s both',
 				}}

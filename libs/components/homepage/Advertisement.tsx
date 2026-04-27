@@ -44,7 +44,9 @@ export default function InnovationSection() {
 							{t('Repair Services')}
 						</div>
 						<div style={{ fontSize: '10px', color: '#555', lineHeight: 1.5 }}>
-							{t("We repair broken furniture. Expert craftsmen ready to help.")}
+							{t(
+								"We don't just build — we repair. Our skilled craftsmen bring new life to broken furniture. Explore our service page to view repaired items and find expert technicians ready to help.",
+							)}
 						</div>
 						<button
 							onClick={handleNavigate}

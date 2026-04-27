@@ -78,7 +78,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 						{t('Trend Properties')} 🪑
 					</div>
 					<div style={{ fontSize: '11px', color: '#888', marginTop: '3px' }}>
-						{t('Explore our curated furniture collections')}
+						{t('Easily explore our carefully curated categories to find your favorite items')}
 					</div>
 				</div>
 
@@ -87,11 +87,11 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 					<div style={{ textAlign: 'center', padding: '32px', color: '#aaa' }}>{t('Trends Empty')}</div>
 				) : (
 					<Swiper
-						slidesPerView={1.6}
-						spaceBetween={10}
+						slidesPerView={2}
+						spaceBetween={12}
 						modules={[Autoplay]}
 						touchStartPreventDefault={false}
-						style={{ paddingLeft: '16px', paddingRight: '8px' }}
+						style={{ paddingLeft: '16px', paddingRight: '16px' }}
 					>
 						{trendProperties.map((property: Property) => {
 							const discountPercent = property.propertyPrice && property.propertySalePrice

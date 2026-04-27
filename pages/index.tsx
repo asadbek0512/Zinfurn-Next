@@ -60,7 +60,7 @@ const Home: NextPage = () => {
 				setShowLoader(false);
 				setTimeout(() => {
 					AOS.refresh();
-				}, 300);
+				}, 100);
 			}
 		};
 

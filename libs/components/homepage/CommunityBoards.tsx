@@ -106,7 +106,7 @@ const CommunityBoards = () => {
 					newsArticles.length === 0 ? (
 						<div style={{ textAlign: 'center', padding: '32px', color: '#aaa' }}>{t('No Articles')}</div>
 					) : (
-						<Swiper slidesPerView={1.8} spaceBetween={10} touchStartPreventDefault={false} style={{ paddingLeft: '16px', paddingRight: '8px' }}>
+						<Swiper slidesPerView={2} spaceBetween={18} touchStartPreventDefault={false} style={{ paddingLeft: '16px', paddingRight: '16px' }}>
 							{newsArticles.slice(0, 6).map((article, index) => (
 								<SwiperSlide key={article?._id}>
 									<CommunityCard vertical={true} article={article} index={index} />

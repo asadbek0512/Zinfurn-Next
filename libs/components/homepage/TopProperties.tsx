@@ -216,7 +216,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 				{properties.length === 0 ? (
 					<div style={{ textAlign: 'center', padding: '32px', color: '#aaa' }}>{t('No Products Found')}</div>
 				) : (
-					<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: '0 16px' }}>
+					<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', padding: '0 16px' }}>
 						{properties.slice(0, 4).map((property: Property) => {
 							const discountPercent = property.propertyPrice && property.propertySalePrice
 								? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100) : 0;
@@ -224,36 +224,36 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 							return (
 								<div key={property._id} style={{ background: '#fff', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
 									onClick={() => router.push({ pathname: '/property/detail', query: { id: property._id } })}>
-									<div style={{ position: 'relative', height: '130px', background: '#fff' }}>
-										<img src={imgUrl} alt={property.propertyTitle} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-										<div style={{ position: 'absolute', top: '6px', left: '6px', right: '6px', display: 'flex', justifyContent: 'space-between' }}>
+									<div style={{ position: 'relative', height: '170px', background: '#fff' }}>
+										<img src={imgUrl} alt={property.propertyTitle} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }} />
+										<div style={{ position: 'absolute', top: '8px', left: '8px', right: '8px', display: 'flex', justifyContent: 'space-between' }}>
 											{discountPercent > 0 && (
-												<span style={{ background: '#ff6b35', color: '#fff', fontSize: '9px', padding: '1px 5px', borderRadius: '4px' }}>-{discountPercent}%</span>
+												<span style={{ background: '#ff6b35', color: '#fff', fontSize: '10px', padding: '2px 6px', borderRadius: '4px' }}>-{discountPercent}%</span>
 											)}
-											<span style={{ background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: '9px', padding: '1px 5px', borderRadius: '4px', marginLeft: 'auto' }}>{t(property.propertyCategory)}</span>
+											<span style={{ background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: '10px', padding: '2px 6px', borderRadius: '4px', marginLeft: 'auto' }}>{t(property.propertyCategory)}</span>
 										</div>
 									</div>
-									<div style={{ padding: '6px 8px' }}>
-										<div style={{ fontSize: '11px', fontWeight: 500, color: '#181a20', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '4px' }}>
+									<div style={{ padding: '8px 10px' }}>
+										<div style={{ fontSize: '13px', fontWeight: 500, color: '#181a20', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '6px' }}>
 											{property.propertyTitle}
 										</div>
 										<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 											<div>
 												{property.propertySalePrice ? (
 													<>
-														<span style={{ fontSize: '10px', color: '#aaa', textDecoration: 'line-through', marginRight: '3px' }}>${property.propertyPrice}</span>
-														<span style={{ fontSize: '13px', fontWeight: 700, color: '#ff6b35' }}>${property.propertySalePrice}</span>
+														<span style={{ fontSize: '11px', color: '#aaa', textDecoration: 'line-through', marginRight: '4px' }}>${property.propertyPrice}</span>
+														<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>${property.propertySalePrice}</span>
 													</>
 												) : (
-													<span style={{ fontSize: '13px', fontWeight: 700, color: '#ff6b35' }}>${property.propertyPrice}</span>
+													<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>${property.propertyPrice}</span>
 												)}
 											</div>
 											<div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}
 												onClick={(e) => { e.stopPropagation(); likePropertyHandler(user, property._id); }}>
 												{property?.meLiked?.[0]?.myFavorite
-													? <FavoriteIcon style={{ fontSize: '14px', color: 'red' }} />
-													: <FavoriteBorderIcon style={{ fontSize: '14px', color: '#bbb' }} />}
-												<span style={{ fontSize: '11px', color: '#888' }}>{property.propertyLikes}</span>
+													? <FavoriteIcon style={{ fontSize: '16px', color: 'red' }} />
+													: <FavoriteBorderIcon style={{ fontSize: '16px', color: '#bbb' }} />}
+												<span style={{ fontSize: '12px', color: '#888' }}>{property.propertyLikes}</span>
 											</div>
 										</div>
 									</div>
