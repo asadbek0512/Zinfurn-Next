@@ -215,7 +215,7 @@ const HeroSection: React.FC = () => {
 				component={'div'}
 				sx={{
 					position: 'absolute',
-					bottom: device === 'mobile' ? '32%' : '32%',
+					bottom: device === 'mobile' ? '28%' : '28%',
 					zIndex: 2,
 					animation: 'fadeInUp 0.6s ease-out 0.3s both',
 				}}

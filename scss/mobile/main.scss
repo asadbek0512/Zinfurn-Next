@@ -1266,7 +1266,8 @@
   .MuiDrawer-paper {
     width: 285px;
     max-width: 88vw;
-    height: 100vh;
+    height: 100%;
+    height: 100dvh;
     background: #f2f2f7;
     border-radius: 0;
     box-shadow: -8px 0 32px rgba(0,0,0,0.14);
@@ -1430,9 +1431,8 @@
 
   /* ── Footer ── */
   .mobile-side-footer {
-    padding: 16px 20px;
-    background: #fff;
-    border-top: 1px solid #ebebeb;
+    padding: 20px 20px 40px;
+    background: transparent;
     flex-shrink: 0;
 
     .mobile-logout-btn {

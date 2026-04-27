@@ -396,20 +396,23 @@ const Top = () => {
 							<span className={'mobile-side-item-label'}>{t('AI Assistant')}</span>
 							<ChevronRightIcon className={'mobile-side-item-chevron'} />
 						</button>
-					</div>
 
-					{/* Drawer footer — logout */}
-					{user?._id && (
-						<div className={'mobile-side-footer'}>
-							<button
-								className={'mobile-logout-btn'}
-								onClick={() => { logOut(); setMobileMenuOpen(false); }}
-							>
-								<Logout fontSize="small" />
-								{t('Logout')}
-							</button>
-						</div>
-					)}
+						{/* Logout inside items with separation */}
+						{user?._id && (
+							<>
+								<div className={'mobile-side-divider'} style={{ margin: '16px 12px' }} />
+								<div className={'mobile-side-footer'} style={{ padding: '0 12px 24px' }}>
+									<button
+										className={'mobile-logout-btn'}
+										onClick={() => { logOut(); setMobileMenuOpen(false); }}
+									>
+										<Logout fontSize="small" />
+										{t('Logout')}
+									</button>
+								</div>
+							</>
+						)}
+					</div>
 				</Drawer>
 			</Stack>
 		);
