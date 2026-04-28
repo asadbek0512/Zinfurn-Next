@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Avatar, Box, CircularProgress, Stack } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
@@ -22,6 +22,7 @@ const AiChat = () => {
 	const router = useRouter();
 	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
+	const mobFrameRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		if (!router.isReady) return;
@@ -49,6 +50,30 @@ const AiChat = () => {
 		window.addEventListener('toggle-mob-ai', handler);
 		return () => window.removeEventListener('toggle-mob-ai', handler);
 	}, []);
+
+	useEffect(() => {
+		if (device !== 'mobile' || typeof window === 'undefined') return;
+		const vv = window.visualViewport;
+		if (!vv) return;
+		const reposition = () => {
+			const el = mobFrameRef.current;
+			if (!el) return;
+			const kbHeight = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+			if (kbHeight > 50) {
+				el.style.bottom = `${kbHeight + 12}px`;
+				el.style.height = `${vv.height - 80}px`;
+			} else {
+				el.style.bottom = '';
+				el.style.height = '';
+			}
+		};
+		vv.addEventListener('resize', reposition);
+		vv.addEventListener('scroll', reposition);
+		return () => {
+			vv.removeEventListener('resize', reposition);
+			vv.removeEventListener('scroll', reposition);
+		};
+	}, [device]);
 
 	const getInputHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
 		setInput(e.target.value);
@@ -147,7 +172,7 @@ const AiChat = () => {
 		return (
 			<Stack className="ai-chatting mob-ai-chatting">
 				{open && <div className="mob-chat-backdrop" onClick={handleToggle} />}
-				<Stack className={`ai-chat-frame ${open ? 'open' : ''}`}>
+				<Stack className={`ai-chat-frame ${open ? 'open' : ''}`} ref={mobFrameRef as any}>
 					<Box className="ai-chat-top" component="div">
 						<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} />
 						<span>{t('Zinfurn AI Assistant')}</span>

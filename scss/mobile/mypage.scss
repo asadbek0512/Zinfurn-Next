@@ -77,6 +77,16 @@
       border-radius: 20px;
       letter-spacing: 0.4px;
       text-transform: uppercase;
+
+      &.mob-mymenu-admin-badge {
+        background: rgba(255,255,255,0.35);
+        border: 1px solid rgba(255,255,255,0.6);
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.2s;
+        &:active { background: rgba(255,255,255,0.5); }
+      }
     }
   }
 

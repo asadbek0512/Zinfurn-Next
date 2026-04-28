@@ -59,7 +59,13 @@ const MyMenu = () => {
 						<img src={avatarSrc} alt="avatar" />
 					</div>
 					<div className="mob-mymenu-name">{user?.memberNick || t('User')}</div>
-					<div className="mob-mymenu-type-badge">{t(user?.memberType || 'USER')}</div>
+					{user?.memberType === 'ADMIN' ? (
+						<a href="/_admin/users" className="mob-mymenu-type-badge mob-mymenu-admin-badge">
+							{t(user.memberType)}
+						</a>
+					) : (
+						<div className="mob-mymenu-type-badge">{t(user?.memberType || 'USER')}</div>
+					)}
 				</div>
 
 				{/* Stats bar */}

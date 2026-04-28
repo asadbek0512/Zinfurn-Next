@@ -42,6 +42,7 @@ interface InfoPayload {
 const Chat = () => {
 	const chatContentRef = useRef<HTMLDivElement>(null);
 	const emojiPickerRef = useRef<HTMLDivElement>(null);
+	const mobFrameRef = useRef<HTMLDivElement>(null);
 	const [messagesList, setMessagesList] = useState<MessagePayload[]>([]);
 	const [onlineUsers, setOnlineUsers] = useState<number>(0);
 	const [messageInput, setMessageInput] = useState<string>('');
@@ -260,11 +261,35 @@ const Chat = () => {
 		return () => window.removeEventListener('toggle-mob-chat', handler);
 	}, []);
 
+	useEffect(() => {
+		if (device !== 'mobile' || typeof window === 'undefined') return;
+		const vv = window.visualViewport;
+		if (!vv) return;
+		const reposition = () => {
+			const el = mobFrameRef.current;
+			if (!el) return;
+			const kbHeight = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+			if (kbHeight > 50) {
+				el.style.bottom = `${kbHeight + 12}px`;
+				el.style.height = `${vv.height - 80}px`;
+			} else {
+				el.style.bottom = '';
+				el.style.height = '';
+			}
+		};
+		vv.addEventListener('resize', reposition);
+		vv.addEventListener('scroll', reposition);
+		return () => {
+			vv.removeEventListener('resize', reposition);
+			vv.removeEventListener('scroll', reposition);
+		};
+	}, [device]);
+
 	if (device === 'mobile') {
 		return (
 			<Stack className="chatting mob-chatting">
 				{open && <div className="mob-chat-backdrop" onClick={handleOpenChat} />}
-				<Stack className={`chat-frame ${open ? 'open' : ''}`} style={{ zIndex: open ? 99999 : -1 }}>
+				<Stack className={`chat-frame ${open ? 'open' : ''}`} style={{ zIndex: open ? 99999 : -1 }} ref={mobFrameRef as any}>
 					<Box className={'chat-top'} component={'div'}>
 						<img src="/img/logo/005.png" alt="Chat" style={{ width: 28, height: 28, marginRight: '10px', objectFit: 'contain' }} />
 						<div style={{ fontFamily: 'Nunito', color: '#fff', fontWeight: 800, fontSize: '18px' }}>Live Chat</div>

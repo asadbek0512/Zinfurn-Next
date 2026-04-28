@@ -434,8 +434,7 @@
   "Email and password are required": "البريد الإلكتروني وكلمة المرور مطلوبان",
   "Login failed": "فشل تسجيل الدخول",
   "LOGIN MOBILE": "تسجيل الدخول (جوال)",
-  "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.":
-    "لكن يجب أن أشرح لك كيف نشأت هذه الفكرة الخاطئة عن رفض المتعة ومدح الألم، وسأعطيك شرحًا كاملاً للنظام.",
+  "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.": "لكن يجب أن أشرح لك كيف نشأت هذه الفكرة الخاطئة عن رفض المتعة ومدح الألم، وسأعطيك شرحًا كاملاً للنظام.",
   "English": "الإنجليزية",
   "Korean": "الكورية",
   "Russian": "الروسية",
@@ -468,14 +467,11 @@
   "Our Product Quality": "جودة منتجاتنا",
   "Setting the Standard for": "تحديد معيار لـ",
   "Quality Furniture": "أثاث عالي الجودة",
-  "Our experienced technicians combine proven skills with practical knowledge to deliver high-quality furniture. Every piece is built with care, precision, and attention to detail.":
-    "يجمع فنّيونا ذوو الخبرة بين المهارات المثبتة والمعرفة العملية لتقديم أثاث عالي الجودة. كل قطعة تُصنع بعناية ودقة واهتمام بالتفاصيل.",
-  "This service is led by <strong>{{name}}</strong>, a professional furniture technician with over 10 years of hands-on experience. He specializes in detailed restoration, reliable repairs, and custom furniture work trusted by many satisfied clients.":
-    "يقود هذه الخدمة <strong>{{name}}</strong>، فني أثاث محترف يتمتع بأكثر من 10 سنوات من الخبرة العملية. وهو متخصص في الترميم المفصل، والإصلاحات الموثوقة، وتصميم الأثاث حسب الطلب، ويثق به العديد من العملاء الراضين.",
+  "Our experienced technicians combine proven skills with practical knowledge to deliver high-quality furniture. Every piece is built with care, precision, and attention to detail.": "يجمع فنّيونا ذوو الخبرة بين المهارات المثبتة والمعرفة العملية لتقديم أثاث عالي الجودة. كل قطعة تُصنع بعناية ودقة واهتمام بالتفاصيل.",
+  "This service is led by <strong>{{name}}</strong>, a professional furniture technician with over 10 years of hands-on experience. He specializes in detailed restoration, reliable repairs, and custom furniture work trusted by many satisfied clients.": "يقود هذه الخدمة <strong>{{name}}</strong>، فني أثاث محترف يتمتع بأكثر من 10 سنوات من الخبرة العملية. وهو متخصص في الترميم المفصل، والإصلاحات الموثوقة، وتصميم الأثاث حسب الطلب، ويثق به العديد من العملاء الراضين.",
   "Request Repair": "طلب إصلاح",
   "Why Choose Our Repair Service?": "لماذا تختار خدمة الإصلاح لدينا؟",
-  "We blend years of hands-on experience with precise craftsmanship to deliver reliable, long-lasting furniture repairs and custom work.":
-    "نمزج بين سنوات من الخبرة العملية والمهارة الدقيقة لتقديم إصلاحات أثاث موثوقة وطويلة الأمد وتصميم حسب الطلب.",
+  "We blend years of hands-on experience with precise craftsmanship to deliver reliable, long-lasting furniture repairs and custom work.": "نمزج بين سنوات من الخبرة العملية والمهارة الدقيقة لتقديم إصلاحات أثاث موثوقة وطويلة الأمد وتصميم حسب الطلب.",
   "Showing 1-5 of {{total}} results": "عرض 1-5 من أصل {{total}} نتيجة",
   "Total {{total}} review{{plural}}": "إجمالي {{total}} مراجعة{{plural}}",
   "Review submitted successfully!": "تم إرسال المراجعة بنجاح!",
@@ -496,9 +492,16 @@
   "Uzbek": "الأوزبكية",
   "All Agents": "جميع الوكلاء",
   "Zinfurn AI Assistant": "مساعد Zinfurn الذكي",
-"AI Welcome Message": "مرحباً! أنا مساعد الذكاء الاصطناعي لمتجر Zinfurn للأثاث. اسألني عن الأثاث!",
-"AI Input Placeholder": "اسأل عن الأثاث...",
-"AI error message": "حدث خطأ. يرجى المحاولة مرة أخرى.",
-"Live Chat": "دردشة مباشرة",
-"AI Assistant": "مساعد ذكي"
+  "AI Welcome Message": "مرحباً! أنا مساعد الذكاء الاصطناعي لمتجر Zinfurn للأثاث. اسألني عن الأثاث!",
+  "AI Input Placeholder": "اسأل عن الأثاث...",
+  "AI error message": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+  "Live Chat": "دردشة مباشرة",
+  "AI Assistant": "مساعد ذكي",
+  "Dont show today": "لا تظهر اليوم",
+  "View All Sales": "عرض كل التخفيضات",
+  "Hide": "إخفاء",
+  "Sale ends in": "ينتهي العرض خلال",
+  "hr": "س",
+  "min": "د",
+  "sec": "ث"
 }

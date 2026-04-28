@@ -240,7 +240,7 @@
   "search_for_agent": "에이전트 검색",
   "recent": "최신순",
   "oldest": "오래된순",
-  "likes": "좋아요", 
+  "likes": "좋아요",
   "no_agents_found": "에이전트를 찾을 수 없습니다!",
   "total": "총",
   "agents_in_stock": "명의 에이전트가 있습니다",
@@ -493,10 +493,16 @@
   "Uzbek": "우즈베크어",
   "All Agents": "모든 에이전트",
   "Zinfurn AI Assistant": "Zinfurn AI 도우미",
-"AI Welcome Message": "안녕하세요! 저는 Zinfurn 가구점 AI 도우미입니다. 가구에 대해 질문하세요!",
-"AI Input Placeholder": "가구에 대해 질문하세요...",
-"AI error message": "오류가 발생했습니다. 다시 시도해주세요.",
-"Live Chat": "실시간 채팅",
-"AI Assistant": "AI 도우미"
-
+  "AI Welcome Message": "안녕하세요! 저는 Zinfurn 가구점 AI 도우미입니다. 가구에 대해 질문하세요!",
+  "AI Input Placeholder": "가구에 대해 질문하세요...",
+  "AI error message": "오류가 발생했습니다. 다시 시도해주세요.",
+  "Live Chat": "실시간 채팅",
+  "AI Assistant": "AI 도우미",
+  "Dont show today": "오늘 표시 안 함",
+  "View All Sales": "모든 할인 보기",
+  "Hide": "숨기기",
+  "Sale ends in": "할인 종료까지",
+  "hr": "시",
+  "min": "분",
+  "sec": "초"
 }

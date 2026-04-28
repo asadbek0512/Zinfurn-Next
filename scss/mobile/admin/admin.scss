@@ -1,0 +1,388 @@
+@import '/scss/variables.scss';
+
+// ═══════════════════════════════════════════════════════════
+// GLOBAL: Mobile admin sidebar drawer (MUI Portal — tashqarida render bo'ladi)
+// ═══════════════════════════════════════════════════════════
+.mob-admin-drawer {
+  .MuiDrawer-paper {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    overflow-x: hidden;
+  }
+
+  // ── Sidebar header ──────────────────────────────────────
+  .mob-admin-sidebar-header {
+    padding: 20px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: #fff;
+    flex-shrink: 0;
+
+    .mob-admin-sidebar-logo {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .mob-admin-sidebar-user {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      background: #f5f5f5;
+      border-radius: 10px;
+      padding: 10px 12px;
+
+      .mob-admin-sidebar-user-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+
+        .mob-admin-sidebar-nick {
+          font-size: 14px;
+          font-weight: 600;
+          color: #212121;
+          font-family: $font;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .mob-admin-sidebar-phone {
+          font-size: 12px;
+          color: #757575;
+          font-family: $font;
+        }
+      }
+    }
+  }
+
+  // ── Menu list ───────────────────────────────────────────
+  .menu_wrap {
+    padding: 0;
+
+    // Top-level menu item
+    .MuiListItemButton-root.menu {
+      padding: 12px 16px;
+      border-radius: 0;
+
+      &.on {
+        background: #FDF4F4;
+        color: #F54D56;
+      }
+
+      .MuiListItemIcon-root {
+        min-width: 0;
+        margin-right: 12px;
+      }
+
+      .MuiListItemText-root span {
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
+        font-family: $font;
+      }
+
+      &.on .MuiListItemText-root span {
+        color: #F54D56;
+        font-weight: 600;
+      }
+
+      svg {
+        font-size: 18px;
+      }
+    }
+
+    // Sub-menu list
+    .menu-list {
+      padding: 4px 12px 8px;
+      background: #fafafa;
+
+      .li {
+        padding: 10px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+
+        span {
+          font-size: 13px;
+          color: #616161;
+          font-family: $font;
+        }
+
+        &.on {
+          background: #FDF4F4;
+          span {
+            font-weight: 600;
+            color: #e92c28;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// SCOPED: Mobile admin main content area
+// ═══════════════════════════════════════════════════════════
+#mobile-wrap.admin {
+
+  #bunker.mob-admin-bunker {
+    width: 100%;
+    margin-left: 0;
+    padding: 72px 12px 32px;
+    min-height: 100vh;
+    background: #f4f6f8;
+    box-sizing: border-box;
+
+    // ── Page headers ──
+    .flex-space,
+    .title.flex_space {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .tit {
+      font-size: 20px !important;
+      font-weight: 700 !important;
+      margin-bottom: 16px !important;
+    }
+
+    .title {
+      font-size: 20px !important;
+      font-weight: 700 !important;
+      margin-bottom: 0 !important;
+    }
+
+    .btn_add {
+      font-size: 13px;
+      padding: 7px 14px;
+      background: #e92c28;
+      color: #fff;
+      border-radius: 8px;
+      box-shadow: none;
+      white-space: nowrap;
+    }
+
+    .content {
+      width: 100%;
+    }
+
+    // ── Table card ──────────────────────────────────────────
+    .table-wrap {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+      overflow: hidden;
+      margin-top: 12px;
+
+      // Tabs — horizontal scroll
+      .tab-menu {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding: 0 8px;
+        border-bottom: 1px solid #eee;
+        &::-webkit-scrollbar { display: none; }
+
+        li {
+          width: auto;
+          height: 44px;
+          cursor: pointer;
+          padding: 10px 14px;
+          color: #bdbdbd;
+          font-size: 13px;
+          white-space: nowrap;
+          flex-shrink: 0;
+          list-style: none;
+        }
+        li.on {
+          font-weight: 600;
+          color: #e92c28;
+          border-bottom: 2px solid #e92c28;
+        }
+      }
+
+      // Search area — vertical stack
+      .search-area {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 14px 12px;
+
+        .MuiOutlinedInput-root,
+        .MuiSelect-root {
+          width: 100% !important;
+          font-size: 13px;
+        }
+
+        .MuiOutlinedInput-root {
+          height: 44px;
+        }
+
+        // MUI Select full width override
+        > .MuiFormControl-root,
+        > div {
+          width: 100% !important;
+          margin: 0 !important;
+        }
+      }
+
+      // Table — scrollable
+      .MuiTableContainer-root {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .MuiTable-root {
+        min-width: 560px;
+      }
+
+      thead th {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 10px 10px;
+        white-space: nowrap;
+        background: #fafafa;
+      }
+
+      tbody td {
+        font-size: 12px;
+        padding: 10px 10px;
+        color: #616161;
+
+        p.text-ellipsis {
+          width: 140px;
+        }
+
+        .img-box {
+          width: 48px;
+          height: 48px;
+        }
+      }
+
+      thead th:first-child,
+      tbody td:first-child {
+        padding-left: 14px;
+      }
+
+      .flex-box {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px;
+
+        button {
+          color: #e92c28;
+          font-weight: 500;
+          font-size: 11px;
+          padding: 3px 7px;
+          min-width: unset;
+          margin-right: 0;
+        }
+      }
+    }
+
+    // ── Badges ──
+    .badge {
+      padding: 2px 7px;
+      font-weight: 500;
+      font-size: 11px;
+      border-radius: 4px;
+    }
+    .success { color: #229a16; background: rgba(84, 214, 44, 0.16); }
+    .warning { color: #f57c00; background: rgba(245, 124, 0, 0.1); border-radius: 4px; }
+    .error   { color: #B72136; background: rgba(255, 72, 66, 0.16); }
+    .block   { color: #ab47bc; background: rgba(171, 71, 188, 0.1); border-radius: 4px; }
+    .delete  { background: #757575; color: #fff; border-radius: 4px; }
+
+    // ── FAQ/Notice create form ──
+    .content-area {
+      padding: 12px;
+
+      .tit {
+        font-size: 16px !important;
+        padding: 12px !important;
+      }
+
+      .comment {
+        height: auto;
+        textarea {
+          width: 100%;
+          height: 100px;
+          padding: 10px;
+          font-size: 13px;
+          border: 1px solid #eee;
+          border-radius: 4px;
+          resize: vertical;
+          box-sizing: border-box;
+        }
+      }
+
+      .btn-upload {
+        flex-direction: column;
+        border: 1px dashed #eee;
+        border-radius: 8px;
+        padding: 12px;
+        .img-area img { width: 100%; }
+      }
+    }
+
+    // ── Input area ──
+    .input-area {
+      flex-direction: column !important;
+      gap: 10px;
+      div:nth-child(1) { margin-right: 0 !important; }
+    }
+
+    // ── Buttons ──
+    .btn-wrap {
+      margin-top: 16px;
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 8px;
+      button { font-size: 13px; }
+    }
+
+    .btn-action,
+    .btn-add,
+    .btn-complete {
+      font-size: 13px;
+      color: #fff;
+      border-radius: 8px;
+    }
+
+    .btn-cancel {
+      color: #757575;
+      border: 1px solid #eee;
+      font-size: 13px;
+    }
+
+    // ── Pagination ──
+    .MuiTablePagination-root {
+      overflow: visible;
+
+      .MuiTablePagination-toolbar {
+        padding: 4px 8px;
+        flex-wrap: wrap;
+        min-height: 44px;
+        gap: 4px;
+      }
+
+      .MuiTablePagination-selectLabel,
+      .MuiTablePagination-displayedRows {
+        font-size: 12px;
+        margin: 0;
+      }
+    }
+  }
+}

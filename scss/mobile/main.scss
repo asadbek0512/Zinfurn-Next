@@ -6,6 +6,7 @@
 @import '/scss/mobile/repairService/repairService';
 @import '/scss/mobile/account';
 @import '/scss/mobile/member';
+@import '/scss/mobile/admin/admin';
 
 #mobile-wrap {
   // Page-specific banner header (property, agent, community, etc.)
@@ -1484,7 +1485,7 @@
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     width: calc(100vw - 24px);
     max-width: 440px;
-    height: 75vh;
+    height: 75dvh;
     display: flex;
     flex-direction: column;
     background: #faf9f8;
@@ -1612,7 +1613,7 @@
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     width: calc(100vw - 24px);
     max-width: 440px;
-    height: 75vh;
+    height: 75dvh;
     display: flex;
     flex-direction: column;
     background: #fff9f5;

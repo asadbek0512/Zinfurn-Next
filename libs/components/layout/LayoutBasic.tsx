@@ -7,6 +7,7 @@ import { Stack } from '@mui/material';
 import { getJwtToken, updateUserInfo } from '../../auth';
 import Chat from '../Chat';
 import AiChat from '../AiChat';
+import SalePromoModal from '../common/SalePromoModal';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useTranslation } from 'next-i18next';
@@ -128,6 +129,7 @@ const withLayoutBasic = (Component: any) => {
 
 						<Chat />
 						<AiChat />
+						<SalePromoModal />
 					</Stack>
 				</>
 			);
@@ -173,6 +175,7 @@ const withLayoutBasic = (Component: any) => {
 
 						<SalesToast />
 						<LinkAccountToast />
+						<SalePromoModal />
 					</Stack>
 				</>
 			);

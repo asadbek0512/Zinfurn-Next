@@ -496,6 +496,12 @@
   "AI Input Placeholder": "Mebel haqida savol bering...",
   "AI error message": "Xatolik yuz berdi. Iltimos qayta urinib ko'ring.",
   "Live Chat": "Jonli Chat",
-  "AI Assistant": "AI Yordamchi"
-
+  "AI Assistant": "AI Yordamchi",
+  "Dont show today": "Bugun ko'rsatma",
+  "View All Sales": "Barchalarini ko'r",
+  "Hide": "Berkitish",
+  "Sale ends in": "Sale tugashiga",
+  "hr": "soat",
+  "min": "daq",
+  "sec": "son"
 }
