@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Stack, Typography, Badge, IconButton, Menu, MenuItem, Divider, Avatar, Tooltip, type SxProps, type Theme } from '@mui/material';
+import { Stack, Typography, IconButton, Menu, MenuItem, Divider, Avatar, Tooltip } from '@mui/material';
 import { format } from 'date-fns';
 import { useReactiveVar } from '@apollo/client';
 import { socketVar, userVar } from '../../../apollo/store';
-import ScrollableFeed from 'react-scrollable-feed';
 import { useSwipeable } from 'react-swipeable';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -47,27 +45,20 @@ const NotificationItem = ({ notification, onRead }: { notification: Notification
 	return (
 		<div {...handlers}>
 			<MenuItem
+				style={{ position: 'relative', display: 'block', whiteSpace: 'normal' }}
 				sx={{
 					py: 2,
 					px: 3,
 					borderBottom: '1px solid rgba(0, 0, 0, 0.04)',
 					backgroundColor: notification.status === 'WAIT' ? 'rgba(207, 100, 34, 0.04)' : 'transparent',
-					'&:hover': {
-						backgroundColor: 'rgba(207, 100, 34, 0.08)',
-					},
-					position: 'relative',
+					'&:hover': { backgroundColor: 'rgba(207, 100, 34, 0.08)' },
 					transition: 'all 0.2s ease',
-					display: 'block',
-					whiteSpace: 'normal',
 				}}
 			>
 				<Stack direction="row" spacing={2} alignItems="flex-start">
 					<Avatar
-						sx={{
-							bgcolor: notification.status === 'WAIT' ? 'rgba(207, 100, 34, 0.1)' : 'rgba(0,0,0,0.05)',
-							width: 40,
-							height: 40,
-						}}
+						style={{ width: 40, height: 40 }}
+						sx={{ bgcolor: notification.status === 'WAIT' ? 'rgba(207, 100, 34, 0.1)' : 'rgba(0,0,0,0.05)' }}
 					>
 						{getNotificationIcon(notification.type)}
 					</Avatar>
@@ -76,7 +67,7 @@ const NotificationItem = ({ notification, onRead }: { notification: Notification
 							{notification.title}
 						</Typography>
 						{notification.desc && (
-							<Typography variant="caption" sx={{ color: '#666', lineHeight: 1.4, display: 'block' }}>
+							<Typography variant="caption" sx={{ color: '#666', lineHeight: 1.4 }}>
 								{notification.desc}
 							</Typography>
 						)}
@@ -85,32 +76,12 @@ const NotificationItem = ({ notification, onRead }: { notification: Notification
 						</Typography>
 					</Stack>
 					{notification.status === 'WAIT' && (
-						<Box
-							sx={{
-								width: 8,
-								height: 8,
-								borderRadius: '50%',
-								bgcolor: '#cf6422',
-								mt: 1,
-							}}
-						/>
+						<div style={{ width: 8, height: 8, borderRadius: '50%', background: '#cf6422', marginTop: 8, flexShrink: 0 }} />
 					)}
 				</Stack>
 			</MenuItem>
 		</div>
 	);
-};
-
-const notifHeaderSx: SxProps<Theme> = {
-	p: '16px 20px',
-	background: '#fff',
-	display: 'flex',
-	justifyContent: 'space-between',
-	alignItems: 'center',
-	position: 'sticky',
-	top: 0,
-	zIndex: 10,
-	borderBottom: '1px solid rgba(0,0,0,0.06)',
 };
 
 const NotificationModal = ({
@@ -130,12 +101,10 @@ const NotificationModal = ({
 	const socket = useReactiveVar(socketVar);
 	const user = useReactiveVar(userVar);
 
-	// Update parent component with unread count
 	useEffect(() => {
 		onUnreadCountChange?.(unreadCount);
 	}, [unreadCount, onUnreadCountChange]);
 
-	// Fetch notifications when modal opens
 	useEffect(() => {
 		if (open && user?._id) {
 			if (socket?.readyState === WebSocket.OPEN) {
@@ -144,18 +113,11 @@ const NotificationModal = ({
 		}
 	}, [open, user?._id]);
 
-	// Mark notifications as read when modal opens
 	useEffect(() => {
 		if (open && notifications.length > 0 && socket?.readyState === WebSocket.OPEN) {
 			const unreadNotificationIds = notifications.filter((n) => n.status === 'WAIT').map((n) => n.id);
-
 			if (unreadNotificationIds.length > 0) {
-				socket.send(
-					JSON.stringify({
-						event: 'markNotificationsAsRead',
-						data: unreadNotificationIds,
-					}),
-				);
+				socket.send(JSON.stringify({ event: 'markNotificationsAsRead', data: unreadNotificationIds }));
 			}
 		}
 	}, [open, notifications]);
@@ -190,11 +152,8 @@ const NotificationModal = ({
 				}
 			};
 		}
-
 		return () => {
-			if (socket) {
-				socket.onmessage = null;
-			}
+			if (socket) socket.onmessage = null;
 		};
 	}, [socket, user]);
 
@@ -205,47 +164,29 @@ const NotificationModal = ({
 			onClose={onClose}
 			disableScrollLock
 			PaperProps={{
-				sx: {
+				style: {
 					width: '360px',
 					maxHeight: '480px',
 					borderRadius: '16px',
-					mt: 1.5,
+					marginTop: '12px',
 					overflow: 'hidden',
 					boxShadow: '0px 10px 40px rgba(0, 0, 0, 0.12)',
 					border: '1px solid rgba(0,0,0,0.05)',
-					'& .MuiList-root': {
-						padding: 0,
-					},
 				},
+				sx: { '& .MuiList-root': { padding: 0 } },
 			}}
-			anchorOrigin={{
-				vertical: 'bottom',
-				horizontal: 'right',
-			}}
-			transformOrigin={{
-				vertical: 'top',
-				horizontal: 'right',
-			}}
+			anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 		>
-			<Box sx={notifHeaderSx}>
+			<div style={{ padding: '16px 20px', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10, borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
 				<Stack direction="row" alignItems="center" spacing={1.5}>
 					<Typography variant="h6" sx={{ fontSize: '16px', fontWeight: 700, color: '#181a20' }}>
 						{t('Notifications')}
 					</Typography>
 					{unreadCount > 0 && (
-						<Box
-							sx={{
-								bgcolor: '#cf6422',
-								color: '#fff',
-								borderRadius: '10px',
-								px: 1,
-								py: 0.2,
-								fontSize: '11px',
-								fontWeight: 600,
-							}}
-						>
+						<span style={{ background: '#cf6422', color: '#fff', borderRadius: '10px', padding: '2px 8px', fontSize: '11px', fontWeight: 600 }}>
 							{unreadCount}
-						</Box>
+						</span>
 					)}
 				</Stack>
 				{unreadCount > 0 && (
@@ -255,54 +196,35 @@ const NotificationModal = ({
 						</IconButton>
 					</Tooltip>
 				)}
-			</Box>
+			</div>
 
-			<Stack sx={{ maxHeight: '400px', overflow: 'auto', bgcolor: '#fafafa' }}>
+			<div style={{ maxHeight: '400px', overflow: 'auto', background: '#fafafa' }}>
 				{notifications.length === 0 ? (
-					<Box sx={{ p: 6, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-						<Box
-							sx={{
-								width: 60,
-								height: 60,
-								borderRadius: '50%',
-								bgcolor: 'rgba(0,0,0,0.03)',
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
-							}}
-						>
+					<div style={{ padding: '48px 16px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+						<div style={{ width: 60, height: 60, borderRadius: '50%', background: 'rgba(0,0,0,0.03)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 							<NotificationsNoneIcon sx={{ fontSize: '30px', color: '#ccc' }} />
-						</Box>
+						</div>
 						<Typography sx={{ color: '#999', fontSize: '14px', fontWeight: 500 }}>
 							{t('No notifications yet')}
 						</Typography>
-					</Box>
+					</div>
 				) : (
 					notifications.map((notification) => (
-						<NotificationItem
-							key={notification.id}
-							notification={notification}
-							onRead={() => {}}
-						/>
+						<NotificationItem key={notification.id} notification={notification} onRead={() => {}} />
 					))
 				)}
-			</Stack>
-			
+			</div>
+
 			<Divider />
-			<Box sx={{ p: 1.5, textAlign: 'center' }}>
-				<Typography 
-					variant="caption" 
-					sx={{ 
-						color: '#cf6422', 
-						fontWeight: 600, 
-						cursor: 'pointer',
-						'&:hover': { textDecoration: 'underline' }
-					}}
+			<div style={{ padding: '12px', textAlign: 'center' }}>
+				<Typography
+					variant="caption"
+					sx={{ color: '#cf6422', fontWeight: 600, cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
 					onClick={onClose}
 				>
 					{t('Close')}
 				</Typography>
-			</Box>
+			</div>
 		</Menu>
 	);
 };
