@@ -15,7 +15,7 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import StarIcon from '@mui/icons-material/Star';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import { useTranslation } from 'next-i18next';
+import { useTranslation, Trans } from 'next-i18next';
 import Loading from '../common/Loading';
 
 interface QualitySectionProps {

@@ -300,34 +300,22 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 						<IconButton className="mob-filter-btn" onClick={() => setFilterOpen(true)}>
 							<TuneIcon />
 						</IconButton>
-						<Box className="mob-view-modes" sx={{ display: 'flex', gap: '6px' }}>
-							<IconButton 
+						<div className="mob-view-modes" style={{ display: 'flex', gap: '6px' }}>
+							<IconButton
 								onClick={() => viewModeHandler('grid-1')}
 								size="small"
-								sx={{ 
-									p: '6px', 
-									bgcolor: viewMode === 'grid-1' ? '#6b3f29' : '#333',
-									color: '#fff',
-									'&:hover': { bgcolor: viewMode === 'grid-1' ? '#5a3522' : '#444' },
-									transition: 'all 0.3s ease'
-								}}
+								style={{ padding: '6px', background: viewMode === 'grid-1' ? '#6b3f29' : '#333', color: '#fff', transition: 'all 0.3s ease' }}
 							>
 								<ViewStreamIcon style={{ fontSize: '18px' }} />
 							</IconButton>
-							<IconButton 
+							<IconButton
 								onClick={() => viewModeHandler('grid-2')}
 								size="small"
-								sx={{ 
-									p: '6px', 
-									bgcolor: viewMode === 'grid-2' ? '#6b3f29' : '#333',
-									color: '#fff',
-									'&:hover': { bgcolor: viewMode === 'grid-2' ? '#5a3522' : '#444' },
-									transition: 'all 0.3s ease'
-								}}
+								style={{ padding: '6px', background: viewMode === 'grid-2' ? '#6b3f29' : '#333', color: '#fff', transition: 'all 0.3s ease' }}
 							>
 								<ViewModuleIcon style={{ fontSize: '18px' }} />
 							</IconButton>
-						</Box>
+						</div>
 					</Stack>
 
 					<Stack className="mob-search-box" sx={{ flex: 1, ml: 1, mr: 1 }}>
