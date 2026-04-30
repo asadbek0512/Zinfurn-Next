@@ -24,7 +24,7 @@ const Terms = () => {
 
 	if (device === 'mobile') {
 		if (loading) return <Loading />;
-		const terms = noticesData?.getAllNotices?.list.slice().reverse() || [];
+		const terms = termsData?.getAllNotices?.list.slice().reverse() || [];
 		return (
 			<div className="mob-cs-terms">
 				{terms.length === 0 && <p className="mob-cs-empty">{t('No terms yet')}</p>}
