@@ -123,37 +123,40 @@ const NotificationModal = ({
 	}, [open, notifications]);
 
 	useEffect(() => {
-		if (socket && user?._id) {
-			socket.onmessage = (msg) => {
-				try {
-					const data = JSON.parse(msg.data);
-					if (data.event === 'notification') {
-						const notification = data.payload;
-						setNotifications((prev) => {
-							const isDuplicate = prev.some((n) => n.id === notification.id);
-							if (isDuplicate) return prev;
-							const newNotifications = [notification, ...prev];
-							setUnreadCount(newNotifications.filter((n) => n.status === 'WAIT').length);
-							return newNotifications;
-						});
-					} else if (data.event === 'notifications_list') {
-						setNotifications(data.data);
-						setUnreadCount(data.data.length);
-					} else if (data.event === 'notificationStatus') {
-						const { id, status } = data.payload;
-						setNotifications((prev) => {
-							const updatedNotifications = prev.map((n) => (n.id === id ? { ...n, status } : n));
-							setUnreadCount(updatedNotifications.filter((n) => n.status === 'WAIT').length);
-							return updatedNotifications;
-						});
-					}
-				} catch (error) {
-					console.error('Error processing notification:', error);
+		if (!socket || !user?._id) return;
+
+		const handleMessage = (msg: MessageEvent) => {
+			try {
+				const data = JSON.parse(msg.data);
+				if (data.event === 'notification') {
+					const notification = data.payload;
+					setNotifications((prev) => {
+						const isDuplicate = prev.some((n) => n.id === notification.id);
+						if (isDuplicate) return prev;
+						const newNotifications = [notification, ...prev];
+						setUnreadCount(newNotifications.filter((n) => n.status === 'WAIT').length);
+						return newNotifications;
+					});
+				} else if (data.event === 'notifications_list') {
+					setNotifications(data.data);
+					setUnreadCount(data.data.length);
+				} else if (data.event === 'notificationStatus') {
+					const { id, status } = data.payload;
+					setNotifications((prev) => {
+						const updatedNotifications = prev.map((n) => (n.id === id ? { ...n, status } : n));
+						setUnreadCount(updatedNotifications.filter((n) => n.status === 'WAIT').length);
+						return updatedNotifications;
+					});
 				}
-			};
-		}
+			} catch (error) {
+				console.error('Error processing notification:', error);
+			}
+		};
+
+		socket.addEventListener('message', handleMessage);
+
 		return () => {
-			if (socket) socket.onmessage = null;
+			socket.removeEventListener('message', handleMessage);
 		};
 	}, [socket, user]);
 

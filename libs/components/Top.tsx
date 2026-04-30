@@ -99,34 +99,29 @@ const Top = () => {
 	}, []);
 
 	useEffect(() => {
-		if (socket && user?._id) {
-			socket.onmessage = (msg) => {
-				try {
-					const data = JSON.parse(msg.data);
-					if (data.event === 'notification') {
-						if (data.payload.status === 'WAIT') {
-							setHasUnreadNotifications(true);
-						}
-					} else if (data.event === 'unreadNotifications') {
-						if (data.payload && data.payload.length > 0) {
-							setHasUnreadNotifications(true);
-						}
-					}
-				} catch (error) {
-					console.error('Error processing message:', error);
-				}
-			};
+		if (!socket || !user?._id) return;
 
-			socket.onerror = (error) => {
-				console.error('WebSocket error:', error);
-			};
-		}
+		const handleMessage = (msg: MessageEvent) => {
+			try {
+				const data = JSON.parse(msg.data);
+				if (data.event === 'notification') {
+					if (data.payload.status === 'WAIT') {
+						setHasUnreadNotifications(true);
+					}
+				} else if (data.event === 'unreadNotifications') {
+					if (data.payload && data.payload.length > 0) {
+						setHasUnreadNotifications(true);
+					}
+				}
+			} catch (error) {
+				console.error('Error processing message:', error);
+			}
+		};
+
+		socket.addEventListener('message', handleMessage);
 
 		return () => {
-			if (socket) {
-				socket.onmessage = null;
-				socket.onerror = null;
-			}
+			socket.removeEventListener('message', handleMessage);
 		};
 	}, [socket, user]);
 
