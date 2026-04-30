@@ -214,19 +214,19 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      gap: 8px;
-      padding: 10px 12px;
+      gap: 4px; // Gap reduced from 8px to 4px
+      padding: 10px 8px; // Padding reduced
       border-bottom: 1px solid #eee;
       box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 
       .mob-filter-btn {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
         border: 1px solid #ddd;
         background: #fff;
         flex-shrink: 0;
-        svg { font-size: 20px; color: #cf6422; }
+        svg { font-size: 18px; color: #cf6422; }
       }
 
       .mob-search-box {
@@ -234,29 +234,31 @@
 
         .mob-search-input {
           width: 100%;
-          height: 38px;
-          font-size: 13px;
+          height: 36px;
+          font-size: 12px;
           font-family: $font;
 
-          fieldset { border-radius: 10px; border-color: #ddd; }
-          input { padding: 0 8px; font-size: 13px; }
+          fieldset { border-radius: 8px; border-color: #ddd; }
+          input { padding: 0 6px; font-size: 12px; }
         }
       }
 
       .mob-sort-btn {
-        height: 38px;
-        padding: 0 10px;
-        border-radius: 10px;
+        height: 36px;
+        padding: 0 6px;
+        border-radius: 8px;
         border: 1px solid #ddd !important;
         background: #fff;
-        font-size: 12px;
+        font-size: 11px;
         font-family: $font;
         color: #333;
         white-space: nowrap;
         flex-shrink: 0;
         text-transform: none;
+        min-width: unset;
 
-        .MuiButton-endIcon svg { font-size: 18px; color: #cf6422; }
+        .MuiButton-endIcon { margin-left: 2px; }
+        .MuiButton-endIcon svg { font-size: 16px; color: #cf6422; }
       }
     }
 
@@ -264,8 +266,49 @@
     .mob-card-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       padding: 12px;
+
+      // 2 Qatorlik rejim (Grid 2)
+      &.grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 10px;
+
+        .mob-property-card {
+          flex-direction: column; // Tik holat
+          min-height: auto;
+
+          .mob-card-img-wrap {
+            width: 100%;
+            height: 160px;
+            min-width: unset;
+          }
+
+          .mob-card-info {
+            padding: 8px;
+            gap: 4px;
+
+            .mob-card-title {
+              font-size: 12px;
+              height: 32px; // 2 qator uchun mahsus balandlik
+            }
+
+            .mob-card-price {
+              .mob-new-price, .mob-cur-price { font-size: 13px; }
+              .mob-old-price { font-size: 10px; }
+            }
+
+            .mob-card-actions {
+              padding-top: 4px;
+              justify-content: space-between;
+              
+              .mob-action { font-size: 10px; gap: 2px; }
+            }
+          }
+        }
+      }
     }
 
     // Horizontal Card

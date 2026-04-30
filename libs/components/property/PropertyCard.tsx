@@ -19,10 +19,11 @@ interface PropertyCardType {
 	likePropertyHandler?: any;
 	myFavorites?: boolean;
 	recentlyVisited?: boolean;
+	viewMode?: string;
 }
 
 const PropertyCard = (props: PropertyCardType) => {
-	const { property, likePropertyHandler, myFavorites, recentlyVisited } = props;
+	const { property, likePropertyHandler, myFavorites, recentlyVisited, viewMode = 'grid-1' } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const [isHovered, setIsHovered] = useState(false);
@@ -48,15 +49,15 @@ const PropertyCard = (props: PropertyCardType) => {
 
 	if (device === 'mobile') {
 		return (
-			<Stack className="mob-property-card">
-				{/* Chap: Rasm */}
+			<Stack className={`mob-property-card ${viewMode}`}>
+				{/* Image Wrap */}
 				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }} className="mob-card-img-wrap">
 					<img src={imagePath} alt={property?.propertyTitle || 'Property'} className="mob-card-img" />
 					{discountPercent > 0 && <span className="mob-sale-badge">-{discountPercent}%</span>}
 					<span className="mob-cat-badge">{t(property?.propertyCategory)}</span>
 				</Link>
 
-				{/* O'ng: Ma'lumotlar */}
+				{/* Info Wrap */}
 				<Stack className="mob-card-info">
 					<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
 						<Typography className="mob-card-title">{property?.propertyTitle}</Typography>
@@ -73,24 +74,26 @@ const PropertyCard = (props: PropertyCardType) => {
 						)}
 					</Stack>
 
-					<Stack className="mob-card-tags">
-						<span className="mob-tag">{t(property?.propertyType)}</span>
-						<span className="mob-tag">{t(property?.propertyMaterial)}</span>
-						<span className="mob-tag">{t(property?.propertyCondition)}</span>
-						<span className="mob-tag mob-color-tag">
-							<span className="mob-color-dot" style={{ backgroundColor: property?.propertyColor?.toLowerCase() || '#ccc' }} />
-							{t(property?.propertyColor)}
-						</span>
-					</Stack>
+					{viewMode !== 'grid-2' && (
+						<Stack className="mob-card-tags">
+							<span className="mob-tag">{t(property?.propertyType)}</span>
+							<span className="mob-tag">{t(property?.propertyMaterial)}</span>
+							<span className="mob-tag">{t(property?.propertyCondition)}</span>
+							<span className="mob-tag mob-color-tag">
+								<span className="mob-color-dot" style={{ backgroundColor: property?.propertyColor?.toLowerCase() || '#ccc' }} />
+								{t(property?.propertyColor)}
+							</span>
+						</Stack>
+					)}
 
 					{!recentlyVisited && (
 						<Stack className="mob-card-actions">
-							<span className="mob-action"><RemoveRedEyeIcon sx={{ fontSize: 15 }} />{property?.propertyViews || 0}</span>
-							<span className="mob-action"><ChatBubbleOutlineIcon sx={{ fontSize: 15 }} />{property?.propertyComments || 0}</span>
-							<span className="mob-action" onClick={() => likePropertyHandler?.(user, property?._id)}>
+							<span className="mob-action"><RemoveRedEyeIcon sx={{ fontSize: 14 }} />{property?.propertyViews || 0}</span>
+							<span className="mob-action"><ChatBubbleOutlineIcon sx={{ fontSize: 14 }} />{property?.propertyComments || 0}</span>
+							<span className="mob-action" onClick={(e) => { e.preventDefault(); likePropertyHandler?.(user, property?._id); }}>
 								{myFavorites || property?.meLiked?.[0]?.myFavorite
-									? <FavoriteIcon sx={{ fontSize: 15, color: 'red' }} />
-									: <FavoriteBorderIcon sx={{ fontSize: 15, color: '#bbb' }} />}
+									? <FavoriteIcon sx={{ fontSize: 14, color: 'red' }} />
+									: <FavoriteBorderIcon sx={{ fontSize: 14, color: '#bbb' }} />}
 								{property?.propertyLikes || 0}
 							</span>
 						</Stack>

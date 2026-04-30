@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Avatar, Box, Button, CircularProgress, IconButton, Stack, Typography } from '@mui/material';
+import Loading from '../../libs/components/common/Loading';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
@@ -219,10 +220,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	};
 
 	if (getRepairPropertiesLoading) {
-		if (device === 'mobile') {
-			return <Stack sx={{ justifyContent: 'center', alignItems: 'center', width: '100%', height: '100vh' }}><CircularProgress size={'2rem'} sx={{ color: '#cf6422' }} /></Stack>;
-		}
-		return <Stack sx={{ justifyContent: 'center', alignItems: 'center', width: '100%', height: '1800px' }}><CircularProgress size={'4rem'} /></Stack>;
+		return <Loading fullScreen={device === 'mobile'} />;
 	}
 
 	if (device === 'mobile') {

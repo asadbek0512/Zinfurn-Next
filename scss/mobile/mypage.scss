@@ -153,24 +153,21 @@
       &:active { background: #f9f9f9; }
 
       .mob-mymenu-item-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        background: #f5ede5;
 
-        svg { font-size: 19px; }
+        svg { font-size: 18px; color: #b5541a; }
 
-        &.blue   { background: #e3f0ff; svg { color: #2196f3; } }
-        &.green  { background: #e6f9f0; svg { color: #27ae60; } }
-        &.orange { background: #fff3e0; svg { color: #cf6422; } }
-        &.red    { background: #fdecea; svg { color: #e74c3c; } }
-        &.purple { background: #f3e8ff; svg { color: #9b59b6; } }
-        &.teal   { background: #e0f7f5; svg { color: #009688; } }
-        &.indigo { background: #e8eaf6; svg { color: #3f51b5; } }
-        &.amber  { background: #fff8e1; svg { color: #f59e0b; } }
+        &.logout-icon {
+          background: #fdecea;
+          svg { color: #c0392b; }
+        }
       }
 
       .mob-mymenu-item-text {

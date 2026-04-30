@@ -6,6 +6,7 @@ import { useQuery } from '@apollo/client';
 import { GET_ALL_NOTICES } from '../../../apollo/user/query';
 import { NoticeCategory, NoticeStatus } from '../../enums/notice.enum';
 import CircularProgress from '@mui/material/CircularProgress';
+import Loading from '../common/Loading';
 import { useTranslation } from 'next-i18next';
 
 const Terms = () => {
@@ -22,8 +23,8 @@ const Terms = () => {
 	});
 
 	if (device === 'mobile') {
-		if (loading) return <div className="mob-cs-loading"><CircularProgress size={28} sx={{ color: '#cf6422' }} /></div>;
-		const terms = termsData?.getAllNotices?.list.slice().reverse() || [];
+		if (loading) return <Loading />;
+		const terms = noticesData?.getAllNotices?.list.slice().reverse() || [];
 		return (
 			<div className="mob-cs-terms">
 				{terms.length === 0 && <p className="mob-cs-empty">{t('No terms yet')}</p>}
@@ -41,11 +42,7 @@ const Terms = () => {
 	}
 
 	if (loading) {
-		return (
-			<Box component="div" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
-				<CircularProgress />
-			</Box>
-		);
+		return <Loading />;
 	}
 
 	const terms = termsData?.getAllNotices?.list.slice().reverse() || [];

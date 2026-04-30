@@ -10,11 +10,15 @@ import { userVar } from '../../../apollo/store';
 import { REACT_APP_API_URL } from '../../config';
 import { Property } from '../../types/property/property';
 import { T } from '../../types/common';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 const DISMISS_KEY_PREFIX = 'zin_sale_promo';
 const LAST_SHOWN_KEY = 'zin_last_sale_id';
+const SESSION_SHOWN_KEY = 'zin_promo_session_shown';
+const SESSION_USER_KEY = 'zin_promo_session_user';
 
 const SalePromoModal = () => {
+	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
 	const { t } = useTranslation('common');
@@ -56,11 +60,26 @@ const SalePromoModal = () => {
 		},
 	});
 
-	// Show modal after delay
+	// Login yoki logout bo'lganda session flagni tozalash
+	useEffect(() => {
+		if (typeof window === 'undefined') return;
+		const storedId = sessionStorage.getItem(SESSION_USER_KEY) ?? '';
+		const currentId = user?._id ?? '';
+		if (storedId !== currentId) {
+			sessionStorage.removeItem(SESSION_SHOWN_KEY);
+			sessionStorage.setItem(SESSION_USER_KEY, currentId);
+		}
+	}, [user?._id]);
+
+	// Modal ko'rsatish — har yangi kirish, login yoki logout bo'lganda
 	useEffect(() => {
 		if (typeof window === 'undefined' || !currentProp) return;
+		if (sessionStorage.getItem(SESSION_SHOWN_KEY)) return;
 		if (user?._id && localStorage.getItem(getDismissKey())) return;
-		const timer = setTimeout(() => setVisible(true), 1800);
+		const timer = setTimeout(() => {
+			setVisible(true);
+			sessionStorage.setItem(SESSION_SHOWN_KEY, '1');
+		}, 1800);
 		return () => clearTimeout(timer);
 	}, [currentProp, user?._id]);
 
@@ -87,6 +106,7 @@ const SalePromoModal = () => {
 		return () => { if (countdownRef.current) clearInterval(countdownRef.current); };
 	}, [visible, currentProp]);
 
+	if (device !== 'mobile') return null;
 	if (!visible || !currentProp) return null;
 
 	const prop = currentProp;

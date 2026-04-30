@@ -6,7 +6,7 @@ import { T } from '../../types/common';
 import router from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper';
+import { Autoplay, Pagination } from 'swiper';
 
 interface TimeLeft {
 	days: number;
@@ -118,7 +118,13 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 				</div>
 
 				{/* Swiper kartalar */}
-				<Swiper slidesPerView={1.5} spaceBetween={10} modules={[Autoplay]} style={{ paddingLeft: '16px', paddingRight: '8px' }}>
+				<Swiper
+					slidesPerView={1}
+					spaceBetween={0}
+					modules={[Autoplay, Pagination]}
+					pagination={{ clickable: true }}
+					style={{ paddingBottom: '22px' }}
+				>
 					{saleProperties.map((property, index) => {
 						const pct = calculateSalePercentage(property.propertyPrice, property.propertySalePrice);
 						const imgUrl = `${process.env.REACT_APP_API_URL}/${property.propertyImages?.[0]}`;
@@ -132,7 +138,7 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 						return (
 							<SwiperSlide key={property._id || index}>
 								<div
-									style={{ borderRadius: '14px', overflow: 'hidden', cursor: 'pointer', position: 'relative', height: '220px' }}
+									style={{ margin: '0 16px', borderRadius: '16px', overflow: 'hidden', cursor: 'pointer', position: 'relative', height: '210px' }}
 									onClick={() => handleViewDetails(property._id)}
 								>
 									{/* Rasm */}
@@ -142,32 +148,32 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 									<div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.45)' }} />
 
 									{/* Content */}
-									<div style={{ position: 'absolute', inset: 0, zIndex: 2, display: 'flex', flexDirection: 'column', padding: '10px' }}>
+									<div style={{ position: 'absolute', inset: 0, zIndex: 2, display: 'flex', flexDirection: 'column', padding: '12px' }}>
 										{/* Badge - yuqori */}
-										<div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
-											<span style={{ color: '#fff', fontSize: '12px', fontWeight: 500 }}>{t('Exclusive Offer')}</span>
+										<div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+											<span style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>{t('Exclusive Offer')}</span>
 											{pct > 0 && (
-												<span style={{ background: '#f18745', color: '#fff', fontSize: '12px', fontWeight: 700, padding: '3px 10px', borderRadius: '10px' }}>
+												<span style={{ background: '#f18745', color: '#fff', fontSize: '13px', fontWeight: 700, padding: '3px 10px', borderRadius: '8px' }}>
 													{pct}% {t('OFF')}
 												</span>
 											)}
 										</div>
 
 										{/* Taymer - o'rta */}
-										<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', marginTop: 'auto', marginBottom: '35px', background: 'rgba(0,0,0,0.2)', backdropFilter: 'blur(8px)', borderRadius: '14px', padding: '10px 12px' }}>
+										<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '7px', marginTop: 'auto', marginBottom: '20px', background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(8px)', borderRadius: '10px', padding: '8px 12px' }}>
 											{timerItems.map((item, i) => (
 												<React.Fragment key={i}>
-													<div style={{ textAlign: 'center', background: 'rgba(255,255,255,0.15)', borderRadius: '8px', padding: '7px 6px', minWidth: '32px', backdropFilter: 'blur(5px)', border: '1px solid rgba(255,255,255,0.2)' }}>
-														<div style={{ fontSize: '13px', fontWeight: 800, color: '#eee', lineHeight: 1 }}>{formatTime(item.val)}</div>
-														<div style={{ fontSize: '7px', color: 'rgba(255,255,255,0.8)', marginTop: '2px', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{item.label}</div>
+													<div style={{ textAlign: 'center', background: 'rgba(255,255,255,0.15)', borderRadius: '8px', padding: '6px 8px', minWidth: '38px', border: '1px solid rgba(255,255,255,0.2)' }}>
+														<div style={{ fontSize: '18px', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{formatTime(item.val)}</div>
+														<div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.75)', marginTop: '2px', textTransform: 'uppercase' }}>{item.label}</div>
 													</div>
-													{i < 3 && <span style={{ color: '#e4e4e4', fontWeight: 800, fontSize: '13px' }}>:</span>}
+													{i < 3 && <span style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '14px' }}>:</span>}
 												</React.Fragment>
 											))}
 										</div>
 
 										{/* Nom - past */}
-										<div style={{ fontSize: '13px', color: '#fff', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: '4px' }}>
+										<div style={{ fontSize: '13px', color: '#fff', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
 											{property.propertyTitle}
 										</div>
 									</div>

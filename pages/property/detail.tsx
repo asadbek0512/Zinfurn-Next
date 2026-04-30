@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Box, Button, Chip, CircularProgress, IconButton, Rating, Stack, Tab, Tabs, Typography } from '@mui/material';
+import Loading from '../../libs/components/common/Loading';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
@@ -289,18 +290,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const isPropertyReady = !!property && property._id === propertyId;
 
 	if (!isPropertyReady || getPropertiesLoading) {
-		if (device === 'mobile') {
-			return (
-				<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100vh' }}>
-					<CircularProgress size={'2rem'} sx={{ color: '#cf6422' }} />
-				</Stack>
-			);
-		}
-		return (
-			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1800px' }}>
-				<CircularProgress size={'4rem'} />
-			</Stack>
-		);
+		return <Loading fullScreen={device === 'mobile'} />;
 	}
 
 	if (device === 'mobile') {

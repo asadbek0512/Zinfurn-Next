@@ -15,7 +15,8 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import StarIcon from '@mui/icons-material/Star';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import { Trans, useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next';
+import Loading from '../common/Loading';
 
 interface QualitySectionProps {
 	initialInput?: AgentsInquiry;
@@ -108,13 +109,7 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 	}
 
 	if (loadingTechnicians) {
-		return (
-			<Stack className="quality-section loading">
-				<Box component="div" className="loading-spinner">
-					{t('Loading...')}
-				</Box>
-			</Stack>
-		);
+		return <Loading />;
 	}
 
 	if (device === 'mobile') {

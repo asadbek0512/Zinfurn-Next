@@ -296,10 +296,41 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 
 				{/* Top Bar */}
 				<Stack className="mob-top-bar">
-					<IconButton className="mob-filter-btn" onClick={() => setFilterOpen(true)}>
-						<TuneIcon />
-					</IconButton>
-					<Stack className="mob-search-box">
+					<Stack direction="row" alignItems="center" spacing={0.5} sx={{ flexShrink: 0 }}>
+						<IconButton className="mob-filter-btn" onClick={() => setFilterOpen(true)}>
+							<TuneIcon />
+						</IconButton>
+						<Box className="mob-view-modes" sx={{ display: 'flex', gap: '6px' }}>
+							<IconButton 
+								onClick={() => viewModeHandler('grid-1')}
+								size="small"
+								sx={{ 
+									p: '6px', 
+									bgcolor: viewMode === 'grid-1' ? '#6b3f29' : '#333',
+									color: '#fff',
+									'&:hover': { bgcolor: viewMode === 'grid-1' ? '#5a3522' : '#444' },
+									transition: 'all 0.3s ease'
+								}}
+							>
+								<ViewStreamIcon style={{ fontSize: '18px' }} />
+							</IconButton>
+							<IconButton 
+								onClick={() => viewModeHandler('grid-2')}
+								size="small"
+								sx={{ 
+									p: '6px', 
+									bgcolor: viewMode === 'grid-2' ? '#6b3f29' : '#333',
+									color: '#fff',
+									'&:hover': { bgcolor: viewMode === 'grid-2' ? '#5a3522' : '#444' },
+									transition: 'all 0.3s ease'
+								}}
+							>
+								<ViewModuleIcon style={{ fontSize: '18px' }} />
+							</IconButton>
+						</Box>
+					</Stack>
+
+					<Stack className="mob-search-box" sx={{ flex: 1, ml: 1, mr: 1 }}>
 						<OutlinedInput
 							value={searchText}
 							type="text"
@@ -307,7 +338,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 							placeholder={t('search_placeholder')}
 							onChange={(e: any) => setSearchText(e.target.value)}
 							onKeyDown={(event: any) => { if (event.key === 'Enter') searchHandler(); }}
-							endAdornment={searchText ? <CancelRoundedIcon onClick={clearSearchHandler} style={{ cursor: 'pointer', fontSize: 18 }} /> : null}
+							endAdornment={searchText ? <CancelRoundedIcon onClick={clearSearchHandler} style={{ cursor: 'pointer', fontSize: 16 }} /> : null}
 						/>
 					</Stack>
 					<Button className="mob-sort-btn" onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
@@ -321,7 +352,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 				</Stack>
 
 				{/* Card List */}
-				<Stack className="mob-card-list">
+				<Stack className={`mob-card-list ${viewMode}`}>
 					{properties?.length === 0 ? (
 						<Stack className="mob-no-data">
 							<img src="/img/icons/icoAlert.svg" alt="" />
@@ -329,7 +360,12 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 						</Stack>
 					) : (
 						properties.map((property: Property) => (
-							<PropertyCard property={property} likePropertyHandler={likePropertyHandler} key={property?._id} />
+							<PropertyCard 
+								property={property} 
+								likePropertyHandler={likePropertyHandler} 
+								key={property?._id} 
+								viewMode={viewMode}
+							/>
 						))
 					)}
 				</Stack>

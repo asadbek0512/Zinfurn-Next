@@ -98,7 +98,7 @@ const MyMenu = () => {
 				<div className="mob-mymenu-section">
 					<div className="mob-mymenu-section-title">{t('Account')}</div>
 					<div className="mob-mymenu-item" onClick={() => goTo('myProfile')}>
-						<div className="mob-mymenu-item-icon blue"><AccountCircleOutlinedIcon /></div>
+						<div className="mob-mymenu-item-icon"><AccountCircleOutlinedIcon /></div>
 						<div className="mob-mymenu-item-text">
 							<span className="mob-mymenu-item-label">{t('My Profile')}</span>
 							{user?.memberPhone && <span className="mob-mymenu-item-sub">{user.memberPhone}</span>}
@@ -114,14 +114,14 @@ const MyMenu = () => {
 					{user?.memberType === 'AGENT' && (
 						<>
 							<div className="mob-mymenu-item" onClick={() => goTo('addProperty')}>
-								<div className="mob-mymenu-item-icon green"><AddHomeIcon /></div>
+								<div className="mob-mymenu-item-icon"><AddHomeIcon /></div>
 								<div className="mob-mymenu-item-text">
 									<span className="mob-mymenu-item-label">{t('Add Property')}</span>
 								</div>
 								<ChevronRightIcon className="mob-mymenu-item-chevron" />
 							</div>
 							<div className="mob-mymenu-item" onClick={() => goTo('myProperties')}>
-								<div className="mob-mymenu-item-icon orange"><WeekendIcon /></div>
+								<div className="mob-mymenu-item-icon"><WeekendIcon /></div>
 								<div className="mob-mymenu-item-text">
 									<span className="mob-mymenu-item-label">{t('My Properties')}</span>
 								</div>
@@ -133,14 +133,14 @@ const MyMenu = () => {
 					{user?.memberType === 'TECHNICIAN' && (
 						<>
 							<div className="mob-mymenu-item" onClick={() => goTo('addRepairProperty')}>
-								<div className="mob-mymenu-item-icon green"><BuildIcon /></div>
+								<div className="mob-mymenu-item-icon"><BuildIcon /></div>
 								<div className="mob-mymenu-item-text">
 									<span className="mob-mymenu-item-label">{t('Add Repair')}</span>
 								</div>
 								<ChevronRightIcon className="mob-mymenu-item-chevron" />
 							</div>
 							<div className="mob-mymenu-item" onClick={() => goTo('myRepairProperty')}>
-								<div className="mob-mymenu-item-icon orange"><HandymanIcon /></div>
+								<div className="mob-mymenu-item-icon"><HandymanIcon /></div>
 								<div className="mob-mymenu-item-text">
 									<span className="mob-mymenu-item-label">{t('My Repair')}</span>
 								</div>
@@ -150,28 +150,28 @@ const MyMenu = () => {
 					)}
 
 					<div className="mob-mymenu-item" onClick={() => goTo('myFavorites')}>
-						<div className="mob-mymenu-item-icon red"><FavoriteIcon /></div>
+						<div className="mob-mymenu-item-icon"><FavoriteIcon /></div>
 						<div className="mob-mymenu-item-text">
 							<span className="mob-mymenu-item-label">{t('My Favorites')}</span>
 						</div>
 						<ChevronRightIcon className="mob-mymenu-item-chevron" />
 					</div>
 					<div className="mob-mymenu-item" onClick={() => goTo('recentlyVisited')}>
-						<div className="mob-mymenu-item-icon purple"><HistoryIcon /></div>
+						<div className="mob-mymenu-item-icon"><HistoryIcon /></div>
 						<div className="mob-mymenu-item-text">
 							<span className="mob-mymenu-item-label">{t('Recently Visited')}</span>
 						</div>
 						<ChevronRightIcon className="mob-mymenu-item-chevron" />
 					</div>
 					<div className="mob-mymenu-item" onClick={() => goTo('followers')}>
-						<div className="mob-mymenu-item-icon teal"><GroupIcon /></div>
+						<div className="mob-mymenu-item-icon"><GroupIcon /></div>
 						<div className="mob-mymenu-item-text">
 							<span className="mob-mymenu-item-label">{t('My Followers')}</span>
 						</div>
 						<ChevronRightIcon className="mob-mymenu-item-chevron" />
 					</div>
 					<div className="mob-mymenu-item" onClick={() => goTo('followings')}>
-						<div className="mob-mymenu-item-icon indigo"><PersonAddIcon /></div>
+						<div className="mob-mymenu-item-icon"><PersonAddIcon /></div>
 						<div className="mob-mymenu-item-text">
 							<span className="mob-mymenu-item-label">{t('My Followings')}</span>
 						</div>
@@ -183,14 +183,14 @@ const MyMenu = () => {
 				<div className="mob-mymenu-section">
 					<div className="mob-mymenu-section-title">{t('Community')}</div>
 					<div className="mob-mymenu-item" onClick={() => goTo('myArticles')}>
-						<div className="mob-mymenu-item-icon amber"><ArticleIcon /></div>
+						<div className="mob-mymenu-item-icon"><ArticleIcon /></div>
 						<div className="mob-mymenu-item-text">
 							<span className="mob-mymenu-item-label">{t('Articles')}</span>
 						</div>
 						<ChevronRightIcon className="mob-mymenu-item-chevron" />
 					</div>
 					<div className="mob-mymenu-item" onClick={() => goTo('writeArticle')}>
-						<div className="mob-mymenu-item-icon green"><EditNoteIcon /></div>
+						<div className="mob-mymenu-item-icon"><EditNoteIcon /></div>
 						<div className="mob-mymenu-item-text">
 							<span className="mob-mymenu-item-label">{t('Write Article')}</span>
 						</div>
@@ -201,7 +201,7 @@ const MyMenu = () => {
 				{/* Logout */}
 				<div className="mob-mymenu-section">
 					<div className="mob-mymenu-item logout" onClick={logoutHandler}>
-						<div className="mob-mymenu-item-icon red"><LogoutIcon /></div>
+						<div className="mob-mymenu-item-icon logout-icon"><LogoutIcon /></div>
 						<div className="mob-mymenu-item-text">
 							<span className="mob-mymenu-item-label">{t('Logout')}</span>
 						</div>

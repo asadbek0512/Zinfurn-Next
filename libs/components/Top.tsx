@@ -351,16 +351,16 @@ const Top = () => {
 					{/* Nav links */}
 					<div className={'mobile-side-items'}>
 						{[
-							{ href: '/',                          label: t('Home'),       icon: <HomeOutlinedIcon />,    color: '#2196f3' },
-							{ href: '/property',                  label: t('Properties'), icon: <WeekendOutlinedIcon />, color: '#cf6422' },
-							{ href: '/agent',                     label: t('Agents'),     icon: <PeopleOutlinedIcon />,  color: '#27ae60' },
-							{ href: '/repairService',             label: t('Service'),    icon: <BuildOutlinedIcon />,   color: '#9b59b6' },
-							{ href: '/community?articleCategory=FREE', label: t('Community'), icon: <ForumOutlinedIcon />, color: '#f59e0b' },
-							...(user?._id ? [{ href: '/mypage', label: t('My Page'), icon: <PersonOutlinedIcon />, color: '#e74c3c' }] : []),
-							{ href: '/cs',                        label: t('CS'),         icon: <HelpOutlineIcon />,     color: '#009688' },
+							{ href: '/',                               label: t('Home'),       icon: <HomeOutlinedIcon /> },
+							{ href: '/property',                       label: t('Properties'), icon: <WeekendOutlinedIcon /> },
+							{ href: '/agent',                          label: t('Agents'),     icon: <PeopleOutlinedIcon /> },
+							{ href: '/repairService',                  label: t('Service'),    icon: <BuildOutlinedIcon /> },
+							{ href: '/community?articleCategory=FREE', label: t('Community'), icon: <ForumOutlinedIcon /> },
+							...(user?._id ? [{ href: '/mypage', label: t('My Page'), icon: <PersonOutlinedIcon /> }] : []),
+							{ href: '/cs',                             label: t('CS'),         icon: <HelpOutlineIcon /> },
 						].map((item) => (
 							<Link key={item.href} href={item.href} className={'mobile-side-item'} onClick={() => setMobileMenuOpen(false)}>
-								<div className={'mobile-side-item-icon'} style={{ background: `${item.color}18`, color: item.color }}>
+								<div className={'mobile-side-item-icon'}>
 									{item.icon}
 								</div>
 								<span className={'mobile-side-item-label'}>{item.label}</span>
@@ -368,7 +368,6 @@ const Top = () => {
 							</Link>
 						))}
 
-						{/* Chat & AI items — same section, below nav links */}
 						<div className={'mobile-side-divider'} />
 						<button
 							className={'mobile-side-item mobile-side-btn'}
@@ -377,7 +376,7 @@ const Top = () => {
 								setMobileMenuOpen(false);
 							}}
 						>
-							<div className={'mobile-side-item-icon'} style={{ background: '#1a1a2e18', color: '#1a1a2e' }}>
+							<div className={'mobile-side-item-icon'}>
 								<ChatBubbleOutlineIcon />
 							</div>
 							<span className={'mobile-side-item-label'}>{t('Live Chat')}</span>
@@ -390,7 +389,7 @@ const Top = () => {
 								setMobileMenuOpen(false);
 							}}
 						>
-							<div className={'mobile-side-item-icon'} style={{ background: '#cf642218', color: '#cf6422' }}>
+							<div className={'mobile-side-item-icon'}>
 								<SmartToyOutlinedIcon />
 							</div>
 							<span className={'mobile-side-item-label'}>{t('AI Assistant')}</span>
@@ -399,18 +398,15 @@ const Top = () => {
 
 						{/* Logout inside items with separation */}
 						{user?._id && (
-							<>
-								<div className={'mobile-side-divider'} style={{ margin: '16px 12px' }} />
-								<div className={'mobile-side-footer'} style={{ padding: '0 12px 24px' }}>
-									<button
-										className={'mobile-logout-btn'}
-										onClick={() => { logOut(); setMobileMenuOpen(false); }}
-									>
-										<Logout fontSize="small" />
-										{t('Logout')}
-									</button>
-								</div>
-							</>
+							<div className={'mobile-side-footer'} style={{ padding: '8px 12px 24px' }}>
+								<button
+									className={'mobile-logout-btn'}
+									onClick={() => { logOut(); setMobileMenuOpen(false); }}
+								>
+									<Logout fontSize="small" />
+									{t('Logout')}
+								</button>
+							</div>
 						)}
 					</div>
 				</Drawer>
