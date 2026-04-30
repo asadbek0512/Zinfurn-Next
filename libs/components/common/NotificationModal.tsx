@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Stack, Typography, Badge, IconButton, Menu, MenuItem, Divider, Avatar, Tooltip } from '@mui/material';
+import { Box, Stack, Typography, Badge, IconButton, Menu, MenuItem, Divider, Avatar, Tooltip, type SxProps, type Theme } from '@mui/material';
 import { format } from 'date-fns';
 import { useReactiveVar } from '@apollo/client';
 import { socketVar, userVar } from '../../../apollo/store';
@@ -99,6 +99,18 @@ const NotificationItem = ({ notification, onRead }: { notification: Notification
 			</MenuItem>
 		</div>
 	);
+};
+
+const notifHeaderSx: SxProps<Theme> = {
+	p: '16px 20px',
+	background: '#fff',
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	position: 'sticky',
+	top: 0,
+	zIndex: 10,
+	borderBottom: '1px solid rgba(0,0,0,0.06)',
 };
 
 const NotificationModal = ({
@@ -215,19 +227,7 @@ const NotificationModal = ({
 				horizontal: 'right',
 			}}
 		>
-			<Box
-				sx={{
-					p: '16px 20px',
-					background: '#fff',
-					display: 'flex' as const,
-					justifyContent: 'space-between' as const,
-					alignItems: 'center' as const,
-					position: 'sticky' as const,
-					top: 0,
-					zIndex: 10,
-					borderBottom: '1px solid rgba(0,0,0,0.06)',
-				}}
-			>
+			<Box sx={notifHeaderSx}>
 				<Stack direction="row" alignItems="center" spacing={1.5}>
 					<Typography variant="h6" sx={{ fontSize: '16px', fontWeight: 700, color: '#181a20' }}>
 						{t('Notifications')}
