@@ -14,8 +14,11 @@ import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { useReactiveVar } from '@apollo/client';
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import { useReactiveVar, useQuery } from '@apollo/client';
 import { socketVar, userVar, cartVar, cartDrawerVar } from '../../apollo/store';
+import { GET_MY_ORDERS } from '../../apollo/user/query';
+import { OrderStatus } from '../enums/order.enum';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
 import NotificationModal from './common/NotificationModal';
@@ -53,6 +56,17 @@ const Top = () => {
 	const notificationOpen = Boolean(notificationAnchor);
 	const [isTransparent, setIsTransparent] = useState(false);
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+	const { data: ordersData } = useQuery(GET_MY_ORDERS, {
+		variables: { input: { page: 1, limit: 10, search: {} } },
+		skip: !user?._id,
+		pollInterval: 30000,
+		fetchPolicy: 'network-only',
+	});
+
+	const activeOrderCount = (ordersData?.getMyOrders?.list || []).filter((o: any) =>
+		[OrderStatus.PROCESSING, OrderStatus.SHIPPED, OrderStatus.DELIVERED].includes(o.orderStatus)
+	).length;
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -227,6 +241,15 @@ const Top = () => {
 
 						{/* Right icons */}
 						<div className={'mobile-user-box'}>
+							{user?._id && activeOrderCount > 0 && (
+								<Link href="/mypage?category=myOrders">
+									<IconButton size="small" className="order-track-btn">
+										<Badge badgeContent={activeOrderCount} color="warning" max={9}>
+											<LocalShippingOutlinedIcon className="order-track-icon" />
+										</Badge>
+									</IconButton>
+								</Link>
+							)}
 							<IconButton size="small" onClick={() => cartDrawerVar(true)} className="cart-nav-btn">
 								<Badge badgeContent={cartCount} color="error" max={99}>
 									<ShoppingCartOutlinedIcon className={'notification-icon'} />
@@ -461,6 +484,15 @@ const Top = () => {
 							</Link>
 						</Box>
 						<Box component={'div'} className={'user-box'}>
+							{user?._id && activeOrderCount > 0 && (
+								<Link href="/mypage?category=myOrders" style={{ display: 'inline-flex' }}>
+									<IconButton size="small" className="order-track-btn" sx={{ mr: 1 }}>
+										<Badge badgeContent={activeOrderCount} color="warning" max={9}>
+											<LocalShippingOutlinedIcon className="order-track-icon" />
+										</Badge>
+									</IconButton>
+								</Link>
+							)}
 							<IconButton
 								onClick={() => cartDrawerVar(true)}
 								size="small"

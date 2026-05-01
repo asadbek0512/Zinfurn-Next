@@ -83,3 +83,18 @@
 		padding: 0 4px;
 	}
 }
+
+/* ── Order tracking truck icon in mobile navbar ── */
+.order-track-btn {
+  .order-track-icon {
+    color: #cf6422;
+    font-size: 20px !important;
+    animation: truck-bounce 1.2s ease-in-out infinite;
+  }
+}
+
+@keyframes truck-bounce {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(3px); }
+  75%       { transform: translateX(-2px); }
+}
