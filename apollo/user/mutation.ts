@@ -475,6 +475,17 @@ export const CONFIRM_DELIVERY = gql`
 	}
 `;
 
+export const DEMO_DELIVER_ORDER = gql`
+	mutation DemoDeliverOrder($orderId: String!) {
+		demoDeliverOrder(orderId: $orderId) {
+			_id
+			orderId
+			orderStatus
+			updatedAt
+		}
+	}
+`;
+
 export const REQUEST_RETURN = gql`
 	mutation RequestReturn($input: OrderUpdate!) {
 		requestReturn(input: $input) {

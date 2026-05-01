@@ -7,7 +7,7 @@ import { OrderStatus } from '../../enums/order.enum';
 import { formatterStr } from '../../utils';
 import { REACT_APP_API_URL } from '../../config';
 import { GET_MY_ORDERS } from '../../../apollo/user/query';
-import { CONFIRM_DELIVERY, REQUEST_RETURN, CREATE_REVIEW } from '../../../apollo/user/mutation';
+import { CONFIRM_DELIVERY, REQUEST_RETURN, CREATE_REVIEW, DEMO_DELIVER_ORDER } from '../../../apollo/user/mutation';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -84,6 +84,7 @@ const MyOrders = () => {
 	});
 
 	const [confirmDelivery] = useMutation(CONFIRM_DELIVERY);
+	const [demoDeliver] = useMutation(DEMO_DELIVER_ORDER);
 	const [requestReturn] = useMutation(REQUEST_RETURN);
 	const [createReview] = useMutation(CREATE_REVIEW);
 
@@ -92,6 +93,15 @@ const MyOrders = () => {
 	const handleConfirm = async (orderId: string) => {
 		try {
 			await confirmDelivery({ variables: { orderId } });
+			refetch();
+		} catch (e: any) {
+			alert(e.message);
+		}
+	};
+
+	const handleDemoDeliver = async (orderId: string) => {
+		try {
+			await demoDeliver({ variables: { orderId } });
 			refetch();
 		} catch (e: any) {
 			alert(e.message);
@@ -250,6 +260,18 @@ const MyOrders = () => {
 													{t('Track')}
 												</Button>
 											</Link>
+										)}
+
+										{/* Demo: force deliver — portfolio only */}
+										{[OrderStatus.PENDING, OrderStatus.PROCESSING, OrderStatus.SHIPPED].includes(order.orderStatus) && (
+											<Button
+												variant="outlined"
+												size="small"
+												className="my-orders-demo-btn"
+												onClick={() => handleDemoDeliver(order._id)}
+											>
+												📦 {t('Simulate Arrival')}
+											</Button>
 										)}
 
 										{/* Confirm delivery */}
