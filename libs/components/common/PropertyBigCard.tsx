@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Stack, Box, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import CheckIcon from '@mui/icons-material/Check';
 import { Property } from '../../types/property/property';
 import { REACT_APP_API_URL } from '../../config';
 import { formatterStr } from '../../utils';
@@ -11,6 +13,8 @@ import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useTranslation } from 'next-i18next';
+import { addToCart } from '../../utils/cartUtils';
+import { flyToCart } from '../../utils/flyToCart';
 
 interface PropertyBigCardProps {
 	property: Property;
@@ -24,10 +28,30 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
 	const { t } = useTranslation('common');
+	const [addedFlash, setAddedFlash] = useState(false);
+
+	const imagePath = property?.propertyImages?.[0]
+		? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
+		: '/img/banner/header1.svg';
 
 	/** HANDLERS **/
 	const goPropertyDetatilPage = (propertyId: string) => {
 		router.push(`/property/detail?id=${propertyId}`);
+	};
+
+	const handleAddToCart = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		addToCart({
+			_id: property._id,
+			propertyTitle: property.propertyTitle,
+			propertyPrice: property.propertyPrice,
+			propertySalePrice: property.propertySalePrice,
+			propertyImages: property.propertyImages,
+			propertyType: property.propertyType,
+		});
+		setAddedFlash(true);
+		setTimeout(() => setAddedFlash(false), 2000);
+		flyToCart(e.currentTarget as HTMLElement, imagePath);
 	};
 
 	const discountPercent =
@@ -80,24 +104,29 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 					<Box
 						className="product-image"
 						component="div"
-						sx={{
-							backgroundImage: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`,
-						}}
+						sx={{ backgroundImage: `url(${imagePath})` }}
 					/>
 
 					<Box className="top-badges" component="div">
-						{/* Sale badge chap tomonda */}
 						{discountPercent > 0 && (
 							<Box className="discount-badge" component="div">
 								<Typography className="discount-text">-{discountPercent}%</Typography>
 							</Box>
 						)}
-
-						{/* Category badge o'ng tomonda */}
 						<Box className="category-badge" component="div">
 							<Typography className="category-text">{t(property.propertyCategory)}</Typography>
 						</Box>
 					</Box>
+
+					{/* Hover cart button — pastki o'ng burchak */}
+					<IconButton
+						className={`big-card-cart-btn ${addedFlash ? 'added' : ''}`}
+						onClick={handleAddToCart}
+					>
+						{addedFlash
+							? <CheckIcon sx={{ fontSize: 18 }} />
+							: <AddShoppingCartIcon sx={{ fontSize: 18 }} />}
+					</IconButton>
 				</Box>
 
 				<Box className="product-info-container" component="div">

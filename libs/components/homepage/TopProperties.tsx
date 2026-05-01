@@ -3,6 +3,10 @@ import { Stack, Box, Typography, IconButton, Link } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import CheckIcon from '@mui/icons-material/Check';
+import { addToCart } from '../../utils/cartUtils';
+import { flyToCart } from '../../utils/flyToCart';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import { Property } from '../../types/property/property';
@@ -34,9 +38,30 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [isHovered, setIsHovered] = useState(false);
+	const [addedFlash, setAddedFlash] = useState(false);
 	const { t } = useTranslation('common');
+
+	const imagePath = property?.propertyImages?.[0]
+		? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
+		: '/img/banner/header1.svg';
+
 	const pushDetailHandler = (id: string) => {
 		router.push({ pathname: '/property/detail', query: { id } });
+	};
+
+	const handleAddToCart = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		addToCart({
+			_id: property._id,
+			propertyTitle: property.propertyTitle,
+			propertyPrice: property.propertyPrice,
+			propertySalePrice: property.propertySalePrice,
+			propertyImages: property.propertyImages,
+			propertyType: property.propertyType,
+		});
+		setAddedFlash(true);
+		setTimeout(() => setAddedFlash(false), 2000);
+		flyToCart(e.currentTarget as HTMLElement, imagePath);
 	};
 
 	const discountPercent =
@@ -75,6 +100,13 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 						<Typography className="category-text">{t(property.propertyCategory)}</Typography>
 					</Box>
 				</Box>
+
+				<IconButton
+					className={`big-card-cart-btn ${addedFlash ? 'added' : ''}`}
+					onClick={handleAddToCart}
+				>
+					{addedFlash ? <CheckIcon sx={{ fontSize: 18 }} /> : <AddShoppingCartIcon sx={{ fontSize: 18 }} />}
+				</IconButton>
 			</Box>
 			<Box component="div" className="product-info-container">
 				<Box component="div" className="title-views-container">

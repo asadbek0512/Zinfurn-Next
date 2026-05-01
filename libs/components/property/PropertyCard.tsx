@@ -12,8 +12,9 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { formatterStr } from '../../utils';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
-import { userVar, cartDrawerVar } from '../../../apollo/store';
+import { userVar } from '../../../apollo/store';
 import { addToCart } from '../../utils/cartUtils';
+import { flyToCart } from '../../utils/flyToCart';
 import { Property } from '../../types/property/property';
 import { useTranslation } from 'next-i18next';
 
@@ -36,6 +37,11 @@ const PropertyCard = (props: PropertyCardProps) => {
 	const [isHovered, setIsHovered] = useState(false);
 	const [addedFlash, setAddedFlash] = useState(false);
 
+	const hoverImagePath: string =
+		isHovered && property?.propertyImages?.[1]
+			? `${REACT_APP_API_URL}/${property.propertyImages[1]}`
+			: imagePath;
+
 	const discountPercent =
 		property?.propertyPrice && property?.propertySalePrice
 			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
@@ -55,7 +61,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 		});
 		setAddedFlash(true);
 		setTimeout(() => setAddedFlash(false), 2000);
-		cartDrawerVar(true);
+		flyToCart(e.currentTarget as HTMLElement, imagePath);
 	};
 
 	if (device === 'mobile') {
@@ -126,7 +132,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 		>
 			<Stack className="top">
 				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
-					<img src={imagePath} alt={property?.propertyTitle || 'Property'} style={{ transition: 'opacity 0.3s' }} />
+					<img src={hoverImagePath} alt={property?.propertyTitle || 'Property'} style={{ transition: 'opacity 0.3s' }} />
 				</Link>
 
 				{discountPercent > 0 && (

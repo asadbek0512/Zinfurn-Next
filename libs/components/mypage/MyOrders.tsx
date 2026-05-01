@@ -80,6 +80,7 @@ const MyOrders = () => {
 		variables: { input: { page: 1, limit: 50, search: activeTab ? { orderStatus: activeTab } : {} } },
 		skip: !user?._id,
 		fetchPolicy: 'network-only',
+		pollInterval: 15000,
 	});
 
 	const [confirmDelivery] = useMutation(CONFIRM_DELIVERY);

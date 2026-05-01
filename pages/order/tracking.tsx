@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { NextPage } from 'next';
 import { Button, Divider, Typography } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
@@ -17,6 +17,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import { GET_ORDER_BY_ID } from '../../apollo/user/query';
+import { CONFIRM_DELIVERY } from '../../apollo/user/mutation';
 import { Order } from '../../libs/types/order/order';
 import { OrderStatus } from '../../libs/enums/order.enum';
 import { formatterStr } from '../../libs/utils';
@@ -48,14 +49,31 @@ const OrderTracking: NextPage = () => {
 	const router = useRouter();
 	useDeviceDetect();
 	const orderId = (router.query.id as string) || '';
+	const [confirming, setConfirming] = useState(false);
 
-	const { data, loading } = useQuery(GET_ORDER_BY_ID, {
+	const { data, loading, refetch } = useQuery(GET_ORDER_BY_ID, {
 		variables: { orderId },
 		skip: !orderId,
 		fetchPolicy: 'network-only',
+		pollInterval: 10000,
 	});
 
+	const [confirmDelivery] = useMutation(CONFIRM_DELIVERY);
+
 	const order: Order | null = data?.getOrderById || null;
+
+	const handleConfirm = async () => {
+		if (!order?._id) return;
+		setConfirming(true);
+		try {
+			await confirmDelivery({ variables: { orderId: order._id } });
+			await refetch();
+		} catch (e: any) {
+			alert(e.message);
+		} finally {
+			setConfirming(false);
+		}
+	};
 
 	const activeStep = order ? (STEP_INDEX[order.orderStatus] ?? 0) : 0;
 
@@ -159,8 +177,26 @@ const OrderTracking: NextPage = () => {
 									<Typography variant="body2" fontWeight={600}>{t('Received your order?')}</Typography>
 									<Typography variant="caption" color="text.secondary">{t('Confirm receipt to unlock reviews and finalize your order')}</Typography>
 								</div>
+								<Button
+									variant="contained"
+									size="small"
+									color="success"
+									disabled={confirming}
+									onClick={handleConfirm}
+								>
+									{confirming ? t('Confirming...') : t('Confirm Receipt')}
+								</Button>
+							</div>
+						)}
+						{order?.orderStatus === OrderStatus.CONFIRMED && (
+							<div className="tracking-confirm-box" style={{ borderColor: '#4caf50', background: '#f1f8f1' }}>
+								<CheckCircleIcon sx={{ color: '#2e7d32' }} />
+								<div>
+									<Typography variant="body2" fontWeight={600}>{t('Order Confirmed!')}</Typography>
+									<Typography variant="caption" color="text.secondary">{t('You can now write a review in My Orders')}</Typography>
+								</div>
 								<Link href="/mypage?category=myOrders" style={{ textDecoration: 'none' }}>
-									<Button variant="contained" size="small" color="success">{t('Go to Orders')}</Button>
+									<Button variant="outlined" size="small" color="success">{t('My Orders')}</Button>
 								</Link>
 							</div>
 						)}

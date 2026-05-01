@@ -17,8 +17,9 @@ import { Property } from '../../libs/types/property/property';
 import moment from 'moment';
 import { formatterStr } from '../../libs/utils';
 import { REACT_APP_API_URL } from '../../libs/config';
-import { userVar, cartDrawerVar } from '../../apollo/store';
+import { userVar } from '../../apollo/store';
 import { addToCart } from '../../libs/utils/cartUtils';
+import { flyToCart } from '../../libs/utils/flyToCart';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
@@ -277,7 +278,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setQuantity((prev) => Math.max(1, prev + change));
 	};
 
-	const handleAddToCart = () => {
+	const handleAddToCart = (e: React.MouseEvent) => {
 		if (!property) return;
 		addToCart(
 			{
@@ -290,7 +291,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			},
 			quantity,
 		);
-		cartDrawerVar(true);
+		const imgSrc = property.propertyImages?.[0]
+			? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
+			: '/img/banner/header1.svg';
+		flyToCart(e.currentTarget as HTMLElement, imgSrc);
 	};
 
 	const prevImage = () => {

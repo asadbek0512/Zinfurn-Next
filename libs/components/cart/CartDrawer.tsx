@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
 	Drawer,
-	Stack,
 	Typography,
 	IconButton,
 	Button,
-	Box,
 	Divider,
-	Chip,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
@@ -15,15 +12,17 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
-import { useReactiveVar } from '@apollo/client';
+import { useReactiveVar, useQuery } from '@apollo/client';
 import { cartVar, cartDrawerVar, userVar } from '../../../apollo/store';
 import { removeFromCart, updateCartQty, getCartTotal } from '../../utils/cartUtils';
-import { loadUserOrders } from '../../utils/orderUtils';
-import { Order } from '../../types/order/order';
+import { OrderStatus } from '../../enums/order.enum';
 import { formatterStr } from '../../utils';
 import { REACT_APP_API_URL } from '../../config';
+import { GET_MY_ORDERS } from '../../../apollo/user/query';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
+
+const ACTIVE_STATUSES = [OrderStatus.PENDING, OrderStatus.PROCESSING, OrderStatus.SHIPPED, OrderStatus.DELIVERED];
 
 const CartDrawer = () => {
 	const { t } = useTranslation('common');
@@ -31,7 +30,18 @@ const CartDrawer = () => {
 	const items = useReactiveVar(cartVar);
 	const user = useReactiveVar(userVar);
 	const total = getCartTotal(items);
-	const [activeOrders, setActiveOrders] = useState<Order[]>([]);
+
+	const { data: ordersData } = useQuery(GET_MY_ORDERS, {
+		variables: { input: { page: 1, limit: 10, search: {} } },
+		skip: !user?._id || !open,
+		fetchPolicy: 'network-only',
+		pollInterval: open ? 15000 : 0,
+	});
+
+	const activeOrders = (ordersData?.getMyOrders?.list || []).filter((o: any) =>
+		ACTIVE_STATUSES.includes(o.orderStatus)
+	);
+	const hasActiveOrder = activeOrders.length > 0;
 
 	// Load persisted cart from localStorage (client-side only)
 	useEffect(() => {
@@ -45,14 +55,6 @@ const CartDrawer = () => {
 			}
 		} catch {}
 	}, []);
-
-	// Load recent orders when drawer opens
-	useEffect(() => {
-		if (open && user?._id) {
-			const orders = loadUserOrders(user._id);
-			setActiveOrders(orders.slice(0, 2));
-		}
-	}, [open, user?._id]);
 
 	const handleClose = () => cartDrawerVar(false);
 
@@ -153,21 +155,20 @@ const CartDrawer = () => {
 					)}
 				</div>
 
-				{/* Active orders section */}
-				{activeOrders.length > 0 && (
-					<div className="cart-orders-section">
-						<Divider />
-						<Link href="/mypage?category=myOrders" onClick={handleClose} className="cart-orders-header-link">
+				{/* Active order banner — above total, always visible when order exists */}
+				{hasActiveOrder && (
+					<Link href="/mypage?category=myOrders" onClick={handleClose} className="cart-orders-header-link">
+						<div className="cart-orders-section">
 							<div className="cart-orders-header">
 								<LocalShippingOutlinedIcon className="cart-orders-icon" />
-								<Typography className="cart-orders-heading">{t('You have active orders')}</Typography>
+								<Typography className="cart-orders-heading">{t('You have an active order')}</Typography>
 							</div>
 							<div className="order-progress-animation">
-								<div className="progress-line"></div>
+								<div className="progress-line" />
 								<LocalShippingOutlinedIcon className="animating-car" />
 							</div>
-						</Link>
-					</div>
+						</div>
+					</Link>
 				)}
 
 				{/* Footer */}

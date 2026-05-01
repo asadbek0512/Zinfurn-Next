@@ -73,13 +73,23 @@ body::-webkit-scrollbar {
 
 				&.transparent {
 					background-color: #f8f7f4;
-					opacity: 0.9;
-					// Barcha ichki elementlarning rangini o'zgartiramiz
+					opacity: 0.95;
+					box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+
 					.router-box div,
 					.join-box span,
 					.join-box svg,
 					.notification-icon {
 						color: #3c3c3c !important;
+					}
+
+					.join-box {
+						border-color: #c0bfbf;
+						span { color: #3c3c3c !important; }
+					}
+
+					.login-user img {
+						box-shadow: 0 0 0 2px #cf6422;
 					}
 				}
 
@@ -87,10 +97,7 @@ body::-webkit-scrollbar {
 					flex-direction: row;
 					align-items: center;
 					justify-content: space-between;
-					// BITTA O'ZGARISH: padding-right 24px → 80px
-					// Bu notification + bayroqni CS ga yaqinroq qiladi
-					// va 110% zoom / 13" ekranda ham sig'adi
-					padding: 20px 80px 20px 24px;
+					padding: 20px 40px 20px 32px;
 
 					.logo-box {
 						position: relative;
@@ -131,10 +138,10 @@ body::-webkit-scrollbar {
 
 					.router-box {
 						padding-top: 30px;
-						margin-left: 50px; // Default margin
+						margin-left: 30px;
 						position: relative;
-						width: 617px;
-						gap: 32px;
+						width: auto;
+						gap: 28px;
 						display: flex;
 						flex-direction: row;
 						justify-content: space-between;
@@ -191,49 +198,64 @@ body::-webkit-scrollbar {
 					}
 
 					.user-box {
-						margin-right: -80px;
-						width: 270px;
 						display: flex;
-						justify-content: flex-end;
+						align-items: center;
+						gap: 14px;
+
+						.notification-icon {
+							color: #fff;
+						}
+
+						.cart-nav-btn {
+							color: #fff;
+							padding: 6px;
+						}
 
 						.join-box {
-							width: 184px;
-							height: 47px;
+							height: 38px;
+							padding: 0 18px;
 							display: flex;
 							align-items: center;
 							justify-content: center;
 							border-radius: 60px;
-							border: 1px solid #646464;
+							border: 1px solid rgba(255,255,255,0.55);
 							cursor: pointer;
+							gap: 8px;
+							white-space: nowrap;
 
-							svg {
-								color: #777;
-								margin-right: 10px;
-							}
-
+							svg { color: rgba(255,255,255,0.85); font-size: 18px; }
 							span {
 								font-family: $font;
-								font-size: 14px;
+								font-size: 13px;
 								font-weight: 600;
 								color: #fff;
 							}
 						}
 
-						.login-user img {
-							width: 42px;
-							height: 42px;
-							border-radius: 50%;
-							object-fit: cover;
+						.login-user {
+							cursor: pointer;
+							img {
+								width: 36px;
+								height: 36px;
+								border-radius: 50%;
+								object-fit: cover;
+								border: 2px solid rgba(255,255,255,0.35);
+								transition: border-color 0.2s;
+								&:hover { border-color: #cf6422; }
+							}
 						}
 					}
 
 					.lan-box {
-						margin-left: 8px;
 						display: flex;
 						align-items: center;
+						gap: 10px;
 
-						.notification-icon {
-							color: rgb(255, 255, 255);
+						.notification-icon { color: #fff; }
+
+						.btn-lang {
+							min-width: unset;
+							padding: 4px 4px;
 						}
 
 						.btn-lang img,
@@ -243,9 +265,7 @@ body::-webkit-scrollbar {
 							border-radius: 2px;
 						}
 
-						.img-flag {
-							margin-right: 8px;
-						}
+						.img-flag { margin-right: 8px; }
 					}
 				}
 

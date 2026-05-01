@@ -372,26 +372,28 @@
 }
 
 /* ---- Active orders in drawer ---- */
-.cart-orders-section {
-  padding: 0 0 8px;
+/* Active order banner — link wraps the section */
+.cart-orders-header-link {
+  text-decoration: none;
+  display: block;
+  border-top: 1px solid #f0ebe5;
+  transition: background 0.2s ease;
 
-  .cart-orders-header-link {
-    text-decoration: none;
-    display: block;
-    transition: background 0.2s ease;
+  &:hover {
+    background: rgba(207, 100, 34, 0.04);
+  }
 
-    &:hover {
-      background: rgba(207, 100, 34, 0.04);
-    }
+  .cart-orders-section {
+    padding: 10px 20px 14px;
   }
 
   .cart-orders-header {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 20px 4px;
+    margin-bottom: 8px;
 
-    .cart-orders-icon { font-size: 18px !important; color: #cf6422; }
+    .cart-orders-icon { font-size: 24px !important; color: #cf6422; }
     .cart-orders-heading {
       font-size: 13px;
       font-weight: 700;
@@ -403,7 +405,6 @@
   .order-progress-animation {
     position: relative;
     height: 32px;
-    margin: 4px 20px 14px;
     display: flex;
     align-items: center;
 
@@ -415,70 +416,30 @@
       height: 6px;
       background: #eee;
       border-radius: 10px;
-      
+
       &::after {
         content: '';
         position: absolute;
         left: 0;
         top: 0;
-        width: 75%;
+        width: 60%;
         height: 100%;
-        background: #cf6422;
+        background: linear-gradient(90deg, #cf6422, #e8883a);
         border-radius: 10px;
+        transition: width 0.5s ease;
       }
     }
 
     .animating-car {
       position: absolute;
-      bottom: 12px;
-      left: 70%;
-      font-size: 22px !important;
+      bottom: 11px;
+      left: 56%;
+      font-size: 24px !important;
       color: #cf6422;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.18));
       z-index: 2;
       transform: translateX(-50%);
     }
-  }
-
-  .cart-order-row-link { text-decoration: none; }
-  .cart-order-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 20px;
-    transition: background 0.15s;
-    cursor: pointer;
-    &:hover { background: #fafafa; }
-
-    .cart-order-row-info {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      .cart-order-row-id {
-        font-size: 12px;
-        font-weight: 600;
-        color: #555;
-        font-family: 'Poppins', sans-serif;
-      }
-      .cart-order-status { font-size: 10px !important; height: 20px; }
-    }
-
-    .cart-order-row-total {
-      font-size: 13px;
-      font-weight: 700;
-      color: #cf6422;
-      font-family: 'Poppins', sans-serif;
-    }
-  }
-
-  .cart-orders-view-all-link { text-decoration: none; }
-  .cart-orders-view-all {
-    font-size: 12px !important;
-    color: #cf6422 !important;
-    font-family: 'Poppins', sans-serif !important;
-    text-transform: none !important;
-    padding: 4px 20px !important;
   }
 }
 

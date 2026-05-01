@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { Box, Stack, Typography, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import CheckIcon from '@mui/icons-material/Check';
 import { useRouter } from 'next/router';
 import { Property } from '../../types/property/property';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { useTranslation } from 'next-i18next'; 
+import { useTranslation } from 'next-i18next';
+import { addToCart } from '../../utils/cartUtils';
+import { flyToCart } from '../../utils/flyToCart';
 
 interface TrendPropertyCardProps {
 	property: Property;
@@ -21,10 +24,30 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [isHovered, setIsHovered] = useState(false);
-	const { t } = useTranslation('common'); 
+	const [addedFlash, setAddedFlash] = useState(false);
+	const { t } = useTranslation('common');
+
+	const imagePath = property?.propertyImages?.[0]
+		? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
+		: '/img/banner/header1.svg';
 
 	const pushDetailHandler = (id: string) => {
 		router.push({ pathname: '/property/detail', query: { id } });
+	};
+
+	const handleAddToCart = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		addToCart({
+			_id: property._id,
+			propertyTitle: property.propertyTitle,
+			propertyPrice: property.propertyPrice,
+			propertySalePrice: property.propertySalePrice,
+			propertyImages: property.propertyImages,
+			propertyType: property.propertyType,
+		});
+		setAddedFlash(true);
+		setTimeout(() => setAddedFlash(false), 2000);
+		flyToCart(e.currentTarget as HTMLElement, imagePath);
 	};
 
 	const discountPercent =
@@ -56,18 +79,22 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 				/>
 
 				<Box className="top-badges" component="div">
-					{/* Sale badge chap tomonda */}
 					{discountPercent > 0 && (
 						<Box className="discount-badge" component="div">
 							<Typography className="discount-text">-{discountPercent}%</Typography>
 						</Box>
 					)}
-
-					{/* Category badge o'ng tomonda */}
 					<Box className="category-badge" component="div">
 						<Typography className="category-text">{t(property.propertyCategory)}</Typography>
 					</Box>
 				</Box>
+
+				<IconButton
+					className={`big-card-cart-btn ${addedFlash ? 'added' : ''}`}
+					onClick={handleAddToCart}
+				>
+					{addedFlash ? <CheckIcon sx={{ fontSize: 18 }} /> : <AddShoppingCartIcon sx={{ fontSize: 18 }} />}
+				</IconButton>
 			</Box>
 
 			<Box className="product-info-container" component="div">
