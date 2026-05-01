@@ -431,6 +431,96 @@ mutation LikeTargetRepairProperty($input: String!) {
 
 
 
+/**************************
+ *          ORDER         *
+ *************************/
+
+export const CREATE_ORDER = gql`
+	mutation CreateOrder($input: CreateOrderInput!) {
+		createOrder(input: $input) {
+			_id
+			orderId
+			memberId
+			orderItems {
+				propertyId
+				propertyTitle
+				propertyImage
+				propertyPrice
+				quantity
+			}
+			orderStatus
+			orderTotal
+			deliveryInfo {
+				fullName
+				address
+				city
+				phone
+				note
+			}
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const CONFIRM_DELIVERY = gql`
+	mutation ConfirmDelivery($orderId: String!) {
+		confirmDelivery(orderId: $orderId) {
+			_id
+			orderId
+			orderStatus
+			confirmedAt
+			updatedAt
+		}
+	}
+`;
+
+export const REQUEST_RETURN = gql`
+	mutation RequestReturn($input: OrderUpdate!) {
+		requestReturn(input: $input) {
+			_id
+			orderId
+			orderStatus
+			returnRequestedAt
+			returnReason
+			updatedAt
+		}
+	}
+`;
+
+/**************************
+ *         REVIEW         *
+ *************************/
+
+export const CREATE_REVIEW = gql`
+	mutation CreateReview($input: CreateReviewInput!) {
+		createReview(input: $input) {
+			_id
+			memberId
+			propertyId
+			orderId
+			reviewRating
+			reviewContent
+			reviewImages
+			reviewStatus
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const UPDATE_REVIEW = gql`
+	mutation UpdateReview($input: ReviewUpdate!) {
+		updateReview(input: $input) {
+			_id
+			reviewRating
+			reviewContent
+			reviewImages
+			updatedAt
+		}
+	}
+`;
+
 export const GET_TECHNICIAN_PROPERTIES = gql`
 query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
     getTechnicianProperties(input: $input) {

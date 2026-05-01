@@ -348,11 +348,10 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 						</Stack>
 					) : (
 						properties.map((property: Property) => (
-							<PropertyCard 
-								property={property} 
-								likePropertyHandler={likePropertyHandler} 
-								key={property?._id} 
-								viewMode={viewMode}
+							<PropertyCard
+								property={property}
+								likePropertyHandler={likePropertyHandler}
+								key={property?._id}
 							/>
 						))
 					)}

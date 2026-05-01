@@ -1071,6 +1071,121 @@ query GetRepairVisited($input: RepairOrdinaryInquiry!) {
 `;
 
 /**************************
+ *          ORDER         *
+ *************************/
+
+export const GET_MY_ORDERS = gql`
+	query GetMyOrders($input: OrdersInquiry!) {
+		getMyOrders(input: $input) {
+			list {
+				_id
+				orderId
+				memberId
+				orderItems {
+					propertyId
+					propertyTitle
+					propertyImage
+					propertyPrice
+					quantity
+				}
+				orderStatus
+				orderTotal
+				deliveryInfo {
+					fullName
+					address
+					city
+					phone
+					note
+				}
+				confirmedAt
+				cancelledAt
+				returnRequestedAt
+				returnReason
+				returnedAt
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_ORDER_BY_ID = gql`
+	query GetOrderById($orderId: String!) {
+		getOrderById(orderId: $orderId) {
+			_id
+			orderId
+			memberId
+			orderItems {
+				propertyId
+				propertyTitle
+				propertyImage
+				propertyPrice
+				quantity
+			}
+			orderStatus
+			orderTotal
+			deliveryInfo {
+				fullName
+				address
+				city
+				phone
+				note
+			}
+			confirmedAt
+			cancelledAt
+			returnRequestedAt
+			returnReason
+			returnedAt
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+/**************************
+ *         REVIEW         *
+ *************************/
+
+export const GET_PROPERTY_REVIEWS = gql`
+	query GetPropertyReviews($input: ReviewsInquiry!) {
+		getPropertyReviews(input: $input) {
+			list {
+				_id
+				memberId
+				propertyId
+				orderId
+				reviewRating
+				reviewContent
+				reviewImages
+				reviewStatus
+				createdAt
+				updatedAt
+				memberData {
+					_id
+					memberNick
+					memberImage
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_PROPERTY_REVIEW_SUMMARY = gql`
+	query GetPropertyReviewSummary($propertyId: String!) {
+		getPropertyReviewSummary(propertyId: $propertyId) {
+			averageRating
+			totalReviews
+		}
+	}
+`;
+
+/**************************
  *         NOTICE        *
  *************************/
 

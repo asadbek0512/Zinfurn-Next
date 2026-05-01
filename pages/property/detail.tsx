@@ -17,7 +17,8 @@ import { Property } from '../../libs/types/property/property';
 import moment from 'moment';
 import { formatterStr } from '../../libs/utils';
 import { REACT_APP_API_URL } from '../../libs/config';
-import { userVar } from '../../apollo/store';
+import { userVar, cartDrawerVar } from '../../apollo/store';
+import { addToCart } from '../../libs/utils/cartUtils';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
@@ -34,6 +35,7 @@ import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } f
 import { create } from 'domain';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import Review from '../../libs/components/property/Review';
+import ReviewSection from '../../libs/components/property/ReviewSection';
 import {
 	Add,
 	ChevronLeft,
@@ -275,6 +277,22 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setQuantity((prev) => Math.max(1, prev + change));
 	};
 
+	const handleAddToCart = () => {
+		if (!property) return;
+		addToCart(
+			{
+				_id: property._id,
+				propertyTitle: property.propertyTitle,
+				propertyPrice: property.propertyPrice,
+				propertySalePrice: property.propertySalePrice,
+				propertyImages: property.propertyImages,
+				propertyType: property.propertyType,
+			},
+			quantity,
+		);
+		cartDrawerVar(true);
+	};
+
 	const prevImage = () => {
 		if (currentIndex === -1) return;
 		const prevIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
@@ -387,7 +405,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								className="mob-det-qty-input" />
 							<IconButton size="small" onClick={() => handleQuantityChange(1)}><Add fontSize="small" /></IconButton>
 						</div>
-						<Button variant="contained" className="mob-det-cart-btn">{t('add_to_cart')}</Button>
+						<Button variant="contained" className="mob-det-cart-btn" onClick={handleAddToCart}>{t('add_to_cart')}</Button>
 						<IconButton className="mob-det-like-btn" onClick={() => likePropertyHandler(user, property!._id)}>
 							{property?.meLiked?.[0]?.myFavorite
 								? <FavoriteIcon sx={{ fontSize: 20, color: '#cf6422' }} />
@@ -466,6 +484,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 					{tabIndex === 1 && (
 						<div className="mob-rev-tab">
+
+							{/* ── Star ratings summary ── */}
+							{property?._id && <ReviewSection propertyId={property._id} />}
 
 							{/* ── Yozish maydoni (TEPADA) ── */}
 							<div className="mob-rev-write">
@@ -771,7 +792,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 
 										<Stack className="actionButtons">
-											<Button className="addToCartBtn" variant="contained">
+											<Button className="addToCartBtn" variant="contained" onClick={handleAddToCart}>
 												{t('add_to_cart')}
 											</Button>
 										</Stack>
@@ -951,6 +972,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 								{tabIndex === 1 && (
 									<Stack className="repair-detail__comments" spacing={3}>
+										{property?._id && <ReviewSection propertyId={property._id} />}
+
 										<Stack className="reviews-config">
 											<Stack className="leave-review-config">
 												<Stack direction="row" alignItems="center" spacing={1}>

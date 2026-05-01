@@ -1,0 +1,495 @@
+/* ============================================================
+   Order Tracking — PC
+   ============================================================ */
+.tracking-page {
+	min-height: 100vh;
+	background: #f8f7f4;
+	padding: 40px 0 80px;
+	font-family: 'Poppins', sans-serif;
+
+	.tracking-container {
+		max-width: 1100px;
+		margin: 0 auto;
+		padding: 0 24px;
+	}
+
+	/* Header */
+	.tracking-header {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		margin-bottom: 28px;
+
+		.tracking-back-link { text-decoration: none; }
+
+		.tracking-back-btn {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			background: none;
+			border: 1px solid #e0e0e0;
+			border-radius: 8px;
+			padding: 7px 14px;
+			font-size: 13px;
+			color: #555;
+			cursor: pointer;
+			font-family: 'Poppins', sans-serif;
+			transition: all 0.15s;
+			&:hover { background: #fff; border-color: #bbb; }
+		}
+
+		.tracking-page-title {
+			font-size: 26px;
+			font-weight: 700;
+			color: #1a1a1a;
+			font-family: 'Poppins', sans-serif;
+		}
+	}
+
+	/* Order info bar */
+	.tracking-order-bar {
+		background: #fff;
+		border-radius: 14px;
+		padding: 20px 28px;
+		display: flex;
+		align-items: center;
+		gap: 40px;
+		margin-bottom: 28px;
+		box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+		flex-wrap: wrap;
+
+		.tracking-order-info {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+
+			.tracking-order-label {
+				font-size: 11px;
+				color: #aaa;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+				font-family: 'Poppins', sans-serif;
+			}
+
+			.tracking-order-id {
+				font-size: 15px;
+				font-weight: 700;
+				color: #1a1a1a;
+				font-family: 'Poppins', sans-serif;
+				letter-spacing: 1px;
+			}
+
+			.tracking-order-val {
+				font-size: 14px;
+				font-weight: 500;
+				color: #333;
+				font-family: 'Poppins', sans-serif;
+			}
+
+			.tracking-order-est {
+				color: #cf6422;
+				font-weight: 600;
+			}
+		}
+
+		.tracking-status-chip {
+			margin-left: auto;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			background: rgba(207, 100, 34, 0.1);
+			color: #cf6422;
+			font-size: 13px;
+			font-weight: 600;
+			padding: 6px 16px;
+			border-radius: 20px;
+			font-family: 'Poppins', sans-serif;
+
+			.tracking-status-dot {
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				background: #cf6422;
+				animation: pulse-dot 1.5s infinite;
+			}
+		}
+	}
+
+	/* Layout */
+	.tracking-layout {
+		display: grid;
+		grid-template-columns: 1fr 420px;
+		gap: 28px;
+		align-items: start;
+
+		@media (max-width: 900px) {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	/* Left: steps */
+	.tracking-left {
+		background: #fff;
+		border-radius: 16px;
+		padding: 32px;
+		box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+	}
+
+	.tracking-steps-wrap {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		padding-left: 20px;
+
+		.tracking-progress-line {
+			position: absolute;
+			left: 20px;
+			top: 24px;
+			bottom: 24px;
+			width: 3px;
+			background: #e8e8e8;
+			border-radius: 2px;
+
+			.tracking-progress-fill {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				background: linear-gradient(180deg, #cf6422, #e87b40);
+				border-radius: 2px;
+				transition: height 0.8s ease;
+			}
+		}
+	}
+
+	.tracking-step {
+		display: flex;
+		gap: 20px;
+		align-items: flex-start;
+		padding: 20px 0;
+		position: relative;
+		opacity: 0.4;
+		transition: opacity 0.3s;
+
+		&.done, &.active { opacity: 1; }
+
+		.tracking-step-icon-wrap {
+			flex-shrink: 0;
+			position: relative;
+			z-index: 2;
+		}
+
+		.tracking-step-icon {
+			width: 44px;
+			height: 44px;
+			border-radius: 50%;
+			background: #f0f0f0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: #bbb;
+			border: 3px solid #fff;
+			box-shadow: 0 0 0 2px #e0e0e0;
+			transition: all 0.3s;
+
+			svg { font-size: 20px; }
+
+			&.done {
+				background: #fff8f4;
+				color: #cf6422;
+				box-shadow: 0 0 0 2px #cf6422;
+			}
+
+			&.active {
+				background: #cf6422;
+				color: #fff;
+				box-shadow: 0 0 0 3px rgba(207, 100, 34, 0.25);
+				animation: pulse-ring 2s infinite;
+			}
+		}
+
+		.tracking-step-content {
+			padding-top: 8px;
+
+			.tracking-step-label {
+				font-size: 15px;
+				font-weight: 600;
+				color: #1a1a1a;
+				font-family: 'Poppins', sans-serif;
+				margin-bottom: 4px;
+			}
+
+			.tracking-step-desc {
+				font-size: 13px;
+				color: #888;
+				font-family: 'Poppins', sans-serif;
+			}
+
+			.tracking-step-now {
+				display: inline-block;
+				margin-top: 8px;
+				background: #cf6422;
+				color: #fff;
+				font-size: 11px;
+				font-weight: 600;
+				padding: 3px 10px;
+				border-radius: 12px;
+				font-family: 'Poppins', sans-serif;
+				animation: fade-in 0.5s ease;
+			}
+		}
+	}
+
+	/* Demo notice */
+	.tracking-demo-notice {
+		display: flex;
+		gap: 12px;
+		align-items: flex-start;
+		background: #fff8e1;
+		border: 1px solid #ffe082;
+		border-radius: 12px;
+		padding: 16px;
+		margin-top: 24px;
+
+		svg { color: #f9a825; flex-shrink: 0; margin-top: 2px; }
+
+		.tracking-demo-title {
+			font-size: 13px;
+			font-weight: 600;
+			color: #6d4c00;
+			margin-bottom: 4px;
+			font-family: 'Poppins', sans-serif;
+		}
+
+		.tracking-demo-text {
+			font-size: 12px;
+			color: #7a5c00;
+			line-height: 1.6;
+			font-family: 'Poppins', sans-serif;
+		}
+	}
+
+	/* Right */
+	.tracking-right {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		position: sticky;
+		top: 20px;
+	}
+
+	/* Map */
+	.tracking-map-wrap {
+		border-radius: 16px;
+		overflow: hidden;
+		height: 280px;
+		box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+	}
+
+	.tracking-map-placeholder {
+		width: 100%;
+		height: 100%;
+		background: #e8eaed;
+		position: relative;
+
+		.tracking-map-grid {
+			position: absolute;
+			inset: 0;
+			background-image:
+				linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
+				linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
+			background-size: 40px 40px;
+		}
+
+		.tracking-map-overlay {
+			position: absolute;
+			inset: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			background: rgba(0,0,0,0.15);
+			z-index: 2;
+
+			.tracking-map-pin {
+				width: 56px;
+				height: 56px;
+				background: #cf6422;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: #fff;
+				margin-bottom: 12px;
+				box-shadow: 0 4px 16px rgba(207, 100, 34, 0.4);
+				animation: bounce-pin 2s infinite;
+
+				svg { font-size: 28px; }
+			}
+
+			.tracking-map-text {
+				font-size: 16px;
+				font-weight: 600;
+				color: #fff;
+				font-family: 'Poppins', sans-serif;
+				text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+			}
+
+			.tracking-map-sub {
+				font-size: 12px;
+				color: rgba(255,255,255,0.8);
+				font-family: 'Poppins', sans-serif;
+			}
+		}
+	}
+
+	/* Delivery card */
+	.tracking-delivery-card {
+		background: #fff;
+		border-radius: 16px;
+		padding: 20px;
+		box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+
+		.tracking-delivery-title {
+			font-size: 15px;
+			font-weight: 600;
+			color: #1a1a1a;
+			margin-bottom: 12px;
+			font-family: 'Poppins', sans-serif;
+		}
+
+		.tracking-divider { margin-bottom: 12px; }
+
+		.tracking-detail-row {
+			display: flex;
+			justify-content: space-between;
+			padding: 8px 0;
+			border-bottom: 1px solid #f5f5f5;
+			&:last-child { border-bottom: none; }
+
+			.tracking-detail-label {
+				font-size: 13px;
+				color: #aaa;
+				font-family: 'Poppins', sans-serif;
+			}
+
+			.tracking-detail-val {
+				font-size: 13px;
+				color: #333;
+				font-weight: 500;
+				font-family: 'Poppins', sans-serif;
+			}
+
+			.tracking-in-transit {
+				color: #cf6422;
+				font-weight: 600;
+			}
+		}
+	}
+
+	/* Confirm receipt box */
+	.tracking-confirm-box {
+		display: flex;
+		align-items: flex-start;
+		gap: 12px;
+		background: #e8f5e9;
+		border-radius: 12px;
+		padding: 14px 16px;
+		margin-top: 16px;
+		border: 1px solid #c8e6c9;
+
+		a { text-decoration: none; margin-left: auto; }
+	}
+
+	/* Order items card */
+	.tracking-items-card {
+		background: #fff;
+		border-radius: 16px;
+		padding: 20px;
+		box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+		margin-bottom: 16px;
+
+		.tracking-item-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 8px 0;
+			border-bottom: 1px solid #f5f5f5;
+			&:last-child { border-bottom: none; }
+
+			.tracking-item-title {
+				font-size: 13px;
+				color: #333;
+				font-family: 'Poppins', sans-serif;
+				flex: 1;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				max-width: 200px;
+			}
+			.tracking-item-info {
+				font-size: 12px;
+				color: #888;
+				font-family: 'Poppins', sans-serif;
+			}
+		}
+	}
+
+	/* Actions */
+	.tracking-actions {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		.tracking-action-link {
+			text-decoration: none;
+
+			.tracking-shop-btn {
+				background: #cf6422;
+				color: #fff;
+				font-family: 'Poppins', sans-serif;
+				font-weight: 600;
+				text-transform: none;
+				border-radius: 10px;
+				height: 46px;
+				font-size: 14px;
+				&:hover { background: #b8561e; }
+			}
+
+			.tracking-mypage-btn {
+				border-color: #cf6422;
+				color: #cf6422;
+				font-family: 'Poppins', sans-serif;
+				font-weight: 500;
+				text-transform: none;
+				border-radius: 10px;
+				height: 46px;
+				font-size: 14px;
+				&:hover { background: rgba(207, 100, 34, 0.06); }
+			}
+		}
+	}
+}
+
+/* Animations */
+@keyframes pulse-dot {
+	0%, 100% { transform: scale(1); opacity: 1; }
+	50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+@keyframes pulse-ring {
+	0% { box-shadow: 0 0 0 3px rgba(207, 100, 34, 0.25); }
+	50% { box-shadow: 0 0 0 8px rgba(207, 100, 34, 0.08); }
+	100% { box-shadow: 0 0 0 3px rgba(207, 100, 34, 0.25); }
+}
+
+@keyframes bounce-pin {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-8px); }
+}
+
+@keyframes fade-in {
+	from { opacity: 0; transform: translateY(4px); }
+	to { opacity: 1; transform: translateY(0); }
+}
