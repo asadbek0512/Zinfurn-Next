@@ -11,6 +11,7 @@ import '../scss/pc/main.scss';
 import '../scss/mobile/main.scss';
 import { useRouter } from 'next/router';
 import { setJwtToken, updateUserInfo } from '../libs/auth';
+import CartDrawer from '../libs/components/cart/CartDrawer';
 
 const App = ({ Component, pageProps }: AppProps) => {
 	// @ts-ignore
@@ -33,6 +34,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<Component {...pageProps} />
+				<CartDrawer />
 			</ThemeProvider>
 		</ApolloProvider>
 	);

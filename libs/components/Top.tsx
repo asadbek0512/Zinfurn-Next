@@ -13,8 +13,9 @@ import { CaretDown } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useReactiveVar } from '@apollo/client';
-import { socketVar, userVar } from '../../apollo/store';
+import { socketVar, userVar, cartVar, cartDrawerVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
 import NotificationModal from './common/NotificationModal';
@@ -28,11 +29,14 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
+import { getCartCount } from '../utils/cartUtils';
 
 const Top = () => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const socket = useReactiveVar(socketVar);
+	const cartItems = useReactiveVar(cartVar);
+	const cartCount = getCartCount(cartItems);
 	const { t, i18n } = useTranslation('common');
 	const router = useRouter();
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
@@ -223,6 +227,11 @@ const Top = () => {
 
 						{/* Right icons */}
 						<div className={'mobile-user-box'}>
+							<IconButton size="small" onClick={() => cartDrawerVar(true)} className="cart-nav-btn">
+								<Badge badgeContent={cartCount} color="error" max={99}>
+									<ShoppingCartOutlinedIcon className={'notification-icon'} />
+								</Badge>
+							</IconButton>
 							{user?._id && (
 								<IconButton onClick={handleNotificationClick} size="small">
 									<Badge color="error" variant="dot" invisible={!hasUnreadNotifications}>
@@ -452,6 +461,16 @@ const Top = () => {
 							</Link>
 						</Box>
 						<Box component={'div'} className={'user-box'}>
+							<IconButton
+								onClick={() => cartDrawerVar(true)}
+								size="small"
+								className="cart-nav-btn"
+								sx={{ mr: 1 }}
+							>
+								<Badge badgeContent={cartCount} color="error" max={99}>
+									<ShoppingCartOutlinedIcon className={'notification-icon'} />
+								</Badge>
+							</IconButton>
 							{user?._id ? (
 								<>
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>

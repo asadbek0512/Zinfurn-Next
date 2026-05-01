@@ -1,0 +1,334 @@
+/* ============================================================
+   Checkout — Mobile
+   ============================================================ */
+$orange: #cf6422;
+$orange-dark: #b8561e;
+$font: 'Poppins', sans-serif;
+
+.co-mob {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	background: #f5f5f5;
+	font-family: $font;
+	overflow-x: hidden;
+
+	/* ── Fixed top header ── */
+	.co-mob-header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 100;
+		background: #fff;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 16px;
+		height: 54px;
+		border-bottom: 1px solid #f0f0f0;
+		box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+
+		.co-mob-back {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			background: #f5f5f5;
+			color: #333;
+			text-decoration: none;
+			flex-shrink: 0;
+		}
+
+		.co-mob-title {
+			font-size: 16px;
+			font-weight: 700;
+			color: #1a1a1a;
+			font-family: $font;
+		}
+	}
+
+	/* ── Stepper ── */
+	.co-mob-stepper {
+		margin-top: 54px;
+		padding: 14px 16px 10px;
+		background: #fff;
+
+		.MuiStepLabel-label {
+			font-family: $font;
+			font-size: 11px !important;
+		}
+		.MuiStepIcon-root.Mui-active    { color: $orange; }
+		.MuiStepIcon-root.Mui-completed { color: $orange; }
+		.MuiStepConnector-line { border-color: #ddd; }
+	}
+
+	/* ── Collapsible summary bar ── */
+	.co-mob-sum-toggle {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 12px 16px;
+		background: rgba(207,100,34,0.08);
+		border: none;
+		border-top: 1px solid rgba(207,100,34,0.15);
+		border-bottom: 1px solid rgba(207,100,34,0.15);
+		font-size: 13px;
+		color: $orange;
+		font-family: $font;
+		cursor: pointer;
+
+		b { font-weight: 700; }
+	}
+
+	.co-mob-sum-panel {
+		background: #fff;
+		padding: 0 16px;
+		border-bottom: 1px solid #eee;
+
+		.co-summary {
+			background: none;
+			border-radius: 0;
+			padding: 14px 0;
+			box-shadow: none;
+
+			.co-summary-label { font-size: 13px; margin-bottom: 10px; }
+
+			.co-sum-item {
+				margin-bottom: 10px;
+
+				.co-sum-img-wrap img {
+					width: 44px;
+					height: 44px;
+				}
+
+				.co-sum-name { font-size: 12px; }
+				.co-sum-price { font-size: 12px; }
+			}
+
+			.co-sum-row span { font-size: 13px; }
+			.co-sum-total span { font-size: 14px; }
+		}
+	}
+
+	/* ── Scrollable body ── */
+	.co-mob-body {
+		flex: 1;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding: 14px 16px 100px; // bottom padding for fixed footer
+
+		.co-step {
+			gap: 12px;
+
+			.co-step-header {
+				font-size: 15px;
+				margin-bottom: 0;
+
+				svg { font-size: 19px; }
+			}
+
+			.co-field {
+				.MuiOutlinedInput-root {
+					border-radius: 10px;
+					font-family: $font;
+					font-size: 14px;
+
+					&.Mui-focused .MuiOutlinedInput-notchedOutline {
+						border-color: $orange;
+					}
+				}
+				.MuiInputLabel-root.Mui-focused { color: $orange; }
+			}
+
+			.co-card-row {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 10px;
+			}
+
+			.co-secure {
+				font-size: 11px;
+				color: #bbb;
+			}
+
+			.co-test-hint {
+				padding: 9px 12px;
+				gap: 8px;
+
+				.co-test-hint-btn {
+					font-size: 11px;
+					padding: 4px 10px;
+				}
+			}
+		}
+
+		/* Card preview — mobile sized */
+		.co-card-preview {
+			border-radius: 14px;
+			padding: 18px 18px 16px;
+			min-height: 130px;
+
+			.co-card-chip {
+				width: 34px;
+				height: 24px;
+				margin-bottom: 14px;
+			}
+
+			.co-card-num {
+				font-size: 16px;
+				letter-spacing: 2px;
+				margin-bottom: 14px;
+			}
+
+			.co-card-footer {
+				gap: 24px;
+
+				.co-card-lbl { font-size: 8px; }
+				.co-card-val { font-size: 12px; }
+			}
+		}
+
+		/* Confirmation — mobile */
+		.co-confirm {
+			padding: 12px 0 0;
+			gap: 14px;
+
+			.co-confirm-circle {
+				width: 72px;
+				height: 72px;
+
+				.co-confirm-check { font-size: 42px !important; }
+			}
+
+			.co-confirm-title { font-size: 22px; }
+
+			.co-demo-box {
+				padding: 12px;
+				flex-direction: row;
+				gap: 10px;
+
+				.co-demo-title { font-size: 12px; }
+				.co-demo-text  { font-size: 12px; }
+			}
+
+			.co-confirm-details {
+				padding: 10px 14px;
+
+				.co-confirm-row {
+					padding: 7px 0;
+
+					.co-confirm-lbl { font-size: 12px; }
+					.co-confirm-val { font-size: 12px; }
+				}
+			}
+
+			/* Buttons inside confirmation on mobile */
+			.co-btn-primary,
+			.co-btn-outline {
+				height: 46px;
+				font-size: 14px !important;
+			}
+		}
+	}
+
+	/* ── Fixed bottom footer ── */
+	.co-mob-footer {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 100;
+		background: #fff;
+		border-top: 1px solid #eee;
+		padding: 12px 16px;
+		display: flex;
+		gap: 10px;
+		box-shadow: 0 -4px 16px rgba(0,0,0,0.07);
+
+		.co-mob-back-btn {
+			flex-shrink: 0;
+			background: #f5f5f5;
+			border: none;
+			border-radius: 10px;
+			padding: 0 18px;
+			height: 48px;
+			font-size: 14px;
+			font-weight: 500;
+			color: #555;
+			font-family: $font;
+			cursor: pointer;
+		}
+
+		.co-mob-next-btn {
+			flex: 1;
+			background: $orange !important;
+			color: #fff !important;
+			font-family: $font !important;
+			font-weight: 600 !important;
+			text-transform: none !important;
+			border-radius: 10px !important;
+			height: 48px;
+			font-size: 15px !important;
+			&:hover { background: $orange-dark !important; }
+			&.Mui-disabled { background: #ddd !important; color: #aaa !important; }
+		}
+	}
+}
+
+/* ── Guard screen mobile ── */
+.co-guard {
+	min-height: 100dvh;
+	padding: 60px 20px 40px;
+
+	.co-guard-icon { font-size: 60px !important; }
+	.co-guard-title { font-size: 19px; }
+}
+
+/* ── Tracking mobile (kept here for colocation) ── */
+@media (max-width: 768px) {
+	.tracking-page {
+		padding: 0 0 60px;
+		overflow-x: hidden;
+
+		.tracking-container {
+			padding: 0 14px;
+			box-sizing: border-box;
+		}
+
+		.tracking-header {
+			padding-top: 16px;
+			margin-bottom: 14px;
+			.tracking-page-title { font-size: 18px; }
+		}
+
+		.tracking-order-bar {
+			padding: 14px;
+			gap: 14px;
+			flex-wrap: wrap;
+			border-radius: 12px;
+			margin-bottom: 14px;
+			.tracking-status-chip { margin-left: 0; font-size: 12px; }
+		}
+
+		.tracking-layout { display: flex; flex-direction: column; gap: 14px; }
+
+		.tracking-left  { padding: 16px 14px; border-radius: 12px; width: 100%; box-sizing: border-box; }
+		.tracking-right { position: static; gap: 12px; display: flex; flex-direction: column; width: 100%; box-sizing: border-box; }
+
+		.tracking-steps-wrap {
+			padding-left: 10px;
+			.tracking-step { gap: 12px; padding: 14px 0; }
+			.tracking-step-icon { width: 32px; height: 32px; svg { font-size: 15px; } }
+			.tracking-step-label { font-size: 13px; }
+			.tracking-step-desc  { font-size: 11px; }
+		}
+
+		.tracking-map-wrap { height: 180px; border-radius: 12px; width: 100%; box-sizing: border-box; }
+		.tracking-delivery-card { padding: 14px; border-radius: 12px; width: 100%; box-sizing: border-box; }
+		.tracking-actions { width: 100%; box-sizing: border-box; }
+	}
+}

@@ -447,21 +447,41 @@
         }
 
         .mob-card-actions {
-          display: flex;
-          flex-direction: row;
-          gap: 10px;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          justify-items: center;
+          align-items: center;
           margin-top: auto;
-          padding-top: 6px;
+          padding: 10px 0 0;
           border-top: 1px solid #f0f0f0;
+          width: 100%;
 
           .mob-action {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 3px;
             font-size: 11px;
             color: #888;
             font-family: $font;
             cursor: pointer;
+            width: 100%;
+
+            svg {
+              font-size: 13px !important;
+              color: #717171;
+            }
+
+            &.mob-action-cart {
+              svg {
+                color: #cf6422 !important;
+              }
+              &.added {
+                svg {
+                  color: #2e7d32 !important;
+                }
+              }
+            }
           }
         }
       }

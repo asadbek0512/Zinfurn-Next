@@ -22,6 +22,7 @@ import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mu
 import { Messages } from '../../libs/config';
 import AddRepairProperty from '../../libs/components/mypage/AddNewRepairProperty';
 import MyRepairProperty from '../../libs/components/mypage/MyRepairProperty';
+import MyOrders from '../../libs/components/mypage/MyOrders';
 import { getJwtToken } from '../../libs/auth/index';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useTranslation } from 'next-i18next';
@@ -150,6 +151,7 @@ const MyPage: NextPage = () => {
 				{mobileCategory === 'myArticles' && <MyArticles />}
 				{mobileCategory === 'writeArticle' && <WriteArticle />}
 				{mobileCategory === 'myProfile' && <MyProfile />}
+				{mobileCategory === 'myOrders' && <MyOrders />}
 				{mobileCategory === 'followers' && (
 					<MemberFollowers
 						subscribeHandler={subscribeHandler}
@@ -189,6 +191,7 @@ const MyPage: NextPage = () => {
 									{category === 'myArticles' && <MyArticles />}
 									{category === 'writeArticle' && <WriteArticle />}
 									{category === 'myProfile' && <MyProfile />}
+									{category === 'myOrders' && <MyOrders />}
 									{category === 'followers' && (
 										<MemberFollowers
 											subscribeHandler={subscribeHandler}

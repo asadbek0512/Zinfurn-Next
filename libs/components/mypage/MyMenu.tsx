@@ -23,6 +23,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import BuildIcon from '@mui/icons-material/Build';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import { useTranslation } from 'next-i18next';
 
 const MyMenu = () => {
@@ -160,6 +161,13 @@ const MyMenu = () => {
 						<div className="mob-mymenu-item-icon"><HistoryIcon /></div>
 						<div className="mob-mymenu-item-text">
 							<span className="mob-mymenu-item-label">{t('Recently Visited')}</span>
+						</div>
+						<ChevronRightIcon className="mob-mymenu-item-chevron" />
+					</div>
+					<div className="mob-mymenu-item" onClick={() => goTo('myOrders')}>
+						<div className="mob-mymenu-item-icon"><ShoppingBagOutlinedIcon /></div>
+						<div className="mob-mymenu-item-text">
+							<span className="mob-mymenu-item-label">{t('My Orders')}</span>
 						</div>
 						<ChevronRightIcon className="mob-mymenu-item-chevron" />
 					</div>
@@ -430,6 +438,26 @@ const MyMenu = () => {
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 											{t('Recently Visited')}
+										</Typography>
+									</div>
+								</Link>
+							</ListItem>
+
+							<ListItem className={pathname === 'myOrders' ? 'focus' : ''}>
+								<Link
+									href={{
+										pathname: '/mypage',
+										query: { category: 'myOrders' },
+									}}
+									scroll={false}
+								>
+									<div className={'flex-box'}>
+										<ShoppingBagOutlinedIcon
+											className="com-icon"
+											style={{ color: category === 'myOrders' ? '#fff' : '#000' }}
+										/>
+										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+											{t('My Orders')}
 										</Typography>
 									</div>
 								</Link>

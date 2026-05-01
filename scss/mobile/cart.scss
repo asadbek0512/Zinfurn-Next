@@ -1,0 +1,85 @@
+/* ============================================================
+   Cart — Mobile
+   ============================================================ */
+
+/* Drawer width */
+.cart-drawer-paper {
+	width: 88vw !important;
+	max-width: 360px !important;
+	box-sizing: border-box;
+}
+
+.cart-drawer {
+	width: 100%;
+	box-sizing: border-box;
+	overflow-x: hidden;
+
+	.cart-drawer-header {
+		padding: 16px 14px 12px;
+
+		.cart-drawer-heading {
+			font-size: 16px;
+		}
+	}
+
+	.cart-drawer-body {
+		overflow-x: hidden;
+	}
+
+	.cart-drawer-item {
+		padding: 12px 14px;
+		gap: 10px;
+
+		.cart-item-img-wrap {
+			width: 64px;
+			height: 64px;
+			flex-shrink: 0;
+		}
+
+		.cart-item-info {
+			min-width: 0;
+			max-width: calc(88vw - 120px);
+
+			.cart-item-title {
+				font-size: 12px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.cart-item-subtotal {
+				font-size: 10px;
+			}
+		}
+	}
+
+	.cart-drawer-footer {
+		padding: 12px 14px 20px;
+
+		.cart-footer-total {
+			.cart-total-label { font-size: 14px; }
+			.cart-total-val { font-size: 18px; }
+		}
+	}
+}
+
+/* ---- Cart icon in mob-card-actions ---- */
+.mob-action-cart {
+	margin-left: auto;
+	cursor: pointer;
+	color: #cf6422;
+
+	&.added {
+		color: #2e7d32;
+	}
+}
+
+/* Cart nav btn mobile */
+.cart-nav-btn {
+	.MuiBadge-badge {
+		font-size: 10px;
+		height: 16px;
+		min-width: 16px;
+		padding: 0 4px;
+	}
+}
