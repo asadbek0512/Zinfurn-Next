@@ -98,7 +98,7 @@ const Checkout: NextPage = () => {
 						input: {
 							orderItems,
 							orderTotal: total,
-							deliveryInfo: { fullName, address, city, phone, note: note || undefined },
+							deliveryInfo: { fullName, address, city: city || undefined, phone, note: note || undefined },
 						},
 					},
 				});
