@@ -6,3 +6,4 @@ git checkout main
 git pull origin main
 
 docker compose up -d --force-recreate
+docker compose restart
