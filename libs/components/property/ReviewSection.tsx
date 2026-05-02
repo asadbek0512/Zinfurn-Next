@@ -1,48 +1,50 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { Box, Button, Divider, Rating, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useQuery } from '@apollo/client';
 import { GET_PROPERTY_REVIEWS, GET_PROPERTY_REVIEW_SUMMARY } from '../../../apollo/user/query';
 import { Review, ReviewSummary } from '../../types/review/review';
 import { REACT_APP_API_URL } from '../../config';
 import { useTranslation } from 'next-i18next';
 import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import CloseIcon from '@mui/icons-material/Close';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 interface ReviewSectionProps {
 	propertyId: string;
 }
 
-const StarBar = ({ rating, total }: { rating: number; total: number }) => {
-	const pct = total > 0 ? Math.round((rating / total) * 100) : 0;
-	return (
-		<div className="rev-bar-row">
-			<span className="rev-bar-lbl">{rating}</span>
-			<StarIcon sx={{ fontSize: 12, color: '#f5a623' }} />
-			<div className="rev-bar-track">
-				<div className="rev-bar-fill" style={{ width: `${pct}%` }} />
-			</div>
-			<span className="rev-bar-count">{rating}</span>
-		</div>
-	);
-};
+const RATING_LABELS = ['', 'Terrible', 'Poor', 'Average', 'Good', 'Excellent'];
+const RATING_COLORS = ['', '#ef4444', '#f97316', '#f59e0b', '#84cc16', '#22c55e'];
+
+const PAGE_SIZE = 8;
 
 const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 	const { t } = useTranslation('common');
 	const [page, setPage] = useState(1);
 	const [photoFilter, setPhotoFilter] = useState(false);
 	const [sortBy, setSortBy] = useState('createdAt');
+	const [starFilter, setStarFilter] = useState<number | null>(null);
+	const [lightbox, setLightbox] = useState<{ images: string[]; idx: number } | null>(null);
+	const [likedReviews, setLikedReviews] = useState<Set<string>>(new Set());
 
 	const { data: summaryData } = useQuery(GET_PROPERTY_REVIEW_SUMMARY, {
 		variables: { propertyId },
 		skip: !propertyId,
+		fetchPolicy: 'cache-and-network',
 	});
 
 	const { data, loading } = useQuery(GET_PROPERTY_REVIEWS, {
 		variables: {
 			input: {
 				page,
-				limit: 5,
+				limit: PAGE_SIZE,
 				sort: sortBy,
 				direction: 'DESC',
 				search: { propertyId },
@@ -52,107 +54,306 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 		fetchPolicy: 'cache-and-network',
 	});
 
-	const summary: ReviewSummary = summaryData?.getPropertyReviewSummary || { averageRating: 0, totalReviews: 0 };
+	const summary: ReviewSummary = summaryData?.getPropertyReviewSummary || {
+		averageRating: 0,
+		totalReviews: 0,
+		ratingDistribution: [],
+	};
 	const reviews: Review[] = data?.getPropertyReviews?.list || [];
 	const total: number = data?.getPropertyReviews?.metaCounter?.[0]?.total || 0;
 
-	const filtered = photoFilter ? reviews.filter(r => r.reviewImages?.length > 0) : reviews;
+	// show content if either summary says there are reviews OR actual list has items
+	const hasContent = summary.totalReviews > 0 || reviews.length > 0 || total > 0;
+	const displayTotal = summary.totalReviews || total;
+
+	const dist = summary.ratingDistribution || [];
+	const getStarCount = (star: number) => dist.find((d) => d.star === star)?.count || 0;
+
+	let filtered = [...reviews];
+	if (photoFilter) filtered = filtered.filter((r) => r.reviewImages?.length > 0);
+	if (starFilter !== null) filtered = filtered.filter((r) => r.reviewRating === starFilter);
+
+	const allPhotos = reviews.flatMap((r) => (r.reviewImages || []).map((img) => img));
+
+	const openLightbox = (images: string[], idx: number) => setLightbox({ images, idx });
+
+	const toggleLike = (id: string) => {
+		setLikedReviews((prev) => {
+			const next = new Set(prev);
+			if (next.has(id)) next.delete(id);
+			else next.add(id);
+			return next;
+		});
+	};
+
+	const avgRounded = Math.round(summary.averageRating);
 
 	return (
 		<div className="rev-section">
-			<Typography className="rev-section-title">
-				{t('Customer Reviews')}
-				{summary.totalReviews > 0 && (
-					<span className="rev-total-badge">({summary.totalReviews})</span>
-				)}
-			</Typography>
+			{/* Header */}
+			<div className="rev-header">
+				<Typography className="rev-title">
+					{t('Customer Reviews')}
+					{displayTotal > 0 && <span className="rev-total-badge">{displayTotal}</span>}
+				</Typography>
+			</div>
 
-			{summary.totalReviews > 0 ? (
-				<div className="rev-summary-row">
-					<div className="rev-score-block">
-						<Typography className="rev-score-big">{summary.averageRating.toFixed(1)}</Typography>
-						<Rating value={summary.averageRating} readOnly precision={0.1} size="medium" />
-						<Typography variant="caption" color="text.secondary">
-							{summary.totalReviews} {t('reviews')}
-						</Typography>
-					</div>
-					<div className="rev-bars">
-						{[5, 4, 3, 2, 1].map(n => <StarBar key={n} rating={n} total={summary.totalReviews} />)}
-					</div>
-				</div>
-			) : (
-				<div className="rev-empty">
-					<StarIcon sx={{ fontSize: 40, color: '#ddd' }} />
-					<Typography color="text.secondary">{t('No reviews yet. Be the first!')}</Typography>
-				</div>
-			)}
-
-			{reviews.length > 0 && (
+			{hasContent ? (
 				<>
-					<Divider sx={{ my: 2 }} />
-
-					{/* Filters */}
-					<div className="rev-filters">
-						<div className="rev-sort-btns">
-							<button className={`rev-sort-btn ${sortBy === 'createdAt' ? 'active' : ''}`} onClick={() => setSortBy('createdAt')}>{t('Latest')}</button>
-							<button className={`rev-sort-btn ${sortBy === 'reviewRating' ? 'active' : ''}`} onClick={() => setSortBy('reviewRating')}>{t('Rating')}</button>
+					{/* Summary */}
+					<div className="rev-summary">
+						<div className="rev-score-panel">
+							<div className="rev-score-num">{summary.averageRating.toFixed(1)}</div>
+							<div className="rev-score-stars">
+								{[1, 2, 3, 4, 5].map((i) => (
+									<StarIcon
+										key={i}
+										sx={{
+											fontSize: 20,
+											color: i <= Math.round(summary.averageRating) ? '#f5a623' : '#e0e0e0',
+										}}
+									/>
+								))}
+							</div>
+							<div className="rev-score-label" style={{ color: RATING_COLORS[avgRounded] || '#f5a623' }}>
+								{t(RATING_LABELS[avgRounded] || 'Good')}
+							</div>
+							<div className="rev-score-count">
+								{displayTotal} {t('reviews')}
+							</div>
 						</div>
-						<button className={`rev-photo-btn ${photoFilter ? 'active' : ''}`} onClick={() => setPhotoFilter(p => !p)}>
-							<PhotoOutlinedIcon sx={{ fontSize: 14 }} /> {t('With Photos')}
-						</button>
+
+						<div className="rev-dist-panel">
+							{[5, 4, 3, 2, 1].map((star) => {
+								const count = getStarCount(star);
+								const pct = displayTotal > 0 ? (count / displayTotal) * 100 : 0;
+								const isActive = starFilter === star;
+								return (
+									<div
+										key={star}
+										className={`rev-dist-row ${isActive ? 'active' : ''}`}
+										onClick={() => setStarFilter(isActive ? null : star)}
+									>
+										<span className="rev-dist-star">{star}</span>
+										<StarIcon sx={{ fontSize: 11, color: '#f5a623', flexShrink: 0 }} />
+										<div className="rev-dist-bar">
+											<div className="rev-dist-fill" style={{ width: `${pct}%` }} />
+										</div>
+										<span className="rev-dist-count">{count}</span>
+									</div>
+								);
+							})}
+						</div>
+					</div>
+
+					{/* Photo gallery strip */}
+					{allPhotos.length > 0 && (
+						<div className="rev-photo-gallery">
+							<Typography className="rev-gallery-title">
+								<PhotoOutlinedIcon sx={{ fontSize: 15 }} />
+								{t('Photos from Reviews')} ({allPhotos.length})
+							</Typography>
+							<div className="rev-gallery-strip">
+								{allPhotos.map((img, i) => (
+									<img
+										key={i}
+										src={`${REACT_APP_API_URL}/${img}`}
+										alt=""
+										className="rev-gallery-thumb"
+										onClick={() => openLightbox(allPhotos, i)}
+									/>
+								))}
+							</div>
+						</div>
+					)}
+
+					{/* Toolbar */}
+					<div className="rev-toolbar">
+						<div className="rev-sort-group">
+							<button
+								className={`rev-sort-btn ${sortBy === 'createdAt' ? 'active' : ''}`}
+								onClick={() => setSortBy('createdAt')}
+							>
+								{t('Latest')}
+							</button>
+							<button
+								className={`rev-sort-btn ${sortBy === 'reviewRating' ? 'active' : ''}`}
+								onClick={() => setSortBy('reviewRating')}
+							>
+								{t('Highest')}
+							</button>
+						</div>
+
+						<div className="rev-filter-group">
+							{starFilter !== null && (
+								<button className="rev-filter-chip active" onClick={() => setStarFilter(null)}>
+									{starFilter}★ <CloseIcon sx={{ fontSize: 11 }} />
+								</button>
+							)}
+							<button
+								className={`rev-filter-chip ${photoFilter ? 'active' : ''}`}
+								onClick={() => setPhotoFilter((p) => !p)}
+							>
+								<PhotoOutlinedIcon sx={{ fontSize: 13 }} /> {t('With Photos')}
+							</button>
+						</div>
 					</div>
 
 					{/* Review list */}
 					<div className="rev-list">
 						{loading && <div className="rev-loading">{t('Loading...')}</div>}
-						{filtered.map(review => (
+						{filtered.length === 0 && !loading && (
+							<div className="rev-no-results">
+								<StarBorderIcon sx={{ fontSize: 40, color: '#ddd' }} />
+								<Typography color="text.secondary">{t('No reviews matching this filter')}</Typography>
+							</div>
+						)}
+						{filtered.map((review) => (
 							<div className="rev-card" key={review._id}>
-								<div className="rev-card-header">
-									<div className="rev-user-info">
+								<div className="rev-card-top">
+									<div className="rev-user-block">
 										<img
-											src={review.memberData?.memberImage
-												? `${REACT_APP_API_URL}/${review.memberData.memberImage}`
-												: '/img/profile/defaultUser.svg'}
+											src={
+												review.memberData?.memberImage
+													? `${REACT_APP_API_URL}/${review.memberData.memberImage}`
+													: '/img/profile/defaultUser.svg'
+											}
 											alt={review.memberData?.memberNick}
-											className="rev-user-avatar"
+											className="rev-avatar"
 										/>
-										<div>
-											<Typography className="rev-user-nick">{review.memberData?.memberNick || 'User'}</Typography>
-											<Typography className="rev-review-date" variant="caption">
-												{new Date(review.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-											</Typography>
+										<div className="rev-user-details">
+											<span className="rev-user-name">{review.memberData?.memberNick || 'User'}</span>
+											<div className="rev-verified">
+												<VerifiedIcon sx={{ fontSize: 11, color: '#22c55e' }} />
+												<span>{t('Verified Purchase')}</span>
+											</div>
 										</div>
 									</div>
-									<Rating value={review.reviewRating} readOnly size="small" />
+
+									<div className="rev-meta">
+										<div className="rev-stars-row">
+											{[1, 2, 3, 4, 5].map((i) => (
+												<StarIcon
+													key={i}
+													sx={{
+														fontSize: 14,
+														color: i <= review.reviewRating ? '#f5a623' : '#e0e0e0',
+													}}
+												/>
+											))}
+											<span
+												className="rev-rating-label"
+												style={{ color: RATING_COLORS[review.reviewRating] || '#888' }}
+											>
+												{t(RATING_LABELS[review.reviewRating] || '')}
+											</span>
+										</div>
+										<span className="rev-date">
+											{new Date(review.createdAt).toLocaleDateString('en-US', {
+												year: 'numeric',
+												month: 'short',
+												day: 'numeric',
+											})}
+										</span>
+									</div>
 								</div>
 
-								<Typography className="rev-content">{review.reviewContent}</Typography>
+								<p className="rev-text">{review.reviewContent}</p>
 
 								{review.reviewImages?.length > 0 && (
-									<div className="rev-images">
+									<div className="rev-imgs">
 										{review.reviewImages.map((img, i) => (
 											<img
 												key={i}
 												src={`${REACT_APP_API_URL}/${img}`}
-												alt={`review-img-${i}`}
+												alt=""
 												className="rev-img-thumb"
+												onClick={() => openLightbox(review.reviewImages, i)}
 											/>
 										))}
 									</div>
 								)}
+
+								<div className="rev-card-footer">
+									<button
+										className={`rev-helpful-btn ${likedReviews.has(review._id) ? 'liked' : ''}`}
+										onClick={() => toggleLike(review._id)}
+									>
+										<ThumbUpOutlinedIcon sx={{ fontSize: 13 }} />
+										{t('Helpful')}
+									</button>
+								</div>
 							</div>
 						))}
 					</div>
 
-					{/* Pagination */}
-					{total > page * 5 && (
-						<Box display="flex" justifyContent="center" mt={2}>
-							<Button variant="outlined" size="small" onClick={() => setPage(p => p + 1)}>
-								{t('Load More')}
-							</Button>
-						</Box>
+					{/* Load more */}
+					{total > page * PAGE_SIZE && (
+						<div className="rev-load-more-wrap">
+							<button className="rev-load-more-btn" onClick={() => setPage((p) => p + 1)}>
+								<KeyboardArrowDownIcon sx={{ fontSize: 18 }} />
+								{t('Load More Reviews')} ({total - page * PAGE_SIZE} {t('remaining')})
+							</button>
+						</div>
 					)}
 				</>
+			) : (
+				<div className="rev-empty">
+					<div className="rev-empty-stars">
+						{[1, 2, 3, 4, 5].map((i) => (
+							<StarBorderIcon key={i} sx={{ fontSize: 32, color: '#e0e0e0' }} />
+						))}
+					</div>
+					<Typography className="rev-empty-title">{t('No reviews yet')}</Typography>
+					<Typography className="rev-empty-sub">{t('Be the first to share your experience!')}</Typography>
+				</div>
+			)}
+
+			{/* Lightbox */}
+			{lightbox && (
+				<div className="rev-lightbox" onClick={() => setLightbox(null)}>
+					<div className="rev-lb-inner" onClick={(e) => e.stopPropagation()}>
+						<button className="rev-lb-close" onClick={() => setLightbox(null)}>
+							<CloseIcon />
+						</button>
+						<img
+							className="rev-lb-img"
+							src={`${REACT_APP_API_URL}/${lightbox.images[lightbox.idx]}`}
+							alt=""
+						/>
+						{lightbox.images.length > 1 && (
+							<>
+								<button
+									className="rev-lb-nav prev"
+									disabled={lightbox.idx === 0}
+									onClick={() => setLightbox((prev) => prev ? { ...prev, idx: prev.idx - 1 } : null)}
+								>
+									<NavigateBeforeIcon />
+								</button>
+								<button
+									className="rev-lb-nav next"
+									disabled={lightbox.idx === lightbox.images.length - 1}
+									onClick={() => setLightbox((prev) => prev ? { ...prev, idx: prev.idx + 1 } : null)}
+								>
+									<NavigateNextIcon />
+								</button>
+								<div className="rev-lb-counter">
+									{lightbox.idx + 1} / {lightbox.images.length}
+								</div>
+								<div className="rev-lb-thumbnails">
+									{lightbox.images.map((img, i) => (
+										<img
+											key={i}
+											src={`${REACT_APP_API_URL}/${img}`}
+											className={`rev-lb-thumb ${i === lightbox.idx ? 'active' : ''}`}
+											onClick={() => setLightbox((prev) => prev ? { ...prev, idx: i } : null)}
+										/>
+									))}
+								</div>
+							</>
+						)}
+					</div>
+				</div>
 			)}
 		</div>
 	);

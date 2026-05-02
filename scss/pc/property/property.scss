@@ -567,6 +567,25 @@
 									}
 								}
 
+								.pc-card-rating {
+									display: flex;
+									align-items: center;
+									gap: 5px;
+									margin-bottom: 10px;
+
+									.pc-card-rating-val {
+										font-size: 12px;
+										font-weight: 700;
+										color: #333;
+									}
+
+									.pc-card-sold {
+										font-size: 11px;
+										color: #888;
+										margin-left: 2px;
+									}
+								}
+
 								.price-section {
 									margin-bottom: 16px;
 

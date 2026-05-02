@@ -1,6 +1,11 @@
 import { ReviewStatus } from '../../enums/review.enum';
 import { Member } from '../member/member';
 
+export interface RatingCount {
+	star: number;
+	count: number;
+}
+
 export interface Review {
 	_id: string;
 	memberId: string;
@@ -18,6 +23,7 @@ export interface Review {
 export interface ReviewSummary {
 	averageRating: number;
 	totalReviews: number;
+	ratingDistribution: RatingCount[];
 }
 
 export interface Reviews {

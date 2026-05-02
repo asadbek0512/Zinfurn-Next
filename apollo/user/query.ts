@@ -168,6 +168,9 @@ query GetProperty($input: String!) {
         propertyViews
         propertyLikes
         propertyComments
+        propertyReviews
+        propertyRating
+        propertySoldCount
         propertyRank
         memberId
         soldAt
@@ -240,6 +243,9 @@ query GetProperties($input: PropertiesInquiry!) {
             propertyViews
             propertyLikes
             propertyComments
+            propertyReviews
+            propertyRating
+            propertySoldCount
             propertyRank
             memberId
             soldAt
@@ -327,6 +333,9 @@ query GetAgentProperties($input: AgentPropertiesInquiry!) {
             propertyViews
             propertyLikes
             propertyComments
+            propertyReviews
+            propertyRating
+            propertySoldCount
             propertyRank
             memberId
             soldAt
@@ -404,6 +413,9 @@ query GetFavorites($input: OrdinaryInquiry!) {
             propertyViews
             propertyLikes
             propertyComments
+            propertyReviews
+            propertyRating
+            propertySoldCount
             propertyRank
             memberId
             soldAt
@@ -475,6 +487,9 @@ query GetVisited($input: OrdinaryInquiry!) {
             propertyViews
             propertyLikes
             propertyComments
+            propertyReviews
+            propertyRating
+            propertySoldCount
             propertyRank
             memberId
             soldAt
@@ -1181,6 +1196,10 @@ export const GET_PROPERTY_REVIEW_SUMMARY = gql`
 		getPropertyReviewSummary(propertyId: $propertyId) {
 			averageRating
 			totalReviews
+			ratingDistribution {
+				star
+				count
+			}
 		}
 	}
 `;

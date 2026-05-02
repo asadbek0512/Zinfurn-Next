@@ -161,6 +161,21 @@
 
           span { font-size: 13px; }
         }
+
+        .mob-det-reviews-count {
+          font-size: 12px;
+          color: #888;
+          font-family: $font;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+
+        .mob-det-sold {
+          font-size: 12px;
+          color: #cf6422;
+          font-weight: 600;
+          font-family: $font;
+        }
       }
 
       // Narx

@@ -36,6 +36,9 @@ export interface Property {
 	propertyViews: number;
 	propertyLikes?: number;
 	propertyComments?: number;
+	propertyReviews?: number;
+	propertyRating?: number;
+	propertySoldCount?: number;
 	propertyRank?: number;
 	memberId: string;
 	soldAt?: Date;

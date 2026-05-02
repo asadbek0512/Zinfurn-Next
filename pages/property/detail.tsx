@@ -29,9 +29,9 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { GET_COMMENTS, GET_PROPERTIES, GET_PROPERTY } from '../../apollo/user/query';
+import { GET_COMMENTS, GET_PROPERTIES, GET_PROPERTY, GET_PROPERTY_REVIEW_SUMMARY } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { CREATE_COMMENT, CREATE_REVIEW, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { create } from 'domain';
 import { Direction, Message } from '../../libs/enums/common.enum';
@@ -81,7 +81,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [commentTotal, setCommentTotal] = useState<number>(0);
 	const [quantity, setQuantity] = useState(1);
 	const [tabIndex, setTabIndex] = useState(0);
-	const [showEmoji, setShowEmoji] = useState(false);
 	const { t } = useTranslation('common');
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
 		commentGroup: CommentGroup.PROPERTY,
@@ -161,6 +160,13 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0);
 		},
 	});
+	const { data: reviewSummaryData } = useQuery(GET_PROPERTY_REVIEW_SUMMARY, {
+		variables: { propertyId: propertyId as string },
+		skip: !propertyId,
+		fetchPolicy: 'cache-and-network',
+	});
+	const reviewTotal: number = reviewSummaryData?.getPropertyReviewSummary?.totalReviews ?? property?.propertyReviews ?? 0;
+
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.id) {
@@ -261,6 +267,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			setInsertCommentData({ ...insertCommentData, commentContent: '' });
 
 			await getCommentsRefetch({ input: commentInquiry });
+			sweetTopSmallSuccessAlert('Comment submitted successfully!', 2000);
 		} catch (err) {
 			await sweetErrorHandling(err);
 		}
@@ -361,16 +368,23 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					{/* Sarlavha */}
 					<h2 className="mob-det-title">{property?.propertyTitle}</h2>
 
-					{/* Reyting + ko'rishlar */}
+					{/* Reyting + sotilgan */}
 					<div className="mob-det-rating">
-						<Rating readOnly size="small" value={4.9} precision={0.1}
-							sx={{ color: '#ffc107', '& .MuiRating-iconEmpty': { color: '#ffc107' } }} />
-						<span className="mob-det-rating-val">4.9</span>
-						<span className="mob-det-rating-dot">·</span>
-						<span className="mob-det-views">
-							<RemoveRedEyeIcon sx={{ fontSize: 15 }} />
-							<span>{property?.propertyViews || 0} {t('views')}</span>
-						</span>
+						<Rating readOnly size="small" value={property?.propertyRating || 0} precision={0.1}
+							sx={{ color: '#ffc107', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
+						<span className="mob-det-rating-val">{property?.propertyRating ? property.propertyRating.toFixed(1) : '0.0'}</span>
+						{property?.propertyReviews ? (
+							<>
+								<span className="mob-det-rating-dot">·</span>
+								<span className="mob-det-reviews-count">({property.propertyReviews} {t('reviews')})</span>
+							</>
+						) : null}
+						{property?.propertySoldCount ? (
+							<>
+								<span className="mob-det-rating-dot">·</span>
+								<span className="mob-det-sold">{property.propertySoldCount}+ {t('sold')}</span>
+							</>
+						) : null}
 					</div>
 
 					{/* Narx */}
@@ -445,7 +459,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				<div className="mob-det-tabs-section">
 					<Tabs value={tabIndex} onChange={handleTabChange} className="mob-det-tabs">
 						<Tab label={t('description')} />
-						<Tab label={`${t('reviews')} (${commentTotal})`} />
+						<Tab label={`${t('reviews')} (${reviewTotal})`} />
 					</Tabs>
 
 					{tabIndex === 0 && (
@@ -491,52 +505,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 							{/* ── Star ratings summary ── */}
 							{property?._id && <ReviewSection propertyId={property._id} />}
-
-							{/* ── Yozish maydoni (TEPADA) ── */}
-							<div className="mob-rev-write">
-								<div className="mob-rev-write-heading">
-									<RateReviewIcon sx={{ color: '#d89801', fontSize: 18 }} />
-									<span>{t('write_a_review')}</span>
-								</div>
-								{showEmoji && (
-									<div className="mob-rev-emoji-panel">
-										{['😊','👍','❤️','⭐','🔥','🙏','😍','💯','🎉','😅','👌','✨'].map((e) => (
-											<button key={e} className="mob-rev-emoji-item" onClick={() => insertEmoji(e)}>{e}</button>
-										))}
-									</div>
-								)}
-								<div className="mob-rev-input-row">
-									<IconButton
-										className={`mob-rev-emoji-btn ${showEmoji ? 'active' : ''}`}
-										onClick={() => setShowEmoji((v) => !v)}
-										size="small"
-									>
-										<EmojiEmotionsIcon />
-									</IconButton>
-									<textarea
-										className="mob-rev-textarea"
-										rows={1}
-										placeholder={user?._id ? t('write_a_review') : t('login_to_review')}
-										value={insertCommentData.commentContent}
-										disabled={!user?._id}
-										onKeyDown={(e) => {
-											if (e.key === 'Enter' && !e.shiftKey) {
-												e.preventDefault();
-												if (insertCommentData.commentContent.trim() && user?._id) createCommentHandler();
-											}
-										}}
-										onChange={({ target: { value } }) => setInsertCommentData({ ...insertCommentData, commentContent: value })}
-									/>
-									<IconButton
-										className="mob-rev-send-btn"
-										disabled={!insertCommentData.commentContent.trim() || !user?._id}
-										onClick={createCommentHandler}
-										size="small"
-									>
-										<SendIcon sx={{ fontSize: 18 }} />
-									</IconButton>
-								</div>
-							</div>
 
 							{/* ── Reviews ro'yxati (PASTDA) ── */}
 							<div className="mob-rev-list-section">
@@ -740,11 +708,21 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 									<Stack className="ratingRow">
 										<Stack className="rating">
-											<Rating readOnly size="small" value={4.9} precision={0.1} sx={{ color: '#ffc107' }} />
-											<Typography variant="body2" sx={{ fontWeight: 500 }}>
-												4.9
+											<Rating readOnly size="small" value={property?.propertyRating || 0} precision={0.1} sx={{ color: '#ffc107', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
+											<Typography variant="body2" sx={{ fontWeight: 600, color: '#1a1a1a' }}>
+												{property?.propertyRating ? property.propertyRating.toFixed(1) : '0.0'}
 											</Typography>
+											{property?.propertyReviews ? (
+												<Typography variant="body2" sx={{ color: '#888', fontSize: 13 }}>
+													({property.propertyReviews} {t('reviews')})
+												</Typography>
+											) : null}
 										</Stack>
+										{property?.propertySoldCount ? (
+											<Typography variant="body2" sx={{ color: '#888', fontSize: 13 }}>
+												{property.propertySoldCount}+ {t('sold')}
+											</Typography>
+										) : null}
 									</Stack>
 
 									<Stack className="priceRow">
@@ -855,7 +833,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className="left-config">
 								<Tabs value={tabIndex} onChange={handleTabChange} className="property-tabs">
 									<Tab label={t('description')} />
-									<Tab label={`${t('reviews')} (${commentTotal})`} />
+									<Tab label={`${t('reviews')} (${reviewTotal})`} />
 								</Tabs>
 
 								{tabIndex === 0 && (
@@ -932,8 +910,15 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 													<Box component="div" className="detail-row alternate">
 														<span className="detail-label">{t('customer_reviews')}</span>
-														<span className="detail-value"> </span>
-														<Rating readOnly size="small" value={4.9} precision={0.1} sx={{ color: '#ffc107' }} />
+														<span className="detail-value" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+															<Rating readOnly size="small" value={property?.propertyRating || 0} precision={0.1} sx={{ color: '#ffc107', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
+															<span style={{ fontWeight: 600 }}>{property?.propertyRating ? property.propertyRating.toFixed(1) : '0.0'}</span>
+															{property?.propertyReviews ? <span style={{ color: '#888', fontSize: 12 }}>({property.propertyReviews})</span> : null}
+														</span>
+													</Box>
+													<Box component="div" className="detail-row">
+														<span className="detail-label">{t('sold')}</span>
+														<span className="detail-value">{property?.propertySoldCount || 0}+</span>
 													</Box>
 
 													<Box component="div" className="detail-row">
@@ -979,40 +964,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										{property?._id && <ReviewSection propertyId={property._id} />}
 
 										<Stack className="reviews-config">
-											<Stack className="leave-review-config">
-												<Stack direction="row" alignItems="center" spacing={1}>
-													<RateReviewIcon sx={{ color: '#d89801' }} />
-													<Typography className="main-title">{t('write_a_review')}</Typography>
-												</Stack>
-
-												<Typography className="review-title">{t('review')}</Typography>
-
-												<textarea
-													onChange={({ target: { value } }) => {
-														setInsertCommentData({ ...insertCommentData, commentContent: value });
-													}}
-													onKeyDown={(e) => {
-														if (e.key === 'Enter' && !e.shiftKey) {
-															e.preventDefault();
-															if (insertCommentData.commentContent.trim() !== '' && user?._id) {
-																createCommentHandler();
-															}
-														}
-													}}
-													value={insertCommentData.commentContent}
-												></textarea>
-
-												<Box component="div" className="submit-btn">
-													<Button
-														className="submit-review"
-														disabled={insertCommentData.commentContent.trim() === '' || !user?._id}
-														onClick={createCommentHandler}
-													>
-														<Typography className="title">{t('submit_review')}</Typography>
-													</Button>
-												</Box>
-											</Stack>
-
 											{commentTotal !== 0 && (
 												<>
 													<Stack className="filter-box">
@@ -1182,6 +1133,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			</div>
 		);
 	}
+
+	return null;
 };
 
 PropertyDetail.defaultProps = {

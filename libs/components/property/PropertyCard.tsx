@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, Box, Typography } from '@mui/material';
+import { Stack, Box, Typography, Rating } from '@mui/material';
 import Link from 'next/link';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -74,6 +74,18 @@ const PropertyCard = (props: PropertyCardProps) => {
 				</Link>
 
 				<Stack className="mob-card-info">
+					{/* Rating + sold */}
+					<div className="mob-card-rating">
+						<Rating readOnly size="small" value={property?.propertyRating || 0} precision={0.1}
+							sx={{ fontSize: 12, color: '#ffc107', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
+						{property?.propertyRating ? (
+							<span className="mob-card-rating-val">{property.propertyRating.toFixed(1)}</span>
+						) : null}
+						{property?.propertySoldCount ? (
+							<span className="mob-card-sold">{property.propertySoldCount}+ sold</span>
+						) : null}
+					</div>
+
 					<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
 						<Typography className="mob-card-title">{property?.propertyTitle}</Typography>
 					</Link>
@@ -97,7 +109,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 							</div>
 							<div className="mob-action">
 								<ChatBubbleOutlineIcon sx={{ fontSize: 13 }} />
-								{property?.propertyComments || 0}
+								{property?.propertyReviews || 0}
 							</div>
 							<div
 								className="mob-action"
@@ -112,9 +124,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 								className={`mob-action mob-action-cart ${addedFlash ? 'added' : ''}`}
 								onClick={handleAddToCart}
 							>
-								{addedFlash
-									? <CheckIcon sx={{ fontSize: 13, color: '#2e7d32' }} />
-									: <AddShoppingCartIcon sx={{ fontSize: 13, color: '#cf6422' }} />}
+								<AddShoppingCartIcon sx={{ fontSize: 13, color: '#cf6422' }} />
 							</div>
 						</div>
 					)}
@@ -147,6 +157,18 @@ const PropertyCard = (props: PropertyCardProps) => {
 			</Stack>
 
 			<Stack className="bottom">
+				{/* Rating + sold count */}
+				<div className="pc-card-rating">
+					<Rating readOnly size="small" value={property?.propertyRating || 0} precision={0.1}
+						sx={{ fontSize: 13, color: '#ffc107', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
+					{property?.propertyRating ? (
+						<span className="pc-card-rating-val">{property.propertyRating.toFixed(1)}</span>
+					) : null}
+					{property?.propertySoldCount ? (
+						<span className="pc-card-sold">{property.propertySoldCount}+ sold</span>
+					) : null}
+				</div>
+
 				<Stack className="title-section">
 					<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
 						<Typography className="property-title">{property?.propertyTitle}</Typography>
@@ -169,11 +191,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 						className={`pc-card-cart-btn ${addedFlash ? 'added' : ''}`}
 						onClick={handleAddToCart}
 					>
-						{addedFlash ? (
-							<><CheckIcon sx={{ fontSize: 15 }} /> {t('Added!')}</>
-						) : (
-							<><AddShoppingCartIcon sx={{ fontSize: 15 }} /> {t('Add to Cart')}</>
-						)}
+						<AddShoppingCartIcon sx={{ fontSize: 15 }} /> {t('Add to Cart')}
 					</button>
 				)}
 
@@ -211,7 +229,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 							<IconButton size="small">
 								<ChatBubbleOutlineIcon />
 							</IconButton>
-							<Typography>{property?.propertyComments || 0}</Typography>
+							<Typography>{property?.propertyReviews || 0}</Typography>
 						</Box>
 						<Box component="div" className="action-item">
 							<IconButton size="small" onClick={() => likePropertyHandler?.(user, property?._id)}>
