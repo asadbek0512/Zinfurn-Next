@@ -319,13 +319,13 @@ const Checkout: NextPage = () => {
 					</button>
 				)}
 				{step < 2 && summaryOpen && (
-					<div className="co-mob-sum-panel"><Summary /></div>
+					<div className="co-mob-sum-panel">{Summary()}</div>
 				)}
 
 				<div className="co-mob-body" style={step === 2 ? { paddingTop: '70px' } : undefined}>
-					{step === 0 && <Step1 />}
-					{step === 1 && <Step2 />}
-					{step === 2 && <Step3 />}
+					{step === 0 && Step1()}
+					{step === 1 && Step2()}
+					{step === 2 && Step3()}
 				</div>
 
 				{step < 2 && (
@@ -372,9 +372,9 @@ const Checkout: NextPage = () => {
 
 				<div className={`co-pc-layout ${step === 2 ? 'co-pc-layout--confirm' : ''}`}>
 					<div className="co-pc-left">
-						{step === 0 && <Step1 />}
-						{step === 1 && <Step2 />}
-						{step === 2 && <Step3 />}
+						{step === 0 && Step1()}
+						{step === 1 && Step2()}
+						{step === 2 && Step3()}
 
 						{step < 2 && (
 							<div className="co-pc-actions">
@@ -392,7 +392,7 @@ const Checkout: NextPage = () => {
 					</div>
 
 					{step < 2 && (
-						<div className="co-pc-right"><Summary /></div>
+						<div className="co-pc-right">{Summary()}</div>
 					)}
 				</div>
 			</div>
