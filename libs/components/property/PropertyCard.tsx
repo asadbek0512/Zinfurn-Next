@@ -116,8 +116,8 @@ const PropertyCard = (props: PropertyCardProps) => {
 								onClick={(e) => { e.preventDefault(); likePropertyHandler?.(user, property?._id); }}
 							>
 								{myFavorites || property?.meLiked?.[0]?.myFavorite
-									? <FavoriteIcon sx={{ fontSize: 13, color: '#cf6422' }} />
-									: <FavoriteBorderIcon sx={{ fontSize: 13, color: '#bbb' }} />}
+									? <FavoriteIcon style={{ fontSize: 13, color: '#cf6422' }} />
+									: <FavoriteBorderIcon style={{ fontSize: 13, color: '#bbb' }} />}
 								{property?.propertyLikes || 0}
 							</div>
 							<div
