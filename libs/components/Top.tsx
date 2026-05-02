@@ -70,11 +70,9 @@ const Top = () => {
 			router.pathname === '/property/detail' ||
 			router.pathname === '/repairService/detail';
 
-		// Solid white navbar only on these pages
+		// Solid white navbar only on these pages for mobile
 		const isSolidPage =
-			router.pathname === '/mypage' ||
-			router.pathname === '/member' ||
-			router.pathname === '/agent/detail';
+			device === 'mobile' && (router.pathname === '/mypage' || router.pathname === '/member' || router.pathname === '/agent/detail');
 
 		const checkInitialState = () => {
 			const scrolled = window.scrollY >= 50;
@@ -95,7 +93,7 @@ const Top = () => {
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
 		};
-	}, [router.pathname]);
+	}, [router.pathname, device]);
 
 	useEffect(() => {
 		const jwt = getJwtToken();

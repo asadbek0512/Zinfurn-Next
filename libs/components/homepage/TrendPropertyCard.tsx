@@ -93,7 +93,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 					className={`big-card-cart-btn ${addedFlash ? 'added' : ''}`}
 					onClick={handleAddToCart}
 				>
-					{addedFlash ? <CheckIcon sx={{ fontSize: 18 }} /> : <AddShoppingCartIcon sx={{ fontSize: 18 }} />}
+					<AddShoppingCartIcon sx={{ fontSize: 18 }} />
 				</IconButton>
 			</Box>
 

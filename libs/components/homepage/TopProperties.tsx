@@ -105,7 +105,7 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 					className={`big-card-cart-btn ${addedFlash ? 'added' : ''}`}
 					onClick={handleAddToCart}
 				>
-					{addedFlash ? <CheckIcon sx={{ fontSize: 18 }} /> : <AddShoppingCartIcon sx={{ fontSize: 18 }} />}
+					<AddShoppingCartIcon sx={{ fontSize: 18 }} />
 				</IconButton>
 			</Box>
 			<Box component="div" className="product-info-container">

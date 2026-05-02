@@ -292,7 +292,7 @@ const MyMenu = () => {
 				</Stack>
 
 				<Stack className={'sections'}>
-					<Stack className={'section'} style={{ height: user.memberType === 'AGENT' ? '228px' : '153px' }}>
+					<Stack className={'section'}>
 						<Typography className="title" variant={'h5'}>
 							{t('Manage Listings')}
 						</Typography>
@@ -562,57 +562,55 @@ const MyMenu = () => {
 						</List>
 					</Stack>
 
-					<Stack className={'section'} sx={{ marginTop: user.memberType === 'TECHNICIAN' ? '80px' : '10px' }}>
-						<div>
-							<Typography className="title" variant={'h5'}>
-								{t('Community')}
-							</Typography>
-							<List className={'sub-section'}>
-								<ListItem className={pathname === 'myArticles' ? 'focus' : ''}>
-									<Link
-										href={{
-											pathname: '/mypage',
-											query: { category: 'myArticles' },
-										}}
-										scroll={false}
-									>
-										<div className={'flex-box'}>
-											{category === 'myArticles' ? (
-												<img className={'com-icon'} src={'/img/icons/discoveryWhite.svg'} alt={'com-icon'} />
-											) : (
-												<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} />
-											)}
+					<Stack className={'section'}>
+						<Typography className="title" variant={'h5'}>
+							{t('Community')}
+						</Typography>
+						<List className={'sub-section'}>
+							<ListItem className={pathname === 'myArticles' ? 'focus' : ''}>
+								<Link
+									href={{
+										pathname: '/mypage',
+										query: { category: 'myArticles' },
+									}}
+									scroll={false}
+								>
+									<div className={'flex-box'}>
+										{category === 'myArticles' ? (
+											<img className={'com-icon'} src={'/img/icons/discoveryWhite.svg'} alt={'com-icon'} />
+										) : (
+											<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} />
+										)}
 
-											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												{t('Articles')}
-											</Typography>
-										</div>
-									</Link>
-								</ListItem>
-								<ListItem className={pathname === 'writeArticle' ? 'focus' : ''}>
-									<Link
-										href={{
-											pathname: '/mypage',
-											query: { category: 'writeArticle' },
-										}}
-										scroll={false}
-									>
-										<div className={'flex-box'}>
-											{category === 'writeArticle' ? (
-												<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} />
-											) : (
-												<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
-											)}
-											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												{t('Write Article')}
-											</Typography>
-										</div>
-									</Link>
-								</ListItem>
-							</List>
-						</div>
+										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+											{t('Articles')}
+										</Typography>
+									</div>
+								</Link>
+							</ListItem>
+							<ListItem className={pathname === 'writeArticle' ? 'focus' : ''}>
+								<Link
+									href={{
+										pathname: '/mypage',
+										query: { category: 'writeArticle' },
+									}}
+									scroll={false}
+								>
+									<div className={'flex-box'}>
+										{category === 'writeArticle' ? (
+											<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} />
+										) : (
+											<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
+										)}
+										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+											{t('Write Article')}
+										</Typography>
+									</div>
+								</Link>
+							</ListItem>
+						</List>
 					</Stack>
-					<Stack className={'section'} sx={{ marginTop: '-120px' }}>
+					<Stack className={'section'}>
 						<Typography className="title" variant={'h5'}>
 							{t('Manage Account')}
 						</Typography>
