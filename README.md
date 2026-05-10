@@ -1,38 +1,113 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Zinfurn
+
+Frontend for zinfurn.uz — a furniture e-commerce marketplace in Uzbekistan for browsing, ordering, and managing furniture, repair services, agents, and community.
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 14 (Pages Router) + TypeScript |
+| UI | MUI 5 + SCSS (separate `pc/` and `mobile/` stylesheets) |
+| Data | Apollo Client (GraphQL) + WebSocket subscriptions |
+| State | Apollo reactive variables (userVar, socketVar) |
+| i18n | next-i18next (UZ, EN, KR, RU, AR — 5 locales) |
+| Auth | JWT with automatic token refresh via TokenRefreshLink |
+| Deploy | Docker + GitHub Actions CI/CD |
 
 ## Getting Started
 
-First, run the development server:
+**Prerequisites:** Node.js 20+, Yarn, running Zinfurn backend
 
 ```bash
-npm run dev
-# or
+git clone <repo-url>
+cd zinfurn-next
+
+yarn install
+
+cp .env.example .env.local
+# Fill in: NEXT_PUBLIC_API_URL, NEXT_PUBLIC_GRAPHQL_URL, NEXT_PUBLIC_API_WS
+
 yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Docker
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```bash
+# Development
+docker compose up -d
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+# Production
+docker compose -f docker-compose.prod.yml build
+docker compose -f docker-compose.prod.yml up -d
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Features
 
-## Learn More
+**For Users**
+- Browse and search furniture with advanced filters (category, type, price range, material, location)
+- Furniture detail pages with photos, specifications, and agent info
+- Like and save favorite listings
+- Follow agents and dealers
+- Place furniture orders and track order status
+- Book repair services with detail pages
+- Community board — post articles, comment, like, and engage
+- Real-time chat and in-app notifications via WebSocket
+- AI-powered chat assistant for furniture recommendations (Gemini API)
+- Multilingual interface — Uzbek, English, Korean, Russian, Arabic
 
-To learn more about Next.js, take a look at the following resources:
+**For Agents**
+- Create and manage furniture listings with photo uploads
+- Personal agent profile with ratings and monthly ranking
+- Track listing views, likes, and engagement stats
+- Manage incoming orders
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Admin Panel**
+- User and agent management with role control
+- Furniture listing moderation and approval
+- Community content management (articles, comments)
+- Repair service management
+- Customer support section (notices, FAQ, inquiries)
+- Car brand and category management
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+pages/
+├── index.tsx          # Homepage (hero, trending, top agents, brands)
+├── property/          # Furniture listing and detail pages
+├── repairService/     # Repair service listing and booking
+├── agent/             # Agent directory and profile pages
+├── community/         # Articles and community discussion
+├── mypage/            # User dashboard (favorites, orders, listings, settings)
+├── order/tracking.tsx # Order tracking
+├── member/            # Member public profile
+├── account/join.tsx   # Login / signup
+├── checkout.tsx       # Checkout flow
+└── _admin/            # Admin panel (users, properties, community, CS)
+libs/
+├── components/        # React components organized by feature
+├── auth/              # JWT helpers (login, signup, refresh, logout)
+├── types/             # TypeScript interfaces (mirrors backend DTOs)
+├── enums/             # Shared enums (property, order, member types)
+└── hooks/             # useDeviceDetect — mobile vs desktop rendering
+apollo/
+├── client.ts          # Apollo setup (auth link, WebSocket, TokenRefreshLink)
+├── store.ts           # Reactive variables
+└── user/              # GraphQL queries and mutations
+scss/
+├── pc/                # Desktop styles per feature
+└── mobile/            # Mobile styles per feature
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Auto-deploys via GitHub Actions on push to `develop`:
+1. Build + lint check
+2. SSH into VPS
+3. Docker rebuild and container restart
+
+## Live
+
+[https://zinfurn.uz](https://zinfurn.uz)

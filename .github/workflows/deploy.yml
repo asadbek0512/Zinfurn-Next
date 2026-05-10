@@ -1,34 +1,60 @@
-name: CI/CD — Frontend
+name: CI & Deploy
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - develop
 
 jobs:
-  build-and-deploy:
+  check:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'yarn'
+          node-version: 20
+          cache: yarn
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      - run: yarn install --frozen-lockfile
 
-      - name: TypeScript check
-        run: yarn tsc --noEmit
+      - name: Build
+        run: yarn build
 
-      - name: Deploy to server
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Lint
+        run: yarn lint
+
+  deploy:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          command_timeout: 30m
+          timeout: 60s
           script: |
             cd /home/zinfurn-project/Zinfurn-Next
-            bash deploy.sh
+            git fetch origin develop
+            git reset --hard origin/develop
+            docker compose -f docker-compose.prod.yml build
+            docker compose -f docker-compose.prod.yml up -d
+
+      - name: Retry deploy on failure
+        if: failure()
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          command_timeout: 30m
+          timeout: 120s
+          script: |
+            cd /home/zinfurn-project/Zinfurn-Next
+            git fetch origin develop
+            git reset --hard origin/develop
+            docker compose -f docker-compose.prod.yml build
+            docker compose -f docker-compose.prod.yml up -d
