@@ -129,8 +129,8 @@ const withLayoutBasic = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Zinfurn</title>
-						<meta name={'title'} content={`Zinfurn`} />
+						<title>Zinfurn — Korea's Best Furniture Store</title>
+						<meta name={'title'} content={`Zinfurn — Korea's Best Furniture Store`} />
 					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
@@ -169,8 +169,8 @@ const withLayoutBasic = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Zinfurn</title>
-						<meta name={'title'} content={`Zinfurn`} />
+						<title>Zinfurn — Korea's Best Furniture Store</title>
+						<meta name={'title'} content={`Zinfurn — Korea's Best Furniture Store`} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>

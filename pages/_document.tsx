@@ -10,17 +10,18 @@ export default function Document() {
 				
 
 				{/* SEO */}
-				<meta name="keywords" content={'zinfurn, zinfurn.uz, mebel, furniture, uzbekistan, divan, stol, stul, yotoqxona mebellar, oshxona mebellar'} />
+				<title>Zinfurn — Korea's Best Furniture Store | Seoul, South Korea</title>
+				<meta name="keywords" content={'zinfurn, zinfurn.uz, furniture korea, sofa, table, chair, bedroom furniture, kitchen furniture, seoul furniture, 가구, 소파, 침대, 식탁'} />
 				<meta
 					name={'description'}
 					content={
-						'Zinfurn — O\'zbekistondagi eng yaxshi mebel do\'koni. Divan, stol, stul, yotoqxona va oshxona mebellarini eng yaxshi narxlarda toping | ' +
-						'Zinfurn — лучший мебельный магазин в Узбекистане. Диваны, столы, стулья, мебель для спальни и кухни по лучшим ценам | ' +
-						'Zinfurn — Best furniture store in Uzbekistan. Find sofas, tables, chairs, bedroom and kitchen furniture at the best prices on zinfurn.uz'
+						'Zinfurn — Korea\'s best online furniture store. Shop sofas, tables, chairs, bedroom and kitchen furniture at the best prices. Fast delivery across Korea | ' +
+						'Zinfurn — 한국 최고의 가구 쇼핑몰. 소파, 테이블, 의자, 침실 및 주방 가구를 최저가로 만나보세요. 전국 빠른 배송 | ' +
+						'Zinfurn — 한국 최고의 온라인 가구 스토어 | zinfurn.uz'
 					}
 				/>
-				<meta property="og:title" content="Zinfurn — Mebel Do'koni" />
-				<meta property="og:description" content="O'zbekistondagi eng yaxshi mebel do'koni. Divan, stol, stul va boshqa mebellarni toping." />
+				<meta property="og:title" content="Zinfurn — Korea's Best Furniture Store" />
+				<meta property="og:description" content="Shop sofas, tables, chairs, bedroom and kitchen furniture at the best prices. Fast delivery across Korea." />
 				<meta property="og:type" content="website" />
 				<meta property="og:site_name" content="Zinfurn" />
 			</Head>
