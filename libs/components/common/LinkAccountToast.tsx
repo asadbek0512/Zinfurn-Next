@@ -55,14 +55,16 @@ const ToastContainer = styled(Box)(({ theme }) => ({
 		backgroundColor: 'rgba(0, 0, 0, 0.6)',
 	},
 	[theme.breakpoints.down('sm')]: {
-		width: '240px',
-		right: '12px',
-		top: '90px',
-		padding: '14px',
+		width: '200px',
+		right: '10px',
+		top: '68px',
+		padding: '10px 12px',
+		gap: '8px',
+		borderRadius: '10px',
 	},
 }));
 
-const IconBox = styled(Box)({
+const IconBox = styled(Box)(({ theme }) => ({
 	width: '32px',
 	height: '32px',
 	borderRadius: '6px',
@@ -76,7 +78,12 @@ const IconBox = styled(Box)({
 		height: '20px',
 		objectFit: 'contain',
 	},
-});
+	[theme.breakpoints.down('sm')]: {
+		width: '26px',
+		height: '26px',
+		'& img': { width: '16px', height: '16px' },
+	},
+}));
 
 const ContentBox = styled(Box)({
 	flex: 1,
@@ -85,18 +92,20 @@ const ContentBox = styled(Box)({
 	gap: '2px',
 });
 
-const MessageText = styled(Typography)({
+const MessageText = styled(Typography)(({ theme }) => ({
 	fontSize: '13px',
 	fontWeight: 600,
 	lineHeight: 1.2,
 	color: '#FFFFFF',
-});
+	[theme.breakpoints.down('sm')]: { fontSize: '11px' },
+}));
 
-const SubtextText = styled(Typography)({
+const SubtextText = styled(Typography)(({ theme }) => ({
 	fontSize: '11px',
 	color: 'rgba(255, 255, 255, 0.6)',
 	fontWeight: 400,
-});
+	[theme.breakpoints.down('sm')]: { fontSize: '10px' },
+}));
 
 const CloseButton = styled(Box)({
 	position: 'absolute',
