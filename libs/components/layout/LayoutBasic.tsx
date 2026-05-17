@@ -161,6 +161,7 @@ const withLayoutBasic = (Component: any) => {
 
 						<Chat />
 						<AiChat />
+						<LinkAccountToast />
 						<SalePromoModal />
 					</Stack>
 				</>

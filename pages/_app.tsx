@@ -10,7 +10,7 @@ import '../scss/app.scss';
 import '../scss/pc/main.scss';
 import '../scss/mobile/main.scss';
 import { useRouter } from 'next/router';
-import { setJwtToken, updateUserInfo } from '../libs/auth';
+import { setJwtToken, updateUserInfo, getJwtToken } from '../libs/auth';
 import CartDrawer from '../libs/components/cart/CartDrawer';
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
 
@@ -21,11 +21,15 @@ const App = ({ Component, pageProps }: AppProps) => {
 	const router = useRouter();
 
 	useEffect(() => {
+		const storedToken = getJwtToken();
+		if (storedToken) updateUserInfo(storedToken);
+	}, []);
+
+	useEffect(() => {
 		const { token } = router.query;
 		if (token && typeof token === 'string') {
 			setJwtToken(token);
 			updateUserInfo(token);
-			// Tokenni URLdan olib tashlab, bosh sahifaga yo'naltirish
 			router.replace('/');
 		}
 	}, [router.query]);
