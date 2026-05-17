@@ -548,7 +548,7 @@ const Top = () => {
 									disableRipple
 									className="btn-lang btn-currency"
 									onClick={handleCurrencyClick}
-									endIcon={<CaretDown size={12} color="rgba(255,255,255,0.7)" weight="fill" />}
+									endIcon={<CaretDown size={12} color={(colorChange || bgColor) ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.7)'} weight="fill" />}
 								>
 									<span className="currency-label">{CURRENCY_LABELS[currency]}</span>
 								</Button>
