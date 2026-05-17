@@ -5,10 +5,27 @@ import { CustomJwtPayload } from '../types/customJwtPayload';
 import { sweetMixinErrorAlert } from '../sweetAlert';
 import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
 
+const TOKEN_KEY = 'accessToken';
 let _inMemoryToken = '';
 
 export function getJwtToken(): string {
-	return _inMemoryToken;
+	if (_inMemoryToken) return _inMemoryToken;
+	if (typeof window !== 'undefined') {
+		const stored = localStorage.getItem(TOKEN_KEY);
+		if (stored) {
+			try {
+				const { exp } = decodeJWT<{ exp: number }>(stored);
+				if (exp * 1000 > Date.now()) {
+					_inMemoryToken = stored;
+					return stored;
+				}
+				localStorage.removeItem(TOKEN_KEY);
+			} catch {
+				localStorage.removeItem(TOKEN_KEY);
+			}
+		}
+	}
+	return '';
 }
 
 export function setJwtToken(token: string) {
@@ -137,6 +154,9 @@ const requestSignUpJwtToken = async ({
 
 export const updateStorage = ({ jwtToken }: { jwtToken: any }) => {
 	setJwtToken(jwtToken);
+	if (typeof window !== 'undefined') {
+		localStorage.setItem(TOKEN_KEY, jwtToken);
+	}
 };
 
 export const updateUserInfo = (jwtToken: any) => {
@@ -182,6 +202,9 @@ export const logOut = () => {
 
 const deleteStorage = () => {
 	_inMemoryToken = '';
+	if (typeof window !== 'undefined') {
+		localStorage.removeItem(TOKEN_KEY);
+	}
 };
 
 const deleteUserInfo = () => {
