@@ -21,11 +21,13 @@ import { REACT_APP_API_URL } from '../../config';
 import { GET_MY_ORDERS } from '../../../apollo/user/query';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
+import { useCurrency } from '../../context/CurrencyContext';
 
 const ACTIVE_STATUSES = [OrderStatus.PENDING, OrderStatus.PROCESSING, OrderStatus.SHIPPED, OrderStatus.DELIVERED];
 
 const CartDrawer = () => {
 	const { t } = useTranslation('common');
+	const { formatPrice } = useCurrency();
 	const open = useReactiveVar(cartDrawerVar);
 	const items = useReactiveVar(cartVar);
 	const user = useReactiveVar(userVar);
@@ -112,11 +114,11 @@ const CartDrawer = () => {
 											<Typography className="cart-item-title">{item.property.propertyTitle}</Typography>
 											{item.property.propertySalePrice ? (
 												<div className="cart-item-price-row">
-													<Typography className="cart-item-sale-price">${formatterStr(item.property.propertySalePrice)}</Typography>
-													<Typography className="cart-item-orig-price">${formatterStr(item.property.propertyPrice)}</Typography>
+													<Typography className="cart-item-sale-price">{formatPrice(item.property.propertySalePrice)}</Typography>
+													<Typography className="cart-item-orig-price">{formatPrice(item.property.propertyPrice)}</Typography>
 												</div>
 											) : (
-												<Typography className="cart-item-price">${formatterStr(item.property.propertyPrice)}</Typography>
+												<Typography className="cart-item-price">{formatPrice(item.property.propertyPrice)}</Typography>
 											)}
 											<div className="cart-item-controls">
 												<div className="cart-qty-box">
@@ -145,7 +147,7 @@ const CartDrawer = () => {
 												</IconButton>
 											</div>
 											<Typography className="cart-item-subtotal">
-												{t('Subtotal')}: ${formatterStr(price * item.quantity)}
+												{t('Subtotal')}: {formatPrice(price * item.quantity)}
 											</Typography>
 										</div>
 									</div>
@@ -177,7 +179,7 @@ const CartDrawer = () => {
 						<Divider />
 						<div className="cart-footer-total">
 							<Typography className="cart-total-label">{t('Total')}</Typography>
-							<Typography className="cart-total-val">${formatterStr(total)}</Typography>
+							<Typography className="cart-total-val">{formatPrice(total)}</Typography>
 						</div>
 						<Typography className="cart-footer-note">
 							{t('Shipping & taxes calculated at checkout')}

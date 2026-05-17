@@ -81,11 +81,11 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 						<Box className="mob-big-card-price" component="div">
 							{property.propertySalePrice ? (
 								<>
-									<Typography className="mob-big-card-sale-price">${formatterStr(property.propertySalePrice)}</Typography>
-									<Typography className="mob-big-card-orig-price">${formatterStr(property.propertyPrice)}</Typography>
+									<Typography className="mob-big-card-sale-price">{formatPrice(property.propertySalePrice)}</Typography>
+									<Typography className="mob-big-card-orig-price">{formatPrice(property.propertyPrice)}</Typography>
 								</>
 							) : (
-								<Typography className="mob-big-card-sale-price">${formatterStr(property.propertyPrice)}</Typography>
+								<Typography className="mob-big-card-sale-price">{formatPrice(property.propertyPrice)}</Typography>
 							)}
 						</Box>
 						<IconButton

@@ -20,6 +20,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
+import { useCurrency } from '../libs/context/CurrencyContext';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -39,6 +40,7 @@ const formatExpiry = (val: string) => {
 
 const Checkout: NextPage = () => {
 	const { t } = useTranslation('common');
+	const { formatPrice } = useCurrency();
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const items = useReactiveVar(cartVar);
@@ -149,15 +151,15 @@ const Checkout: NextPage = () => {
 							<span className="co-sum-qty">{item.quantity}</span>
 						</div>
 						<span className="co-sum-name">{item.property.propertyTitle}</span>
-						<span className="co-sum-price">${formatterStr(price * item.quantity)}</span>
+						<span className="co-sum-price">{formatPrice(price * item.quantity)}</span>
 					</div>
 				);
 			})}
 			<Divider sx={{ my: 1.5 }} />
-			<div className="co-sum-row"><span>{t('Subtotal')}</span><span>${formatterStr(total)}</span></div>
+			<div className="co-sum-row"><span>{t('Subtotal')}</span><span>{formatPrice(total)}</span></div>
 			<div className="co-sum-row"><span>{t('Shipping')}</span><span className="co-free">{t('Free')}</span></div>
 			<Divider sx={{ my: 1 }} />
-			<div className="co-sum-row co-sum-total"><span>{t('Total')}</span><span>${formatterStr(total)}</span></div>
+			<div className="co-sum-row co-sum-total"><span>{t('Total')}</span><span>{formatPrice(total)}</span></div>
 		</div>
 	);
 
@@ -271,7 +273,7 @@ const Checkout: NextPage = () => {
 					[t('Delivery to'), `${address}${city ? `, ${city}` : ''}`],
 					[t('Contact'), phone],
 					[t('Estimated delivery'), `3–5 ${t('business days')}`],
-					[t('Total paid'), `$${formatterStr(savedTotal.current)}`],
+					[t('Total paid'), formatPrice(savedTotal.current)],
 				].map(([label, val]) => (
 					<div className="co-confirm-row" key={label}>
 						<span className="co-confirm-lbl">{label}</span>
@@ -314,7 +316,7 @@ const Checkout: NextPage = () => {
 
 				{step < 2 && (
 					<button className="co-mob-sum-toggle" onClick={() => setSummaryOpen(o => !o)}>
-						<span>{t('Order Summary')} · <b>${formatterStr(total)}</b></span>
+						<span>{t('Order Summary')} · <b>{formatPrice(total)}</b></span>
 						{summaryOpen ? <KeyboardArrowUpIcon sx={{ fontSize: 18 }} /> : <KeyboardArrowDownIcon sx={{ fontSize: 18 }} />}
 					</button>
 				)}

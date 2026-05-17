@@ -21,6 +21,7 @@ import { CONFIRM_DELIVERY } from '../../apollo/user/mutation';
 import { Order } from '../../libs/types/order/order';
 import { OrderStatus } from '../../libs/enums/order.enum';
 import { formatterStr } from '../../libs/utils';
+import { useCurrency } from '../../libs/context/CurrencyContext';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -46,6 +47,7 @@ const STEP_INDEX: Partial<Record<OrderStatus, number>> = {
 
 const OrderTracking: NextPage = () => {
 	const { t } = useTranslation('common');
+	const { formatPrice } = useCurrency();
 	const router = useRouter();
 	useDeviceDetect();
 	const orderId = (router.query.id as string) || '';
@@ -240,7 +242,7 @@ const OrderTracking: NextPage = () => {
 								<div className="tracking-detail-row">
 									<Typography className="tracking-detail-label">{t('Total paid')}</Typography>
 									<Typography className="tracking-detail-val" style={{ color: '#cf6422', fontWeight: 700 }}>
-										${formatterStr(order.orderTotal)}
+										{formatPrice(order.orderTotal)}
 									</Typography>
 								</div>
 							)}
@@ -262,7 +264,7 @@ const OrderTracking: NextPage = () => {
 								{order.orderItems.map((item, i) => (
 									<div key={i} className="tracking-item-row">
 										<Typography className="tracking-item-title">{item.propertyTitle}</Typography>
-										<Typography className="tracking-item-info">×{item.quantity} · ${formatterStr(item.propertyPrice)}</Typography>
+										<Typography className="tracking-item-info">×{item.quantity} · {formatPrice(item.propertyPrice)}</Typography>
 									</div>
 								))}
 							</div>
