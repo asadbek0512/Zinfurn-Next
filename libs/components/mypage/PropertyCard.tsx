@@ -10,6 +10,7 @@ import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import { PropertyStatus } from '../../enums/property.enum';
 import { useTranslation } from 'next-i18next';
+import { useCurrency } from '../../context/CurrencyContext';
 
 interface PropertyCardProps {
   property: Property;
@@ -20,6 +21,7 @@ interface PropertyCardProps {
 
 export const PropertyCard = (props: PropertyCardProps) => {
   const { t } = useTranslation('common');
+  const { formatPrice } = useCurrency();
   const { property, deletePropertyHandler, memberPage, updatePropertyHandler } = props;
   const device = useDeviceDetect();
   const router = useRouter();
@@ -94,7 +96,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
           <Typography className="name">{property.propertyTitle}</Typography>
           <Typography className="address">{property.propertyAddress}</Typography>
           <Typography className="price">
-            <strong>${formatterStr(property?.propertyPrice)}</strong>
+            <strong>{formatPrice(property?.propertyPrice)}</strong>
           </Typography>
         </Stack>
         <Stack className="date-box">

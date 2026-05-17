@@ -11,9 +11,11 @@ import { useQuery } from '@apollo/client';
 import { REACT_APP_API_URL } from '../../config';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { useTranslation } from 'next-i18next';
+import { useCurrency } from '../../context/CurrencyContext';
 
 const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const { t } = useTranslation('common');
+	const { formatPrice } = useCurrency();
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const { memberId } = router.query;
@@ -76,7 +78,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 									<div className="mob-mem-prop-img">
 										<img src={imgSrc} alt="" />
 										{property.propertyPrice && (
-											<div className="mob-mem-prop-price">${property.propertyPrice.toLocaleString()}</div>
+											<div className="mob-mem-prop-price">{formatPrice(property.propertyPrice)}</div>
 										)}
 									</div>
 									<div className="mob-mem-prop-body">

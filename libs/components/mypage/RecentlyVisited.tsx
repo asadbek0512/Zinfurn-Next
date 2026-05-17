@@ -12,6 +12,7 @@ import { Messages, REACT_APP_API_URL } from '../../config';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { useTranslation } from 'next-i18next';
+import { useCurrency } from '../../context/CurrencyContext';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useRouter } from 'next/router';
@@ -19,6 +20,7 @@ import { userVar } from '../../../apollo/store';
 
 const RecentlyVisited: NextPage = () => {
   const { t } = useTranslation('common');
+  const { formatPrice } = useCurrency();
   const device = useDeviceDetect();
   const router = useRouter();
   const user = useReactiveVar(userVar);
@@ -91,7 +93,7 @@ const RecentlyVisited: NextPage = () => {
                   <div className="mob-fav-card-img-wrap">
                     <img src={imgSrc} alt="" />
                     {property.propertyPrice && (
-                      <div className="mob-fav-badge">${property.propertyPrice.toLocaleString()}</div>
+                      <div className="mob-fav-badge">{formatPrice(property.propertyPrice)}</div>
                     )}
                     <div
                       className="mob-fav-like-btn"

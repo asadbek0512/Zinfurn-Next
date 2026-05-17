@@ -13,6 +13,7 @@ import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useTranslation } from 'next-i18next';
+import { useCurrency } from '../../context/CurrencyContext';
 import { addToCart } from '../../utils/cartUtils';
 import { flyToCart } from '../../utils/flyToCart';
 
@@ -28,6 +29,7 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
 	const { t } = useTranslation('common');
+	const { formatPrice } = useCurrency();
 	const [addedFlash, setAddedFlash] = useState(false);
 
 	const imagePath = property?.propertyImages?.[0]
@@ -136,11 +138,11 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 						<Box className="price-container" component="div">
 							{property.propertySalePrice ? (
 								<>
-									<Typography className="original-price">${property.propertyPrice}</Typography>
-									<Typography className="discounted-price">${property.propertySalePrice}</Typography>
+									<Typography className="original-price">{formatPrice(property.propertyPrice)}</Typography>
+									<Typography className="discounted-price">{formatPrice(property.propertySalePrice)}</Typography>
 								</>
 							) : (
-								<Typography className="discounted-price">${property.propertyPrice}</Typography>
+								<Typography className="discounted-price">{formatPrice(property.propertyPrice)}</Typography>
 							)}
 						</Box>
 

@@ -58,6 +58,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import TrendPropertyCard from '../../libs/components/homepage/TrendPropertyCard';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import { useTranslation } from 'next-i18next';
+import { useCurrency } from '../../libs/context/CurrencyContext';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -82,6 +83,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [quantity, setQuantity] = useState(1);
 	const [tabIndex, setTabIndex] = useState(0);
 	const { t } = useTranslation('common');
+	const { formatPrice } = useCurrency();
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
 		commentGroup: CommentGroup.PROPERTY,
 		commentContent: '',
@@ -390,10 +392,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					{/* Narx */}
 					<div className="mob-det-price">
 						<span className="mob-det-cur-price">
-							${formatterStr(property?.propertySalePrice || property?.propertyPrice)}
+							{formatPrice(property?.propertySalePrice || property?.propertyPrice)}
 						</span>
 						{property?.propertySalePrice && (
-							<span className="mob-det-old-price">${formatterStr(property?.propertyPrice)}</span>
+							<span className="mob-det-old-price">{formatPrice(property?.propertyPrice)}</span>
 						)}
 						{property?.propertySalePrice && (
 							<span className="mob-det-sale-badge">
@@ -488,7 +490,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</div>
 								{[
 									[t('category'), t(property?.propertyCategory || '')],
-									[t('price'), `$${formatterStr(property?.propertyPrice)}`],
+									[t('price'), `${formatPrice(property?.propertyPrice)}`],
 									[t('condition'), property?.propertyCondition],
 								].map(([label, value], i) => (
 									<div key={i} className={`mob-det-table-row ${i % 2 === 1 ? 'alt' : ''}`}>
@@ -727,10 +729,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 									<Stack className="priceRow">
 										<Typography className="currentPrice">
-											${property?.propertySalePrice || property?.propertyPrice}
+											{formatPrice(property?.propertySalePrice || property?.propertyPrice)}
 										</Typography>
 										{property?.propertySalePrice && (
-											<Typography className="originalPrice">${property?.propertyPrice}</Typography>
+											<Typography className="originalPrice">{formatPrice(property?.propertyPrice)}</Typography>
 										)}
 									</Stack>
 
@@ -930,14 +932,14 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 													<Box component="div" className="detail-row alternate">
 														<span className="detail-label">{t('price')}</span>
-														<span className="detail-value">${formatterStr(property?.propertyPrice)}</span>
+														<span className="detail-value">{formatPrice(property?.propertyPrice)}</span>
 													</Box>
 
 													{property?.propertyIsOnSale && (
 														<>
 															<Box component="div" className="detail-row">
 																<span className="detail-label">{t('sale_price')}</span>
-																<span className="detail-value">${formatterStr(property?.propertySalePrice)}</span>
+																<span className="detail-value">{formatPrice(property?.propertySalePrice)}</span>
 															</Box>
 
 															<Box component="div" className="detail-row alternate">

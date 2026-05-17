@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { useCurrency } from '../../context/CurrencyContext';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
@@ -22,6 +23,7 @@ const SalePromoModal = () => {
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
 	const { t } = useTranslation('common');
+	const { formatPrice } = useCurrency();
 	const [visible, setVisible] = useState(false);
 	const [dontShow, setDontShow] = useState(false);
 	const [currentProp, setCurrentProp] = useState<Property | null>(null);
@@ -154,8 +156,8 @@ const SalePromoModal = () => {
 				<div className="spm-info" onClick={goDetail}>
 					<p className="spm-title">{prop.propertyTitle}</p>
 					<div className="spm-price-row">
-						<span className="spm-sale-price">${prop.propertySalePrice?.toLocaleString()}</span>
-						<span className="spm-orig-price">${prop.propertyPrice.toLocaleString()}</span>
+						<span className="spm-sale-price">{formatPrice(prop.propertySalePrice)}</span>
+						<span className="spm-orig-price">{formatPrice(prop.propertyPrice)}</span>
 						{discount > 0 && <span className="spm-save-txt">Save {discount}%</span>}
 					</div>
 

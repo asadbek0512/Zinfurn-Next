@@ -66,7 +66,6 @@ body::-webkit-scrollbar {
 				display: flex;
 				flex-direction: row;
 				box-sizing: border-box;
-				// background-color: #f8f7f4;
 				z-index: 99;
 				align-items: center;
 				border-top: 1px solid rgba(255, 255, 255, 0.07);
@@ -79,24 +78,27 @@ body::-webkit-scrollbar {
 					.router-box div,
 					.join-box span,
 					.join-box svg,
-					.notification-icon {
-						color: #3c3c3c !important;
-					}
+					.notification-icon { color: #3c3c3c !important; }
 
 					.join-box {
-						border-color: #c0bfbf;
+						border-color: rgba(0, 0, 0, 0.3) !important;
 						span { color: #3c3c3c !important; }
+						svg { color: #3c3c3c !important; }
 					}
 
-					.login-user img {
-						box-shadow: 0 0 0 2px #cf6422;
+					.lan-box .btn-currency {
+						border-color: rgba(0, 0, 0, 0.25) !important;
+						.currency-label { color: #3c3c3c !important; }
 					}
+
+					.login-user img { border-color: rgba(0,0,0,0.2); }
 				}
 
 				.container {
 					flex-direction: row;
 					align-items: center;
 					justify-content: space-between;
+					gap: 24px;
 					padding: 20px 40px 20px 32px;
 
 					.logo-box {
@@ -105,7 +107,6 @@ body::-webkit-scrollbar {
 
 						img {
 							width: auto;
-							margin-top: -30px;
 							height: 80px;
 							padding-left: 80px;
 							padding-right: 80px;
@@ -137,13 +138,13 @@ body::-webkit-scrollbar {
 					}
 
 					.router-box {
-						padding-top: 30px;
 						margin-left: 30px;
 						position: relative;
 						width: auto;
 						gap: 28px;
 						display: flex;
 						flex-direction: row;
+						align-items: center;
 						justify-content: space-between;
 
 						// Korean tili uchun margin kichraytirish
@@ -201,14 +202,24 @@ body::-webkit-scrollbar {
 						display: flex;
 						align-items: center;
 						gap: 14px;
+						flex-shrink: 0;
 
-						.notification-icon {
-							color: #fff;
-						}
+						.notification-icon { color: #fff; }
 
-						.cart-nav-btn {
-							color: #fff;
-							padding: 6px;
+						.cart-nav-btn { color: #fff; padding: 6px; }
+
+						.login-user {
+							cursor: pointer;
+							img {
+								width: 36px;
+								height: 36px;
+								border-radius: 50%;
+								object-fit: cover;
+								border: 2px solid rgba(255,255,255,0.4);
+								display: block;
+								transition: border-color 0.2s;
+								&:hover { border-color: #cf6422; }
+							}
 						}
 
 						.join-box {
@@ -216,11 +227,10 @@ body::-webkit-scrollbar {
 							padding: 0 18px;
 							display: flex;
 							align-items: center;
-							justify-content: center;
+							gap: 8px;
 							border-radius: 60px;
 							border: 1px solid rgba(255,255,255,0.55);
 							cursor: pointer;
-							gap: 8px;
 							white-space: nowrap;
 
 							svg { color: rgba(255,255,255,0.85); font-size: 18px; }
@@ -231,31 +241,33 @@ body::-webkit-scrollbar {
 								color: #fff;
 							}
 						}
-
-						.login-user {
-							cursor: pointer;
-							img {
-								width: 36px;
-								height: 36px;
-								border-radius: 50%;
-								object-fit: cover;
-								border: 2px solid rgba(255,255,255,0.35);
-								transition: border-color 0.2s;
-								&:hover { border-color: #cf6422; }
-							}
-						}
 					}
 
 					.lan-box {
 						display: flex;
 						align-items: center;
-						gap: 10px;
+						gap: 6px;
 
 						.notification-icon { color: #fff; }
 
 						.btn-lang {
 							min-width: unset;
-							padding: 4px 4px;
+							padding: 4px 6px;
+						}
+
+						.btn-currency {
+							min-width: unset;
+							padding: 4px 10px;
+							border-radius: 20px;
+							border: 1px solid rgba(255,255,255,0.25);
+							transition: background 0.2s;
+							&:hover { background: rgba(255,255,255,0.12); }
+
+							.currency-label {
+								font-size: 13px;
+								font-weight: 600;
+								color: #fff;
+							}
 						}
 
 						.btn-lang img,
@@ -749,7 +761,7 @@ body::-webkit-scrollbar {
 		.chat-button {
 			border: none;
 			position: fixed;
-			// bottom: 160px;
+			bottom: 155px;
 			right: 30px;
 			height: 50px;
 			width: 50px;
@@ -896,7 +908,7 @@ body::-webkit-scrollbar {
 		.ai-chat-button {
 			border: none;
 			position: fixed;
-			// bottom: 380px;
+			bottom: 220px;
 			right: 30px;
 			height: 50px;
 			width: 50px;

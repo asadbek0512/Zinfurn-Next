@@ -30,6 +30,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 import { getCartCount } from '../utils/cartUtils';
+import { useCurrency, Currency } from '../context/CurrencyContext';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -53,6 +54,15 @@ const Top = () => {
 	const notificationOpen = Boolean(notificationAnchor);
 	const [isTransparent, setIsTransparent] = useState(false);
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	const { currency, setCurrency } = useCurrency();
+	const [currencyAnchor, setCurrencyAnchor] = React.useState<null | HTMLElement>(null);
+	const currencyOpen = Boolean(currencyAnchor);
+
+	const CURRENCY_LABELS: Record<Currency, string> = { USD: '$', KRW: '₩', UZS: "so'm" };
+
+	const handleCurrencyClick = (e: React.MouseEvent<HTMLElement>) => setCurrencyAnchor(e.currentTarget);
+	const handleCurrencyClose = () => setCurrencyAnchor(null);
+	const handleCurrencySelect = (c: Currency) => { setCurrency(c); handleCurrencyClose(); };
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -425,36 +435,36 @@ const Top = () => {
 								i18n.language === 'ru' ? 'russian-lang' : ''
 							} ${i18n.language === 'ar' ? 'arabic-lang' : ''} ${i18n.language === 'uz' ? 'uzbek-lang' : ''}`}
 						>
-							<Link href={'/'}>
+							<Link href={'/'} prefetch={false}>
 								<div>{t('Home')}</div>
 							</Link>
-							<Link href={'/property'}>
+							<Link href={'/property'} prefetch={false}>
 								<div>{t('Properties')}</div>
 							</Link>
-							<Link href={'/agent'}>
+							<Link href={'/agent'} prefetch={false}>
 								<div>{t('Agents')}</div>
 							</Link>
 
-							<Link href={'/repairService'}>
+							<Link href={'/repairService'} prefetch={false}>
 								<div>{t('Service')}</div>
 							</Link>
 
-							<Link href="/" className={`logo-box ${isTransparent ? 'transparent' : ''}`}>
+							<Link href="/" className={`logo-box ${isTransparent ? 'transparent' : ''}`} prefetch={false}>
 								<img src="/img/logo/12.png" alt="Logo 11" className="logo11" />
 								<img src="/img/logo/11.png" alt="Logo 12" className="logo111" />
 							</Link>
 
-							<Link href={'/community?articleCategory=FREE'}>
+							<Link href={'/community?articleCategory=FREE'} prefetch={false}>
 								<div>{t('Community')}</div>
 							</Link>
 
 							{user?._id && (
-								<Link href={'/mypage'}>
+								<Link href={'/mypage'} prefetch={false}>
 									<div>{t('My Page')}</div>
 								</Link>
 							)}
 
-							<Link href={'/cs'}>
+							<Link href={'/cs'} prefetch={false}>
 								<div>{t('CS')}</div>
 							</Link>
 						</Box>
@@ -470,44 +480,37 @@ const Top = () => {
 														: `${REACT_APP_API_URL}/${user.memberImage}`
 													: '/img/profile/defaultUser.svg'
 											}
-											alt=""
+											alt="avatar"
 										/>
 									</div>
-
 									<Menu
-										id="basic-menu"
 										anchorEl={logoutAnchor}
 										open={logoutOpen}
 										onClose={() => setLogoutAnchor(null)}
 										sx={{ mt: '5px' }}
 									>
 										<MenuItem onClick={() => logOut()}>
-											<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
+											<Logout fontSize="small" style={{ color: '#555', marginRight: '10px' }} />
 											{t('Logout')}
 										</MenuItem>
 									</Menu>
 								</>
 							) : (
-								<Link href={'/account/join'}>
+								<Link href={'/account/join'} prefetch={false}>
 									<div className={'join-box'}>
 										<AccountCircleOutlinedIcon />
-										<span>
-											{t('Login')} / {t('Register')}
-										</span>
+										<span>{t('Login')} / {t('Register')}</span>
 									</div>
 								</Link>
 							)}
 
 							<div className={'lan-box'}>
-								<IconButton
-									onClick={() => cartDrawerVar(true)}
-									size="small"
-									className="cart-nav-btn"
-								>
+								<IconButton onClick={() => cartDrawerVar(true)} size="small" className="cart-nav-btn">
 									<Badge badgeContent={cartCount} max={99} sx={{ '& .MuiBadge-badge': { backgroundColor: '#cf6422', color: '#fff', fontSize: '10px', minWidth: '16px', height: '16px' } }}>
 										<ShoppingCartOutlinedIcon className={'notification-icon'} sx={{ fontSize: 18 }} />
 									</Badge>
 								</IconButton>
+
 								{user?._id && (
 									<>
 										<IconButton onClick={handleNotificationClick} size="small">
@@ -523,6 +526,24 @@ const Top = () => {
 										/>
 									</>
 								)}
+
+								<Button
+									disableRipple
+									className="btn-lang btn-currency"
+									onClick={handleCurrencyClick}
+									endIcon={<CaretDown size={12} color="rgba(255,255,255,0.7)" weight="fill" />}
+								>
+									<span className="currency-label">{CURRENCY_LABELS[currency]}</span>
+								</Button>
+								<StyledMenu anchorEl={currencyAnchor} open={currencyOpen} onClose={handleCurrencyClose}>
+									{(['USD', 'KRW', 'UZS'] as Currency[]).map((c) => (
+										<MenuItem key={c} disableRipple selected={currency === c} onClick={() => handleCurrencySelect(c)}
+											sx={{ fontWeight: currency === c ? 700 : 400, color: currency === c ? '#cf6422' : 'inherit' }}>
+											<span style={{ marginRight: 8 }}>{CURRENCY_LABELS[c]}</span>{c}
+										</MenuItem>
+									))}
+								</StyledMenu>
+
 								<Button
 									disableRipple
 									className="btn-lang"
@@ -530,64 +551,22 @@ const Top = () => {
 									endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
 								>
 									<Box component={'div'} className={'flag'}>
-										{lang !== null ? (
-											<img src={`/img/flag/lang${lang}.png`} alt={'flagIcon'} />
-										) : (
-											<img src={`/img/flag/langen.png`} alt={'flagIcon'} />
-										)}
+										<img src={lang ? `/img/flag/lang${lang}.png` : '/img/flag/langen.png'} alt="flag" />
 									</Box>
 								</Button>
-								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
-									<MenuItem disableRipple onClick={langChoice} id="en">
-										<img
-											className="img-flag"
-											src={'/img/flag/langen.png'}
-											onClick={langChoice}
-											id="en"
-											alt={'englishFlag'}
-										/>
-										{t('English')}
-									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="kr">
-										<img
-											className="img-flag"
-											src={'/img/flag/langkr.png'}
-											onClick={langChoice}
-											id="kr"
-											alt={'koreanFlag'}
-										/>
-										{t('Korean')}
-									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="ru">
-										<img
-											className="img-flag"
-											src={'/img/flag/langru.png'}
-											onClick={langChoice}
-											id="ru"
-											alt={'russianFlag'}
-										/>
-										{t('Russian')}
-									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="ar">
-										<img
-											className="img-flag"
-											src={'/img/flag/langar.png'}
-											onClick={langChoice}
-											id="ar"
-											alt={'arabicFlag'}
-										/>
-										{t('Arabic')}
-									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="uz">
-										<img
-											className="img-flag"
-											src={'/img/flag/languz.png'}
-											onClick={langChoice}
-											id="uz"
-											alt={'uzbekFlag'}
-										/>
-										{t('Uzbek')}
-									</MenuItem>
+								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose}>
+									{[
+										{ id: 'en', src: '/img/flag/langen.png', label: t('English') },
+										{ id: 'kr', src: '/img/flag/langkr.png', label: t('Korean') },
+										{ id: 'ru', src: '/img/flag/langru.png', label: t('Russian') },
+										{ id: 'ar', src: '/img/flag/langar.png', label: t('Arabic') },
+										{ id: 'uz', src: '/img/flag/languz.png', label: t('Uzbek') },
+									].map((l) => (
+										<MenuItem key={l.id} disableRipple onClick={langChoice} id={l.id}>
+											<img className="img-flag" src={l.src} id={l.id} alt={l.id} />
+											{l.label}
+										</MenuItem>
+									))}
 								</StyledMenu>
 							</div>
 						</Box>

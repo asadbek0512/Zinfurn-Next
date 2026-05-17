@@ -12,6 +12,7 @@ import '../scss/mobile/main.scss';
 import { useRouter } from 'next/router';
 import { setJwtToken, updateUserInfo } from '../libs/auth';
 import CartDrawer from '../libs/components/cart/CartDrawer';
+import { CurrencyProvider } from '../libs/context/CurrencyContext';
 
 const App = ({ Component, pageProps }: AppProps) => {
 	// @ts-ignore
@@ -33,8 +34,10 @@ const App = ({ Component, pageProps }: AppProps) => {
 		<ApolloProvider client={client}>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<Component {...pageProps} />
-				<CartDrawer />
+				<CurrencyProvider>
+					<Component {...pageProps} />
+					<CartDrawer />
+				</CurrencyProvider>
 			</ThemeProvider>
 		</ApolloProvider>
 	);

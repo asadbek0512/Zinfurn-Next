@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 const securityHeaders = [
 	{
 		key: 'X-Frame-Options',
@@ -24,8 +26,12 @@ const securityHeaders = [
 			"script-src 'self' 'unsafe-eval' 'unsafe-inline'",
 			"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
 			"font-src 'self' data: https://fonts.gstatic.com",
-			"img-src 'self' data: blob: https:",
-			"connect-src 'self' https: wss: ws:",
+			isDev
+			? "img-src 'self' data: blob: https: http://localhost:*"
+			: "img-src 'self' data: blob: https:",
+			isDev
+			? "connect-src 'self' https: http://localhost:* ws://localhost:* wss: ws:"
+			: "connect-src 'self' https: wss: ws:",
 			"media-src 'self' blob:",
 			"frame-src 'none'",
 			"object-src 'none'",
@@ -38,6 +44,9 @@ const nextConfig = {
 	reactStrictMode: true,
 	compiler: {
 		removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
+	},
+	experimental: {
+		optimizePackageImports: ['@mui/material', '@mui/icons-material', '@mui/lab'],
 	},
 	env: {
 		REACT_APP_API_URL: process.env.REACT_APP_API_URL,

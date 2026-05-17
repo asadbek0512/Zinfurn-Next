@@ -21,6 +21,7 @@ import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { useCurrency } from '../../context/CurrencyContext';
 
 interface TrendPropertiesProps {
 	initialInput: PropertiesInquiry;
@@ -32,6 +33,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 	const { t } = useTranslation('common');
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	const { formatPrice } = useCurrency();
 
 	const [trendProperties, setTrendProperties] = useState<Property[]>([]);
 
@@ -127,11 +129,11 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 												<div>
 													{property.propertySalePrice ? (
 														<>
-															<span style={{ fontSize: '11px', color: '#aaa', textDecoration: 'line-through', marginRight: '4px' }}>${property.propertyPrice}</span>
-															<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>${property.propertySalePrice}</span>
+															<span style={{ fontSize: '11px', color: '#aaa', textDecoration: 'line-through', marginRight: '4px' }}>{formatPrice(property.propertyPrice)}</span>
+															<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>{formatPrice(property.propertySalePrice)}</span>
 														</>
 													) : (
-														<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>${property.propertyPrice}</span>
+														<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>{formatPrice(property.propertyPrice)}</span>
 													)}
 												</div>
 												<div

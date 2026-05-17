@@ -22,6 +22,7 @@ import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useTranslation } from 'next-i18next';
+import { useCurrency } from '../../context/CurrencyContext';
 
 interface ProductsCollectionProps {
 	latestInput: PropertiesInquiry;
@@ -40,6 +41,7 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 	const [isHovered, setIsHovered] = useState(false);
 	const [addedFlash, setAddedFlash] = useState(false);
 	const { t } = useTranslation('common');
+	const { formatPrice } = useCurrency();
 
 	const imagePath = property?.propertyImages?.[0]
 		? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
@@ -120,11 +122,11 @@ const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
 					<Box component="div" className="price-container">
 						{property.propertySalePrice ? (
 							<>
-								<Typography className="original-price">${property.propertyPrice}</Typography>
-								<Typography className="discounted-price">${property.propertySalePrice}</Typography>
+								<Typography className="original-price">{formatPrice(property.propertyPrice)}</Typography>
+								<Typography className="discounted-price">{formatPrice(property.propertySalePrice)}</Typography>
 							</>
 						) : (
-							<Typography className="discounted-price">${property.propertyPrice}</Typography>
+							<Typography className="discounted-price">{formatPrice(property.propertyPrice)}</Typography>
 						)}
 					</Box>
 					<Box component="div" className="likes-container">
@@ -158,6 +160,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 
 	const user = useReactiveVar(userVar);
 	const { t } = useTranslation('common');
+	const { formatPrice } = useCurrency();
 
 	const getCurrentInput = () => {
 		switch (activeTab) {
@@ -273,11 +276,11 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 											<div>
 												{property.propertySalePrice ? (
 													<>
-														<span style={{ fontSize: '11px', color: '#aaa', textDecoration: 'line-through', marginRight: '4px' }}>${property.propertyPrice}</span>
-														<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>${property.propertySalePrice}</span>
+														<span style={{ fontSize: '11px', color: '#aaa', textDecoration: 'line-through', marginRight: '4px' }}>{formatPrice(property.propertyPrice)}</span>
+														<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>{formatPrice(property.propertySalePrice)}</span>
 													</>
 												) : (
-													<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>${property.propertyPrice}</span>
+													<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>{formatPrice(property.propertyPrice)}</span>
 												)}
 											</div>
 											<div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}

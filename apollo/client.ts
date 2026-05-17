@@ -95,7 +95,8 @@ function createIsomorphicLink() {
 			if (graphQLErrors) {
 				graphQLErrors.map(({ message, locations, path, extensions }) => {
 					console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
-					if (!message.includes('input')) sweetErrorAlert(message);
+					const isAuthError = message.includes('Token') || message.includes('Unauthorized') || message.includes('Forbidden') || message.includes('not provided');
+					if (!message.includes('input') && !isAuthError) sweetErrorAlert(message);
 				});
 			}
 			if (networkError) console.log(`[Network error]: ${networkError}`);

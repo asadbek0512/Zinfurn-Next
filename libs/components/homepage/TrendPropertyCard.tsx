@@ -12,6 +12,7 @@ import { userVar } from '../../../apollo/store';
 import { useTranslation } from 'next-i18next';
 import { addToCart } from '../../utils/cartUtils';
 import { flyToCart } from '../../utils/flyToCart';
+import { useCurrency } from '../../context/CurrencyContext';
 
 interface TrendPropertyCardProps {
 	property: Property;
@@ -26,6 +27,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 	const [isHovered, setIsHovered] = useState(false);
 	const [addedFlash, setAddedFlash] = useState(false);
 	const { t } = useTranslation('common');
+	const { formatPrice } = useCurrency();
 
 	const imagePath = property?.propertyImages?.[0]
 		? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
@@ -106,11 +108,11 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 					<Box className="price-container" component="div">
 						{property.propertySalePrice ? (
 							<>
-								<Typography className="original-price">${property.propertyPrice}</Typography>
-								<Typography className="discounted-price">${property.propertySalePrice}</Typography>
+								<Typography className="original-price">{formatPrice(property.propertyPrice)}</Typography>
+								<Typography className="discounted-price">{formatPrice(property.propertySalePrice)}</Typography>
 							</>
 						) : (
-							<Typography className="discounted-price">${property.propertyPrice}</Typography>
+							<Typography className="discounted-price">{formatPrice(property.propertyPrice)}</Typography>
 						)}
 					</Box>
 

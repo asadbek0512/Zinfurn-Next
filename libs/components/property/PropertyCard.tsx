@@ -17,6 +17,7 @@ import { addToCart } from '../../utils/cartUtils';
 import { flyToCart } from '../../utils/flyToCart';
 import { Property } from '../../types/property/property';
 import { useTranslation } from 'next-i18next';
+import { useCurrency } from '../../context/CurrencyContext';
 
 interface PropertyCardProps {
 	property: Property;
@@ -30,6 +31,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const { t } = useTranslation('common');
+	const { formatPrice } = useCurrency();
 	const imagePath: string = property?.propertyImages?.[0]
 		? `${REACT_APP_API_URL}/${property?.propertyImages?.[0]}`
 		: '/img/banner/header1.svg';
@@ -93,11 +95,11 @@ const PropertyCard = (props: PropertyCardProps) => {
 					<Stack className="mob-card-price">
 						{discountPercent > 0 ? (
 							<>
-								<Typography className="mob-new-price">${formatterStr(property?.propertySalePrice)}</Typography>
-								<Typography className="mob-old-price">${formatterStr(property?.propertyPrice)}</Typography>
+								<Typography className="mob-new-price">{formatPrice(property?.propertySalePrice)}</Typography>
+								<Typography className="mob-old-price">{formatPrice(property?.propertyPrice)}</Typography>
 							</>
 						) : (
-							<Typography className="mob-cur-price">${formatterStr(property?.propertyPrice)}</Typography>
+							<Typography className="mob-cur-price">{formatPrice(property?.propertyPrice)}</Typography>
 						)}
 					</Stack>
 
@@ -178,11 +180,11 @@ const PropertyCard = (props: PropertyCardProps) => {
 				<Stack className="price-section">
 					{discountPercent > 0 ? (
 						<Box component="div" className="price-container">
-							<Typography className="old-price">${formatterStr(property?.propertyPrice)}</Typography>
-							<Typography className="new-price">${formatterStr(property?.propertySalePrice)}</Typography>
+							<Typography className="old-price">{formatPrice(property?.propertyPrice)}</Typography>
+							<Typography className="new-price">{formatPrice(property?.propertySalePrice)}</Typography>
 						</Box>
 					) : (
-						<Typography className="current-price">${formatterStr(property?.propertyPrice)}</Typography>
+						<Typography className="current-price">{formatPrice(property?.propertyPrice)}</Typography>
 					)}
 				</Stack>
 
