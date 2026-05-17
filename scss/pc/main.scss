@@ -140,29 +140,21 @@ body::-webkit-scrollbar {
 					.router-box {
 						margin-left: 30px;
 						position: relative;
-						width: auto;
+						flex: 1;
 						gap: 28px;
 						display: flex;
 						flex-direction: row;
 						align-items: center;
 						justify-content: space-between;
 
-						// Korean tili uchun margin kichraytirish
 						&.korean-margin {
-							margin-left: 98px;
-							gap: 50px;
+							gap: 22px;
 						}
-						// Russian tili uchun font kichraytirish
 						&.russian-lang {
-							gap: 20px;
-							margin-left: 110px; // Default margin
+							gap: 16px;
 
 							div {
-								padding-top: 2px;
-								font-size: 17px; // 18px dan 16px ga kichraytirish
-							}
-							.logo-box {
-								margin-left: -10px; // Logo'ni o'nga surish
+								font-size: 15px;
 							}
 						}
 
