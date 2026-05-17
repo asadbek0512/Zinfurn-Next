@@ -257,7 +257,7 @@ const AiChat = () => {
 							className="ai-chat-button ai-btn-open"
 							onClick={handleToggle}
 							style={{
-								bottom: '220px',
+								bottom: '320px',
 								background: 'transparent',
 								boxShadow: 'none',
 								zIndex: 99999,

@@ -87,7 +87,7 @@ const Footer = () => {
 							<img src="/img/logo/11.png" alt="" className={'logo'} />
 							<div className="text">
 								{t(
-									'Zinfurn — your trusted furniture destination in Korea. Quality pieces for every room, delivered with care.',
+									'Zinfurn — your trusted furniture destination. Quality pieces for every room, delivered with care.',
 								)}
 							</div>
 							<div className="media-box">
