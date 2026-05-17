@@ -250,6 +250,23 @@ const Top = () => {
 
 							<Button
 								disableRipple
+								className="btn-lang btn-currency"
+								onClick={handleCurrencyClick}
+								endIcon={<CaretDown size={10} color="rgba(255,255,255,0.7)" weight="fill" />}
+							>
+								<span className="currency-label">{CURRENCY_LABELS[currency]}</span>
+							</Button>
+							<StyledMenu anchorEl={currencyAnchor} open={currencyOpen} onClose={handleCurrencyClose}>
+								{(['USD', 'KRW', 'UZS'] as Currency[]).map((c) => (
+									<MenuItem key={c} disableRipple selected={currency === c} onClick={() => handleCurrencySelect(c)}
+										sx={{ fontWeight: currency === c ? 700 : 400, color: currency === c ? '#cf6422' : 'inherit' }}>
+										<span style={{ marginRight: 8 }}>{CURRENCY_LABELS[c]}</span>{c}
+									</MenuItem>
+								))}
+							</StyledMenu>
+
+							<Button
+								disableRipple
 								className="btn-lang"
 								onClick={langClick}
 							>
