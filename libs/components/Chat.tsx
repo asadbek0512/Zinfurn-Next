@@ -423,12 +423,8 @@ const Chat = () => {
 
 			<Stack className={`chat-frame ${open ? 'open' : ''}`} style={{ zIndex: open ? 99998 : 100 }}>
 				<Box className={'chat-top'} component={'div'}>
-					<img src="/img/logo/005.png" alt="Chat" style={{ width: 28, height: 28, marginRight: '10px', objectFit: 'contain' }} />
-					<div style={{ fontFamily: 'Nunito', color: '#fff', fontWeight: 800, fontSize: '18px' }}>Live Chat</div>
-					<RippleBadge style={{ margin: '-18px 0 0 16px' }} badgeContent={onlineUsers} />
-					<button onClick={handleOpenChat} style={{ marginLeft: 'auto', background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '50%', width: 30, height: 30, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-						<CloseIcon style={{ fontSize: 18, color: '#fff' }} />
-					</button>
+					<div style={{ fontFamily: 'Nunito' }}>Online Chat</div>
+					<RippleBadge style={{ margin: '-18px 0 0 21px' }} badgeContent={onlineUsers} />
 				</Box>
 
 				<Box className={'chat-content'} id="chat-content" ref={chatContentRef} component={'div'}>
@@ -473,17 +469,17 @@ const Chat = () => {
 											{messageReplyTo && (
 												<div
 													style={{
-														background: 'rgba(255,255,255,0.22)',
-														borderLeft: '3px solid #fff',
+														background: 'rgba(0,136,204,0.15)',
+														borderLeft: '3px solid #0088cc',
 														borderRadius: '6px',
 														padding: '5px 8px',
 														marginBottom: '4px',
 													}}
 												>
-													<div style={{ fontSize: '11px', fontWeight: 700, color: '#fff', marginBottom: '2px' }}>
+													<div style={{ fontSize: '11px', fontWeight: 700, color: '#1976D2', marginBottom: '2px' }}>
 														↩ {messageReplyTo.memberNick}
 													</div>
-													<div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.85)' }}>
+													<div style={{ fontSize: '12px', color: '#1976D2' }}>
 														{messageReplyTo.text.length > 40
 															? messageReplyTo.text.substring(0, 40) + '...'
 															: messageReplyTo.text}
@@ -492,21 +488,21 @@ const Chat = () => {
 											)}
 											<div style={{ display: 'inline' }}>
 												{text}
-												<span style={{
-													float: 'right',
-													marginLeft: '8px',
+												<span style={{ 
+													float: 'right', 
+													marginLeft: '8px', 
 													marginTop: '4px',
-													fontSize: '11px',
-													color: 'rgba(255,255,255,0.75)',
+													fontSize: '11px', 
+													color: '#888',
 													display: 'inline-flex',
 													alignItems: 'center',
 													gap: '2px'
 												}}>
 													{messageTime}
 													{readMessages.has(index) ? (
-														<DoneAllIcon style={{ fontSize: '16px', color: 'rgba(255,255,255,0.9)' }} />
+														<DoneAllIcon style={{ fontSize: '16px', color: '#64B5F6', transition: 'color 0.5s ease' }} />
 													) : (
-														<DoneIcon style={{ fontSize: '16px', color: 'rgba(255,255,255,0.7)' }} />
+														<DoneIcon style={{ fontSize: '16px', color: '#2196F3', transition: 'color 0.5s ease' }} />
 													)}
 												</span>
 											</div>
@@ -529,24 +525,24 @@ const Chat = () => {
 										<div className="msg-left" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
 											{/* Nickname — show only on FIRST message of group */}
 											{!isPrevSameUser && (
-												<div style={{ fontSize: '12px', fontWeight: 700, color: '#cf6422', marginBottom: '4px' }}>
+												<div style={{ fontSize: '12px', fontWeight: 700, color: '#00FA9A', marginBottom: '4px' }}>
 													{memberData?.memberNick ?? 'User'}
 												</div>
 											)}
 											{messageReplyTo && (
 												<div
 													style={{
-														background: 'rgba(207,100,34,0.12)',
-														borderLeft: '3px solid #cf6422',
+														background: 'rgba(255,255,255,0.15)',
+														borderLeft: '3px solid #fff',
 														borderRadius: '6px',
 														padding: '5px 8px',
 														marginBottom: '4px',
 													}}
 												>
-													<div style={{ fontSize: '11px', fontWeight: 700, color: '#cf6422', marginBottom: '2px' }}>
+													<div style={{ fontSize: '11px', fontWeight: 700, color: '#fff', marginBottom: '2px' }}>
 														↩ {messageReplyTo.memberNick}
 													</div>
-													<div style={{ fontSize: '12px', color: '#7a5030' }}>
+													<div style={{ fontSize: '12px', color: '#fff' }}>
 														{messageReplyTo.text.length > 40
 															? messageReplyTo.text.substring(0, 40) + '...'
 															: messageReplyTo.text}
@@ -561,7 +557,7 @@ const Chat = () => {
 														marginLeft: '8px',
 														marginTop: '4px',
 														fontSize: '11px',
-														color: '#a0806a',
+														color: 'rgba(255,255,255,0.7)',
 														display: 'inline-flex',
 														alignItems: 'center',
 														gap: '2px'
