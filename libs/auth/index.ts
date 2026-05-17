@@ -187,8 +187,8 @@ export const updateUserInfo = (jwtToken: any) => {
 		memberViews: claims.memberViews,
 		memberWarnings: claims.memberWarnings,
 		memberBlocks: claims.memberBlocks,
-		memberTelegramId: claims.memberTelegramId ?? '',
-		memberGoogleId: claims.memberGoogleId ?? '',
+		memberTelegramId: '',
+		memberGoogleId: '',
 	});
 };
 
