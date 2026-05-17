@@ -4,6 +4,36 @@ import { gql } from '@apollo/client';
  *         MEMBER         *
  *************************/
 
+export const GET_MY_PROFILE = gql`
+    query GetMyProfile {
+        getMyProfile {
+            _id
+            memberType
+            memberStatus
+            memberAuthType
+            memberPhone
+            memberNick
+            memberFullName
+            memberImage
+            memberAddress
+            memberDesc
+            memberProperties
+            memberArticles
+            memberFollowers
+            memberFollowings
+            memberPoints
+            memberLikes
+            memberViews
+            memberRank
+            memberWarnings
+            memberBlocks
+            memberEmail
+            memberTelegramId
+            memberGoogleId
+        }
+    }
+`;
+
 export const GET_AGENTS = gql`
 query GetAgents($input: AgentsInquiry!) {
     getAgents(input: $input) {

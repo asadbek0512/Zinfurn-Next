@@ -10,15 +10,19 @@ export default function Document() {
 				
 
 				{/* SEO */}
-				<meta name="keyword" content={'nestar, nestar.uz, devex mern, mern nestjs fullstack'} />
+				<meta name="keywords" content={'zinfurn, zinfurn.uz, mebel, furniture, uzbekistan, divan, stol, stul, yotoqxona mebellar, oshxona mebellar'} />
 				<meta
 					name={'description'}
 					content={
-						'Buy and sell properties anywhere anytime in South Korea. Best Properties at Best prices on nestar.uz | ' +
-						'Покупайте и продавайте недвижимость в любой точке Южной Кореи в любое время. Лучшая недвижимость по лучшим ценам на nestar.uz | ' +
-						'대한민국 언제 어디서나 부동산을 사고팔 수 있습니다. Nestar.uz에서 최적의 가격으로 최고의 부동산을 만나보세요'
+						'Zinfurn — O\'zbekistondagi eng yaxshi mebel do\'koni. Divan, stol, stul, yotoqxona va oshxona mebellarini eng yaxshi narxlarda toping | ' +
+						'Zinfurn — лучший мебельный магазин в Узбекистане. Диваны, столы, стулья, мебель для спальни и кухни по лучшим ценам | ' +
+						'Zinfurn — Best furniture store in Uzbekistan. Find sofas, tables, chairs, bedroom and kitchen furniture at the best prices on zinfurn.uz'
 					}
 				/>
+				<meta property="og:title" content="Zinfurn — Mebel Do'koni" />
+				<meta property="og:description" content="O'zbekistondagi eng yaxshi mebel do'koni. Divan, stol, stul va boshqa mebellarni toping." />
+				<meta property="og:type" content="website" />
+				<meta property="og:site_name" content="Zinfurn" />
 			</Head>
 			<body>
 				<Main />

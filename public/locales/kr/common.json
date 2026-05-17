@@ -3,7 +3,7 @@
   "Properties": "가구",
   "Agents": "에이전트",
   "Community": "커뮤니티",
-  "My Page": "마이 페이지",
+  "My Page": "내 페이지",
   "CS": "고객센터",
   "Login": "로그인",
   "Register": "가입",
@@ -504,5 +504,12 @@
   "Sale ends in": "할인 종료까지",
   "hr": "시",
   "min": "분",
-  "sec": "초"
+  "sec": "초",
+  "Home / Agents": "홈 / 에이전트",
+  "Home / Repair Service": "홈 / 수리 서비스",
+  "Home / My Account": "홈 / 내 계정",
+  "Home / Community": "홈 / 커뮤니티",
+  "Home / Members": "홈 / 회원",
+  "Seoul, South Korea": "서울, 대한민국",
+  "Zinfurn — your trusted furniture destination in Korea. Quality pieces for every room, delivered with care.": "Zinfurn — 한국의 믿음직한 가구 전문점. 모든 공간을 위한 고품질 가구를 제공합니다."
 }

@@ -4,7 +4,7 @@
   "Agents": "Agentlar",
   "Community": "Jamiyat",
   "Service": "Xizmat",
-  "My Page": "Kabinet",
+  "My Page": "Shaxsiy kabinet",
   "CS": "Yordam",
   "Login": "Kirish",
   "Register": "Ro'yxatdan o'tish",
@@ -480,7 +480,7 @@
   "Notice": "E’lon",
   "Stay updated with our latest announcements and news": "Yangilik va e’lonlarimizdan xabardor bo‘ling",
   "Please read our terms and conditions carefully": "Iltimos, foydalanish shartlarini diqqat bilan o‘qing",
-  "Customer Support": "Mijozlarga yordam",
+  "Customer Support": "Yordam markazi",
   "Help": "Yordam",
   "Notices & Updates": "E’lonlar va yangilanishlar",
   "FAQ": "Savol-javoblar",
@@ -503,5 +503,12 @@
   "Sale ends in": "Sale tugashiga",
   "hr": "soat",
   "min": "daq",
-  "sec": "son"
+  "sec": "son",
+  "Home / Agents": "Bosh sahifa / Agentlar",
+  "Home / Repair Service": "Bosh sahifa / Ta'mirlash",
+  "Home / My Account": "Bosh sahifa / Shaxsiy kabinet",
+  "Home / Community": "Bosh sahifa / Jamiyat",
+  "Home / Members": "Bosh sahifa / A'zolar",
+  "Seoul, South Korea": "Seul, Janubiy Koreya",
+  "Zinfurn — your trusted furniture destination in Korea. Quality pieces for every room, delivered with care.": "Zinfurn — Koreyaning ishonchli mebel do'koni. Har bir xona uchun sifatli mebellar."
 }

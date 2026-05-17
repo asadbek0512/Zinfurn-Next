@@ -47,7 +47,7 @@ const Footer = () => {
 					<span className={'mobile-footer-col-title'}>{t('Help')}</span>
 					<Link href="/"><span>{t('Home')}</span></Link>
 					<span>{t('About us')}</span>
-					<Link href="/property"><span>{t('Furniturres')}</span></Link>
+					<Link href="/property"><span>{t('Furnitures')}</span></Link>
 					<span>{t('Faq')}</span>
 					<Link href="/agent"><span>{t('Agents')}</span></Link>
 					<span>{t('Privacy policy')}</span>
@@ -87,7 +87,7 @@ const Footer = () => {
 							<img src="/img/logo/11.png" alt="" className={'logo'} />
 							<div className="text">
 								{t(
-									"Dear girls, stop giving yourself a hard time just because you don't fit the set bars of beauty and fashion. It's Time To be unapologetically you with Costume County!",
+									'Zinfurn — your trusted furniture destination in Korea. Quality pieces for every room, delivered with care.',
 								)}
 							</div>
 							<div className="media-box">
@@ -128,7 +128,7 @@ const Footer = () => {
 							</Link>
 
 							<Link href="/property">
-								<span>{t('Furniturres')}</span>
+								<span>{t('Furnitures')}</span>
 							</Link>
 
 							<Link href="/agent">
@@ -170,7 +170,7 @@ const Footer = () => {
 								</div>
 								<div className="info-row">
 									<span className="label">{t('Address:')}</span>
-									<span className="value">{t('1010 white street block, USA')}</span>
+									<span className="value">{t('Seoul, South Korea')}</span>
 								</div>
 								<div className="info-row">
 									<span className="label">{t('Email:')}</span>
@@ -182,7 +182,7 @@ const Footer = () => {
 				</Stack>
 				<Stack className={'second'}>
 					<span>
-						© {moment().year()}, {t('LogiC/O infotech Powered by Shopify')}
+						© {moment().year()} Zinfurn. {t('All rights reserved.')}
 					</span>
 					<div className="payment-icons">
 						<img src="/img/icons/1.svg" alt="visa" />

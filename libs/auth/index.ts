@@ -5,14 +5,14 @@ import { CustomJwtPayload } from '../types/customJwtPayload';
 import { sweetMixinErrorAlert } from '../sweetAlert';
 import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
 
-export function getJwtToken(): any {
-	if (typeof window !== 'undefined') {
-		return localStorage.getItem('accessToken') ?? '';
-	}
+let _inMemoryToken = '';
+
+export function getJwtToken(): string {
+	return _inMemoryToken;
 }
 
 export function setJwtToken(token: string) {
-	localStorage.setItem('accessToken', token);
+	_inMemoryToken = token;
 }
 
 export const logIn = async (nick: string, password: string): Promise<void> => {
@@ -137,7 +137,6 @@ const requestSignUpJwtToken = async ({
 
 export const updateStorage = ({ jwtToken }: { jwtToken: any }) => {
 	setJwtToken(jwtToken);
-	window.localStorage.setItem('login', Date.now().toString());
 };
 
 export const updateUserInfo = (jwtToken: any) => {
@@ -176,12 +175,13 @@ export const updateUserInfo = (jwtToken: any) => {
 export const logOut = () => {
 	deleteStorage();
 	deleteUserInfo();
-	window.location.reload();
+	fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, { method: 'POST', credentials: 'include' }).finally(() => {
+		window.location.href = '/';
+	});
 };
 
 const deleteStorage = () => {
-	localStorage.removeItem('accessToken');
-	window.localStorage.setItem('logout', Date.now().toString());
+	_inMemoryToken = '';
 };
 
 const deleteUserInfo = () => {

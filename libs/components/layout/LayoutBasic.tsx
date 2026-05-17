@@ -4,12 +4,13 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Head from 'next/head';
 import Top from '../Top';
 import { Stack } from '@mui/material';
-import { getJwtToken, updateUserInfo } from '../../auth';
+import { updateUserInfo, setJwtToken } from '../../auth';
 import Chat from '../Chat';
 import AiChat from '../AiChat';
 import SalePromoModal from '../common/SalePromoModal';
-import { useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { GET_MY_PROFILE } from '../../../apollo/user/query';
 import { useTranslation } from 'next-i18next';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -40,42 +41,42 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/agent':
 					title = 'Agents';
-					desc = 'Home / For Rent';
+					desc = 'Home / Agents';
 					bgImage = '/img/banner/agents8.jpg';
 					break;
 				case '/agent/detail':
 					title = 'Agent Page';
-					desc = 'Home / For Rent';
+					desc = 'Home / Agents';
 					bgImage = '/img/banner/agent9.jpeg';
 					break;
 				case '/repairService':
 					title = 'Service Page';
-					desc = 'Home / For Repair';
+					desc = 'Home / Repair Service';
 					bgImage = '/img/banner/service2.jpg';
 					break;
 				case '/mypage':
-					title = 'my page';
-					desc = 'Home / For Rent';
+					title = 'My Page';
+					desc = 'Home / My Account';
 					bgImage = '/img/banner/8888.jpg';
 					break;
 				case '/community':
 					title = 'Community';
-					desc = 'Home / For Rent';
+					desc = 'Home / Community';
 					bgImage = '/img/banner/service1.jpg';
 					break;
 				case '/community/detail':
 					title = 'Community Detail';
-					desc = 'Home / For Rent';
+					desc = 'Home / Community';
 					bgImage = '/img/banner/service1.jpg';
 					break;
 				case '/cs':
-					title = 'CS';
+					title = 'Customer Support';
 					desc = 'We are glad to see you again!';
 					bgImage = '/img/banner/slider-02.webp';
 					break;
 				case '/member':
 					title = 'Member Page';
-					desc = 'Home / For Rent';
+					desc = 'Home / Members';
 					bgImage = '/img/banner/agent9.jpeg';
 					break;
 				default:
@@ -85,11 +86,42 @@ const withLayoutBasic = (Component: any) => {
 			return { title, desc, bgImage };
 		}, [router.pathname]);
 
+		const { data: myProfileData } = useQuery(GET_MY_PROFILE, {
+			fetchPolicy: 'network-only',
+			onError: () => {},
+		});
+
 		/** LIFECYCLES **/
 		useEffect(() => {
-			const jwt = getJwtToken();
-			if (jwt) updateUserInfo(jwt);
-		}, []);
+			if (myProfileData?.getMyProfile) {
+				const member = myProfileData.getMyProfile;
+				userVar({
+					_id: member._id ?? '',
+					memberType: member.memberType ?? '',
+					memberStatus: member.memberStatus ?? '',
+					memberAuthType: member.memberAuthType ?? '',
+					memberPhone: member.memberPhone ?? '',
+					memberNick: member.memberNick ?? '',
+					memberFullName: member.memberFullName ?? '',
+					memberImage: member.memberImage || '/img/profile/defaultUser.svg',
+					memberAddress: member.memberAddress ?? '',
+					memberDesc: member.memberDesc ?? '',
+					memberProperties: member.memberProperties ?? 0,
+					memberRank: member.memberRank ?? 0,
+					memberEmail: member.memberEmail ?? '',
+					memberArticles: member.memberArticles ?? 0,
+					memberPoints: member.memberPoints ?? 0,
+					memberFollowers: member.memberFollowers ?? 0,
+					memberFollowings: member.memberFollowings ?? 0,
+					memberLikes: member.memberLikes ?? 0,
+					memberViews: member.memberViews ?? 0,
+					memberWarnings: member.memberWarnings ?? 0,
+					memberBlocks: member.memberBlocks ?? 0,
+					memberTelegramId: member.memberTelegramId ?? '',
+					memberGoogleId: member.memberGoogleId ?? '',
+				});
+			}
+		}, [myProfileData]);
 
 		/** HANDLERS **/
 
@@ -97,8 +129,8 @@ const withLayoutBasic = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Nestar</title>
-						<meta name={'title'} content={`Nestar`} />
+						<title>Zinfurn</title>
+						<meta name={'title'} content={`Zinfurn`} />
 					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
@@ -138,7 +170,7 @@ const withLayoutBasic = (Component: any) => {
 				<>
 					<Head>
 						<title>Zinfurn</title>
-						<meta name={'title'} content={`Nestar`} />
+						<meta name={'title'} content={`Zinfurn`} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>

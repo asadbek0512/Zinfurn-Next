@@ -21,6 +21,7 @@ import { Order } from '../../types/order/order';
 import { OrderStatus } from '../../enums/order.enum';
 import { formatterStr } from '../../utils';
 import { REACT_APP_API_URL } from '../../config';
+import { getJwtToken } from '../../auth';
 import { GET_MY_ORDERS } from '../../../apollo/user/query';
 import { CONFIRM_DELIVERY, REQUEST_RETURN, CREATE_REVIEW } from '../../../apollo/user/mutation';
 import Link from 'next/link';
@@ -212,11 +213,13 @@ const MyOrders = () => {
 				formData.append(i.toString(), files[i]);
 			}
 
+			const token = getJwtToken();
 			const response = await fetch(`${process.env.REACT_APP_API_URL}/graphql`, {
 				method: 'POST',
+				credentials: 'include',
 				headers: {
 					'apollo-require-preflight': 'true',
-					Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+					...(token ? { Authorization: `Bearer ${token}` } : {}),
 				},
 				body: formData,
 			});

@@ -3,7 +3,7 @@
   "Properties": "Мебель",
   "Agents": "Агенты",
   "Community": "Сообщество",
-  "My Page": "Моя страница",
+  "My Page": "Личный кабинет",
   "CS": "Обслуживание",
   "Login": "Логин",
   "Register": "регистрация",
@@ -481,7 +481,7 @@
   "Notice": "Уведомления",
   "Stay updated with our latest announcements and news": "Будьте в курсе наших последних объявлений и новостей",
   "Please read our terms and conditions carefully": "Пожалуйста, внимательно ознакомьтесь с нашими правилами и условиями",
-  "Customer Support": "Служба поддержки",
+  "Customer Support": "Центр поддержки",
   "Help": "Помощь",
   "Notices & Updates": "Уведомления и обновления",
   "FAQ": "Частые вопросы",
@@ -504,5 +504,12 @@
   "Sale ends in": "Акция заканчивается через",
   "hr": "ч",
   "min": "мин",
-  "sec": "сек"
+  "sec": "сек",
+  "Home / Agents": "Главная / Агенты",
+  "Home / Repair Service": "Главная / Ремонт",
+  "Home / My Account": "Главная / Личный кабинет",
+  "Home / Community": "Главная / Сообщество",
+  "Home / Members": "Главная / Участники",
+  "Seoul, South Korea": "Сеул, Южная Корея",
+  "Zinfurn — your trusted furniture destination in Korea. Quality pieces for every room, delivered with care.": "Zinfurn — ваш надёжный магазин мебели в Корее. Качественные изделия для каждой комнаты."
 }
