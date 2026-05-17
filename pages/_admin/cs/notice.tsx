@@ -1,3 +1,4 @@
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useState } from 'react';
 import type { NextPage } from 'next';
 import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
@@ -182,3 +183,7 @@ const AdminNotice: NextPage = () => {
 };
 
 export default withAdminLayout(AdminNotice);
+
+export const getServerSideProps = async ({ locale }: any) => ({
+  props: { ...(await serverSideTranslations(locale ?? 'en', ['common'])) },
+});

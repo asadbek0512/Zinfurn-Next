@@ -123,6 +123,7 @@ function createApolloClient() {
 		link: createIsomorphicLink(),
 		cache: new InMemoryCache(),
 		resolvers: {},
+		connectToDevTools: process.env.NODE_ENV !== 'production',
 	});
 }
 

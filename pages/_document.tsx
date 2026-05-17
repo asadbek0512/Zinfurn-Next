@@ -6,7 +6,13 @@ export default function Document() {
 			<Head>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<meta name="robots" content="index,follow" />
-				<link rel="icon"  type="image/png" href="/img/logo/005.png" />
+				<link rel="icon" type="image/png" href="/img/logo/005.png" />
+				<link rel="alternate" hrefLang="en" href="https://zinfurn.uz" />
+				<link rel="alternate" hrefLang="ko" href="https://zinfurn.uz/kr" />
+				<link rel="alternate" hrefLang="ru" href="https://zinfurn.uz/ru" />
+				<link rel="alternate" hrefLang="uz" href="https://zinfurn.uz/uz" />
+				<link rel="alternate" hrefLang="ar" href="https://zinfurn.uz/ar" />
+				<link rel="alternate" hrefLang="x-default" href="https://zinfurn.uz" />
 				
 
 				{/* SEO */}
@@ -24,6 +30,26 @@ export default function Document() {
 				<meta property="og:description" content="Shop sofas, tables, chairs, bedroom and kitchen furniture at the best prices. Fast delivery across Korea." />
 				<meta property="og:type" content="website" />
 				<meta property="og:site_name" content="Zinfurn" />
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							'@context': 'https://schema.org',
+							'@type': 'OnlineStore',
+							name: 'Zinfurn',
+							description: "Korea's best online furniture store",
+							url: 'https://zinfurn.uz',
+							logo: 'https://zinfurn.uz/img/logo/005.png',
+							contactPoint: {
+								'@type': 'ContactPoint',
+								telephone: '+82-10-7329-5171',
+								contactType: 'customer service',
+								areaServed: 'KR',
+							},
+							sameAs: ['https://t.me/Khusanov_Asadbek2000'],
+						}),
+					}}
+				/>
 			</Head>
 			<body>
 				<Main />

@@ -587,7 +587,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									</select>
 
 									<div className="divider"></div>
-									<img src="/img/icons/Vector.svg" className="arrow-down" />
+									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" />
 								</Stack>
 							</Stack>
 
@@ -617,7 +617,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									</select>
 
 									<div className="divider"></div>
-									<img src="/img/icons/Vector.svg" className="arrow-down" />
+									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" />
 								</Stack>
 								<Stack className="price-year-after-price">
 									<Typography className="title">{t('Size')}</Typography>
@@ -659,7 +659,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										<option value="no">{t('No')}</option>
 									</select>
 									<div className="divider"></div>
-									<img src="/img/icons/Vector.svg" className="arrow-down" />
+									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" />
 								</Stack>
 							</Stack>
 
@@ -730,7 +730,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									</select>
 
 									<div className="divider"></div>
-									<img src="/img/icons/Vector.svg" className="arrow-down" />
+									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" />
 								</Stack>
 
 								<Stack className="price-year-after-price">
@@ -758,7 +758,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									</select>
 
 									<div className="divider"></div>
-									<img src="/img/icons/Vector.svg" className="arrow-down" />
+									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" />
 								</Stack>
 
 								<Stack className="price-year-after-price">
@@ -786,7 +786,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									</select>
 
 									<div className="divider"></div>
-									<img src="/img/icons/Vector.svg" className="arrow-down" />
+									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" />
 								</Stack>
 							</Stack>
 

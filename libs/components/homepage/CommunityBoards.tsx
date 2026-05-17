@@ -133,7 +133,7 @@ const CommunityBoards = () => {
 				<Stack className={'container'}>
 					<div className="community-header">
 						<div className="left-text">
-							<Typography variant={'h1'}>{t('News & Blogs')}</Typography>
+							<Typography variant={'h2'} component={'p'}>{t('News & Blogs')}</Typography>
 							<h2 className="main-title">{t('Our Latest')}</h2>
 							<h2 className="green-title">{t('News & Blogs')}</h2>
 						</div>
