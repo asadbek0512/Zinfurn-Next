@@ -59,8 +59,7 @@ const MyPage: NextPage = () => {
 
 	useEffect(() => {
 		if (!isLoading && !user._id) {
-			const token = getJwtToken();
-			if (!token) router.push('/').then();
+			router.push('/').then();
 		}
 	}, [user, isLoading]);
 
