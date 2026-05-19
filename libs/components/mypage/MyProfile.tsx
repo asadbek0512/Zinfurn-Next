@@ -48,7 +48,6 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 				if (data.token) {
 					updateStorage({ jwtToken: data.token });
 					updateUserInfo(data.token);
-					userVar({ ...userVar(), memberTelegramId: String(telegramData.id) });
 					await sweetMixinSuccessAlert('Telegram linked successfully!');
 				}
 			} catch (err) {
