@@ -10,7 +10,7 @@ import '../scss/app.scss';
 import '../scss/pc/main.scss';
 import '../scss/mobile/main.scss';
 import { useRouter } from 'next/router';
-import { updateStorage, updateUserInfo } from '../libs/auth';
+import { setJwtToken, updateUserInfo } from '../libs/auth';
 import CartDrawer from '../libs/components/cart/CartDrawer';
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
 
@@ -23,8 +23,9 @@ const App = ({ Component, pageProps }: AppProps) => {
 	useEffect(() => {
 		const { token } = router.query;
 		if (token && typeof token === 'string') {
-			updateStorage({ jwtToken: token });
+			setJwtToken(token);
 			updateUserInfo(token);
+			// Tokenni URLdan olib tashlab, bosh sahifaga yo'naltirish
 			router.replace('/');
 		}
 	}, [router.query]);
