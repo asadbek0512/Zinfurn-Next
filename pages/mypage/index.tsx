@@ -10,7 +10,7 @@ import RecentlyVisited from '../../libs/components/mypage/RecentlyVisited';
 import AddProperty from '../../libs/components/mypage/AddNewProperty';
 import MyProfile from '../../libs/components/mypage/MyProfile';
 import MyArticles from '../../libs/components/mypage/MyArticles';
-import { useMutation, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import MyMenu from '../../libs/components/mypage/MyMenu';
 import WriteArticle from '../../libs/components/mypage/WriteArticle';
@@ -23,7 +23,7 @@ import { Messages } from '../../libs/config';
 import AddRepairProperty from '../../libs/components/mypage/AddNewRepairProperty';
 import MyRepairProperty from '../../libs/components/mypage/MyRepairProperty';
 import MyOrders from '../../libs/components/mypage/MyOrders';
-import { getJwtToken } from '../../libs/auth/index';
+import { GET_MY_PROFILE } from '../../apollo/user/query';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useTranslation } from 'next-i18next';
 
@@ -45,22 +45,21 @@ const MyPage: NextPage = () => {
 	const [subscribe] = useMutation(SUBSCRIBE);
 	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
+	const { loading: profileLoading } = useQuery(GET_MY_PROFILE, {
+		fetchPolicy: 'cache-first',
+		onError: () => {},
+	});
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		// Token mavjudligini tekshirish va loading state boshqaruvi
-		const token = getJwtToken();
-		if (!token) {
-			router.push('/').then();
-		} else {
+		if (!profileLoading) {
 			setIsLoading(false);
 		}
-	}, []);
+	}, [profileLoading]);
 
 	useEffect(() => {
 		if (!isLoading && !user._id) {
-			const token = getJwtToken();
-			if (!token) router.push('/').then();
+			router.push('/').then();
 		}
 	}, [user, isLoading]);
 
