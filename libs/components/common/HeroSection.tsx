@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Stack, Typography, Button, Box } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { useTranslation } from 'next-i18next';
@@ -11,7 +11,6 @@ interface Slide {
 	description: string;
 	mobileDescription: string;
 	backgroundImage: string;
-	mobileBackgroundImage: string;
 }
 
 const HeroSection: React.FC = () => {
@@ -24,73 +23,41 @@ const HeroSection: React.FC = () => {
 			overline: t('TIMELESS ELEGANCE'),
 			title: t("Discover Furniture's For Living"),
 			mobileTitle: t('Furniture For Living'),
-			description: t('Consectetur a erat nam at. Facilisis magna etiam tempor orci. Sem et tortor consequat id. Fermentum egestas tellus. Nunc eu hendrerit turpis. Fusce non lectus sem.'),
+			description: t(
+				'Consectetur a erat nam at. Facilisis magna etiam tempor orci. Sem et tortor consequat id. Fermentum egestas tellus. Nunc eu hendrerit turpis. Fusce non lectus sem.',
+			),
 			mobileDescription: t('Quality furniture pieces that elevate your home with timeless style and elegance.'),
 			backgroundImage: '/img/banner/Home-1-.jpg',
-			mobileBackgroundImage: '/img/banner/mobail1.png',
 		},
 		{
 			overline: t('SMART SOLUTION'),
 			title: t('Enjoy With Style & Comfort'),
 			mobileTitle: t('Style & Comfort'),
-			description: t('Feugiat pretium nibh ipsum consequat nisi vel pretium lectus quam. Aliquam ut porttitor leo a diam sollicitudin. Nam at lectus urna duis convallis.'),
+			description: t(
+				'Feugiat pretium nibh ipsum consequat nisi vel pretium lectus quam. Aliquam ut porttitor leo a diam sollicitudin. Nam at lectus urna duis convallis.',
+			),
 			mobileDescription: t('Modern furniture designed for comfort, durability, and everyday stylish living.'),
 			backgroundImage: '/img/banner/Home-2-.jpg',
-			mobileBackgroundImage: '/img/banner/mobail2.png',
 		},
 		{
 			overline: t('CREATE MEMORIES'),
 			title: t("Embrace The Beauty Of Furniture's"),
 			mobileTitle: t('Embrace The Beauty'),
-			description: t('Ut placerat orci nulla pellentesque posuere lorem ipsum dolor. A condimentum vitae sapien pellentesque habitant morbi tristique senectus.'),
+			description: t(
+				'Ut placerat orci nulla pellentesque posuere lorem ipsum dolor. A condimentum vitae sapien pellentesque habitant morbi tristique senectus.',
+			),
 			mobileDescription: t('Beautiful spaces start with the right furniture choices for your unique home.'),
-			backgroundImage: '/img/banner/Home-3-.jpg',
-			mobileBackgroundImage: '/img/banner/mobail3.png',
+			backgroundImage: '/img/banner/257.jpg',
 		},
 	];
 
-	// updateHeaderBackground uchun aniq tip
-	const updateHeaderBackground = (slideIndex: number): void => {
-		const header = document.querySelector('.header-main') || document.querySelector('.mobile-header-main');
-		if (header) {
-			header.classList.remove('slide-0', 'slide-1', 'slide-2');
-			header.classList.add(`slide-${slideIndex}`);
-		}
-	};
+	const nextSlide = (): void => setCurrentSlide((prev) => (prev + 1) % slides.length);
+	const prevSlide = (): void => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
-	const nextSlide = (): void => {
-		const newSlide = (currentSlide + 1) % slides.length;
-		setCurrentSlide(newSlide);
-		updateHeaderBackground(newSlide);
-	};
-
-	const prevSlide = (): void => {
-		const newSlide = (currentSlide - 1 + slides.length) % slides.length;
-		setCurrentSlide(newSlide);
-		updateHeaderBackground(newSlide);
-	};
-
-	const handleClick = (): void => {
-		window.location.href = '/property';
-	};
-
-	// currentSlide o'zgarganda darhol background yangilanadi
-	useLayoutEffect(() => {
-		updateHeaderBackground(currentSlide);
-	}, [currentSlide]);
-
-	// Avtomatik slayd o'zgarishi (10 soniya)
 	useEffect(() => {
-		const interval = setInterval(() => {
-			setCurrentSlide((prevSlide) => {
-				const newSlide = (prevSlide + 1) % slides.length;
-				updateHeaderBackground(newSlide);
-				return newSlide;
-			});
-		}, 10000);
-
+		const interval = setInterval(nextSlide, 10000);
 		return () => clearInterval(interval);
-	}, [slides.length]);
+	}, []);
 
 	return (
 		<Box
@@ -104,11 +71,37 @@ const HeroSection: React.FC = () => {
 				overflow: 'hidden',
 				marginTop: '20px',
 				zIndex: 10,
-				backgroundColor: 'transparent',
-				
-				
 			}}
 		>
+			{/* Cross-fade background images */}
+			{slides.map((slide, index) => (
+				<Box
+					key={index}
+					component={'div'}
+					sx={{
+						position: 'absolute',
+						inset: 0,
+						backgroundImage: `url(${slide.backgroundImage})`,
+						backgroundSize: 'cover',
+						backgroundPosition: 'center',
+						opacity: index === currentSlide ? 1 : 0,
+						transition: 'opacity 0.9s ease-in-out',
+						zIndex: 0,
+					}}
+				/>
+			))}
+
+			{/* Dark overlay */}
+			<Box
+				component={'div'}
+				sx={{
+					position: 'absolute',
+					inset: 0,
+					background: 'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.25) 100%)',
+					zIndex: 1,
+				}}
+			/>
+
 			{/* Navigation Arrows */}
 			<Box
 				component={'div'}
@@ -120,11 +113,8 @@ const HeroSection: React.FC = () => {
 					zIndex: 3,
 					cursor: 'pointer',
 					color: 'white',
-					'&:hover': {
-						color: '#ff6b35',
-					},
+					'&:hover': { color: '#ff6b35' },
 				}}
-				className="hero-prev"
 				onClick={prevSlide}
 			>
 				<ArrowBack sx={{ fontSize: device === 'mobile' ? '1.8rem' : '3rem' }} />
@@ -139,11 +129,8 @@ const HeroSection: React.FC = () => {
 					zIndex: 3,
 					cursor: 'pointer',
 					color: 'white',
-					'&:hover': {
-						color: '#ff6b35',
-					},
+					'&:hover': { color: '#ff6b35' },
 				}}
-				className="hero-next"
 				onClick={nextSlide}
 			>
 				<ArrowForward sx={{ fontSize: device === 'mobile' ? '1.8rem' : '3rem' }} />
@@ -220,84 +207,56 @@ const HeroSection: React.FC = () => {
 					animation: 'fadeInUp 0.6s ease-out 0.3s both',
 				}}
 			>
-					<style>
-						{`
-              @keyframes fadeInUp {
-                0% { opacity: 0; transform: translateY(30px); }
-                100% { opacity: 1; transform: translateY(0); }
-              }
-              @keyframes slideOut {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(-50px); opacity: 0; }
-              }
-              @keyframes slideIn {
-                0% { transform: translateX(50px); opacity: 0; }
-                100% { transform: translateX(0); opacity: 1; }
-              }
-            `}
-					</style>
-					<Button
-						onClick={handleClick}
-						variant="contained"
+				<style>
+					{`
+						@keyframes fadeInUp {
+							0% { opacity: 0; transform: translateY(30px); }
+							100% { opacity: 1; transform: translateY(0); }
+						}
+					`}
+				</style>
+				<Button
+					onClick={() => { window.location.href = '/property'; }}
+					variant="contained"
+					sx={{
+						backgroundColor: '#ff6b35',
+						color: 'white',
+						px: device === 'mobile' ? 1.5 : 3,
+						py: device === 'mobile' ? 0.3 : 0.6,
+						borderRadius: '50px',
+						fontSize: device === 'mobile' ? '0.72rem' : '0.9rem',
+						fontWeight: 600,
+						textTransform: 'none',
+						display: 'flex',
+						alignItems: 'center',
+						gap: 1,
+						'&:hover': {
+							backgroundColor: 'white',
+							color: '#000000',
+							boxShadow: '0 8px 25px rgba(255, 107, 53, 0.3)',
+						},
+						transition: 'all 0.3s ease',
+					}}
+				>
+					<Box
+						component={'div'}
 						sx={{
-							backgroundColor: '#ff6b35',
-							color: 'white',
-							px: device === 'mobile' ? 1.5 : 3,
-							py: device === 'mobile' ? 0.3 : 0.6,
-							borderRadius: '50px',
-							fontSize: device === 'mobile' ? '0.72rem' : '0.9rem',
-							fontWeight: 600,
-							textTransform: 'none',
+							width: device === 'mobile' ? 28 : 40,
+							height: device === 'mobile' ? 28 : 40,
+							borderRadius: '50%',
+							backgroundColor: 'white',
 							display: 'flex',
 							alignItems: 'center',
-							gap: 1,
-							'&:hover': {
-								backgroundColor: 'white',
-								borderColor: '#ff6b35',
-								color: '#000000',
-								boxShadow: '0 8px 25px rgba(255, 107, 53, 0.3)',
-								'& .arrow-circle': {
-									backgroundColor: '#ff6b35',
-									'& .arrow-icon': {
-										color: 'white',
-										transform: 'translateX(-50px)',
-										animation: 'slideOut 0.1s ease-out forwards, slideIn 0.2s ease-in 0.1s forwards',
-									},
-								},
-							},
-							transition: 'all 0.3s ease',
+							justifyContent: 'center',
+							position: 'relative',
+							left: device === 'mobile' ? -8 : -16,
 						}}
 					>
-						<Box
-							component={'div'}
-							className="arrow-circle"
-							sx={{
-								width: device === 'mobile' ? 28 : 40,
-								height: device === 'mobile' ? 28 : 40,
-								borderRadius: '50%',
-								backgroundColor: 'white',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								transition: 'all 0.3s ease',
-								position: 'relative',
-								left: device === 'mobile' ? -8 : -16,
-								overflow: 'hidden',
-							}}
-						>
-							<ArrowBack
-								className="arrow-icon"
-								sx={{
-									fontSize: '20px',
-									color: '#000000',
-									transition: 'all 0.3s ease',
-									strokeWidth: 3,
-								}}
-							/>
-						</Box>
-						<span style={{ marginLeft: device === 'mobile' ? '-4px' : '-8px' }}>{t('Shop Now')}</span>
-					</Button>
-				</Box>
+						<ArrowBack sx={{ fontSize: '20px', color: '#000000' }} />
+					</Box>
+					<span style={{ marginLeft: device === 'mobile' ? '-4px' : '-8px' }}>{t('Shop Now')}</span>
+				</Button>
+			</Box>
 		</Box>
 	);
 };

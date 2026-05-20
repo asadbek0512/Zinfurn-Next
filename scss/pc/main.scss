@@ -283,26 +283,6 @@ body::-webkit-scrollbar {
 		position: relative;
   width: 100%;
   height: 750px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  
-  // 1. Rasmni yumshoq almashtirish uchun asosiy qism
-  // 1.5s - rasm 1.5 soniya davomida erib paydo bo'ladi
-  transition: background-image 1.5s ease-in-out; 
-  
-  // Brauzer rasmni almashtirishda qotmasligi uchun
-  will-change: background-image;
-
-  &.slide-0 {
-    background-image: url('/img/banner/Home-1-.jpg');
-  }
-  &.slide-1 {
-    background-image: url('/img/banner/Home-2-.jpg');
-  }
-  &.slide-2 {
-    background-image: url('/img/banner/257.jpg');
-  }
 		// Overlay gradient - rasimni yanada chiroyli qilish uchun
 
 		// Shimmer effect - premium ko'rinish uchun
