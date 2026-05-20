@@ -62,10 +62,19 @@ const HeroSection: React.FC = () => {
 	const isMobile = device === 'mobile';
 
 	return (
-		<>
-			{/* Spacer — HeaderFilter ni to'g'ri joyida saqlash uchun */}
-			<Box component={'div'} sx={{ height: isMobile ? '40vh' : '80vh', marginTop: '20px', flexShrink: 0 }} />
-
+		<Box
+			component={'div'}
+			sx={{
+				position: 'relative',
+				height: isMobile ? '40vh' : '80vh',
+				marginTop: '20px',
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				overflow: 'hidden',
+				zIndex: 10,
+			}}
+		>
 			<style>{`
 				@keyframes fadeInUp {
 					0% { opacity: 0; transform: translateY(30px); }
@@ -73,7 +82,7 @@ const HeroSection: React.FC = () => {
 				}
 			`}</style>
 
-			{/* Cross-fade background images — absolute to .header-main */}
+			{/* Cross-fade background images */}
 			{slides.map((slide, index) => (
 				<Box
 					key={index}
@@ -250,7 +259,7 @@ const HeroSection: React.FC = () => {
 					<span style={{ marginLeft: isMobile ? '-4px' : '-8px' }}>{t('Shop Now')}</span>
 				</Button>
 			</Box>
-		</>
+		</Box>
 	);
 };
 
