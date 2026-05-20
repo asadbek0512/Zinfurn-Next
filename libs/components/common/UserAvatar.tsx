@@ -22,23 +22,9 @@ interface UserAvatarProps {
 const UserAvatar = ({ src, nick = '', size, className = '' }: UserAvatarProps) => {
 	const [imgError, setImgError] = useState(false);
 
-	const hasPhoto = src && !src.includes('defaultUser') && !imgError;
+	const showImg = src && !src.includes('defaultUser') && !imgError;
 	const letter = (nick || '?')[0].toUpperCase();
 	const bg = getColor(nick || '?');
-
-	if (hasPhoto) {
-		return (
-			<img
-				className={className}
-				src={src}
-				alt={nick}
-				width={size}
-				height={size}
-				style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover' }}
-				onError={() => setImgError(true)}
-			/>
-		);
-	}
 
 	return (
 		<div
@@ -55,9 +41,28 @@ const UserAvatar = ({ src, nick = '', size, className = '' }: UserAvatarProps) =
 				fontWeight: 700,
 				fontSize: size * 0.4,
 				flexShrink: 0,
+				position: 'relative',
+				overflow: 'hidden',
 			}}
 		>
 			{letter}
+			{showImg && (
+				<img
+					src={src}
+					alt={nick}
+					style={{
+						position: 'absolute',
+						top: 0,
+						left: 0,
+						width: '100%',
+						height: '100%',
+						objectFit: 'cover',
+						border: 'none',
+						borderRadius: 0,
+					}}
+					onError={() => setImgError(true)}
+				/>
+			)}
 		</div>
 	);
 };
