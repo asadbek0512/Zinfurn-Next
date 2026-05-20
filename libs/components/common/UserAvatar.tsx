@@ -23,34 +23,45 @@ interface UserAvatarProps {
 const UserAvatar = ({ src, nick = '', className = '', alt = '', style }: UserAvatarProps) => {
 	const [imgError, setImgError] = useState(false);
 
-	const showFallback = !src || imgError || src.includes('defaultUser');
+	const validSrc = src && !src.includes('defaultUser') && !imgError;
+	const letter = (nick || '?')[0].toUpperCase();
+	const bg = getColor(nick || '?');
 
-	if (showFallback) {
-		const letter = (nick || '?')[0].toUpperCase();
-		const bg = getColor(nick || '?');
+	const w = style?.width ?? '100%';
+	const h = style?.height ?? '100%';
 
+	if (validSrc) {
 		return (
-			<div
-				className={`ua-fallback ${className}`}
-				style={{
-					'--ua-color': bg,
-					width: style?.width ?? '100%',
-					height: style?.height ?? '100%',
-				} as React.CSSProperties}
-			>
-				{letter}
-			</div>
+			<img
+				className={className}
+				src={validSrc}
+				alt={alt}
+				style={style}
+				onError={() => setImgError(true)}
+			/>
 		);
 	}
 
 	return (
-		<img
+		<svg
 			className={className}
-			src={src}
-			alt={alt}
-			style={style}
-			onError={() => setImgError(true)}
-		/>
+			viewBox="0 0 40 40"
+			xmlns="http://www.w3.org/2000/svg"
+			style={{ width: w, height: h, flexShrink: 0, display: 'block', ...(style || {}) }}
+		>
+			<circle cx="20" cy="20" r="20" fill={bg} />
+			<text
+				x="20"
+				y="26"
+				textAnchor="middle"
+				fill="#ffffff"
+				fontSize="18"
+				fontWeight="bold"
+				fontFamily="Arial, sans-serif"
+			>
+				{letter}
+			</text>
+		</svg>
 	);
 };
 
