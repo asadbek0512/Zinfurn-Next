@@ -63,6 +63,9 @@ const HeroSection: React.FC = () => {
 
 	return (
 		<>
+			{/* Spacer — HeaderFilter ni to'g'ri joyida saqlash uchun */}
+			<Box component={'div'} sx={{ height: isMobile ? '40vh' : '80vh', marginTop: '20px', flexShrink: 0 }} />
+
 			<style>{`
 				@keyframes fadeInUp {
 					0% { opacity: 0; transform: translateY(30px); }
