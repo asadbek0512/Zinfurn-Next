@@ -59,20 +59,18 @@ const HeroSection: React.FC = () => {
 		return () => clearInterval(interval);
 	}, []);
 
+	const isMobile = device === 'mobile';
+
 	return (
-		<Box
-			component={'div'}
-			sx={{
-				position: 'relative',
-				height: device === 'mobile' ? '40vh' : '750px',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				overflow: 'hidden',
-				zIndex: 10,
-			}}
-		>
-			{/* Cross-fade background images */}
+		<>
+			<style>{`
+				@keyframes fadeInUp {
+					0% { opacity: 0; transform: translateY(30px); }
+					100% { opacity: 1; transform: translateY(0); }
+				}
+			`}</style>
+
+			{/* Cross-fade background images — absolute to .header-main */}
 			{slides.map((slide, index) => (
 				<Box
 					key={index}
@@ -83,6 +81,7 @@ const HeroSection: React.FC = () => {
 						backgroundImage: `url(${slide.backgroundImage})`,
 						backgroundSize: 'cover',
 						backgroundPosition: 'center',
+						backgroundRepeat: 'no-repeat',
 						opacity: index === currentSlide ? 1 : 0,
 						transition: 'opacity 0.9s ease-in-out',
 						zIndex: 0,
@@ -101,28 +100,13 @@ const HeroSection: React.FC = () => {
 				}}
 			/>
 
-			{/* Navigation Arrows */}
+			{/* Navigation — Prev */}
 			<Box
 				component={'div'}
-				sx={{
-					position: 'absolute',
-					left: device === 'mobile' ? '0.5rem' : '2rem',
-					top: '40%',
-					transform: 'translateY(-50%)',
-					zIndex: 3,
-					cursor: 'pointer',
-					color: 'white',
-					'&:hover': { color: '#ff6b35' },
-				}}
 				onClick={prevSlide}
-			>
-				<ArrowBack sx={{ fontSize: device === 'mobile' ? '1.8rem' : '3rem' }} />
-			</Box>
-			<Box
-				component={'div'}
 				sx={{
 					position: 'absolute',
-					right: device === 'mobile' ? '0.5rem' : '2rem',
+					left: isMobile ? '0.5rem' : '2rem',
 					top: '40%',
 					transform: 'translateY(-50%)',
 					zIndex: 3,
@@ -130,38 +114,51 @@ const HeroSection: React.FC = () => {
 					color: 'white',
 					'&:hover': { color: '#ff6b35' },
 				}}
-				onClick={nextSlide}
 			>
-				<ArrowForward sx={{ fontSize: device === 'mobile' ? '1.8rem' : '3rem' }} />
+				<ArrowBack sx={{ fontSize: isMobile ? '1.8rem' : '3rem' }} />
 			</Box>
 
-			{/* Main Content */}
-			<Stack
+			{/* Navigation — Next */}
+			<Box
+				component={'div'}
+				onClick={nextSlide}
 				sx={{
 					position: 'absolute',
-					top: device === 'mobile' ? '18%' : '40%',
+					right: isMobile ? '0.5rem' : '2rem',
+					top: '40%',
+					transform: 'translateY(-50%)',
+					zIndex: 3,
+					cursor: 'pointer',
+					color: 'white',
+					'&:hover': { color: '#ff6b35' },
+				}}
+			>
+				<ArrowForward sx={{ fontSize: isMobile ? '1.8rem' : '3rem' }} />
+			</Box>
+
+			{/* Main text content */}
+			<Stack
+				key={currentSlide}
+				spacing={2}
+				sx={{
+					position: 'absolute',
+					top: isMobile ? '18%' : '40%',
 					left: '50%',
-					transform: device === 'mobile' ? 'translateX(-50%)' : 'translate(-50%, -50%)',
+					transform: isMobile ? 'translateX(-50%)' : 'translate(-50%, -50%)',
 					zIndex: 2,
 					textAlign: 'center',
 					color: 'white',
 					width: '80%',
 					px: 4,
-					display: 'flex',
-					flexDirection: 'column',
 					alignItems: 'center',
-					opacity: 1,
-					transition: 'all 0.3s ease-in-out',
 				}}
-				spacing={2}
-				key={currentSlide}
 			>
 				<Typography
 					variant="overline"
 					sx={{
 						color: '#ff6b35',
 						letterSpacing: '0.2em',
-						fontSize: device === 'mobile' ? '0.7rem' : '1rem',
+						fontSize: isMobile ? '0.7rem' : '1rem',
 						fontWeight: 500,
 						animation: 'fadeInUp 0.6s ease-out',
 					}}
@@ -178,52 +175,46 @@ const HeroSection: React.FC = () => {
 						animation: 'fadeInUp 0.6s ease-out 0.1s both',
 					}}
 				>
-					{device === 'mobile' ? slides[currentSlide].mobileTitle : slides[currentSlide].title}
+					{isMobile ? slides[currentSlide].mobileTitle : slides[currentSlide].title}
 				</Typography>
 				<Typography
 					variant="body1"
 					sx={{
-						fontSize: device === 'mobile' ? '0.72rem' : '1.1rem',
+						fontSize: isMobile ? '0.72rem' : '1.1rem',
 						lineHeight: 1.6,
 						color: '#cccccc',
-						maxWidth: device === 'mobile' ? '260px' : '500px',
+						maxWidth: isMobile ? '260px' : '500px',
 						mx: 'auto',
 						mb: 3,
 						animation: 'fadeInUp 0.6s ease-out 0.2s both',
 					}}
 				>
-					{device === 'mobile' ? slides[currentSlide].mobileDescription : slides[currentSlide].description}
+					{isMobile ? slides[currentSlide].mobileDescription : slides[currentSlide].description}
 				</Typography>
 			</Stack>
 
-			{/* Shop Now Button */}
+			{/* Shop Now button */}
 			<Box
 				component={'div'}
 				sx={{
 					position: 'absolute',
-					bottom: device === 'mobile' ? '28%' : '28%',
+					bottom: '28%',
+					left: '50%',
+					transform: 'translateX(-50%)',
 					zIndex: 2,
 					animation: 'fadeInUp 0.6s ease-out 0.3s both',
 				}}
 			>
-				<style>
-					{`
-						@keyframes fadeInUp {
-							0% { opacity: 0; transform: translateY(30px); }
-							100% { opacity: 1; transform: translateY(0); }
-						}
-					`}
-				</style>
 				<Button
 					onClick={() => { window.location.href = '/property'; }}
 					variant="contained"
 					sx={{
 						backgroundColor: '#ff6b35',
 						color: 'white',
-						px: device === 'mobile' ? 1.5 : 3,
-						py: device === 'mobile' ? 0.3 : 0.6,
+						px: isMobile ? 1.5 : 3,
+						py: isMobile ? 0.3 : 0.6,
 						borderRadius: '50px',
-						fontSize: device === 'mobile' ? '0.72rem' : '0.9rem',
+						fontSize: isMobile ? '0.72rem' : '0.9rem',
 						fontWeight: 600,
 						textTransform: 'none',
 						display: 'flex',
@@ -240,23 +231,23 @@ const HeroSection: React.FC = () => {
 					<Box
 						component={'div'}
 						sx={{
-							width: device === 'mobile' ? 28 : 40,
-							height: device === 'mobile' ? 28 : 40,
+							width: isMobile ? 28 : 40,
+							height: isMobile ? 28 : 40,
 							borderRadius: '50%',
 							backgroundColor: 'white',
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'center',
 							position: 'relative',
-							left: device === 'mobile' ? -8 : -16,
+							left: isMobile ? -8 : -16,
 						}}
 					>
 						<ArrowBack sx={{ fontSize: '20px', color: '#000000' }} />
 					</Box>
-					<span style={{ marginLeft: device === 'mobile' ? '-4px' : '-8px' }}>{t('Shop Now')}</span>
+					<span style={{ marginLeft: isMobile ? '-4px' : '-8px' }}>{t('Shop Now')}</span>
 				</Button>
 			</Box>
-		</Box>
+		</>
 	);
 };
 
