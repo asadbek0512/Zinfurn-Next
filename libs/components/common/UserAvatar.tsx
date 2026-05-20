@@ -23,7 +23,7 @@ interface UserAvatarProps {
 const UserAvatar = ({ src, nick = '', className = '', alt = '', style }: UserAvatarProps) => {
 	const [imgError, setImgError] = useState(false);
 
-	const validSrc = src && !src.includes('defaultUser') && !imgError;
+	const validSrc: string | undefined = src && !src.includes('defaultUser') && !imgError ? src : undefined;
 	const letter = (nick || '?')[0].toUpperCase();
 	const bg = getColor(nick || '?');
 
