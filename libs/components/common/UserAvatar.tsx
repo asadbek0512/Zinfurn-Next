@@ -33,12 +33,10 @@ const UserAvatar = ({ src, nick = '', className = '', alt = '', style }: UserAva
 			<div
 				className={`ua-fallback ${className}`}
 				style={{
-					backgroundColor: bg,
+					'--ua-color': bg,
 					width: style?.width ?? '100%',
 					height: style?.height ?? '100%',
-					minWidth: style?.width,
-					minHeight: style?.height,
-				}}
+				} as React.CSSProperties}
 			>
 				{letter}
 			</div>
