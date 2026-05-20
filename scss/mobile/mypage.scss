@@ -51,7 +51,8 @@
     align-items: center;
     gap: 8px;
 
-    .mob-mymenu-avatar-wrap img {
+    .mob-mymenu-avatar-wrap img,
+    .mob-mymenu-avatar-wrap div {
       width: 86px;
       height: 86px;
       border-radius: 50%;

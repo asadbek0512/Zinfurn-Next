@@ -22,6 +22,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import BuildIcon from '@mui/icons-material/Build';
+import UserAvatar from '../common/UserAvatar';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import { useTranslation } from 'next-i18next';
@@ -57,7 +58,11 @@ const MyMenu = () => {
 				{/* Profile card */}
 				<div className="mob-mymenu-profile-card">
 					<div className="mob-mymenu-avatar-wrap">
-						<img src={avatarSrc} alt="avatar" />
+						<UserAvatar
+							src={user?.memberImage && !user.memberImage.includes('defaultUser') ? avatarSrc : undefined}
+							nick={user?.memberNick}
+							style={{ width: '100%', height: '100%', borderRadius: '50%' }}
+						/>
 					</div>
 					<div className="mob-mymenu-name">{user?.memberNick || t('User')}</div>
 					{user?.memberType === 'ADMIN' ? (
@@ -222,14 +227,15 @@ const MyMenu = () => {
 			<Stack width={'100%'} padding={'30px 24px'}>
 				<Stack className={'profile'}>
 					<Box component={'div'} className={'profile-img'}>
-						<img
+						<UserAvatar
 							src={
-								user?.memberImage
+								user?.memberImage && !user.memberImage.includes('defaultUser')
 									? user.memberImage.startsWith('http')
 										? user.memberImage
 										: `${REACT_APP_API_URL}/${user.memberImage}`
-									: '/img/profile/defaultUser.svg'
+									: undefined
 							}
+							nick={user?.memberNick}
 						/>
 					</Box>
 

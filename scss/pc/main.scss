@@ -202,13 +202,15 @@ body::-webkit-scrollbar {
 
 						.login-user {
 							cursor: pointer;
-							img {
+							img, div {
 								width: 36px;
 								height: 36px;
 								border-radius: 50%;
 								object-fit: cover;
 								border: 2px solid rgba(255,255,255,0.4);
-								display: block;
+								display: flex;
+								align-items: center;
+								justify-content: center;
 								transition: border-color 0.2s;
 								&:hover { border-color: #cf6422; }
 							}
