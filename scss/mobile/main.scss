@@ -66,6 +66,14 @@
     position: relative;
     width: 100%;
     margin-top: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 1.5s ease-in-out;
+
+    &.slide-0 { background-image: url('/img/banner/Home-1-.jpg'); }
+    &.slide-1 { background-image: url('/img/banner/Home-2-.jpg'); }
+    &.slide-2 { background-image: url('/img/banner/257.jpg'); }
   }
 
   .mobile-navbar {
