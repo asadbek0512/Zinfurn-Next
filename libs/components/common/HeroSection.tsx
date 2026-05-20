@@ -64,12 +64,11 @@ const HeroSection: React.FC = () => {
 			component={'div'}
 			sx={{
 				position: 'relative',
-				height: device === 'mobile' ? '40vh' : '80vh',
+				height: device === 'mobile' ? '40vh' : '750px',
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
 				overflow: 'hidden',
-				marginTop: '20px',
 				zIndex: 10,
 			}}
 		>
