@@ -18,6 +18,7 @@ import { useReactiveVar } from '@apollo/client';
 import { socketVar, userVar, cartVar, cartDrawerVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
+import UserAvatar from './common/UserAvatar';
 import NotificationModal from './common/NotificationModal';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import WeekendOutlinedIcon from '@mui/icons-material/WeekendOutlined';
@@ -340,16 +341,16 @@ const Top = () => {
 						{user?._id ? (
 							<Link href={'/mypage'} onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none' }}>
 								<div className={'mobile-user-info'}>
-									<img
+									<UserAvatar
 										className={'mobile-user-avatar'}
 										src={
 											user?.memberImage
 												? user.memberImage.startsWith('http')
 													? user.memberImage
 													: `${REACT_APP_API_URL}/${user.memberImage}`
-												: '/img/profile/defaultUser.svg'
+												: undefined
 										}
-										alt=""
+										nick={user?.memberNick}
 									/>
 									<div className={'mobile-user-details'}>
 										<span className={'mobile-user-name'}>{user?.memberNick}</span>
@@ -489,15 +490,15 @@ const Top = () => {
 							{user?._id ? (
 								<>
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
-										<img
+										<UserAvatar
 											src={
 												user?.memberImage
 													? user.memberImage.startsWith('http')
 														? user.memberImage
 														: `${REACT_APP_API_URL}/${user.memberImage}`
-													: '/img/profile/defaultUser.svg'
+													: undefined
 											}
-											alt="avatar"
+											nick={user?.memberNick}
 										/>
 									</div>
 									<Menu

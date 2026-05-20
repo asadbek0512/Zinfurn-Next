@@ -12,6 +12,7 @@ import { UPDATE_MEMBER } from '../../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinSuccessAlert } from '../../sweetAlert';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTranslation } from 'next-i18next';
+import UserAvatar from '../common/UserAvatar';
 
 const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const { t } = useTranslation('common');
@@ -174,15 +175,16 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 				{/* Photo upload */}
 				<div className="mob-myprofile-photo">
 					<div className="mob-myprofile-img-wrap">
-						<img
+						<UserAvatar
 							src={
 								updateData?.memberImage
 									? updateData.memberImage.startsWith('http')
 										? updateData.memberImage
 										: `${REACT_APP_API_URL}/${updateData.memberImage}`
-									: '/img/profile/defaultUser.svg'
+									: undefined
 							}
-							alt="Profile"
+							nick={updateData?.memberNick}
+							style={{ width: '100%', height: '100%', borderRadius: '50%' }}
 						/>
 						<label htmlFor="mob-hidden-input">
 							<EditIcon />
@@ -306,15 +308,16 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 
 						<Stack className="image-wrapper">
 							<Stack className="image-container">
-								<img
+								<UserAvatar
 									src={
 										updateData?.memberImage
 											? updateData.memberImage.startsWith('http')
 												? updateData.memberImage
 												: `${REACT_APP_API_URL}/${updateData?.memberImage}`
-											: `/img/profile/defaultUser.svg`
+											: undefined
 									}
-									alt="Profile"
+									nick={updateData?.memberNick}
+									style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
 								/>
 
 								<label htmlFor="hidden-input" className="edit-icon">
