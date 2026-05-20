@@ -24,24 +24,20 @@ const UserAvatar = ({ src, nick = '', className = '', alt = '', style }: UserAva
 	const [imgError, setImgError] = useState(false);
 
 	const showFallback = !src || imgError || src.includes('defaultUser');
-	const letter = (nick || '?')[0].toUpperCase();
-	const bg = getColor(nick || '?');
 
 	if (showFallback) {
+		const letter = (nick || '?')[0].toUpperCase();
+		const bg = getColor(nick || '?');
+
 		return (
 			<div
-				className={className}
+				className={`ua-fallback ${className}`}
 				style={{
-					background: bg,
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					color: '#fff',
-					fontWeight: 700,
-					fontSize: '0.9em',
-					borderRadius: '50%',
-					flexShrink: 0,
-					...style,
+					backgroundColor: bg,
+					width: style?.width ?? '100%',
+					height: style?.height ?? '100%',
+					minWidth: style?.width,
+					minHeight: style?.height,
 				}}
 			>
 				{letter}

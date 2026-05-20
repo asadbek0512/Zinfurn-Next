@@ -3,6 +3,17 @@
 @import 'reset.scss';
 @import 'promo.scss';
 
+.ua-fallback {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	border-radius: 50% !important;
+	color: #fff !important;
+	font-weight: 700 !important;
+	font-size: 1.1em !important;
+	user-select: none !important;
+}
+
 a {
 	white-space: nowrap;
 	text-decoration: none;

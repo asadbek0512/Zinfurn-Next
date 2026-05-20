@@ -499,6 +499,7 @@ const Top = () => {
 													: undefined
 											}
 											nick={user?.memberNick}
+											style={{ width: 36, height: 36 }}
 										/>
 									</div>
 									<Menu
