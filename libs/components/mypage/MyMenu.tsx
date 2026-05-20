@@ -59,9 +59,9 @@ const MyMenu = () => {
 				<div className="mob-mymenu-profile-card">
 					<div className="mob-mymenu-avatar-wrap">
 						<UserAvatar
-							src={user?.memberImage && !user.memberImage.includes('defaultUser') ? avatarSrc : undefined}
+							src={avatarSrc}
 							nick={user?.memberNick}
-							style={{ width: '100%', height: '100%', borderRadius: '50%' }}
+							size={86}
 						/>
 					</div>
 					<div className="mob-mymenu-name">{user?.memberNick || t('User')}</div>
@@ -229,14 +229,14 @@ const MyMenu = () => {
 					<Box component={'div'} className={'profile-img'}>
 						<UserAvatar
 							src={
-								user?.memberImage && !user.memberImage.includes('defaultUser')
+								user?.memberImage
 									? user.memberImage.startsWith('http')
 										? user.memberImage
 										: `${REACT_APP_API_URL}/${user.memberImage}`
 									: undefined
 							}
 							nick={user?.memberNick}
-							style={{ width: 90, height: 90 }}
+							size={90}
 						/>
 					</Box>
 

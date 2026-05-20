@@ -15,53 +15,50 @@ function getColor(nick: string): string {
 interface UserAvatarProps {
 	src?: string;
 	nick?: string;
+	size: number;
 	className?: string;
-	alt?: string;
-	style?: React.CSSProperties;
 }
 
-const UserAvatar = ({ src, nick = '', className = '', alt = '', style }: UserAvatarProps) => {
+const UserAvatar = ({ src, nick = '', size, className = '' }: UserAvatarProps) => {
 	const [imgError, setImgError] = useState(false);
 
-	const validSrc: string | undefined = src && !src.includes('defaultUser') && !imgError ? src : undefined;
+	const hasPhoto = src && !src.includes('defaultUser') && !imgError;
 	const letter = (nick || '?')[0].toUpperCase();
 	const bg = getColor(nick || '?');
 
-	const w = style?.width ?? '100%';
-	const h = style?.height ?? '100%';
-
-	if (validSrc) {
+	if (hasPhoto) {
 		return (
 			<img
 				className={className}
-				src={validSrc}
-				alt={alt}
-				style={style}
+				src={src}
+				alt={nick}
+				width={size}
+				height={size}
+				style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover' }}
 				onError={() => setImgError(true)}
 			/>
 		);
 	}
 
 	return (
-		<svg
+		<div
 			className={className}
-			viewBox="0 0 40 40"
-			xmlns="http://www.w3.org/2000/svg"
-			style={{ width: w, height: h, flexShrink: 0, display: 'block', ...(style || {}) }}
+			style={{
+				width: size,
+				height: size,
+				borderRadius: '50%',
+				backgroundColor: bg,
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				color: '#fff',
+				fontWeight: 700,
+				fontSize: size * 0.4,
+				flexShrink: 0,
+			}}
 		>
-			<circle cx="20" cy="20" r="20" fill={bg} />
-			<text
-				x="20"
-				y="26"
-				textAnchor="middle"
-				fill="#ffffff"
-				fontSize="18"
-				fontWeight="bold"
-				fontFamily="Arial, sans-serif"
-			>
-				{letter}
-			</text>
-		</svg>
+			{letter}
+		</div>
 	);
 };
 

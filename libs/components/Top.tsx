@@ -342,7 +342,6 @@ const Top = () => {
 							<Link href={'/mypage'} onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none' }}>
 								<div className={'mobile-user-info'}>
 									<UserAvatar
-										className={'mobile-user-avatar'}
 										src={
 											user?.memberImage
 												? user.memberImage.startsWith('http')
@@ -351,6 +350,8 @@ const Top = () => {
 												: undefined
 										}
 										nick={user?.memberNick}
+										size={54}
+										className={'mobile-user-avatar'}
 									/>
 									<div className={'mobile-user-details'}>
 										<span className={'mobile-user-name'}>{user?.memberNick}</span>
@@ -499,7 +500,7 @@ const Top = () => {
 													: undefined
 											}
 											nick={user?.memberNick}
-											style={{ width: 36, height: 36 }}
+											size={36}
 										/>
 									</div>
 									<Menu

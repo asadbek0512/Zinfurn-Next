@@ -184,7 +184,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 									: undefined
 							}
 							nick={updateData?.memberNick}
-							style={{ width: '100%', height: '100%', borderRadius: '50%' }}
+							size={100}
 						/>
 						<label htmlFor="mob-hidden-input">
 							<EditIcon />
@@ -317,7 +317,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 											: undefined
 									}
 									nick={updateData?.memberNick}
-									style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
+									size={146}
 								/>
 
 								<label htmlFor="hidden-input" className="edit-icon">
