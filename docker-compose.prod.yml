@@ -1,0 +1,22 @@
+services:
+  asadbek-zinfurn-next:
+    container_name: asadbek-zinfurn-next
+    restart: always
+    image: node:20-alpine
+    ports:
+      - "127.0.0.1:5000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    volumes:
+      - ./:/usr/src/zinfurn-next
+    working_dir: /usr/src/zinfurn-next
+    command: sh -c "yarn && yarn build && yarn start"
+    networks:
+      - asadbek-zinfurn-network
+
+networks:
+  asadbek-zinfurn-network:
+    driver: bridge
