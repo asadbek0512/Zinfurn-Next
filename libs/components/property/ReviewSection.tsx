@@ -31,6 +31,7 @@ const RATING_LABELS = ['', 'Terrible', 'Poor', 'Average', 'Good', 'Excellent'];
 const RATING_COLORS = ['', '#ef4444', '#f97316', '#f59e0b', '#84cc16', '#22c55e'];
 
 const PAGE_SIZE = 8;
+const GALLERY_PREVIEW_COUNT = 5;
 
 const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 	const { t } = useTranslation('common');
@@ -190,15 +191,25 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 								{t('Photos from Reviews')} ({allPhotos.length})
 							</Typography>
 							<div className="rev-gallery-strip">
-								{allPhotos.map((img, i) => (
-									<img
-										key={i}
-										src={`${REACT_APP_API_URL}/${img}`}
-										alt=""
-										className="rev-gallery-thumb"
-										onClick={() => openLightbox(allPhotos, i)}
-									/>
-								))}
+								{allPhotos.slice(0, GALLERY_PREVIEW_COUNT).map((img, i) => {
+									const remaining = allPhotos.length - GALLERY_PREVIEW_COUNT;
+									const showMore = i === GALLERY_PREVIEW_COUNT - 1 && remaining > 0;
+									return (
+										<div
+											key={i}
+											className="rev-gallery-cell"
+											onClick={() => openLightbox(allPhotos, i)}
+										>
+											<img src={`${REACT_APP_API_URL}/${img}`} alt="" className="rev-gallery-thumb" />
+											{showMore && (
+												<div className="rev-gallery-more">
+													<span className="rev-gallery-more-count">+{remaining}</span>
+													<span className="rev-gallery-more-label">{t('See more')}</span>
+												</div>
+											)}
+										</div>
+									);
+								})}
 							</div>
 						</div>
 					)}
