@@ -432,6 +432,42 @@ $font: 'Poppins', sans-serif;
 					font-weight: 600;
 				}
 			}
+
+			.rev-react-btn {
+				display: flex;
+				align-items: center;
+				gap: 5px;
+				padding: 5px 14px;
+				border-radius: 16px;
+				border: 1px solid #e8e8e8;
+				background: #fff;
+				font-family: $font;
+				font-size: 12px;
+				color: #888;
+				cursor: pointer;
+				transition: all 0.2s;
+
+				.rev-react-count {
+					font-weight: 600;
+					font-size: 12px;
+				}
+
+				&.like:hover { border-color: $orange; color: $orange; }
+				&.dislike:hover { border-color: #ef4444; color: #ef4444; }
+
+				&.like.active {
+					background: #fff4e8;
+					border-color: $orange;
+					color: $orange;
+					font-weight: 600;
+				}
+				&.dislike.active {
+					background: #fdecec;
+					border-color: #ef4444;
+					color: #ef4444;
+					font-weight: 600;
+				}
+			}
 		}
 	}
 

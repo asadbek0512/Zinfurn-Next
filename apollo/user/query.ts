@@ -1208,6 +1208,9 @@ export const GET_PROPERTY_REVIEWS = gql`
 				reviewStatus
 				createdAt
 				updatedAt
+				likesCount
+				dislikesCount
+				myReaction
 				memberData {
 					_id
 					memberNick

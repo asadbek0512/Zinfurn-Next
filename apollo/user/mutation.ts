@@ -532,6 +532,17 @@ export const UPDATE_REVIEW = gql`
 	}
 `;
 
+export const TOGGLE_REVIEW_REACTION = gql`
+	mutation ToggleReviewReaction($reviewId: String!, $reaction: ReviewReaction!) {
+		toggleReviewReaction(reviewId: $reviewId, reaction: $reaction) {
+			_id
+			likesCount
+			dislikesCount
+			myReaction
+		}
+	}
+`;
+
 export const GET_TECHNICIAN_PROPERTIES = gql`
 query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
     getTechnicianProperties(input: $input) {

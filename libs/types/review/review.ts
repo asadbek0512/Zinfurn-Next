@@ -1,4 +1,4 @@
-import { ReviewStatus } from '../../enums/review.enum';
+import { ReviewReaction, ReviewStatus } from '../../enums/review.enum';
 import { Member } from '../member/member';
 
 export interface RatingCount {
@@ -17,6 +17,9 @@ export interface Review {
 	reviewStatus: ReviewStatus;
 	createdAt: Date;
 	updatedAt: Date;
+	likesCount?: number;
+	dislikesCount?: number;
+	myReaction?: ReviewReaction | null;
 	memberData?: Member;
 }
 

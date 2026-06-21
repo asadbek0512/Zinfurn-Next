@@ -1,16 +1,23 @@
 // @ts-nocheck
 import React, { useState } from 'react';
 import { Typography } from '@mui/material';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { GET_PROPERTY_REVIEWS, GET_PROPERTY_REVIEW_SUMMARY } from '../../../apollo/user/query';
+import { TOGGLE_REVIEW_REACTION } from '../../../apollo/user/mutation';
 import { Review, ReviewSummary } from '../../types/review/review';
+import { ReviewReaction } from '../../enums/review.enum';
 import { REACT_APP_API_URL } from '../../config';
+import { userVar } from '../../../apollo/store';
+import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { useTranslation } from 'next-i18next';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import CloseIcon from '@mui/icons-material/Close';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -32,7 +39,12 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 	const [sortBy, setSortBy] = useState('createdAt');
 	const [starFilter, setStarFilter] = useState<number | null>(null);
 	const [lightbox, setLightbox] = useState<{ images: string[]; idx: number } | null>(null);
-	const [likedReviews, setLikedReviews] = useState<Set<string>>(new Set());
+	const user = useReactiveVar(userVar);
+	const [toggleReviewReaction] = useMutation(TOGGLE_REVIEW_REACTION);
+	// local override of server reaction state, keyed by review _id
+	const [reactions, setReactions] = useState<
+		Record<string, { likesCount: number; dislikesCount: number; myReaction: ReviewReaction | null }>
+	>({});
 
 	const { data: summaryData } = useQuery(GET_PROPERTY_REVIEW_SUMMARY, {
 		variables: { propertyId },
@@ -77,13 +89,37 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 
 	const openLightbox = (images: string[], idx: number) => setLightbox({ images, idx });
 
-	const toggleLike = (id: string) => {
-		setLikedReviews((prev) => {
-			const next = new Set(prev);
-			if (next.has(id)) next.delete(id);
-			else next.add(id);
-			return next;
-		});
+	// merge server review data with any local override
+	const getReaction = (review: Review) => {
+		const o = reactions[review._id];
+		return {
+			likesCount: o?.likesCount ?? review.likesCount ?? 0,
+			dislikesCount: o?.dislikesCount ?? review.dislikesCount ?? 0,
+			myReaction: o ? o.myReaction : review.myReaction ?? null,
+		};
+	};
+
+	const handleReaction = async (reviewId: string, reaction: ReviewReaction) => {
+		if (!user?._id) {
+			await sweetMixinErrorAlert(t('Please login first'));
+			return;
+		}
+		try {
+			const { data } = await toggleReviewReaction({ variables: { reviewId, reaction } });
+			const res = data?.toggleReviewReaction;
+			if (res) {
+				setReactions((prev) => ({
+					...prev,
+					[reviewId]: {
+						likesCount: res.likesCount,
+						dislikesCount: res.dislikesCount,
+						myReaction: res.myReaction ?? null,
+					},
+				}));
+			}
+		} catch (err) {
+			await sweetMixinErrorAlert((err as Error).message);
+		}
 	};
 
 	const avgRounded = Math.round(summary.averageRating);
@@ -275,13 +311,36 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 								)}
 
 								<div className="rev-card-footer">
-									<button
-										className={`rev-helpful-btn ${likedReviews.has(review._id) ? 'liked' : ''}`}
-										onClick={() => toggleLike(review._id)}
-									>
-										<ThumbUpOutlinedIcon sx={{ fontSize: 13 }} />
-										{t('Helpful')}
-									</button>
+									{(() => {
+										const r = getReaction(review);
+										return (
+											<>
+												<button
+													className={`rev-react-btn like ${r.myReaction === ReviewReaction.LIKE ? 'active' : ''}`}
+													onClick={() => handleReaction(review._id, ReviewReaction.LIKE)}
+												>
+													{r.myReaction === ReviewReaction.LIKE ? (
+														<ThumbUpIcon sx={{ fontSize: 14 }} />
+													) : (
+														<ThumbUpOutlinedIcon sx={{ fontSize: 14 }} />
+													)}
+													<span>{t('Helpful')}</span>
+													{r.likesCount > 0 && <span className="rev-react-count">{r.likesCount}</span>}
+												</button>
+												<button
+													className={`rev-react-btn dislike ${r.myReaction === ReviewReaction.DISLIKE ? 'active' : ''}`}
+													onClick={() => handleReaction(review._id, ReviewReaction.DISLIKE)}
+												>
+													{r.myReaction === ReviewReaction.DISLIKE ? (
+														<ThumbDownIcon sx={{ fontSize: 14 }} />
+													) : (
+														<ThumbDownOutlinedIcon sx={{ fontSize: 14 }} />
+													)}
+													{r.dislikesCount > 0 && <span className="rev-react-count">{r.dislikesCount}</span>}
+												</button>
+											</>
+										);
+									})()}
 								</div>
 							</div>
 						))}
