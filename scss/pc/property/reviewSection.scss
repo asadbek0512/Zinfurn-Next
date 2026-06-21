@@ -508,7 +508,18 @@ $font: 'Poppins', sans-serif;
 	.rev-load-more-wrap {
 		display: flex;
 		justify-content: center;
+		gap: 12px;
 		margin-top: 20px;
+
+		.rev-hide-btn {
+			color: #888;
+
+			&:hover {
+				border-color: #bbb;
+				color: #444;
+				background: #f7f7f7;
+			}
+		}
 
 		.rev-load-more-btn {
 			display: flex;

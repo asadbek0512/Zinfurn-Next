@@ -7,7 +7,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckIcon from '@mui/icons-material/Check';
 import { Property } from '../../types/property/property';
 import { REACT_APP_API_URL } from '../../config';
-import { formatterStr } from '../../utils';
+import { formatterStr, formatCount } from '../../utils';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
@@ -160,7 +160,7 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 									}}
 								/>
 							</IconButton>
-							<Typography className="likes-count">{property?.propertyLikes}</Typography>
+							<Typography className="likes-count">{formatCount(property?.propertyLikes)}</Typography>
 						</Box>
 					</Box>
 				</Box>

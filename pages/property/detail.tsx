@@ -15,7 +15,7 @@ import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Property } from '../../libs/types/property/property';
 import moment from 'moment';
-import { formatterStr } from '../../libs/utils';
+import { formatterStr, formatCount } from '../../libs/utils';
 import { REACT_APP_API_URL } from '../../libs/config';
 import { userVar } from '../../apollo/store';
 import { addToCart } from '../../libs/utils/cartUtils';
@@ -384,7 +384,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						{property?.propertySoldCount ? (
 							<>
 								<span className="mob-det-rating-dot">·</span>
-								<span className="mob-det-sold">{property.propertySoldCount}+ {t('sold')}</span>
+								<span className="mob-det-sold">{formatCount(property.propertySoldCount)}+ {t('sold')}</span>
 							</>
 						) : null}
 					</div>
@@ -722,7 +722,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										{property?.propertySoldCount ? (
 											<Typography variant="body2" sx={{ color: '#888', fontSize: 13 }}>
-												{property.propertySoldCount}+ {t('sold')}
+												{formatCount(property.propertySoldCount)}+ {t('sold')}
 											</Typography>
 										) : null}
 									</Stack>
@@ -786,7 +786,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Stack className="button-box">
 											<span className="metaLabel">{t('views')} :</span>
 											<RemoveRedEyeIcon fontSize="medium" />
-											<Typography>{property?.propertyViews}</Typography>
+											<Typography>{formatCount(property?.propertyViews)}</Typography>
 										</Stack>
 										<Stack className="button-box" onClick={() => likePropertyHandler(user, property!._id)}>
 											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
@@ -794,7 +794,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											) : (
 												<FavoriteBorderIcon fontSize="medium" />
 											)}
-											<Typography>{property?.propertyLikes}</Typography>
+											<Typography>{formatCount(property?.propertyLikes)}</Typography>
 										</Stack>
 									</Stack>
 
@@ -920,7 +920,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													</Box>
 													<Box component="div" className="detail-row">
 														<span className="detail-label">{t('sold')}</span>
-														<span className="detail-value">{property?.propertySoldCount || 0}+</span>
+														<span className="detail-value">{formatCount(property?.propertySoldCount)}+</span>
 													</Box>
 
 													<Box component="div" className="detail-row">

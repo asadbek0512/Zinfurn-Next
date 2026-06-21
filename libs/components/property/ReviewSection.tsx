@@ -22,6 +22,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 interface ReviewSectionProps {
 	propertyId: string;
@@ -30,12 +31,14 @@ interface ReviewSectionProps {
 const RATING_LABELS = ['', 'Terrible', 'Poor', 'Average', 'Good', 'Excellent'];
 const RATING_COLORS = ['', '#ef4444', '#f97316', '#f59e0b', '#84cc16', '#22c55e'];
 
-const PAGE_SIZE = 8;
+const FETCH_LIMIT = 100;
+const INITIAL_VISIBLE = 10;
+const VISIBLE_STEP = 10;
 const GALLERY_PREVIEW_COUNT = 5;
 
 const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 	const { t } = useTranslation('common');
-	const [page, setPage] = useState(1);
+	const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
 	const [photoFilter, setPhotoFilter] = useState(false);
 	const [sortBy, setSortBy] = useState('createdAt');
 	const [starFilter, setStarFilter] = useState<number | null>(null);
@@ -56,8 +59,8 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 	const { data, loading } = useQuery(GET_PROPERTY_REVIEWS, {
 		variables: {
 			input: {
-				page,
-				limit: PAGE_SIZE,
+				page: 1,
+				limit: FETCH_LIMIT,
 				sort: sortBy,
 				direction: 'DESC',
 				search: { propertyId },
@@ -66,6 +69,11 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 		skip: !propertyId,
 		fetchPolicy: 'cache-and-network',
 	});
+
+	// filtr yoki sort o'zgarsa, ko'rinishni 10 taga qaytaramiz
+	React.useEffect(() => {
+		setVisibleCount(INITIAL_VISIBLE);
+	}, [sortBy, photoFilter, starFilter]);
 
 	const summary: ReviewSummary = summaryData?.getPropertyReviewSummary || {
 		averageRating: 0,
@@ -85,6 +93,10 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 	let filtered = [...reviews];
 	if (photoFilter) filtered = filtered.filter((r) => r.reviewImages?.length > 0);
 	if (starFilter !== null) filtered = filtered.filter((r) => r.reviewRating === starFilter);
+
+	const visibleReviews = filtered.slice(0, visibleCount);
+	const hasMore = filtered.length > visibleCount;
+	const isExpanded = visibleCount > INITIAL_VISIBLE;
 
 	const allPhotos = reviews.flatMap((r) => (r.reviewImages || []).map((img) => img));
 
@@ -255,7 +267,7 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 								<Typography color="text.secondary">{t('No reviews matching this filter')}</Typography>
 							</div>
 						)}
-						{filtered.map((review) => (
+						{visibleReviews.map((review) => (
 							<div className="rev-card" key={review._id}>
 								<div className="rev-card-top">
 									<div className="rev-user-block">
@@ -357,13 +369,27 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 						))}
 					</div>
 
-					{/* Load more */}
-					{total > page * PAGE_SIZE && (
+					{/* Show more / Hide */}
+					{(hasMore || isExpanded) && (
 						<div className="rev-load-more-wrap">
-							<button className="rev-load-more-btn" onClick={() => setPage((p) => p + 1)}>
-								<KeyboardArrowDownIcon sx={{ fontSize: 18 }} />
-								{t('Load More Reviews')} ({total - page * PAGE_SIZE} {t('remaining')})
-							</button>
+							{hasMore && (
+								<button
+									className="rev-load-more-btn"
+									onClick={() => setVisibleCount((c) => c + VISIBLE_STEP)}
+								>
+									<KeyboardArrowDownIcon sx={{ fontSize: 18 }} />
+									{t('Show more')} ({filtered.length - visibleCount} {t('remaining')})
+								</button>
+							)}
+							{isExpanded && (
+								<button
+									className="rev-load-more-btn rev-hide-btn"
+									onClick={() => setVisibleCount(INITIAL_VISIBLE)}
+								>
+									<KeyboardArrowUpIcon sx={{ fontSize: 18 }} />
+									{t('Hide')}
+								</button>
+							)}
 						</div>
 					)}
 				</>

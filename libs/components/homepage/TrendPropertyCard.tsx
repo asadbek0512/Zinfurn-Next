@@ -12,6 +12,7 @@ import { userVar } from '../../../apollo/store';
 import { useTranslation } from 'next-i18next';
 import { addToCart } from '../../utils/cartUtils';
 import { flyToCart } from '../../utils/flyToCart';
+import { formatCount } from '../../utils';
 import { useCurrency } from '../../context/CurrencyContext';
 
 interface TrendPropertyCardProps {
@@ -130,7 +131,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 								<FavoriteBorderIcon style={{ color: '#bbb' }} />
 							)}
 						</IconButton>
-						<Typography className="likes-count">{property?.propertyLikes}</Typography>
+						<Typography className="likes-count">{formatCount(property?.propertyLikes)}</Typography>
 					</Box>
 				</Box>
 			</Box>

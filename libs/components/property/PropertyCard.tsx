@@ -9,7 +9,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckIcon from '@mui/icons-material/Check';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { formatterStr } from '../../utils';
+import { formatterStr, formatCount } from '../../utils';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -84,7 +84,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 							<span className="mob-card-rating-val">{property.propertyRating.toFixed(1)}</span>
 						) : null}
 						{property?.propertySoldCount ? (
-							<span className="mob-card-sold">{property.propertySoldCount}+ sold</span>
+							<span className="mob-card-sold">{formatCount(property.propertySoldCount)}+ sold</span>
 						) : null}
 					</div>
 
@@ -107,7 +107,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 						<div className="mob-card-actions">
 							<div className="mob-action">
 								<RemoveRedEyeIcon sx={{ fontSize: 13 }} />
-								{property?.propertyViews || 0}
+								{formatCount(property?.propertyViews)}
 							</div>
 							<div className="mob-action">
 								<ChatBubbleOutlineIcon sx={{ fontSize: 13 }} />
@@ -120,7 +120,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 								{myFavorites || property?.meLiked?.[0]?.myFavorite
 									? <FavoriteIcon style={{ fontSize: 13, color: '#cf6422' }} />
 									: <FavoriteBorderIcon style={{ fontSize: 13, color: '#bbb' }} />}
-								{property?.propertyLikes || 0}
+								{formatCount(property?.propertyLikes)}
 							</div>
 							<div
 								className={`mob-action mob-action-cart ${addedFlash ? 'added' : ''}`}
@@ -167,7 +167,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 						<span className="pc-card-rating-val">{property.propertyRating.toFixed(1)}</span>
 					) : null}
 					{property?.propertySoldCount ? (
-						<span className="pc-card-sold">{property.propertySoldCount}+ sold</span>
+						<span className="pc-card-sold">{formatCount(property.propertySoldCount)}+ sold</span>
 					) : null}
 				</div>
 
@@ -225,7 +225,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 							<IconButton size="small">
 								<RemoveRedEyeIcon />
 							</IconButton>
-							<Typography>{property?.propertyViews || 0}</Typography>
+							<Typography>{formatCount(property?.propertyViews)}</Typography>
 						</Box>
 						<Box component="div" className="action-item">
 							<IconButton size="small">
@@ -241,7 +241,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 									<FavoriteBorderIcon style={{ color: '#bbb' }} />
 								)}
 							</IconButton>
-							<Typography>{property?.propertyLikes || 0}</Typography>
+							<Typography>{formatCount(property?.propertyLikes)}</Typography>
 						</Box>
 					</Stack>
 				)}
