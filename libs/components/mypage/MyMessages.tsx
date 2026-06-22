@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import { Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -68,8 +68,13 @@ const MyMessages = () => {
 	};
 
 	return (
-		<div className="my-messages">
-			<Typography className="mm-title">{t('Messages')}</Typography>
+		<div id="my-messages-page">
+			<Stack className="main-title-box">
+				<Stack className="right-box">
+					<Typography className="main-title">{t('Messages')}</Typography>
+					<Typography className="sub-title">{t('Chat with buyers and sellers')}</Typography>
+				</Stack>
+			</Stack>
 
 			<div className="mm-layout">
 				{/* Conversations list */}
