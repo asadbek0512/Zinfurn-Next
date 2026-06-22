@@ -37,6 +37,7 @@ import { create } from 'domain';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import Review from '../../libs/components/property/Review';
 import ReviewSection from '../../libs/components/property/ReviewSection';
+import SEO from '../../libs/components/common/SEO';
 import {
 	Add,
 	ChevronLeft,
@@ -366,9 +367,41 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		return <Loading fullScreen={device === 'mobile'} />;
 	}
 
+	const seoImage = property?.propertyImages?.[0] ? `${REACT_APP_API_URL}/${property.propertyImages[0]}` : undefined;
+	const seoDesc = property?.propertyDesc
+		? property.propertyDesc.slice(0, 160)
+		: `${property?.propertyTitle} — buy at Zinfurn. ${property?.propertyReviews || 0} reviews, rated ${property?.propertyRating || 0}/5.`;
+	const seoEl = (
+		<SEO
+			title={property?.propertyTitle}
+			description={seoDesc}
+			image={seoImage}
+			url={`https://zinfurn.uz/property/detail?id=${property?._id}`}
+			type="product"
+			price={property?.propertySalePrice || property?.propertyPrice}
+			jsonLd={{
+				'@context': 'https://schema.org',
+				'@type': 'Product',
+				name: property?.propertyTitle,
+				image: seoImage,
+				description: seoDesc,
+				offers: {
+					'@type': 'Offer',
+					price: property?.propertySalePrice || property?.propertyPrice,
+					priceCurrency: 'KRW',
+					availability: property?.propertyInStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+				},
+				aggregateRating: property?.propertyReviews
+					? { '@type': 'AggregateRating', ratingValue: property?.propertyRating || 0, reviewCount: property?.propertyReviews }
+					: undefined,
+			}}
+		/>
+	);
+
 	if (device === 'mobile') {
 		return (
 			<div id="mob-property-detail-page">
+				{seoEl}
 				{/* Back */}
 				<div className="mob-det-back" onClick={() => router.push('/property')}>
 					{t('back_to_property')}
@@ -663,6 +696,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	} else {
 		return (
 			<div id={'property-detail-page'}>
+				{seoEl}
 				<div className={'container'}>
 					<Stack className={'property-detail-config'}>
 						<Stack className="productContainer">

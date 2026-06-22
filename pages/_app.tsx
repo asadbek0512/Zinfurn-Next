@@ -10,22 +10,42 @@ import '../scss/app.scss';
 import '../scss/pc/main.scss';
 import '../scss/mobile/main.scss';
 import { useRouter } from 'next/router';
-import { setJwtToken, updateUserInfo } from '../libs/auth';
+import { setJwtToken, updateUserInfo, updateStorage } from '../libs/auth';
 import CartDrawer from '../libs/components/cart/CartDrawer';
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
+import SEO from '../libs/components/common/SEO';
+
+const PAGE_TITLES: Record<string, string> = {
+	'/property': 'Furniture Collection',
+	'/repairService': 'Furniture Repair Service',
+	'/community': 'Community',
+	'/agent': 'Our Agents',
+	'/cs': 'Customer Support',
+	'/checkout': 'Checkout',
+	'/mypage': 'My Page',
+	'/account/join': 'Login / Sign up',
+};
 
 const App = ({ Component, pageProps }: AppProps) => {
 	// @ts-ignore
 	const [theme, setTheme] = useState(createTheme(light));
 	const client = useApollo(pageProps.initialApolloState);
 	const router = useRouter();
+	const pageTitle = PAGE_TITLES[router.pathname];
+
+	useEffect(() => {
+		const savedToken = localStorage.getItem('accessToken');
+		if (savedToken) {
+			setJwtToken(savedToken);
+			updateUserInfo(savedToken);
+		}
+	}, []);
 
 	useEffect(() => {
 		const { token } = router.query;
 		if (token && typeof token === 'string') {
-			setJwtToken(token);
+			updateStorage({ jwtToken: token });
 			updateUserInfo(token);
-			// Tokenni URLdan olib tashlab, bosh sahifaga yo'naltirish
 			router.replace('/');
 		}
 	}, [router.query]);
@@ -35,6 +55,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<CurrencyProvider>
+					<SEO title={pageTitle} url={`https://zinfurn.uz${router.asPath?.split('?')[0] || ''}`} />
 					<Component {...pageProps} />
 					<CartDrawer />
 				</CurrencyProvider>
