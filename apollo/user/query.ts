@@ -1237,6 +1237,44 @@ export const GET_PROPERTY_REVIEW_SUMMARY = gql`
 	}
 `;
 
+export const GET_MY_CONVERSATIONS = gql`
+	query GetMyConversations {
+		getMyConversations {
+			conversationId
+			propertyId
+			propertyTitle
+			propertyImage
+			lastMessage
+			lastMessageAt
+			unreadCount
+			partner {
+				_id
+				memberNick
+				memberImage
+			}
+		}
+	}
+`;
+
+export const GET_CONVERSATION = gql`
+	query GetConversation($conversationId: String!) {
+		getConversation(conversationId: $conversationId) {
+			_id
+			conversationId
+			senderId
+			receiverId
+			message
+			messageStatus
+			createdAt
+			senderData {
+				_id
+				memberNick
+				memberImage
+			}
+		}
+	}
+`;
+
 /**************************
  *         NOTICE        *
  *************************/

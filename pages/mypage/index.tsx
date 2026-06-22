@@ -23,6 +23,7 @@ import { Messages } from '../../libs/config';
 import AddRepairProperty from '../../libs/components/mypage/AddNewRepairProperty';
 import MyRepairProperty from '../../libs/components/mypage/MyRepairProperty';
 import MyOrders from '../../libs/components/mypage/MyOrders';
+import MyMessages from '../../libs/components/mypage/MyMessages';
 import { GET_MY_PROFILE } from '../../apollo/user/query';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useTranslation } from 'next-i18next';
@@ -152,6 +153,7 @@ const MyPage: NextPage = () => {
 				{mobileCategory === 'writeArticle' && <WriteArticle />}
 				{mobileCategory === 'myProfile' && <MyProfile />}
 				{mobileCategory === 'myOrders' && <MyOrders />}
+				{mobileCategory === 'myMessages' && <MyMessages />}
 				{mobileCategory === 'followers' && (
 					<MemberFollowers
 						subscribeHandler={subscribeHandler}
@@ -192,6 +194,7 @@ const MyPage: NextPage = () => {
 									{category === 'writeArticle' && <WriteArticle />}
 									{category === 'myProfile' && <MyProfile />}
 									{category === 'myOrders' && <MyOrders />}
+									{category === 'myMessages' && <MyMessages />}
 									{category === 'followers' && (
 										<MemberFollowers
 											subscribeHandler={subscribeHandler}

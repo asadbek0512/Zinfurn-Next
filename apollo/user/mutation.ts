@@ -543,6 +543,29 @@ export const TOGGLE_REVIEW_REACTION = gql`
 	}
 `;
 
+export const SEND_MESSAGE = gql`
+	mutation SendMessage($input: SendMessageInput!) {
+		sendMessage(input: $input) {
+			_id
+			conversationId
+			message
+			createdAt
+		}
+	}
+`;
+
+export const REPLY_MESSAGE = gql`
+	mutation ReplyMessage($input: ReplyMessageInput!) {
+		replyMessage(input: $input) {
+			_id
+			conversationId
+			message
+			senderId
+			createdAt
+		}
+	}
+`;
+
 export const GET_TECHNICIAN_PROPERTIES = gql`
 query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
     getTechnicianProperties(input: $input) {

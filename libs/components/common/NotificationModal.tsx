@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { useReactiveVar } from '@apollo/client';
 import { socketVar, userVar } from '../../../apollo/store';
 import { useSwipeable } from 'react-swipeable';
+import { useRouter } from 'next/router';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -20,8 +21,9 @@ interface Notification {
 	createdAt: Date;
 }
 
-const NotificationItem = ({ notification, onRead }: { notification: Notification; onRead: () => void }) => {
+const NotificationItem = ({ notification, onRead, onNavigate }: { notification: Notification; onRead: () => void; onNavigate?: () => void }) => {
 	const { t } = useTranslation('common');
+	const router = useRouter();
 	const handlers = useSwipeable({
 		onSwipedRight: () => {
 			if (notification.status === 'WAIT') {
@@ -37,6 +39,8 @@ const NotificationItem = ({ notification, onRead }: { notification: Notification
 				return <FavoriteIcon sx={{ color: '#ff4d4f' }} />;
 			case 'COMMENT':
 				return <ChatBubbleIcon sx={{ color: '#40a9ff' }} />;
+			case 'MESSAGE':
+				return <ChatBubbleIcon sx={{ color: '#52c41a' }} />;
 			default:
 				return <NotificationsIcon sx={{ color: '#cf6422' }} />;
 		}
@@ -45,7 +49,13 @@ const NotificationItem = ({ notification, onRead }: { notification: Notification
 	return (
 		<div {...handlers}>
 			<MenuItem
-				style={{ position: 'relative', display: 'block', whiteSpace: 'normal' }}
+				onClick={() => {
+					if (notification.type === 'MESSAGE') {
+						onNavigate?.();
+						router.push({ pathname: '/mypage', query: { category: 'myMessages' } });
+					}
+				}}
+				style={{ position: 'relative', display: 'block', whiteSpace: 'normal', cursor: notification.type === 'MESSAGE' ? 'pointer' : 'default' }}
 				sx={{
 					py: 2,
 					px: 3,
@@ -213,7 +223,7 @@ const NotificationModal = ({
 					</div>
 				) : (
 					notifications.map((notification) => (
-						<NotificationItem key={notification.id} notification={notification} onRead={() => {}} />
+						<NotificationItem key={notification.id} notification={notification} onRead={() => {}} onNavigate={onClose} />
 					))
 				)}
 			</div>

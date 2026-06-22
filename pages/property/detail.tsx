@@ -31,7 +31,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { GET_COMMENTS, GET_PROPERTIES, GET_PROPERTY, GET_PROPERTY_REVIEW_SUMMARY } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { CREATE_COMMENT, CREATE_REVIEW, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { CREATE_COMMENT, CREATE_REVIEW, LIKE_TARGET_PROPERTY, SEND_MESSAGE } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { create } from 'domain';
 import { Direction, Message } from '../../libs/enums/common.enum';
@@ -97,9 +97,16 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const images = property?.propertyImages ?? [];
 	const currentIndex = images.indexOf(slideImage);
 
+	// Contact agent form
+	const [contactName, setContactName] = useState('');
+	const [contactPhone, setContactPhone] = useState('');
+	const [contactMessage, setContactMessage] = useState('');
+	const [sendingMessage, setSendingMessage] = useState(false);
+
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
 	const [createComment] = useMutation(CREATE_COMMENT);
+	const [sendMessage] = useMutation(SEND_MESSAGE);
 
 	const {
 		loading: getPropertyLoading,
@@ -194,6 +201,13 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	}, [commentInquiry]);
 
+	useEffect(() => {
+		if (user?._id) {
+			setContactName((prev) => prev || user.memberNick || '');
+			setContactPhone((prev) => prev || user.memberPhone || '');
+		}
+	}, [user?._id]);
+
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
 		setSlideImage(image);
@@ -272,6 +286,34 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			sweetTopSmallSuccessAlert('Comment submitted successfully!', 2000);
 		} catch (err) {
 			await sweetErrorHandling(err);
+		}
+	};
+
+	const sendMessageHandler = async () => {
+		try {
+			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
+			if (!property?._id) return;
+			if (!contactMessage.trim()) {
+				await sweetMixinErrorAlert(t('Please write a message'));
+				return;
+			}
+			setSendingMessage(true);
+			await sendMessage({
+				variables: {
+					input: {
+						propertyId: property._id,
+						message: contactMessage,
+						name: contactName || undefined,
+						phone: contactPhone || undefined,
+					},
+				},
+			});
+			setContactMessage('');
+			sweetTopSmallSuccessAlert(t('Message sent to the seller!'), 2000);
+		} catch (err) {
+			await sweetErrorHandling(err);
+		} finally {
+			setSendingMessage(false);
 		}
 	};
 
@@ -582,10 +624,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<span className="mob-det-agent-phone">{property?.memberData?.memberPhone}</span>
 						</div>
 					</div>
-					<input className="mob-det-input" type="text" placeholder={t('enter_your_name')} />
-					<input className="mob-det-input" type="text" placeholder={t('enter_your_phone')} />
-					<textarea className="mob-det-textarea" placeholder={t('message_placeholder')} />
-					<button className="mob-det-send-btn">{t('send_message')}</button>
+					<input className="mob-det-input" type="text" placeholder={t('enter_your_name')} value={contactName} onChange={(e) => setContactName(e.target.value)} />
+					<input className="mob-det-input" type="text" placeholder={t('enter_your_phone')} value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
+					<textarea className="mob-det-textarea" placeholder={t('message_placeholder')} value={contactMessage} onChange={(e) => setContactMessage(e.target.value)} />
+					<button className="mob-det-send-btn" onClick={sendMessageHandler} disabled={sendingMessage}>{sendingMessage ? t('Sending...') : t('send_message')}</button>
 				</div>
 
 				{/* O'xshash mahsulotlar */}
@@ -1065,22 +1107,22 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>{t('name')}</Typography>
-									<input type={'text'} placeholder={t('enter_your_name')} />
+									<input type={'text'} placeholder={t('enter_your_name')} value={contactName} onChange={(e) => setContactName(e.target.value)} />
 								</Stack>
 
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>{t('phone')}</Typography>
-									<input type={'text'} placeholder={t('enter_your_phone')} />
+									<input type={'text'} placeholder={t('enter_your_phone')} value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
 								</Stack>
 
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>{t('message')}</Typography>
-									<textarea placeholder={t('message_placeholder')}></textarea>
+									<textarea placeholder={t('message_placeholder')} value={contactMessage} onChange={(e) => setContactMessage(e.target.value)}></textarea>
 								</Stack>
 
 								<Stack className={'info-box'}>
-									<Button className={'send-message'}>
-										<Typography className={'title'}>{t('send_message')}</Typography>
+									<Button className={'send-message'} onClick={sendMessageHandler} disabled={sendingMessage}>
+										<Typography className={'title'}>{sendingMessage ? t('Sending...') : t('send_message')}</Typography>
 									</Button>
 								</Stack>
 							</Stack>
