@@ -1242,6 +1242,7 @@ export const GET_MY_CONVERSATIONS = gql`
 		getMyConversations {
 			conversationId
 			propertyId
+			kind
 			propertyTitle
 			propertyImage
 			lastMessage

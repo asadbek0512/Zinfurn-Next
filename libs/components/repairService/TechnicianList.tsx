@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Stack, Box, Button, Typography } from '@mui/material';
-import { useQuery } from '@apollo/client';
+import { Stack, Box, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions, TextField, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Member } from '../../types/member/member';
 import { AgentsInquiry } from '../../types/member/member.input';
 import { T } from '../../types/common';
 import { GET_TECHNICIANS } from '../../../apollo/user/query';
+import { SEND_REPAIR_REQUEST } from '../../../apollo/user/mutation';
+import { userVar } from '../../../apollo/store';
+import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { ArrowRight, CheckCircle, Leaf, Shield, Star } from 'phosphor-react';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import BuildIcon from '@mui/icons-material/Build';
@@ -28,11 +32,61 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 	const router = useRouter();
 	const [isVisible, setIsVisible] = useState(false);
 	const [topTechnician, setTopTechnician] = useState<Member | null>(null);
+	const user = useReactiveVar(userVar);
+
+	// repair request modal
+	const [repairOpen, setRepairOpen] = useState(false);
+	const [reqMessage, setReqMessage] = useState('');
+	const [reqAddress, setReqAddress] = useState('');
+	const [reqPhone, setReqPhone] = useState('');
+	const [submitting, setSubmitting] = useState(false);
+	const [sendRepairRequest] = useMutation(SEND_REPAIR_REQUEST);
 
 	useEffect(() => {
 		const timer = setTimeout(() => setIsVisible(true), 100);
 		return () => clearTimeout(timer);
 	}, []);
+
+	useEffect(() => {
+		if (user?._id) setReqPhone((p) => p || user.memberPhone || '');
+	}, [user?._id]);
+
+	const openRepairModal = () => {
+		if (!user?._id) {
+			sweetMixinErrorAlert(t('Please login to request a repair')).then();
+			return;
+		}
+		if (!topTechnician?._id) return;
+		setRepairOpen(true);
+	};
+
+	const submitRepairRequest = async () => {
+		if (!reqMessage.trim() || !topTechnician?._id) {
+			await sweetMixinErrorAlert(t('Please describe the problem'));
+			return;
+		}
+		setSubmitting(true);
+		try {
+			await sendRepairRequest({
+				variables: {
+					input: {
+						technicianId: topTechnician._id,
+						message: reqMessage,
+						address: reqAddress || undefined,
+						phone: reqPhone || undefined,
+					},
+				},
+			});
+			setRepairOpen(false);
+			setReqMessage('');
+			setReqAddress('');
+			sweetTopSmallSuccessAlert(t('Repair request sent to the technician!'), 2000);
+		} catch (err) {
+			await sweetErrorHandling(err);
+		} finally {
+			setSubmitting(false);
+		}
+	};
 
 	/** APOLLO REQUESTS **/
 	const {
@@ -174,6 +228,7 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 	}
 
 	return (
+		<>
 		<Stack className={`quality-section ${isVisible ? 'visible' : ''}`}>
 			<Box component="div" className="quality-container">
 				{/* Main Content Grid */}
@@ -240,7 +295,7 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 
 						{/* CTA Button */}
 						<Box component="div" className="cta-section">
-							<Button className="cta-button" onClick={() => router.push('/technicians')}>
+							<Button className="cta-button" onClick={openRepairModal}>
 								<Typography component="span">{t('Request Repair')}</Typography>
 								<ArrowRight className="arrow-icon" />
 							</Button>
@@ -305,6 +360,28 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 				</Box>
 			</Box>
 		</Stack>
+
+		<Dialog open={repairOpen} onClose={() => setRepairOpen(false)} maxWidth="sm" fullWidth>
+			<DialogTitle sx={{ fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+				{t('Request a Repair')}
+				<IconButton onClick={() => setRepairOpen(false)} size="small"><CloseIcon /></IconButton>
+			</DialogTitle>
+			<DialogContent>
+				<Typography sx={{ fontSize: 14, color: '#666', mb: 2 }}>
+					{t('Send your repair request to')} <strong>{technicianName}</strong>
+				</Typography>
+				<TextField label={t('Describe the problem')} placeholder={t('e.g. My wooden chair leg is broken...')} value={reqMessage} onChange={(e) => setReqMessage(e.target.value)} multiline minRows={3} fullWidth sx={{ mb: 2 }} />
+				<TextField label={t('Address')} value={reqAddress} onChange={(e) => setReqAddress(e.target.value)} fullWidth sx={{ mb: 2 }} />
+				<TextField label={t('Phone')} value={reqPhone} onChange={(e) => setReqPhone(e.target.value)} fullWidth />
+			</DialogContent>
+			<DialogActions sx={{ px: 3, pb: 2 }}>
+				<Button onClick={() => setRepairOpen(false)} sx={{ color: '#888' }}>{t('Cancel')}</Button>
+				<Button onClick={submitRepairRequest} disabled={submitting || !reqMessage.trim()} variant="contained" sx={{ background: '#cf6422', '&:hover': { background: '#b5571c' } }}>
+					{submitting ? t('Sending...') : t('Send Request')}
+				</Button>
+			</DialogActions>
+		</Dialog>
+		</>
 	);
 };
 

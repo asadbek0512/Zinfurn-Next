@@ -566,6 +566,17 @@ export const REPLY_MESSAGE = gql`
 	}
 `;
 
+export const SEND_REPAIR_REQUEST = gql`
+	mutation SendRepairRequest($input: SendRepairRequestInput!) {
+		sendRepairRequest(input: $input) {
+			_id
+			conversationId
+			message
+			createdAt
+		}
+	}
+`;
+
 export const GET_TECHNICIAN_PROPERTIES = gql`
 query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
     getTechnicianProperties(input: $input) {
