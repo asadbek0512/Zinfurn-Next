@@ -138,8 +138,8 @@ const LinkAccountToast = () => {
 	} | null>(null);
 
 	useEffect(() => {
-		// Hide on join/login pages
-		if (!router.isReady || router.pathname === '/account/join' || router.pathname === '/account/login') {
+		// Only show on the MyPage screen
+		if (!router.isReady || router.pathname !== '/mypage') {
 			setIsVisible(false);
 			return;
 		}

@@ -280,6 +280,26 @@
 											margin: 0; // default margin olib tashlash
 											flex: 1;
 										}
+
+										.mymenu-unread-badge {
+											min-width: 20px;
+											height: 20px;
+											padding: 0 6px;
+											border-radius: 10px;
+											background: #cf6422;
+											color: #fff;
+											font-size: 12px;
+											font-weight: 700;
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											flex-shrink: 0;
+										}
+									}
+
+									&.focus .flex-box .mymenu-unread-badge {
+										background: #fff;
+										color: #cf6422;
 									}
 								}
 

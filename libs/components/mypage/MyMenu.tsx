@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import { Stack, Typography, Box, List, ListItem } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Link from 'next/link';
-import { useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { GET_MY_CONVERSATIONS } from '../../../apollo/user/query';
 import PortraitIcon from '@mui/icons-material/Portrait';
 import IconButton from '@mui/material/IconButton';
 import { REACT_APP_API_URL } from '../../config';
@@ -35,6 +36,16 @@ const MyMenu = () => {
 	const pathname = router.query.category ?? 'myProfile';
 	const category: any = router.query?.category ?? 'myProfile';
 	const user = useReactiveVar(userVar);
+
+	const { data: convData } = useQuery(GET_MY_CONVERSATIONS, {
+		skip: !user?._id,
+		fetchPolicy: 'cache-and-network',
+		pollInterval: 20000,
+	});
+	const unreadTotal: number = (convData?.getMyConversations ?? []).reduce(
+		(sum: number, c: any) => sum + (c.unreadCount || 0),
+		0,
+	);
 
 	/** HANDLERS **/
 	const logoutHandler = async () => {
@@ -182,6 +193,7 @@ const MyMenu = () => {
 						<div className="mob-mymenu-item-text">
 							<span className="mob-mymenu-item-label">{t('Messages')}</span>
 						</div>
+						{unreadTotal > 0 && <span className="mymenu-unread-badge">{unreadTotal}</span>}
 						<ChevronRightIcon className="mob-mymenu-item-chevron" />
 					</div>
 					<div className="mob-mymenu-item" onClick={() => goTo('followers')}>
@@ -494,6 +506,7 @@ const MyMenu = () => {
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 											{t('Messages')}
 										</Typography>
+										{unreadTotal > 0 && <span className="mymenu-unread-badge">{unreadTotal}</span>}
 									</div>
 								</Link>
 							</ListItem>
