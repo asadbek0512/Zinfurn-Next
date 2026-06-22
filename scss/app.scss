@@ -78,3 +78,36 @@ hr {
 	width: 100%;
 	overflow-x: hidden;
 }
+
+/** Repair request modal fields **/
+.repair-req-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin-bottom: 16px;
+
+	label {
+		font-size: 13px;
+		font-weight: 600;
+		color: #444;
+	}
+
+	input,
+	textarea {
+		width: 100%;
+		padding: 10px 14px;
+		border: 1px solid #ddd;
+		border-radius: 10px;
+		font-size: 14px;
+		font-family: inherit;
+		color: #222;
+		outline: none;
+		resize: vertical;
+		transition: border-color 0.15s;
+
+		&::placeholder { color: #aaa; }
+		&:focus { border-color: #cf6422; }
+	}
+
+	textarea { min-height: 80px; line-height: 1.5; }
+}

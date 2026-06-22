@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Stack, Typography, IconButton, Menu, MenuItem, Divider, Avatar, Tooltip } from '@mui/material';
 import { format } from 'date-fns';
-import { useReactiveVar } from '@apollo/client';
+import { useMutation, useReactiveVar } from '@apollo/client';
 import { socketVar, userVar } from '../../../apollo/store';
+import { REPLY_MESSAGE } from '../../../apollo/user/mutation';
 import { useSwipeable } from 'react-swipeable';
 import { useRouter } from 'next/router';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -10,6 +11,7 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import SendIcon from '@mui/icons-material/Send';
 import { useTranslation } from 'next-i18next';
 
 interface Notification {
@@ -19,11 +21,34 @@ interface Notification {
 	type: string;
 	status: string;
 	createdAt: Date;
+	conversationId?: string;
 }
 
 const NotificationItem = ({ notification, onRead, onNavigate }: { notification: Notification; onRead: () => void; onNavigate?: () => void }) => {
 	const { t } = useTranslation('common');
 	const router = useRouter();
+	const [replyText, setReplyText] = useState('');
+	const [sending, setSending] = useState(false);
+	const [sentOk, setSentOk] = useState(false);
+	const [replyMessage] = useMutation(REPLY_MESSAGE);
+	const canReply = notification.type === 'MESSAGE' && !!notification.conversationId;
+
+	const handleReply = async (e: React.MouseEvent | React.KeyboardEvent) => {
+		e.stopPropagation();
+		if (!replyText.trim() || !notification.conversationId) return;
+		setSending(true);
+		try {
+			await replyMessage({ variables: { input: { conversationId: notification.conversationId, message: replyText } } });
+			setReplyText('');
+			setSentOk(true);
+			setTimeout(() => setSentOk(false), 2500);
+		} catch {
+			// keep text on failure
+		} finally {
+			setSending(false);
+		}
+	};
+
 	const handlers = useSwipeable({
 		onSwipedRight: () => {
 			if (notification.status === 'WAIT') {
@@ -84,6 +109,35 @@ const NotificationItem = ({ notification, onRead, onNavigate }: { notification: 
 						<Typography variant="caption" sx={{ color: '#999', mt: 0.5, fontSize: '10px' }}>
 							{format(new Date(notification.createdAt), t('MMM dd, yyyy HH:mm'))}
 						</Typography>
+
+						{canReply && (
+							<Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 1 }} onClick={(e) => e.stopPropagation()}>
+								<input
+									className="notif-reply-input"
+									placeholder={sentOk ? t('Reply sent!') : t('Write a reply...')}
+									value={replyText}
+									onChange={(e) => setReplyText(e.target.value)}
+									onKeyDown={(e) => { if (e.key === 'Enter') handleReply(e); }}
+									style={{
+										flex: 1,
+										height: 34,
+										padding: '0 12px',
+										border: '1px solid #e0e0e0',
+										borderRadius: 17,
+										fontSize: 13,
+										outline: 'none',
+									}}
+								/>
+								<IconButton
+									size="small"
+									onClick={handleReply}
+									disabled={sending || !replyText.trim()}
+									sx={{ bgcolor: '#cf6422', color: '#fff', width: 34, height: 34, '&:hover': { bgcolor: '#b5571c' }, '&.Mui-disabled': { bgcolor: '#ddd', color: '#fff' } }}
+								>
+									<SendIcon sx={{ fontSize: 16 }} />
+								</IconButton>
+							</Stack>
+						)}
 					</Stack>
 					{notification.status === 'WAIT' && (
 						<div style={{ width: 8, height: 8, borderRadius: '50%', background: '#cf6422', marginTop: 8, flexShrink: 0 }} />

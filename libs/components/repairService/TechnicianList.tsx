@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Stack, Box, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions, TextField, IconButton } from '@mui/material';
+import { Stack, Box, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -46,10 +46,6 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 		const timer = setTimeout(() => setIsVisible(true), 100);
 		return () => clearTimeout(timer);
 	}, []);
-
-	useEffect(() => {
-		if (user?._id) setReqPhone((p) => p || user.memberPhone || '');
-	}, [user?._id]);
 
 	const openRepairModal = () => {
 		if (!user?._id) {
@@ -370,9 +366,23 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 				<Typography sx={{ fontSize: 14, color: '#666', mb: 2 }}>
 					{t('Send your repair request to')} <strong>{technicianName}</strong>
 				</Typography>
-				<TextField label={t('Describe the problem')} placeholder={t('e.g. My wooden chair leg is broken...')} value={reqMessage} onChange={(e) => setReqMessage(e.target.value)} multiline minRows={3} fullWidth sx={{ mb: 2 }} />
-				<TextField label={t('Address')} value={reqAddress} onChange={(e) => setReqAddress(e.target.value)} fullWidth sx={{ mb: 2 }} />
-				<TextField label={t('Phone')} value={reqPhone} onChange={(e) => setReqPhone(e.target.value)} fullWidth />
+				<div className="repair-req-field">
+					<label>{t('Describe the problem')}</label>
+					<textarea
+						placeholder={t('e.g. My wooden chair leg is broken...')}
+						value={reqMessage}
+						onChange={(e) => setReqMessage(e.target.value)}
+						rows={3}
+					/>
+				</div>
+				<div className="repair-req-field">
+					<label>{t('Address')}</label>
+					<input type="text" placeholder={t('Enter your address')} value={reqAddress} onChange={(e) => setReqAddress(e.target.value)} />
+				</div>
+				<div className="repair-req-field">
+					<label>{t('Phone')}</label>
+					<input type="text" placeholder={t('Enter your phone')} value={reqPhone} onChange={(e) => setReqPhone(e.target.value)} />
+				</div>
 			</DialogContent>
 			<DialogActions sx={{ px: 3, pb: 2 }}>
 				<Button onClick={() => setRepairOpen(false)} sx={{ color: '#888' }}>{t('Cancel')}</Button>
