@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import Head from 'next/head';
 import Top from '../Top';
 import { Stack } from '@mui/material';
 import FiberContainer from '../common/FiberContainer';
@@ -66,10 +65,6 @@ const withLayoutMain = (Component: any) => {
 		if (device == 'mobile') {
 			return (
 				<>
-					<Head>
-						<title>Zinfurn</title>
-						<meta name={'title'} content={`Zinfurn — Korea's Best Furniture Store`} />
-					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
 							<Top />
@@ -96,10 +91,6 @@ const withLayoutMain = (Component: any) => {
 		} else {
 			return (
 				<>
-					<Head>
-						<title>Zinfurn</title>
-						<meta name={'title'} content={`Zinfurn`} />
-					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>
 							<Top />

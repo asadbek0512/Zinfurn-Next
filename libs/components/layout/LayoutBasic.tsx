@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import Head from 'next/head';
 import Top from '../Top';
 import { Stack } from '@mui/material';
 import { updateUserInfo, setJwtToken } from '../../auth';
@@ -128,10 +127,6 @@ const withLayoutBasic = (Component: any) => {
 		if (device == 'mobile') {
 			return (
 				<>
-					<Head>
-						<title>Zinfurn — Best Furniture Store</title>
-						<meta name={'title'} content={`Zinfurn — Best Furniture Store`} />
-					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
 							<Top />
@@ -169,10 +164,6 @@ const withLayoutBasic = (Component: any) => {
 		} else {
 			return (
 				<>
-					<Head>
-						<title>Zinfurn — Best Furniture Store</title>
-						<meta name={'title'} content={`Zinfurn — Best Furniture Store`} />
-					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>
 							<Top />
