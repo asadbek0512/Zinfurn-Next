@@ -76,13 +76,13 @@ export const getServerSideProps = async ({ locale, query }: any) => {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
-					query: `query($input: String!) {
-						getProperty(input: $input) {
+					query: `query($propertyId: String!) {
+						getProperty(propertyId: $propertyId) {
 							propertyTitle propertyImages propertyDesc
 							propertyPrice propertySalePrice propertyRating propertyReviews propertyInStock
 						}
 					}`,
-					variables: { input: id },
+					variables: { propertyId: id },
 				}),
 			});
 			const json = await res.json();
