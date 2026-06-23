@@ -65,11 +65,35 @@ import { useCurrency } from '../../libs/context/CurrencyContext';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
-export const getStaticProps = async ({ locale }: any) => ({
-	props: {
-		...(await serverSideTranslations(locale, ['common'])),
-	},
-});
+export const getServerSideProps = async ({ locale, query }: any) => {
+	const translations = await serverSideTranslations(locale, ['common']);
+	let seoProperty = null;
+
+	const id = query?.id;
+	if (id) {
+		try {
+			const res = await fetch(process.env.REACT_APP_API_GRAPHQL_URL as string, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					query: `query($input: String!) {
+						getProperty(input: $input) {
+							propertyTitle propertyImages propertyDesc
+							propertyPrice propertySalePrice propertyRating propertyReviews propertyInStock
+						}
+					}`,
+					variables: { input: id },
+				}),
+			});
+			const json = await res.json();
+			if (json?.data?.getProperty) seoProperty = json.data.getProperty;
+		} catch {
+			/* SEO is best-effort; page still renders */
+		}
+	}
+
+	return { props: { ...translations, seoProperty } };
+};
 
 const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -404,40 +428,48 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	const isPropertyReady = !!property && property._id === propertyId;
 
-	if (!isPropertyReady || getPropertiesLoading) {
-		return <Loading fullScreen={device === 'mobile'} />;
-	}
-
-	const seoImage = property?.propertyImages?.[0] ? `${REACT_APP_API_URL}/${property.propertyImages[0]}` : undefined;
-	const seoDesc = property?.propertyDesc
-		? property.propertyDesc.slice(0, 160)
-		: `${property?.propertyTitle} — buy at Zinfurn. ${property?.propertyReviews || 0} reviews, rated ${property?.propertyRating || 0}/5.`;
-	const seoEl = (
+	// SEO source: client-loaded property when ready, otherwise server-fetched data (SSR) for link previews
+	const seoSrc: any = (isPropertyReady ? property : null) || props.seoProperty;
+	const seoId = (router.query?.id as string) || property?._id || '';
+	const seoImage = seoSrc?.propertyImages?.[0] ? `${REACT_APP_API_URL}/${seoSrc.propertyImages[0]}` : undefined;
+	const seoDesc = seoSrc?.propertyDesc
+		? seoSrc.propertyDesc.slice(0, 160)
+		: `${seoSrc?.propertyTitle || 'Furniture'} — buy at Zinfurn. ${seoSrc?.propertyReviews || 0} reviews, rated ${seoSrc?.propertyRating || 0}/5.`;
+	const seoEl = seoSrc ? (
 		<SEO
-			title={property?.propertyTitle}
+			title={seoSrc.propertyTitle}
 			description={seoDesc}
 			image={seoImage}
-			url={`https://zinfurn.uz/property/detail?id=${property?._id}`}
+			url={`https://zinfurn.uz/property/detail?id=${seoId}`}
 			type="product"
-			price={property?.propertySalePrice || property?.propertyPrice}
+			price={seoSrc.propertySalePrice || seoSrc.propertyPrice}
 			jsonLd={{
 				'@context': 'https://schema.org',
 				'@type': 'Product',
-				name: property?.propertyTitle,
+				name: seoSrc.propertyTitle,
 				image: seoImage,
 				description: seoDesc,
 				offers: {
 					'@type': 'Offer',
-					price: property?.propertySalePrice || property?.propertyPrice,
+					price: seoSrc.propertySalePrice || seoSrc.propertyPrice,
 					priceCurrency: 'KRW',
-					availability: property?.propertyInStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+					availability: seoSrc.propertyInStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
 				},
-				aggregateRating: property?.propertyReviews
-					? { '@type': 'AggregateRating', ratingValue: property?.propertyRating || 0, reviewCount: property?.propertyReviews }
+				aggregateRating: seoSrc.propertyReviews
+					? { '@type': 'AggregateRating', ratingValue: seoSrc.propertyRating || 0, reviewCount: seoSrc.propertyReviews }
 					: undefined,
 			}}
 		/>
-	);
+	) : null;
+
+	if (!isPropertyReady || getPropertiesLoading) {
+		return (
+			<>
+				{seoEl}
+				<Loading fullScreen={device === 'mobile'} />
+			</>
+		);
+	}
 
 	if (device === 'mobile') {
 		return (
