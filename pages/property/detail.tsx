@@ -44,10 +44,12 @@ import {
 	ChevronRight,
 	Facebook,
 	FavoriteBorder,
-	Instagram,
-	Pinterest,
 	Remove,
 	Twitter,
+	Telegram,
+	WhatsApp,
+	ContentCopy,
+	IosShare,
 } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -318,6 +320,45 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	};
 
+	/** SHARE **/
+	const getShareUrl = () => `https://zinfurn.uz/property/detail?id=${property?._id}`;
+	const getShareText = () => `${property?.propertyTitle} — Zinfurn`;
+
+	const handleNativeShare = async () => {
+		const url = getShareUrl();
+		const text = getShareText();
+		if (typeof navigator !== 'undefined' && (navigator as any).share) {
+			try {
+				await (navigator as any).share({ title: property?.propertyTitle, text, url });
+			} catch {
+				/* user cancelled */
+			}
+		} else {
+			copyShareLink();
+		}
+	};
+
+	const copyShareLink = async () => {
+		try {
+			await navigator.clipboard.writeText(getShareUrl());
+			sweetTopSmallSuccessAlert(t('Link copied!'), 1500);
+		} catch {
+			await sweetMixinErrorAlert(t('Could not copy link'));
+		}
+	};
+
+	const openShare = (network: 'telegram' | 'whatsapp' | 'facebook' | 'twitter') => {
+		const url = encodeURIComponent(getShareUrl());
+		const text = encodeURIComponent(getShareText());
+		const links: Record<string, string> = {
+			telegram: `https://t.me/share/url?url=${url}&text=${text}`,
+			whatsapp: `https://wa.me/?text=${text}%20${url}`,
+			facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+			twitter: `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
+		};
+		window.open(links[network], '_blank', 'noopener,noreferrer,width=600,height=500');
+	};
+
 	const handleTabChange = (_: any, newIndex: number) => {
 		setTabIndex(newIndex);
 	};
@@ -523,10 +564,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<div className="mob-det-meta-row">
 							<span className="mob-det-meta-label">{t('share')}</span>
 							<div className="mob-det-share-btns">
-								<IconButton size="small"><Facebook sx={{ fontSize: 17 }} /></IconButton>
-								<IconButton size="small"><Twitter sx={{ fontSize: 17 }} /></IconButton>
-								<IconButton size="small"><Pinterest sx={{ fontSize: 17 }} /></IconButton>
-								<IconButton size="small"><Instagram sx={{ fontSize: 17 }} /></IconButton>
+								<IconButton size="small" onClick={handleNativeShare}><IosShare sx={{ fontSize: 17, color: '#cf6422' }} /></IconButton>
+								<IconButton size="small" onClick={() => openShare('telegram')}><Telegram sx={{ fontSize: 18, color: '#229ED9' }} /></IconButton>
+								<IconButton size="small" onClick={() => openShare('whatsapp')}><WhatsApp sx={{ fontSize: 18, color: '#25D366' }} /></IconButton>
+								<IconButton size="small" onClick={() => openShare('facebook')}><Facebook sx={{ fontSize: 18, color: '#1877F2' }} /></IconButton>
+								<IconButton size="small" onClick={copyShareLink}><ContentCopy sx={{ fontSize: 15 }} /></IconButton>
 							</div>
 						</div>
 					</div>
@@ -888,17 +930,20 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Stack className="shareRow">
 											<span className="shareLabel">{t('share')} :</span>
 											<Stack className="shareButtons">
-												<IconButton size="small" className="facebook">
-													<Facebook fontSize="small" />
+												<IconButton size="small" className="telegram" onClick={() => openShare('telegram')} title="Telegram">
+													<Telegram fontSize="small" sx={{ color: '#229ED9' }} />
 												</IconButton>
-												<IconButton size="small" className="twitter">
-													<Twitter fontSize="small" />
+												<IconButton size="small" className="whatsapp" onClick={() => openShare('whatsapp')} title="WhatsApp">
+													<WhatsApp fontSize="small" sx={{ color: '#25D366' }} />
 												</IconButton>
-												<IconButton size="small" className="pinterest">
-													<Pinterest fontSize="small" />
+												<IconButton size="small" className="facebook" onClick={() => openShare('facebook')} title="Facebook">
+													<Facebook fontSize="small" sx={{ color: '#1877F2' }} />
 												</IconButton>
-												<IconButton size="small" className="instagram">
-													<Instagram fontSize="small" />
+												<IconButton size="small" className="twitter" onClick={() => openShare('twitter')} title="X / Twitter">
+													<Twitter fontSize="small" sx={{ color: '#1DA1F2' }} />
+												</IconButton>
+												<IconButton size="small" className="copy" onClick={copyShareLink} title={t('Copy link')}>
+													<ContentCopy sx={{ fontSize: 18 }} />
 												</IconButton>
 											</Stack>
 										</Stack>
