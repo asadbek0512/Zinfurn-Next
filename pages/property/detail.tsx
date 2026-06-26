@@ -38,19 +38,7 @@ import { Direction, Message } from '../../libs/enums/common.enum';
 import Review from '../../libs/components/property/Review';
 import ReviewSection from '../../libs/components/property/ReviewSection';
 import SEO from '../../libs/components/common/SEO';
-import {
-	Add,
-	ChevronLeft,
-	ChevronRight,
-	Facebook,
-	FavoriteBorder,
-	Remove,
-	Twitter,
-	Telegram,
-	WhatsApp,
-	ContentCopy,
-	IosShare,
-} from '@mui/icons-material';
+import { Add, ChevronLeft, ChevronRight, FavoriteBorder, Remove, Share } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import RateReviewIcon from '@mui/icons-material/RateReview';
@@ -62,6 +50,7 @@ import TrendPropertyCard from '../../libs/components/homepage/TrendPropertyCard'
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import { useTranslation } from 'next-i18next';
 import { useCurrency } from '../../libs/context/CurrencyContext';
+import ShareModal from '../../libs/components/property/ShareModal';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -345,43 +334,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	};
 
 	/** SHARE **/
+	const [shareOpen, setShareOpen] = useState(false);
 	const getShareUrl = () => `https://zinfurn.uz/property/detail?id=${property?._id}`;
 	const getShareText = () => `${property?.propertyTitle} — Zinfurn`;
-
-	const handleNativeShare = async () => {
-		const url = getShareUrl();
-		const text = getShareText();
-		if (typeof navigator !== 'undefined' && (navigator as any).share) {
-			try {
-				await (navigator as any).share({ title: property?.propertyTitle, text, url });
-			} catch {
-				/* user cancelled */
-			}
-		} else {
-			copyShareLink();
-		}
-	};
-
-	const copyShareLink = async () => {
-		try {
-			await navigator.clipboard.writeText(getShareUrl());
-			sweetTopSmallSuccessAlert(t('Link copied!'), 1500);
-		} catch {
-			await sweetMixinErrorAlert(t('Could not copy link'));
-		}
-	};
-
-	const openShare = (network: 'telegram' | 'whatsapp' | 'facebook' | 'twitter') => {
-		const url = encodeURIComponent(getShareUrl());
-		const text = encodeURIComponent(getShareText());
-		const links: Record<string, string> = {
-			telegram: `https://t.me/share/url?url=${url}&text=${text}`,
-			whatsapp: `https://wa.me/?text=${text}%20${url}`,
-			facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
-			twitter: `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
-		};
-		window.open(links[network], '_blank', 'noopener,noreferrer,width=600,height=500');
-	};
 
 	const handleTabChange = (_: any, newIndex: number) => {
 		setTabIndex(newIndex);
@@ -482,6 +437,16 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 				{/* Asosiy rasm */}
 				<div className="mob-det-img-wrap">
+					<div className="mob-det-img-actions">
+						<button type="button" className="mob-det-img-btn" onClick={() => setShareOpen(true)} aria-label={t('share')}>
+							<Share sx={{ fontSize: 17 }} />
+						</button>
+						<button type="button" className="mob-det-img-btn" onClick={() => likePropertyHandler(user, property!._id)} aria-label={t('like')}>
+							{property?.meLiked?.[0]?.myFavorite
+								? <FavoriteIcon sx={{ fontSize: 18, color: '#cf6422' }} />
+								: <FavoriteBorderIcon sx={{ fontSize: 18 }} />}
+						</button>
+					</div>
 					<IconButton className="mob-det-prev" onClick={prevImage}><ArrowBackIosIcon fontSize="small" /></IconButton>
 					<img
 						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
@@ -574,11 +539,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<IconButton size="small" onClick={() => handleQuantityChange(1)}><Add fontSize="small" /></IconButton>
 						</div>
 						<Button variant="contained" className="mob-det-cart-btn" onClick={handleAddToCart}>{t('add_to_cart')}</Button>
-						<IconButton className="mob-det-like-btn" onClick={() => likePropertyHandler(user, property!._id)}>
-							{property?.meLiked?.[0]?.myFavorite
-								? <FavoriteIcon sx={{ fontSize: 20, color: '#cf6422' }} />
-								: <FavoriteBorderIcon sx={{ fontSize: 20 }} />}
-						</IconButton>
 					</div>
 
 					<div className="mob-det-divider" />
@@ -592,16 +552,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<div className="mob-det-meta-row">
 							<span className="mob-det-meta-label">{t('material')}</span>
 							<span className="mob-det-meta-val">{t(property?.propertyMaterial || '')}</span>
-						</div>
-						<div className="mob-det-meta-row">
-							<span className="mob-det-meta-label">{t('share')}</span>
-							<div className="mob-det-share-btns">
-								<IconButton size="small" onClick={handleNativeShare}><IosShare sx={{ fontSize: 17, color: '#cf6422' }} /></IconButton>
-								<IconButton size="small" onClick={() => openShare('telegram')}><Telegram sx={{ fontSize: 18, color: '#229ED9' }} /></IconButton>
-								<IconButton size="small" onClick={() => openShare('whatsapp')}><WhatsApp sx={{ fontSize: 18, color: '#25D366' }} /></IconButton>
-								<IconButton size="small" onClick={() => openShare('facebook')}><Facebook sx={{ fontSize: 18, color: '#1877F2' }} /></IconButton>
-								<IconButton size="small" onClick={copyShareLink}><ContentCopy sx={{ fontSize: 15 }} /></IconButton>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -765,6 +715,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						</Swiper>
 					</div>
 				)}
+				<ShareModal open={shareOpen} onClose={() => setShareOpen(false)} url={getShareUrl()} title={property?.propertyTitle || 'Zinfurn'} text={getShareText()} />
 			</div>
 		);
 	} else {
@@ -780,6 +731,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className="productGrid">
 								<Stack className="imageSection">
 									<Stack className="mainImageContainer">
+										<Stack className="imageActions">
+											<button type="button" className="imageActionBtn" onClick={() => setShareOpen(true)} aria-label={t('share')}>
+												<Share sx={{ fontSize: 19 }} />
+											</button>
+										</Stack>
+
 										<IconButton onClick={prevImage} className="prev-button" aria-label={t('previous_image')}>
 											<ArrowBackIosIcon fontSize="small" />
 										</IconButton>
@@ -957,27 +914,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Stack className="metaRow">
 											<span className="metaLabel">{t('material')} :</span>
 											<span className="metaValue">{t(property?.propertyMaterial || 'not_available')}</span>
-										</Stack>
-
-										<Stack className="shareRow">
-											<span className="shareLabel">{t('share')} :</span>
-											<Stack className="shareButtons">
-												<IconButton size="small" className="telegram" onClick={() => openShare('telegram')} title="Telegram">
-													<Telegram fontSize="small" sx={{ color: '#229ED9' }} />
-												</IconButton>
-												<IconButton size="small" className="whatsapp" onClick={() => openShare('whatsapp')} title="WhatsApp">
-													<WhatsApp fontSize="small" sx={{ color: '#25D366' }} />
-												</IconButton>
-												<IconButton size="small" className="facebook" onClick={() => openShare('facebook')} title="Facebook">
-													<Facebook fontSize="small" sx={{ color: '#1877F2' }} />
-												</IconButton>
-												<IconButton size="small" className="twitter" onClick={() => openShare('twitter')} title="X / Twitter">
-													<Twitter fontSize="small" sx={{ color: '#1DA1F2' }} />
-												</IconButton>
-												<IconButton size="small" className="copy" onClick={copyShareLink} title={t('Copy link')}>
-													<ContentCopy sx={{ fontSize: 18 }} />
-												</IconButton>
-											</Stack>
 										</Stack>
 									</Stack>
 								</Stack>
@@ -1284,6 +1220,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</Stack>
 						)}
 					</Stack>
+					<ShareModal open={shareOpen} onClose={() => setShareOpen(false)} url={getShareUrl()} title={property?.propertyTitle || 'Zinfurn'} text={getShareText()} />
 				</div>
 			</div>
 		);

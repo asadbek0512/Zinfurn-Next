@@ -56,6 +56,38 @@
 					height: 580px;
 					overflow: hidden;
 
+					.imageActions {
+						position: absolute;
+						top: 16px;
+						right: 16px;
+						z-index: 5;
+						display: flex;
+						flex-direction: column;
+						gap: 10px;
+
+						.imageActionBtn {
+							display: inline-flex;
+							align-items: center;
+							justify-content: center;
+							width: 42px;
+							height: 42px;
+							border: none;
+							border-radius: 50%;
+							background: #fff;
+							color: #1f2937;
+							cursor: pointer;
+							box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+							transition: all 0.18s ease;
+
+							&:hover {
+								background: #1f2937;
+								color: #fff;
+								box-shadow: 0 5px 14px rgba(0, 0, 0, 0.25);
+								transform: translateY(-1px);
+							}
+						}
+					}
+
 					// Zoom container styles
 					.image-zoom-container {
 						width: 100%;
@@ -201,7 +233,6 @@
 					gap: 32px;
 					margin-bottom: 12px;
 					flex-wrap: wrap;
-					display: flex;
 					flex-direction: row;
 				}
 
@@ -406,46 +437,6 @@
 
 						.metaValue {
 							color: #666;
-						}
-					}
-
-					.shareRow {
-						display: flex;
-						flex-direction: row;
-						gap: 8px;
-
-						.shareLabel {
-							font-size: 18px;
-							font-weight: 600;
-							color: #333;
-							padding-top: 6px;
-							padding-right: 15px;
-						}
-
-						.shareButtons {
-							display: flex;
-							gap: 5px;
-							display: flex;
-							flex-direction: row;
-
-							button {
-								min-width: 30px !important;
-								height: 30px !important;
-								border-radius: 50% !important;
-
-								// &.facebook {
-								// 	background-color: #1877f2 !important;
-								// }
-								// &.twitter {
-								// 	background-color: #1da1f2 !important;
-								// }
-								// &.pinterest {
-								// 	background-color: #bd081c !important;
-								// }
-								// &.instagram {
-								// 	background-color: #e4405f !important;
-								// }
-							}
 						}
 					}
 				}

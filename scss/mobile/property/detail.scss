@@ -51,6 +51,37 @@
 
       .mob-det-prev { left: 8px; }
       .mob-det-next { right: 8px; }
+
+      .mob-det-img-actions {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+
+        .mob-det-img-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          height: 36px;
+          width: 36px;
+          border: none;
+          border-radius: 50%;
+          background: #fff;
+          color: #1f2937;
+          cursor: pointer;
+          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
+
+          svg { font-size: 18px; }
+
+          &:active {
+            transform: scale(0.92);
+          }
+        }
+      }
     }
 
     // Thumbnaillar
@@ -209,6 +240,7 @@
           border-radius: 20px;
           font-family: $font;
         }
+
       }
 
       // Tavsif
@@ -304,14 +336,6 @@
           text-transform: none !important;
           box-shadow: none !important;
         }
-
-        .mob-det-like-btn {
-          width: 42px;
-          height: 42px;
-          border: 1.5px solid #eee;
-          border-radius: 50%;
-          flex-shrink: 0;
-        }
       }
 
       // Meta qatorlari
@@ -341,17 +365,6 @@
           color: #333;
           font-family: $font;
           text-transform: capitalize;
-        }
-
-        .mob-det-share-btns {
-          display: flex;
-          flex-direction: row;
-          gap: 2px;
-
-          .MuiIconButton-root {
-            padding: 4px;
-            color: #555;
-          }
         }
       }
     }
