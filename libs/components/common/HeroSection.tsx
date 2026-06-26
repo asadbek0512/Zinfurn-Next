@@ -163,7 +163,7 @@ const HeroSection: React.FC = () => {
 			<Stack
 				sx={{
 					position: 'absolute',
-					top: device === 'mobile' ? '18%' : '40%',
+					top: device === 'mobile' ? '18%' : '50%',
 					left: '50%',
 					transform: device === 'mobile' ? 'translateX(-50%)' : 'translate(-50%, -50%)',
 					zIndex: 2,
