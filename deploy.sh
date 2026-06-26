@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
-git fetch origin develop
-git reset --hard origin/develop
+git fetch origin main
+git reset --hard origin/main
 docker compose -f docker-compose.prod.yml up -d --force-recreate
