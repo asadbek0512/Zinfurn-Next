@@ -287,13 +287,8 @@ body::-webkit-scrollbar {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  
-  // 1. Rasmni yumshoq almashtirish uchun asosiy qism
-  // 1.5s - rasm 1.5 soniya davomida erib paydo bo'ladi
-  transition: background-image 1.5s ease-in-out; 
-  
-  // Brauzer rasmni almashtirishda qotmasligi uchun
-  will-change: background-image;
+  // Almashish paytida oq miltiramasligi uchun to'q fon
+  background-color: #181a20;
 
   &.slide-0 {
     background-image: url('/img/banner/Home-1-.jpg');

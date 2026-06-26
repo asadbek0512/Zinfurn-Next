@@ -79,14 +79,15 @@ const HeroSection: React.FC = () => {
 		updateHeaderBackground(currentSlide);
 	}, [currentSlide]);
 
-	// Hero rasmlarni OLDINDAN yuklash — slayd almashganda oq miltillamasligi uchun
+	// Hero background rasmlarni OLDINDAN yuklash — slayd almashganda oq miltillamasligi uchun.
+	// Eslatma: fon rasmlari CSS (.header-main.slide-N) orqali qo'yiladi, shuning uchun
+	// aynan o'sha fayllarni preload qilamiz.
 	useEffect(() => {
-		slides.forEach((slide) => {
+		['/img/banner/Home-1-.jpg', '/img/banner/Home-2-.jpg', '/img/banner/257.jpg'].forEach((src) => {
 			const preload = new window.Image();
-			preload.src = device === 'mobile' ? slide.mobileBackgroundImage : slide.backgroundImage;
+			preload.src = src;
 		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [device]);
+	}, []);
 
 	// Avtomatik slayd o'zgarishi (10 soniya)
 	useEffect(() => {
