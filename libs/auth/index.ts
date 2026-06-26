@@ -8,6 +8,10 @@ import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
 let _inMemoryToken = '';
 
 export function getJwtToken(): string {
+	if (!_inMemoryToken && typeof window !== 'undefined') {
+		const saved = localStorage.getItem('accessToken');
+		if (saved && saved !== 'undefined') _inMemoryToken = saved;
+	}
 	return _inMemoryToken;
 }
 
@@ -136,7 +140,11 @@ const requestSignUpJwtToken = async ({
 };
 
 export const updateStorage = ({ jwtToken }: { jwtToken: any }) => {
+	if (!jwtToken || jwtToken === 'undefined') return;
 	setJwtToken(jwtToken);
+	if (typeof window !== 'undefined') {
+		localStorage.setItem('accessToken', jwtToken);
+	}
 };
 
 export const updateUserInfo = (jwtToken: any) => {
@@ -182,6 +190,9 @@ export const logOut = () => {
 
 const deleteStorage = () => {
 	_inMemoryToken = '';
+	if (typeof window !== 'undefined') {
+		localStorage.removeItem('accessToken');
+	}
 };
 
 const deleteUserInfo = () => {

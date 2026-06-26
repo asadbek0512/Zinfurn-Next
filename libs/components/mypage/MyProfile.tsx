@@ -20,6 +20,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const token = getJwtToken();
 	const user = useReactiveVar(userVar);
 	const [updateData, setUpdateData] = useState<MemberUpdate>(initialValues);
+	const [previewImage, setPreviewImage] = useState<string | null>(null);
 
 	/** APOLLO REQUESTS **/
 	const [updateMember] = useMutation(UPDATE_MEMBER);
@@ -77,8 +78,9 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			const image = e.target.files[0];
 			if (!image) return;
 
-			console.log('+image:', image);
+			setPreviewImage(URL.createObjectURL(image));
 
+			const currentToken = getJwtToken();
 			const formData = new FormData();
 			formData.append(
 				'operations',
@@ -86,47 +88,44 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 					query: `mutation ImageUploader($file: Upload!, $target: String!) {
             imageUploader(file: $file, target: $target)
           }`,
-					variables: {
-						file: null,
-						target: 'member',
-					},
+					variables: { file: null, target: 'member' },
 				}),
 			);
-			formData.append(
-				'map',
-				JSON.stringify({
-					'0': ['variables.file'],
-				}),
-			);
+			formData.append('map', JSON.stringify({ '0': ['variables.file'] }));
 			formData.append('0', image);
 
 			const response = await axios.post(`${process.env.REACT_APP_API_GRAPHQL_URL}`, formData, {
+				withCredentials: true,
 				headers: {
-					'Content-Type': 'multipart/form-data',
 					'apollo-require-preflight': true,
-					Authorization: `Bearer ${token}`,
+					...(currentToken ? { Authorization: `Bearer ${currentToken}` } : {}),
 				},
 			});
 
+			if (response.data.errors) throw new Error(response.data.errors[0].message);
 			const responseImage = response.data.data.imageUploader;
-			console.log('+responseImage: ', responseImage);
-			updateData.memberImage = responseImage;
-			setUpdateData({ ...updateData });
-
-			return `${REACT_APP_API_URL}/${responseImage}`;
-		} catch (err) {
-			console.log('Error, uploadImage:', err);
+			setUpdateData((prev) => ({ ...prev, memberImage: responseImage }));
+		} catch (err: any) {
+			console.error('Error, uploadImage:', err);
+			alert('Upload xato: ' + (err?.response?.data?.errors?.[0]?.message || err?.message || JSON.stringify(err)));
 		}
 	};
 
 	const updatePropertyHandler = useCallback(async () => {
 		try {
 			if (!user._id) throw new Error(Messages.error2);
-			updateData._id = user._id;
+
+			// Faqat to'ldirilgan maydonlarni yuborish — bo'sh email/fullName backend validatsiyasini buzadi
+			const input: MemberUpdate = { _id: user._id };
+			if (updateData.memberNick) input.memberNick = updateData.memberNick;
+			if (updateData.memberPhone) input.memberPhone = updateData.memberPhone;
+			if (updateData.memberAddress) input.memberAddress = updateData.memberAddress;
+			if (updateData.memberEmail) input.memberEmail = updateData.memberEmail;
+			if (updateData.memberFullName) input.memberFullName = updateData.memberFullName;
+			if (updateData.memberImage) input.memberImage = updateData.memberImage;
+
 			const result = await updateMember({
-				variables: {
-					input: updateData,
-				},
+				variables: { input },
 			});
 
 			// @ts-ignore
@@ -145,15 +144,15 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	};
 
 	const doDisabledCheck = () => {
-		// Faqat yangilangan ma'lumotlarni tekshirish - agar barcha bo'sh bo'lsa disable
 		if (
 			updateData.memberNick === user.memberNick &&
 			updateData.memberPhone === user.memberPhone &&
 			updateData.memberAddress === user.memberAddress &&
 			updateData.memberEmail === user.memberEmail &&
-			updateData.memberFullName === user.memberFullName
+			updateData.memberFullName === user.memberFullName &&
+			updateData.memberImage === user.memberImage
 		) {
-			return true; // Hech narsa o'zgarmagan
+			return true;
 		}
 		
 		// Email formatini tekshirish
@@ -177,11 +176,12 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 					<div className="mob-myprofile-img-wrap">
 						<UserAvatar
 							src={
-								updateData?.memberImage
+								previewImage ||
+								(updateData?.memberImage
 									? updateData.memberImage.startsWith('http')
 										? updateData.memberImage
 										: `${REACT_APP_API_URL}/${updateData.memberImage}`
-									: undefined
+									: undefined)
 							}
 							nick={updateData?.memberNick}
 							size={100}
@@ -310,11 +310,12 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 							<Stack className="image-container">
 								<UserAvatar
 									src={
-										updateData?.memberImage
+										previewImage ||
+										(updateData?.memberImage
 											? updateData.memberImage.startsWith('http')
 												? updateData.memberImage
 												: `${REACT_APP_API_URL}/${updateData?.memberImage}`
-											: undefined
+											: undefined)
 									}
 									nick={updateData?.memberNick}
 									size={146}

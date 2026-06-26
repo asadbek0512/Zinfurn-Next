@@ -8,7 +8,7 @@ import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
-import { setJwtToken, updateUserInfo } from '../../libs/auth';
+import { setJwtToken, updateUserInfo, updateStorage } from '../../libs/auth';
 import {
 	PhoneInput,
 	defaultCountries,
@@ -57,7 +57,7 @@ const Join: NextPage = () => {
 				});
 				const data = await response.json();
 				if (data.token) {
-					setJwtToken(data.token);
+					updateStorage({ jwtToken: data.token });
 					updateUserInfo(data.token);
 					window.location.href = '/';
 				}
