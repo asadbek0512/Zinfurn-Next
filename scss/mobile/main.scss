@@ -69,7 +69,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    transition: background-image 1.5s ease-in-out;
+    background-color: #181a20;
 
     &.slide-0 { background-image: url('/img/banner/Home-1-.jpg'); }
     &.slide-1 { background-image: url('/img/banner/Home-2-.jpg'); }
