@@ -79,6 +79,15 @@ const HeroSection: React.FC = () => {
 		updateHeaderBackground(currentSlide);
 	}, [currentSlide]);
 
+	// Hero rasmlarni OLDINDAN yuklash — slayd almashganda oq miltillamasligi uchun
+	useEffect(() => {
+		slides.forEach((slide) => {
+			const preload = new window.Image();
+			preload.src = device === 'mobile' ? slide.mobileBackgroundImage : slide.backgroundImage;
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [device]);
+
 	// Avtomatik slayd o'zgarishi (10 soniya)
 	useEffect(() => {
 		const interval = setInterval(() => {
