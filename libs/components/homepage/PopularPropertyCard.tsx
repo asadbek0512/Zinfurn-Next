@@ -142,7 +142,7 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 									onClick={() => handleViewDetails(property._id)}
 								>
 									{/* Rasm */}
-									<img src={imgUrl} alt={property.propertyTitle}
+									<img loading="lazy" decoding="async" src={imgUrl} alt={property.propertyTitle}
 										style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
 									{/* Overlay */}
 									<div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.45)' }} />

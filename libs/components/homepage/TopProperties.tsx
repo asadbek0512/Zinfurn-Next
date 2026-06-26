@@ -260,7 +260,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 								<div key={property._id} style={{ background: '#fff', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
 									onClick={() => router.push({ pathname: '/property/detail', query: { id: property._id } })}>
 									<div style={{ position: 'relative', height: '170px', background: '#fff' }}>
-										<img src={imgUrl} alt={property.propertyTitle} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }} />
+										<img loading="lazy" decoding="async" src={imgUrl} alt={property.propertyTitle} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }} />
 										<div style={{ position: 'absolute', top: '8px', left: '8px', right: '8px', display: 'flex', justifyContent: 'space-between' }}>
 											{discountPercent > 0 && (
 												<span style={{ background: '#ff6b35', color: '#fff', fontSize: '10px', padding: '2px 6px', borderRadius: '4px' }}>-{discountPercent}%</span>

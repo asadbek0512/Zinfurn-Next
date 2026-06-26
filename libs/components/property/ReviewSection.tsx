@@ -212,7 +212,7 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 											className="rev-gallery-cell"
 											onClick={() => openLightbox(allPhotos, i)}
 										>
-											<img src={`${REACT_APP_API_URL}/${img}`} alt="" className="rev-gallery-thumb" />
+											<img loading="lazy" decoding="async" src={`${REACT_APP_API_URL}/${img}`} alt="" className="rev-gallery-thumb" />
 											{showMore && (
 												<div className="rev-gallery-more">
 													<span className="rev-gallery-more-count">+{remaining}</span>
