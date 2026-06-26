@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Stack, Box, Typography, Rating } from '@mui/material';
 import Link from 'next/link';
+import Image from 'next/image';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -70,7 +71,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 		return (
 			<Stack className="mob-property-card">
 				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }} className="mob-card-img-wrap">
-					<img loading="lazy" decoding="async" src={imagePath} alt={property?.propertyTitle || 'Property'} className="mob-card-img" />
+					<Image fill sizes="(max-width: 768px) 50vw, 200px" src={imagePath} alt={property?.propertyTitle || 'Property'} className="mob-card-img" />
 					{discountPercent > 0 && <span className="mob-sale-badge">-{discountPercent}%</span>}
 					<span className="mob-cat-badge">{t(property?.propertyCategory)}</span>
 				</Link>
@@ -143,8 +144,8 @@ const PropertyCard = (props: PropertyCardProps) => {
 			onMouseLeave={() => setIsHovered(false)}
 		>
 			<Stack className="top">
-				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
-					<img loading="lazy" decoding="async" src={hoverImagePath} alt={property?.propertyTitle || 'Property'} style={{ transition: 'opacity 0.3s' }} />
+				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }} className="card-img-link">
+					<Image fill sizes="(max-width: 768px) 50vw, 300px" src={hoverImagePath} alt={property?.propertyTitle || 'Property'} style={{ transition: 'opacity 0.3s' }} />
 				</Link>
 
 				{discountPercent > 0 && (
