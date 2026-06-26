@@ -1,9 +1,5 @@
 #!/bin/bash
 set -e
-
-git reset --hard
-git checkout main
-git pull origin main
-
-docker compose up -d --force-recreate
-docker compose restart
+git fetch origin develop
+git reset --hard origin/develop
+docker compose -f docker-compose.prod.yml up -d --force-recreate
