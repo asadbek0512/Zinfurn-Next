@@ -78,7 +78,14 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [sortingOpen, setSortingOpen] = useState(false);
 	const [filterSortName, setFilterSortName] = useState('New');
-	const [searchText, setSearchText] = useState<string>('');
+	const [searchText, setSearchText] = useState<string>(() => {
+		try {
+			if (router?.query?.input) return JSON.parse(router.query.input as string)?.search?.text ?? '';
+		} catch {
+			/* invalid input — bo'sh qoldiramiz */
+		}
+		return '';
+	});
 	const [filterOpen, setFilterOpen] = useState(false);
 	const { t } = useTranslation('common');
 
@@ -113,6 +120,24 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	useEffect(() => {
 		console.log('searchFilter:', searchFilter);
 	}, [searchFilter]);
+
+	/** LIVE QIDIRUV: yozishni to'xtatgach ~0.4s da avtomatik qidiradi (Enter shart emas). */
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			const currentText = searchFilter.search?.text ?? '';
+			if (searchText === currentText) return;
+			const newSearchFilter: PropertiesInquiry = {
+				...searchFilter,
+				search: { ...searchFilter.search, text: searchText || undefined },
+				page: 1,
+			};
+			router.replace(`/property?input=${JSON.stringify(newSearchFilter)}`, undefined, { scroll: false, shallow: true });
+			setSearchFilter(newSearchFilter);
+			setCurrentPage(1);
+		}, 400);
+		return () => clearTimeout(timer);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [searchText]);
 
 	// ViewMode o'zgarganda limit ni yangilash
 	useEffect(() => {
