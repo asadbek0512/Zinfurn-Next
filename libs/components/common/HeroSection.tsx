@@ -163,7 +163,7 @@ const HeroSection: React.FC = () => {
 			<Stack
 				sx={{
 					position: 'absolute',
-					top: device === 'mobile' ? '18%' : '50%',
+					top: device === 'mobile' ? '18%' : '46%',
 					left: '50%',
 					transform: device === 'mobile' ? 'translateX(-50%)' : 'translate(-50%, -50%)',
 					zIndex: 2,
@@ -218,18 +218,15 @@ const HeroSection: React.FC = () => {
 				>
 					{device === 'mobile' ? slides[currentSlide].mobileDescription : slides[currentSlide].description}
 				</Typography>
-			</Stack>
 
-			{/* Shop Now Button */}
-			<Box
-				component={'div'}
-				sx={{
-					position: 'absolute',
-					bottom: device === 'mobile' ? '28%' : '14%',
-					zIndex: 2,
-					animation: 'fadeInUp 0.6s ease-out 0.3s both',
-				}}
-			>
+				{/* Shop Now tugmasi — matn bilan bir guruhda (hech qachon ustma-ust kelmaydi) */}
+				<Box
+					component={'div'}
+					sx={{
+						mt: 1,
+						animation: 'fadeInUp 0.6s ease-out 0.3s both',
+					}}
+				>
 					<style>
 						{`
               @keyframes fadeInUp {
@@ -308,6 +305,7 @@ const HeroSection: React.FC = () => {
 						<span style={{ marginLeft: device === 'mobile' ? '-4px' : '-8px' }}>{t('Shop Now')}</span>
 					</Button>
 				</Box>
+			</Stack>
 		</Box>
 	);
 };
