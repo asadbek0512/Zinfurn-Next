@@ -70,7 +70,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 		return (
 			<Stack className="mob-property-card">
 				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }} className="mob-card-img-wrap">
-					<img src={imagePath} alt={property?.propertyTitle || 'Property'} className="mob-card-img" />
+					<img loading="lazy" decoding="async" src={imagePath} alt={property?.propertyTitle || 'Property'} className="mob-card-img" />
 					{discountPercent > 0 && <span className="mob-sale-badge">-{discountPercent}%</span>}
 					<span className="mob-cat-badge">{t(property?.propertyCategory)}</span>
 				</Link>
@@ -144,7 +144,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 		>
 			<Stack className="top">
 				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
-					<img src={hoverImagePath} alt={property?.propertyTitle || 'Property'} style={{ transition: 'opacity 0.3s' }} />
+					<img loading="lazy" decoding="async" src={hoverImagePath} alt={property?.propertyTitle || 'Property'} style={{ transition: 'opacity 0.3s' }} />
 				</Link>
 
 				{discountPercent > 0 && (

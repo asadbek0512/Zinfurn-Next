@@ -33,7 +33,7 @@ const Review = (props: ReviewProps) => {
 		return (
 			<Stack className="mob-review-config">
 				<Stack className="mob-review-header">
-					<img src={imagePath} alt="" className="mob-review-avatar" />
+					<img loading="lazy" decoding="async" src={imagePath} alt="" className="mob-review-avatar" />
 					<Stack className="mob-review-user-info">
 						<Typography className="mob-review-name" onClick={() => goMemberPage(comment?.memberData?._id as string)}>
 							{comment.memberData?.memberNick}
@@ -51,7 +51,7 @@ const Review = (props: ReviewProps) => {
 			<Stack className={'review-config'}>
 				<Stack className={'review-mb-info'}>
 					<Stack className={'img-name-box'}>
-						<img src={imagePath} alt="" className={'img-box'} />
+						<img loading="lazy" decoding="async" src={imagePath} alt="" className={'img-box'} />
 						<Stack>
 							<Typography className={'name'} onClick={() => goMemberPage(comment?.memberData?._id as string)}>
 								{comment.memberData?.memberNick}

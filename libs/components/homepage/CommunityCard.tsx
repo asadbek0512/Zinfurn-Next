@@ -90,7 +90,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 			return (
 				<Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
 					<div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '10px', background: '#fff', borderRadius: '10px', boxShadow: '0 3px 15px rgba(0,0,0,0.08)', cursor: 'pointer', overflow: 'hidden' }}>
-						<img src={articleImage} alt={article?.articleTitle}
+						<img loading="lazy" decoding="async" src={articleImage} alt={article?.articleTitle}
 							style={{ width: '60px', height: '60px', borderRadius: '6px', objectFit: 'cover', background: '#e8dcc0', flexShrink: 0 }} />
 						<div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '3px' }}>
 							<div style={{ fontSize: '11px', fontWeight: 600, color: '#2c2c2c', lineHeight: 1.3, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
@@ -128,7 +128,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 		return (
 			<Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`}>
 				<Box component={'div'} className="horizontal-card">
-					<img src={articleImage} alt={article?.articleTitle} />
+					<img loading="lazy" decoding="async" src={articleImage} alt={article?.articleTitle} />
 					<div className={'card-info'}>
 						<strong>{article.articleTitle}</strong>
 						<span>{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}</span>
