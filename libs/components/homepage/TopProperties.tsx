@@ -272,18 +272,18 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 										<div style={{ fontSize: '13px', fontWeight: 500, color: '#181a20', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '6px' }}>
 											{property.propertyTitle}
 										</div>
-										<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-											<div>
+										<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '6px' }}>
+											<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', minWidth: 0 }}>
 												{property.propertySalePrice ? (
 													<>
-														<span style={{ fontSize: '11px', color: '#aaa', textDecoration: 'line-through', marginRight: '4px' }}>{formatPrice(property.propertyPrice)}</span>
+														<span style={{ fontSize: '11px', color: '#aaa', textDecoration: 'line-through' }}>{formatPrice(property.propertyPrice)}</span>
 														<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>{formatPrice(property.propertySalePrice)}</span>
 													</>
 												) : (
 													<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>{formatPrice(property.propertyPrice)}</span>
 												)}
 											</div>
-											<div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}
+											<div style={{ display: 'flex', alignItems: 'center', gap: '2px', flexShrink: 0 }}
 												onClick={(e) => { e.stopPropagation(); likePropertyHandler(user, property._id); }}>
 												{property?.meLiked?.[0]?.myFavorite
 													? <FavoriteIcon style={{ fontSize: '16px', color: 'red' }} />
