@@ -1236,11 +1236,17 @@
 						display: flex;
 						justify-content: space-between;
 						align-items: center;
+						flex-wrap: wrap;
+						gap: 4px 8px;
+						width: 100%;
 
 						.price-container {
 							display: flex;
 							gap: 10px;
 							align-items: baseline;
+							min-width: 0;
+							flex-shrink: 1;
+							flex-wrap: wrap;
 
 							.original-price {
 								font-size: 14px;
@@ -1258,6 +1264,7 @@
 						.likes-container {
 							display: flex;
 							align-items: center;
+							flex-shrink: 0;
 
 							.like-button {
 								padding: 6px;
