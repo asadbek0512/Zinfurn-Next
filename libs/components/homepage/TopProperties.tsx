@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
-import { Stack, Box, Typography, IconButton, Link } from '@mui/material';
+import { Stack, Box, Typography, Link } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import MobilePropertyCard from './MobilePropertyCard';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import CheckIcon from '@mui/icons-material/Check';
-import { addToCart } from '../../utils/cartUtils';
-import { flyToCart } from '../../utils/flyToCart';
+import TrendPropertyCard from './TrendPropertyCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import { Property } from '../../types/property/property';
@@ -19,138 +14,13 @@ import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
 import { useRouter } from 'next/router';
-import { REACT_APP_API_URL } from '../../config';
-import { useReactiveVar } from '@apollo/client';
-import { userVar } from '../../../apollo/store';
 import { useTranslation } from 'next-i18next';
-import { useCurrency } from '../../context/CurrencyContext';
 
 interface ProductsCollectionProps {
 	latestInput: PropertiesInquiry;
 	bestSellersInput: PropertiesInquiry;
 	featuredInput: PropertiesInquiry;
 }
-
-interface ProductCardProps {
-	property: Property;
-	likePropertyHandler: (user: any, propertyId: string) => void;
-}
-
-const ProductCard = ({ property, likePropertyHandler }: ProductCardProps) => {
-	const router = useRouter();
-	const user = useReactiveVar(userVar);
-	const [isHovered, setIsHovered] = useState(false);
-	const [addedFlash, setAddedFlash] = useState(false);
-	const { t } = useTranslation('common');
-	const { formatPrice } = useCurrency();
-
-	const imagePath = property?.propertyImages?.[0]
-		? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
-		: '/img/banner/header1.svg';
-
-	const pushDetailHandler = (id: string) => {
-		router.push({ pathname: '/property/detail', query: { id } });
-	};
-
-	const handleAddToCart = (e: React.MouseEvent) => {
-		e.stopPropagation();
-		addToCart({
-			_id: property._id,
-			propertyTitle: property.propertyTitle,
-			propertyPrice: property.propertyPrice,
-			propertySalePrice: property.propertySalePrice,
-			propertyImages: property.propertyImages,
-			propertyType: property.propertyType,
-		});
-		setAddedFlash(true);
-		setTimeout(() => setAddedFlash(false), 2000);
-		flyToCart(e.currentTarget as HTMLElement, imagePath);
-	};
-
-	const discountPercent =
-		property.propertyPrice && property.propertySalePrice
-			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
-			: 0;
-
-	const backgroundImage =
-		isHovered && property?.propertyImages?.[1]
-			? `url(${REACT_APP_API_URL}/${property.propertyImages[1]})`
-			: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`;
-
-	return (
-		<Box
-			component="div"
-			className="product-card"
-			onMouseEnter={() => setIsHovered(true)}
-			onMouseLeave={() => setIsHovered(false)}
-		>
-			<Box component="div" className="product-image-container" onClick={() => pushDetailHandler(property._id)}>
-				<Box
-					component="div"
-					className="product-image"
-					sx={{
-						backgroundImage: backgroundImage,
-						transition: 'background-image 0.3s ease-in-out',
-					}}
-				/>
-				<Box component="div" className="top-badges">
-					{discountPercent > 0 && (
-						<Box component="div" className="discount-badge">
-							<Typography className="discount-text">-{discountPercent}%</Typography>
-						</Box>
-					)}
-					<Box component="div" className="category-badge">
-						<Typography className="category-text">{t(property.propertyCategory)}</Typography>
-					</Box>
-				</Box>
-
-				<IconButton
-					className={`big-card-cart-btn ${addedFlash ? 'added' : ''}`}
-					onClick={handleAddToCart}
-				>
-					<AddShoppingCartIcon sx={{ fontSize: 18 }} />
-				</IconButton>
-			</Box>
-			<Box component="div" className="product-info-container">
-				<Box component="div" className="title-views-container">
-					<Typography className="product-title">{property.propertyTitle}</Typography>
-					<Box component="div" className="views-container">
-						{/* <RemoveRedEyeIcon className="views-icon" /> */}
-						{/* <Typography className="views-count">{property.propertyViews || 0}</Typography> */}
-					</Box>
-				</Box>
-				<Box component="div" className="price-like-container">
-					<Box component="div" className="price-container">
-						{property.propertySalePrice ? (
-							<>
-								<Typography className="original-price">{formatPrice(property.propertyPrice)}</Typography>
-								<Typography className="discounted-price">{formatPrice(property.propertySalePrice)}</Typography>
-							</>
-						) : (
-							<Typography className="discounted-price">{formatPrice(property.propertyPrice)}</Typography>
-						)}
-					</Box>
-					<Box component="div" className="likes-container">
-						<IconButton
-							className="like-button"
-							onClick={(e) => {
-								e.stopPropagation();
-								likePropertyHandler(user, property._id);
-							}}
-						>
-							{property?.meLiked?.[0]?.myFavorite ? (
-								<FavoriteIcon style={{ color: 'red' }} />
-							) : (
-								<FavoriteBorderIcon style={{ color: '#bbb' }} />
-							)}
-						</IconButton>
-						<Typography className="likes-count">{property?.propertyLikes}</Typography>
-					</Box>
-				</Box>
-			</Box>
-		</Box>
-	);
-};
 
 const ProductsCollection = (props: ProductsCollectionProps) => {
 	const { latestInput, bestSellersInput, featuredInput } = props;
@@ -159,9 +29,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 	const [activeTab, setActiveTab] = useState('top');
 	const [properties, setProperties] = useState<Property[]>([]);
 
-	const user = useReactiveVar(userVar);
 	const { t } = useTranslation('common');
-	const { formatPrice } = useCurrency();
 
 	const getCurrentInput = () => {
 		switch (activeTab) {
@@ -309,7 +177,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 					) : (
 						<Box component="div" className="products-grid">
 							{properties.slice(0, 6).map((property: Property) => (
-								<ProductCard key={property._id} property={property} likePropertyHandler={likePropertyHandler} />
+								<TrendPropertyCard key={property._id} property={property} likePropertyHandler={likePropertyHandler} />
 							))}
 						</Box>
 					)}
