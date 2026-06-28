@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Stack, Box } from '@mui/material';
+import MobilePropertyCard from './MobilePropertyCard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -95,62 +96,11 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 						touchStartPreventDefault={false}
 						style={{ paddingLeft: '16px', paddingRight: '16px' }}
 					>
-						{trendProperties.map((property: Property) => {
-							const discountPercent = property.propertyPrice && property.propertySalePrice
-								? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
-								: 0;
-							const imgUrl = `${REACT_APP_API_URL}/${property.propertyImages?.[0]}`;
-							return (
-								<SwiperSlide key={property._id}>
-									<div
-										style={{ background: '#fff', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer' }}
-										onClick={() => router.push({ pathname: '/property/detail', query: { id: property._id } })}
-									>
-										{/* Rasm */}
-										<div style={{ position: 'relative', height: '170px', background: '#ffffff' }}>
-											<img src={imgUrl} alt={property.propertyTitle} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', display: 'block', padding: '4px' }} />
-											<div style={{ position: 'absolute', top: '8px', left: '8px', right: '8px', display: 'flex', justifyContent: 'space-between' }}>
-												{discountPercent > 0 && (
-													<span style={{ background: '#ff6b35', color: '#fff', fontSize: '10px', padding: '2px 6px', borderRadius: '4px' }}>
-														-{discountPercent}%
-													</span>
-												)}
-												<span style={{ background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: '10px', padding: '2px 6px', borderRadius: '4px', marginLeft: 'auto' }}>
-													{t(property.propertyCategory)}
-												</span>
-											</div>
-										</div>
-										{/* Info */}
-										<div style={{ padding: '8px 10px' }}>
-											<div style={{ fontSize: '13px', fontWeight: 500, color: '#181a20', marginBottom: '6px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-												{property.propertyTitle}
-											</div>
-											<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '6px' }}>
-												<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', minWidth: 0 }}>
-													{property.propertySalePrice ? (
-														<>
-															<span style={{ fontSize: '11px', color: '#aaa', textDecoration: 'line-through' }}>{formatPrice(property.propertyPrice)}</span>
-															<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>{formatPrice(property.propertySalePrice)}</span>
-														</>
-													) : (
-														<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>{formatPrice(property.propertyPrice)}</span>
-													)}
-												</div>
-												<div
-													style={{ display: 'flex', alignItems: 'center', gap: '2px', flexShrink: 0 }}
-													onClick={(e) => { e.stopPropagation(); likePropertyHandler(user, property._id); }}
-												>
-													{property?.meLiked?.[0]?.myFavorite
-														? <FavoriteIcon style={{ fontSize: '16px', color: 'red' }} />
-														: <FavoriteBorderIcon style={{ fontSize: '16px', color: '#bbb' }} />}
-													<span style={{ fontSize: '12px', color: '#888' }}>{property.propertyLikes}</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</SwiperSlide>
-							);
-						})}
+						{trendProperties.map((property: Property) => (
+							<SwiperSlide key={property._id}>
+								<MobilePropertyCard property={property} likePropertyHandler={likePropertyHandler} />
+							</SwiperSlide>
+						))}
 					</Swiper>
 				)}
 			</div>
