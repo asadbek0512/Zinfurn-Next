@@ -34,6 +34,13 @@ const App = ({ Component, pageProps }: AppProps) => {
 	const pageTitle = PAGE_TITLES[router.pathname];
 
 	useEffect(() => {
+		// Refresh qilganda browser oldingi scroll joyini tiklamasin — har doim tepadan boshlansin
+		if ('scrollRestoration' in window.history) {
+			window.history.scrollRestoration = 'manual';
+		}
+	}, []);
+
+	useEffect(() => {
 		const savedToken = localStorage.getItem('accessToken');
 		if (savedToken) {
 			setJwtToken(savedToken);
