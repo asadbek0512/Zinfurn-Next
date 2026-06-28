@@ -97,15 +97,16 @@
 		.price-like-container {
 			display: flex;
 			justify-content: space-between;
-			align-items: center;
+			align-items: flex-end;
 
 			.price-container {
 				display: flex;
-				gap: 10px;
-				align-items: baseline;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 2px;
 
 				.original-price {
-					font-size: 14px;
+					font-size: 13px;
 					color: #888;
 					text-decoration: line-through;
 				}
