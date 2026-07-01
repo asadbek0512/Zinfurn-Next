@@ -7,6 +7,30 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3007';
 
 const LANG_NAME: Record<string, string> = { uz: 'Uzbek', en: 'English', ru: 'Russian', kr: 'Korean', ar: 'Arabic' };
 
+// Kunlik limit: bir IP kuniga 10 ta xabar
+const DAILY_LIMIT = 10;
+const rateMap = new Map<string, { count: number; day: string }>();
+
+function checkRateLimit(ip: string): boolean {
+	const day = new Date().toISOString().slice(0, 10);
+	const rec = rateMap.get(ip);
+	if (!rec || rec.day !== day) {
+		rateMap.set(ip, { count: 1, day });
+		return true;
+	}
+	if (rec.count >= DAILY_LIMIT) return false;
+	rec.count += 1;
+	return true;
+}
+
+const LIMIT_MSG: Record<string, string> = {
+	uz: "Bugungi AI suhbat chegarasiga yetdingiz (kuniga 10 ta). Ertaga yana urinib ko'ring 🙂",
+	en: "You've reached today's AI chat limit (10 messages/day). Please come back tomorrow 🙂",
+	ru: 'Вы достигли дневного лимита AI-чата (10 сообщений в день). Возвращайтесь завтра 🙂',
+	kr: '오늘의 AI 채팅 한도(하루 10개)에 도달했습니다. 내일 다시 이용해 주세요 🙂',
+	ar: 'لقد وصلت إلى حد الدردشة اليومي (10 رسائل في اليوم). يرجى العودة غدًا 🙂',
+};
+
 interface CatalogItem {
 	_id: string;
 	propertyTitle: string;
@@ -76,6 +100,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 	const { messages, locale } = req.body as { messages: { role: string; content: string }[]; locale: string };
 	const lang = LANG_NAME[locale] || 'English';
+
+	// Kunlik limit tekshiruvi (IP bo'yicha)
+	const ip =
+		((req.headers['x-forwarded-for'] as string) || '').split(',')[0].trim() ||
+		req.socket?.remoteAddress ||
+		'unknown';
+	if (!checkRateLimit(ip)) {
+		return res.status(200).json({ reply: LIMIT_MSG[locale] || LIMIT_MSG.en, products: [], actions: [] });
+	}
 
 	try {
 		const catalog = await fetchCatalog();
