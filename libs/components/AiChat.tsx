@@ -8,10 +8,60 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 
+interface AiProduct {
+	_id: string;
+	title: string;
+	price: number;
+	originalPrice?: number | null;
+	image: string;
+}
+
+interface AiAction {
+	label: string;
+	href: string;
+}
+
 interface AiMessage {
 	role: 'user' | 'assistant';
 	content: string;
+	products?: AiProduct[];
+	actions?: AiAction[];
 }
+
+/** AI navigatsiya tugmalari — bosilганda tegishli sahifaga o'tadi */
+const AiActionButtons = ({ actions, onGo }: { actions?: AiAction[]; onGo: (href: string) => void }) => {
+	if (!actions || actions.length === 0) return null;
+	return (
+		<div className="ai-actions">
+			{actions.map((a, i) => (
+				<button key={i} className="ai-action-btn" onClick={() => onGo(a.href)}>
+					{a.label} <span className="ai-action-arrow">→</span>
+				</button>
+			))}
+		</div>
+	);
+};
+
+/** AI tavsiya qilgan mahsulot kartalari — bosilганda detail sahifaga o'tadi */
+const AiProductCards = ({ products, onPick }: { products?: AiProduct[]; onPick: (id: string) => void }) => {
+	if (!products || products.length === 0) return null;
+	return (
+		<div className="ai-products">
+			{products.map((p) => (
+				<div key={p._id} className="ai-product-card" onClick={() => onPick(p._id)} role="button">
+					{p.image ? <img src={p.image} alt={p.title} className="ai-product-img" loading="lazy" /> : <div className="ai-product-img" />}
+					<div className="ai-product-info">
+						<div className="ai-product-title">{p.title}</div>
+						<div className="ai-product-price">
+							<span className="ai-product-now">${Number(p.price).toLocaleString()}</span>
+							{p.originalPrice ? <span className="ai-product-old">${Number(p.originalPrice).toLocaleString()}</span> : null}
+						</div>
+					</div>
+				</div>
+			))}
+		</div>
+	);
+};
 
 const AiChat = () => {
 	const [messages, setMessages] = useState<AiMessage[]>([]);
@@ -43,6 +93,16 @@ const AiChat = () => {
 
 	const handleToggle = () => {
 		setOpen((prev) => !prev);
+	};
+
+	const pickProduct = (id: string) => {
+		setOpen(false);
+		router.push({ pathname: '/property/detail', query: { id } });
+	};
+
+	const goTo = (href: string) => {
+		setOpen(false);
+		router.push(href);
 	};
 
 	useEffect(() => {
@@ -106,7 +166,7 @@ const AiChat = () => {
 			});
 
 			const data = await response.json();
-			const aiMessage: AiMessage = { role: 'assistant', content: data.reply };
+			const aiMessage: AiMessage = { role: 'assistant', content: data.reply, products: data.products, actions: data.actions };
 			setMessages((prev) => [...prev, aiMessage]);
 		} catch (err) {
 			const errMessage: AiMessage = {
@@ -144,7 +204,7 @@ const AiChat = () => {
 									<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
 										<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
 									</Avatar>
-									<div className="ai-msg-left">{msg.content}</div>
+									<div className="ai-msg-left">{msg.content}<AiProductCards products={msg.products} onPick={pickProduct} /><AiActionButtons actions={msg.actions} onGo={goTo} /></div>
 								</Box>
 							),
 						)}
@@ -199,7 +259,7 @@ const AiChat = () => {
 											<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
 												<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
 											</Avatar>
-											<div className="ai-msg-left">{msg.content}</div>
+											<div className="ai-msg-left">{msg.content}<AiProductCards products={msg.products} onPick={pickProduct} /><AiActionButtons actions={msg.actions} onGo={goTo} /></div>
 										</Box>
 									),
 								)}
@@ -326,7 +386,7 @@ const AiChat = () => {
 										<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
 											<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
 										</Avatar>
-										<div className="ai-msg-left">{msg.content}</div>
+										<div className="ai-msg-left">{msg.content}<AiProductCards products={msg.products} onPick={pickProduct} /><AiActionButtons actions={msg.actions} onGo={goTo} /></div>
 									</Box>
 								),
 							)}
