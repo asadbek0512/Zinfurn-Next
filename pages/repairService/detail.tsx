@@ -37,6 +37,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PhoneIcon from '@mui/icons-material/Phone';
 import { useTranslation } from 'next-i18next';
+import { getLocalizedRepairText } from '../../libs/utils/localizeRepair';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -279,10 +280,10 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<span>{repairProperty.memberData.memberPhone}</span>
 						</div>
 					)}
-					{repairProperty?.repairPropertyDescription && (
+					{getLocalizedRepairText(repairProperty, router.locale) && (
 						<div className="mob-rpd-row">
 							<DescriptionIcon />
-							<span>{repairProperty.repairPropertyDescription}</span>
+							<span>{getLocalizedRepairText(repairProperty, router.locale)}</span>
 						</div>
 					)}
 					<span className="mob-rpd-date">
@@ -444,7 +445,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 					<Stack direction="row" className="repair-detail__info-item">
 						<DescriptionIcon fontSize="small" />
-						<Typography className="repair-detail__desc">{repairProperty?.repairPropertyDescription}</Typography>
+						<Typography className="repair-detail__desc">{getLocalizedRepairText(repairProperty, router.locale)}</Typography>
 					</Stack>
 
 					<Stack direction="row" className="repair-detail__info-item">

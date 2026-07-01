@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Avatar } from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
 import { Property } from '../../types/property/property';
+import { getLocalizedTitle } from '../../utils/localizeProperty';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
@@ -167,7 +168,7 @@ const CloseButton = styled(Box)({
 });
 
 const SalesToast = (props: SalesToastProps) => {
-	const { t } = useTranslation('common');
+	const { t, i18n } = useTranslation('common');
 	const router = useRouter();
 	const { initialInput } = props;
 	const [saleProperties, setSaleProperties] = useState<Property[]>(globalSaleProperties);
@@ -312,12 +313,12 @@ const SalesToast = (props: SalesToastProps) => {
 
 			<ProductImage
 				src={`${process.env.REACT_APP_API_URL}/${currentProperty.propertyImages?.[0]}`}
-				alt={currentProperty.propertyTitle}
+				alt={getLocalizedTitle(currentProperty, i18n.language)}
 			/>
 
 			<ContentBox>
 				<PurchaseText>{t('Someone purchased a')}</PurchaseText>
-				<ProductTitle>{currentProperty.propertyTitle}</ProductTitle>
+				<ProductTitle>{getLocalizedTitle(currentProperty, i18n.language)}</ProductTitle>
 				<LocationText>
 					{t('Category')}: {t(currentProperty.propertyCategory || t('Unknown Category'))}
 				</LocationText>

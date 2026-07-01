@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Box, Link, Stack, Typography, IconButton } from '@mui/material';
 import { BoardArticle } from '../../types/board-article/board-article';
+import { getLocalizedArticleTitle } from '../../utils/localizeArticle';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -38,6 +39,7 @@ const CommunityCard = ({ boardArticle, likeArticleHandler }: CommunityCardProps)
 	const imagePath = boardArticle?.articleImage
 		? `${REACT_APP_API_URL}/${boardArticle?.articleImage}`
 		: '/img/community/communityImg.png';
+	const title = getLocalizedArticleTitle(boardArticle, i18n.language);
 
 	const chooseArticleHandler = (e: React.SyntheticEvent, boardArticle: BoardArticle) => {
 		router.push(
@@ -142,7 +144,7 @@ const CommunityCard = ({ boardArticle, likeArticleHandler }: CommunityCardProps)
 				
 				<div style={{ padding: '12px 8px 6px' }}>
 					<div style={{ fontSize: '12px', fontWeight: 700, color: '#181a20', lineHeight: 1.3, marginBottom: '4px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', height: '32px' }}>
-						{boardArticle?.articleTitle}
+						{title}
 					</div>
 					<div style={{ fontSize: '10px', color: '#888', lineHeight: 1.4, marginBottom: '6px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
 						{t('Lorem ipsum dolor sit amet...')}
@@ -183,7 +185,7 @@ const CommunityCard = ({ boardArticle, likeArticleHandler }: CommunityCardProps)
 				</Box>
 
 				<Stack className="card-content" spacing={0.5}>
-					<Typography component="strong">{boardArticle?.articleTitle}</Typography>
+					<Typography component="strong">{title}</Typography>
 					<Typography component="span">{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}</Typography>
 					<Typography className="read-more">{t('Read More')}</Typography>
 				</Stack>

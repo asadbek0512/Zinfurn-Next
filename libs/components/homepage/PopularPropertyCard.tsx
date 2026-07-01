@@ -4,6 +4,7 @@ import { useTranslation } from 'next-i18next';
 import { Property } from '../../types/property/property';
 import { T } from '../../types/common';
 import router from 'next/router';
+import { getLocalizedTitle } from '../../utils/localizeProperty';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper';
@@ -142,7 +143,7 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 									onClick={() => handleViewDetails(property._id)}
 								>
 									{/* Rasm */}
-									<img loading="lazy" decoding="async" src={imgUrl} alt={property.propertyTitle}
+									<img loading="lazy" decoding="async" src={imgUrl} alt={getLocalizedTitle(property, router.locale)}
 										style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
 									{/* Overlay */}
 									<div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.45)' }} />
@@ -174,7 +175,7 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 
 										{/* Nom - past */}
 										<div style={{ fontSize: '13px', color: '#fff', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-											{property.propertyTitle}
+											{getLocalizedTitle(property, router.locale)}
 										</div>
 									</div>
 								</div>
@@ -250,7 +251,7 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 								</Box>
 							</Box>
 
-							<Typography className="property-title">{property.propertyTitle}</Typography>
+							<Typography className="property-title">{getLocalizedTitle(property, router.locale)}</Typography>
 						</Box>
 					</Box>
 				))}

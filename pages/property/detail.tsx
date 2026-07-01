@@ -49,6 +49,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import TrendPropertyCard from '../../libs/components/homepage/TrendPropertyCard';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import { useTranslation } from 'next-i18next';
+import { getLocalizedTitle, getLocalizedDesc } from '../../libs/utils/localizeProperty';
 import { useCurrency } from '../../libs/context/CurrencyContext';
 import ShareModal from '../../libs/components/property/ShareModal';
 
@@ -100,6 +101,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [tabIndex, setTabIndex] = useState(0);
 	const { t } = useTranslation('common');
 	const { formatPrice } = useCurrency();
+	const localizedTitle = getLocalizedTitle(property, router.locale);
+	const localizedDesc = getLocalizedDesc(property, router.locale);
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
 		commentGroup: CommentGroup.PROPERTY,
 		commentContent: '',
@@ -336,7 +339,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** SHARE **/
 	const [shareOpen, setShareOpen] = useState(false);
 	const getShareUrl = () => `https://zinfurn.uz/property/detail?id=${property?._id}`;
-	const getShareText = () => `${property?.propertyTitle} — Zinfurn`;
+	const getShareText = () => `${localizedTitle} — Zinfurn`;
 
 	const handleTabChange = (_: any, newIndex: number) => {
 		setTabIndex(newIndex);
@@ -355,7 +358,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		addToCart(
 			{
 				_id: property._id,
-				propertyTitle: property.propertyTitle,
+				propertyTitle: localizedTitle,
 				propertyPrice: property.propertyPrice,
 				propertySalePrice: property.propertySalePrice,
 				propertyImages: property.propertyImages,
@@ -450,7 +453,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					<IconButton className="mob-det-prev" onClick={prevImage}><ArrowBackIosIcon fontSize="small" /></IconButton>
 					<img
 						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
-						alt={property?.propertyTitle || ''}
+						alt={localizedTitle || ''}
 						className="mob-det-main-img"
 					/>
 					<IconButton className="mob-det-next" onClick={nextImage}><ArrowForwardIosIcon fontSize="small" /></IconButton>
@@ -481,7 +484,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					</div>
 
 					{/* Sarlavha */}
-					<h2 className="mob-det-title">{property?.propertyTitle}</h2>
+					<h2 className="mob-det-title">{localizedTitle}</h2>
 
 					{/* Reyting + sotilgan */}
 					<div className="mob-det-rating">
@@ -518,7 +521,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					</div>
 
 					{/* Qisqa tavsif */}
-					<p className="mob-det-desc">{property?.propertyDesc || t('no_description_provided')}</p>
+					<p className="mob-det-desc">{localizedDesc || t('no_description_provided')}</p>
 
 					<div className="mob-det-divider" />
 
@@ -570,7 +573,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<span>{t('features')}</span><span>{t('details')}</span>
 								</div>
 								{[
-									[t('brand'), property?.propertyTitle],
+									[t('brand'), localizedTitle],
 									[t('color'), property?.propertyColor],
 									[t('size'), property?.propertySize ? `${property.propertySize} ${t('cm')}` : null],
 									[t('material'), property?.propertyMaterial],
@@ -715,7 +718,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						</Swiper>
 					</div>
 				)}
-				<ShareModal open={shareOpen} onClose={() => setShareOpen(false)} url={getShareUrl()} title={property?.propertyTitle || 'Zinfurn'} text={getShareText()} />
+				<ShareModal open={shareOpen} onClose={() => setShareOpen(false)} url={getShareUrl()} title={localizedTitle || 'Zinfurn'} text={getShareText()} />
 			</div>
 		);
 	} else {
@@ -800,7 +803,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 									<Stack className="titleRow">
 										<Typography variant="h4" className="title">
-											{property?.propertyTitle}
+											{localizedTitle}
 										</Typography>
 										<Chip
 											label={property?.propertyInStock ? t('in_stock') : t('out_of_stock')}
@@ -844,7 +847,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 
 									<Typography className="description">
-										{property?.propertyDesc || t('no_description_provided')}
+										{localizedDesc || t('no_description_provided')}
 									</Typography>
 
 									<Stack className="colorSection" direction="row" alignItems="center" gap={1}>
@@ -932,7 +935,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Stack className="top-section">
 											<Typography className="main-title">{t('property_description')}</Typography>
 											<Typography className="description-text">
-												{property?.propertyDesc ?? t('no_description')}
+												{localizedDesc || t('no_description')}
 											</Typography>
 										</Stack>
 
@@ -947,7 +950,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 													<Box component="div" className="detail-row">
 														<span className="detail-label">{t('brand')}</span>
-														<span className="detail-value">{property?.propertyTitle || t('not_available')}</span>
+														<span className="detail-value">{localizedTitle || t('not_available')}</span>
 													</Box>
 
 													<Box component="div" className="detail-row alternate">
@@ -1220,7 +1223,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</Stack>
 						)}
 					</Stack>
-					<ShareModal open={shareOpen} onClose={() => setShareOpen(false)} url={getShareUrl()} title={property?.propertyTitle || 'Zinfurn'} text={getShareText()} />
+					<ShareModal open={shareOpen} onClose={() => setShareOpen(false)} url={getShareUrl()} title={localizedTitle || 'Zinfurn'} text={getShareText()} />
 				</div>
 			</div>
 		);

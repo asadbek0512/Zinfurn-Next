@@ -215,11 +215,11 @@ const Checkout: NextPage = () => {
 				<p className="co-card-num">{cardNumber || '•••• •••• •••• ••••'}</p>
 				<div className="co-card-footer">
 					<div>
-						<p className="co-card-lbl">CARD HOLDER</p>
+						<p className="co-card-lbl">{t('CARD HOLDER')}</p>
 						<p className="co-card-val">{cardHolder || 'YOUR NAME'}</p>
 					</div>
 					<div>
-						<p className="co-card-lbl">EXPIRES</p>
+						<p className="co-card-lbl">{t('EXPIRES')}</p>
 						<p className="co-card-val">{expiry || 'MM/YY'}</p>
 					</div>
 				</div>

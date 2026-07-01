@@ -188,6 +188,13 @@ query GetProperty($input: String!) {
         propertySaleExpiresAt
         propertyImages
         propertyDesc
+        propertyTranslations {
+          uz { title desc }
+          en { title desc }
+          ru { title desc }
+          kr { title desc }
+          ar { title desc }
+        }
         propertyBarter
         propertyRent
         propertyInStock
@@ -263,6 +270,13 @@ query GetProperties($input: PropertiesInquiry!) {
             propertySaleExpiresAt
             propertyImages
             propertyDesc
+            propertyTranslations {
+              uz { title desc }
+              en { title desc }
+              ru { title desc }
+              kr { title desc }
+              ar { title desc }
+            }
             propertyBarter
             propertyRent
             propertyInStock
@@ -353,6 +367,13 @@ query GetAgentProperties($input: AgentPropertiesInquiry!) {
             propertySaleExpiresAt
             propertyImages
             propertyDesc
+            propertyTranslations {
+              uz { title desc }
+              en { title desc }
+              ru { title desc }
+              kr { title desc }
+              ar { title desc }
+            }
             propertyBarter
             propertyRent
             propertyInStock
@@ -433,6 +454,13 @@ query GetFavorites($input: OrdinaryInquiry!) {
             propertySaleExpiresAt
             propertyImages
             propertyDesc
+            propertyTranslations {
+              uz { title desc }
+              en { title desc }
+              ru { title desc }
+              kr { title desc }
+              ar { title desc }
+            }
             propertyBarter
             propertyRent
             propertyInStock
@@ -507,6 +535,13 @@ query GetVisited($input: OrdinaryInquiry!) {
             propertySaleExpiresAt
             propertyImages
             propertyDesc
+            propertyTranslations {
+              uz { title desc }
+              en { title desc }
+              ru { title desc }
+              kr { title desc }
+              ar { title desc }
+            }
             propertyBarter
             propertyRent
             propertyInStock
@@ -576,6 +611,13 @@ export const GET_BOARD_ARTICLE = gql`
 			articleTitle
 			articleContent
 			articleImage
+			articleTranslations {
+				uz { title desc }
+				en { title desc }
+				ru { title desc }
+				kr { title desc }
+				ar { title desc }
+			}
 			articleViews
 			articleLikes
 			articleComments
@@ -623,6 +665,13 @@ export const GET_BOARD_ARTICLES = gql`
 				articleTitle
 				articleContent
 				articleImage
+				articleTranslations {
+					uz { title desc }
+					en { title desc }
+					ru { title desc }
+					kr { title desc }
+					ar { title desc }
+				}
 				articleViews
 				articleLikes
 				articleComments
@@ -835,6 +884,13 @@ query GetRepairProperty($input: String!) {
         repairPropertyStatus
         repairPropertyAddress
         repairPropertyDescription
+        repairPropertyTranslations {
+        	uz { title desc }
+        	en { title desc }
+        	ru { title desc }
+        	kr { title desc }
+        	ar { title desc }
+        }
         repairPropertyImages
         repairPropertyViews
         repairPropertyLikes
@@ -890,6 +946,13 @@ query GetRepairProperties($input: RepairPropertiesInquiry!) {
             repairPropertyStatus
             repairPropertyAddress
             repairPropertyDescription
+            repairPropertyTranslations {
+            	uz { title desc }
+            	en { title desc }
+            	ru { title desc }
+            	kr { title desc }
+            	ar { title desc }
+            }
             repairPropertyImages
             repairPropertyViews
             repairPropertyLikes
@@ -949,6 +1012,13 @@ query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
             repairPropertyStatus
             repairPropertyAddress
             repairPropertyDescription
+            repairPropertyTranslations {
+            	uz { title desc }
+            	en { title desc }
+            	ru { title desc }
+            	kr { title desc }
+            	ar { title desc }
+            }
             repairPropertyImages
             repairPropertyViews
             repairPropertyLikes
@@ -1008,6 +1078,13 @@ query GetRepairFavorites($input: RepairOrdinaryInquiry!) {
             repairPropertyStatus
             repairPropertyAddress
             repairPropertyDescription
+            repairPropertyTranslations {
+            	uz { title desc }
+            	en { title desc }
+            	ru { title desc }
+            	kr { title desc }
+            	ar { title desc }
+            }
             repairPropertyImages
             repairPropertyViews
             repairPropertyLikes
@@ -1067,6 +1144,13 @@ query GetRepairVisited($input: RepairOrdinaryInquiry!) {
             repairPropertyStatus
             repairPropertyAddress
             repairPropertyDescription
+            repairPropertyTranslations {
+            	uz { title desc }
+            	en { title desc }
+            	ru { title desc }
+            	kr { title desc }
+            	ar { title desc }
+            }
             repairPropertyImages
             repairPropertyViews
             repairPropertyLikes
@@ -1289,6 +1373,13 @@ export const GET_ALL_NOTICES = gql`
         noticeStatus
         noticeTitle
         noticeContent
+        noticeTranslations {
+        	uz { title desc }
+        	en { title desc }
+        	ru { title desc }
+        	kr { title desc }
+        	ar { title desc }
+        }
         memberId
         createdAt
         updatedAt
@@ -1309,6 +1400,13 @@ export const GET_NOTICE = gql`
       noticeStatus
       noticeTitle
       noticeContent
+      noticeTranslations {
+      	uz { title desc }
+      	en { title desc }
+      	ru { title desc }
+      	kr { title desc }
+      	ar { title desc }
+      }
       memberId
       createdAt
       updatedAt

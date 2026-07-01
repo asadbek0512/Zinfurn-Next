@@ -8,6 +8,7 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { RepairProperty } from '../../types/repairProperty/repairProperty';
 import { useTranslation } from 'next-i18next';
+import { getLocalizedRepairText } from '../../utils/localizeRepair';
 
 interface TopRepairPropertyCardProps {
 	repairProperty: RepairProperty;
@@ -39,7 +40,7 @@ const TopRepairPropertyCard = (props: TopRepairPropertyCardProps) => {
 
 			<Box component={'div'} className={'info'}>
 				<strong className="title" style={{ cursor: 'pointer' }} onClick={() => pushDetailHandler(repairProperty._id)}>
-					{repairProperty?.repairPropertyDescription}
+					{getLocalizedRepairText(repairProperty, router.locale)}
 				</strong>
 				<p className={'desc'}>{repairProperty?.repairPropertyAddress}</p>
 				<div className={'options'}>

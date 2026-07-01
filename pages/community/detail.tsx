@@ -34,6 +34,7 @@ import {
 } from '../../libs/sweetAlert';
 import { CommentUpdate } from '../../libs/types/comment/comment.update';
 import { useTranslation } from 'next-i18next';
+import { getLocalizedArticleTitle, getLocalizedArticleContent } from '../../libs/utils/localizeArticle';
 
 const ToastViewerComponent = dynamic(() => import('../../libs/components/community/TViewer'), { ssr: false });
 
@@ -70,6 +71,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const [updatedCommentId, setUpdatedCommentId] = useState<string>('');
 	const [likeLoading, setLikeLoading] = useState<boolean>(false);
 	const [boardArticle, setBoardArticle] = useState<BoardArticle>();
+	const localizedArticleTitle = getLocalizedArticleTitle(boardArticle, router.locale);
+	const localizedArticleContent = getLocalizedArticleContent(boardArticle, router.locale);
 	const [showEmoji, setShowEmoji] = useState<boolean>(false);
 
 	/** APOLLO REQUESTS **/
@@ -278,7 +281,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 				{/* Category + Title */}
 				<div className="mob-com-det-header">
 					{articleCategory && <span className="mob-com-det-cat">{t(articleCategory)}</span>}
-					<div className="mob-com-det-title">{boardArticle?.articleTitle}</div>
+					<div className="mob-com-det-title">{localizedArticleTitle}</div>
 				</div>
 
 				{/* Author + Stats */}
@@ -321,7 +324,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 
 				{/* Article content — rasm avval, matn pastida */}
 				{(() => {
-					const raw = boardArticle?.articleContent ?? '';
+					const raw = localizedArticleContent ?? '';
 					const imgMatch = raw.match(/!\[([^\]]*)\]\(([^)]+)\)/);
 					const imgSrc = imgMatch ? imgMatch[2] : null;
 					const textOnly = imgSrc ? raw.replace(/!\[([^\]]*)\]\(([^)]+)\)/, '').trim() : raw;
@@ -525,7 +528,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 								<Stack className="first-box-config">
 									<Stack className="content-and-info">
 										<Stack className="content">
-											<Typography className="content-data">{boardArticle?.articleTitle}</Typography>
+											<Typography className="content-data">{localizedArticleTitle}</Typography>
 											<Stack className="member-info">
 												<img
 													src={memberImage}
@@ -567,7 +570,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										</Stack>
 									</Stack>
 									<Stack>
-										<ToastViewerComponent markdown={boardArticle?.articleContent} className={'ytb_play'} />
+										<ToastViewerComponent markdown={localizedArticleContent} className={'ytb_play'} />
 									</Stack>
 									<Stack className="like-and-dislike">
 										<Stack className="top">

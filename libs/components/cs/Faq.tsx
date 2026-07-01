@@ -9,9 +9,10 @@ import { NoticeCategory, NoticeStatus } from '../../enums/notice.enum';
 import CircularProgress from '@mui/material/CircularProgress';
 import Loading from '../common/Loading';
 import { useTranslation } from 'next-i18next';
+import { getLocalizedNoticeTitle, getLocalizedNoticeContent } from '../../utils/localizeNotice';
 
 const Faq = () => {
-	const { t } = useTranslation('common');
+	const { t, i18n } = useTranslation('common');
 	const device = useDeviceDetect();
 	const [expanded, setExpanded] = useState<string | false>('panel1');
 
@@ -41,10 +42,10 @@ const Faq = () => {
 					>
 						<AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: '#cf6422' }} />} className="mob-cs-faq-summary">
 							<HelpOutlineIcon sx={{ color: '#cf6422', fontSize: 18, flexShrink: 0, mr: 1 }} />
-							<span className="mob-cs-faq-question">{faq.noticeTitle}</span>
+							<span className="mob-cs-faq-question">{getLocalizedNoticeTitle(faq, i18n.language)}</span>
 						</AccordionSummary>
 						<AccordionDetails className="mob-cs-faq-answer">
-							<p>{faq.noticeContent}</p>
+							<p>{getLocalizedNoticeContent(faq, i18n.language)}</p>
 						</AccordionDetails>
 					</Accordion>
 				))}
@@ -105,7 +106,7 @@ const Faq = () => {
 							>
 								<Box component="div" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
 									<HelpOutlineIcon sx={{ color: ' #ff6b35' }} />
-									<Typography sx={{ color: '#1E293B', fontWeight: 500 }}>{faq.noticeTitle}</Typography>
+									<Typography sx={{ color: '#1E293B', fontWeight: 500 }}>{getLocalizedNoticeTitle(faq, i18n.language)}</Typography>
 								</Box>
 							</AccordionSummary>
 							<AccordionDetails
@@ -115,7 +116,7 @@ const Faq = () => {
 									p: 3,
 								}}
 							>
-								<Typography sx={{ color: '#64748B', lineHeight: 1.6 }}>{faq.noticeContent}</Typography>
+								<Typography sx={{ color: '#64748B', lineHeight: 1.6 }}>{getLocalizedNoticeContent(faq, i18n.language)}</Typography>
 							</AccordionDetails>
 						</Accordion>
 					))}

@@ -4,6 +4,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Box } from '@mui/material';
 import { BoardArticle } from '../../types/board-article/board-article';
 import { useTranslation } from 'next-i18next';
+import { getLocalizedArticleTitle } from '../../utils/localizeArticle';
 
 interface CommunityCardProps {
 	vertical: boolean;
@@ -19,6 +20,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 	const articleImage = article?.articleImage
 		? `${process.env.REACT_APP_API_URL}/${article?.articleImage}`
 		: '/img/event.svg';
+	const title = getLocalizedArticleTitle(article, i18n.language);
 
 	const formatDate = (date: string | Date, locale: string) => {
 		const months: { [key: string]: string[] } = {
@@ -76,7 +78,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 						</div>
 						<div style={{ padding: '10px 4px 6px' }}>
 							<div style={{ fontSize: '13px', fontWeight: 600, color: '#2c2c2c', lineHeight: 1.3, marginBottom: '6px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-								{article?.articleTitle}
+								{title}
 							</div>
 							<div style={{ fontSize: '11px', color: '#888', lineHeight: 1.4, marginBottom: '6px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
 								{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}
@@ -90,11 +92,11 @@ const CommunityCard = (props: CommunityCardProps) => {
 			return (
 				<Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
 					<div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '10px', background: '#fff', borderRadius: '10px', boxShadow: '0 3px 15px rgba(0,0,0,0.08)', cursor: 'pointer', overflow: 'hidden' }}>
-						<img loading="lazy" decoding="async" src={articleImage} alt={article?.articleTitle}
+						<img loading="lazy" decoding="async" src={articleImage} alt={title}
 							style={{ width: '60px', height: '60px', borderRadius: '6px', objectFit: 'cover', background: '#e8dcc0', flexShrink: 0 }} />
 						<div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '3px' }}>
 							<div style={{ fontSize: '11px', fontWeight: 600, color: '#2c2c2c', lineHeight: 1.3, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-								{article?.articleTitle}
+								{title}
 							</div>
 							<div style={{ fontSize: '9px', color: '#888', lineHeight: 1.4, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
 								{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}
@@ -117,7 +119,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 						</div>
 					</div>
 					<div className={'card-content'}>
-						<strong>{article?.articleTitle}</strong>
+						<strong>{title}</strong>
 						<span>{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}</span>
 						<div className={'read-more'}>{t('Read More')}</div>
 					</div>
@@ -128,9 +130,9 @@ const CommunityCard = (props: CommunityCardProps) => {
 		return (
 			<Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`}>
 				<Box component={'div'} className="horizontal-card">
-					<img loading="lazy" decoding="async" src={articleImage} alt={article?.articleTitle} />
+					<img loading="lazy" decoding="async" src={articleImage} alt={title} />
 					<div className={'card-info'}>
-						<strong>{article.articleTitle}</strong>
+						<strong>{title}</strong>
 						<span>{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}</span>
 						<div className={'read-more'}>{t('Read More')}</div>
 					</div>

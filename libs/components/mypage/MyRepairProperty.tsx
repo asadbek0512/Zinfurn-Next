@@ -11,6 +11,7 @@ import { RepairPropertiesInquiry } from '../../types/repairProperty/repairProper
 import { RepairProperty } from '../../types/repairProperty/repairProperty';
 import { RepairPropertyStatus } from '../../enums/repairProperty.enum';
 import { useTranslation } from 'next-i18next';
+import { getLocalizedRepairText } from '../../utils/localizeRepair';
 
 const MyRepairProperty: NextPage = ({ initialInput, ...props }: any) => {
   const { t } = useTranslation('common');
@@ -77,7 +78,7 @@ const MyRepairProperty: NextPage = ({ initialInput, ...props }: any) => {
                 <div className="mob-myrepair-card-body">
                   <div className="mob-myrepair-type">{t(repairProperty.repairPropertyType)}</div>
                   <div className="mob-myrepair-address">{repairProperty.repairPropertyAddress}</div>
-                  <div className="mob-myrepair-desc">{repairProperty.repairPropertyDescription}</div>
+                  <div className="mob-myrepair-desc">{getLocalizedRepairText(repairProperty, router.locale)}</div>
                   <div className="mob-myrepair-status">{t('ACTIVE')}</div>
                 </div>
               </div>
@@ -210,7 +211,7 @@ const MyRepairProperty: NextPage = ({ initialInput, ...props }: any) => {
                             textOverflow: 'ellipsis',
                           }}
                         >
-                          {repairProperty.repairPropertyDescription}
+                          {getLocalizedRepairText(repairProperty, router.locale)}
                         </Typography>
                       </CardContent>
                     </Box>
