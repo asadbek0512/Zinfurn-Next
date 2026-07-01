@@ -8,9 +8,10 @@ import { NoticeCategory, NoticeStatus } from '../../enums/notice.enum';
 import CircularProgress from '@mui/material/CircularProgress';
 import Loading from '../common/Loading';
 import { useTranslation } from 'next-i18next';
+import { getLocalizedNoticeTitle, getLocalizedNoticeContent } from '../../utils/localizeNotice';
 
 const Terms = () => {
-	const { t } = useTranslation('common');
+	const { t, i18n } = useTranslation('common');
 	const device = useDeviceDetect();
 
 	const { data: termsData, loading } = useQuery(GET_ALL_NOTICES, {
@@ -32,9 +33,9 @@ const Terms = () => {
 					<div key={term._id} className="mob-cs-terms-card">
 						<div className="mob-cs-terms-top">
 							<ArticleIcon sx={{ color: '#cf6422', fontSize: 18, flexShrink: 0 }} />
-							<span className="mob-cs-terms-title">{term.noticeTitle}</span>
+							<span className="mob-cs-terms-title">{getLocalizedNoticeTitle(term, i18n.language)}</span>
 						</div>
-						<p className="mob-cs-terms-body">{term.noticeContent}</p>
+						<p className="mob-cs-terms-body">{getLocalizedNoticeContent(term, i18n.language)}</p>
 					</div>
 				))}
 			</div>
@@ -81,10 +82,10 @@ const Terms = () => {
 							}}
 						>
 							<ArticleIcon sx={{ color: '#ff6b35' }} />
-							<Typography sx={{ color: '#1E293B', fontWeight: 600, fontSize: '1.1rem' }}>{term.noticeTitle}</Typography>
+							<Typography sx={{ color: '#1E293B', fontWeight: 600, fontSize: '1.1rem' }}>{getLocalizedNoticeTitle(term, i18n.language)}</Typography>
 						</Box>
 						<Box component="div" sx={{ p: 3, borderBottom: index < terms.length - 1 ? '1px solid #E2E8F0' : 'none' }}>
-							<Typography sx={{ color: '#64748B', lineHeight: 1.8 }}>{term.noticeContent}</Typography>
+							<Typography sx={{ color: '#64748B', lineHeight: 1.8 }}>{getLocalizedNoticeContent(term, i18n.language)}</Typography>
 						</Box>
 					</Box>
 				))}

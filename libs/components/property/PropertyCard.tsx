@@ -17,6 +17,7 @@ import { addToCart } from '../../utils/cartUtils';
 import { flyToCart } from '../../utils/flyToCart';
 import { Property } from '../../types/property/property';
 import { useTranslation } from 'next-i18next';
+import { getLocalizedTitle } from '../../utils/localizeProperty';
 import { useCurrency } from '../../context/CurrencyContext';
 
 interface PropertyCardProps {
@@ -30,8 +31,9 @@ const PropertyCard = (props: PropertyCardProps) => {
 	const { property, likePropertyHandler, myFavorites, recentlyVisited } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
-	const { t } = useTranslation('common');
+	const { t, i18n } = useTranslation('common');
 	const { formatPrice } = useCurrency();
+	const title = getLocalizedTitle(property, i18n.language);
 	const imagePath: string = property?.propertyImages?.[0]
 		? `${REACT_APP_API_URL}/${property?.propertyImages?.[0]}`
 		: '/img/banner/header1.svg';
@@ -54,7 +56,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 		e.stopPropagation();
 		addToCart({
 			_id: property?._id,
-			propertyTitle: property?.propertyTitle,
+			propertyTitle: title,
 			propertyPrice: property?.propertyPrice,
 			propertySalePrice: property?.propertySalePrice,
 			propertyImages: property?.propertyImages,
@@ -70,7 +72,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 		return (
 			<Stack className="mob-property-card">
 				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }} className="mob-card-img-wrap">
-					<img loading="lazy" decoding="async" src={imagePath} alt={property?.propertyTitle || 'Property'} className="mob-card-img" />
+					<img loading="lazy" decoding="async" src={imagePath} alt={title || 'Property'} className="mob-card-img" />
 					{discountPercent > 0 && <span className="mob-sale-badge">-{discountPercent}%</span>}
 					<span className="mob-cat-badge">{t(property?.propertyCategory)}</span>
 				</Link>
@@ -89,7 +91,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 					</div>
 
 					<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
-						<Typography className="mob-card-title">{property?.propertyTitle}</Typography>
+						<Typography className="mob-card-title">{title}</Typography>
 					</Link>
 
 					<Stack className="mob-card-price">
@@ -144,7 +146,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 		>
 			<Stack className="top">
 				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
-					<img loading="lazy" decoding="async" src={hoverImagePath} alt={property?.propertyTitle || 'Property'} style={{ transition: 'opacity 0.3s' }} />
+					<img loading="lazy" decoding="async" src={hoverImagePath} alt={title || 'Property'} style={{ transition: 'opacity 0.3s' }} />
 				</Link>
 
 				{discountPercent > 0 && (
@@ -173,7 +175,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 
 				<Stack className="title-section">
 					<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
-						<Typography className="property-title">{property?.propertyTitle}</Typography>
+						<Typography className="property-title">{title}</Typography>
 					</Link>
 				</Stack>
 

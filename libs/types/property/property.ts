@@ -7,6 +7,19 @@ export interface MeLiked {
 	myFavorite: boolean;
 }
 
+export interface PropertyI18n {
+	title?: string;
+	desc?: string;
+}
+
+export interface PropertyTranslations {
+	uz?: PropertyI18n;
+	en?: PropertyI18n;
+	ru?: PropertyI18n;
+	kr?: PropertyI18n;
+	ar?: PropertyI18n;
+}
+
 export interface TotalCounter {
 	total: number;
 }
@@ -26,6 +39,7 @@ export interface Property {
 	propertySaleExpiresAt?: Date;
 	propertyImages?: string[];
 	propertyDesc?: string;
+	propertyTranslations?: PropertyTranslations;
 	propertyBarter?: boolean;
 	propertyRent?: boolean;
 	propertyInStock?: boolean;

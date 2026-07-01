@@ -9,9 +9,10 @@ import { NoticeCategory, NoticeStatus } from '../../enums/notice.enum';
 import CircularProgress from '@mui/material/CircularProgress';
 import Loading from '../common/Loading';
 import { useTranslation } from 'next-i18next';
+import { getLocalizedNoticeTitle, getLocalizedNoticeContent } from '../../utils/localizeNotice';
 
 const Notice = () => {
-	const { t } = useTranslation('common');
+	const { t, i18n } = useTranslation('common');
 	const device = useDeviceDetect();
 
 	const { data: noticesData, loading } = useQuery(GET_ALL_NOTICES, {
@@ -33,10 +34,10 @@ const Notice = () => {
 					<div key={notice._id} className="mob-cs-notice-card">
 						<div className="mob-cs-notice-top">
 							<NotificationsIcon sx={{ color: '#cf6422', fontSize: 18, flexShrink: 0 }} />
-							<span className="mob-cs-notice-title">{notice.noticeTitle}</span>
+							<span className="mob-cs-notice-title">{getLocalizedNoticeTitle(notice, i18n.language)}</span>
 							<span className="mob-cs-notice-date">{format(new Date(notice.createdAt), 'MMM dd')}</span>
 						</div>
-						<p className="mob-cs-notice-body">{notice.noticeContent}</p>
+						<p className="mob-cs-notice-body">{getLocalizedNoticeContent(notice, i18n.language)}</p>
 					</div>
 				))}
 			</div>
@@ -84,14 +85,14 @@ const Notice = () => {
 						>
 							<NotificationsIcon sx={{ color: '#ff6b35' }} />
 							<Typography sx={{ color: '#1E293B', fontWeight: 600, fontSize: '1.1rem', flex: 1 }}>
-								{notice.noticeTitle}
+								{getLocalizedNoticeTitle(notice, i18n.language)}
 							</Typography>
 							<Typography sx={{ color: '#64748B', fontSize: '0.9rem' }}>
 								{format(new Date(notice.createdAt), 'MMM dd, yyyy')}
 							</Typography>
 						</Box>
 						<Box component="div" sx={{ p: 3, borderBottom: index < notices.length - 1 ? '1px solid #E2E8F0' : 'none' }}>
-							<Typography sx={{ color: '#64748B', lineHeight: 1.8 }}>{notice.noticeContent}</Typography>
+							<Typography sx={{ color: '#64748B', lineHeight: 1.8 }}>{getLocalizedNoticeContent(notice, i18n.language)}</Typography>
 						</Box>
 					</Box>
 				))}

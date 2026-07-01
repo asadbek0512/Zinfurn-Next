@@ -8,6 +8,7 @@ import { Property } from '../../types/property/property';
 import { REACT_APP_API_URL } from '../../config';
 import { useCurrency } from '../../context/CurrencyContext';
 import { userVar } from '../../../apollo/store';
+import { getLocalizedTitle } from '../../utils/localizeProperty';
 
 interface MobilePropertyCardProps {
 	property: Property;
@@ -29,6 +30,7 @@ const MobilePropertyCard = ({ property, likePropertyHandler }: MobilePropertyCar
 			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
 			: 0;
 	const imgUrl = `${REACT_APP_API_URL}/${property.propertyImages?.[0]}`;
+	const title = getLocalizedTitle(property, router.locale);
 
 	return (
 		<div
@@ -36,7 +38,7 @@ const MobilePropertyCard = ({ property, likePropertyHandler }: MobilePropertyCar
 			onClick={() => router.push({ pathname: '/property/detail', query: { id: property._id } })}
 		>
 			<div style={{ position: 'relative', height: '170px', background: '#fff' }}>
-				<img loading="lazy" decoding="async" src={imgUrl} alt={property.propertyTitle} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }} />
+				<img loading="lazy" decoding="async" src={imgUrl} alt={title} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }} />
 				<div style={{ position: 'absolute', top: '8px', left: '8px', right: '8px', display: 'flex', justifyContent: 'space-between' }}>
 					{discountPercent > 0 && (
 						<span style={{ background: '#ff6b35', color: '#fff', fontSize: '10px', padding: '2px 6px', borderRadius: '4px' }}>-{discountPercent}%</span>
@@ -48,7 +50,7 @@ const MobilePropertyCard = ({ property, likePropertyHandler }: MobilePropertyCar
 			</div>
 			<div style={{ padding: '8px 10px' }}>
 				<div style={{ fontSize: '13px', fontWeight: 500, color: '#181a20', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '6px' }}>
-					{property.propertyTitle}
+					{title}
 				</div>
 				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '6px' }}>
 					<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', minWidth: 0 }}>

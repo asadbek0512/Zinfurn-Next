@@ -149,7 +149,12 @@ body::-webkit-scrollbar {
 						justify-content: center;
 
 						&.korean-margin {
-							gap: 22px;
+							gap: 44px;
+
+							.logo-box img {
+								padding-left: 90px;
+								padding-right: 90px;
+							}
 						}
 						&.russian-lang {
 							gap: 16px;

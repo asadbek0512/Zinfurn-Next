@@ -13,6 +13,7 @@ import { useTranslation } from 'next-i18next';
 import { addToCart } from '../../utils/cartUtils';
 import { flyToCart } from '../../utils/flyToCart';
 import { useCurrency } from '../../context/CurrencyContext';
+import { getLocalizedTitle } from '../../utils/localizeProperty';
 
 interface TrendPropertyCardProps {
 	property: Property;
@@ -32,6 +33,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 	const imagePath = property?.propertyImages?.[0]
 		? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
 		: '/img/banner/header1.svg';
+	const title = getLocalizedTitle(property, router.locale);
 
 	const pushDetailHandler = (id: string) => {
 		router.push({ pathname: '/property/detail', query: { id } });
@@ -41,7 +43,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 		e.stopPropagation();
 		addToCart({
 			_id: property._id,
-			propertyTitle: property.propertyTitle,
+			propertyTitle: title,
 			propertyPrice: property.propertyPrice,
 			propertySalePrice: property.propertySalePrice,
 			propertyImages: property.propertyImages,
@@ -101,7 +103,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 
 			<Box className="product-info-container" component="div">
 				<Box className="title-views-container" component="div">
-					<Typography className="product-title">{property.propertyTitle}</Typography>
+					<Typography className="product-title">{title}</Typography>
 				</Box>
 
 				<Box className="price-like-container" component="div">

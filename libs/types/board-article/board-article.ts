@@ -2,6 +2,19 @@ import { BoardArticleCategory, BoardArticleStatus } from '../../enums/board-arti
 import { Member } from '../member/member';
 import { MeLiked, TotalCounter } from '../property/property';
 
+export interface ArticleI18n {
+	title?: string;
+	desc?: string;
+}
+
+export interface ArticleTranslations {
+	uz?: ArticleI18n;
+	en?: ArticleI18n;
+	ru?: ArticleI18n;
+	kr?: ArticleI18n;
+	ar?: ArticleI18n;
+}
+
 export interface BoardArticle {
 	_id: string;
 	articleCategory: BoardArticleCategory;
@@ -9,6 +22,7 @@ export interface BoardArticle {
 	articleTitle: string;
 	articleContent: string;
 	articleImage: string;
+	articleTranslations?: ArticleTranslations;
 	articleViews: number;
 	articleLikes: number;
 	articleComments: number;
