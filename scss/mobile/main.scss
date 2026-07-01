@@ -1675,8 +1675,12 @@
           color: #fff;
           font-size: 13px;
           line-height: 1.5;
-          max-width: 68%;
+          max-width: 80%;
           word-break: break-word;
+
+          &:has(.ai-products) {
+            width: 80%;
+          }
         }
 
         .ai-msg-right {
