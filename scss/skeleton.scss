@@ -1,0 +1,115 @@
+/** Shimmer skeleton loaders + karta paydo bo'lish animatsiyalari **/
+
+@keyframes zf-shimmer {
+	0% { background-position: -420px 0; }
+	100% { background-position: 420px 0; }
+}
+
+.zf-skeleton {
+	background: #ece9e4;
+	background-image: linear-gradient(90deg, #ece9e4 0px, #f7f5f2 70px, #ece9e4 140px);
+	background-size: 420px 100%;
+	background-repeat: no-repeat;
+	animation: zf-shimmer 1.25s ease-in-out infinite;
+	border-radius: 8px;
+}
+
+/* Product card skeleton */
+.zf-skel-card {
+	background: #fff;
+	border-radius: 14px;
+	overflow: hidden;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+	padding-bottom: 14px;
+	width: 100%;
+
+	.zf-skel-img {
+		width: 100%;
+		height: 210px;
+		border-radius: 0;
+	}
+	.zf-skel-line {
+		height: 13px;
+		margin: 13px 14px 0;
+		border-radius: 6px;
+	}
+	.zf-skel-line.short { width: 55%; }
+	.zf-skel-line.price {
+		width: 42%;
+		height: 18px;
+		margin-top: 15px;
+	}
+}
+
+/* Property ro'yxatida skeleton kartalar grid kengligiga mos kelsin (ingichka bo'lib qolmasin) */
+.list-config .zf-skel-card { width: 296px; }
+.list-config.grid-1 .zf-skel-card { width: 100%; }
+.list-config.grid-2 .zf-skel-card { width: calc(50% - 11.5px); }
+.list-config.grid-4 .zf-skel-card { width: 296px; }
+
+/* Agent ro'yxati skeleton — agent kartaday kenglik va oraliq (margin) */
+.card-wrap .zf-skel-card {
+	width: 290px;
+	margin-right: 27px;
+	margin-bottom: 34px;
+}
+.mob-agent-grid .zf-skel-card { width: 100%; }
+
+/* Community ro'yxati skeleton — 3 ustunli grid */
+.zf-community-skel {
+	width: 100%;
+	box-sizing: border-box;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 30px;
+	padding-left: 30px;
+
+	.zf-skel-card { width: 100%; }
+
+	@media (max-width: 1200px) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+.mob-articles-grid .zf-skel-card { width: 100%; }
+
+/* Karta paydo bo'lish animatsiyasi (fade + yuqoriga siljish + ozgina scale) */
+@keyframes zf-card-in {
+	from {
+		opacity: 0;
+		transform: translateY(30px) scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+.zf-fade-up {
+	animation: zf-card-in 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+}
+
+/* Stagger — grid ichidagi kartalar/skeletonlar navbat bilan chiqadi.
+   `backwards` fill: animatsiya tugagach transform normal holatga qaytadi (hover buzilmaydi). */
+@for $i from 1 through 12 {
+	.list-config > *:nth-child(#{$i}),
+	.mob-card-list > *:nth-child(#{$i}),
+	.products-grid > *:nth-child(#{$i}),
+	.card-wrap > *:nth-child(#{$i}),
+	.mob-agent-grid > *:nth-child(#{$i}),
+	.articles-grid > *:nth-child(#{$i}),
+	.mob-articles-grid > *:nth-child(#{$i}),
+	.zf-community-skel > *:nth-child(#{$i}) {
+		animation: zf-card-in 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) #{$i * 0.08}s backwards;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.zf-fade-up,
+	.list-config > *:nth-child(n),
+	.mob-card-list > *:nth-child(n),
+	.products-grid > *:nth-child(n),
+	.card-wrap > *:nth-child(n),
+	.mob-agent-grid > *:nth-child(n) {
+		animation: none;
+	}
+}

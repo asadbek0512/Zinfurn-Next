@@ -97,8 +97,8 @@ const PropertyCard = (props: PropertyCardProps) => {
 					<Stack className="mob-card-price">
 						{discountPercent > 0 ? (
 							<>
-								<Typography className="mob-new-price">{formatPrice(property?.propertySalePrice)}</Typography>
 								<Typography className="mob-old-price">{formatPrice(property?.propertyPrice)}</Typography>
+								<Typography className="mob-new-price">{formatPrice(property?.propertySalePrice)}</Typography>
 							</>
 						) : (
 							<Typography className="mob-cur-price">{formatPrice(property?.propertyPrice)}</Typography>

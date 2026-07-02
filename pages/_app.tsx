@@ -14,6 +14,7 @@ import { setJwtToken, updateUserInfo, updateStorage } from '../libs/auth';
 import CartDrawer from '../libs/components/cart/CartDrawer';
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
 import SEO from '../libs/components/common/SEO';
+import { detectDevice } from '../libs/hooks/useDeviceDetect';
 
 const PAGE_TITLES: Record<string, string> = {
 	'/property': 'Furniture Collection',
@@ -38,6 +39,28 @@ const App = ({ Component, pageProps }: AppProps) => {
 		if ('scrollRestoration' in window.history) {
 			window.history.scrollRestoration = 'manual';
 		}
+	}, []);
+
+	// Oyna mobil/desktop chegarasini kesib o'tganda — sahifani avtomatik qayta yuklash.
+	// detectDevice() UA+kenglikni hisobga oladi — haqiqiy telefon aylantirilganda reload bo'lmaydi.
+	useEffect(() => {
+		let current = detectDevice();
+		let timer: ReturnType<typeof setTimeout>;
+		const onResize = () => {
+			clearTimeout(timer);
+			timer = setTimeout(() => {
+				const next = detectDevice();
+				if (next !== current) {
+					current = next;
+					window.location.reload();
+				}
+			}, 250);
+		};
+		window.addEventListener('resize', onResize);
+		return () => {
+			window.removeEventListener('resize', onResize);
+			clearTimeout(timer);
+		};
 	}, []);
 
 	useEffect(() => {
