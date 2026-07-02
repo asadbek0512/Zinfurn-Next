@@ -158,6 +158,17 @@
 	opacity: 0.9;
 }
 
+/* Dark rejimda scroll bo'lgan navbar'dagi qora ramkalar oq shaffofga o'tsin */
+[data-theme='dark'] #pc-wrap #top .navbar .navbar-main.transparent .join-box {
+	border-color: rgba(255, 255, 255, 0.35) !important;
+}
+[data-theme='dark'] #pc-wrap #top .navbar .navbar-main.transparent .lan-box .btn-currency {
+	border-color: rgba(255, 255, 255, 0.3) !important;
+}
+[data-theme='dark'] #pc-wrap #top .navbar .navbar-main.transparent .login-user img {
+	border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
 /* Dark rejimda hero qidiruv paneli — dudli shisha effekti */
 [data-theme='dark'] .header-main .search-box {
 	backdrop-filter: blur(6px);
