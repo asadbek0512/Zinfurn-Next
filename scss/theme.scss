@@ -170,10 +170,10 @@
 }
 
 /* Dark rejimda mobil navbar: burger chiziqlari, valyuta ramkasi, qora ikonkalar */
-[data-theme='dark'] .mobile-navbar .menu-icon span {
+[data-theme='dark'] #mobile-wrap .mobile-navbar .menu-icon span {
 	background: var(--text-1) !important;
 }
-[data-theme='dark'] .mobile-navbar .btn-currency {
+[data-theme='dark'] #mobile-wrap .mobile-navbar .btn-currency {
 	border-color: rgba(255, 255, 255, 0.3) !important;
 }
 [data-theme='dark'] img[src*='icons/stol'] {
@@ -189,6 +189,13 @@
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
 	border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* Product rasm plitasi — har xil fondagi suratlar bir xil ko'rinsin (ikkala theme'da) */
+.product-image-container,
+.mob-card-img-wrap,
+.mob-card-img {
+	background-color: #f6f4f0;
 }
 
 /* Homepage bo'limlarini nozik ajratish: navbatma-navbat band + hairline chiziq */
