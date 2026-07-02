@@ -118,9 +118,9 @@
 	--warning: #e8944a;
 	--star: #e0a13f;
 
-	/* Hero glass — dark translucent, matn oq bo'lib o'qiladi */
-	--hero-glass: rgba(18, 14, 10, 0.38);
-	--hero-glass-box: rgba(32, 27, 22, 0.62);
+	/* Hero glass — engil dudli shisha (blur bilan birga ishlaydi) */
+	--hero-glass: rgba(22, 18, 14, 0.22);
+	--hero-glass-box: rgba(22, 18, 14, 0.34);
 
 	/* Effects */
 	--shadow-1: rgba(0, 0, 0, 0.35);
@@ -150,6 +150,17 @@
 [data-theme='dark'] .chat-frame img[src*='/img/logo/'] {
 	filter: brightness(0) invert(1);
 	opacity: 0.9;
+}
+
+/* Dark rejimda hero qidiruv paneli — dudli shisha effekti */
+[data-theme='dark'] .header-main .search-box {
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+}
+[data-theme='dark'] .header-main .search-box .select-box .box {
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 /* Dark rejimda kartalar fon bilan qo'shilib ketmasin — nozik hairline ramka */
