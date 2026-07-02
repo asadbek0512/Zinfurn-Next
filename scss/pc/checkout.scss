@@ -8,7 +8,7 @@ $font: 'Poppins', sans-serif;
 /* ─── Guard screens ─── */
 .co-guard {
 	min-height: 100vh;
-	background: #f8f7f4;
+	background: var(--bg-warm);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -28,13 +28,13 @@ $font: 'Poppins', sans-serif;
 	.co-guard-title {
 		font-size: 22px;
 		font-weight: 700;
-		color: #1a1a1a;
+		color: var(--text-1);
 		font-family: $font;
 	}
 
 	.co-guard-sub {
 		font-size: 14px;
-		color: #888;
+		color: var(--text-3);
 		font-family: $font;
 	}
 
@@ -54,7 +54,7 @@ $font: 'Poppins', sans-serif;
 /* ─── PC wrapper ─── */
 .co-pc {
 	min-height: 100vh;
-	background: #f8f7f4;
+	background: var(--bg-warm);
 	padding: 40px 0 80px;
 	font-family: $font;
 
@@ -75,7 +75,7 @@ $font: 'Poppins', sans-serif;
 			align-items: center;
 			gap: 4px;
 			text-decoration: none;
-			color: #666;
+			color: var(--text-2);
 			font-size: 13px;
 			font-family: $font;
 			transition: color 0.15s;
@@ -85,7 +85,7 @@ $font: 'Poppins', sans-serif;
 		.co-pc-title {
 			font-size: 26px;
 			font-weight: 700;
-			color: #1a1a1a;
+			color: var(--text-1);
 			font-family: $font;
 		}
 	}
@@ -111,7 +111,7 @@ $font: 'Poppins', sans-serif;
 	}
 
 	.co-pc-left {
-		background: #fff;
+		background: var(--surface);
 		border-radius: 16px;
 		padding: 32px;
 		box-shadow: 0 2px 16px rgba(0,0,0,0.06);
@@ -128,16 +128,16 @@ $font: 'Poppins', sans-serif;
 		justify-content: flex-end;
 		margin-top: 28px;
 		padding-top: 20px;
-		border-top: 1px solid #f0f0f0;
+		border-top: 1px solid var(--border-soft);
 
 		.co-btn-back {
-			border-color: #ddd;
-			color: #555;
+			border-color: var(--border);
+			color: var(--text-2);
 			font-family: $font;
 			text-transform: none;
 			border-radius: 10px;
 			padding: 10px 28px;
-			&:hover { background: #f5f5f5; }
+			&:hover { background: var(--bg-muted); }
 		}
 	}
 }
@@ -154,7 +154,7 @@ $font: 'Poppins', sans-serif;
 		gap: 10px;
 		font-size: 17px;
 		font-weight: 600;
-		color: #1a1a1a;
+		color: var(--text-1);
 		font-family: $font;
 		margin-bottom: 4px;
 
@@ -184,7 +184,7 @@ $font: 'Poppins', sans-serif;
 		display: flex;
 		align-items: center;
 		gap: 6px;
-		color: #aaa;
+		color: var(--text-4);
 		font-size: 12px;
 		font-family: $font;
 	}
@@ -249,7 +249,7 @@ $font: 'Poppins', sans-serif;
 
 /* ─── Order Summary ─── */
 .co-summary {
-	background: #fff;
+	background: var(--surface);
 	border-radius: 16px;
 	padding: 22px;
 	box-shadow: 0 2px 16px rgba(0,0,0,0.06);
@@ -257,7 +257,7 @@ $font: 'Poppins', sans-serif;
 	.co-summary-label {
 		font-size: 15px;
 		font-weight: 600;
-		color: #1a1a1a;
+		color: var(--text-1);
 		font-family: $font;
 		margin: 0 0 14px;
 	}
@@ -277,7 +277,7 @@ $font: 'Poppins', sans-serif;
 				height: 52px;
 				border-radius: 8px;
 				object-fit: cover;
-				border: 1px solid #eee;
+				border: 1px solid var(--border-soft);
 				display: block;
 			}
 
@@ -303,7 +303,7 @@ $font: 'Poppins', sans-serif;
 			flex: 1;
 			font-size: 13px;
 			font-weight: 500;
-			color: #1a1a1a;
+			color: var(--text-1);
 			font-family: $font;
 			overflow: hidden;
 			display: -webkit-box;
@@ -326,13 +326,13 @@ $font: 'Poppins', sans-serif;
 		padding: 5px 0;
 		font-family: $font;
 
-		span { font-size: 14px; color: #555; }
-		.co-free { color: #2e7d32; font-weight: 500; }
+		span { font-size: 14px; color: var(--text-2); }
+		.co-free { color: var(--success); font-weight: 500; }
 
 		&.co-sum-total span {
 			font-size: 16px;
 			font-weight: 700;
-			color: #1a1a1a;
+			color: var(--text-1);
 		}
 	}
 }
@@ -363,17 +363,17 @@ $font: 'Poppins', sans-serif;
 	.co-confirm-title {
 		font-size: 28px;
 		font-weight: 700;
-		color: #1a1a1a;
+		color: var(--text-1);
 		font-family: $font;
 		margin: 0;
 	}
 
 	.co-confirm-id {
-		background: #f5f5f5;
+		background: var(--bg-muted);
 		border-radius: 20px;
 		padding: 4px 16px;
 		font-size: 13px;
-		color: #888;
+		color: var(--text-3);
 		font-family: $font;
 	}
 
@@ -406,7 +406,7 @@ $font: 'Poppins', sans-serif;
 
 	.co-confirm-details {
 		width: 100%;
-		background: #f9f9f9;
+		background: var(--surface-2);
 		border-radius: 12px;
 		padding: 14px 16px;
 		box-sizing: border-box;
@@ -416,18 +416,18 @@ $font: 'Poppins', sans-serif;
 			justify-content: space-between;
 			gap: 12px;
 			padding: 8px 0;
-			border-bottom: 1px solid #eee;
+			border-bottom: 1px solid var(--border-soft);
 			&:last-child { border-bottom: none; }
 
 			.co-confirm-lbl {
 				font-size: 13px;
-				color: #999;
+				color: var(--text-3);
 				font-family: $font;
 				flex-shrink: 0;
 			}
 			.co-confirm-val {
 				font-size: 13px;
-				color: #333;
+				color: var(--text-1);
 				font-weight: 500;
 				font-family: $font;
 				text-align: right;
@@ -446,7 +446,7 @@ $font: 'Poppins', sans-serif;
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	background: #f0f7ff;
+	background: var(--info-soft);
 	border: 1px dashed #90caf9;
 	border-radius: 10px;
 	padding: 10px 14px;
@@ -455,7 +455,7 @@ $font: 'Poppins', sans-serif;
 	.co-test-hint-label {
 		font-size: 12px;
 		font-weight: 600;
-		color: #1565c0;
+		color: var(--info);
 		font-family: $font;
 		white-space: nowrap;
 	}
@@ -486,7 +486,7 @@ $font: 'Poppins', sans-serif;
 	height: 48px;
 	font-size: 15px !important;
 	&:hover { background: $orange-dark !important; }
-	&.Mui-disabled { background: #ddd !important; }
+	&.Mui-disabled { background: var(--bg-strong) !important; }
 }
 
 .co-btn-outline {
@@ -502,7 +502,7 @@ $font: 'Poppins', sans-serif;
 }
 
 .co-btn-text {
-	color: #888 !important;
+	color: var(--text-3) !important;
 	font-family: $font !important;
 	font-weight: 400 !important;
 	text-transform: none !important;
@@ -511,10 +511,10 @@ $font: 'Poppins', sans-serif;
 }
 
 .co-error {
-	color: #d32f2f;
+	color: var(--danger);
 	font-size: 13px;
 	font-family: $font;
-	background: #fff3f3;
+	background: var(--danger-soft);
 	border-radius: 8px;
 	padding: 8px 12px;
 	margin-top: 4px;

@@ -491,7 +491,7 @@ const MyOrders = () => {
 					</Stack>
 					{!isMobile && (
 						<Stack className="total-result" sx={{ textAlign: 'center', mt: 1 }}>
-							<Typography variant="caption" sx={{ color: '#666' }}>
+							<Typography variant="caption" sx={{ color: 'var(--text-2)' }}>
 								{t('Total {{total}} orders found', { total })}
 							</Typography>
 						</Stack>
@@ -508,10 +508,10 @@ const MyOrders = () => {
 				PaperProps={{ sx: { borderRadius: '16px', p: 1 } }}
 			>
 				<DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1, fontWeight: 700 }}>
-					<RateReviewIcon sx={{ color: '#d89801' }} />
+					<RateReviewIcon sx={{ color: 'var(--warning)' }} />
 					{t('Rate & Review Product')}
 					{reviewOrder && reviewOrder.orderItems.length > 1 && (
-						<span style={{ marginLeft: 'auto', fontSize: 12, color: '#999', fontWeight: 400 }}>
+						<span style={{ marginLeft: 'auto', fontSize: 12, color: 'var(--text-3)', fontWeight: 400 }}>
 							{reviewItemIdx + 1} / {reviewOrder.orderItems.length}
 						</span>
 					)}
@@ -551,7 +551,7 @@ const MyOrders = () => {
 						</div>
 					)}
 
-					<Typography variant="body2" sx={{ mb: 3, color: '#666' }}>
+					<Typography variant="body2" sx={{ mb: 3, color: 'var(--text-2)' }}>
 						{t('Share your experience with')} <strong>{reviewTarget?.propertyTitle}</strong>
 					</Typography>
 
@@ -565,9 +565,9 @@ const MyOrders = () => {
 									value={reviewRating}
 									onChange={(_, val) => setReviewRating(val || 5)}
 									size="large"
-									sx={{ color: '#ffc107' }}
+									sx={{ color: 'var(--star)' }}
 								/>
-								<span style={{ padding: '4px 12px', borderRadius: 8, fontSize: 13, fontWeight: 700, color: RATING_LABEL_COLOR[reviewRating] || '#888', background: RATING_LABEL_BG[reviewRating] || '#f5f5f5' }}>
+								<span style={{ padding: '4px 12px', borderRadius: 8, fontSize: 13, fontWeight: 700, color: RATING_LABEL_COLOR[reviewRating] || 'var(--text-3)', background: RATING_LABEL_BG[reviewRating] || 'var(--bg-muted)' }}>
 									{t(RATING_LABEL_TEXT[reviewRating] || '')}
 								</span>
 							</div>
@@ -578,7 +578,7 @@ const MyOrders = () => {
 								<Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
 									{t('Your Feedback')}
 								</Typography>
-								<Typography variant="caption" sx={{ color: reviewContent.length > 900 ? '#ef4444' : '#aaa' }}>
+								<Typography variant="caption" sx={{ color: reviewContent.length > 900 ? '#ef4444' : 'var(--text-4)' }}>
 									{reviewContent.length} / 1000
 								</Typography>
 							</div>
@@ -588,8 +588,8 @@ const MyOrders = () => {
 									width: '100%',
 									padding: '12px 15px',
 									borderRadius: '12px',
-									border: '1px solid #ddd',
-									backgroundColor: '#f9f9f9',
+									border: '1px solid var(--border)',
+									backgroundColor: 'var(--surface-2)',
 									fontFamily: 'inherit',
 									fontSize: '14px',
 									outline: 'none',
@@ -621,20 +621,20 @@ const MyOrders = () => {
 												top: -8,
 												right: -8,
 												bgcolor: 'white',
-												'&:hover': { bgcolor: '#eee' },
+												'&:hover': { bgcolor: 'var(--bg-muted)' },
 											}}
 											onClick={() => removeImage(idx)}
 										>
-											<CancelIcon sx={{ fontSize: 18, color: '#ff4d4f' }} />
+											<CancelIcon sx={{ fontSize: 18, color: 'var(--danger)' }} />
 										</IconButton>
 									</div>
 								))}
 								{reviewImages.length < 5 && (
 									<div
 										onClick={() => fileInputRef.current?.click()}
-										style={{ width: 80, height: 80, border: '2px dashed #ddd', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+										style={{ width: 80, height: 80, border: '2px dashed var(--border)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
 									>
-										<AddPhotoAlternateIcon sx={{ color: '#999' }} />
+										<AddPhotoAlternateIcon sx={{ color: 'var(--text-3)' }} />
 									</div>
 								)}
 							</div>
@@ -657,7 +657,7 @@ const MyOrders = () => {
 				<DialogActions sx={{ p: 3, pt: 0 }}>
 					<Button
 						onClick={() => setReviewOpen(false)}
-						sx={{ color: '#666', textTransform: 'none', fontWeight: 600 }}
+						sx={{ color: 'var(--text-2)', textTransform: 'none', fontWeight: 600 }}
 					>
 						{t('Cancel')}
 					</Button>
@@ -666,7 +666,7 @@ const MyOrders = () => {
 						onClick={handleReviewSubmit}
 						disabled={!reviewContent.trim() || uploading}
 						sx={{
-							bgcolor: '#181a20',
+							bgcolor: 'var(--dark-section)',
 							'&:hover': { bgcolor: '#2c3038' },
 							textTransform: 'none',
 							borderRadius: '10px',
@@ -687,7 +687,7 @@ const MyOrders = () => {
 			<Dialog open={returnOpen} onClose={() => setReturnOpen(false)} maxWidth="sm" fullWidth>
 				<DialogTitle>{t('Request Return')}</DialogTitle>
 				<DialogContent>
-					<Typography variant="body2" sx={{ mb: 2, color: '#666' }}>
+					<Typography variant="body2" sx={{ mb: 2, color: 'var(--text-2)' }}>
 						{t('Please describe the reason for your return request')}
 					</Typography>
 					<TextField

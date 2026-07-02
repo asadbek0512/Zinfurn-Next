@@ -189,7 +189,7 @@ const AiChat = () => {
 				<ScrollableFeed>
 					<Stack className="ai-chat-main">
 						<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-							<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+							<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
 								<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} />
 							</Avatar>
 							<div className="ai-msg-left">{t('AI Welcome Message')}</div>
@@ -201,7 +201,7 @@ const AiChat = () => {
 								</Box>
 							) : (
 								<Box key={idx} flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-									<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+									<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
 										<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
 									</Avatar>
 									<div className="ai-msg-left">{msg.content}<AiProductCards products={msg.products} onPick={pickProduct} /><AiActionButtons actions={msg.actions} onGo={goTo} /></div>
@@ -210,7 +210,7 @@ const AiChat = () => {
 						)}
 						{loading && (
 							<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-								<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+								<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
 									<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
 								</Avatar>
 								<div className="ai-msg-left ai-typing"><span></span><span></span><span></span></div>
@@ -237,14 +237,14 @@ const AiChat = () => {
 						<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} />
 						<span>{t('Zinfurn AI Assistant')}</span>
 						<button onClick={handleToggle} style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px' }}>
-							<CloseIcon style={{ fontSize: 20, color: '#666' }} />
+							<CloseIcon style={{ fontSize: 20, color: 'var(--text-2)' }} />
 						</button>
 					</Box>
 					<Box className="ai-chat-content" component="div">
 						<ScrollableFeed>
 							<Stack className="ai-chat-main">
 								<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-									<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+									<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
 										<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} />
 									</Avatar>
 									<div className="ai-msg-left">{t('AI Welcome Message')}</div>
@@ -256,7 +256,7 @@ const AiChat = () => {
 										</Box>
 									) : (
 										<Box key={idx} flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-											<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+											<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
 												<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
 											</Avatar>
 											<div className="ai-msg-left">{msg.content}<AiProductCards products={msg.products} onPick={pickProduct} /><AiActionButtons actions={msg.actions} onGo={goTo} /></div>
@@ -265,7 +265,7 @@ const AiChat = () => {
 								)}
 								{loading && (
 									<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-										<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+										<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
 											<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
 										</Avatar>
 										<div className="ai-msg-left ai-typing"><span></span><span></span><span></span></div>
@@ -338,7 +338,7 @@ const AiChat = () => {
 								width: '50px',
 								height: '50px',
 								borderRadius: '50%',
-								background: '#cf6422',
+								background: 'var(--primary)',
 								border: 'none',
 								cursor: 'pointer',
 								display: 'flex',
@@ -363,7 +363,7 @@ const AiChat = () => {
 					<ScrollableFeed>
 						<Stack className="ai-chat-main">
 							<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-								<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+								<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
 									<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} />
 								</Avatar>
 								<div className="ai-msg-left">{t('AI Welcome Message')}</div>
@@ -383,7 +383,7 @@ const AiChat = () => {
 									</Box>
 								) : (
 									<Box key={idx} flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-										<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+										<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
 											<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
 										</Avatar>
 										<div className="ai-msg-left">{msg.content}<AiProductCards products={msg.products} onPick={pickProduct} /><AiActionButtons actions={msg.actions} onGo={goTo} /></div>
@@ -392,7 +392,7 @@ const AiChat = () => {
 							)}
 							{loading && (
 								<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-									<Avatar sx={{ bgcolor: '#cf6422', width: 42, height: 42, flexShrink: 0 }}>
+									<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
 										<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
 									</Avatar>
 									<div className="ai-msg-left ai-typing">

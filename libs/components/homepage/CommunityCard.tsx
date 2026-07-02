@@ -69,7 +69,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 						<div style={{ position: 'relative', height: '150px', borderRadius: '16px', background: '#e8dcc0', backgroundImage: `url(${articleImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
 							<div style={{
 								position: 'absolute', bottom: '-1px', left: '50%', transform: 'translateX(-50%)',
-								background: '#cf6422', color: '#fff', padding: '5px 16px',
+								background: 'var(--primary)', color: '#fff', padding: '5px 16px',
 								borderRadius: '12px 12px 0 0', border: '2px solid #fff',
 								fontSize: '11px', fontWeight: 600, whiteSpace: 'nowrap'
 							}}>
@@ -77,13 +77,13 @@ const CommunityCard = (props: CommunityCardProps) => {
 							</div>
 						</div>
 						<div style={{ padding: '10px 4px 6px' }}>
-							<div style={{ fontSize: '13px', fontWeight: 600, color: '#2c2c2c', lineHeight: 1.3, marginBottom: '6px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+							<div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-1)', lineHeight: 1.3, marginBottom: '6px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
 								{title}
 							</div>
-							<div style={{ fontSize: '11px', color: '#888', lineHeight: 1.4, marginBottom: '6px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+							<div style={{ fontSize: '11px', color: 'var(--text-3)', lineHeight: 1.4, marginBottom: '6px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
 								{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}
 							</div>
-							<div style={{ fontSize: '11px', color: '#cf6422', fontWeight: 600, textDecoration: 'underline' }}>{t('Read More')}</div>
+							<div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600, textDecoration: 'underline' }}>{t('Read More')}</div>
 						</div>
 					</div>
 				</Link>
@@ -91,17 +91,17 @@ const CommunityCard = (props: CommunityCardProps) => {
 		} else {
 			return (
 				<Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
-					<div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '10px', background: '#fff', borderRadius: '10px', boxShadow: '0 3px 15px rgba(0,0,0,0.08)', cursor: 'pointer', overflow: 'hidden' }}>
+					<div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '10px', background: 'var(--surface)', borderRadius: '10px', boxShadow: '0 3px 15px rgba(0,0,0,0.08)', cursor: 'pointer', overflow: 'hidden' }}>
 						<img loading="lazy" decoding="async" src={articleImage} alt={title}
 							style={{ width: '60px', height: '60px', borderRadius: '6px', objectFit: 'cover', background: '#e8dcc0', flexShrink: 0 }} />
 						<div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '3px' }}>
-							<div style={{ fontSize: '11px', fontWeight: 600, color: '#2c2c2c', lineHeight: 1.3, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+							<div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-1)', lineHeight: 1.3, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
 								{title}
 							</div>
-							<div style={{ fontSize: '9px', color: '#888', lineHeight: 1.4, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+							<div style={{ fontSize: '9px', color: 'var(--text-3)', lineHeight: 1.4, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
 								{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}
 							</div>
-							<div style={{ fontSize: '10px', color: '#cf6422', fontWeight: 500, textDecoration: 'underline' }}>{t('Read More')}</div>
+							<div style={{ fontSize: '10px', color: 'var(--primary)', fontWeight: 500, textDecoration: 'underline' }}>{t('Read More')}</div>
 						</div>
 					</div>
 				</Link>

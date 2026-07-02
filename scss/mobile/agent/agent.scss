@@ -5,7 +5,7 @@
   #mob-agent-list-page {
     padding-top: 0;
     padding-bottom: 80px;
-    background: #f6f6f6;
+    background: var(--bg-muted);
     min-height: 100vh;
 
     // Top bar
@@ -13,43 +13,43 @@
       position: sticky;
       top: 48px;
       z-index: 10;
-      background: #fff;
+      background: var(--surface);
       display: flex;
       flex-direction: row;
       align-items: center;
       gap: 8px;
       padding: 10px 12px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--border-soft);
       box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 
       .mob-agent-search {
         flex: 1;
         height: 38px;
-        border: 1px solid #ddd;
+        border: 1px solid var(--border);
         border-radius: 10px;
         padding: 0 12px;
         font-size: 13px;
         font-family: $font;
         outline: none;
-        background: #fafafa;
+        background: var(--surface-2);
 
-        &::placeholder { color: #bbb; }
+        &::placeholder { color: var(--text-4); }
       }
 
       .mob-agent-sort-btn {
         height: 38px;
         padding: 0 10px;
         border-radius: 10px;
-        border: 1px solid #ddd !important;
-        background: #fff;
+        border: 1px solid var(--border) !important;
+        background: var(--surface);
         font-size: 12px;
         font-family: $font;
-        color: #333;
+        color: var(--text-1);
         white-space: nowrap;
         flex-shrink: 0;
         text-transform: none;
 
-        .MuiButton-endIcon svg { font-size: 18px; color: #cf6422; }
+        .MuiButton-endIcon svg { font-size: 18px; color: var(--primary); }
       }
     }
 
@@ -70,7 +70,7 @@
       padding: 60px 0;
       gap: 10px;
       img { width: 44px; opacity: 0.4; }
-      p { font-size: 13px; color: #bbb; font-family: $font; margin: 0; }
+      p { font-size: 13px; color: var(--text-4); font-family: $font; margin: 0; }
     }
 
     // Pagination
@@ -83,12 +83,12 @@
 
       .MuiPaginationItem-root {
         font-family: $font;
-        &.Mui-selected { background: #cf6422; color: #fff; border-color: #cf6422; }
+        &.Mui-selected { background: var(--primary); color: #fff; border-color: var(--primary); }
       }
 
       .mob-agent-total {
         font-size: 12px;
-        color: #888;
+        color: var(--text-3);
         font-family: $font;
       }
     }
@@ -99,7 +99,7 @@
     position: relative;
     border-radius: 14px;
     overflow: hidden;
-    background: #fff;
+    background: var(--surface);
     box-shadow: 0 1px 6px rgba(24, 26, 32, 0.09);
     cursor: pointer;
     display: flex;
@@ -198,13 +198,13 @@
   #mob-agent-detail-page {
     padding-top: 52px;
     padding-bottom: 80px;
-    background: #f6f6f6;
+    background: var(--bg-muted);
     min-height: 100vh;
 
     // Profile card
     .mob-agd-profile {
       position: relative;
-      background: #fff;
+      background: var(--surface);
       margin: 12px 12px 0;
       border-radius: 16px;
       padding: 16px;
@@ -224,10 +224,10 @@
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        background: #fff;
+        background: var(--surface);
         box-shadow: 0 1px 4px rgba(0,0,0,0.12);
         cursor: pointer;
-        color: #cf6422;
+        color: var(--primary);
       }
 
       .mob-agd-avatar {
@@ -235,13 +235,13 @@
         height: 80px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid #f0ebe6;
+        border: 3px solid var(--border-soft);
       }
 
       .mob-agd-name {
         font-size: 18px;
         font-weight: 700;
-        color: #181a20;
+        color: var(--text-1);
         font-family: $font;
         margin: 0;
         text-align: center;
@@ -250,8 +250,8 @@
       .mob-agd-badge {
         font-size: 11px;
         font-weight: 600;
-        background: #fff4ec;
-        color: #cf6422;
+        background: var(--primary-soft);
+        color: var(--primary);
         border: 1px solid #f5c9a6;
         border-radius: 20px;
         padding: 3px 12px;
@@ -263,17 +263,17 @@
         align-items: center;
         gap: 6px;
         font-size: 13px;
-        color: #555;
+        color: var(--text-2);
         font-family: $font;
 
-        svg { font-size: 16px; color: #cf6422; }
+        svg { font-size: 16px; color: var(--primary); }
       }
 
       .mob-agd-stats {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         width: 100%;
-        border-top: 1px solid #f0f0f0;
+        border-top: 1px solid var(--border-soft);
         padding-top: 12px;
         margin-top: 2px;
 
@@ -282,20 +282,20 @@
           flex-direction: column;
           align-items: center;
           gap: 2px;
-          border-right: 1px solid #f0f0f0;
+          border-right: 1px solid var(--border-soft);
 
           &:last-child { border-right: none; }
 
           .mob-agd-stat-val {
             font-size: 16px;
             font-weight: 700;
-            color: #181a20;
+            color: var(--text-1);
             font-family: $font;
           }
 
           .mob-agd-stat-label {
             font-size: 10px;
-            color: #aaa;
+            color: var(--text-4);
             font-family: $font;
             text-align: center;
           }
@@ -306,7 +306,7 @@
     // Products section
     .mob-agd-products {
       margin: 12px 12px 0;
-      background: #fff;
+      background: var(--surface);
       border-radius: 16px;
       padding: 14px;
       box-shadow: 0 1px 6px rgba(24,26,32,0.07);
@@ -314,7 +314,7 @@
       .mob-agd-section-title {
         font-size: 15px;
         font-weight: 700;
-        color: #181a20;
+        color: var(--text-1);
         font-family: $font;
         margin: 0 0 12px;
       }
@@ -342,7 +342,7 @@
         gap: 8px;
 
         img { width: 36px; opacity: 0.4; }
-        p { font-size: 13px; color: #bbb; font-family: $font; margin: 0; }
+        p { font-size: 13px; color: var(--text-4); font-family: $font; margin: 0; }
       }
 
       .mob-agd-prod-pagination {
@@ -352,7 +352,7 @@
 
         .MuiPaginationItem-root {
           font-family: $font;
-          &.Mui-selected { background: #cf6422; color: #fff; }
+          &.Mui-selected { background: var(--primary); color: #fff; }
         }
       }
     }
@@ -360,14 +360,14 @@
     // Reviews section
     .mob-agd-reviews {
       margin: 12px 12px 0;
-      background: #fff;
+      background: var(--surface);
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 1px 6px rgba(24,26,32,0.07);
 
       .mob-agd-rev-write {
         padding: 14px 14px 10px;
-        border-bottom: 1px solid #f0f0f0;
+        border-bottom: 1px solid var(--border-soft);
 
         .mob-agd-rev-heading {
           display: flex;
@@ -378,7 +378,7 @@
           span {
             font-size: 15px;
             font-weight: 700;
-            color: #181a20;
+            color: var(--text-1);
             font-family: $font;
           }
         }
@@ -387,7 +387,7 @@
           display: flex;
           align-items: flex-end;
           gap: 6px;
-          background: #f4f4f4;
+          background: var(--bg-muted);
           border-radius: 24px;
           padding: 6px 6px 6px 4px;
 
@@ -395,9 +395,9 @@
             width: 34px;
             height: 34px;
             flex-shrink: 0;
-            color: #aaa;
+            color: var(--text-4);
             svg { font-size: 20px; }
-            &.active { color: #cf6422; }
+            &.active { color: var(--primary); }
           }
 
           .mob-agd-textarea {
@@ -408,13 +408,13 @@
             resize: none;
             font-size: 13px;
             font-family: $font;
-            color: #181a20;
+            color: var(--text-1);
             line-height: 1.5;
             max-height: 100px;
             min-height: 34px;
             padding: 6px 4px;
 
-            &::placeholder { color: #bbb; }
+            &::placeholder { color: var(--text-4); }
             &:disabled { opacity: 0.5; }
           }
 
@@ -422,12 +422,12 @@
             width: 34px;
             height: 34px;
             flex-shrink: 0;
-            background: #cf6422 !important;
+            background: var(--primary) !important;
             color: #fff !important;
             border-radius: 50% !important;
             padding: 0 !important;
 
-            &.Mui-disabled { background: #e0e0e0 !important; color: #bbb !important; }
+            &.Mui-disabled { background: var(--bg-strong) !important; color: var(--text-4) !important; }
           }
         }
 
@@ -435,7 +435,7 @@
           display: grid;
           grid-template-columns: repeat(6, 1fr);
           gap: 4px;
-          background: #f8f8f8;
+          background: var(--surface-2);
           border-radius: 12px;
           padding: 10px;
           margin-bottom: 8px;
@@ -448,7 +448,7 @@
             padding: 4px;
             border-radius: 8px;
             line-height: 1;
-            &:active { background: #eee; }
+            &:active { background: var(--bg-muted); }
           }
         }
       }
@@ -465,12 +465,12 @@
           .mob-agd-rev-list-title {
             font-size: 15px;
             font-weight: 700;
-            color: #181a20;
+            color: var(--text-1);
             font-family: $font;
           }
 
           .mob-agd-rev-count {
-            background: #cf6422;
+            background: var(--primary);
             color: #fff;
             font-size: 11px;
             font-weight: 700;
@@ -487,12 +487,12 @@
           padding: 24px 0;
           gap: 8px;
 
-          p { font-size: 13px; color: #bbb; font-family: $font; margin: 0; }
+          p { font-size: 13px; color: var(--text-4); font-family: $font; margin: 0; }
         }
 
         .mob-agd-rev-card {
           padding: 12px 0;
-          border-bottom: 1px solid #f0f0f0;
+          border-bottom: 1px solid var(--border-soft);
           &:last-child { border-bottom: none; }
 
           .mob-agd-rev-card-top {
@@ -507,7 +507,7 @@
               border-radius: 50%;
               object-fit: cover;
               flex-shrink: 0;
-              border: 1px solid #eee;
+              border: 1px solid var(--border-soft);
             }
 
             .mob-agd-rev-user {
@@ -515,13 +515,13 @@
               .mob-agd-rev-name {
                 font-size: 13px;
                 font-weight: 700;
-                color: #181a20;
+                color: var(--text-1);
                 font-family: $font;
                 display: block;
               }
               .mob-agd-rev-type {
                 font-size: 11px;
-                color: #aaa;
+                color: var(--text-4);
                 font-family: $font;
                 text-transform: capitalize;
               }
@@ -534,14 +534,14 @@
               gap: 2px;
               flex-shrink: 0;
 
-              .mob-agd-rev-stars { font-size: 12px; color: #d89801; }
-              .mob-agd-rev-date { font-size: 10px; color: #bbb; font-family: $font; }
+              .mob-agd-rev-stars { font-size: 12px; color: var(--warning); }
+              .mob-agd-rev-date { font-size: 10px; color: var(--text-4); font-family: $font; }
             }
           }
 
           .mob-agd-rev-text {
             font-size: 13px;
-            color: #444;
+            color: var(--text-2);
             line-height: 1.6;
             margin: 0;
             font-family: $font;
@@ -556,7 +556,7 @@
 
           .MuiPaginationItem-root {
             font-family: $font;
-            &.Mui-selected { background: #cf6422; color: #fff; }
+            &.Mui-selected { background: var(--primary); color: #fff; }
           }
         }
       }

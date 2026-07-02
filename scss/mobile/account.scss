@@ -4,7 +4,7 @@
   #mob-join-page {
     width: 100%;
     min-height: 100vh;
-    background-color: #ffffff;
+    background-color: var(--surface);
     display: flex;
     flex-direction: column;
     padding: 0 0 40px 0;
@@ -53,7 +53,7 @@
       flex-direction: column;
       gap: 16px;
       margin-top: -15px;
-      background: #ffffff;
+      background: var(--surface);
       border-radius: 20px 20px 0 0;
       position: relative;
       z-index: 2;
@@ -68,29 +68,29 @@
           font-family: $font;
           font-size: 13px;
           font-weight: 600;
-          color: #181a20;
+          color: var(--text-1);
         }
 
         input {
           width: 100%;
           height: 48px;
-          border: 1px solid #e0e0e0;
+          border: 1px solid var(--border-soft);
           border-radius: 12px;
           padding: 0 16px;
           font-family: $font;
           font-size: 14px;
-          color: #181a20;
-          background: #fafafa;
+          color: var(--text-1);
+          background: var(--surface-2);
           transition: border-color 0.2s;
 
           &:focus {
             outline: none;
-            border-color: #cf6422;
-            background: #ffffff;
+            border-color: var(--primary);
+            background: var(--surface);
           }
 
           &::placeholder {
-            color: #999;
+            color: var(--text-3);
           }
         }
 
@@ -102,23 +102,23 @@
           .react-international-phone-input {
             width: 100%;
             height: 48px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--border-soft);
             border-radius: 0 12px 12px 0;
             padding: 0 16px;
             font-family: $font;
             font-size: 14px;
-            background: #fafafa;
+            background: var(--surface-2);
             &:focus {
-              border-color: #cf6422;
-              background: #ffffff;
+              border-color: var(--primary);
+              background: var(--surface);
             }
           }
           .react-international-phone-country-selector-button {
             height: 48px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--border-soft);
             border-radius: 12px 0 0 12px;
             padding: 0 10px;
-            background: #fafafa;
+            background: var(--surface-2);
           }
         }
 
@@ -126,13 +126,13 @@
           position: absolute;
           right: 14px;
           bottom: 15px;
-          color: #666;
+          color: var(--text-2);
           cursor: pointer;
         }
 
         .mob-error-text {
           font-size: 11px;
-          color: #f44336;
+          color: var(--danger);
           margin-top: 2px;
         }
       }
@@ -146,7 +146,7 @@
           font-family: $font;
           font-size: 13px;
           font-weight: 600;
-          color: #181a20;
+          color: var(--text-1);
         }
         
         .mob-type-options {
@@ -161,7 +161,7 @@
           .MuiTypography-root {
             font-family: $font;
             font-size: 13px;
-            color: #181a20;
+            color: var(--text-1);
           }
         }
       }
@@ -178,16 +178,16 @@
         .MuiTypography-root {
           font-family: $font;
           font-size: 12px;
-          color: #717171;
+          color: var(--text-2);
           a {
-            color: #cf6422;
+            color: var(--primary);
             font-weight: 500;
           }
         }
         .mob-forgot-link {
           font-family: $font;
           font-size: 12px;
-          color: #cf6422;
+          color: var(--primary);
           font-weight: 500;
           text-decoration: underline;
         }
@@ -197,7 +197,7 @@
         width: 100%;
         height: 52px;
         border-radius: 14px;
-        background: #cf6422; /* PC bilan bir xil rang */
+        background: var(--primary); /* PC bilan bir xil rang */
         color: #ffffff;
         font-family: $font;
         font-size: 15px;
@@ -206,8 +206,8 @@
         text-transform: none;
 
         &:disabled {
-          background: #cccccc;
-          color: #888888;
+          background: var(--bg-strong);
+          color: var(--text-3);
         }
       }
 
@@ -220,12 +220,12 @@
         &::before, &::after {
           content: '';
           flex: 1;
-          border-bottom: 1px solid #e0e0e0;
+          border-bottom: 1px solid var(--border-soft);
         }
         span {
           padding: 0 10px;
           font-family: $font;
-          color: #717171;
+          color: var(--text-2);
           font-size: 12px;
         }
       }
@@ -239,8 +239,8 @@
           width: 100%;
           height: 48px;
           border-radius: 12px;
-          border: 1px solid #e0e0e0;
-          background: #ffffff;
+          border: 1px solid var(--border-soft);
+          background: var(--surface);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -248,7 +248,7 @@
           font-family: $font;
           font-size: 14px;
           font-weight: 600;
-          color: #181a20;
+          color: var(--text-1);
 
           img {
             width: 20px;
@@ -279,10 +279,10 @@
         text-align: center;
         font-family: $font;
         font-size: 13px;
-        color: #717171;
+        color: var(--text-2);
 
         span {
-          color: #cf6422;
+          color: var(--primary);
           font-weight: 600;
           margin-left: 5px;
           cursor: pointer;

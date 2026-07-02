@@ -495,8 +495,8 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 									flex: user.memberTelegramId ? '0 0 auto' : '1',
 									maxWidth: user.memberTelegramId ? '220px' : '100%',
 									padding: '10px 20px',
-									background: '#fff',
-									border: '1px solid #ddd',
+									background: 'var(--surface)',
+									border: '1px solid var(--border)',
 									borderRadius: '24px',
 									display: 'flex',
 									alignItems: 'center',
@@ -511,7 +511,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 									alt="Google"
 									style={{ width: '18px' }}
 								/>
-								<Typography style={{ color: '#333', textTransform: 'none', fontSize: '13px', fontWeight: 500 }}>
+								<Typography style={{ color: 'var(--text-1)', textTransform: 'none', fontSize: '13px', fontWeight: 500 }}>
 									{t('Link Google')}
 								</Typography>
 							</Button>

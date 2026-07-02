@@ -1,0 +1,150 @@
+/** THEME TOKENS
+ *  Single source of truth for every themeable color in the app.
+ *  Light values match the original design; dark values are derived
+ *  from the same warm palette so both themes stay harmonious.
+ *  Brand sections (brown footer, hero gradients, colored badges with
+ *  white text) are intentionally theme-stable and keep literal colors.
+ */
+
+:root {
+	color-scheme: light;
+
+	/* Backgrounds */
+	--bg-page: #ffffff; /* page/body background */
+	--surface: #ffffff; /* cards, panels, modals */
+	--surface-2: #fafafa; /* subtle alternate surface */
+	--bg-muted: #f5f5f5; /* gray blocks, inputs, table stripes */
+	--bg-warm: #f8f7f4; /* warm section background */
+	--bg-strong: #e0e0e0; /* skeletons, disabled fills, strong gray */
+	--bg-inverse: #333333; /* tooltips / dark chips with white text */
+	--dark-section: #181a20; /* hero/banner dark sections (dark in both themes) */
+
+	/* Text */
+	--text-1: #181a20; /* headings, primary text */
+	--text-2: #666666; /* secondary text */
+	--text-3: #888888; /* tertiary text, meta */
+	--text-4: #aaaaaa; /* muted, placeholders, disabled */
+
+	/* Borders */
+	--border: #dddddd; /* default border */
+	--border-soft: #eeeeee; /* hairline dividers */
+	--border-dark: #181a20; /* emphasized (outline buttons) */
+
+	/* Brand */
+	--primary: #cf6422;
+	--primary-dark: #b8561e; /* hover / pressed */
+	--primary-deep: #763711; /* deep brown text accents */
+	--primary-soft: #fff4ec; /* tinted backgrounds */
+	--primary-glow: rgba(207, 100, 34, 0.18); /* focus rings, soft shadows */
+
+	/* Status */
+	--danger: #e74c3c;
+	--danger-soft: #fdf0ef;
+	--success: #2e7d32;
+	--success-soft: #e8f5e9;
+	--info: #1976d2;
+	--info-soft: #e3f2fd;
+	--warning: #f57c00;
+	--star: #f5a623;
+
+	/* Effects */
+	--shadow-1: rgba(0, 0, 0, 0.06);
+	--shadow-2: rgba(0, 0, 0, 0.12);
+	--overlay: rgba(24, 26, 32, 0.55); /* modal backdrops */
+	--scrollbar-thumb: #bdbdbd;
+	--scrollbar-track: #eeeeee;
+	--skeleton-base: #ece9e4;
+	--skeleton-highlight: #f7f5f2;
+}
+
+[data-theme='dark'] {
+	color-scheme: dark;
+
+	/* Backgrounds — one warm dark family (matches the navbar tone everywhere) */
+	--bg-page: #1e1b17;
+	--surface: #272420;
+	--surface-2: #2c2925;
+	--bg-muted: #34302a;
+	--bg-warm: #272420;
+	--bg-strong: #423d36;
+	--bg-inverse: #4a453d;
+	--dark-section: #171512;
+
+	/* Text — warm-tinted neutrals */
+	--text-1: #f2f0ec;
+	--text-2: #cfcac2;
+	--text-3: #a8a299;
+	--text-4: #837d73;
+
+	/* Borders */
+	--border: #443f37;
+	--border-soft: #363129;
+	--border-dark: #ddd8d0;
+
+	/* Brand — slightly lifted for contrast on dark */
+	--primary: #e0762e;
+	--primary-dark: #cf6422;
+	--primary-deep: #e3a173;
+	--primary-soft: #2c2018;
+	--primary-glow: rgba(224, 118, 46, 0.22);
+
+	/* Status */
+	--danger: #f2685c;
+	--danger-soft: #342220;
+	--success: #6abf6e;
+	--success-soft: #232b21;
+	--info: #64b5f6;
+	--info-soft: #232a32;
+	--warning: #ffa040;
+	--star: #f5a623;
+
+	/* Effects */
+	--shadow-1: rgba(0, 0, 0, 0.35);
+	--shadow-2: rgba(0, 0, 0, 0.55);
+	--overlay: rgba(0, 0, 0, 0.65);
+	--scrollbar-thumb: #55503f;
+	--scrollbar-track: #2c2925;
+	--skeleton-base: #2c2925;
+	--skeleton-highlight: #363129;
+}
+
+/* Dark rejimda doim oq logo ko'rinsin — qora logo fon bilan qo'shilib ketmasin */
+[data-theme='dark'] .logo-box .logo111 {
+	opacity: 0 !important;
+}
+[data-theme='dark'] .logo-box .logo11 {
+	opacity: 1 !important;
+}
+
+/* Dark rejimda qora chat ikonkasi va splash-logo ko'rinsin */
+[data-theme='dark'] .chat-button img,
+[data-theme='dark'] .page-loader img {
+	filter: invert(1);
+}
+
+html {
+	background: var(--bg-page);
+}
+
+/* Third-party surfaces follow the theme */
+.swal2-popup {
+	background: var(--surface) !important;
+	color: var(--text-1) !important;
+}
+.swal2-title,
+.swal2-html-container {
+	color: var(--text-1) !important;
+}
+.swal2-input,
+.swal2-textarea,
+.swal2-select {
+	background: var(--bg-muted) !important;
+	color: var(--text-1) !important;
+	border-color: var(--border) !important;
+}
+
+body {
+	background: var(--bg-page);
+	color: var(--text-1);
+	transition: background-color 0.25s ease, color 0.25s ease;
+}

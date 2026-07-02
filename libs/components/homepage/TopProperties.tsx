@@ -92,14 +92,14 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<div style={{ padding: '16px 0', background: '#fff' }}>
+			<div style={{ padding: '16px 0', background: 'var(--surface)' }}>
 				{/* Header */}
 				<div style={{ padding: '0 16px 8px' }}>
 					<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '10px', marginBottom: '6px' }}>
-						<div style={{ width: '30px', height: '2px', background: '#cf6422' }} />
-						<span style={{ fontSize: '13px', fontWeight: 500, color: '#000' }}>{t('Our Properties')}</span>
+						<div style={{ width: '30px', height: '2px', background: 'var(--primary)' }} />
+						<span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-1)' }}>{t('Our Properties')}</span>
 					</div>
-					<div style={{ fontSize: '18px', fontWeight: 700, color: '#333' }}>{t('Properties Collections')}</div>
+					<div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-1)' }}>{t('Properties Collections')}</div>
 				</div>
 
 				{/* Tabs */}
@@ -108,8 +108,8 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 						<button key={tab.key} onClick={() => handleTabChange(tab.key)} style={{
 							padding: '6px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: 500,
 							border: activeTab === tab.key ? 'none' : '1px solid #ddd',
-							background: activeTab === tab.key ? '#cf6422' : '#fff',
-							color: activeTab === tab.key ? '#fff' : '#666',
+							background: activeTab === tab.key ? 'var(--primary)' : '#fff',
+							color: activeTab === tab.key ? '#fff' : 'var(--text-2)',
 							cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0
 						}}>
 							{tab.label}
@@ -125,7 +125,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 						))}
 					</div>
 				) : properties.length === 0 ? (
-					<div style={{ textAlign: 'center', padding: '32px', color: '#aaa' }}>{t('No Products Found')}</div>
+					<div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-4)' }}>{t('No Products Found')}</div>
 				) : (
 					<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', padding: '0 16px' }}>
 						{properties.slice(0, 4).map((property: Property) => (
@@ -135,7 +135,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 				)}
 
 				<div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px 16px 0' }}>
-					<span onClick={() => router.push('/property')} style={{ fontSize: '12px', color: '#cf6422', fontWeight: 500, cursor: 'pointer' }}>
+					<span onClick={() => router.push('/property')} style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 500, cursor: 'pointer' }}>
 						{t('All Furnitures')} →
 					</span>
 				</div>

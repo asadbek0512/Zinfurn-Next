@@ -166,7 +166,7 @@ const Home: NextPage = () => {
 					z-index: 9999;
 					width: 100%;
 					height: 100vh;
-					background-color: #fff;
+					background-color: var(--bg-page);
 					display: flex;
 					align-items: center;
 					justify-content: center;
@@ -192,7 +192,7 @@ const Home: NextPage = () => {
 				.dots span {
 					font-size: 54px;
 					font-weight: bold;
-					color: #333;
+					color: var(--text-2);
 					animation: blink 1.4s infinite;
 				}
 

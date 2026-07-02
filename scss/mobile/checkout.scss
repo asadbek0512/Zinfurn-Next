@@ -9,7 +9,7 @@ $font: 'Poppins', sans-serif;
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-	background: #f5f5f5;
+	background: var(--bg-muted);
 	font-family: $font;
 	overflow-x: hidden;
 
@@ -20,13 +20,13 @@ $font: 'Poppins', sans-serif;
 		left: 0;
 		right: 0;
 		z-index: 100;
-		background: #fff;
+		background: var(--surface);
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		padding: 0 16px;
 		height: 54px;
-		border-bottom: 1px solid #f0f0f0;
+		border-bottom: 1px solid var(--border-soft);
 		box-shadow: 0 1px 8px rgba(0,0,0,0.06);
 
 		.co-mob-back {
@@ -36,8 +36,8 @@ $font: 'Poppins', sans-serif;
 			width: 36px;
 			height: 36px;
 			border-radius: 50%;
-			background: #f5f5f5;
-			color: #333;
+			background: var(--bg-muted);
+			color: var(--text-1);
 			text-decoration: none;
 			flex-shrink: 0;
 		}
@@ -45,7 +45,7 @@ $font: 'Poppins', sans-serif;
 		.co-mob-title {
 			font-size: 16px;
 			font-weight: 700;
-			color: #1a1a1a;
+			color: var(--text-1);
 			font-family: $font;
 		}
 	}
@@ -54,7 +54,7 @@ $font: 'Poppins', sans-serif;
 	.co-mob-stepper {
 		margin-top: 54px;
 		padding: 14px 16px 10px;
-		background: #fff;
+		background: var(--surface);
 
 		.MuiStepLabel-label {
 			font-family: $font;
@@ -62,7 +62,7 @@ $font: 'Poppins', sans-serif;
 		}
 		.MuiStepIcon-root.Mui-active    { color: $orange; }
 		.MuiStepIcon-root.Mui-completed { color: $orange; }
-		.MuiStepConnector-line { border-color: #ddd; }
+		.MuiStepConnector-line { border-color: var(--border); }
 	}
 
 	/* ── Collapsible summary bar ── */
@@ -85,9 +85,9 @@ $font: 'Poppins', sans-serif;
 	}
 
 	.co-mob-sum-panel {
-		background: #fff;
+		background: var(--surface);
 		padding: 0 16px;
-		border-bottom: 1px solid #eee;
+		border-bottom: 1px solid var(--border-soft);
 
 		.co-summary {
 			background: none;
@@ -152,7 +152,7 @@ $font: 'Poppins', sans-serif;
 
 			.co-secure {
 				font-size: 11px;
-				color: #bbb;
+				color: var(--text-4);
 			}
 
 			.co-test-hint {
@@ -242,8 +242,8 @@ $font: 'Poppins', sans-serif;
 		left: 0;
 		right: 0;
 		z-index: 100;
-		background: #fff;
-		border-top: 1px solid #eee;
+		background: var(--surface);
+		border-top: 1px solid var(--border-soft);
 		padding: 12px 16px;
 		display: flex;
 		gap: 10px;
@@ -251,14 +251,14 @@ $font: 'Poppins', sans-serif;
 
 		.co-mob-back-btn {
 			flex-shrink: 0;
-			background: #f5f5f5;
+			background: var(--bg-muted);
 			border: none;
 			border-radius: 10px;
 			padding: 0 18px;
 			height: 48px;
 			font-size: 14px;
 			font-weight: 500;
-			color: #555;
+			color: var(--text-2);
 			font-family: $font;
 			cursor: pointer;
 		}
@@ -274,7 +274,7 @@ $font: 'Poppins', sans-serif;
 			height: 48px;
 			font-size: 15px !important;
 			&:hover { background: $orange-dark !important; }
-			&.Mui-disabled { background: #ddd !important; color: #aaa !important; }
+			&.Mui-disabled { background: var(--bg-strong) !important; color: var(--text-4) !important; }
 		}
 	}
 }

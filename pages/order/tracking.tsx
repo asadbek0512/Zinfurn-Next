@@ -101,7 +101,7 @@ const OrderTracking: NextPage = () => {
 	if (loading) {
 		return (
 			<div className="tracking-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
-				<HourglassEmptyIcon sx={{ fontSize: 48, color: '#cf6422', opacity: 0.5 }} />
+				<HourglassEmptyIcon sx={{ fontSize: 48, color: 'var(--primary)', opacity: 0.5 }} />
 			</div>
 		);
 	}
@@ -174,7 +174,7 @@ const OrderTracking: NextPage = () => {
 						{/* Confirm receipt button */}
 						{order?.orderStatus === OrderStatus.DELIVERED && (
 							<div className="tracking-confirm-box">
-								<CheckCircleOutlineIcon sx={{ color: '#2e7d32' }} />
+								<CheckCircleOutlineIcon sx={{ color: 'var(--success)' }} />
 								<div>
 									<Typography variant="body2" fontWeight={600}>{t('Received your order?')}</Typography>
 									<Typography variant="caption" color="text.secondary">{t('Confirm receipt to unlock reviews and finalize your order')}</Typography>
@@ -191,8 +191,8 @@ const OrderTracking: NextPage = () => {
 							</div>
 						)}
 						{order?.orderStatus === OrderStatus.CONFIRMED && (
-							<div className="tracking-confirm-box" style={{ borderColor: '#4caf50', background: '#f1f8f1' }}>
-								<CheckCircleIcon sx={{ color: '#2e7d32' }} />
+							<div className="tracking-confirm-box" style={{ borderColor: 'var(--success)', background: '#f1f8f1' }}>
+								<CheckCircleIcon sx={{ color: 'var(--success)' }} />
 								<div>
 									<Typography variant="body2" fontWeight={600}>{t('Order Confirmed!')}</Typography>
 									<Typography variant="caption" color="text.secondary">{t('You can now write a review in My Orders')}</Typography>
@@ -241,7 +241,7 @@ const OrderTracking: NextPage = () => {
 							{order?.orderTotal != null && (
 								<div className="tracking-detail-row">
 									<Typography className="tracking-detail-label">{t('Total paid')}</Typography>
-									<Typography className="tracking-detail-val" style={{ color: '#cf6422', fontWeight: 700 }}>
+									<Typography className="tracking-detail-val" style={{ color: 'var(--primary)', fontWeight: 700 }}>
 										{formatPrice(order.orderTotal)}
 									</Typography>
 								</div>

@@ -41,24 +41,24 @@ const TopAgents = (props: TopAgentsProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<div style={{ padding: '16px 0', background: '#f8f7f4' }}>
+			<div style={{ padding: '16px 0', background: 'var(--bg-warm)' }}>
 				{/* Header */}
 				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '0 16px 12px' }}>
 					<div>
 						<div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-							<div style={{ width: '30px', height: '2px', background: '#cf6422' }} />
-							<span style={{ fontSize: '12px', fontWeight: 500, color: '#000' }}>{t('Top Agents')}</span>
+							<div style={{ width: '30px', height: '2px', background: 'var(--primary)' }} />
+							<span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--text-1)' }}>{t('Top Agents')}</span>
 						</div>
-						<div style={{ fontSize: '18px', fontWeight: 700, color: '#333' }}>{t('Our Top Agents')}</div>
+						<div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-1)' }}>{t('Our Top Agents')}</div>
 					</div>
-					<span onClick={() => router.push('/agent')} style={{ fontSize: '12px', color: '#cf6422', fontWeight: 500, cursor: 'pointer' }}>
+					<span onClick={() => router.push('/agent')} style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 500, cursor: 'pointer' }}>
 						{t('All Agents')} →
 					</span>
 				</div>
 
 				{/* Swiper */}
 				{topAgents.length === 0 ? (
-					<div style={{ textAlign: 'center', padding: '32px', color: '#aaa' }}>{t('No Agents')}</div>
+					<div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-4)' }}>{t('No Agents')}</div>
 				) : (
 					<Swiper slidesPerView={2.2} spaceBetween={10} touchStartPreventDefault={false} style={{ paddingLeft: '16px', paddingRight: '8px' }}>
 						{topAgents.map((agent: Member) => {

@@ -13,7 +13,7 @@
 				.right-box {
 					width: 315px;
 					.main-title {
-						color: #181a20;
+						color: var(--text-1);
 						font-family: $font;
 						font-size: 30px;
 						font-weight: 600;
@@ -21,7 +21,7 @@
 						text-transform: capitalize;
 					}
 					.sub-title {
-						color: #181a20;
+						color: var(--text-1);
 						font-family: $font;
 						font-size: 14px;
 						font-weight: 400;
@@ -35,17 +35,17 @@
 				gap: 0;
 				height: 560px;
 				width: 100%;
-				border: 1px solid #eee;
+				border: 1px solid var(--border-soft);
 				border-radius: 14px;
 				overflow: hidden;
-				background: #fff;
+				background: var(--surface);
 			}
 
 			/* ---- conversation list ---- */
 			.mm-list {
 				width: 320px;
 				flex-shrink: 0;
-				border-right: 1px solid #f0f0f0;
+				border-right: 1px solid var(--border-soft);
 				overflow-y: auto;
 
 				.mm-empty {
@@ -54,7 +54,7 @@
 					align-items: center;
 					gap: 8px;
 					padding: 50px 20px;
-					color: #999;
+					color: var(--text-3);
 					font-size: 14px;
 				}
 
@@ -64,11 +64,11 @@
 					gap: 10px;
 					padding: 12px 14px;
 					cursor: pointer;
-					border-bottom: 1px solid #f5f5f5;
+					border-bottom: 1px solid var(--border-soft);
 					transition: background 0.15s;
 
-					&:hover { background: #fafafa; }
-					&.active { background: #fff4ec; }
+					&:hover { background: var(--surface-2); }
+					&.active { background: var(--primary-soft); }
 
 					.mm-conv-avatar {
 						width: 46px;
@@ -85,13 +85,13 @@
 						flex-direction: column;
 						gap: 2px;
 
-						.mm-conv-name { font-size: 14px; font-weight: 600; color: #222; }
+						.mm-conv-name { font-size: 14px; font-weight: 600; color: var(--text-1); }
 						.mm-conv-last {
-							font-size: 13px; color: #777;
+							font-size: 13px; color: var(--text-2);
 							white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 						}
 						.mm-conv-prop {
-							font-size: 11px; color: #c0772f;
+							font-size: 11px; color: var(--primary-dark);
 							white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 						}
 					}
@@ -102,12 +102,12 @@
 						align-items: flex-end;
 						gap: 6px;
 
-						.mm-conv-time { font-size: 11px; color: #aaa; white-space: nowrap; }
+						.mm-conv-time { font-size: 11px; color: var(--text-4); white-space: nowrap; }
 						.mm-conv-badge {
 							min-width: 18px; height: 18px;
 							padding: 0 5px;
 							border-radius: 9px;
-							background: #cf6422;
+							background: var(--primary);
 							color: #fff;
 							font-size: 11px;
 							font-weight: 700;
@@ -133,7 +133,7 @@
 					align-items: center;
 					justify-content: center;
 					gap: 10px;
-					color: #aaa;
+					color: var(--text-4);
 					font-size: 15px;
 				}
 
@@ -142,22 +142,22 @@
 					align-items: center;
 					gap: 10px;
 					padding: 12px 16px;
-					border-bottom: 1px solid #f0f0f0;
+					border-bottom: 1px solid var(--border-soft);
 
 					.mm-back {
 						display: none;
 						border: none;
 						background: none;
 						cursor: pointer;
-						color: #555;
+						color: var(--text-2);
 					}
 
 					.mm-thread-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
 					.mm-thread-head-info {
 						display: flex;
 						flex-direction: column;
-						.mm-thread-name { font-size: 15px; font-weight: 600; color: #222; }
-						.mm-thread-prop { font-size: 12px; color: #c0772f; }
+						.mm-thread-name { font-size: 15px; font-weight: 600; color: var(--text-1); }
+						.mm-thread-prop { font-size: 12px; color: var(--primary-dark); }
 					}
 				}
 
@@ -168,7 +168,7 @@
 					display: flex;
 					flex-direction: column;
 					gap: 10px;
-					background: #fafafa;
+					background: var(--surface-2);
 
 					.mm-bubble-row {
 						display: flex;
@@ -184,19 +184,19 @@
 						.mm-bubble {
 							padding: 8px 12px;
 							border-radius: 14px;
-							background: #fff;
-							border: 1px solid #eee;
+							background: var(--surface);
+							border: 1px solid var(--border-soft);
 							display: flex;
 							flex-direction: column;
 							gap: 3px;
 
-							.mm-bubble-text { font-size: 14px; color: #222; word-break: break-word; white-space: pre-wrap; }
-							.mm-bubble-time { font-size: 10px; color: #aaa; align-self: flex-end; }
+							.mm-bubble-text { font-size: 14px; color: var(--text-1); word-break: break-word; white-space: pre-wrap; }
+							.mm-bubble-time { font-size: 10px; color: var(--text-4); align-self: flex-end; }
 						}
 
 						&.mine .mm-bubble {
-							background: #cf6422;
-							border-color: #cf6422;
+							background: var(--primary);
+							border-color: var(--primary);
 							.mm-bubble-text { color: #fff; }
 							.mm-bubble-time { color: rgba(255, 255, 255, 0.8); }
 						}
@@ -208,17 +208,17 @@
 					align-items: center;
 					gap: 10px;
 					padding: 12px 16px;
-					border-top: 1px solid #f0f0f0;
+					border-top: 1px solid var(--border-soft);
 
 					.mm-input {
 						flex: 1;
 						height: 42px;
 						padding: 0 16px;
-						border: 1px solid #e0e0e0;
+						border: 1px solid var(--border-soft);
 						border-radius: 22px;
 						font-size: 14px;
 						outline: none;
-						&:focus { border-color: #cf6422; }
+						&:focus { border-color: var(--primary); }
 					}
 
 					.mm-send {
@@ -226,15 +226,15 @@
 						height: 42px;
 						border-radius: 50%;
 						border: none;
-						background: #cf6422;
+						background: var(--primary);
 						color: #fff;
 						cursor: pointer;
 						display: flex;
 						align-items: center;
 						justify-content: center;
 						transition: background 0.15s;
-						&:hover { background: #b5571c; }
-						&:disabled { background: #ddd; cursor: not-allowed; }
+						&:hover { background: var(--primary-dark); }
+						&:disabled { background: var(--bg-strong); cursor: not-allowed; }
 					}
 				}
 			}

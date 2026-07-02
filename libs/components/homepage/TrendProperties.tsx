@@ -74,20 +74,20 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<div style={{ padding: '16px 0', background: '#f8f7f4', overflow: 'hidden', width: '100%' }}>
+			<div style={{ padding: '16px 0', background: 'var(--bg-warm)', overflow: 'hidden', width: '100%' }}>
 				{/* Header */}
 				<div style={{ padding: '0 16px 12px' }}>
-					<div style={{ fontSize: '18px', fontWeight: 600, color: '#181a20' }}>
+					<div style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-1)' }}>
 						{t('Trend Properties')} 🪑
 					</div>
-					<div style={{ fontSize: '11px', color: '#888', marginTop: '3px' }}>
+					<div style={{ fontSize: '11px', color: 'var(--text-3)', marginTop: '3px' }}>
 						{t('Easily explore our carefully curated categories to find your favorite items')}
 					</div>
 				</div>
 
 				{/* Swiper */}
 				{trendProperties.length === 0 ? (
-					<div style={{ textAlign: 'center', padding: '32px', color: '#aaa' }}>{t('Trends Empty')}</div>
+					<div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-4)' }}>{t('Trends Empty')}</div>
 				) : (
 					<Swiper
 						slidesPerView={2}

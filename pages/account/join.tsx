@@ -447,7 +447,7 @@ const Join: NextPage = () => {
 											right: 12,
 											top: 35,
 											cursor: 'pointer',
-											color: '#666',
+											color: 'var(--text-2)',
 											fontSize: '18px',
 											userSelect: 'none',
 										}}
@@ -497,7 +497,7 @@ const Join: NextPage = () => {
 												right: 12,
 												top: 35,
 												cursor: 'pointer',
-												color: '#666',
+												color: 'var(--text-2)',
 												fontSize: '18px',
 												userSelect: 'none',
 											}}
@@ -534,7 +534,7 @@ const Join: NextPage = () => {
 										{phoneError && (
 											<Typography
 												sx={{
-													color: '#f44336',
+													color: 'var(--danger)',
 													fontSize: '12px',
 													marginTop: '4px',
 												}}
@@ -637,7 +637,7 @@ const Join: NextPage = () => {
 										sx={{
 											width: '100%',
 											padding: '14px',
-											background: '#cf6422',
+											background: 'var(--primary)',
 											borderRadius: '24px',
 											textTransform: 'none',
 											fontSize: '14px',
@@ -664,7 +664,7 @@ const Join: NextPage = () => {
 										sx={{
 											width: '100%',
 											padding: '14px',
-											background: '#cf6422',
+											background: 'var(--primary)',
 											borderRadius: '24px',
 											textTransform: 'none',
 											fontSize: '14px',
@@ -854,7 +854,7 @@ const Join: NextPage = () => {
 													borderRadius: '50%',
 													border: '2px solid white',
 													marginLeft: '-6px',
-													background: '#cf6422',
+													background: 'var(--primary)',
 													display: 'flex',
 													alignItems: 'center',
 													justifyContent: 'center',
@@ -871,7 +871,7 @@ const Join: NextPage = () => {
 										<Box
 											component="div"
 											sx={{
-												color: '#605e5e',
+												color: 'var(--text-2)',
 												fontSize: '16px',
 												fontWeight: 'bold',
 												margin: '0 8px',

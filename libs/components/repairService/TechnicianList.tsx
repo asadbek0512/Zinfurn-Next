@@ -363,7 +363,7 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 				<IconButton onClick={() => setRepairOpen(false)} size="small"><CloseIcon /></IconButton>
 			</DialogTitle>
 			<DialogContent>
-				<Typography sx={{ fontSize: 14, color: '#666', mb: 2 }}>
+				<Typography sx={{ fontSize: 14, color: 'var(--text-2)', mb: 2 }}>
 					{t('Send your repair request to')} <strong>{technicianName}</strong>
 				</Typography>
 				<div className="repair-req-field">
@@ -385,8 +385,8 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 				</div>
 			</DialogContent>
 			<DialogActions sx={{ px: 3, pb: 2 }}>
-				<Button onClick={() => setRepairOpen(false)} sx={{ color: '#888' }}>{t('Cancel')}</Button>
-				<Button onClick={submitRepairRequest} disabled={submitting || !reqMessage.trim()} variant="contained" sx={{ background: '#cf6422', '&:hover': { background: '#b5571c' } }}>
+				<Button onClick={() => setRepairOpen(false)} sx={{ color: 'var(--text-3)' }}>{t('Cancel')}</Button>
+				<Button onClick={submitRepairRequest} disabled={submitting || !reqMessage.trim()} variant="contained" sx={{ background: 'var(--primary)', '&:hover': { background: 'var(--primary-dark)' } }}>
 					{submitting ? t('Sending...') : t('Send Request')}
 				</Button>
 			</DialogActions>

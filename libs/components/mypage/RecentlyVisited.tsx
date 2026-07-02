@@ -100,8 +100,8 @@ const RecentlyVisited: NextPage = () => {
                       onClick={(e) => { e.stopPropagation(); likePropertyHandler(user, property._id); }}
                     >
                       {isLiked
-                        ? <FavoriteIcon sx={{ fontSize: 18, color: '#cf6422' }} />
-                        : <FavoriteBorderIcon sx={{ fontSize: 18, color: '#aaa' }} />
+                        ? <FavoriteIcon sx={{ fontSize: 18, color: 'var(--primary)' }} />
+                        : <FavoriteBorderIcon sx={{ fontSize: 18, color: 'var(--text-4)' }} />
                       }
                     </div>
                   </div>
@@ -170,7 +170,7 @@ const RecentlyVisited: NextPage = () => {
               }}
             >
               <img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} />
-              <p style={{ fontSize: '18px', color: '#555', marginTop: '8px', marginLeft: '45px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-2)', marginTop: '8px', marginLeft: '45px' }}>
                 {t('No Visited Properties found!')}
               </p>
             </div>

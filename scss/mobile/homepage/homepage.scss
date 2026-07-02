@@ -5,7 +5,7 @@
 		position: relative;
 		width: 100%;
 		height: auto;
-		background-color: #ffffff;
+		background-color: var(--surface);
 
 		.info-box {
 			width: 100%;
@@ -20,7 +20,7 @@
 				align-items: flex-start;
 
 				span {
-					color: #181a20;
+					color: var(--text-1);
 					font-family: $font;
 					font-size: 24px; // Mobil uchun kichikroq
 					font-weight: 500;
@@ -34,7 +34,7 @@
 				}
 
 				p {
-					color: #181a20;
+					color: var(--text-1);
 					font-family: $font;
 					font-size: 13px;
 					font-weight: 400;
@@ -61,7 +61,7 @@
 						width: 40px;
 						height: 28px;
 						border-radius: 50%;
-						border: 1px solid #cf6422;
+						border: 1px solid var(--primary);
 						display: flex;
 						align-items: center;
 						justify-content: center;
@@ -74,15 +74,15 @@
 					}
 
 					.prev {
-						background-color: #fff;
+						background-color: var(--surface);
 
 						svg {
-							color: #cf6422;
+							color: var(--primary);
 						}
 					}
 
 					.next {
-						background-color: #cf6422;
+						background-color: var(--primary);
 
 						svg {
 							color: #fff;
@@ -158,8 +158,8 @@
 				position: relative;
 				overflow: hidden;
 				border-radius: 12px;
-				color: #333;
-				background-color: #f5f5f5;
+				color: var(--text-1);
+				background-color: var(--bg-muted);
 				transition: all 1s ease;
 
 				&:hover img {
@@ -203,7 +203,7 @@
 					width: fit-content;
 					padding: 6px 12px;
 					font-size: 12px;
-					background: #333;
+					background: var(--bg-inverse);
 					color: white;
 					border-radius: 20px;
 					border: none;
@@ -221,7 +221,7 @@
 
 					.overlay {
 						background: linear-gradient(to top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
-						color: #171717;
+						color: var(--text-1);
 					}
 				}
 
@@ -270,7 +270,7 @@
 			height: auto; // Mobilga moslashgan
 			display: flex;
 			flex-direction: column;
-			background: #f8f7f4;
+			background: var(--bg-warm);
 
 			.container {
 				flex-direction: column;
@@ -312,7 +312,7 @@
 					}
 
 					.product-card {
-						background: #f8f7f4;
+						background: var(--bg-warm);
 						width: 100%;
 						height: auto;
 						display: flex;
@@ -429,7 +429,7 @@
 		.craft-section {
 			padding: 20px 16px;
 			height: auto; // Mobilga moslashgan
-			background: #f6f6f6;
+			background: var(--bg-muted);
 	
 			.craft-stack {
 				display: flex;
@@ -496,13 +496,13 @@
   bottom: 4px !important;
 }
 .swiper-pagination-bullet {
-  background: #cf6422 !important;
+  background: var(--primary) !important;
   opacity: 0.35;
   width: 6px !important;
   height: 6px !important;
 }
 .swiper-pagination-bullet-active {
-  background: #cf6422 !important;
+  background: var(--primary) !important;
   opacity: 1;
   width: 18px !important;
   border-radius: 3px !important;

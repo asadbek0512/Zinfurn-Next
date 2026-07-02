@@ -156,12 +156,12 @@ const withAdminLayout = (Component: ComponentType) => {
 							sx={{
 								width: '100%',
 								boxShadow: 'rgb(100 116 139 / 12%) 0px 1px 4px',
-								background: '#fff',
-								color: '#374151',
+								background: 'var(--surface)',
+								color: 'var(--text-2)',
 							}}
 						>
 							<Toolbar sx={{ justifyContent: 'space-between' }}>
-								<IconButton onClick={() => setMobileDrawerOpen(true)} sx={{ color: '#374151' }}>
+								<IconButton onClick={() => setMobileDrawerOpen(true)} sx={{ color: 'var(--text-2)' }}>
 									<MenuIcon />
 								</IconButton>
 								<img src="/img/logo/001.3.png" alt="logo" style={{ height: 38 }} />

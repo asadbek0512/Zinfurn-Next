@@ -61,13 +61,13 @@ const NotificationItem = ({ notification, onRead, onNavigate }: { notification: 
 	const getNotificationIcon = (type: string) => {
 		switch (type) {
 			case 'LIKE':
-				return <FavoriteIcon sx={{ color: '#ff4d4f' }} />;
+				return <FavoriteIcon sx={{ color: 'var(--danger)' }} />;
 			case 'COMMENT':
 				return <ChatBubbleIcon sx={{ color: '#40a9ff' }} />;
 			case 'MESSAGE':
 				return <ChatBubbleIcon sx={{ color: '#52c41a' }} />;
 			default:
-				return <NotificationsIcon sx={{ color: '#cf6422' }} />;
+				return <NotificationsIcon sx={{ color: 'var(--primary)' }} />;
 		}
 	};
 
@@ -98,15 +98,15 @@ const NotificationItem = ({ notification, onRead, onNavigate }: { notification: 
 						{getNotificationIcon(notification.type)}
 					</Avatar>
 					<Stack sx={{ flex: 1 }} spacing={0.5}>
-						<Typography variant="body2" sx={{ fontWeight: 600, color: '#181a20', lineHeight: 1.3 }}>
+						<Typography variant="body2" sx={{ fontWeight: 600, color: 'var(--text-1)', lineHeight: 1.3 }}>
 							{notification.title}
 						</Typography>
 						{notification.desc && (
-							<Typography variant="caption" sx={{ color: '#666', lineHeight: 1.4 }}>
+							<Typography variant="caption" sx={{ color: 'var(--text-2)', lineHeight: 1.4 }}>
 								{notification.desc}
 							</Typography>
 						)}
-						<Typography variant="caption" sx={{ color: '#999', mt: 0.5, fontSize: '10px' }}>
+						<Typography variant="caption" sx={{ color: 'var(--text-3)', mt: 0.5, fontSize: '10px' }}>
 							{format(new Date(notification.createdAt), t('MMM dd, yyyy HH:mm'))}
 						</Typography>
 
@@ -122,7 +122,7 @@ const NotificationItem = ({ notification, onRead, onNavigate }: { notification: 
 										flex: 1,
 										height: 34,
 										padding: '0 12px',
-										border: '1px solid #e0e0e0',
+										border: '1px solid var(--border-soft)',
 										borderRadius: 17,
 										fontSize: 13,
 										outline: 'none',
@@ -132,7 +132,7 @@ const NotificationItem = ({ notification, onRead, onNavigate }: { notification: 
 									size="small"
 									onClick={handleReply}
 									disabled={sending || !replyText.trim()}
-									sx={{ bgcolor: '#cf6422', color: '#fff', width: 34, height: 34, '&:hover': { bgcolor: '#b5571c' }, '&.Mui-disabled': { bgcolor: '#ddd', color: '#fff' } }}
+									sx={{ bgcolor: 'var(--primary)', color: '#fff', width: 34, height: 34, '&:hover': { bgcolor: 'var(--primary-dark)' }, '&.Mui-disabled': { bgcolor: 'var(--bg-strong)', color: '#fff' } }}
 								>
 									<SendIcon sx={{ fontSize: 16 }} />
 								</IconButton>
@@ -140,7 +140,7 @@ const NotificationItem = ({ notification, onRead, onNavigate }: { notification: 
 						)}
 					</Stack>
 					{notification.status === 'WAIT' && (
-						<div style={{ width: 8, height: 8, borderRadius: '50%', background: '#cf6422', marginTop: 8, flexShrink: 0 }} />
+						<div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--primary)', marginTop: 8, flexShrink: 0 }} />
 					)}
 				</Stack>
 			</MenuItem>
@@ -245,33 +245,33 @@ const NotificationModal = ({
 			anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
 			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 		>
-			<div style={{ padding: '16px 20px', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10, borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+			<div style={{ padding: '16px 20px', background: 'var(--surface)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10, borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
 				<Stack direction="row" alignItems="center" spacing={1.5}>
-					<Typography variant="h6" sx={{ fontSize: '16px', fontWeight: 700, color: '#181a20' }}>
+					<Typography variant="h6" sx={{ fontSize: '16px', fontWeight: 700, color: 'var(--text-1)' }}>
 						{t('Notifications')}
 					</Typography>
 					{unreadCount > 0 && (
-						<span style={{ background: '#cf6422', color: '#fff', borderRadius: '10px', padding: '2px 8px', fontSize: '11px', fontWeight: 600 }}>
+						<span style={{ background: 'var(--primary)', color: '#fff', borderRadius: '10px', padding: '2px 8px', fontSize: '11px', fontWeight: 600 }}>
 							{unreadCount}
 						</span>
 					)}
 				</Stack>
 				{unreadCount > 0 && (
 					<Tooltip title={t('Mark all as read')}>
-						<IconButton size="small" sx={{ color: '#cf6422' }}>
+						<IconButton size="small" sx={{ color: 'var(--primary)' }}>
 							<MarkEmailReadIcon sx={{ fontSize: '20px' }} />
 						</IconButton>
 					</Tooltip>
 				)}
 			</div>
 
-			<div style={{ maxHeight: '400px', overflow: 'auto', background: '#fafafa' }}>
+			<div style={{ maxHeight: '400px', overflow: 'auto', background: 'var(--surface-2)' }}>
 				{notifications.length === 0 ? (
 					<div style={{ padding: '48px 16px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
 						<div style={{ width: 60, height: 60, borderRadius: '50%', background: 'rgba(0,0,0,0.03)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 							<NotificationsNoneIcon sx={{ fontSize: '30px', color: '#ccc' }} />
 						</div>
-						<Typography sx={{ color: '#999', fontSize: '14px', fontWeight: 500 }}>
+						<Typography sx={{ color: 'var(--text-3)', fontSize: '14px', fontWeight: 500 }}>
 							{t('No notifications yet')}
 						</Typography>
 					</div>
@@ -286,7 +286,7 @@ const NotificationModal = ({
 			<div style={{ padding: '12px', textAlign: 'center' }}>
 				<Typography
 					variant="caption"
-					sx={{ color: '#cf6422', fontWeight: 600, cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
+					sx={{ color: 'var(--primary)', fontWeight: 600, cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
 					onClick={onClose}
 				>
 					{t('Close')}

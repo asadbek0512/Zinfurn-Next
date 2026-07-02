@@ -23,7 +23,7 @@ const Loading = ({ text, fullScreen }: LoadingProps) => {
 			<CircularProgress
 				size={device === 'mobile' ? '2.5rem' : '4rem'}
 				sx={{
-					color: '#cf6422',
+					color: 'var(--primary)',
 					mb: 2,
 				}}
 			/>

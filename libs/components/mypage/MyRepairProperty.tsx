@@ -169,7 +169,7 @@ const MyRepairProperty: NextPage = ({ initialInput, ...props }: any) => {
                             sx={{
                               fontWeight: 'bold',
                               fontSize: '0.75rem',
-                              backgroundColor: '#cf6422',
+                              backgroundColor: 'var(--primary)',
                               color: 'white',
                             }}
                           />

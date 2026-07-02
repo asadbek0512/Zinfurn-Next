@@ -3,7 +3,7 @@
 		position: relative;
 		width: 100%;
 		height: auto;
-		background-color: #ffffff;
+		background-color: var(--surface);
 
 		.info-box {
 			width: 100%;
@@ -16,7 +16,7 @@
 				flex-direction: column;
 
 				span {
-					color: #181a20;
+					color: var(--text-1);
 					font-family: $font;
 					font-size: 34px;
 					font-style: normal;
@@ -31,7 +31,7 @@
 				}
 
 				p {
-					color: #181a20;
+					color: var(--text-1);
 					font-family: $font;
 					font-size: 14px;
 					font-style: normal;
@@ -63,7 +63,7 @@
 						align-items: center;
 						justify-content: center;
 						border-radius: 9999px;
-						border: 1px solid #cf6422;
+						border: 1px solid var(--primary);
 						cursor: pointer;
 						transition: all 0.3s ease;
 						padding: 0;
@@ -74,15 +74,15 @@
 					}
 
 					.prev {
-						background-color: #fff;
+						background-color: var(--surface);
 
 						svg {
-							color: #cf6422;
+							color: var(--primary);
 						}
 					}
 
 					.next {
-						background-color: #cf6422;
+						background-color: var(--primary);
 
 						svg {
 							color: #fff;
@@ -114,8 +114,8 @@
 				position: relative;
 				overflow: hidden;
 				border-radius: 12px;
-				color: #333;
-				background-color: #f5f5f5;
+				color: var(--text-1);
+				background-color: var(--bg-muted);
 				transition: all 1s ease;
 
 				&:hover img {
@@ -158,7 +158,7 @@
 				.explore-btn {
 					width: fit-content;
 					padding: 8px 16px;
-					background: #333;
+					background: var(--bg-inverse);
 					border: none;
 					border-radius: 20px;
 					color: white;
@@ -177,7 +177,7 @@
 
 					.overlay {
 						background: linear-gradient(to top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
-						color: #171717;
+						color: var(--text-1);
 					}
 				}
 
@@ -216,7 +216,7 @@
 
 					.explore-btn {
 						background: white;
-						color: #333;
+						color: var(--text-1);
 						padding: 8px 24px;
 						margin-bottom: 70px;
 					}
@@ -246,7 +246,7 @@
 			height: 697px;
 			display: flex;
 			flex-direction: row;
-			background: #f8f7f4;
+			background: var(--bg-warm);
 
 			.container {
 				flex-direction: column;
@@ -268,6 +268,7 @@
 						display: flex;
 						justify-content: center;
 						align-items: center;
+						color: var(--text-3);
 					}
 
 					.trend-property-swiper {
@@ -285,7 +286,7 @@
 					}
 
 					.product-card {
-						background: #f8f7f4;
+						background: var(--bg-warm);
 						width: 285px;
 						height: 400px;
 						display: flex;
@@ -320,8 +321,8 @@
 							right: 12px;
 							width: 40px;
 							height: 40px;
-							background: #fff;
-							color: #cf6422;
+							background: var(--surface);
+							color: var(--primary);
 							border-radius: 50%;
 							box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 							opacity: 0;
@@ -330,7 +331,7 @@
 							z-index: 2;
 
 							&:hover {
-								background: #cf6422;
+								background: var(--primary);
 								color: #fff;
 							}
 
@@ -371,7 +372,7 @@
 					}
 
 					.discount-badge {
-						background-color: #cf6422;
+						background-color: var(--primary);
 					}
 
 					.category-badge {
@@ -403,7 +404,7 @@
 					.product-title {
 						font-size: 16px;
 						font-weight: 600;
-						color: #41332d;
+						color: var(--primary-deep);
 						line-height: 1.3;
 						flex: 1;
 					}
@@ -415,12 +416,12 @@
 
 						.views-icon {
 							font-size: 18px;
-							color: #888;
+							color: var(--text-3);
 						}
 
 						.views-count {
 							font-size: 14px;
-							color: #888;
+							color: var(--text-3);
 						}
 					}
 
@@ -439,14 +440,14 @@
 						.original-price {
 							font-size: 13px;
 							font-weight: 600;
-							color: #888;
+							color: var(--text-3);
 							text-decoration: line-through;
 						}
 
 						.discounted-price {
 							font-size: 18px;
 							font-weight: 700;
-							color: #6e331a;
+							color: var(--primary-deep);
 						}
 					}
 
@@ -470,7 +471,7 @@
 
 						.likes-count {
 							font-size: 18px;
-							color: #41332d;
+							color: var(--primary-deep);
 							font-weight: 500;
 							margin-left: 2px;
 						}
@@ -482,7 +483,7 @@
 		.craft-section {
 			padding: 20px 70px;
 			height: 822px;
-			background: #f6f6f6;
+			background: var(--bg-muted);
 
 			.craft-stack {
 				display: flex;
@@ -539,7 +540,7 @@
 
 					.craft-text {
 						margin-top: 16px;
-						color: #555;
+						color: var(--text-2);
 						font-size: 15px;
 						line-height: 1.6;
 					}
@@ -572,7 +573,7 @@
 				align-items: center;
 				justify-content: space-between;
 				margin-bottom: 52px;
-				background: #ffffff;
+				background: var(--surface);
 				border-radius: 16px;
 				padding: 24px;
 				color: rgb(81, 81, 81);
@@ -609,7 +610,7 @@
 					justify-content: flex-end;
 					padding: 0;
 					background: none;
-					color: #545454;
+					color: var(--text-2);
 					text-decoration: none;
 					font-size: 18px;
 					font-weight: 500;
@@ -621,12 +622,12 @@
 						content: '→';
 						font-size: 18px;
 						margin-left: 8px;
-						color: #cf6422;
+						color: var(--primary);
 						transition: transform 0.3s ease;
 					}
 
 					&:hover {
-						color: #cf6422;
+						color: var(--primary);
 
 						&::before {
 							transform: scaleX(1);
@@ -705,7 +706,7 @@
 
 			.percentage-chip {
 				background: #f18745 !important;
-				color: #2d3748 !important;
+				color: var(--text-1) !important;
 				font-weight: 700 !important;
 				font-size: 12px !important;
 				height: 24px !important;
@@ -774,7 +775,7 @@
 
 			.cta-button {
 				background: #f4b942 !important;
-				color: #2d3748 !important;
+				color: var(--text-1) !important;
 				border-radius: 25px !important;
 				padding: 12px 24px !important;
 				font-weight: 700 !important;
@@ -796,7 +797,7 @@
 
 			.timer-value {
 				background: rgba(255, 255, 255, 0.9) !important;
-				color: #2d3748 !important;
+				color: var(--text-1) !important;
 				font-weight: 700 !important;
 				font-size: 14px !important;
 				padding: 4px 8px !important;
@@ -829,9 +830,9 @@
 				position: relative;
 
 				/* Uch taraf ramka, o'ng taraf ochiq */
-				border-top: 15px solid  #e66414;
-				border-left: 15px solid #e66414;
-				border-bottom: 15px solid #e66414;
+				border-top: 15px solid  var(--primary);
+				border-left: 15px solid var(--primary);
+				border-bottom: 15px solid var(--primary);
 				border-right: none;
 				border-radius: 250px 0 0 250px;
 
@@ -875,12 +876,12 @@
 					.heading {
 						font-size: 2rem;
 						font-weight: 600;
-						color: #333;
+						color: var(--text-1);
 						margin-bottom: 1rem;
 					}
 
 					.paragraph {
-						color: #555;
+						color: var(--text-2);
 						line-height: 1.6;
 					}
 					.repairButton {
@@ -894,7 +895,7 @@
 						transition: background 0.3s ease;
 					
 						&:hover {
-							background-color: #d16b2b;
+							background-color: var(--primary);
 						}
 					}
 					
@@ -903,7 +904,7 @@
 		}
 
 		.products-collection {
-			background: #ffffff;
+			background: var(--surface);
 			padding: 80px 0;
 			width: 100%;
 
@@ -917,7 +918,7 @@
 					margin-bottom: 70px;
 
 					.section-subtitle {
-						color: #000000;
+						color: var(--text-1);
 						font-size: 16px;
 						font-weight: 500;
 						margin-bottom: 10px;
@@ -930,7 +931,7 @@
 							content: '';
 							width: 40px;
 							height: 2px;
-							background: #cf6422;
+							background: var(--primary);
 							position: static; /* absolute emas */
 							transform: none;
 						}
@@ -938,7 +939,7 @@
 
 					.section-title {
 						position: absolute;
-						color: #333;
+						color: var(--text-1);
 						font-size: 42px;
 						font-weight: 700;
 						line-height: 2;
@@ -958,7 +959,7 @@
 					align-items: center;
 					gap: 0;
 					margin-bottom: 50px;
-					background: #f8f9fa;
+					background: var(--surface-2);
 					border-radius: 50px;
 					padding: 8px;
 					width: fit-content;
@@ -977,7 +978,7 @@
 						border-radius: 25px;
 						font-size: 14px;
 						font-weight: 500;
-						color: #666;
+						color: var(--text-2);
 						transition: all 0.3s ease;
 						white-space: nowrap;
 						flex-shrink: 0;
@@ -988,11 +989,11 @@
 						}
 
 						&:hover {
-							color: #333;
+							color: var(--text-1);
 						}
 
 						&.active {
-							background: #cf6422;
+							background: var(--primary);
 							color: #ffffff;
 							box-shadow: 0 2px 8px rgba(74, 103, 65, 0.3);
 						}
@@ -1003,7 +1004,7 @@
 					.empty-list {
 						text-align: center;
 						padding: 60px 20px;
-						color: #666;
+						color: var(--text-2);
 						font-size: 18px;
 					}
 
@@ -1044,7 +1045,7 @@
 					margin: 60px 0 0 auto;
 					padding: 0;
 					background: none;
-					color: #333;
+					color: var(--text-1);
 					text-decoration: none;
 					font-size: 16px;
 					font-weight: 500;
@@ -1056,12 +1057,12 @@
 						content: '→';
 						font-size: 18px;
 						margin-left: 8px;
-						color: #cf6422;
+						color: var(--primary);
 						transition: transform 0.3s ease;
 					}
 
 					&:hover {
-						color: #cf6422;
+						color: var(--primary);
 
 						&::before {
 							transform: scaleX(1);
@@ -1123,8 +1124,8 @@
 						right: 12px;
 						width: 40px;
 						height: 40px;
-						background: #fff;
-						color: #cf6422;
+						background: var(--surface);
+						color: var(--primary);
 						border-radius: 50%;
 						box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 						opacity: 0;
@@ -1133,7 +1134,7 @@
 						z-index: 2;
 
 						&:hover {
-							background: #cf6422;
+							background: var(--primary);
 							color: #fff;
 						}
 
@@ -1163,7 +1164,7 @@
 						right: 12px;
 
 						.discount-badge {
-							background-color: #cf6422;
+							background-color: var(--primary);
 							border-radius: 4px;
 							padding: 4px 8px;
 							display: flex;
@@ -1212,7 +1213,7 @@
 						.product-title {
 							font-size: 16px;
 							font-weight: 600;
-							color: #41332d;
+							color: var(--primary-deep);
 							line-height: 1.3;
 							flex: 1;
 						}
@@ -1224,12 +1225,12 @@
 
 							.views-icon {
 								font-size: 18px;
-								color: #888;
+								color: var(--text-3);
 							}
 
 							.views-count {
 								font-size: 14px;
-								color: #888;
+								color: var(--text-3);
 							}
 						}
 					}
@@ -1252,14 +1253,14 @@
 							.original-price {
 								font-size: 13px;
 								font-weight: 600;
-								color: #888;
+								color: var(--text-3);
 								text-decoration: line-through;
 							}
 
 							.discounted-price {
 								font-size: 18px;
 								font-weight: 700;
-								color: #6e331a;
+								color: var(--primary-deep);
 							}
 						}
 
@@ -1284,7 +1285,7 @@
 
 							.likes-count {
 								font-size: 18px;
-								color: #41332d;
+								color: var(--primary-deep);
 								font-weight: 500;
 								margin-left: 2px; // sonlar siljimasligi uchun
 							}
@@ -1331,7 +1332,7 @@
 		.products-collection {
 			.loading-skeleton {
 				.skeleton-card {
-					background: #f5f5f5;
+					background: var(--bg-muted);
 					border-radius: 16px;
 					height: 350px;
 					animation: pulse 1.5s ease-in-out infinite;
@@ -1358,7 +1359,7 @@
 			height: 622px;
 			display: flex;
 			flex-direction: row;
-			background: #f6f6f6;
+			background: var(--bg-muted);
 
 			.container {
 				position: relative;
@@ -1372,7 +1373,7 @@
 					margin: 60px 0 0 auto;
 					padding: 0;
 					background: none;
-					color: #333;
+					color: var(--text-1);
 					text-decoration: none;
 					font-size: 16px;
 					font-weight: 500;
@@ -1384,12 +1385,12 @@
 						content: '→';
 						font-size: 18px;
 						margin-left: 8px;
-						color: #cf6422;
+						color: var(--primary);
 						transition: transform 0.3s ease;
 					}
 
 					&:hover {
-						color: #cf6422;
+						color: var(--primary);
 
 						&::before {
 							transform: scaleX(1);
@@ -1431,7 +1432,7 @@
 						align-items: center;
 						justify-content: center;
 						border-radius: 50%;
-						background: #ffffff;
+						background: var(--surface);
 						filter: drop-shadow(0px 10px 35px rgba(5, 16, 54, 0.1));
 						cursor: pointer;
 
@@ -1469,7 +1470,7 @@
 							height: 320px;
 							display: flex;
 							flex-direction: column;
-							background: #ffffff;
+							background: var(--surface);
 							border-radius: 8px;
 							overflow: hidden;
 							box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
@@ -1492,7 +1493,7 @@
 								text-align: center;
 
 								strong {
-									color: #181a20;
+									color: var(--text-1);
 									font-family: $font;
 									font-size: 16px;
 									font-weight: 600;
@@ -1501,7 +1502,7 @@
 								}
 
 								span {
-									color: #181a20;
+									color: var(--text-1);
 									font-family: $font;
 									font-size: 14px;
 									font-weight: 400;
@@ -1517,7 +1518,7 @@
 		}
 
 		.promo-banners {
-			background: #ffffff;
+			background: var(--surface);
 			width: 100%;
 
 			.container {
@@ -1619,7 +1620,7 @@
 							}
 
 							.shop-button {
-								background-color: #cf6422 !important;
+								background-color: var(--primary) !important;
 								color: #fff !important;
 								padding: 12px 24px !important;
 								border-radius: 25px !important;
@@ -1634,7 +1635,7 @@
 								transition: all 0.3s ease !important;
 
 								&:hover {
-									background-color: #cf6e32 !important;
+									background-color: var(--primary) !important;
 									transform: translateX(4px);
 								}
 
@@ -1667,18 +1668,18 @@
 
 						// Gaming chair specific styling
 						&.gaming-card {
-							background: #f5f5f5;
+							background: var(--bg-muted);
 
 							.discount-badge {
-								color: #666;
+								color: var(--text-2);
 							}
 
 							.promo-title {
-								color: #333;
+								color: var(--text-1);
 							}
 
 							.promo-description {
-								color: #666;
+								color: var(--text-2);
 							}
 						}
 
@@ -1687,7 +1688,7 @@
 							background: #f4a92b;
 
 							.discount-badge {
-								color: #8b4513;
+								color: var(--primary-deep);
 							}
 
 							.promo-title {
@@ -1720,7 +1721,7 @@
 
 		// Community Board SCSS - Clean & Organized
 		.community-board {
-			background-color: #f8f7f4;
+			background-color: var(--bg-warm);
 			padding: 60px 0;
 
 			.container {
@@ -1743,7 +1744,7 @@
 					align-items: flex-start;
 
 					h1 {
-						color: #585858;
+						color: var(--text-2);
 						font-size: 14px;
 						font-weight: 400;
 						text-transform: uppercase;
@@ -1754,27 +1755,27 @@
 						&::before {
 							content: '—';
 							margin-right: 10px;
-							color: #cf6422;
+							color: var(--primary);
 						}
 					}
 
 					.main-title {
 						font-size: 38px;
 						font-weight: 700;
-						color: #333;
+						color: var(--text-1);
 						margin-bottom: 4px;
 					}
 
 					.green-title {
 						font-size: 38px;
 						font-weight: 700;
-						color: #cf6422;
+						color: var(--primary);
 						// color: #4a6741;
 					}
 				}
 
 				.view-button {
-					background-color: #cf6422;
+					background-color: var(--primary);
 					// background-color: #4a6741;
 					color: #fff;
 					padding: 10px 16px;
@@ -1785,7 +1786,7 @@
 					transition: background-color 0.2s;
 
 					&:hover {
-						background-color: #cf6e32;
+						background-color: var(--primary);
 					}
 				}
 			}
@@ -1800,8 +1801,8 @@
 
 					.tab-btn {
 						background: transparent;
-						border: 2px solid #e0e0e0;
-						color: #363636;
+						border: 2px solid var(--border-soft);
+						color: var(--text-1);
 						padding: 10px 20px;
 						border-radius: 25px;
 						font-size: 14px;
@@ -1815,8 +1816,8 @@
 						}
 
 						&.active {
-							background-color: #cf6422;
-							border-color: #575757;
+							background-color: var(--primary);
+							border-color: var(--border-dark);
 							color: white;
 						}
 					}
@@ -1864,7 +1865,7 @@
 					bottom: -1px; // pastdan joylashadi
 					left: 50%; // o‘rtaga yo‘naltirish
 					transform: translateX(-50%); // markazga to‘g‘ri joylashtirish
-					background-color: #cf6422;
+					background-color: var(--primary);
 					color: rgb(255, 255, 255);
 					padding: 15px 30px;
 					border-radius: 30px 30px 0 0;
@@ -1884,7 +1885,7 @@
 				strong {
 					font-size: 18px;
 					font-weight: 600;
-					color: #2c2c2c;
+					color: var(--text-1);
 					line-height: 1;
 					margin-bottom: 8px;
 					overflow: hidden;
@@ -1894,7 +1895,7 @@
 				}
 
 				span {
-					color: #888;
+					color: var(--text-3);
 					font-size: 13px;
 					line-height: 1.4;
 					flex: 1;
@@ -1906,7 +1907,7 @@
 				}
 
 				.read-more {
-					color: #cf6422;
+					color: var(--primary);
 					font-size: 13px;
 					font-weight: 500;
 					text-decoration: underline;
@@ -1954,7 +1955,7 @@
 				strong {
 					font-size: 15px;
 					font-weight: 600;
-					color: #2c2c2c;
+					color: var(--text-1);
 					line-height: 1.3;
 					overflow: hidden;
 					display: -webkit-box;
@@ -1964,7 +1965,7 @@
 				}
 
 				span {
-					color: #888;
+					color: var(--text-3);
 					font-size: 12px;
 					font-weight: 400;
 					line-height: 1.4;
@@ -1976,7 +1977,7 @@
 				}
 
 				.read-more {
-					color: #984a1a;
+					color: var(--primary-deep);
 					font-size: 12px;
 					font-weight: 500;
 					text-decoration: underline;

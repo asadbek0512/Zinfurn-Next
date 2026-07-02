@@ -157,7 +157,7 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 							}}
 						>
 							<img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} />
-							<p style={{ fontSize: '18px', color: '#555', marginTop: '8px', marginLeft: '45px' }}>
+							<p style={{ fontSize: '18px', color: 'var(--text-2)', marginTop: '8px', marginLeft: '45px' }}>
 								{t('No Articles found!')}
 							</p>
 						</div>

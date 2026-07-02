@@ -4,7 +4,7 @@
   #mob-property-detail-page {
     padding-top: 52px;
     padding-bottom: 60px;
-    background: #fff;
+    background: var(--surface);
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -13,7 +13,7 @@
     .mob-det-back {
       font-size: 13px;
       font-weight: 600;
-      color: #cf6422;
+      color: var(--primary);
       padding: 10px 14px 6px;
       cursor: pointer;
       width: fit-content;
@@ -24,7 +24,7 @@
       position: relative;
       width: 100%;
       height: 260px;
-      background: #f5f5f5;
+      background: var(--bg-muted);
       overflow: hidden;
 
       .mob-det-main-img {
@@ -70,8 +70,8 @@
           width: 36px;
           border: none;
           border-radius: 50%;
-          background: #fff;
-          color: #1f2937;
+          background: var(--surface);
+          color: var(--text-1);
           cursor: pointer;
           box-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
 
@@ -104,7 +104,7 @@
 
         img { width: 100%; height: 100%; object-fit: cover; }
 
-        &.active { border-color: #cf6422; }
+        &.active { border-color: var(--primary); }
       }
     }
 
@@ -114,7 +114,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid var(--border-soft);
 
       // Kategoriya + stock bir qatorda
       .mob-det-top-row {
@@ -127,8 +127,8 @@
           font-size: 11px;
           font-weight: 600;
           font-family: $font;
-          color: #cf6422;
-          background: #fff4ec;
+          color: var(--primary);
+          background: var(--primary-soft);
           padding: 3px 10px;
           border-radius: 20px;
           text-transform: capitalize;
@@ -142,7 +142,7 @@
           padding: 3px 10px;
           border-radius: 20px;
 
-          &.in  { background: #d1fae5; color: #065f46; }
+          &.in  { background: var(--success-soft); color: var(--success); }
           &.out { background: #fbc1bf; color: #9b0b0b; }
         }
       }
@@ -151,7 +151,7 @@
       .mob-det-title {
         font-size: 19px;
         font-weight: 700;
-        color: #181a20;
+        color: var(--text-1);
         line-height: 1.3;
         margin: 0;
         font-family: $font;
@@ -165,14 +165,14 @@
         gap: 6px;
 
         // Yulduzlar sariq bo'lsin
-        .MuiRating-root { color: #ffc107; }
-        .MuiRating-iconEmpty { color: #ffc107 !important; }
-        .MuiRating-iconFilled { color: #ffc107 !important; }
+        .MuiRating-root { color: var(--star); }
+        .MuiRating-iconEmpty { color: var(--star) !important; }
+        .MuiRating-iconFilled { color: var(--star) !important; }
 
         .mob-det-rating-val {
           font-size: 13px;
           font-weight: 700;
-          color: #181a20;
+          color: var(--text-1);
           font-family: $font;
         }
 
@@ -187,7 +187,7 @@
           gap: 4px;
           font-size: 13px;
           font-weight: 500;
-          color: #555;
+          color: var(--text-2);
           font-family: $font;
 
           span { font-size: 13px; }
@@ -195,7 +195,7 @@
 
         .mob-det-reviews-count {
           font-size: 12px;
-          color: #888;
+          color: var(--text-3);
           font-family: $font;
           text-decoration: underline;
           cursor: pointer;
@@ -203,7 +203,7 @@
 
         .mob-det-sold {
           font-size: 12px;
-          color: #cf6422;
+          color: var(--primary);
           font-weight: 600;
           font-family: $font;
         }
@@ -220,19 +220,19 @@
         .mob-det-cur-price {
           font-size: 22px;
           font-weight: 700;
-          color: #181a20;
+          color: var(--text-1);
           font-family: $font;
         }
 
         .mob-det-old-price {
           font-size: 15px;
-          color: #aaa;
+          color: var(--text-4);
           text-decoration: line-through;
           font-family: $font;
         }
 
         .mob-det-sale-badge {
-          background: #cf6422;
+          background: var(--primary);
           color: #fff;
           font-size: 11px;
           font-weight: 700;
@@ -246,7 +246,7 @@
       // Tavsif
       .mob-det-desc {
         font-size: 13px;
-        color: #666;
+        color: var(--text-2);
         line-height: 1.65;
         margin: 0;
         font-family: $font;
@@ -256,7 +256,7 @@
       .mob-det-divider {
         width: 100%;
         height: 1px;
-        background: #f0f0f0;
+        background: var(--bg-muted);
       }
 
       // Rang
@@ -269,7 +269,7 @@
         .mob-det-color-label {
           font-size: 13px;
           font-weight: 600;
-          color: #333;
+          color: var(--text-1);
           font-family: $font;
         }
 
@@ -277,14 +277,14 @@
           width: 20px;
           height: 20px;
           border-radius: 50%;
-          border: 1px solid #ddd;
+          border: 1px solid var(--border);
           display: inline-block;
           flex-shrink: 0;
         }
 
         .mob-det-color-name {
           font-size: 13px;
-          color: #555;
+          color: var(--text-2);
           font-family: $font;
           text-transform: capitalize;
         }
@@ -301,7 +301,7 @@
           display: flex;
           flex-direction: row;
           align-items: center;
-          border: 1.5px solid #ddd;
+          border: 1.5px solid var(--border);
           border-radius: 50px;
           height: 40px;
 
@@ -314,20 +314,20 @@
             width: 36px;
             text-align: center;
             border: none;
-            border-left: 1px solid #eee;
-            border-right: 1px solid #eee;
+            border-left: 1px solid var(--border-soft);
+            border-right: 1px solid var(--border-soft);
             outline: none;
             font-size: 14px;
             font-family: $font;
             background: transparent;
-            color: #181a20;
+            color: var(--text-1);
           }
         }
 
         .mob-det-cart-btn {
           flex: 1;
           height: 42px;
-          background-color: #cf6422 !important;
+          background-color: var(--primary) !important;
           color: #fff !important;
           border-radius: 30px !important;
           font-size: 13px !important;
@@ -355,14 +355,14 @@
         .mob-det-meta-label {
           font-size: 12px;
           font-weight: 600;
-          color: #888;
+          color: var(--text-3);
           min-width: 58px;
           font-family: $font;
         }
 
         .mob-det-meta-val {
           font-size: 13px;
-          color: #333;
+          color: var(--text-1);
           font-family: $font;
           text-transform: capitalize;
         }
@@ -374,7 +374,7 @@
       padding: 0 0 16px;
 
       .mob-det-tabs {
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid var(--border-soft);
         padding: 0 14px;
 
         .MuiTab-root {
@@ -384,15 +384,15 @@
           text-transform: none;
           min-width: 0;
           padding: 10px 16px;
-          color: #666;
+          color: var(--text-2);
         }
 
         .Mui-selected {
-          color: #cf6422 !important;
+          color: var(--primary) !important;
         }
 
         .MuiTabs-indicator {
-          background-color: #cf6422;
+          background-color: var(--primary);
         }
       }
 
@@ -402,14 +402,14 @@
         .mob-det-tab-title {
           font-size: 15px;
           font-weight: 700;
-          color: #181a20;
+          color: var(--text-1);
           margin: 0 0 8px;
           font-family: $font;
         }
 
         .mob-det-tab-text {
           font-size: 13px;
-          color: #555;
+          color: var(--text-2);
           line-height: 1.7;
           margin: 0 0 16px;
           font-family: $font;
@@ -418,14 +418,14 @@
         .mob-det-table {
           border-radius: 8px;
           overflow: hidden;
-          border: 1px solid #e0e0e0;
+          border: 1px solid var(--border-soft);
           margin-bottom: 4px;
 
           .mob-det-table-header {
             display: flex;
             justify-content: space-between;
             padding: 10px 14px;
-            background: #cf6422;
+            background: var(--primary);
 
             span {
               font-size: 13px;
@@ -440,23 +440,23 @@
             justify-content: space-between;
             align-items: center;
             padding: 9px 14px;
-            border-bottom: 1px solid #f0f0f0;
-            background: #fff;
+            border-bottom: 1px solid var(--border-soft);
+            background: var(--surface);
 
-            &.alt { background: #f8f9fa; }
+            &.alt { background: var(--surface-2); }
             &:last-child { border-bottom: none; }
 
             .mob-det-table-label {
               font-size: 12px;
               font-weight: 600;
-              color: #555;
+              color: var(--text-2);
               flex: 1;
               font-family: $font;
             }
 
             .mob-det-table-val {
               font-size: 12px;
-              color: #333;
+              color: var(--text-1);
               text-align: right;
               flex: 1;
               font-family: $font;
@@ -484,12 +484,12 @@
             .mob-rev-list-title {
               font-size: 16px;
               font-weight: 700;
-              color: #181a20;
+              color: var(--text-1);
               font-family: $font;
             }
 
             .mob-rev-count-badge {
-              background: #cf6422;
+              background: var(--primary);
               color: #fff;
               font-size: 11px;
               font-weight: 700;
@@ -511,7 +511,7 @@
 
             p {
               font-size: 13px;
-              color: #bbb;
+              color: var(--text-4);
               font-family: $font;
               margin: 0;
             }
@@ -519,7 +519,7 @@
 
           // Har bir review card
           .mob-rev-card {
-            background: #fafafa;
+            background: var(--surface-2);
             border-radius: 12px;
             padding: 12px 14px;
             margin-bottom: 10px;
@@ -537,7 +537,7 @@
                 border-radius: 50%;
                 object-fit: cover;
                 flex-shrink: 0;
-                border: 1.5px solid #eee;
+                border: 1.5px solid var(--border-soft);
               }
 
               .mob-rev-user {
@@ -549,13 +549,13 @@
                 .mob-rev-name {
                   font-size: 13px;
                   font-weight: 700;
-                  color: #181a20;
+                  color: var(--text-1);
                   font-family: $font;
                 }
 
                 .mob-rev-type {
                   font-size: 11px;
-                  color: #aaa;
+                  color: var(--text-4);
                   font-family: $font;
                   text-transform: capitalize;
                 }
@@ -570,13 +570,13 @@
 
                 .mob-rev-stars {
                   font-size: 13px;
-                  color: #d89801;
+                  color: var(--warning);
                   letter-spacing: 1px;
                 }
 
                 .mob-rev-date {
                   font-size: 10px;
-                  color: #bbb;
+                  color: var(--text-4);
                   font-family: $font;
                   white-space: nowrap;
                 }
@@ -585,7 +585,7 @@
 
             .mob-rev-body {
               font-size: 13px;
-              color: #444;
+              color: var(--text-2);
               line-height: 1.65;
               margin: 0;
               font-family: $font;
@@ -602,7 +602,7 @@
             .MuiPaginationItem-root {
               font-family: $font;
               &.Mui-selected {
-                background: #cf6422;
+                background: var(--primary);
                 color: #fff;
               }
             }
@@ -612,8 +612,8 @@
         // ── Yozish maydoni ──
         .mob-rev-write {
           padding: 14px 14px 14px;
-          border-top: 1px solid #f0f0f0;
-          background: #fff;
+          border-top: 1px solid var(--border-soft);
+          background: var(--surface);
 
           .mob-rev-write-heading {
             display: flex;
@@ -625,7 +625,7 @@
             span {
               font-size: 15px;
               font-weight: 700;
-              color: #181a20;
+              color: var(--text-1);
               font-family: $font;
             }
           }
@@ -635,7 +635,7 @@
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 4px;
-            background: #f8f8f8;
+            background: var(--surface-2);
             border-radius: 12px;
             padding: 10px;
             margin-bottom: 8px;
@@ -650,7 +650,7 @@
               transition: background 0.15s;
               line-height: 1;
 
-              &:active { background: #eee; }
+              &:active { background: var(--bg-muted); }
             }
           }
 
@@ -660,7 +660,7 @@
             flex-direction: row;
             align-items: flex-end;
             gap: 6px;
-            background: #f4f4f4;
+            background: var(--bg-muted);
             border-radius: 24px;
             padding: 6px 6px 6px 4px;
 
@@ -668,11 +668,11 @@
               width: 34px;
               height: 34px;
               flex-shrink: 0;
-              color: #aaa;
+              color: var(--text-4);
 
               svg { font-size: 20px; }
 
-              &.active { color: #cf6422; }
+              &.active { color: var(--primary); }
             }
 
             .mob-rev-textarea {
@@ -683,13 +683,13 @@
               resize: none;
               font-size: 13px;
               font-family: $font;
-              color: #181a20;
+              color: var(--text-1);
               line-height: 1.5;
               max-height: 100px;
               padding: 6px 4px;
               min-height: 34px;
 
-              &::placeholder { color: #bbb; font-size: 13px; }
+              &::placeholder { color: var(--text-4); font-size: 13px; }
               &:disabled { opacity: 0.5; cursor: not-allowed; }
             }
 
@@ -697,14 +697,14 @@
               width: 34px;
               height: 34px;
               flex-shrink: 0;
-              background: #cf6422 !important;
+              background: var(--primary) !important;
               color: #fff !important;
               border-radius: 50% !important;
               padding: 0 !important;
 
               &.Mui-disabled {
-                background: #e0e0e0 !important;
-                color: #bbb !important;
+                background: var(--bg-strong) !important;
+                color: var(--text-4) !important;
               }
             }
           }
@@ -716,7 +716,7 @@
     .mob-det-contact {
       margin: 0 14px 16px;
       padding: 16px;
-      background: #f8f9fa;
+      background: var(--surface-2);
       border-radius: 14px;
       display: flex;
       flex-direction: column;
@@ -725,7 +725,7 @@
       .mob-det-contact-title {
         font-size: 16px;
         font-weight: 700;
-        color: #181a20;
+        color: var(--text-1);
         margin: 0 0 4px;
         font-family: $font;
       }
@@ -753,15 +753,15 @@
           .mob-det-agent-name {
             font-size: 14px;
             font-weight: 600;
-            color: #181a20;
+            color: var(--text-1);
             font-family: $font;
             cursor: pointer;
-            &:hover { color: #cf6422; }
+            &:hover { color: var(--primary); }
           }
 
           .mob-det-agent-phone {
             font-size: 12px;
-            color: #666;
+            color: var(--text-2);
             font-family: $font;
           }
         }
@@ -770,32 +770,32 @@
       .mob-det-input {
         width: 100%;
         height: 44px;
-        border: 1px solid #ddd;
+        border: 1px solid var(--border);
         border-radius: 8px;
         padding: 0 12px;
         font-size: 13px;
         font-family: $font;
         outline: none;
-        background: #fff;
+        background: var(--surface);
       }
 
       .mob-det-textarea {
         width: 100%;
         height: 90px;
-        border: 1px solid #ddd;
+        border: 1px solid var(--border);
         border-radius: 8px;
         padding: 10px 12px;
         font-size: 13px;
         font-family: $font;
         outline: none;
         resize: none;
-        background: #fff;
+        background: var(--surface);
       }
 
       .mob-det-send-btn {
         width: 100%;
         height: 44px;
-        background: #cf6422;
+        background: var(--primary);
         color: #fff;
         border: none;
         border-radius: 30px;
@@ -804,14 +804,14 @@
         font-family: $font;
         cursor: pointer;
 
-        &:hover { background: #b8541a; }
+        &:hover { background: var(--primary-dark); }
       }
     }
 
     // O'xshash mahsulotlar
     .mob-det-similar {
       padding: 16px 14px 20px;
-      border-top: 1px solid #f0f0f0;
+      border-top: 1px solid var(--border-soft);
 
       .mob-det-similar-header {
         display: flex;
@@ -823,14 +823,14 @@
         .mob-det-similar-title {
           font-size: 17px;
           font-weight: 700;
-          color: #181a20;
+          color: var(--text-1);
           margin: 0;
           font-family: $font;
         }
 
         .mob-det-similar-sub {
           font-size: 12px;
-          color: #888;
+          color: var(--text-3);
           margin: 2px 0 0;
           font-family: $font;
         }
@@ -843,8 +843,8 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            border: 1px solid #ddd;
-            background: #fff;
+            border: 1px solid var(--border);
+            background: var(--surface);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -869,7 +869,7 @@
     height: 210px;
     border-radius: 10px;
     overflow: hidden;
-    background: #fff;
+    background: var(--surface);
     box-shadow: 0 1px 6px rgba(24, 26, 32, 0.08);
     cursor: pointer;
     display: flex;
@@ -886,14 +886,14 @@
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
-        background-color: #f5f5f5;
+        background-color: var(--bg-muted);
       }
 
       .mob-big-card-sale {
         position: absolute;
         top: 7px;
         right: 7px;
-        background: #cf6422;
+        background: var(--primary);
         color: #fff;
         font-size: 10px;
         font-weight: 700;
@@ -927,7 +927,7 @@
       .mob-big-card-title {
         font-size: 12px;
         font-weight: 600;
-        color: #181a20;
+        color: var(--text-1);
         font-family: $font;
         line-height: 1.3;
         display: -webkit-box;
@@ -952,13 +952,13 @@
         .mob-big-card-sale-price {
           font-size: 13px;
           font-weight: 700;
-          color: #cf6422;
+          color: var(--primary);
           font-family: $font;
         }
 
         .mob-big-card-orig-price {
           font-size: 11px;
-          color: #aaa;
+          color: var(--text-4);
           text-decoration: line-through;
           font-family: $font;
         }

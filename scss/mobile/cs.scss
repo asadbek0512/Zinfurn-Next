@@ -1,7 +1,7 @@
 @import '/scss/variables.scss';
 
 #mob-cs-page {
-  background: #f8f7f4;
+  background: var(--bg-warm);
   min-height: 100vh;
   padding-bottom: 80px;
   font-family: $font;
@@ -12,22 +12,22 @@
     flex-direction: column;
     align-items: center;
     padding: 24px 16px 20px;
-    background: #fff;
-    border-bottom: 1px solid #eee;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border-soft);
 
     .mob-cs-title {
       font-size: 20px;
       font-weight: 800;
-      color: #181a20;
+      color: var(--text-1);
       margin-bottom: 4px;
     }
 
     .mob-cs-breadcrumb {
       font-size: 12px;
-      color: #999;
+      color: var(--text-3);
 
       a {
-        color: #cf6422;
+        color: var(--primary);
         text-decoration: none;
       }
     }
@@ -36,8 +36,8 @@
   /* ── Tabs ── */
   .mob-cs-tabs {
     display: flex;
-    background: #fff;
-    border-bottom: 2px solid #eee;
+    background: var(--surface);
+    border-bottom: 2px solid var(--border-soft);
 
     .mob-cs-tab {
       flex: 1;
@@ -48,7 +48,7 @@
       padding: 12px 4px;
       border: none;
       background: transparent;
-      color: #bbb;
+      color: var(--text-4);
       font-size: 11px;
       font-weight: 600;
       font-family: $font;
@@ -62,8 +62,8 @@
       }
 
       &.active {
-        color: #cf6422;
-        border-bottom-color: #cf6422;
+        color: var(--primary);
+        border-bottom-color: var(--primary);
       }
     }
   }
@@ -82,7 +82,7 @@
 
   .mob-cs-empty {
     text-align: center;
-    color: #bbb;
+    color: var(--text-4);
     font-size: 13px;
     padding: 40px 0;
   }
@@ -94,30 +94,30 @@
     gap: 10px;
 
     .mob-cs-notice-card {
-      background: #fff;
+      background: var(--surface);
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid #eee;
+      border: 1px solid var(--border-soft);
 
       .mob-cs-notice-top {
         display: flex;
         align-items: center;
         gap: 8px;
         padding: 12px 14px;
-        background: #f8fafc;
-        border-bottom: 1px solid #eee;
+        background: var(--surface-2);
+        border-bottom: 1px solid var(--border-soft);
 
         .mob-cs-notice-title {
           flex: 1;
           font-size: 13px;
           font-weight: 600;
-          color: #181a20;
+          color: var(--text-1);
           line-height: 1.4;
         }
 
         .mob-cs-notice-date {
           font-size: 11px;
-          color: #aaa;
+          color: var(--text-4);
           white-space: nowrap;
           flex-shrink: 0;
         }
@@ -126,7 +126,7 @@
       .mob-cs-notice-body {
         padding: 12px 14px;
         font-size: 13px;
-        color: #555;
+        color: var(--text-2);
         line-height: 1.6;
         margin: 0;
       }
@@ -141,7 +141,7 @@
 
     .mob-cs-faq-item {
       border-radius: 12px !important;
-      border: 1px solid #eee !important;
+      border: 1px solid var(--border-soft) !important;
       box-shadow: none !important;
       overflow: hidden;
 
@@ -154,7 +154,7 @@
       }
 
       .mob-cs-faq-summary {
-        background: #fff;
+        background: var(--surface);
         min-height: 50px !important;
         padding: 0 14px;
 
@@ -167,27 +167,27 @@
         .mob-cs-faq-question {
           font-size: 13px;
           font-weight: 600;
-          color: #181a20;
+          color: var(--text-1);
           line-height: 1.4;
         }
 
         &:hover {
-          background: #f8fafc;
+          background: var(--surface-2);
         }
 
         &.Mui-expanded {
-          background: #f8fafc;
-          border-bottom: 1px solid #eee;
+          background: var(--surface-2);
+          border-bottom: 1px solid var(--border-soft);
         }
       }
 
       .mob-cs-faq-answer {
-        background: #fff;
+        background: var(--surface);
         padding: 12px 14px 14px !important;
 
         p {
           font-size: 13px;
-          color: #555;
+          color: var(--text-2);
           line-height: 1.6;
           margin: 0;
         }
@@ -202,23 +202,23 @@
     gap: 10px;
 
     .mob-cs-terms-card {
-      background: #fff;
+      background: var(--surface);
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid #eee;
+      border: 1px solid var(--border-soft);
 
       .mob-cs-terms-top {
         display: flex;
         align-items: center;
         gap: 8px;
         padding: 12px 14px;
-        background: #f8fafc;
-        border-bottom: 1px solid #eee;
+        background: var(--surface-2);
+        border-bottom: 1px solid var(--border-soft);
 
         .mob-cs-terms-title {
           font-size: 13px;
           font-weight: 600;
-          color: #181a20;
+          color: var(--text-1);
           line-height: 1.4;
         }
       }
@@ -226,7 +226,7 @@
       .mob-cs-terms-body {
         padding: 12px 14px;
         font-size: 13px;
-        color: #555;
+        color: var(--text-2);
         line-height: 1.6;
         margin: 0;
       }

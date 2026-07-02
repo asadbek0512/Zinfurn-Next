@@ -260,7 +260,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									PaperProps: {
 										sx: {
 											maxHeight: 300,
-											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: 'var(--text-1)' }
 										}
 									}
 								}}
@@ -290,7 +290,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									PaperProps: {
 										sx: {
 											maxHeight: 300,
-											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: 'var(--text-1)' }
 										}
 									}
 								}}
@@ -337,7 +337,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									PaperProps: {
 										sx: {
 											maxHeight: 300,
-											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: 'var(--text-1)' }
 										}
 									}
 								}}
@@ -401,7 +401,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									PaperProps: {
 										sx: {
 											maxHeight: 300,
-											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: 'var(--text-1)' }
 										}
 									}
 								}}
@@ -428,7 +428,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									PaperProps: {
 										sx: {
 											maxHeight: 300,
-											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+											'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: 'var(--text-1)' }
 										}
 									}
 								}}
@@ -457,7 +457,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 								PaperProps: {
 									sx: {
 										maxHeight: 300,
-										'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: '#181a20' }
+										'& .MuiMenuItem-root': { fontSize: '16px', padding: '12px 16px', color: 'var(--text-1)' }
 									}
 								}
 							}}

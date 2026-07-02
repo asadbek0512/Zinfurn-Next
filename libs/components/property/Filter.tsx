@@ -695,8 +695,8 @@ const Filter = (props: FilterType) => {
 									gap: '4px',
 									borderRadius: '12px',
 									border: searchFilter?.search?.colorList?.includes(color) ? '2px solid #181A20' : '1px solid #ffffff',
-									backgroundColor: '#fff',
-									color: '#000',
+									backgroundColor: 'var(--surface)',
+									color: 'var(--text-1)',
 									minWidth: 'auto',
 									fontSize: '13px',
 									padding: '4px 10px',
@@ -714,7 +714,7 @@ const Filter = (props: FilterType) => {
 										height: '20px',
 										borderRadius: '50%',
 										backgroundColor: color.toLowerCase(),
-										border: '1px solid #999',
+										border: '1px solid var(--border)',
 									}}
 								/>
 							</Button>
@@ -792,9 +792,9 @@ const Filter = (props: FilterType) => {
 					<Typography className={'title'}>{t('color')}</Typography>
 					<Stack className="button-group1" flexWrap="wrap" gap={1} onMouseEnter={() => setShowMore(true)} onMouseLeave={() => { if (!searchFilter?.search?.categoryList) setShowMore(false); }}>
 						{(['WHITE', 'BLACK', 'BROWN', 'GRAY', 'BEIGE', 'BLUE', 'GREEN'] as PropertyColor[]).map((color) => (
-							<Button key={color} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px', borderRadius: '12px', border: searchFilter?.search?.colorList?.includes(color) ? '2px solid #181A20' : '1px solid #ffffff', backgroundColor: '#fff', color: '#000', minWidth: 'auto', fontSize: '13px', padding: '4px 10px', textTransform: 'capitalize', '&:hover': { backgroundColor: '#facc15' } }} onClick={() => propertyColorHandler(color)}>
+							<Button key={color} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px', borderRadius: '12px', border: searchFilter?.search?.colorList?.includes(color) ? '2px solid #181A20' : '1px solid #ffffff', backgroundColor: 'var(--surface)', color: 'var(--text-1)', minWidth: 'auto', fontSize: '13px', padding: '4px 10px', textTransform: 'capitalize', '&:hover': { backgroundColor: '#facc15' } }} onClick={() => propertyColorHandler(color)}>
 								{t(color)}
-								<Stack sx={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: color.toLowerCase(), border: '1px solid #999' }} />
+								<Stack sx={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: color.toLowerCase(), border: '1px solid var(--border)' }} />
 							</Button>
 						))}
 					</Stack>

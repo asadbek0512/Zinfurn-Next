@@ -14,7 +14,7 @@
         .left {
           width: 40%;
           strong {
-            color: #181A20;
+            color: var(--text-1);
             font-family: $font;
             font-size: 30px;
             font-style: normal;
@@ -29,7 +29,7 @@
           display: flex;
           flex-direction: column;
           p {
-            color: #181A20;
+            color: var(--text-1);
             font-family: $font;
             font-size: 14px;
             font-style: normal;
@@ -53,7 +53,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background: #F6F6F6;
+                background: var(--bg-muted);
                 img {
                   width: 36px;
                   height: 36px;
@@ -61,7 +61,7 @@
               }
               span {
                 margin: 20px 0px 10px;
-                color:  #181A20;
+                color:  var(--text-1);
                 font-family: $font;
                 font-size: 20px;
                 font-style: normal;
@@ -69,7 +69,7 @@
                 line-height: normal;
               }
               p {
-                color:  #181A20;
+                color:  var(--text-1);
                 font-family: $font;
                 font-size: 14px;
                 font-style: normal;
@@ -106,7 +106,7 @@
             flex-direction: column;
             align-items: center;
             strong {
-              color: #181A20;
+              color: var(--text-1);
               font-family: $font;
               font-size: 42px;
               font-style: normal;
@@ -115,7 +115,7 @@
             }
             p {
               margin-top: 4px;
-              color:  #181A20;
+              color:  var(--text-1);
               font-family: $font;
               font-size: 14px;
               font-style: normal;
@@ -134,7 +134,7 @@
       .container {
         flex-direction: column;
         .title {
-          color: #181A20;
+          color: var(--text-1);
           text-align: center;
           font-family: $font;
           font-size: 30px;
@@ -145,7 +145,7 @@
           text-transform: capitalize;
         }
         .desc {
-          color: #181A20;
+          color: var(--text-1);
           text-align: center;
           font-family: $font;
           font-size: 14px;
@@ -170,7 +170,7 @@
       justify-content: center;
       align-items: center;
       border-radius: 24px;
-      background: #FEF4F3;
+      background: var(--danger-soft);
       .about-banner {
         position: absolute;
         right: 0%;
@@ -182,7 +182,7 @@
         flex-direction: column;
         strong {
           width: 445px;
-          color:  #181A20;
+          color:  var(--text-1);
           font-family: $font;
           font-size: 30px;
           font-style: normal;
@@ -203,14 +203,14 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background: #FDEAE8;
+            background: var(--danger-soft);
           }
           .text-box {
             margin-left: 24px;
             display: flex;
             flex-direction: column;
             span {
-              color:  #181A20;
+              color:  var(--text-1);
               font-family: $font;
               font-size: 15px;
               font-style: normal;
@@ -220,7 +220,7 @@
             p {
               width: 445px;
               margin-top: 5px;
-              color: #181A20;
+              color: var(--text-1);
               font-family: $font;
               font-size: 14px;
               font-style: normal;
@@ -239,7 +239,7 @@
           align-items: center;
           border-radius: 12px;
           box-sizing: border-box;
-          background: #181A20;
+          background: var(--dark-section);
           justify-content: center;
           color: #FFFFFF;
           font-family: $font;
@@ -265,7 +265,7 @@
       .container {
         flex-direction: column;
         span {
-          color:#181A20;
+          color:var(--text-1);
           text-align: center;
           font-family: $font;
           font-size: 15px;
@@ -291,12 +291,12 @@
         flex-direction: row;
         justify-content: space-between;
         border-radius: 12px;
-        background:  #F6F6F6;
+        background:  var(--bg-muted);
         .left {
           display: flex;
           flex-direction: column;
           strong {
-            color: #181A20;
+            color: var(--text-1);
             font-family: $font;
             font-size: 30px;
             font-style: normal;
@@ -307,7 +307,7 @@
           }
           p {
             margin-top: 10px;
-            color:  #181A20;
+            color:  var(--text-1);
             font-family: $font;
             font-size: 15px;
             font-style: normal;
@@ -337,8 +337,8 @@
               height: 16px;
             }
             &.white {
-              color: #181A20;
-              border: 1px solid  #181A20;
+              color: var(--text-1);
+              border: 1px solid  var(--border-dark);
               img {
                 margin-left: 10px;
               }
@@ -346,7 +346,7 @@
             &.black {
               margin-left: 30px;
               color: #FFFFFF;
-              background:  #181A20;
+              background:  var(--dark-section);
               img {
                 margin-right: 10px;
                 filter: brightness(0) invert(1);

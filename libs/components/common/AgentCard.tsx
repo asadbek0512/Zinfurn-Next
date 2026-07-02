@@ -161,7 +161,7 @@ const AgentCard = (props: AgentCardProps) => {
 							onClick={(e) => { e.stopPropagation(); likeMemberHandler(user, agent?._id); }}
 						>
 							{agent?.meLiked?.[0]?.myFavorite
-								? <FavoriteIcon sx={{ color: '#ff4757' }} />
+								? <FavoriteIcon sx={{ color: 'var(--danger)' }} />
 								: <FavoriteBorderIcon />}
 						</IconButton>
 					</div>
@@ -338,7 +338,7 @@ const AgentCard = (props: AgentCardProps) => {
 								}}
 							>
 								{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
-									<FavoriteIcon sx={{ fontSize: '16px', color: '#ff4757' }} />
+									<FavoriteIcon sx={{ fontSize: '16px', color: 'var(--danger)' }} />
 								) : (
 									<FavoriteBorderIcon sx={{ fontSize: '16px' }} />
 								)}

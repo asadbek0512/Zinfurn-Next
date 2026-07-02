@@ -1,6 +1,6 @@
 #pc-wrap {
 	#member-page {
-		background: #f6f6f6;
+		background: var(--bg-muted);
 		.container {
 			.member-page {
 				position: relative;
@@ -16,8 +16,8 @@
 					flex-direction: row;
 					margin: 100px 0 200px 0;
 					border-radius: 12px;
-					border: 1px solid #c4c4c4;
-					background: #ffffff;
+					border: 1px solid var(--border);
+					background: var(--surface);
 					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
 					.left-config {
 						position: relative;
@@ -25,7 +25,7 @@
 						width: 266px;
 						height: 700px;
 						border-radius: 12px;
-						background: #ffffff;
+						background: var(--surface);
 
 						// border: 1px solid rgba(196, 196, 196, 0.79);
 						// box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
@@ -33,7 +33,7 @@
 						.profile {
 							width: 1250px;
 							min-height: 200px;
-							background: #ffffff;
+							background: var(--surface);
 							border-radius: 20px;
 							padding: 20px;
 							// box-shadow: 0px 8px 32px rgba(24, 26, 32, 0.05);
@@ -65,7 +65,7 @@
 								margin-bottom: 20px;
 
 								.user-name {
-									color: #181a20;
+									color: var(--text-1);
 									font-family: $font;
 									font-size: 18px;
 									font-style: normal;
@@ -75,7 +75,7 @@
 								}
 
 								.user-handle {
-									color: #666;
+									color: var(--text-2);
 									font-size: 14px;
 									margin-bottom: 5px;
 								}
@@ -92,7 +92,7 @@
 									}
 
 									.p-number {
-										color: #666;
+										color: var(--text-2);
 										font-size: 14px;
 									}
 								}
@@ -117,8 +117,8 @@
 							margin-top: 155px;
 							margin-left: -220px;
 							button {
-								border: 1px solid #b9b9b9;
-								color: #181a20;
+								border: 1px solid var(--border);
+								color: var(--text-1);
 								font-family: $font;
 								font-size: 14px;
 								font-style: normal;
@@ -126,7 +126,7 @@
 								line-height: normal;
 							}
 							p {
-								color: #b9b9b9;
+								color: var(--text-4);
 								font-family: $font;
 								font-size: 14px;
 								font-style: italic;
@@ -140,8 +140,8 @@
 							padding: 10px 10px 10px 10px;
 							gap: 85px;
 							margin-top: 15px;
-							background: #f6f6f6;
-							// border: 1px solid #c4c4c4;
+							background: var(--bg-muted);
+							// border: 1px solid var(--border);
 							border-radius: 20px;
 							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.2);
 							.section {
@@ -151,7 +151,7 @@
 									font-family: $font;
 									font-size: 15px;
 									font-style: normal;
-									color: #d2691e;
+									color: var(--primary);
 									font-weight: 500;
 									line-height: 28px;
 								}
@@ -181,7 +181,7 @@
 
 									.focus {
 										height: 45px; // 60px dan kamaytirildi
-										background: #d2691e;
+										background: var(--primary);
 										border-radius: 10px;
 
 										p {
@@ -219,7 +219,7 @@
 
 								.sub-title {
 									margin-left: 0; // 12px dan o'zgartirildi
-									color: #181a20;
+									color: var(--text-1);
 									font-family: $font;
 									font-size: 14px; // 18px dan kichraytirildi
 									font-style: normal;

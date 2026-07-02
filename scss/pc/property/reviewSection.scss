@@ -17,7 +17,7 @@ $font: 'Poppins', sans-serif;
 		.rev-title {
 			font-size: 20px;
 			font-weight: 700;
-			color: #1a1a1a;
+			color: var(--text-1);
 			font-family: $font;
 			display: flex;
 			align-items: center;
@@ -38,8 +38,8 @@ $font: 'Poppins', sans-serif;
 	/* ── Summary block ── */
 	.rev-summary {
 		display: flex;
-		background: #fafafa;
-		border: 1px solid #efefef;
+		background: var(--surface-2);
+		border: 1px solid var(--border-soft);
 		border-radius: 16px;
 		overflow: hidden;
 		margin-bottom: 20px;
@@ -55,21 +55,21 @@ $font: 'Poppins', sans-serif;
 		align-items: center;
 		justify-content: center;
 		padding: 28px 44px;
-		background: linear-gradient(135deg, #fff8f2 0%, #fff3e8 100%);
-		border-right: 1px solid #f0ece6;
+		background: linear-gradient(135deg, var(--primary-soft) 0%, var(--primary-soft) 100%);
+		border-right: 1px solid var(--border-soft);
 		min-width: 170px;
 		gap: 6px;
 
 		@media (max-width: 600px) {
 			border-right: none;
-			border-bottom: 1px solid #f0ece6;
+			border-bottom: 1px solid var(--border-soft);
 			padding: 20px;
 		}
 
 		.rev-score-num {
 			font-size: 58px;
 			font-weight: 800;
-			color: #1a1a1a;
+			color: var(--text-1);
 			font-family: $font;
 			line-height: 1;
 		}
@@ -87,7 +87,7 @@ $font: 'Poppins', sans-serif;
 
 		.rev-score-count {
 			font-size: 12px;
-			color: #aaa;
+			color: var(--text-4);
 			font-family: $font;
 		}
 	}
@@ -109,17 +109,17 @@ $font: 'Poppins', sans-serif;
 			padding: 4px 6px;
 			transition: background 0.15s;
 
-			&:hover { background: #f5f5f5; }
+			&:hover { background: var(--bg-muted); }
 
 			&.active {
-				background: #fff4e8;
+				background: var(--primary-soft);
 
 				.rev-dist-fill { background: $orange; }
 			}
 
 			.rev-dist-star {
 				font-size: 12px;
-				color: #555;
+				color: var(--text-2);
 				min-width: 10px;
 				text-align: right;
 				font-family: $font;
@@ -129,7 +129,7 @@ $font: 'Poppins', sans-serif;
 			.rev-dist-bar {
 				flex: 1;
 				height: 8px;
-				background: #e8e8e8;
+				background: var(--bg-muted);
 				border-radius: 4px;
 				overflow: hidden;
 
@@ -143,7 +143,7 @@ $font: 'Poppins', sans-serif;
 
 			.rev-dist-count {
 				font-size: 12px;
-				color: #999;
+				color: var(--text-3);
 				min-width: 28px;
 				text-align: right;
 				font-family: $font;
@@ -161,7 +161,7 @@ $font: 'Poppins', sans-serif;
 			gap: 6px;
 			font-size: 13px;
 			font-weight: 600;
-			color: #666;
+			color: var(--text-2);
 			font-family: $font;
 			margin-bottom: 10px;
 		}
@@ -242,11 +242,11 @@ $font: 'Poppins', sans-serif;
 			.rev-sort-btn {
 				padding: 6px 18px;
 				border-radius: 20px;
-				border: 1px solid #e0e0e0;
-				background: #fff;
+				border: 1px solid var(--border-soft);
+				background: var(--surface);
 				font-family: $font;
 				font-size: 13px;
-				color: #666;
+				color: var(--text-2);
 				cursor: pointer;
 				font-weight: 500;
 				transition: all 0.2s;
@@ -273,20 +273,20 @@ $font: 'Poppins', sans-serif;
 				gap: 4px;
 				padding: 6px 14px;
 				border-radius: 20px;
-				border: 1px solid #e0e0e0;
-				background: #fff;
+				border: 1px solid var(--border-soft);
+				background: var(--surface);
 				font-family: $font;
 				font-size: 12px;
-				color: #666;
+				color: var(--text-2);
 				cursor: pointer;
 				transition: all 0.2s;
 
 				&:hover:not(.active) { border-color: $orange; color: $orange; }
 
 				&.active {
-					background: #e8f5e9;
-					border-color: #4caf50;
-					color: #2e7d32;
+					background: var(--success-soft);
+					border-color: var(--success);
+					color: var(--success);
 					font-weight: 600;
 				}
 			}
@@ -306,7 +306,7 @@ $font: 'Poppins', sans-serif;
 		align-items: center;
 		gap: 8px;
 		padding: 32px;
-		color: #aaa;
+		color: var(--text-4);
 		font-size: 14px;
 		font-family: $font;
 		text-align: center;
@@ -314,15 +314,15 @@ $font: 'Poppins', sans-serif;
 
 	/* ── Review card ── */
 	.rev-card {
-		background: #fff;
-		border: 1px solid #f0f0f0;
+		background: var(--surface);
+		border: 1px solid var(--border-soft);
 		border-radius: 14px;
 		padding: 18px 22px;
 		transition: box-shadow 0.2s, border-color 0.2s;
 
 		&:hover {
 			box-shadow: 0 4px 22px rgba(0, 0, 0, 0.07);
-			border-color: #e8e8e8;
+			border-color: var(--border-soft);
 		}
 
 		.rev-card-top {
@@ -348,7 +348,7 @@ $font: 'Poppins', sans-serif;
 				height: 42px;
 				border-radius: 50%;
 				object-fit: cover;
-				border: 2px solid #f0f0f0;
+				border: 2px solid var(--border-soft);
 				flex-shrink: 0;
 			}
 
@@ -356,7 +356,7 @@ $font: 'Poppins', sans-serif;
 				.rev-user-name {
 					font-size: 14px;
 					font-weight: 600;
-					color: #1a1a1a;
+					color: var(--text-1);
 					font-family: $font;
 					display: block;
 					margin-bottom: 3px;
@@ -367,7 +367,7 @@ $font: 'Poppins', sans-serif;
 					align-items: center;
 					gap: 3px;
 					font-size: 11px;
-					color: #22c55e;
+					color: var(--success);
 					font-family: $font;
 					font-weight: 500;
 				}
@@ -399,14 +399,14 @@ $font: 'Poppins', sans-serif;
 
 			.rev-date {
 				font-size: 11px;
-				color: #c0c0c0;
+				color: var(--text-4);
 				font-family: $font;
 			}
 		}
 
 		.rev-text {
 			font-size: 14px;
-			color: #444;
+			color: var(--text-2);
 			font-family: $font;
 			line-height: 1.7;
 			margin: 0 0 12px 0;
@@ -424,7 +424,7 @@ $font: 'Poppins', sans-serif;
 				height: 80px;
 				border-radius: 10px;
 				object-fit: cover;
-				border: 1px solid #eee;
+				border: 1px solid var(--border-soft);
 				cursor: pointer;
 				transition: transform 0.2s, box-shadow 0.2s;
 
@@ -440,7 +440,7 @@ $font: 'Poppins', sans-serif;
 			align-items: center;
 			gap: 10px;
 			padding-top: 10px;
-			border-top: 1px solid #f5f5f5;
+			border-top: 1px solid var(--border-soft);
 
 			.rev-helpful-btn {
 				display: flex;
@@ -448,18 +448,18 @@ $font: 'Poppins', sans-serif;
 				gap: 5px;
 				padding: 5px 14px;
 				border-radius: 16px;
-				border: 1px solid #e8e8e8;
-				background: #fff;
+				border: 1px solid var(--border-soft);
+				background: var(--surface);
 				font-family: $font;
 				font-size: 12px;
-				color: #888;
+				color: var(--text-3);
 				cursor: pointer;
 				transition: all 0.2s;
 
 				&:hover { border-color: $orange; color: $orange; }
 
 				&.liked {
-					background: #fff4e8;
+					background: var(--primary-soft);
 					border-color: $orange;
 					color: $orange;
 					font-weight: 600;
@@ -472,11 +472,11 @@ $font: 'Poppins', sans-serif;
 				gap: 5px;
 				padding: 5px 14px;
 				border-radius: 16px;
-				border: 1px solid #e8e8e8;
-				background: #fff;
+				border: 1px solid var(--border-soft);
+				background: var(--surface);
 				font-family: $font;
 				font-size: 12px;
-				color: #888;
+				color: var(--text-3);
 				cursor: pointer;
 				transition: all 0.2s;
 
@@ -486,18 +486,18 @@ $font: 'Poppins', sans-serif;
 				}
 
 				&.like:hover { border-color: $orange; color: $orange; }
-				&.dislike:hover { border-color: #ef4444; color: #ef4444; }
+				&.dislike:hover { border-color: var(--danger); color: var(--danger); }
 
 				&.like.active {
-					background: #fff4e8;
+					background: var(--primary-soft);
 					border-color: $orange;
 					color: $orange;
 					font-weight: 600;
 				}
 				&.dislike.active {
-					background: #fdecec;
-					border-color: #ef4444;
-					color: #ef4444;
+					background: var(--danger-soft);
+					border-color: var(--danger);
+					color: var(--danger);
 					font-weight: 600;
 				}
 			}
@@ -512,12 +512,12 @@ $font: 'Poppins', sans-serif;
 		margin-top: 20px;
 
 		.rev-hide-btn {
-			color: #888;
+			color: var(--text-3);
 
 			&:hover {
 				border-color: #bbb;
-				color: #444;
-				background: #f7f7f7;
+				color: var(--text-2);
+				background: var(--surface-2);
 			}
 		}
 
@@ -527,11 +527,11 @@ $font: 'Poppins', sans-serif;
 			gap: 6px;
 			padding: 11px 30px;
 			border-radius: 24px;
-			border: 1.5px solid #e0e0e0;
-			background: #fff;
+			border: 1.5px solid var(--border-soft);
+			background: var(--surface);
 			font-family: $font;
 			font-size: 14px;
-			color: #555;
+			color: var(--text-2);
 			cursor: pointer;
 			font-weight: 500;
 			transition: all 0.2s;
@@ -539,7 +539,7 @@ $font: 'Poppins', sans-serif;
 			&:hover {
 				border-color: $orange;
 				color: $orange;
-				background: #fff9f5;
+				background: var(--primary-soft);
 			}
 		}
 	}
@@ -562,13 +562,13 @@ $font: 'Poppins', sans-serif;
 		.rev-empty-title {
 			font-size: 16px;
 			font-weight: 600;
-			color: #555;
+			color: var(--text-2);
 			font-family: $font;
 		}
 
 		.rev-empty-sub {
 			font-size: 13px;
-			color: #bbb;
+			color: var(--text-4);
 			font-family: $font;
 		}
 	}

@@ -295,7 +295,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				<div className="mob-rpd-reviews">
 					<div className="mob-rpd-rev-write">
 						<div className="mob-rpd-rev-heading">
-							<RateReviewIcon sx={{ color: '#d89801', fontSize: 18 }} />
+							<RateReviewIcon sx={{ color: 'var(--warning)', fontSize: 18 }} />
 							<span>{t('write_a_review')}</span>
 						</div>
 						{showEmoji && (
@@ -332,7 +332,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 						{commentTotal === 0 ? (
 							<div className="mob-rpd-rev-empty">
-								<RateReviewIcon sx={{ fontSize: 32, color: '#ddd' }} />
+								<RateReviewIcon sx={{ fontSize: 32, color: 'var(--bg-strong)' }} />
 								<p>{t('no_reviews_yet')}</p>
 							</div>
 						) : (
@@ -462,7 +462,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				<Stack className="reviews-config">
 					<Stack className="leave-review-config">
 						<Stack direction="row" alignItems="center" spacing={1}>
-							<RateReviewIcon sx={{ color: '#d89801' }} />
+							<RateReviewIcon sx={{ color: 'var(--warning)' }} />
 							<Typography className="main-title">{t('Write a Review')}</Typography>
 						</Stack>
 
@@ -516,8 +516,8 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Stack className="single-review" key={comment._id} spacing={1}>
 											<Review comment={comment} />
 											<Typography className="review-stars" sx={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-												<span style={{ fontSize: '16px', color: '#d89801' }}>{stars}</span>
-												<span style={{ fontSize: '13px', color: '#181a20' }}>{score}</span>
+												<span style={{ fontSize: '16px', color: 'var(--warning)' }}>{stars}</span>
+												<span style={{ fontSize: '13px', color: 'var(--text-1)' }}>{score}</span>
 											</Typography>
 											<Typography className="created-at" fontSize={12} color="text.secondary">
 												{dayjs(comment.createdAt).fromNow()}

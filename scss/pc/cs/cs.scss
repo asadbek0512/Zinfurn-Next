@@ -15,7 +15,7 @@
           flex-direction: column;
           align-items: center;
           span {
-            color: #000;
+            color: var(--text-1);
             font-family: $font;
             font-size: 35px;
             font-style: normal;
@@ -24,7 +24,7 @@
             letter-spacing: 0.525px;
           }
           p {
-            color: #757575;
+            color: var(--text-2);
             font-family: $font;
             font-size: 16px;
             font-style: normal;
@@ -49,9 +49,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid #EEE;
+            border: 1px solid var(--border-soft);
             cursor: pointer;
-            color: #BDBDBD;
+            color: var(--text-4);
             font-family: $font;
             font-size: 14px;
             font-style: normal;
@@ -72,7 +72,7 @@
         flex-direction: column;
         .title {
           margin-bottom: 5px;
-          color: #000;
+          color: var(--text-1);
           font-family: $font;
           font-size: 27px;
           font-style: normal;
@@ -88,14 +88,14 @@
         }
         .notice-content {
           .main {
-            border: 1px solid #EEE;
+            border: 1px solid var(--border-soft);
             .top {
               padding: 25px 33px;
               display: flex;
               flex-direction: row;
               justify-content: space-between;
               span {
-                color: #000;
+                color: var(--text-1);
                 font-family: $font;
                 font-size: 14px;
                 font-style: normal;
@@ -112,7 +112,7 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
-                border: 1px solid #EEE;
+                border: 1px solid var(--border-soft);
                 &.event {
                   background: #F6D79A;
                 }
@@ -129,7 +129,7 @@
                 .notice-number {
                   margin-left: 18px;
                   width: 39px;
-                  color: #BDBDBD;
+                  color: var(--text-4);
                   font-family: $font;
                   font-size: 14px;
                   font-style: normal;
@@ -138,7 +138,7 @@
                 }
                 .notice-title {
                   width: 1060px;
-                  color: #000;
+                  color: var(--text-1);
                   font-family: $font;
                   font-size: 16px;
                   font-style: normal;
@@ -146,7 +146,7 @@
                   line-height: normal;
                 }
                 .notice-date {
-                  color: #BDBDBD;
+                  color: var(--text-4);
                   font-family: $font;
                   font-size: 14px;
                   font-style: normal;
@@ -173,7 +173,7 @@
               display: flex;
               justify-content: center;
               align-items: center;
-              color: #BDBDBD;
+              color: var(--text-4);
               text-align: center;
               font-family: $font;
               font-size: 15px;
@@ -192,7 +192,7 @@
             margin-top: 50px;
             .MuiAccordionDetails-root {
               padding: 30px 20px;
-              background: #FAFAFA;
+              background: var(--surface-2);
             }
             .badge {
               margin: 0 24px;
@@ -215,7 +215,7 @@
               align-items: center;
               flex-direction: row;
               .badge {
-                color: #EB6753;
+                color: var(--danger);
                 border: 1px solid  #ff6b35;
               }
             }

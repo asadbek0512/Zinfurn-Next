@@ -1,5 +1,6 @@
 /** IMPORTS **/
 @import 'variables.scss';
+@import 'theme.scss';
 @import 'reset.scss';
 @import 'promo.scss';
 @import 'skeleton.scss';
@@ -19,7 +20,7 @@
 a {
 	white-space: nowrap;
 	text-decoration: none;
-	color: #212121;
+	color: var(--text-1);
 }
 button {
 	text-transform: none;
@@ -27,7 +28,7 @@ button {
 	padding: 0;
 }
 button.outline {
-	border: 1px solid #eee;
+	border: 1px solid var(--border-soft);
 }
 button.contain {
 	color: #fff;
@@ -43,11 +44,11 @@ body {
 	}
 	&::-webkit-scrollbar-thumb {
 		height: 30%;
-		background: #bdbdbd;
+		background: var(--scrollbar-thumb);
 		border-radius: 10px;
 	}
 	&::-webkit-scrollbar-track {
-		background: #eee;
+		background: var(--scrollbar-track);
 	}
 
 	.MuiPopover-paper {
@@ -57,7 +58,7 @@ body {
 hr {
 	border-width: 0;
 	border-bottom-width: thin;
-	border-color: #eee;
+	border-color: var(--border-soft);
 	margin: auto;
 }
 
@@ -90,24 +91,24 @@ hr {
 	label {
 		font-size: 13px;
 		font-weight: 600;
-		color: #444;
+		color: var(--text-2);
 	}
 
 	input,
 	textarea {
 		width: 100%;
 		padding: 10px 14px;
-		border: 1px solid #ddd;
+		border: 1px solid var(--border);
 		border-radius: 10px;
 		font-size: 14px;
 		font-family: inherit;
-		color: #222;
+		color: var(--text-1);
 		outline: none;
 		resize: vertical;
 		transition: border-color 0.15s;
 
-		&::placeholder { color: #aaa; }
-		&:focus { border-color: #cf6422; }
+		&::placeholder { color: var(--text-4); }
+		&:focus { border-color: var(--primary); }
 	}
 
 	textarea { min-height: 80px; line-height: 1.5; }

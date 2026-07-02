@@ -362,7 +362,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 					{/* Input */}
 					<div className="mob-com-det-cmt-write">
 						<div className="mob-com-det-cmt-heading">
-							<ChatBubbleOutlineRoundedIcon sx={{ color: '#cf6422', fontSize: 18 }} />
+							<ChatBubbleOutlineRoundedIcon sx={{ color: 'var(--primary)', fontSize: 18 }} />
 							<span>{t('Leave a comment')}</span>
 						</div>
 						{showEmoji && (
@@ -591,7 +591,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 
 								<Stack
 									className="second-box-config"
-									sx={{ borderBottom: total > 0 ? 'none' : '1px solid #eee', border: '1px solid #eee' }}
+									sx={{ borderBottom: total > 0 ? 'none' : '1px solid #eee', border: '1px solid var(--border-soft)' }}
 								>
 									<Typography className="title-text">
 										{t('Comments')} ({total})
@@ -646,7 +646,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 																	updateButtonHandler(commentData?._id, CommentStatus.DELETE);
 																}}
 															>
-																<DeleteForeverIcon sx={{ color: '#757575', cursor: 'pointer' }} />
+																<DeleteForeverIcon sx={{ color: 'var(--text-2)', cursor: 'pointer' }} />
 															</IconButton>
 															<IconButton
 																onClick={(e) => {
@@ -656,7 +656,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 																	setOpenBackdrop(true);
 																}}
 															>
-																<EditIcon sx={{ color: '#757575' }} />
+																<EditIcon sx={{ color: 'var(--text-2)' }} />
 															</IconButton>
 															<Backdrop
 																sx={{
@@ -676,7 +676,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 																		width: '100%',
 																		height: '100%',
 																		background: 'white',
-																		border: '1px solid #b9b9b9',
+																		border: '1px solid var(--border)',
 																		padding: '15px',
 																		gap: '10px',
 																		borderRadius: '10px',
@@ -693,7 +693,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 																			onChange={(e) => updateCommentInputHandler(e.target.value)}
 																			type="text"
 																			style={{
-																				border: '1px solid #b9b9b9',
+																				border: '1px solid var(--border)',
 																				outline: 'none',
 																				height: '40px',
 																				padding: '0px 10px',

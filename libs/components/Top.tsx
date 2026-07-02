@@ -30,11 +30,15 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { getCartCount } from '../utils/cartUtils';
 import { useCurrency, Currency } from '../context/CurrencyContext';
+import { useThemeMode } from '../context/ThemeContext';
 
 const Top = () => {
 	const device = useDeviceDetect();
+	const { mode, toggleMode } = useThemeMode();
 	const user = useReactiveVar(userVar);
 	const socket = useReactiveVar(socketVar);
 	const cartItems = useReactiveVar(cartVar);
@@ -237,7 +241,7 @@ const Top = () => {
 						{/* Right icons */}
 						<div className={'mobile-user-box'}>
 								<IconButton size="small" onClick={() => cartDrawerVar(true)} className="cart-nav-btn">
-								<Badge badgeContent={cartCount} max={99} sx={{ '& .MuiBadge-badge': { backgroundColor: '#cf6422', color: '#fff' } }}>
+								<Badge badgeContent={cartCount} max={99} sx={{ '& .MuiBadge-badge': { backgroundColor: 'var(--primary)', color: '#fff' } }}>
 									<ShoppingCartOutlinedIcon className={'notification-icon'} />
 								</Badge>
 							</IconButton>
@@ -248,6 +252,14 @@ const Top = () => {
 									</Badge>
 								</IconButton>
 							)}
+
+							<IconButton size="small" onClick={toggleMode} className="theme-toggle-btn" aria-label="toggle theme">
+								{mode === 'dark' ? (
+									<LightModeOutlinedIcon className={'notification-icon'} />
+								) : (
+									<DarkModeOutlinedIcon className={'notification-icon'} />
+								)}
+							</IconButton>
 
 							<Button
 								disableRipple
@@ -260,7 +272,7 @@ const Top = () => {
 							<StyledMenu anchorEl={currencyAnchor} open={currencyOpen} onClose={handleCurrencyClose}>
 								{(['USD', 'KRW', 'UZS'] as Currency[]).map((c) => (
 									<MenuItem key={c} disableRipple selected={currency === c} onClick={() => handleCurrencySelect(c)}
-										sx={{ fontWeight: currency === c ? 700 : 400, color: currency === c ? '#cf6422' : 'inherit' }}>
+										sx={{ fontWeight: currency === c ? 700 : 400, color: currency === c ? 'var(--primary)' : 'inherit' }}>
 										<span style={{ marginRight: 8 }}>{CURRENCY_LABELS[c]}</span>{c}
 									</MenuItem>
 								))}
@@ -510,7 +522,7 @@ const Top = () => {
 										sx={{ mt: '5px' }}
 									>
 										<MenuItem onClick={() => logOut()}>
-											<Logout fontSize="small" style={{ color: '#555', marginRight: '10px' }} />
+											<Logout fontSize="small" style={{ color: 'var(--text-2)', marginRight: '10px' }} />
 											{t('Logout')}
 										</MenuItem>
 									</Menu>
@@ -526,7 +538,7 @@ const Top = () => {
 
 							<div className={'lan-box'}>
 								<IconButton onClick={() => cartDrawerVar(true)} size="small" className="cart-nav-btn">
-									<Badge badgeContent={cartCount} max={99} sx={{ '& .MuiBadge-badge': { backgroundColor: '#cf6422', color: '#fff', fontSize: '10px', minWidth: '16px', height: '16px' } }}>
+									<Badge badgeContent={cartCount} max={99} sx={{ '& .MuiBadge-badge': { backgroundColor: 'var(--primary)', color: '#fff', fontSize: '10px', minWidth: '16px', height: '16px' } }}>
 										<ShoppingCartOutlinedIcon className={'notification-icon'} sx={{ fontSize: 18 }} />
 									</Badge>
 								</IconButton>
@@ -547,6 +559,14 @@ const Top = () => {
 									</>
 								)}
 
+								<IconButton size="small" onClick={toggleMode} className="theme-toggle-btn" aria-label="toggle theme">
+									{mode === 'dark' ? (
+										<LightModeOutlinedIcon className={'notification-icon'} sx={{ fontSize: 18 }} />
+									) : (
+										<DarkModeOutlinedIcon className={'notification-icon'} sx={{ fontSize: 18 }} />
+									)}
+								</IconButton>
+
 								<Button
 									disableRipple
 									className="btn-lang btn-currency"
@@ -558,7 +578,7 @@ const Top = () => {
 								<StyledMenu anchorEl={currencyAnchor} open={currencyOpen} onClose={handleCurrencyClose}>
 									{(['USD', 'KRW', 'UZS'] as Currency[]).map((c) => (
 										<MenuItem key={c} disableRipple selected={currency === c} onClick={() => handleCurrencySelect(c)}
-											sx={{ fontWeight: currency === c ? 700 : 400, color: currency === c ? '#cf6422' : 'inherit' }}>
+											sx={{ fontWeight: currency === c ? 700 : 400, color: currency === c ? 'var(--primary)' : 'inherit' }}>
 											<span style={{ marginRight: 8 }}>{CURRENCY_LABELS[c]}</span>{c}
 										</MenuItem>
 									))}
@@ -568,7 +588,7 @@ const Top = () => {
 									disableRipple
 									className="btn-lang"
 									onClick={langClick}
-									endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
+									endIcon={<CaretDown size={14} color="var(--text-2)" weight="fill" />}
 								>
 									<Box component={'div'} className={'flag'}>
 										<img src={lang ? `/img/flag/lang${lang}.png` : '/img/flag/langen.png'} alt="flag" />

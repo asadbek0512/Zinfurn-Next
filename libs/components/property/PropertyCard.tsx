@@ -81,7 +81,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 					{/* Rating + sold */}
 					<div className="mob-card-rating">
 						<Rating readOnly size="small" value={property?.propertyRating || 0} precision={0.1}
-							sx={{ fontSize: 12, color: '#ffc107', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
+							sx={{ fontSize: 12, color: 'var(--star)', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
 						{property?.propertyRating ? (
 							<span className="mob-card-rating-val">{property.propertyRating.toFixed(1)}</span>
 						) : null}
@@ -120,15 +120,15 @@ const PropertyCard = (props: PropertyCardProps) => {
 								onClick={(e) => { e.preventDefault(); likePropertyHandler?.(user, property?._id); }}
 							>
 								{myFavorites || property?.meLiked?.[0]?.myFavorite
-									? <FavoriteIcon style={{ fontSize: 13, color: '#cf6422' }} />
-									: <FavoriteBorderIcon style={{ fontSize: 13, color: '#bbb' }} />}
+									? <FavoriteIcon style={{ fontSize: 13, color: 'var(--primary)' }} />
+									: <FavoriteBorderIcon style={{ fontSize: 13, color: 'var(--text-4)' }} />}
 								{formatCount(property?.propertyLikes)}
 							</div>
 							<div
 								className={`mob-action mob-action-cart ${addedFlash ? 'added' : ''}`}
 								onClick={handleAddToCart}
 							>
-								<AddShoppingCartIcon sx={{ fontSize: 13, color: '#cf6422' }} />
+								<AddShoppingCartIcon sx={{ fontSize: 13, color: 'var(--primary)' }} />
 							</div>
 						</div>
 					)}
@@ -164,7 +164,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 				{/* Rating + sold count */}
 				<div className="pc-card-rating">
 					<Rating readOnly size="small" value={property?.propertyRating || 0} precision={0.1}
-						sx={{ fontSize: 13, color: '#ffc107', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
+						sx={{ fontSize: 13, color: 'var(--star)', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
 					{property?.propertyRating ? (
 						<span className="pc-card-rating-val">{property.propertyRating.toFixed(1)}</span>
 					) : null}
@@ -238,9 +238,9 @@ const PropertyCard = (props: PropertyCardProps) => {
 						<Box component="div" className="action-item">
 							<IconButton size="small" onClick={() => likePropertyHandler?.(user, property?._id)}>
 								{myFavorites || property?.meLiked?.[0]?.myFavorite ? (
-									<FavoriteIcon style={{ color: '#cf6422' }} />
+									<FavoriteIcon style={{ color: 'var(--primary)' }} />
 								) : (
-									<FavoriteBorderIcon style={{ color: '#bbb' }} />
+									<FavoriteBorderIcon style={{ color: 'var(--text-4)' }} />
 								)}
 							</IconButton>
 							<Typography>{formatCount(property?.propertyLikes)}</Typography>

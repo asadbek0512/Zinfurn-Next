@@ -103,12 +103,12 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 
 	if (device === 'mobile') {
 		return (
-			<div style={{ padding: '16px 0', background: '#ffffff' }}>
+			<div style={{ padding: '16px 0', background: 'var(--surface)' }}>
 				{/* Header */}
 				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px 20px' }}>
 					<div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
 						<span style={{ fontSize: '18px' }}>⚡</span>
-						<span style={{ fontSize: '18px', fontWeight: 700, color: '#181a20' }}>{t('Flash Sale!')}</span>
+						<span style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-1)' }}>{t('Flash Sale!')}</span>
 					</div>
 					<span
 						style={{ fontSize: '12px', color: '#ff6b35', cursor: 'pointer' }}

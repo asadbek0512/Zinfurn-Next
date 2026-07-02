@@ -141,7 +141,7 @@ const TuiEditor = () => {
 			<div className="mob-teditor">
 				<div className="mob-teditor-field">
 					<label className="mob-teditor-label">Category</label>
-					<FormControl fullWidth size="small" sx={{ background: '#fff', borderRadius: '10px' }}>
+					<FormControl fullWidth size="small" sx={{ background: 'var(--surface)', borderRadius: '10px' }}>
 						<Select
 							value={articleCategory}
 							onChange={changeCategoryHandler}
@@ -164,7 +164,7 @@ const TuiEditor = () => {
 						fullWidth
 						size="small"
 						sx={{
-							background: '#fff',
+							background: 'var(--surface)',
 							borderRadius: '10px',
 							'& .MuiOutlinedInput-root': { borderRadius: '10px', fontSize: 14 },
 						}}
@@ -230,7 +230,7 @@ const TuiEditor = () => {
 		<Stack>
 			<Stack direction="row" style={{ margin: '40px' }} justifyContent="space-evenly">
 				<Box component={'div'} className={'form_row'} style={{ width: '300px' }}>
-					<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
+					<Typography style={{ color: 'var(--text-3)', margin: '10px' }} variant="h3">
 						Category
 					</Typography>
 					<FormControl sx={{ width: '100%', background: 'white' }}>
@@ -250,7 +250,7 @@ const TuiEditor = () => {
 					</FormControl>
 				</Box>
 				<Box component={'div'} style={{ width: '300px', flexDirection: 'column' }}>
-					<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
+					<Typography style={{ color: 'var(--text-3)', margin: '10px' }} variant="h3">
 						Title
 					</Typography>
 					<TextField

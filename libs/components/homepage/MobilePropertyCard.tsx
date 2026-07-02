@@ -34,10 +34,10 @@ const MobilePropertyCard = ({ property, likePropertyHandler }: MobilePropertyCar
 
 	return (
 		<div
-			style={{ background: '#fff', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
+			style={{ background: 'var(--surface)', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
 			onClick={() => router.push({ pathname: '/property/detail', query: { id: property._id } })}
 		>
-			<div style={{ position: 'relative', height: '170px', background: '#fff' }}>
+			<div style={{ position: 'relative', height: '170px', background: 'var(--surface)' }}>
 				<img loading="lazy" decoding="async" src={imgUrl} alt={title} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }} />
 				<div style={{ position: 'absolute', top: '8px', left: '8px', right: '8px', display: 'flex', justifyContent: 'space-between' }}>
 					{discountPercent > 0 && (
@@ -49,14 +49,14 @@ const MobilePropertyCard = ({ property, likePropertyHandler }: MobilePropertyCar
 				</div>
 			</div>
 			<div style={{ padding: '8px 10px' }}>
-				<div style={{ fontSize: '13px', fontWeight: 500, color: '#181a20', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '6px' }}>
+				<div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text-1)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '6px' }}>
 					{title}
 				</div>
 				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '6px' }}>
 					<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', minWidth: 0 }}>
 						{property.propertySalePrice ? (
 							<>
-								<span style={{ fontSize: '11px', color: '#aaa', textDecoration: 'line-through' }}>{formatPrice(property.propertyPrice)}</span>
+								<span style={{ fontSize: '11px', color: 'var(--text-4)', textDecoration: 'line-through' }}>{formatPrice(property.propertyPrice)}</span>
 								<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>{formatPrice(property.propertySalePrice)}</span>
 							</>
 						) : (
@@ -73,9 +73,9 @@ const MobilePropertyCard = ({ property, likePropertyHandler }: MobilePropertyCar
 						{property?.meLiked?.[0]?.myFavorite ? (
 							<FavoriteIcon style={{ fontSize: '16px', color: 'red' }} />
 						) : (
-							<FavoriteBorderIcon style={{ fontSize: '16px', color: '#bbb' }} />
+							<FavoriteBorderIcon style={{ fontSize: '16px', color: 'var(--text-4)' }} />
 						)}
-						<span style={{ fontSize: '12px', color: '#888' }}>{property.propertyLikes}</span>
+						<span style={{ fontSize: '12px', color: 'var(--text-3)' }}>{property.propertyLikes}</span>
 					</div>
 				</div>
 			</div>

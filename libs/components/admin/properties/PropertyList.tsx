@@ -183,7 +183,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 											{property.propertyStatus === PropertyStatus.DELETE && (
 												<Button
 													variant="outlined"
-													sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #000000' } }}
+													sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid var(--border-dark)' } }}
 													onClick={() => removePropertyHandler(property._id)}
 												>
 													<DeleteIcon fontSize="small" />

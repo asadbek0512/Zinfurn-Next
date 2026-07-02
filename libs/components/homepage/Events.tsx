@@ -28,7 +28,7 @@ const PromoBanners = () => {
 			discount: t('Flat 20% Discount'),
 			buttonText: t('Shop Now'),
 			imageSrc: '/img/banner/game5.png',
-			backgroundColor: '#f5f5f5',
+			backgroundColor: 'var(--bg-muted)',
 			isGaming: true,
 			filterOption: 'propertyIsOnSale',
 		},
@@ -111,14 +111,14 @@ const PromoCard = ({ promo }: { promo: PromoData }) => {
 				}}
 			>
 				<div style={{ flex: 1, zIndex: 2 }}>
-					<div style={{ fontSize: '11px', fontWeight: 500, color: promo.isGaming ? '#666' : '#8B4513', marginBottom: '4px' }}>
+					<div style={{ fontSize: '11px', fontWeight: 500, color: promo.isGaming ? 'var(--text-2)' : '#8B4513', marginBottom: '4px' }}>
 						{promo.discount}
 					</div>
-					<div style={{ fontSize: '20px', fontWeight: 700, color: promo.isGaming ? '#333' : '#fff', lineHeight: 1.2, marginBottom: '10px' }}>
+					<div style={{ fontSize: '20px', fontWeight: 700, color: promo.isGaming ? 'var(--text-1)' : '#fff', lineHeight: 1.2, marginBottom: '10px' }}>
 						{promo.title}<br />{promo.subtitle}
 					</div>
 					<button onClick={handleShopNowClick} style={{
-						background: '#cf6422', color: '#fff', border: 'none',
+						background: 'var(--primary)', color: '#fff', border: 'none',
 						borderRadius: '20px', padding: '6px 14px', fontSize: '11px',
 						fontWeight: 500, cursor: 'pointer'
 					}}>
@@ -164,7 +164,7 @@ const PromoCard = ({ promo }: { promo: PromoData }) => {
 					style={{
 						fontSize: '14px',
 						fontWeight: '500',
-						color: promo.isGaming ? '#666' : '#8B4513',
+						color: promo.isGaming ? 'var(--text-2)' : '#8B4513',
 						marginBottom: '8px',
 					}}
 				>
@@ -178,7 +178,7 @@ const PromoCard = ({ promo }: { promo: PromoData }) => {
 						fontSize: '32px',
 						fontWeight: '700',
 						lineHeight: '1.2',
-						color: promo.isGaming ? '#333' : '#fff',
+						color: promo.isGaming ? 'var(--text-1)' : '#fff',
 						marginBottom: '12px',
 					}}
 				>
@@ -193,7 +193,7 @@ const PromoCard = ({ promo }: { promo: PromoData }) => {
 					style={{
 						fontSize: '14px',
 						fontWeight: '400',
-						color: promo.isGaming ? '#666' : 'rgba(255,255,255,0.9)',
+						color: promo.isGaming ? 'var(--text-2)' : 'rgba(255,255,255,0.9)',
 						marginBottom: '24px',
 						lineHeight: '1.5',
 						maxWidth: '250px',
