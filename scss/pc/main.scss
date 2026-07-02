@@ -325,7 +325,7 @@ body::-webkit-scrollbar {
 				display: flex;
 				flex-direction: row;
 				justify-content: center;
-				background: rgba(174, 173, 173, 0.28);
+				background: var(--hero-glass);
 				border-radius: 20px;
 				box-sizing: border-box;
 
@@ -347,7 +347,7 @@ body::-webkit-scrollbar {
 						// border: 2px solid #d59413;
 
 						border-radius: 12px;
-						background: rgba(255, 255, 255, 0.575);
+						background: var(--hero-glass-box);
 						box-sizing: border-box;
 						cursor: pointer;
 

@@ -55,6 +55,10 @@
 	--warning: #f57c00;
 	--star: #f5a623;
 
+	/* Hero glass (search panel over hero image) */
+	--hero-glass: rgba(174, 173, 173, 0.28);
+	--hero-glass-box: rgba(255, 255, 255, 0.575);
+
 	/* Effects */
 	--shadow-1: rgba(0, 0, 0, 0.06);
 	--shadow-2: rgba(0, 0, 0, 0.12);
@@ -113,6 +117,10 @@
 	--info-soft: #232a32;
 	--warning: #e8944a;
 	--star: #e0a13f;
+
+	/* Hero glass — dark translucent, matn oq bo'lib o'qiladi */
+	--hero-glass: rgba(18, 14, 10, 0.38);
+	--hero-glass-box: rgba(32, 27, 22, 0.62);
 
 	/* Effects */
 	--shadow-1: rgba(0, 0, 0, 0.35);
