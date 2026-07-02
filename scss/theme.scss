@@ -169,6 +169,17 @@
 	border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
+/* Dark rejimda mobil navbar: burger chiziqlari, valyuta ramkasi, qora ikonkalar */
+[data-theme='dark'] .mobile-navbar .menu-icon span {
+	background: var(--text-1) !important;
+}
+[data-theme='dark'] .mobile-navbar .btn-currency {
+	border-color: rgba(255, 255, 255, 0.3) !important;
+}
+[data-theme='dark'] img[src*='icons/stol'] {
+	filter: invert(1);
+}
+
 /* Dark rejimda hero qidiruv paneli — dudli shisha effekti */
 [data-theme='dark'] .header-main .search-box {
 	backdrop-filter: blur(6px);
