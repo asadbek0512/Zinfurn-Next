@@ -59,6 +59,9 @@
 	--hero-glass: rgba(174, 173, 173, 0.28);
 	--hero-glass-box: rgba(255, 255, 255, 0.575);
 
+	/* Homepage section band — har bir bo'limni nozik ajratish uchun */
+	--section-alt: #faf8f4;
+
 	/* Effects */
 	--shadow-1: rgba(0, 0, 0, 0.06);
 	--shadow-2: rgba(0, 0, 0, 0.12);
@@ -122,6 +125,9 @@
 	--hero-glass: rgba(22, 18, 14, 0.22);
 	--hero-glass-box: rgba(22, 18, 14, 0.34);
 
+	/* Homepage section band — sahifa fonidan biroz to'qroq */
+	--section-alt: #23201b;
+
 	/* Effects */
 	--shadow-1: rgba(0, 0, 0, 0.35);
 	--shadow-2: rgba(0, 0, 0, 0.55);
@@ -161,6 +167,14 @@
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
 	border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* Homepage bo'limlarini nozik ajratish: navbatma-navbat band + hairline chiziq */
+.home-page > div[data-aos]:nth-child(even) {
+	background: var(--section-alt);
+}
+.home-page > div[data-aos] + div[data-aos] {
+	border-top: 1px solid var(--border-soft);
 }
 
 /* Dark rejimda kartalar fon bilan qo'shilib ketmasin — nozik hairline ramka */

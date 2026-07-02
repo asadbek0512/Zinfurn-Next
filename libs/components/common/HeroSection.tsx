@@ -261,7 +261,7 @@ const HeroSection: React.FC = () => {
 							'&:hover': {
 								backgroundColor: 'white',
 								borderColor: '#ff6b35',
-								color: 'var(--text-1)',
+								color: '#181a20',
 								boxShadow: '0 8px 25px rgba(255, 107, 53, 0.3)',
 								'& .arrow-circle': {
 									backgroundColor: '#ff6b35',
@@ -296,7 +296,7 @@ const HeroSection: React.FC = () => {
 								className="arrow-icon"
 								sx={{
 									fontSize: '20px',
-									color: 'var(--text-1)',
+									color: '#181a20',
 									transition: 'all 0.3s ease',
 									strokeWidth: 3,
 								}}
