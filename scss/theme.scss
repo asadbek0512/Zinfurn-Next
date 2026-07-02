@@ -179,7 +179,7 @@
 
 /* Dark rejimda kartalar fon bilan qo'shilib ketmasin — nozik hairline ramka */
 [data-theme='dark']
-	:is(.product-card, .vertical-card, .top-agent-card, .promo-card, .rev-card, .review-card, .property-card, .mob-property-card, .mob-comm-card, .zf-skel-card, .flash-sale-header) {
+	:is(.product-card, .top-agent-card, .promo-card, .rev-card, .review-card, .property-card, .mob-property-card, .zf-skel-card, .flash-sale-header) {
 	border: 1px solid var(--border-soft);
 }
 
