@@ -6,6 +6,7 @@ import { Stack, Box, Button, Pagination, Typography } from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import AgentCard from '../../libs/components/common/AgentCard';
+import PropertyCardSkeleton from '../../libs/components/common/PropertyCardSkeleton';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
@@ -56,6 +57,17 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			setTotal(data?.getAgents?.metaCounter[0]?.total);
 		},
 	});
+
+	// Skeleton kamida ~0.7s ko'rinsin (flash bo'lmasin)
+	const [showSkeleton, setShowSkeleton] = useState(true);
+	useEffect(() => {
+		if (getAgentsLoading) {
+			setShowSkeleton(true);
+			return;
+		}
+		const timer = setTimeout(() => setShowSkeleton(false), 700);
+		return () => clearTimeout(timer);
+	}, [getAgentsLoading]);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -161,7 +173,13 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 				</div>
 
 				{/* Grid */}
-				{agents?.length === 0 ? (
+				{showSkeleton ? (
+					<div className="mob-agent-grid">
+						{Array.from({ length: 6 }).map((_, i) => (
+							<PropertyCardSkeleton key={i} />
+						))}
+					</div>
+				) : agents?.length === 0 ? (
 					<div className="mob-agent-nodata">
 						<img src="/img/icons/icoAlert.svg" alt="" />
 						<p>{t('no_agents_found')}</p>
@@ -237,7 +255,9 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						</Box>
 					</Stack>
 					<Stack className={'card-wrap'}>
-						{agents?.length === 0 ? (
+						{showSkeleton ? (
+							Array.from({ length: 8 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+						) : agents?.length === 0 ? (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
 								<p>{t('no_agents_found')}</p>

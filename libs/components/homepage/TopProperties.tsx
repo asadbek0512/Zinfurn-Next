@@ -3,6 +3,7 @@ import { Stack, Box, Typography, Link } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import MobilePropertyCard from './MobilePropertyCard';
 import TrendPropertyCard from './TrendPropertyCard';
+import PropertyCardSkeleton from '../common/PropertyCardSkeleton';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import { Property } from '../../types/property/property';
@@ -117,7 +118,13 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 				</div>
 
 				{/* Kartalar */}
-				{properties.length === 0 ? (
+				{getPropertiesLoading && !properties.length ? (
+					<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', padding: '0 16px' }}>
+						{Array.from({ length: 4 }).map((_, i) => (
+							<PropertyCardSkeleton key={i} />
+						))}
+					</div>
+				) : properties.length === 0 ? (
 					<div style={{ textAlign: 'center', padding: '32px', color: '#aaa' }}>{t('No Products Found')}</div>
 				) : (
 					<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', padding: '0 16px' }}>
@@ -170,7 +177,13 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 				</Box>
 
 				<Stack className="card-box">
-					{properties.length === 0 ? (
+					{getPropertiesLoading && !properties.length ? (
+						<Box component="div" className="products-grid">
+							{Array.from({ length: 6 }).map((_, i) => (
+								<PropertyCardSkeleton key={i} />
+							))}
+						</Box>
+					) : properties.length === 0 ? (
 						<Box component="div" className="empty-list">
 							{t('No Products Found')}
 						</Box>

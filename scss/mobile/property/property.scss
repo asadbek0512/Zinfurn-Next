@@ -273,12 +273,16 @@
       &.grid-2 {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        align-items: start;
         gap: 10px;
         padding: 10px;
 
         .mob-property-card {
           flex-direction: column; // Tik holat
           min-height: auto;
+
+          .mob-card-info { justify-content: flex-start; }
+          .mob-card-actions { margin-top: 8px; }
 
           .mob-card-img-wrap {
             width: 100%;
@@ -372,7 +376,7 @@
 
         .mob-cat-badge {
           position: absolute;
-          bottom: 7px;
+          top: 7px;
           left: 7px;
           background: rgba(0,0,0,0.65);
           color: #fff;
@@ -430,20 +434,21 @@
 
         .mob-card-price {
           display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 6px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1px;
 
           .mob-new-price {
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 17px;
+            font-weight: 800;
             color: #eb6753;
             font-family: $font;
           }
 
           .mob-old-price {
-            font-size: 11px;
-            color: #999;
+            font-size: 13px;
+            font-weight: 700;
+            color: #8a8a8a;
             text-decoration: line-through;
             font-family: $font;
           }

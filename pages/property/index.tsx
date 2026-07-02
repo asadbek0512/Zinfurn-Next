@@ -16,6 +16,7 @@ import {
 import TuneIcon from '@mui/icons-material/Tune';
 import CloseIcon from '@mui/icons-material/Close';
 import PropertyCard from '../../libs/components/property/PropertyCard';
+import PropertyCardSkeleton from '../../libs/components/common/PropertyCardSkeleton';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import Filter from '../../libs/components/property/Filter';
@@ -106,6 +107,25 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 			setTotal(data?.getProperties?.metaCounter[0]?.total);
 		},
 	});
+
+	// Mobilda default 2-ustun grid (PC'da grid-4 qoladi)
+	useEffect(() => {
+		if (device === 'mobile' && !router?.query?.input) {
+			setViewMode('grid-2');
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [device]);
+
+	// Skeleton kamida ~0.7s ko'rinsin (flash bo'lmasin — silliq UX)
+	const [showSkeleton, setShowSkeleton] = useState(true);
+	useEffect(() => {
+		if (getPropertiesLoading) {
+			setShowSkeleton(true);
+			return;
+		}
+		const timer = setTimeout(() => setShowSkeleton(false), 700);
+		return () => clearTimeout(timer);
+	}, [getPropertiesLoading]);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -366,7 +386,9 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 
 				{/* Card List */}
 				<Stack className={`mob-card-list ${viewMode}`}>
-					{properties?.length === 0 ? (
+					{showSkeleton ? (
+							Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+						) : properties?.length === 0 ? (
 						<Stack className="mob-no-data">
 							<img src="/img/icons/icoAlert.svg" alt="" />
 							<Typography>{t('no_properties_found')}</Typography>
@@ -502,7 +524,9 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 						</Stack>
 
 						<Stack className={`list-config ${viewMode}`}>
-							{properties?.length === 0 ? (
+							{showSkeleton ? (
+								Array.from({ length: 8 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+							) : properties?.length === 0 ? (
 								<div className={'no-data'}>
 									<img src="/img/icons/icoAlert.svg" alt="" />
 									<p style={{ color: 'black' }}>{t('no_properties_found')}</p>

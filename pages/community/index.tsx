@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { Stack, Typography, Button, Pagination, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CommunityCard from '../../libs/components/common/CommunityCard';
+import PropertyCardSkeleton from '../../libs/components/common/PropertyCardSkeleton';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { BoardArticle } from '../../libs/types/board-article/board-article';
@@ -98,6 +99,17 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 			});
 		},
 	});
+
+	// Skeleton kamida ~0.7s ko'rinsin (flash bo'lmasin)
+	const [showSkeleton, setShowSkeleton] = useState(true);
+	useEffect(() => {
+		if (boardArticlesLoading) {
+			setShowSkeleton(true);
+			return;
+		}
+		const timer = setTimeout(() => setShowSkeleton(false), 700);
+		return () => clearTimeout(timer);
+	}, [boardArticlesLoading]);
 
 	/** HANDLERS **/
 	const likeArticleHandler = async (e: any, user: any, id: string) => {
@@ -293,10 +305,20 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 					</Button>
 				</div>
 
-				{renderCategoryMobile('FREE', BoardArticleCategory.FREE)}
-				{renderCategoryMobile('RECOMMEND', BoardArticleCategory.RECOMMEND)}
-				{renderCategoryMobile('NEWS', BoardArticleCategory.NEWS)}
-				{renderCategoryMobile('HUMOR', BoardArticleCategory.HUMOR)}
+				{showSkeleton ? (
+					<div className="mob-articles-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', padding: '0 16px' }}>
+						{Array.from({ length: 4 }).map((_, i) => (
+							<PropertyCardSkeleton key={i} />
+						))}
+					</div>
+				) : (
+					<>
+						{renderCategoryMobile('FREE', BoardArticleCategory.FREE)}
+						{renderCategoryMobile('RECOMMEND', BoardArticleCategory.RECOMMEND)}
+						{renderCategoryMobile('NEWS', BoardArticleCategory.NEWS)}
+						{renderCategoryMobile('HUMOR', BoardArticleCategory.HUMOR)}
+					</>
+				)}
 			</div>
 		);
 	} else {
@@ -324,10 +346,20 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 							</Stack>
 
 							<Stack className="categories-container">
-								{renderCategory('FREE', BoardArticleCategory.FREE)}
-								{renderCategory('RECOMMEND', BoardArticleCategory.RECOMMEND)}
-								{renderCategory('NEWS', BoardArticleCategory.NEWS)}
-								{renderCategory('HUMOR', BoardArticleCategory.HUMOR)}
+								{showSkeleton ? (
+									<div className="zf-community-skel">
+										{Array.from({ length: 6 }).map((_, i) => (
+											<PropertyCardSkeleton key={i} />
+										))}
+									</div>
+								) : (
+									<>
+										{renderCategory('FREE', BoardArticleCategory.FREE)}
+										{renderCategory('RECOMMEND', BoardArticleCategory.RECOMMEND)}
+										{renderCategory('NEWS', BoardArticleCategory.NEWS)}
+										{renderCategory('HUMOR', BoardArticleCategory.HUMOR)}
+									</>
+								)}
 							</Stack>
 						</Stack>
 					</Stack>
