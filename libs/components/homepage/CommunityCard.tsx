@@ -66,7 +66,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 			return (
 				<Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
 					<div style={{ cursor: 'pointer' }}>
-						<div style={{ position: 'relative', height: '150px', borderRadius: '16px', background: '#e8dcc0', backgroundImage: `url(${articleImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+						<div style={{ position: 'relative', height: '150px', borderRadius: '16px', background: 'var(--tan)', backgroundImage: `url(${articleImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
 							<div style={{
 								position: 'absolute', bottom: '-1px', left: '50%', transform: 'translateX(-50%)',
 								background: 'var(--primary)', color: '#fff', padding: '5px 16px',
@@ -93,7 +93,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 				<Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
 					<div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '10px', background: 'var(--surface)', borderRadius: '10px', boxShadow: '0 3px 15px rgba(0,0,0,0.08)', cursor: 'pointer', overflow: 'hidden' }}>
 						<img loading="lazy" decoding="async" src={articleImage} alt={title}
-							style={{ width: '60px', height: '60px', borderRadius: '6px', objectFit: 'cover', background: '#e8dcc0', flexShrink: 0 }} />
+							style={{ width: '60px', height: '60px', borderRadius: '6px', objectFit: 'cover', background: 'var(--tan)', flexShrink: 0 }} />
 						<div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '3px' }}>
 							<div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-1)', lineHeight: 1.3, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
 								{title}

@@ -216,7 +216,7 @@
 
 					.explore-btn {
 						background: white;
-						color: var(--text-1);
+						color: #181a20;
 						padding: 8px 24px;
 						margin-bottom: 70px;
 					}
@@ -573,11 +573,12 @@
 				align-items: center;
 				justify-content: space-between;
 				margin-bottom: 52px;
-				background: var(--surface);
+				background: var(--surface-2);
+				border: 1px solid var(--border);
 				border-radius: 16px;
 				padding: 24px;
-				color: rgb(81, 81, 81);
-				box-shadow: 0 8px 22px rgba(131, 131, 133, 0.03);
+				color: var(--text-2);
+				box-shadow: 0 8px 22px var(--shadow-1);
 
 				.header-content {
 					display: flex;
@@ -774,7 +775,7 @@
 			}
 
 			.cta-button {
-				background: #f4b942 !important;
+				background: var(--amber) !important;
 				color: var(--text-1) !important;
 				border-radius: 25px !important;
 				padding: 12px 24px !important;
@@ -785,7 +786,7 @@
 				transition: all 0.3s ease !important;
 
 				&:hover {
-					background: #e2a93b !important;
+					background: var(--amber-2) !important;
 					transform: translateY(-2px);
 					box-shadow: 0 4px 12px rgba(244, 185, 66, 0.4);
 				}
@@ -860,7 +861,7 @@
 					.iconContainer {
 						width: 94px;
 						height: 64px;
-						background-color: #f8f3e3;
+						background-color: var(--cream);
 						border-radius: 12px;
 						display: flex;
 						align-items: center;
@@ -1685,7 +1686,7 @@
 
 						// Wood chair specific styling
 						&.wood-card {
-							background: #f4a92b;
+							background: var(--amber);
 
 							.discount-badge {
 								color: var(--primary-deep);
@@ -1858,7 +1859,7 @@
 				background-size: cover;
 				background-position: center;
 				position: relative;
-				background-color: #e8dcc0;
+				background-color: var(--tan);
 
 				.date-badge {
 					position: absolute;
@@ -1918,7 +1919,7 @@
 
 		// Horizontal Cards (Free)
 		.horizontal-card {
-			background: white;
+			background: var(--surface);
 			border-radius: 10px;
 			overflow: hidden;
 			box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
@@ -1942,7 +1943,7 @@
 				height: 80px;
 				border-radius: 6px;
 				object-fit: cover;
-				background-color: #e8dcc0;
+				background-color: var(--tan);
 				flex-shrink: 0;
 			}
 

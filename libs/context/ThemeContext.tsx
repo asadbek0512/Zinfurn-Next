@@ -15,22 +15,26 @@ const ThemeContext = createContext<ThemeContextValue>({
 });
 
 /** Reads the mode already applied by the no-flash script in _document.tsx */
-const getInitialMode = (): ThemeMode => {
+const getAppliedMode = (): ThemeMode => {
 	if (typeof document === 'undefined') return 'light';
 	return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
 };
 
 export const ThemeModeProvider = ({ children }: { children: ReactNode }) => {
-	const [mode, setMode] = useState<ThemeMode>(getInitialMode);
+	// SSR har doim light bilan render bo'ladi; haqiqiy mode mount'dan KEYIN state'ga o'tadi —
+	// aks holda hydration eski (light) MUI style'larini muzlatib qo'yadi.
+	// data-theme atributi esa no-flash script tomonidan allaqachon qo'yilgan, unga tegilmaydi.
+	const [mode, setMode] = useState<ThemeMode>('light');
 
 	useEffect(() => {
-		document.documentElement.dataset.theme = mode;
-	}, [mode]);
+		setMode(getAppliedMode());
+	}, []);
 
 	const toggleMode = useCallback(() => {
 		setMode((prev) => {
 			const next: ThemeMode = prev === 'dark' ? 'light' : 'dark';
 			localStorage.setItem(THEME_STORAGE_KEY, next);
+			document.documentElement.dataset.theme = next;
 			return next;
 		});
 	}, []);

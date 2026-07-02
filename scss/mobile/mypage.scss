@@ -41,7 +41,7 @@
   font-family: $font;
 
   .mob-mymenu-profile-card {
-    background: linear-gradient(160deg, #763711 0%, var(--primary) 100%);
+    background: linear-gradient(160deg, var(--brand-grad-a) 0%, var(--brand-grad-b) 100%);
     padding-top: calc(28px + 48px);
     padding-bottom: 28px;
     padding-left: 16px;
@@ -1381,7 +1381,7 @@ $orange-dark: #b8561e;
       .my-orders-progress-bar {
         height: 5px; background: var(--bg-muted); border-radius: 3px; overflow: hidden; margin-bottom: 5px;
         .my-orders-progress-fill {
-          height: 100%; background: linear-gradient(90deg, $orange, #e87b40);
+          height: 100%; background: linear-gradient(90deg, $orange, var(--primary-2));
           border-radius: 3px; transition: width 0.6s ease;
         }
       }

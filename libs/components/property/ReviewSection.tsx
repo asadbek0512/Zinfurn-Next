@@ -159,7 +159,7 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 										key={i}
 										sx={{
 											fontSize: 20,
-											color: i <= Math.round(summary.averageRating) ? '#f5a623' : '#e0e0e0',
+											color: i <= Math.round(summary.averageRating) ? '#f5a623' : 'var(--bg-strong)',
 										}}
 									/>
 								))}
@@ -296,7 +296,7 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 													key={i}
 													sx={{
 														fontSize: 14,
-														color: i <= review.reviewRating ? '#f5a623' : '#e0e0e0',
+														color: i <= review.reviewRating ? '#f5a623' : 'var(--bg-strong)',
 													}}
 												/>
 											))}
@@ -397,7 +397,7 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 				<div className="rev-empty">
 					<div className="rev-empty-stars">
 						{[1, 2, 3, 4, 5].map((i) => (
-							<StarBorderIcon key={i} sx={{ fontSize: 32, color: '#e0e0e0' }} />
+							<StarBorderIcon key={i} sx={{ fontSize: 32, color: 'var(--bg-strong)' }} />
 						))}
 					</div>
 					<Typography className="rev-empty-title">{t('No reviews yet')}</Typography>

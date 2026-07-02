@@ -530,7 +530,7 @@ const MyOrders = () => {
 										onClick={() => { if (!isDone) { setReviewItemIdx(i); setReviewRating(5); setReviewContent(''); setReviewImages([]); } }}
 										style={{
 											position: 'relative', flexShrink: 0, width: 64, height: 64, borderRadius: 10,
-											border: isActive ? '2px solid #f5a623' : isDone ? '2px solid #22c55e' : '2px solid #eee',
+											border: isActive ? '2px solid #f5a623' : isDone ? '2px solid #22c55e' : '2px solid var(--border-soft)',
 											overflow: 'hidden', cursor: isDone ? 'default' : 'pointer',
 											opacity: isDone ? 0.6 : 1,
 										}}

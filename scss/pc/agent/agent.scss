@@ -96,14 +96,14 @@
 
 							&:hover {
 								background: var(--bg-muted);
-								border-color:rgb(70, 80, 99);
-								color: rgb(65, 76, 95);
+								border-color: var(--border);
+								color: var(--text-2);
 							}
 
 							&.Mui-selected {
 								background:rgb(68, 76, 90);
 								color: #fff;
-								border-color: rgb(63, 75, 96);
+								border-color: var(--border);
 
 								&:hover {
 									background: rgb(67, 79, 101);

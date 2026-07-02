@@ -39,7 +39,7 @@ const PromoBanners = () => {
 			discount: t('Flat 15% Discount'),
 			buttonText: t('Shop Now'),
 			imageSrc: '/img/banner/chair3.png',
-			backgroundColor: '#f4a92b',
+			backgroundColor: 'var(--amber)',
 			isGaming: true,
 			filterOption: 'propertyIsOnSale',
 		},

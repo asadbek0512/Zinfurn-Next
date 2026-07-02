@@ -343,12 +343,12 @@ const Chat = () => {
 												{messageReplyTo && (
 													<div style={{ background: 'rgba(207,100,34,0.12)', borderLeft: '3px solid var(--primary)', borderRadius: '6px', padding: '5px 8px', marginBottom: '4px' }}>
 														<div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--primary)', marginBottom: '2px' }}>↩ {messageReplyTo.memberNick}</div>
-														<div style={{ fontSize: '12px', color: '#7a5030' }}>{messageReplyTo.text.length > 40 ? messageReplyTo.text.substring(0, 40) + '...' : messageReplyTo.text}</div>
+														<div style={{ fontSize: '12px', color: 'var(--primary-deep)' }}>{messageReplyTo.text.length > 40 ? messageReplyTo.text.substring(0, 40) + '...' : messageReplyTo.text}</div>
 													</div>
 												)}
 												<div style={{ display: 'inline' }}>
 													{text}
-													{messageTime && <span style={{ float: 'right', marginLeft: '8px', marginTop: '4px', fontSize: '11px', color: '#a0806a', display: 'inline-flex', alignItems: 'center' }}>{messageTime}</span>}
+													{messageTime && <span style={{ float: 'right', marginLeft: '8px', marginTop: '4px', fontSize: '11px', color: 'var(--text-3)', display: 'inline-flex', alignItems: 'center' }}>{messageTime}</span>}
 												</div>
 											</div>
 											<button onClick={() => handleSetReply(ele)} style={{ background: 'none', border: 'none', padding: '4px', cursor: 'pointer', opacity: 0.5 }}>
@@ -543,7 +543,7 @@ const Chat = () => {
 													<div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--primary)', marginBottom: '2px' }}>
 														↩ {messageReplyTo.memberNick}
 													</div>
-													<div style={{ fontSize: '12px', color: '#7a5030' }}>
+													<div style={{ fontSize: '12px', color: 'var(--primary-deep)' }}>
 														{messageReplyTo.text.length > 40
 															? messageReplyTo.text.substring(0, 40) + '...'
 															: messageReplyTo.text}
@@ -558,7 +558,7 @@ const Chat = () => {
 														marginLeft: '8px',
 														marginTop: '4px',
 														fontSize: '11px',
-														color: '#a0806a',
+														color: 'var(--text-3)',
 														display: 'inline-flex',
 														alignItems: 'center',
 														gap: '2px'

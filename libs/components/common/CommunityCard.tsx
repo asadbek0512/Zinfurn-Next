@@ -103,7 +103,7 @@ const CommunityCard = ({ boardArticle, likeArticleHandler }: CommunityCardProps)
 				onTouchEnd={handleTouchEnd}
 				style={{ cursor: 'pointer', background: 'var(--surface)', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 10px rgba(0,0,0,0.05)', height: '100%' }}
 			>
-				<div className="mob-comm-img-box" style={{ position: 'relative', height: '130px', background: '#e8dcc0', backgroundImage: `url(${imagePath})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+				<div className="mob-comm-img-box" style={{ position: 'relative', height: '130px', background: 'var(--tan)', backgroundImage: `url(${imagePath})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
 
 					{/* Dark overlay */}
 					<div className={`mob-comm-img-overlay${overlayVisible ? ' visible' : ''}`}></div>

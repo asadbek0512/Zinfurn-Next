@@ -36,6 +36,14 @@
 	--primary-deep: #763711; /* deep brown text accents */
 	--primary-soft: #fff4ec; /* tinted backgrounds */
 	--primary-glow: rgba(207, 100, 34, 0.18); /* focus rings, soft shadows */
+	--footer-bg: #763711; /* brand footer */
+	--brand-grad-a: #763711; /* brand gradient start */
+	--brand-grad-b: #cf6422; /* brand gradient end */
+	--primary-2: #e87b40; /* gradient companion of primary */
+	--amber: #f4a92b; /* promo/banner amber */
+	--amber-2: #e2a93b;
+	--cream: #f8f3e3; /* cream panels */
+	--tan: #e8dcc0; /* image placeholder tan */
 
 	/* Status */
 	--danger: #e74c3c;
@@ -62,10 +70,10 @@
 
 	/* Backgrounds — one warm dark family (matches the navbar tone everywhere) */
 	--bg-page: #1e1b17;
-	--surface: #272420;
-	--surface-2: #2c2925;
-	--bg-muted: #34302a;
-	--bg-warm: #272420;
+	--surface: #292521;
+	--surface-2: #2f2b26;
+	--bg-muted: #37322b;
+	--bg-warm: #292521;
 	--bg-strong: #423d36;
 	--bg-inverse: #4a453d;
 	--dark-section: #171512;
@@ -81,12 +89,20 @@
 	--border-soft: #363129;
 	--border-dark: #ddd8d0;
 
-	/* Brand — slightly lifted for contrast on dark */
-	--primary: #e0762e;
-	--primary-dark: #cf6422;
-	--primary-deep: #e3a173;
-	--primary-soft: #2c2018;
-	--primary-glow: rgba(224, 118, 46, 0.22);
+	/* Brand — softened, desaturated for an elegant dark look */
+	--primary: #cf7a41;
+	--primary-dark: #b8672e;
+	--primary-deep: #d9a077;
+	--primary-soft: #2b221a;
+	--primary-glow: rgba(207, 122, 65, 0.16);
+	--footer-bg: #221a12; /* deep muted brown — quiet, refined */
+	--brand-grad-a: #3d2712;
+	--brand-grad-b: #7d461d;
+	--primary-2: #d98a52;
+	--amber: #96702a; /* muted amber — no glare on dark */
+	--amber-2: #85631f;
+	--cream: #33302a;
+	--tan: #3a352c;
 
 	/* Status */
 	--danger: #f2685c;
@@ -95,8 +111,8 @@
 	--success-soft: #232b21;
 	--info: #64b5f6;
 	--info-soft: #232a32;
-	--warning: #ffa040;
-	--star: #f5a623;
+	--warning: #e8944a;
+	--star: #e0a13f;
 
 	/* Effects */
 	--shadow-1: rgba(0, 0, 0, 0.35);
@@ -116,10 +132,22 @@
 	opacity: 1 !important;
 }
 
-/* Dark rejimda qora chat ikonkasi va splash-logo ko'rinsin */
+/* Dark rejimda qora chat ikonkasi, splash-logo va footer-logo ko'rinsin */
 [data-theme='dark'] .chat-button img,
 [data-theme='dark'] .page-loader img {
 	filter: invert(1);
+}
+[data-theme='dark'] .footer-container img.logo,
+[data-theme='dark'] .mobile-footer img.logo,
+[data-theme='dark'] .chat-frame img[src*='/img/logo/'] {
+	filter: brightness(0) invert(1);
+	opacity: 0.9;
+}
+
+/* Dark rejimda kartalar fon bilan qo'shilib ketmasin — nozik hairline ramka */
+[data-theme='dark']
+	:is(.product-card, .vertical-card, .top-agent-card, .promo-card, .rev-card, .review-card, .property-card, .mob-property-card, .mob-comm-card, .zf-skel-card, .flash-sale-header) {
+	border: 1px solid var(--border-soft);
 }
 
 html {

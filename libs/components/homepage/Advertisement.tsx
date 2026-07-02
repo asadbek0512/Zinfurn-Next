@@ -36,7 +36,7 @@ export default function InnovationSection() {
 
 					{/* Matn */}
 					<div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '12px 12px 12px 20px', flex: 1 }}>
-						<div style={{ display: 'flex', gap: '6px', background: '#f8f3e3', borderRadius: '8px', padding: '5px 8px', width: 'fit-content' }}>
+						<div style={{ display: 'flex', gap: '6px', background: 'var(--cream)', borderRadius: '8px', padding: '5px 8px', width: 'fit-content' }}>
 							<HandymanIcon style={{ fontSize: '15px', color: '#c9a55a' }} />
 							<HomeRepairServiceIcon style={{ fontSize: '15px', color: '#c9a55a' }} />
 						</div>
@@ -51,7 +51,7 @@ export default function InnovationSection() {
 						<button
 							onClick={handleNavigate}
 							style={{
-								background: '#e66414', color: '#fff', border: 'none',
+								background: 'var(--primary)', color: '#fff', border: 'none',
 								borderRadius: '8px', padding: '6px 12px', fontSize: '10px',
 								fontWeight: 600, cursor: 'pointer', width: 'fit-content', alignSelf: 'flex-start'
 							}}

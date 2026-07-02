@@ -683,7 +683,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 																		boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
 																	}}
 																>
-																	<Typography variant="h4" color={'#b9b9b9'}>
+																	<Typography variant="h4" color={'var(--text-4)'}>
 																		{t('Update comment')}
 																	</Typography>
 																	<Stack gap={'20px'}>
@@ -701,7 +701,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 																			}}
 																		/>
 																		<Stack width={'100%'} flexDirection={'row'} justifyContent={'space-between'}>
-																			<Typography variant="subtitle1" color={'#b9b9b9'}>
+																			<Typography variant="subtitle1" color={'var(--text-4)'}>
 																				{updatedCommentWordsCnt}/100
 																			</Typography>
 																			<Stack sx={{ flexDirection: 'row', alignSelf: 'flex-end', gap: '10px' }}>
