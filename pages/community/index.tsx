@@ -244,10 +244,10 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		return (
 			<div key={category} style={{ marginBottom: '24px' }}>
 				<div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px', paddingLeft: '16px' }}>
-					<div style={{ width: '25px', height: '2px', background: '#cf6422' }} />
-					<span style={{ fontSize: '11px', fontWeight: 500, color: '#000' }}>{t(title)} {t('BOARD')}</span>
+					<div style={{ width: '25px', height: '2px', background: 'var(--primary)' }} />
+					<span style={{ fontSize: '11px', fontWeight: 500, color: 'var(--text-1)' }}>{t(title)} {t('BOARD')}</span>
 				</div>
-				<div style={{ fontSize: '16px', fontWeight: 700, color: '#333', marginBottom: '12px', paddingLeft: '16px' }}>
+				<div style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text-1)', marginBottom: '12px', paddingLeft: '16px' }}>
 					{t('Express your opinions freely here')}
 				</div>
 
@@ -288,9 +288,9 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 
 	if (device === 'mobile') {
 		return (
-			<div style={{ padding: '20px 0 80px', background: '#f8f7f4', minHeight: '100vh' }}>
+			<div style={{ padding: '20px 0 80px', background: 'var(--bg-warm)', minHeight: '100vh' }}>
 				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px 16px' }}>
-					<div style={{ fontSize: '18px', fontWeight: 800, color: '#181a20' }}>{t('Community Board')}</div>
+					<div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-1)' }}>{t('Community Board')}</div>
 					<Button
 						onClick={() =>
 							router.push({
@@ -298,7 +298,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 								query: { category: 'writeArticle' },
 							})
 						}
-						style={{ background: '#cf6422', color: '#fff', textTransform: 'none', borderRadius: '8px', fontSize: '12px', padding: '5px 12px', fontWeight: 600 }}
+						style={{ background: 'var(--primary)', color: '#fff', textTransform: 'none', borderRadius: '8px', fontSize: '12px', padding: '5px 12px', fontWeight: 600 }}
 						startIcon={<EditIcon sx={{ fontSize: 16 }} />}
 					>
 						{t('Write')}

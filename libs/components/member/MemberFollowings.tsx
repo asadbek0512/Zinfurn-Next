@@ -103,7 +103,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 											className="like"
 											onClick={() => likeMemberHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)}
 										>
-											{isLiked ? <FavoriteIcon sx={{ fontSize: 14, color: '#e74c3c' }} /> : <FavoriteBorderIcon sx={{ fontSize: 14 }} />}
+											{isLiked ? <FavoriteIcon sx={{ fontSize: 14, color: 'var(--danger)' }} /> : <FavoriteBorderIcon sx={{ fontSize: 14 }} />}
 										</button>
 										{user?._id !== follower?.followingId && (
 											isFollowing ? (

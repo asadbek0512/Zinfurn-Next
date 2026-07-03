@@ -32,7 +32,7 @@ const Terms = () => {
 				{terms.map((term: any, index: number) => (
 					<div key={term._id} className="mob-cs-terms-card">
 						<div className="mob-cs-terms-top">
-							<ArticleIcon sx={{ color: '#cf6422', fontSize: 18, flexShrink: 0 }} />
+							<ArticleIcon sx={{ color: 'var(--primary)', fontSize: 18, flexShrink: 0 }} />
 							<span className="mob-cs-terms-title">{getLocalizedNoticeTitle(term, i18n.language)}</span>
 						</div>
 						<p className="mob-cs-terms-body">{getLocalizedNoticeContent(term, i18n.language)}</p>
@@ -62,9 +62,9 @@ const Terms = () => {
 			<Box
 				component="div"
 				sx={{
-					backgroundColor: '#ffffff',
+					backgroundColor: 'var(--surface)',
 					borderRadius: '12px',
-					border: '1px solid #E2E8F0',
+					border: '1px solid var(--border-soft)',
 					overflow: 'hidden',
 				}}
 			>
@@ -77,15 +77,15 @@ const Terms = () => {
 								alignItems: 'center',
 								gap: 2,
 								p: 3,
-								backgroundColor: '#F8FAFC',
-								borderBottom: '1px solid #E2E8F0',
+								backgroundColor: 'var(--surface-2)',
+								borderBottom: '1px solid var(--border-soft)',
 							}}
 						>
 							<ArticleIcon sx={{ color: '#ff6b35' }} />
-							<Typography sx={{ color: '#1E293B', fontWeight: 600, fontSize: '1.1rem' }}>{getLocalizedNoticeTitle(term, i18n.language)}</Typography>
+							<Typography sx={{ color: 'var(--text-1)', fontWeight: 600, fontSize: '1.1rem' }}>{getLocalizedNoticeTitle(term, i18n.language)}</Typography>
 						</Box>
 						<Box component="div" sx={{ p: 3, borderBottom: index < terms.length - 1 ? '1px solid #E2E8F0' : 'none' }}>
-							<Typography sx={{ color: '#64748B', lineHeight: 1.8 }}>{getLocalizedNoticeContent(term, i18n.language)}</Typography>
+							<Typography sx={{ color: 'var(--text-2)', lineHeight: 1.8 }}>{getLocalizedNoticeContent(term, i18n.language)}</Typography>
 						</Box>
 					</Box>
 				))}

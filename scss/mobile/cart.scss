@@ -67,10 +67,10 @@
 .mob-action-cart {
 	margin-left: auto;
 	cursor: pointer;
-	color: #cf6422;
+	color: var(--primary);
 
 	&.added {
-		color: #2e7d32;
+		color: var(--success);
 	}
 }
 
@@ -88,7 +88,7 @@
 .cart-orders-header-link {
   text-decoration: none;
   display: block;
-  border-top: 1px solid #f0ebe5;
+  border-top: 1px solid var(--border-soft);
   transition: background 0.2s ease;
 
   &:hover { background: rgba(207, 100, 34, 0.04); }
@@ -103,11 +103,11 @@
     gap: 8px;
     margin-bottom: 8px;
 
-    .cart-orders-icon { font-size: 22px !important; color: #cf6422; }
+    .cart-orders-icon { font-size: 22px !important; color: var(--primary); }
     .cart-orders-heading {
       font-size: 12px;
       font-weight: 700;
-      color: #1a1a1a;
+      color: var(--text-1);
       font-family: 'Poppins', sans-serif;
     }
   }
@@ -124,7 +124,7 @@
       left: 0;
       width: 100%;
       height: 5px;
-      background: #eee;
+      background: var(--bg-muted);
       border-radius: 10px;
 
       &::after {
@@ -134,7 +134,7 @@
         top: 0;
         width: 60%;
         height: 100%;
-        background: linear-gradient(90deg, #cf6422, #e8883a);
+        background: linear-gradient(90deg, var(--primary), var(--primary-2));
         border-radius: 10px;
       }
     }
@@ -144,7 +144,7 @@
       bottom: 9px;
       left: 56%;
       font-size: 22px !important;
-      color: #cf6422;
+      color: var(--primary);
       filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.15));
       z-index: 2;
       transform: translateX(-50%);
@@ -155,7 +155,7 @@
 /* ── Order tracking truck icon in mobile navbar ── */
 .order-track-btn {
   .order-track-icon {
-    color: #cf6422;
+    color: var(--primary);
     font-size: 20px !important;
     animation: truck-bounce 1.2s ease-in-out infinite;
   }

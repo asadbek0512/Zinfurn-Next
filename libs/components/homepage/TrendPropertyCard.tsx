@@ -129,7 +129,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 							{property?.meLiked?.[0]?.myFavorite ? (
 								<FavoriteIcon style={{ color: 'red' }} />
 							) : (
-								<FavoriteBorderIcon style={{ color: '#bbb' }} />
+								<FavoriteBorderIcon style={{ color: 'var(--text-4)' }} />
 							)}
 						</IconButton>
 						<Typography className="likes-count">{property?.propertyLikes}</Typography>

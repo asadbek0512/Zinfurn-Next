@@ -317,7 +317,7 @@ const Chat = () => {
 									return memberData?._id === user?._id ? (
 										<Box key={`msg-right-${index}`} component="div" flexDirection="row" style={{ display: 'flex', margin: '10px 0px' }} alignItems="flex-end" justifyContent="flex-end">
 											<button onClick={() => handleSetReply(ele)} style={{ background: 'none', border: 'none', padding: '4px', cursor: 'pointer', opacity: 0.5 }}>
-												<ReplyIcon style={{ fontSize: '14px', color: '#aaa' }} />
+												<ReplyIcon style={{ fontSize: '14px', color: 'var(--text-4)' }} />
 											</button>
 											<div className="msg-right" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
 												{messageReplyTo && (
@@ -339,20 +339,20 @@ const Chat = () => {
 										<Box key={`msg-left-${index}`} component="div" flexDirection="row" style={{ display: 'flex', margin: isPrevSameUser ? '2px 0' : '10px 0' }} alignItems="flex-end">
 											{isNextSameUser ? <div style={{ width: '40px', minWidth: '40px' }} /> : <Avatar alt={memberData?.memberNick ?? 'User'} src={memberImage} />}
 											<div className="msg-left" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-												{!isPrevSameUser && <div style={{ fontSize: '12px', fontWeight: 700, color: '#cf6422', marginBottom: '4px' }}>{memberData?.memberNick ?? 'User'}</div>}
+												{!isPrevSameUser && <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--primary)', marginBottom: '4px' }}>{memberData?.memberNick ?? 'User'}</div>}
 												{messageReplyTo && (
-													<div style={{ background: 'rgba(207,100,34,0.12)', borderLeft: '3px solid #cf6422', borderRadius: '6px', padding: '5px 8px', marginBottom: '4px' }}>
-														<div style={{ fontSize: '11px', fontWeight: 700, color: '#cf6422', marginBottom: '2px' }}>↩ {messageReplyTo.memberNick}</div>
-														<div style={{ fontSize: '12px', color: '#7a5030' }}>{messageReplyTo.text.length > 40 ? messageReplyTo.text.substring(0, 40) + '...' : messageReplyTo.text}</div>
+													<div style={{ background: 'rgba(207,100,34,0.12)', borderLeft: '3px solid var(--primary)', borderRadius: '6px', padding: '5px 8px', marginBottom: '4px' }}>
+														<div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--primary)', marginBottom: '2px' }}>↩ {messageReplyTo.memberNick}</div>
+														<div style={{ fontSize: '12px', color: 'var(--primary-deep)' }}>{messageReplyTo.text.length > 40 ? messageReplyTo.text.substring(0, 40) + '...' : messageReplyTo.text}</div>
 													</div>
 												)}
 												<div style={{ display: 'inline' }}>
 													{text}
-													{messageTime && <span style={{ float: 'right', marginLeft: '8px', marginTop: '4px', fontSize: '11px', color: '#a0806a', display: 'inline-flex', alignItems: 'center' }}>{messageTime}</span>}
+													{messageTime && <span style={{ float: 'right', marginLeft: '8px', marginTop: '4px', fontSize: '11px', color: 'var(--text-3)', display: 'inline-flex', alignItems: 'center' }}>{messageTime}</span>}
 												</div>
 											</div>
 											<button onClick={() => handleSetReply(ele)} style={{ background: 'none', border: 'none', padding: '4px', cursor: 'pointer', opacity: 0.5 }}>
-												<ReplyIcon style={{ fontSize: '14px', color: '#aaa' }} />
+												<ReplyIcon style={{ fontSize: '14px', color: 'var(--text-4)' }} />
 											</button>
 										</Box>
 									);
@@ -362,13 +362,13 @@ const Chat = () => {
 					</Box>
 					<Box className={'chat-bott'} component={'div'} style={{ position: 'relative', display: 'flex', alignItems: 'center', paddingRight: '8px' }}>
 						{replyTo && (
-							<div style={{ position: 'absolute', bottom: '100%', left: 0, right: 0, background: '#fff', borderLeft: '4px solid #cf6422', borderRadius: '8px 8px 0 0', padding: '10px 12px', margin: '0 8px', boxShadow: '0 -2px 8px rgba(0,0,0,0.06)' }}>
+							<div style={{ position: 'absolute', bottom: '100%', left: 0, right: 0, background: 'var(--surface)', borderLeft: '4px solid var(--primary)', borderRadius: '8px 8px 0 0', padding: '10px 12px', margin: '0 8px', boxShadow: '0 -2px 8px rgba(0,0,0,0.06)' }}>
 								<div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
 									<div style={{ flex: 1, overflow: 'hidden' }}>
-										<div style={{ fontSize: '12px', color: '#cf6422', fontWeight: 600, marginBottom: '4px' }}>Replying to {replyTo.memberData?.memberNick ?? 'User'}</div>
-										<div style={{ fontSize: '13px', color: '#888', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{replyTo.text}</div>
+										<div style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 600, marginBottom: '4px' }}>Replying to {replyTo.memberData?.memberNick ?? 'User'}</div>
+										<div style={{ fontSize: '13px', color: 'var(--text-3)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{replyTo.text}</div>
 									</div>
-									<CloseIcon onClick={handleCancelReply} style={{ cursor: 'pointer', color: '#bbb', fontSize: '20px' }} />
+									<CloseIcon onClick={handleCancelReply} style={{ cursor: 'pointer', color: 'var(--text-4)', fontSize: '20px' }} />
 								</div>
 							</div>
 						)}
@@ -405,7 +405,7 @@ const Chat = () => {
 								width: '50px',
 								height: '50px',
 								borderRadius: '50%',
-								background: '#fff',
+								background: 'var(--surface)',
 								border: 'none',
 								cursor: 'pointer',
 								display: 'flex',
@@ -415,7 +415,7 @@ const Chat = () => {
 								zIndex: 99999,
 							}}
 						>
-							<CloseFullscreenIcon style={{ color: '#333' }} />
+							<CloseFullscreenIcon style={{ color: 'var(--text-1)' }} />
 						</button>
 					)}
 				</>
@@ -463,7 +463,7 @@ const Chat = () => {
 											onClick={() => handleSetReply(ele)}
 											style={{ background: 'none', border: 'none', padding: '4px', cursor: 'pointer', opacity: 0.5 }}
 										>
-											<ReplyIcon style={{ fontSize: '14px', color: '#999' }} />
+											<ReplyIcon style={{ fontSize: '14px', color: 'var(--text-3)' }} />
 										</button>
 
 										<div className="msg-right" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -526,7 +526,7 @@ const Chat = () => {
 										<div className="msg-left" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
 											{/* Nickname — show only on FIRST message of group */}
 											{!isPrevSameUser && (
-												<div style={{ fontSize: '12px', fontWeight: 700, color: '#cf6422', marginBottom: '4px' }}>
+												<div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--primary)', marginBottom: '4px' }}>
 													{memberData?.memberNick ?? 'User'}
 												</div>
 											)}
@@ -534,16 +534,16 @@ const Chat = () => {
 												<div
 													style={{
 														background: 'rgba(207,100,34,0.12)',
-														borderLeft: '3px solid #cf6422',
+														borderLeft: '3px solid var(--primary)',
 														borderRadius: '6px',
 														padding: '5px 8px',
 														marginBottom: '4px',
 													}}
 												>
-													<div style={{ fontSize: '11px', fontWeight: 700, color: '#cf6422', marginBottom: '2px' }}>
+													<div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--primary)', marginBottom: '2px' }}>
 														↩ {messageReplyTo.memberNick}
 													</div>
-													<div style={{ fontSize: '12px', color: '#7a5030' }}>
+													<div style={{ fontSize: '12px', color: 'var(--primary-deep)' }}>
 														{messageReplyTo.text.length > 40
 															? messageReplyTo.text.substring(0, 40) + '...'
 															: messageReplyTo.text}
@@ -558,7 +558,7 @@ const Chat = () => {
 														marginLeft: '8px',
 														marginTop: '4px',
 														fontSize: '11px',
-														color: '#a0806a',
+														color: 'var(--text-3)',
 														display: 'inline-flex',
 														alignItems: 'center',
 														gap: '2px'
@@ -573,7 +573,7 @@ const Chat = () => {
 											onClick={() => handleSetReply(ele)}
 											style={{ background: 'none', border: 'none', padding: '4px', cursor: 'pointer', opacity: 0.5 }}
 										>
-											<ReplyIcon style={{ fontSize: '14px', color: '#999' }} />
+											<ReplyIcon style={{ fontSize: '14px', color: 'var(--text-3)' }} />
 										</button>
 									</Box>
 								);
@@ -624,7 +624,7 @@ const Chat = () => {
 								bottom: '100%',
 								left: 0,
 								right: 0,
-								background: '#f5f5f5',
+								background: 'var(--bg-muted)',
 								borderLeft: '4px solid #0088cc',
 								borderRadius: '8px 8px 0 0',
 								padding: '10px 12px',
@@ -640,7 +640,7 @@ const Chat = () => {
 									<div
 										style={{
 											fontSize: '13px',
-											color: '#666',
+											color: 'var(--text-2)',
 											whiteSpace: 'nowrap',
 											overflow: 'hidden',
 											textOverflow: 'ellipsis',
@@ -649,7 +649,7 @@ const Chat = () => {
 										{replyTo.text}
 									</div>
 								</div>
-								<CloseIcon onClick={handleCancelReply} style={{ cursor: 'pointer', color: '#999', fontSize: '20px' }} />
+								<CloseIcon onClick={handleCancelReply} style={{ cursor: 'pointer', color: 'var(--text-3)', fontSize: '20px' }} />
 							</div>
 						</div>
 					)}
@@ -677,7 +677,7 @@ const Chat = () => {
 							minHeight: '36px',
 						}}
 					>
-						<SentimentSatisfiedOutlinedIcon style={{ fontSize: '26px', color: '#666' }} />
+						<SentimentSatisfiedOutlinedIcon style={{ fontSize: '26px', color: 'var(--text-2)' }} />
 					</button>
 					<button
 						className={'send-msg-btn'}

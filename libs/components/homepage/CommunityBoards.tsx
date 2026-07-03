@@ -71,17 +71,17 @@ const CommunityBoards = () => {
 
 	if (device === 'mobile') {
 		return (
-			<div style={{ padding: '16px 0', background: '#f8f7f4' }}>
+			<div style={{ padding: '16px 0', background: 'var(--bg-warm)' }}>
 				{/* Header */}
 				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '0 16px 12px' }}>
 					<div>
 						<div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-							<div style={{ width: '30px', height: '2px', background: '#cf6422' }} />
-							<span style={{ fontSize: '12px', fontWeight: 500, color: '#000' }}>{t('News & Blogs')}</span>
+							<div style={{ width: '30px', height: '2px', background: 'var(--primary)' }} />
+							<span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--text-1)' }}>{t('News & Blogs')}</span>
 						</div>
-						<div style={{ fontSize: '18px', fontWeight: 700, color: '#333' }}>{t('Our Latest News')}</div>
+						<div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-1)' }}>{t('Our Latest News')}</div>
 					</div>
-					<Link href="/community" style={{ fontSize: '12px', color: '#cf6422', fontWeight: 500, textDecoration: 'none' }}>
+					<Link href="/community" style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 500, textDecoration: 'none' }}>
 						{t('View All')} →
 					</Link>
 				</div>
@@ -91,9 +91,9 @@ const CommunityBoards = () => {
 					{[{ key: 'news' as const, label: t('News') }, { key: 'free' as const, label: t('Free') }].map((tab) => (
 						<button key={tab.key} onClick={() => handleTabChange(tab.key)} style={{
 							padding: '6px 18px', borderRadius: '20px', fontSize: '12px', fontWeight: 500,
-							border: activeTab === tab.key ? 'none' : '1px solid #ddd',
-							background: activeTab === tab.key ? '#cf6422' : '#fff',
-							color: activeTab === tab.key ? '#fff' : '#666',
+							border: activeTab === tab.key ? 'none' : '1px solid var(--border)',
+							background: activeTab === tab.key ? 'var(--primary)' : 'var(--surface)',
+							color: activeTab === tab.key ? '#fff' : 'var(--text-2)',
 							cursor: 'pointer'
 						}}>
 							{tab.label}
@@ -104,7 +104,7 @@ const CommunityBoards = () => {
 				{/* Cards — News: Swiper, Free: vertikal list */}
 				{activeTab === 'news' ? (
 					newsArticles.length === 0 ? (
-						<div style={{ textAlign: 'center', padding: '32px', color: '#aaa' }}>{t('No Articles')}</div>
+						<div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-4)' }}>{t('No Articles')}</div>
 					) : (
 						<Swiper slidesPerView={2} spaceBetween={18} touchStartPreventDefault={false} style={{ paddingLeft: '16px', paddingRight: '16px' }}>
 							{newsArticles.slice(0, 6).map((article, index) => (
@@ -116,7 +116,7 @@ const CommunityBoards = () => {
 					)
 				) : (
 					freeArticles.length === 0 ? (
-						<div style={{ textAlign: 'center', padding: '32px', color: '#aaa' }}>{t('No Articles')}</div>
+						<div style={{ textAlign: 'center', padding: '32px', color: 'var(--text-4)' }}>{t('No Articles')}</div>
 					) : (
 						<div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '0 16px' }}>
 							{freeArticles.slice(0, 3).map((article, index) => (

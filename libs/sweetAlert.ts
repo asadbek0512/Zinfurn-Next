@@ -56,7 +56,7 @@ export const sweetLoginConfirmAlert = (msg: string) => {
 			text: msg,
 			showCancelButton: true,
 			showConfirmButton: true,
-			color: '#212121',
+			color: 'var(--text-1)',
 			confirmButtonColor: '#e92C28',
 			cancelButtonColor: '#bdbdbd',
 			confirmButtonText: 'Login',

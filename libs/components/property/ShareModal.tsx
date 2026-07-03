@@ -110,8 +110,8 @@ const ShareModal = ({ open, onClose, url, title, text }: ShareModalProps) => {
 			}}
 		>
 			<Stack direction="row" alignItems="center" justifyContent="space-between" mb="20px">
-				<span style={{ fontSize: 19, fontWeight: 700, color: '#1a1a1a' }}>{t('Share this product')}</span>
-				<IconButton size="small" onClick={onClose} sx={{ color: '#999' }}>
+				<span style={{ fontSize: 19, fontWeight: 700, color: 'var(--text-1)' }}>{t('Share this product')}</span>
+				<IconButton size="small" onClick={onClose} sx={{ color: 'var(--text-3)' }}>
 					<Close fontSize="small" />
 				</IconButton>
 			</Stack>
@@ -132,7 +132,7 @@ const ShareModal = ({ open, onClose, url, title, text }: ShareModalProps) => {
 						>
 							{network.icon}
 						</IconButton>
-						<span style={{ fontSize: 12, color: '#555' }}>{network.label}</span>
+						<span style={{ fontSize: 12, color: 'var(--text-2)' }}>{network.label}</span>
 					</Stack>
 				))}
 
@@ -143,15 +143,15 @@ const ShareModal = ({ open, onClose, url, title, text }: ShareModalProps) => {
 							sx={{
 								width: 54,
 								height: 54,
-								bgcolor: '#cf6422',
+								bgcolor: 'var(--primary)',
 								color: '#fff',
 								transition: 'transform .15s ease, box-shadow .15s ease',
-								'&:hover': { bgcolor: '#cf6422', transform: 'translateY(-2px)', boxShadow: '0 6px 14px rgba(0,0,0,.18)' },
+								'&:hover': { bgcolor: 'var(--primary)', transform: 'translateY(-2px)', boxShadow: '0 6px 14px rgba(0,0,0,.18)' },
 							}}
 						>
 							<IosShare sx={{ fontSize: 24 }} />
 						</IconButton>
-						<span style={{ fontSize: 12, color: '#555' }}>{t('More')}</span>
+						<span style={{ fontSize: 12, color: 'var(--text-2)' }}>{t('More')}</span>
 					</Stack>
 				)}
 			</Stack>
@@ -159,14 +159,14 @@ const ShareModal = ({ open, onClose, url, title, text }: ShareModalProps) => {
 			<Stack
 				direction="row"
 				alignItems="center"
-				sx={{ border: '1px solid #e6e6e6', borderRadius: '12px', p: '6px 6px 6px 14px', bgcolor: '#fafafa' }}
+				sx={{ border: '1px solid var(--border-soft)', borderRadius: '12px', p: '6px 6px 6px 14px', bgcolor: 'var(--surface-2)' }}
 			>
-				<LinkIcon sx={{ fontSize: 18, color: '#aaa', mr: '8px', flexShrink: 0 }} />
+				<LinkIcon sx={{ fontSize: 18, color: 'var(--text-4)', mr: '8px', flexShrink: 0 }} />
 				<span
 					style={{
 						flex: 1,
 						fontSize: 13,
-						color: '#555',
+						color: 'var(--text-2)',
 						whiteSpace: 'nowrap',
 						overflow: 'hidden',
 						textOverflow: 'ellipsis',
@@ -188,7 +188,7 @@ const ShareModal = ({ open, onClose, url, title, text }: ShareModalProps) => {
 						fontSize: 13,
 						fontWeight: 600,
 						color: '#fff',
-						background: copied ? '#2e9e5b' : '#cf6422',
+						background: copied ? '#2e9e5b' : 'var(--primary)',
 						transition: 'background .2s ease',
 						flexShrink: 0,
 					}}

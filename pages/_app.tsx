@@ -1,8 +1,9 @@
 import type { AppProps } from 'next/app';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { light } from '../scss/MaterialTheme';
+import React, { useEffect, useMemo } from 'react';
+import { light, dark } from '../scss/MaterialTheme';
+import { ThemeModeProvider, useThemeMode } from '../libs/context/ThemeContext';
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '../apollo/client';
 import { appWithTranslation } from 'next-i18next';
@@ -28,8 +29,9 @@ const PAGE_TITLES: Record<string, string> = {
 };
 
 const App = ({ Component, pageProps }: AppProps) => {
+	const { mode } = useThemeMode();
 	// @ts-ignore
-	const [theme, setTheme] = useState(createTheme(light));
+	const theme = useMemo(() => createTheme(mode === 'dark' ? dark : light), [mode]);
 	const client = useApollo(pageProps.initialApolloState);
 	const router = useRouter();
 	const pageTitle = PAGE_TITLES[router.pathname];
@@ -94,4 +96,10 @@ const App = ({ Component, pageProps }: AppProps) => {
 	);
 };
 
-export default appWithTranslation(App);
+const AppWithTheme = (props: AppProps) => (
+	<ThemeModeProvider>
+		<App {...props} />
+	</ThemeModeProvider>
+);
+
+export default appWithTranslation(AppWithTheme);

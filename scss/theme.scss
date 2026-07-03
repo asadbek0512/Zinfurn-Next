@@ -1,0 +1,246 @@
+/** THEME TOKENS
+ *  Single source of truth for every themeable color in the app.
+ *  Light values match the original design; dark values are derived
+ *  from the same warm palette so both themes stay harmonious.
+ *  Brand sections (brown footer, hero gradients, colored badges with
+ *  white text) are intentionally theme-stable and keep literal colors.
+ */
+
+:root {
+	color-scheme: light;
+
+	/* Backgrounds */
+	--bg-page: #ffffff; /* page/body background */
+	--surface: #ffffff; /* cards, panels, modals */
+	--surface-2: #fafafa; /* subtle alternate surface */
+	--bg-muted: #f5f5f5; /* gray blocks, inputs, table stripes */
+	--bg-warm: #f8f7f4; /* warm section background */
+	--bg-strong: #e0e0e0; /* skeletons, disabled fills, strong gray */
+	--bg-inverse: #333333; /* tooltips / dark chips with white text */
+	--dark-section: #181a20; /* hero/banner dark sections (dark in both themes) */
+
+	/* Text */
+	--text-1: #181a20; /* headings, primary text */
+	--text-2: #666666; /* secondary text */
+	--text-3: #888888; /* tertiary text, meta */
+	--text-4: #aaaaaa; /* muted, placeholders, disabled */
+
+	/* Borders */
+	--border: #dddddd; /* default border */
+	--border-soft: #eeeeee; /* hairline dividers */
+	--border-dark: #181a20; /* emphasized (outline buttons) */
+
+	/* Brand */
+	--primary: #cf6422;
+	--primary-dark: #b8561e; /* hover / pressed */
+	--primary-deep: #763711; /* deep brown text accents */
+	--primary-soft: #fff4ec; /* tinted backgrounds */
+	--primary-glow: rgba(207, 100, 34, 0.18); /* focus rings, soft shadows */
+	--footer-bg: #763711; /* brand footer */
+	--brand-grad-a: #763711; /* brand gradient start */
+	--brand-grad-b: #cf6422; /* brand gradient end */
+	--primary-2: #e87b40; /* gradient companion of primary */
+	--amber: #f4a92b; /* promo/banner amber */
+	--amber-2: #e2a93b;
+	--cream: #f8f3e3; /* cream panels */
+	--tan: #e8dcc0; /* image placeholder tan */
+
+	/* Status */
+	--danger: #e74c3c;
+	--danger-soft: #fdf0ef;
+	--success: #2e7d32;
+	--success-soft: #e8f5e9;
+	--info: #1976d2;
+	--info-soft: #e3f2fd;
+	--warning: #f57c00;
+	--star: #f5a623;
+
+	/* Hero glass (search panel over hero image) */
+	--hero-glass: rgba(174, 173, 173, 0.28);
+	--hero-glass-box: rgba(255, 255, 255, 0.575);
+
+	/* Homepage section band — har bir bo'limni nozik ajratish uchun */
+	--section-alt: #faf8f4;
+
+	/* Effects */
+	--shadow-1: rgba(0, 0, 0, 0.06);
+	--shadow-2: rgba(0, 0, 0, 0.12);
+	--overlay: rgba(24, 26, 32, 0.55); /* modal backdrops */
+	--scrollbar-thumb: #bdbdbd;
+	--scrollbar-track: #eeeeee;
+	--skeleton-base: #ece9e4;
+	--skeleton-highlight: #f7f5f2;
+}
+
+[data-theme='dark'] {
+	color-scheme: dark;
+
+	/* Backgrounds — one warm dark family (matches the navbar tone everywhere) */
+	--bg-page: #1e1b17;
+	--surface: #292521;
+	--surface-2: #2f2b26;
+	--bg-muted: #37322b;
+	--bg-warm: #292521;
+	--bg-strong: #423d36;
+	--bg-inverse: #4a453d;
+	--dark-section: #171512;
+
+	/* Text — warm-tinted neutrals */
+	--text-1: #f2f0ec;
+	--text-2: #cfcac2;
+	--text-3: #a8a299;
+	--text-4: #837d73;
+
+	/* Borders */
+	--border: #443f37;
+	--border-soft: #363129;
+	--border-dark: #ddd8d0;
+
+	/* Brand — softened, desaturated for an elegant dark look */
+	--primary: #cf7a41;
+	--primary-dark: #b8672e;
+	--primary-deep: #d9a077;
+	--primary-soft: #2b221a;
+	--primary-glow: rgba(207, 122, 65, 0.16);
+	--footer-bg: #221a12; /* deep muted brown — quiet, refined */
+	--brand-grad-a: #3d2712;
+	--brand-grad-b: #7d461d;
+	--primary-2: #d98a52;
+	--amber: #96702a; /* muted amber — no glare on dark */
+	--amber-2: #85631f;
+	--cream: #33302a;
+	--tan: #3a352c;
+
+	/* Status */
+	--danger: #f2685c;
+	--danger-soft: #342220;
+	--success: #6abf6e;
+	--success-soft: #232b21;
+	--info: #64b5f6;
+	--info-soft: #232a32;
+	--warning: #e8944a;
+	--star: #e0a13f;
+
+	/* Hero glass — engil dudli shisha (blur bilan birga ishlaydi) */
+	--hero-glass: rgba(22, 18, 14, 0.22);
+	--hero-glass-box: rgba(22, 18, 14, 0.34);
+
+	/* Homepage section band — sahifa fonidan biroz to'qroq */
+	--section-alt: #23201b;
+
+	/* Effects */
+	--shadow-1: rgba(0, 0, 0, 0.35);
+	--shadow-2: rgba(0, 0, 0, 0.55);
+	--overlay: rgba(0, 0, 0, 0.65);
+	--scrollbar-thumb: #55503f;
+	--scrollbar-track: #2c2925;
+	--skeleton-base: #2c2925;
+	--skeleton-highlight: #363129;
+}
+
+/* Dark rejimda doim oq logo ko'rinsin — qora logo fon bilan qo'shilib ketmasin */
+[data-theme='dark'] .logo-box .logo111 {
+	opacity: 0 !important;
+}
+[data-theme='dark'] .logo-box .logo11 {
+	opacity: 1 !important;
+}
+
+/* Dark rejimda qora chat ikonkasi, splash-logo va footer-logo ko'rinsin */
+[data-theme='dark'] .chat-button img,
+[data-theme='dark'] .page-loader img {
+	filter: invert(1);
+}
+[data-theme='dark'] .footer-container img.logo,
+[data-theme='dark'] .mobile-footer img.logo,
+[data-theme='dark'] .chat-frame img[src*='/img/logo/'] {
+	filter: brightness(0) invert(1);
+	opacity: 0.9;
+}
+
+/* Dark rejimda scroll bo'lgan navbar'dagi qora ramkalar oq shaffofga o'tsin */
+[data-theme='dark'] #pc-wrap #top .navbar .navbar-main.transparent .join-box {
+	border-color: rgba(255, 255, 255, 0.35) !important;
+}
+[data-theme='dark'] #pc-wrap #top .navbar .navbar-main.transparent .lan-box .btn-currency {
+	border-color: rgba(255, 255, 255, 0.3) !important;
+}
+[data-theme='dark'] #pc-wrap #top .navbar .navbar-main.transparent .login-user img {
+	border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Dark rejimda mobil navbar: burger chiziqlari, valyuta ramkasi, qora ikonkalar */
+[data-theme='dark'] #mobile-wrap .mobile-navbar .mobile-navbar-main .menu-icon span {
+	background: var(--text-1) !important;
+}
+[data-theme='dark'] #mobile-wrap .mobile-navbar .mobile-navbar-main .btn-currency {
+	border-color: rgba(255, 255, 255, 0.3) !important;
+}
+[data-theme='dark'] img[src*='icons/stol'] {
+	filter: invert(1);
+}
+
+/* Dark rejimda mypage yon menyudagi qora SVG ikonkalar oq bo'lsin
+   (oq variantlari — src'ida "White" borlar — aktiv holat uchun, ularga tegilmaydi) */
+[data-theme='dark'] img.com-icon:not([src*='White']) {
+	filter: invert(1) opacity(0.85);
+}
+
+/* Dark rejimda hero qidiruv paneli — dudli shisha effekti */
+[data-theme='dark'] .header-main .search-box {
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+}
+[data-theme='dark'] .header-main .search-box .select-box .box {
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* Product rasm plitasi — har xil fondagi suratlar bir xil ko'rinsin (ikkala theme'da) */
+.product-image-container,
+.mob-card-img-wrap,
+.mob-card-img {
+	background-color: #f6f4f0;
+}
+
+/* Homepage bo'limlarini nozik ajratish: navbatma-navbat band + hairline chiziq */
+.home-page > div[data-aos]:nth-child(even) {
+	background: var(--section-alt);
+}
+.home-page > div[data-aos] + div[data-aos] {
+	border-top: 1px solid var(--border-soft);
+}
+
+/* Dark rejimda kartalar fon bilan qo'shilib ketmasin — nozik hairline ramka */
+[data-theme='dark']
+	:is(.product-card, .top-agent-card, .promo-card, .rev-card, .review-card, .property-card, .mob-property-card, .zf-skel-card, .flash-sale-header) {
+	border: 1px solid var(--border-soft);
+}
+
+html {
+	background: var(--bg-page);
+}
+
+/* Third-party surfaces follow the theme */
+.swal2-popup {
+	background: var(--surface) !important;
+	color: var(--text-1) !important;
+}
+.swal2-title,
+.swal2-html-container {
+	color: var(--text-1) !important;
+}
+.swal2-input,
+.swal2-textarea,
+.swal2-select {
+	background: var(--bg-muted) !important;
+	color: var(--text-1) !important;
+	border-color: var(--border) !important;
+}
+
+body {
+	background: var(--bg-page);
+	color: var(--text-1);
+	transition: background-color 0.25s ease, color 0.25s ease;
+}

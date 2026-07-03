@@ -159,7 +159,7 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 										key={i}
 										sx={{
 											fontSize: 20,
-											color: i <= Math.round(summary.averageRating) ? '#f5a623' : '#e0e0e0',
+											color: i <= Math.round(summary.averageRating) ? '#f5a623' : 'var(--bg-strong)',
 										}}
 									/>
 								))}
@@ -184,7 +184,7 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 										onClick={() => setStarFilter(isActive ? null : star)}
 									>
 										<span className="rev-dist-star">{star}</span>
-										<StarIcon sx={{ fontSize: 11, color: '#f5a623', flexShrink: 0 }} />
+										<StarIcon sx={{ fontSize: 11, color: 'var(--star)', flexShrink: 0 }} />
 										<div className="rev-dist-bar">
 											<div className="rev-dist-fill" style={{ width: `${pct}%` }} />
 										</div>
@@ -263,7 +263,7 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 						{loading && <div className="rev-loading">{t('Loading...')}</div>}
 						{filtered.length === 0 && !loading && (
 							<div className="rev-no-results">
-								<StarBorderIcon sx={{ fontSize: 40, color: '#ddd' }} />
+								<StarBorderIcon sx={{ fontSize: 40, color: 'var(--bg-strong)' }} />
 								<Typography color="text.secondary">{t('No reviews matching this filter')}</Typography>
 							</div>
 						)}
@@ -283,7 +283,7 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 										<div className="rev-user-details">
 											<span className="rev-user-name">{review.memberData?.memberNick || 'User'}</span>
 											<div className="rev-verified">
-												<VerifiedIcon sx={{ fontSize: 11, color: '#22c55e' }} />
+												<VerifiedIcon sx={{ fontSize: 11, color: 'var(--success)' }} />
 												<span>{t('Verified Purchase')}</span>
 											</div>
 										</div>
@@ -296,13 +296,13 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 													key={i}
 													sx={{
 														fontSize: 14,
-														color: i <= review.reviewRating ? '#f5a623' : '#e0e0e0',
+														color: i <= review.reviewRating ? '#f5a623' : 'var(--bg-strong)',
 													}}
 												/>
 											))}
 											<span
 												className="rev-rating-label"
-												style={{ color: RATING_COLORS[review.reviewRating] || '#888' }}
+												style={{ color: RATING_COLORS[review.reviewRating] || 'var(--text-3)' }}
 											>
 												{t(RATING_LABELS[review.reviewRating] || '')}
 											</span>
@@ -397,7 +397,7 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 				<div className="rev-empty">
 					<div className="rev-empty-stars">
 						{[1, 2, 3, 4, 5].map((i) => (
-							<StarBorderIcon key={i} sx={{ fontSize: 32, color: '#e0e0e0' }} />
+							<StarBorderIcon key={i} sx={{ fontSize: 32, color: 'var(--bg-strong)' }} />
 						))}
 					</div>
 					<Typography className="rev-empty-title">{t('No reviews yet')}</Typography>

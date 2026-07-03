@@ -82,7 +82,7 @@ const MyMessages = () => {
 					{convLoading && conversations.length === 0 && <div className="mm-empty">{t('Loading...')}</div>}
 					{!convLoading && conversations.length === 0 && (
 						<div className="mm-empty">
-							<ChatBubbleOutlineIcon sx={{ fontSize: 40, color: '#ddd' }} />
+							<ChatBubbleOutlineIcon sx={{ fontSize: 40, color: 'var(--bg-strong)' }} />
 							<p>{t('No messages yet')}</p>
 						</div>
 					)}
@@ -110,7 +110,7 @@ const MyMessages = () => {
 				<div className={`mm-thread ${activeId ? '' : 'mm-hidden-mobile'}`}>
 					{!activeId ? (
 						<div className="mm-thread-placeholder">
-							<ChatBubbleOutlineIcon sx={{ fontSize: 48, color: '#ddd' }} />
+							<ChatBubbleOutlineIcon sx={{ fontSize: 48, color: 'var(--bg-strong)' }} />
 							<p>{t('Select a conversation')}</p>
 						</div>
 					) : (

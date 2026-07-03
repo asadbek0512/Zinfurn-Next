@@ -33,7 +33,7 @@ const Notice = () => {
 				{notices.map((notice: any, index: number) => (
 					<div key={notice._id} className="mob-cs-notice-card">
 						<div className="mob-cs-notice-top">
-							<NotificationsIcon sx={{ color: '#cf6422', fontSize: 18, flexShrink: 0 }} />
+							<NotificationsIcon sx={{ color: 'var(--primary)', fontSize: 18, flexShrink: 0 }} />
 							<span className="mob-cs-notice-title">{getLocalizedNoticeTitle(notice, i18n.language)}</span>
 							<span className="mob-cs-notice-date">{format(new Date(notice.createdAt), 'MMM dd')}</span>
 						</div>
@@ -64,9 +64,9 @@ const Notice = () => {
 			<Box
 				component="div"
 				sx={{
-					backgroundColor: '#ffffff',
+					backgroundColor: 'var(--surface)',
 					borderRadius: '12px',
-					border: '1px solid #E2E8F0',
+					border: '1px solid var(--border-soft)',
 					overflow: 'hidden',
 				}}
 			>
@@ -79,20 +79,20 @@ const Notice = () => {
 								alignItems: 'center',
 								gap: 2,
 								p: 3,
-								backgroundColor: '#F8FAFC',
-								borderBottom: '1px solid #E2E8F0',
+								backgroundColor: 'var(--surface-2)',
+								borderBottom: '1px solid var(--border-soft)',
 							}}
 						>
 							<NotificationsIcon sx={{ color: '#ff6b35' }} />
-							<Typography sx={{ color: '#1E293B', fontWeight: 600, fontSize: '1.1rem', flex: 1 }}>
+							<Typography sx={{ color: 'var(--text-1)', fontWeight: 600, fontSize: '1.1rem', flex: 1 }}>
 								{getLocalizedNoticeTitle(notice, i18n.language)}
 							</Typography>
-							<Typography sx={{ color: '#64748B', fontSize: '0.9rem' }}>
+							<Typography sx={{ color: 'var(--text-2)', fontSize: '0.9rem' }}>
 								{format(new Date(notice.createdAt), 'MMM dd, yyyy')}
 							</Typography>
 						</Box>
 						<Box component="div" sx={{ p: 3, borderBottom: index < notices.length - 1 ? '1px solid #E2E8F0' : 'none' }}>
-							<Typography sx={{ color: '#64748B', lineHeight: 1.8 }}>{getLocalizedNoticeContent(notice, i18n.language)}</Typography>
+							<Typography sx={{ color: 'var(--text-2)', lineHeight: 1.8 }}>{getLocalizedNoticeContent(notice, i18n.language)}</Typography>
 						</Box>
 					</Box>
 				))}

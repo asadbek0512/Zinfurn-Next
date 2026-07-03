@@ -192,7 +192,7 @@ const CommunityArticleList = (props: CommunityArticleListProps) => {
 										{article.articleStatus === BoardArticleStatus.DELETE ? (
 											<Button
 												variant="outlined"
-												sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #000000' } }}
+												sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid var(--border-dark)' } }}
 												onClick={() => removeArticleHandler(article._id)}
 											>
 												<DeleteIcon fontSize="small" />

@@ -496,7 +496,7 @@ const Filter = (props: FilterType) => {
 		return (
 			<Stack className={'filter-main'}>
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>
+					<Typography className={'title'} style={{ textShadow: 'none' }}>
 						{t('propertyType')}
 					</Typography>
 					<Stack
@@ -566,8 +566,8 @@ const Filter = (props: FilterType) => {
 							sx={{
 								borderRadius: 0,
 								border: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW)
-									? '2px solid #181A20'
-									: '1px solid #b9b9b9',
+									? '2px solid var(--border-dark)'
+									: '1px solid var(--border)',
 								borderLeft: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW) ? undefined : 'none',
 							}}
 							onClick={() => propertyConditionSelectHandler(PropertyCondition.NEW)}
@@ -578,8 +578,8 @@ const Filter = (props: FilterType) => {
 							sx={{
 								borderRadius: 0,
 								border: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED)
-									? '2px solid #181A20'
-									: '1px solid #b9b9b9',
+									? '2px solid var(--border-dark)'
+									: '1px solid var(--border)',
 								borderLeft: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED) ? undefined : 'none',
 							}}
 							onClick={() => propertyConditionSelectHandler(PropertyCondition.USED)}
@@ -658,8 +658,8 @@ const Filter = (props: FilterType) => {
 								sx={{
 									borderRadius: index === 0 ? '12px 0 0 12px' : index === array.length - 1 ? '0 12px 12px 0' : 0,
 									border: searchFilter?.search?.materialList?.includes(material)
-										? '2px solid #181A20'
-										: '1px solid #b9b9b9',
+										? '2px solid var(--border-dark)'
+										: '1px solid var(--border)',
 									borderLeft:
 										index !== 0 && !searchFilter?.search?.materialList?.includes(material) ? 'none' : undefined,
 								}}
@@ -694,9 +694,9 @@ const Filter = (props: FilterType) => {
 									justifyContent: 'space-between',
 									gap: '4px',
 									borderRadius: '12px',
-									border: searchFilter?.search?.colorList?.includes(color) ? '2px solid #181A20' : '1px solid #ffffff',
-									backgroundColor: '#fff',
-									color: '#000',
+									border: searchFilter?.search?.colorList?.includes(color) ? '2px solid var(--border-dark)' : '1px solid #ffffff',
+									backgroundColor: 'var(--surface)',
+									color: 'var(--text-1)',
 									minWidth: 'auto',
 									fontSize: '13px',
 									padding: '4px 10px',
@@ -714,7 +714,7 @@ const Filter = (props: FilterType) => {
 										height: '20px',
 										borderRadius: '50%',
 										backgroundColor: color.toLowerCase(),
-										border: '1px solid #999',
+										border: '1px solid var(--border)',
 									}}
 								/>
 							</Button>
@@ -727,7 +727,7 @@ const Filter = (props: FilterType) => {
 		return (
 			<Stack className={'filter-main'}>
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>
+					<Typography className={'title'} style={{ textShadow: 'none' }}>
 						{t('propertyType')}
 					</Typography>
 					<Stack
@@ -757,8 +757,8 @@ const Filter = (props: FilterType) => {
 				<Stack className={'find-your-home'} mb={'30px'}>
 					<Typography className={'title'}>{t('condition')}</Typography>
 					<Stack className="button-group2">
-						<Button sx={{ borderRadius: 0, border: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW) ? '2px solid #181A20' : '1px solid #b9b9b9', borderLeft: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW) ? undefined : 'none' }} onClick={() => propertyConditionSelectHandler(PropertyCondition.NEW)}>{t('NEW')}</Button>
-						<Button sx={{ borderRadius: 0, border: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED) ? '2px solid #181A20' : '1px solid #b9b9b9', borderLeft: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED) ? undefined : 'none' }} onClick={() => propertyConditionSelectHandler(PropertyCondition.USED)}>{t('USED')}</Button>
+						<Button sx={{ borderRadius: 0, border: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW) ? '2px solid var(--border-dark)' : '1px solid var(--border)', borderLeft: searchFilter?.search?.conditionList?.includes(PropertyCondition.NEW) ? undefined : 'none' }} onClick={() => propertyConditionSelectHandler(PropertyCondition.NEW)}>{t('NEW')}</Button>
+						<Button sx={{ borderRadius: 0, border: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED) ? '2px solid var(--border-dark)' : '1px solid var(--border)', borderLeft: searchFilter?.search?.conditionList?.includes(PropertyCondition.USED) ? undefined : 'none' }} onClick={() => propertyConditionSelectHandler(PropertyCondition.USED)}>{t('USED')}</Button>
 					</Stack>
 				</Stack>
 				<Stack className={'find-your-home'}>
@@ -784,7 +784,7 @@ const Filter = (props: FilterType) => {
 					<Typography className={'title'}>{t('material')}</Typography>
 					<Stack className="button-group">
 						{(['WOOD', 'METAL', 'PLASTIC', 'GLASS'] as PropertyMaterial[]).map((material, index, array) => (
-							<Button key={material} sx={{ borderRadius: index === 0 ? '12px 0 0 12px' : index === array.length - 1 ? '0 12px 12px 0' : 0, border: searchFilter?.search?.materialList?.includes(material) ? '2px solid #181A20' : '1px solid #b9b9b9', borderLeft: index !== 0 && !searchFilter?.search?.materialList?.includes(material) ? 'none' : undefined }} onClick={() => propertyMaterialSelectHandler(material)}>{t(material)}</Button>
+							<Button key={material} sx={{ borderRadius: index === 0 ? '12px 0 0 12px' : index === array.length - 1 ? '0 12px 12px 0' : 0, border: searchFilter?.search?.materialList?.includes(material) ? '2px solid var(--border-dark)' : '1px solid var(--border)', borderLeft: index !== 0 && !searchFilter?.search?.materialList?.includes(material) ? 'none' : undefined }} onClick={() => propertyMaterialSelectHandler(material)}>{t(material)}</Button>
 						))}
 					</Stack>
 				</Stack>
@@ -792,9 +792,9 @@ const Filter = (props: FilterType) => {
 					<Typography className={'title'}>{t('color')}</Typography>
 					<Stack className="button-group1" flexWrap="wrap" gap={1} onMouseEnter={() => setShowMore(true)} onMouseLeave={() => { if (!searchFilter?.search?.categoryList) setShowMore(false); }}>
 						{(['WHITE', 'BLACK', 'BROWN', 'GRAY', 'BEIGE', 'BLUE', 'GREEN'] as PropertyColor[]).map((color) => (
-							<Button key={color} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px', borderRadius: '12px', border: searchFilter?.search?.colorList?.includes(color) ? '2px solid #181A20' : '1px solid #ffffff', backgroundColor: '#fff', color: '#000', minWidth: 'auto', fontSize: '13px', padding: '4px 10px', textTransform: 'capitalize', '&:hover': { backgroundColor: '#facc15' } }} onClick={() => propertyColorHandler(color)}>
+							<Button key={color} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px', borderRadius: '12px', border: searchFilter?.search?.colorList?.includes(color) ? '2px solid var(--border-dark)' : '1px solid #ffffff', backgroundColor: 'var(--surface)', color: 'var(--text-1)', minWidth: 'auto', fontSize: '13px', padding: '4px 10px', textTransform: 'capitalize', '&:hover': { backgroundColor: '#facc15' } }} onClick={() => propertyColorHandler(color)}>
 								{t(color)}
-								<Stack sx={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: color.toLowerCase(), border: '1px solid #999' }} />
+								<Stack sx={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: color.toLowerCase(), border: '1px solid var(--border)' }} />
 							</Button>
 						))}
 					</Stack>

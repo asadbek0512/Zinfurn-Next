@@ -3,7 +3,7 @@
    ============================================================ */
 .tracking-page {
 	min-height: 100vh;
-	background: #f8f7f4;
+	background: var(--bg-warm);
 	padding: 40px 0 80px;
 	font-family: 'Poppins', sans-serif;
 
@@ -27,28 +27,28 @@
 			align-items: center;
 			gap: 6px;
 			background: none;
-			border: 1px solid #e0e0e0;
+			border: 1px solid var(--border-soft);
 			border-radius: 8px;
 			padding: 7px 14px;
 			font-size: 13px;
-			color: #555;
+			color: var(--text-2);
 			cursor: pointer;
 			font-family: 'Poppins', sans-serif;
 			transition: all 0.15s;
-			&:hover { background: #fff; border-color: #bbb; }
+			&:hover { background: var(--surface); border-color: #bbb; }
 		}
 
 		.tracking-page-title {
 			font-size: 26px;
 			font-weight: 700;
-			color: #1a1a1a;
+			color: var(--text-1);
 			font-family: 'Poppins', sans-serif;
 		}
 	}
 
 	/* Order info bar */
 	.tracking-order-bar {
-		background: #fff;
+		background: var(--surface);
 		border-radius: 14px;
 		padding: 20px 28px;
 		display: flex;
@@ -65,7 +65,7 @@
 
 			.tracking-order-label {
 				font-size: 11px;
-				color: #aaa;
+				color: var(--text-4);
 				text-transform: uppercase;
 				letter-spacing: 0.5px;
 				font-family: 'Poppins', sans-serif;
@@ -74,7 +74,7 @@
 			.tracking-order-id {
 				font-size: 15px;
 				font-weight: 700;
-				color: #1a1a1a;
+				color: var(--text-1);
 				font-family: 'Poppins', sans-serif;
 				letter-spacing: 1px;
 			}
@@ -82,12 +82,12 @@
 			.tracking-order-val {
 				font-size: 14px;
 				font-weight: 500;
-				color: #333;
+				color: var(--text-1);
 				font-family: 'Poppins', sans-serif;
 			}
 
 			.tracking-order-est {
-				color: #cf6422;
+				color: var(--primary);
 				font-weight: 600;
 			}
 		}
@@ -98,7 +98,7 @@
 			align-items: center;
 			gap: 8px;
 			background: rgba(207, 100, 34, 0.1);
-			color: #cf6422;
+			color: var(--primary);
 			font-size: 13px;
 			font-weight: 600;
 			padding: 6px 16px;
@@ -109,7 +109,7 @@
 				width: 8px;
 				height: 8px;
 				border-radius: 50%;
-				background: #cf6422;
+				background: var(--primary);
 				animation: pulse-dot 1.5s infinite;
 			}
 		}
@@ -129,7 +129,7 @@
 
 	/* Left: steps */
 	.tracking-left {
-		background: #fff;
+		background: var(--surface);
 		border-radius: 16px;
 		padding: 32px;
 		box-shadow: 0 2px 12px rgba(0,0,0,0.05);
@@ -148,7 +148,7 @@
 			top: 24px;
 			bottom: 24px;
 			width: 3px;
-			background: #e8e8e8;
+			background: var(--bg-muted);
 			border-radius: 2px;
 
 			.tracking-progress-fill {
@@ -156,7 +156,7 @@
 				top: 0;
 				left: 0;
 				width: 100%;
-				background: linear-gradient(180deg, #cf6422, #e87b40);
+				background: linear-gradient(180deg, var(--primary), var(--primary-2));
 				border-radius: 2px;
 				transition: height 0.8s ease;
 			}
@@ -184,11 +184,11 @@
 			width: 44px;
 			height: 44px;
 			border-radius: 50%;
-			background: #f0f0f0;
+			background: var(--bg-muted);
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			color: #bbb;
+			color: var(--text-4);
 			border: 3px solid #fff;
 			box-shadow: 0 0 0 2px #e0e0e0;
 			transition: all 0.3s;
@@ -196,15 +196,15 @@
 			svg { font-size: 20px; }
 
 			&.done {
-				background: #fff8f4;
-				color: #cf6422;
+				background: var(--primary-soft);
+				color: var(--primary);
 				box-shadow: 0 0 0 2px #cf6422;
 			}
 
 			&.active {
-				background: #cf6422;
+				background: var(--primary);
 				color: #fff;
-				box-shadow: 0 0 0 3px rgba(207, 100, 34, 0.25);
+				box-shadow: 0 0 0 3px var(--primary-glow);
 				animation: pulse-ring 2s infinite;
 			}
 		}
@@ -215,21 +215,21 @@
 			.tracking-step-label {
 				font-size: 15px;
 				font-weight: 600;
-				color: #1a1a1a;
+				color: var(--text-1);
 				font-family: 'Poppins', sans-serif;
 				margin-bottom: 4px;
 			}
 
 			.tracking-step-desc {
 				font-size: 13px;
-				color: #888;
+				color: var(--text-3);
 				font-family: 'Poppins', sans-serif;
 			}
 
 			.tracking-step-now {
 				display: inline-block;
 				margin-top: 8px;
-				background: #cf6422;
+				background: var(--primary);
 				color: #fff;
 				font-size: 11px;
 				font-weight: 600;
@@ -252,7 +252,7 @@
 		padding: 16px;
 		margin-top: 24px;
 
-		svg { color: #f9a825; flex-shrink: 0; margin-top: 2px; }
+		svg { color: var(--star); flex-shrink: 0; margin-top: 2px; }
 
 		.tracking-demo-title {
 			font-size: 13px;
@@ -290,7 +290,7 @@
 	.tracking-map-placeholder {
 		width: 100%;
 		height: 100%;
-		background: #e8eaed;
+		background: var(--bg-muted);
 		position: relative;
 
 		.tracking-map-grid {
@@ -315,14 +315,14 @@
 			.tracking-map-pin {
 				width: 56px;
 				height: 56px;
-				background: #cf6422;
+				background: var(--primary);
 				border-radius: 50%;
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				color: #fff;
 				margin-bottom: 12px;
-				box-shadow: 0 4px 16px rgba(207, 100, 34, 0.4);
+				box-shadow: 0 4px 16px var(--primary-glow);
 				animation: bounce-pin 2s infinite;
 
 				svg { font-size: 28px; }
@@ -346,7 +346,7 @@
 
 	/* Delivery card */
 	.tracking-delivery-card {
-		background: #fff;
+		background: var(--surface);
 		border-radius: 16px;
 		padding: 20px;
 		box-shadow: 0 2px 12px rgba(0,0,0,0.05);
@@ -354,7 +354,7 @@
 		.tracking-delivery-title {
 			font-size: 15px;
 			font-weight: 600;
-			color: #1a1a1a;
+			color: var(--text-1);
 			margin-bottom: 12px;
 			font-family: 'Poppins', sans-serif;
 		}
@@ -365,24 +365,24 @@
 			display: flex;
 			justify-content: space-between;
 			padding: 8px 0;
-			border-bottom: 1px solid #f5f5f5;
+			border-bottom: 1px solid var(--border-soft);
 			&:last-child { border-bottom: none; }
 
 			.tracking-detail-label {
 				font-size: 13px;
-				color: #aaa;
+				color: var(--text-4);
 				font-family: 'Poppins', sans-serif;
 			}
 
 			.tracking-detail-val {
 				font-size: 13px;
-				color: #333;
+				color: var(--text-1);
 				font-weight: 500;
 				font-family: 'Poppins', sans-serif;
 			}
 
 			.tracking-in-transit {
-				color: #cf6422;
+				color: var(--primary);
 				font-weight: 600;
 			}
 		}
@@ -393,7 +393,7 @@
 		display: flex;
 		align-items: flex-start;
 		gap: 12px;
-		background: #e8f5e9;
+		background: var(--success-soft);
 		border-radius: 12px;
 		padding: 14px 16px;
 		margin-top: 16px;
@@ -404,7 +404,7 @@
 
 	/* Order items card */
 	.tracking-items-card {
-		background: #fff;
+		background: var(--surface);
 		border-radius: 16px;
 		padding: 20px;
 		box-shadow: 0 2px 12px rgba(0,0,0,0.06);
@@ -415,12 +415,12 @@
 			align-items: center;
 			justify-content: space-between;
 			padding: 8px 0;
-			border-bottom: 1px solid #f5f5f5;
+			border-bottom: 1px solid var(--border-soft);
 			&:last-child { border-bottom: none; }
 
 			.tracking-item-title {
 				font-size: 13px;
-				color: #333;
+				color: var(--text-1);
 				font-family: 'Poppins', sans-serif;
 				flex: 1;
 				white-space: nowrap;
@@ -430,7 +430,7 @@
 			}
 			.tracking-item-info {
 				font-size: 12px;
-				color: #888;
+				color: var(--text-3);
 				font-family: 'Poppins', sans-serif;
 			}
 		}
@@ -446,7 +446,7 @@
 			text-decoration: none;
 
 			.tracking-shop-btn {
-				background: #cf6422;
+				background: var(--primary);
 				color: #fff;
 				font-family: 'Poppins', sans-serif;
 				font-weight: 600;
@@ -454,12 +454,12 @@
 				border-radius: 10px;
 				height: 46px;
 				font-size: 14px;
-				&:hover { background: #b8561e; }
+				&:hover { background: var(--primary-dark); }
 			}
 
 			.tracking-mypage-btn {
-				border-color: #cf6422;
-				color: #cf6422;
+				border-color: var(--primary);
+				color: var(--primary);
 				font-family: 'Poppins', sans-serif;
 				font-weight: 500;
 				text-transform: none;
@@ -479,9 +479,9 @@
 }
 
 @keyframes pulse-ring {
-	0% { box-shadow: 0 0 0 3px rgba(207, 100, 34, 0.25); }
-	50% { box-shadow: 0 0 0 8px rgba(207, 100, 34, 0.08); }
-	100% { box-shadow: 0 0 0 3px rgba(207, 100, 34, 0.25); }
+	0% { box-shadow: 0 0 0 3px var(--primary-glow); }
+	50% { box-shadow: 0 0 0 8px var(--primary-glow); }
+	100% { box-shadow: 0 0 0 3px var(--primary-glow); }
 }
 
 @keyframes bounce-pin {

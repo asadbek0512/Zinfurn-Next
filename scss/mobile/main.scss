@@ -69,7 +69,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #181a20;
+    background-color: var(--dark-section);
 
     &.slide-0 { background-image: url('/img/banner/Home-1-.jpg'); }
     &.slide-1 { background-image: url('/img/banner/Home-2-.jpg'); }
@@ -88,7 +88,7 @@
       box-sizing: border-box;
       z-index: 99;
       align-items: center;
-      background-color: #ffffff;
+      background-color: var(--surface);
       box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
@@ -98,7 +98,7 @@
         border-bottom: none;
 
         .notification-icon { color: #ffffff !important; }
-        .menu-icon span { background: #ffffff !important; }
+        .menu-icon span { background: #fff !important; }
         .btn-lang img { filter: brightness(1.5); }
 
         .btn-currency {
@@ -112,7 +112,7 @@
         border-radius: 20px !important;
         padding: 3px 8px !important;
         min-width: unset !important;
-        .currency-label { color: #333333; font-size: 12px; font-weight: 600; }
+        .currency-label { color: var(--text-1); font-size: 12px; font-weight: 600; }
       }
 
       .mobile-container {
@@ -165,7 +165,7 @@
             gap: 10px;
 
             .notification-icon {
-              color: #333333;
+              color: var(--text-1);
               font-size: 18px;
               cursor: pointer;
             }
@@ -205,7 +205,7 @@
                   display: block;
                   width: 100%;
                   height: 2px;
-                  background: #333333;
+                  background: var(--bg-inverse);
                   border-radius: 1px;
                   transition: all 0.3s ease;
                   transform-origin: center;
@@ -218,7 +218,7 @@
   }
 
   .mobile-filter-bar {
-    background: #ffffff;
+    background: var(--surface);
     border-radius: 14px;
     padding: 12px 14px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.12);
@@ -241,31 +241,31 @@
       align-items: center;
       gap: 2px;
       padding: 7px 10px;
-      background: #f5f5f5;
+      background: var(--bg-muted);
       border-radius: 8px;
       cursor: pointer;
       white-space: nowrap;
       flex-shrink: 0;
       transition: background 0.2s;
 
-      &.active { background: #f0e8e0; }
+      &.active { background: var(--bg-warm); }
 
       span {
         font-size: 12px;
         font-weight: 500;
-        color: #333;
+        color: var(--text-1);
       }
 
       svg {
         font-size: 16px;
-        color: #666;
+        color: var(--text-2);
       }
 
       .mobile-filter-dropdown {
         position: absolute;
         top: calc(100% + 8px);
         left: 0;
-        background: #fff;
+        background: var(--surface);
         border-radius: 10px;
         box-shadow: 0 8px 24px rgba(0,0,0,0.12);
         z-index: 100;
@@ -275,10 +275,10 @@
         .mobile-filter-option {
           padding: 10px 14px;
           font-size: 13px;
-          color: #333;
+          color: var(--text-1);
           cursor: pointer;
           transition: background 0.15s;
-          &:hover { background: #f5f5f5; }
+          &:hover { background: var(--bg-muted); }
         }
       }
     }
@@ -287,7 +287,7 @@
       width: 38px;
       height: 38px;
       border-radius: 10px;
-      background: #763711;
+      background: var(--primary-deep);
       border: none;
       cursor: pointer;
       display: flex;
@@ -306,7 +306,7 @@
     flex-direction: row;
     justify-content: center;
     span {
-      color: #181a20;
+      color: var(--text-1);
       font-family: $font;
       font-size: 34px;
       font-style: normal;
@@ -370,8 +370,8 @@
                   left: 12px;
                   bottom: 12px;
                   border-radius: 6px;
-                  background: #fff;
-                  color: #181a20;
+                  background: var(--surface);
+                  color: var(--text-1);
                   font-family: $font;
                   font-size: 15px;
                   font-style: normal;
@@ -387,11 +387,11 @@
                 border-radius: 0px 0px 12px 12px;
                 border: 1px solid rgba(196, 196, 196, 0.71);
                 border-top: none;
-                background: #fff;
+                background: var(--surface);
                 box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
                 .title {
                   overflow: hidden;
-                  color: #181a20;
+                  color: var(--text-1);
                   text-overflow: ellipsis;
                   white-space: nowrap;
                   font-family: $font;
@@ -405,7 +405,7 @@
                 .desc {
                   margin-top: 5px;
                   overflow: hidden;
-                  color: #717171;
+                  color: var(--text-2);
                   font-family: $font;
                   font-size: 13px;
                   font-style: normal;
@@ -428,7 +428,7 @@
                       height: 17px;
                     }
                     span {
-                      color: #181a20;
+                      color: var(--text-1);
                       font-family: $font;
                       font-size: 13px;
                       font-style: normal;
@@ -443,7 +443,7 @@
                   justify-content: space-between;
                   align-items: center;
                   p {
-                    color: #181a20;
+                    color: var(--text-1);
                     font-family: $font;
                     font-size: 13px;
                     font-style: normal;
@@ -463,7 +463,7 @@
                     gap: 7px;
                     align-items: center;
                     .view-cnt {
-                      color: #717171;
+                      color: var(--text-2);
                       font-family: $font;
                       font-size: 13px;
                       font-style: normal;
@@ -496,8 +496,8 @@
               left: 12px;
               bottom: 12px;
               border-radius: 6px;
-              background: #fff;
-              color: #181a20;
+              background: var(--surface);
+              color: var(--text-1);
               font-family: $font;
               font-size: 15px;
               font-style: normal;
@@ -513,11 +513,11 @@
             border-radius: 0px 0px 12px 12px;
             border: 1px solid rgba(196, 196, 196, 0.71);
             border-top: none;
-            background: #fff;
+            background: var(--surface);
             box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
             .title {
               overflow: hidden;
-              color: #181a20;
+              color: var(--text-1);
               text-overflow: ellipsis;
               white-space: nowrap;
               font-family: $font;
@@ -531,7 +531,7 @@
             .desc {
               margin-top: 5px;
               overflow: hidden;
-              color: #717171;
+              color: var(--text-2);
               font-family: $font;
               font-size: 13px;
               font-style: normal;
@@ -554,7 +554,7 @@
                   height: 17px;
                 }
                 span {
-                  color: #181a20;
+                  color: var(--text-1);
                   font-family: $font;
                   font-size: 13px;
                   font-style: normal;
@@ -569,7 +569,7 @@
               justify-content: space-between;
               align-items: center;
               p {
-                color: #181a20;
+                color: var(--text-1);
                 font-family: $font;
                 font-size: 13px;
                 font-style: normal;
@@ -589,7 +589,7 @@
                 gap: 7px;
                 align-items: center;
                 .view-cnt {
-                  color: #717171;
+                  color: var(--text-2);
                   font-family: $font;
                   font-size: 13px;
                   font-style: normal;
@@ -611,7 +611,7 @@
     height: auto;
     display: flex;
     flex-direction: row;
-    background: #f6f6f6;
+    background: var(--bg-muted);
     .container {
       width: 100%;
       flex-direction: column;
@@ -677,8 +677,8 @@
               left: 20px;
               bottom: 20px;
               border-radius: 6px;
-              background: #fff;
-              color: #181a20;
+              background: var(--surface);
+              color: var(--text-1);
               font-family: $font;
               font-size: 15px;
               font-style: normal;
@@ -694,11 +694,11 @@
             border-radius: 0px 0px 12px 12px;
             border: 1px solid rgba(196, 196, 196, 0.71);
             border-top: none;
-            background: #fff;
+            background: var(--surface);
             box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
             .title {
               overflow: hidden;
-              color: #181a20;
+              color: var(--text-1);
               text-overflow: ellipsis;
               white-space: nowrap;
               font-family: $font;
@@ -712,7 +712,7 @@
             .desc {
               margin-top: 5px;
               overflow: hidden;
-              color: #717171;
+              color: var(--text-2);
               font-family: $font;
               font-size: 13px;
               font-style: normal;
@@ -735,7 +735,7 @@
                   height: 17px;
                 }
                 span {
-                  color: #181a20;
+                  color: var(--text-1);
                   font-family: $font;
                   font-size: 13px;
                   font-style: normal;
@@ -750,7 +750,7 @@
               justify-content: space-between;
               align-items: center;
               p {
-                color: #181a20;
+                color: var(--text-1);
                 font-family: $font;
                 font-size: 13px;
                 font-style: normal;
@@ -770,7 +770,7 @@
                 gap: 7px;
                 align-items: center;
                 .view-cnt {
-                  color: #717171;
+                  color: var(--text-2);
                   font-family: $font;
                   font-size: 13px;
                   font-style: normal;
@@ -789,7 +789,7 @@
         justify-content: center;
         align-items: center;
         .swiper-pagination-bullet.swiper-pagination-bullet-active {
-          background: #000000;
+          background: var(--text-1);
         }
         .swiper-popular-next {
           margin-left: 20px;
@@ -855,8 +855,8 @@
                   left: 12px;
                   bottom: 12px;
                   border-radius: 6px;
-                  background: #fff;
-                  color: #181a20;
+                  background: var(--surface);
+                  color: var(--text-1);
                   font-family: $font;
                   font-size: 15px;
                   font-style: normal;
@@ -872,11 +872,11 @@
                 border-radius: 0px 0px 12px 12px;
                 border: 1px solid rgba(196, 196, 196, 0.71);
                 border-top: none;
-                background: #fff;
+                background: var(--surface);
                 box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
                 .title {
                   overflow: hidden;
-                  color: #181a20;
+                  color: var(--text-1);
                   text-overflow: ellipsis;
                   white-space: nowrap;
                   font-family: $font;
@@ -890,7 +890,7 @@
                 .desc {
                   margin-top: 5px;
                   overflow: hidden;
-                  color: #717171;
+                  color: var(--text-2);
                   font-family: $font;
                   font-size: 13px;
                   font-style: normal;
@@ -913,7 +913,7 @@
                       height: 17px;
                     }
                     span {
-                      color: #181a20;
+                      color: var(--text-1);
                       font-family: $font;
                       font-size: 13px;
                       font-style: normal;
@@ -928,7 +928,7 @@
                   justify-content: space-between;
                   align-items: center;
                   p {
-                    color: #181a20;
+                    color: var(--text-1);
                     font-family: $font;
                     font-size: 13px;
                     font-style: normal;
@@ -948,7 +948,7 @@
                     gap: 7px;
                     align-items: center;
                     .view-cnt {
-                      color: #717171;
+                      color: var(--text-2);
                       font-family: $font;
                       font-size: 13px;
                       font-style: normal;
@@ -974,7 +974,7 @@
     height: auto;
     display: flex;
     flex-direction: row;
-    background: #f6f6f6;
+    background: var(--bg-muted);
     .container {
       position: relative;
       width: 100%;
@@ -1010,7 +1010,7 @@
               }
               strong {
                 margin-top: 10px;
-                color: #181a20;
+                color: var(--text-1);
                 text-align: center;
                 font-family: $font;
                 font-size: 24px;
@@ -1021,7 +1021,7 @@
                 cursor: pointer;
               }
               span {
-                color: #181a20;
+                color: var(--text-1);
                 text-align: center;
                 font-family: $font;
                 font-size: 15px;
@@ -1038,7 +1038,7 @@
 
   #footer {
     .mobile-footer {
-      background: #763711;
+      background: var(--footer-bg);
       padding: 36px 20px 28px;
       display: flex;
       flex-direction: column;
@@ -1081,10 +1081,10 @@
               padding: 0 16px;
               font-size: 14px;
               outline: none;
-              background: #ffffff;
-              color: #333;
+              background: var(--surface);
+              color: var(--text-1);
 
-              &::placeholder { color: #999; }
+              &::placeholder { color: var(--text-3); }
             }
 
             button {
@@ -1092,7 +1092,7 @@
               padding: 0 20px;
               border: none;
               border-radius: 22px;
-              background: #333;
+              background: var(--bg-inverse);
               color: #fff;
               font-size: 14px;
               font-weight: 600;
@@ -1100,7 +1100,7 @@
               white-space: nowrap;
               transition: background 0.2s;
 
-              &:hover { background: #222; }
+              &:hover { background: var(--bg-inverse); }
             }
           }
         }
@@ -1171,7 +1171,7 @@
     height: auto;
     display: flex;
     flex-direction: row;
-    background: #763711;
+    background: var(--footer-bg);
     .footer-container {
       padding: 0 10px;
       margin: 0 auto;
@@ -1194,7 +1194,7 @@
               cursor: pointer;
             }
             span {
-              color: #bebdbd;
+              color: var(--text-4);
               font-family: $font;
               font-size: 14px;
               font-style: normal;
@@ -1212,7 +1212,7 @@
             }
             .media-box {
               margin-top: 12px;
-              color: #929495;
+              color: var(--text-3);
               svg {
                 font-size: 32px;
                 margin-right: 22px;
@@ -1244,7 +1244,7 @@
               }
               span {
                 margin-top: 25px;
-                color: #bebdbd;
+                color: var(--text-4);
                 font-family: $font;
                 font-size: 14px;
                 font-style: normal;
@@ -1258,13 +1258,13 @@
       .second {
         margin-top: 60px;
         height: 45px;
-        border-top: 1px solid #212329;
+        border-top: 1px solid var(--border-dark);
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: flex-end;
         span {
-          color: #bebdbd;
+          color: var(--text-4);
           font-family: $font;
           font-size: 14px;
           font-style: normal;
@@ -1286,7 +1286,7 @@
     max-width: 88vw;
     height: 100%;
     height: 100dvh;
-    background: #f2f2f7;
+    background: var(--bg-muted);
     border-radius: 0;
     box-shadow: -8px 0 32px rgba(0,0,0,0.14);
     display: flex;
@@ -1296,7 +1296,7 @@
 
   /* ── Header ── */
   .mobile-side-header {
-    background: linear-gradient(150deg, #763711, #cf6422);
+    background: linear-gradient(150deg, var(--brand-grad-a), var(--brand-grad-b));
     padding: 44px 20px 20px;
     flex-shrink: 0;
 
@@ -1406,11 +1406,11 @@
       gap: 14px;
       padding: 13px 20px;
       text-decoration: none;
-      border-bottom: 1px solid #f2f2f2;
+      border-bottom: 1px solid var(--border-soft);
       transition: background 0.12s;
-      background: #fff;
+      background: var(--surface);
 
-      &:active { background: #f7f7f7; }
+      &:active { background: var(--surface-2); }
 
       .mobile-side-item-icon {
         width: 30px;
@@ -1419,18 +1419,18 @@
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        svg { font-size: 20px; color: #8a8a8e; }
+        svg { font-size: 20px; color: var(--text-3); }
       }
 
       .mobile-side-item-label {
         flex: 1;
         font-size: 15px;
         font-weight: 500;
-        color: #1c1c1e;
+        color: var(--text-1);
       }
 
       .mobile-side-item-chevron {
-        color: #c8c8c8;
+        color: var(--text-4);
         font-size: 18px !important;
         flex-shrink: 0;
       }
@@ -1438,7 +1438,7 @@
 
     .mobile-side-divider {
       height: 8px;
-      background: #f2f2f7;
+      background: var(--bg-muted);
       flex-shrink: 0;
     }
   }
@@ -1451,8 +1451,8 @@
 
     .mobile-logout-btn {
       width: 100%;
-      background: #fff5f5;
-      color: #e74c3c;
+      background: var(--danger-soft);
+      color: var(--danger);
       border: 1px solid #fdd;
       border-radius: 12px;
       padding: 13px;
@@ -1466,8 +1466,8 @@
       gap: 8px;
       transition: background 0.15s;
 
-      svg { color: #e74c3c; }
-      &:active { background: #ffe8e8; }
+      svg { color: var(--danger); }
+      &:active { background: var(--danger-soft); }
     }
   }
 }
@@ -1501,7 +1501,7 @@
     height: 75dvh;
     display: flex;
     flex-direction: column;
-    background: #faf9f8;
+    background: var(--bg-warm);
     border-radius: 20px;
     box-shadow: 0 12px 48px rgba(0,0,0,0.3);
     z-index: 99999;
@@ -1518,7 +1518,7 @@
       align-items: center;
       padding: 0 16px;
       gap: 0;
-      background: linear-gradient(135deg, #763711 0%, #cf6422 100%);
+      background: linear-gradient(135deg, var(--brand-grad-a) 0%, var(--brand-grad-b) 100%);
       border-bottom: none;
       flex-shrink: 0;
       border-radius: 20px 20px 0 0;
@@ -1528,7 +1528,7 @@
       flex: 1;
       overflow-y: auto;
       padding: 14px 12px;
-      background: #faf9f8;
+      background: var(--bg-warm);
 
       .chat-main {
         display: flex;
@@ -1538,9 +1538,9 @@
 
         .welcome {
           padding: 8px 14px;
-          background: #e8e8ed;
+          background: var(--bg-muted);
           border-radius: 16px 16px 16px 4px;
-          color: #666;
+          color: var(--text-2);
           font-size: 13px;
           width: fit-content;
           margin-bottom: 4px;
@@ -1549,9 +1549,9 @@
         .msg-left {
           margin-left: 10px;
           padding: 10px 14px;
-          background: #ede0d4;
+          background: var(--bg-warm);
           border-radius: 18px 18px 18px 4px;
-          color: #3d2414;
+          color: var(--primary-deep);
           max-width: 72%;
           word-break: break-word;
           font-size: 14px;
@@ -1560,7 +1560,7 @@
 
         .msg-right {
           padding: 10px 14px;
-          background: #cf6422;
+          background: var(--primary);
           border-radius: 18px 18px 4px 18px;
           color: #fff;
           max-width: 72%;
@@ -1577,8 +1577,8 @@
       display: flex;
       align-items: center;
       padding: 10px 14px;
-      border-top: 1px solid #ebebeb;
-      background: #fff;
+      border-top: 1px solid var(--border-soft);
+      background: var(--surface);
       flex-shrink: 0;
       gap: 8px;
       box-sizing: border-box;
@@ -1587,15 +1587,15 @@
         flex: 1;
         height: 44px;
         padding: 0 16px;
-        background: #f2f2f7;
+        background: var(--bg-muted);
         border-radius: 22px;
         border: none;
-        outline-color: #cf6422;
+        outline-color: var(--primary);
         font-size: 14px;
         font-family: $font;
-        color: #1c1c1e;
+        color: var(--text-1);
 
-        &::placeholder { color: #aaa; }
+        &::placeholder { color: var(--text-4); }
       }
 
       .send-msg-btn {
@@ -1605,7 +1605,7 @@
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        background: #cf6422;
+        background: var(--primary);
         border: none;
         flex-shrink: 0;
         cursor: pointer;
@@ -1629,7 +1629,7 @@
     height: 75dvh;
     display: flex;
     flex-direction: column;
-    background: #fff9f5;
+    background: var(--primary-soft);
     border-radius: 20px;
     box-shadow: 0 8px 40px rgba(0,0,0,0.28);
     z-index: 99999;
@@ -1648,12 +1648,12 @@
       border-bottom: 1px solid rgba(205, 205, 205, 0.83);
       font-size: 15px;
       font-weight: 600;
-      color: #41332d;
-      background: #fff3ec;
+      color: var(--primary-deep);
+      background: var(--primary-soft);
       border-radius: 20px 20px 0 0;
       flex-shrink: 0;
 
-      span { font-size: 15px; font-weight: 600; color: #41332d; }
+      span { font-size: 15px; font-weight: 600; color: var(--primary-deep); }
     }
 
     .ai-chat-content {
@@ -1670,7 +1670,7 @@
         .ai-msg-left {
           margin-left: 8px;
           padding: 9px 13px;
-          background: #cf6422;
+          background: var(--primary);
           border-radius: 20px 20px 20px 0;
           color: #fff;
           font-size: 13px;
@@ -1685,9 +1685,9 @@
 
         .ai-msg-right {
           padding: 9px 13px;
-          background: #f0e8e0;
+          background: var(--bg-warm);
           border-radius: 20px 20px 0 20px;
-          color: #333;
+          color: var(--text-1);
           font-size: 13px;
           line-height: 1.5;
           max-width: 68%;
@@ -1707,7 +1707,7 @@
             width: 7px;
             height: 7px;
             border-radius: 50%;
-            background: #fff;
+            background: var(--surface);
             display: inline-block;
             animation: ai-bounce 1.2s infinite ease-in-out;
             &:nth-child(2) { animation-delay: 0.2s; }
@@ -1732,10 +1732,10 @@
         flex: 1;
         height: 46px;
         padding: 0 16px;
-        background: #f7f7f7;
+        background: var(--surface-2);
         border-radius: 28px;
         border: none;
-        outline-color: #cf6422;
+        outline-color: var(--primary);
         font-size: 14px;
         font-family: $font;
 
@@ -1749,7 +1749,7 @@
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        background: #cf6422;
+        background: var(--primary);
         border: none;
         cursor: pointer;
         flex-shrink: 0;

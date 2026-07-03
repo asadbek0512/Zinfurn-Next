@@ -40,8 +40,8 @@ const Faq = () => {
 						onChange={handleChange(`panel${index + 1}`)}
 						className="mob-cs-faq-item"
 					>
-						<AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: '#cf6422' }} />} className="mob-cs-faq-summary">
-							<HelpOutlineIcon sx={{ color: '#cf6422', fontSize: 18, flexShrink: 0, mr: 1 }} />
+						<AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: 'var(--primary)' }} />} className="mob-cs-faq-summary">
+							<HelpOutlineIcon sx={{ color: 'var(--primary)', fontSize: 18, flexShrink: 0, mr: 1 }} />
 							<span className="mob-cs-faq-question">{getLocalizedNoticeTitle(faq, i18n.language)}</span>
 						</AccordionSummary>
 						<AccordionDetails className="mob-cs-faq-answer">
@@ -82,7 +82,7 @@ const Faq = () => {
 									borderRadius: '12px',
 									mb: 2,
 									overflow: 'hidden',
-									border: '1px solid #E2E8F0',
+									border: '1px solid var(--border-soft)',
 									'&:before': {
 										display: 'none',
 									},
@@ -95,28 +95,28 @@ const Faq = () => {
 							<AccordionSummary
 								expandIcon={<ExpandMoreIcon />}
 								sx={{
-									backgroundColor: '#ffffff',
+									backgroundColor: 'var(--surface)',
 									'&:hover': {
-										backgroundColor: '#F8FAFC',
+										backgroundColor: 'var(--surface-2)',
 									},
 									'&.Mui-expanded': {
-										backgroundColor: '#F8FAFC',
+										backgroundColor: 'var(--surface-2)',
 									},
 								}}
 							>
 								<Box component="div" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
 									<HelpOutlineIcon sx={{ color: ' #ff6b35' }} />
-									<Typography sx={{ color: '#1E293B', fontWeight: 500 }}>{getLocalizedNoticeTitle(faq, i18n.language)}</Typography>
+									<Typography sx={{ color: 'var(--text-1)', fontWeight: 500 }}>{getLocalizedNoticeTitle(faq, i18n.language)}</Typography>
 								</Box>
 							</AccordionSummary>
 							<AccordionDetails
 								sx={{
-									backgroundColor: '#ffffff',
-									borderTop: '1px solid #E2E8F0',
+									backgroundColor: 'var(--surface)',
+									borderTop: '1px solid var(--border-soft)',
 									p: 3,
 								}}
 							>
-								<Typography sx={{ color: '#64748B', lineHeight: 1.6 }}>{getLocalizedNoticeContent(faq, i18n.language)}</Typography>
+								<Typography sx={{ color: 'var(--text-2)', lineHeight: 1.6 }}>{getLocalizedNoticeContent(faq, i18n.language)}</Typography>
 							</AccordionDetails>
 						</Accordion>
 					))}

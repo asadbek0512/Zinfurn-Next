@@ -17,13 +17,13 @@ export default function InnovationSection() {
 
 	if (device === 'mobile') {
 		return (
-			<Box component="section" sx={{ background: '#f8f7f4', py: 3, px: 1 }}>
+			<Box component="section" sx={{ background: 'var(--bg-warm)', py: 3, px: 1 }}>
 				<div style={{
 					display: 'flex', flexDirection: 'row', alignItems: 'center',
-					borderTop: '8px solid #e66414', borderBottom: '8px solid #e66414',
-					borderLeft: '8px solid #e66414', borderRight: 'none',
+					borderTop: '8px solid var(--primary)', borderBottom: '8px solid var(--primary)',
+					borderLeft: '8px solid var(--primary)', borderRight: 'none',
 					borderRadius: '24px 0 0 24px', gap: '0',
-					background: '#f8f7f4', overflow: 'hidden'
+					background: 'var(--bg-warm)', overflow: 'hidden'
 				}}>
 					{/* Rasm */}
 					<div style={{ flexShrink: 0 }}>
@@ -36,14 +36,14 @@ export default function InnovationSection() {
 
 					{/* Matn */}
 					<div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '12px 12px 12px 20px', flex: 1 }}>
-						<div style={{ display: 'flex', gap: '6px', background: '#f8f3e3', borderRadius: '8px', padding: '5px 8px', width: 'fit-content' }}>
+						<div style={{ display: 'flex', gap: '6px', background: 'var(--cream)', borderRadius: '8px', padding: '5px 8px', width: 'fit-content' }}>
 							<HandymanIcon style={{ fontSize: '15px', color: '#c9a55a' }} />
 							<HomeRepairServiceIcon style={{ fontSize: '15px', color: '#c9a55a' }} />
 						</div>
-						<div style={{ fontSize: '14px', fontWeight: 600, color: '#333', lineHeight: 1.3 }}>
+						<div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-1)', lineHeight: 1.3 }}>
 							{t('Repair Services')}
 						</div>
-						<div style={{ fontSize: '10px', color: '#555', lineHeight: 1.5 }}>
+						<div style={{ fontSize: '10px', color: 'var(--text-2)', lineHeight: 1.5 }}>
 							{t(
 								"We don't just build — we repair. Our skilled craftsmen bring new life to broken furniture. Explore our service page to view repaired items and find expert technicians ready to help.",
 							)}
@@ -51,7 +51,7 @@ export default function InnovationSection() {
 						<button
 							onClick={handleNavigate}
 							style={{
-								background: '#e66414', color: '#fff', border: 'none',
+								background: 'var(--primary)', color: '#fff', border: 'none',
 								borderRadius: '8px', padding: '6px 12px', fontSize: '10px',
 								fontWeight: 600, cursor: 'pointer', width: 'fit-content', alignSelf: 'flex-start'
 							}}
@@ -64,7 +64,7 @@ export default function InnovationSection() {
 		);
 	} else {
 		return (
-			<Box component="section" sx={{ background: '#f8f7f4', py: 6 }}>
+			<Box component="section" sx={{ background: 'var(--bg-warm)', py: 6 }}>
 				<Box component={'div'} className="container">
 					<Stack direction={{ xs: 'column', md: 'row' }} spacing={4} className="contentWrapper">
 						<Box component={'div'} className="imageContainer">

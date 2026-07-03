@@ -481,7 +481,7 @@ const MyMenu = () => {
 									<div className={'flex-box'}>
 										<ShoppingBagOutlinedIcon
 											className="com-icon"
-											style={{ color: category === 'myOrders' ? '#fff' : '#000' }}
+											style={{ color: category === 'myOrders' ? '#fff' : 'var(--text-1)' }}
 										/>
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 											{t('My Orders')}
@@ -501,7 +501,7 @@ const MyMenu = () => {
 									<div className={'flex-box'}>
 										<ChatBubbleOutlineIcon
 											className="com-icon"
-											style={{ color: category === 'myMessages' ? '#fff' : '#000' }}
+											style={{ color: category === 'myMessages' ? '#fff' : 'var(--text-1)' }}
 										/>
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 											{t('Messages')}
@@ -522,7 +522,7 @@ const MyMenu = () => {
 									<div className={'flex-box'}>
 										<svg
 											className={'com-icon'}
-											fill={category === 'followers' ? 'white' : 'black'}
+											fill={category === 'followers' ? 'white' : 'var(--text-1)'}
 											height="16px"
 											width="16px"
 											version="1.1"
@@ -570,7 +570,7 @@ const MyMenu = () => {
 									<div className={'flex-box'}>
 										<svg
 											className={'com-icon'}
-											fill={category === 'followings' ? 'white' : 'black'}
+											fill={category === 'followings' ? 'white' : 'var(--text-1)'}
 											height="16px"
 											width="16px"
 											version="1.1"
@@ -674,7 +674,7 @@ const MyMenu = () => {
 									<div className="flex-box">
 										<AccountCircleOutlinedIcon
 											className="com-icon"
-											style={{ color: category === 'myProfile' ? '#fff' : '#000' }}
+											style={{ color: category === 'myProfile' ? '#fff' : 'var(--text-1)' }}
 										/>
 										<Typography className="sub-title" variant="subtitle1" component="p">
 											{t('My Profile')}

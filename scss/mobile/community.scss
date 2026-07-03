@@ -3,7 +3,7 @@
 /* ===== COMMUNITY DETAIL ===== */
 #mob-community-detail {
   padding: 0 0 80px;
-  background: #fff;
+  background: var(--surface);
   min-height: 100vh;
   font-family: $font;
 
@@ -13,10 +13,10 @@
     gap: 6px;
     padding: 14px 16px 10px;
     font-size: 13px;
-    color: #555;
+    color: var(--text-2);
     cursor: pointer;
-    background: #f8f7f4;
-    border-bottom: 1px solid #eee;
+    background: var(--bg-warm);
+    border-bottom: 1px solid var(--border-soft);
   }
 
   .mob-com-det-header {
@@ -27,7 +27,7 @@
       display: inline-block;
       font-size: 11px;
       font-weight: 600;
-      color: #cf6422;
+      color: var(--primary);
       background: rgba(207, 100, 34, 0.1);
       padding: 3px 10px;
       border-radius: 20px;
@@ -37,7 +37,7 @@
     .mob-com-det-title {
       font-size: 18px;
       font-weight: 700;
-      color: #181a20;
+      color: var(--text-1);
       line-height: 1.4;
     }
   }
@@ -48,7 +48,7 @@
     gap: 12px;
     margin: 0 16px 16px;
     padding: 12px 14px;
-    background: #f8f7f4;
+    background: var(--bg-warm);
     border-radius: 14px;
 
     .mob-com-det-avatar {
@@ -71,7 +71,7 @@
       .mob-com-det-nick {
         font-size: 14px;
         font-weight: 700;
-        color: #181a20;
+        color: var(--text-1);
         cursor: pointer;
         white-space: nowrap;
         overflow: hidden;
@@ -86,7 +86,7 @@
 
         .mob-com-det-date {
           font-size: 11px;
-          color: #999;
+          color: var(--text-3);
         }
 
         .mob-com-det-dot {
@@ -101,7 +101,7 @@
           align-items: center;
           gap: 3px;
           font-size: 11px;
-          color: #999;
+          color: var(--text-3);
 
           svg { font-size: 13px; }
         }
@@ -110,8 +110,8 @@
           cursor: pointer;
 
           &.liked {
-            color: #cf6422;
-            svg { color: #cf6422; }
+            color: var(--primary);
+            svg { color: var(--primary); }
           }
         }
       }
@@ -133,7 +133,7 @@
 
   .mob-com-det-content {
     padding: 0 0 16px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-soft);
 
     // TViewer wrapper ni mobileda kichiklashtirish
     .MuiStack-root {
@@ -161,27 +161,27 @@
     display: flex;
     justify-content: center;
     padding: 14px 16px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-soft);
 
     .mob-com-det-like-btn {
       display: flex;
       align-items: center;
       gap: 6px;
-      border: 1px solid #e0e0e0;
+      border: 1px solid var(--border-soft);
       border-radius: 30px;
       padding: 8px 28px;
       font-size: 13px;
-      color: #555;
-      background: #fff;
+      color: var(--text-2);
+      background: var(--surface);
       cursor: pointer;
 
       svg {
         font-size: 18px;
-        color: #bbb;
+        color: var(--text-4);
       }
 
       &.liked svg {
-        color: #cf6422;
+        color: var(--primary);
       }
     }
   }
@@ -192,15 +192,15 @@
     .mob-com-det-cmts-title {
       font-size: 15px;
       font-weight: 700;
-      color: #181a20;
+      color: var(--text-1);
       margin-bottom: 14px;
     }
 
     .mob-com-det-cmt-write {
       padding: 14px;
-      border: 1px solid #f0f0f0;
+      border: 1px solid var(--border-soft);
       border-radius: 14px;
-      background: #fff;
+      background: var(--surface);
       margin-bottom: 16px;
 
       .mob-com-det-cmt-heading {
@@ -212,7 +212,7 @@
         span {
           font-size: 15px;
           font-weight: 700;
-          color: #181a20;
+          color: var(--text-1);
           font-family: $font;
         }
       }
@@ -221,7 +221,7 @@
         display: grid;
         grid-template-columns: repeat(6, 1fr);
         gap: 4px;
-        background: #f8f8f8;
+        background: var(--surface-2);
         border-radius: 12px;
         padding: 10px;
         margin-bottom: 8px;
@@ -236,7 +236,7 @@
           transition: background 0.15s;
           line-height: 1;
 
-          &:active { background: #eee; }
+          &:active { background: var(--bg-muted); }
         }
       }
 
@@ -244,7 +244,7 @@
         display: flex;
         align-items: flex-end;
         gap: 6px;
-        background: #f4f4f4;
+        background: var(--bg-muted);
         border-radius: 24px;
         padding: 6px 6px 6px 4px;
 
@@ -252,11 +252,11 @@
           width: 34px;
           height: 34px;
           flex-shrink: 0;
-          color: #aaa;
+          color: var(--text-4);
 
           svg { font-size: 20px; }
 
-          &.active { color: #cf6422; }
+          &.active { color: var(--primary); }
         }
 
         .mob-com-det-textarea {
@@ -267,13 +267,13 @@
           resize: none;
           font-size: 13px;
           font-family: $font;
-          color: #181a20;
+          color: var(--text-1);
           line-height: 1.5;
           max-height: 100px;
           padding: 6px 4px;
           min-height: 34px;
 
-          &::placeholder { color: #bbb; font-size: 13px; }
+          &::placeholder { color: var(--text-4); font-size: 13px; }
           &:disabled { opacity: 0.5; cursor: not-allowed; }
         }
 
@@ -281,14 +281,14 @@
           width: 34px;
           height: 34px;
           flex-shrink: 0;
-          background: #cf6422 !important;
+          background: var(--primary) !important;
           color: #fff !important;
           border-radius: 50% !important;
           padding: 0 !important;
 
           &.Mui-disabled {
-            background: #e0e0e0 !important;
-            color: #bbb !important;
+            background: var(--bg-strong) !important;
+            color: var(--text-4) !important;
           }
         }
       }
@@ -296,7 +296,7 @@
 
     .mob-com-det-cmt-card {
       padding: 14px 0;
-      border-bottom: 1px solid #f5f5f5;
+      border-bottom: 1px solid var(--border-soft);
 
       .mob-com-det-cmt-top {
         display: flex;
@@ -320,12 +320,12 @@
             display: block;
             font-size: 13px;
             font-weight: 600;
-            color: #333;
+            color: var(--text-1);
           }
 
           .mob-com-det-cmt-date {
             font-size: 11px;
-            color: #aaa;
+            color: var(--text-4);
           }
         }
 
@@ -342,7 +342,7 @@
 
       .mob-com-det-cmt-text {
         font-size: 13px;
-        color: #444;
+        color: var(--text-2);
         line-height: 1.5;
         padding-left: 44px;
       }
@@ -370,23 +370,23 @@
             font-family: $font;
             font-size: 14px;
             font-weight: 500;
-            color: #666;
-            border: 1px solid #ddd;
-            background: #fff;
+            color: var(--text-2);
+            border: 1px solid var(--border);
+            background: var(--surface);
             transition: all 0.2s ease;
 
             &:hover {
-              background: #f5f5f5;
-              border-color: #cf6422;
-              color: #cf6422;
+              background: var(--bg-muted);
+              border-color: var(--primary);
+              color: var(--primary);
             }
 
             &.Mui-selected {
-              background: #cf6422;
+              background: var(--primary);
               color: #fff;
-              border-color: #cf6422;
+              border-color: var(--primary);
 
-              &:hover { background: #cf6422; }
+              &:hover { background: var(--primary); }
             }
 
             &.MuiPaginationItem-previousNext {
@@ -398,7 +398,7 @@
             &.MuiPaginationItem-ellipsis {
               border: none;
               background: transparent;
-              color: #999;
+              color: var(--text-3);
             }
           }
         }
@@ -419,7 +419,7 @@
     align-items: flex-end;
 
     .mob-com-det-edit-box {
-      background: #fff;
+      background: var(--surface);
       width: 100%;
       border-radius: 16px 16px 0 0;
       padding: 20px 16px 30px;
@@ -427,13 +427,13 @@
       .mob-com-det-edit-title {
         font-size: 15px;
         font-weight: 700;
-        color: #181a20;
+        color: var(--text-1);
         margin-bottom: 14px;
       }
 
       .mob-com-det-edit-input {
         width: 100%;
-        border: 1px solid #e0e0e0;
+        border: 1px solid var(--border-soft);
         border-radius: 8px;
         padding: 10px 12px;
         font-size: 13px;
@@ -441,7 +441,7 @@
         font-family: $font;
         margin-bottom: 12px;
         box-sizing: border-box;
-        color: #333;
+        color: var(--text-1);
       }
 
       .mob-com-det-edit-footer {
@@ -451,7 +451,7 @@
 
         > span {
           font-size: 11px;
-          color: #bbb;
+          color: var(--text-4);
         }
 
         > div {
@@ -459,9 +459,9 @@
           gap: 8px;
 
           .mob-com-det-edit-cancel {
-            border: 1px solid #e0e0e0;
-            background: #fff;
-            color: #555;
+            border: 1px solid var(--border-soft);
+            background: var(--surface);
+            color: var(--text-2);
             border-radius: 8px;
             font-size: 13px;
             padding: 7px 16px;
@@ -470,7 +470,7 @@
           }
 
           .mob-com-det-edit-save {
-            background: #cf6422;
+            background: var(--primary);
             color: #fff;
             border: none;
             border-radius: 8px;
@@ -489,7 +489,7 @@
 /* ===== COMMUNITY LIST ===== */
 #mob-community-list {
   padding: 20px 0 80px 0;
-  background: #f8f7f4;
+  background: var(--bg-warm);
   min-height: 100vh;
   font-family: $font;
 
@@ -503,11 +503,11 @@
     h2 {
       font-size: 20px;
       font-weight: 800;
-      color: #181a20;
+      color: var(--text-1);
     }
 
     .mob-write-btn {
-      background: #cf6422;
+      background: var(--primary);
       color: #fff;
       text-transform: none;
       border-radius: 8px;
@@ -523,14 +523,14 @@
     .mob-cat-title {
       font-size: 16px;
       font-weight: 700;
-      color: #181a20;
+      color: var(--text-1);
       margin-bottom: 4px;
       padding-left: 16px;
     }
 
     .mob-cat-desc {
       font-size: 12px;
-      color: #888;
+      color: var(--text-3);
       margin-bottom: 15px;
       padding-left: 16px;
     }

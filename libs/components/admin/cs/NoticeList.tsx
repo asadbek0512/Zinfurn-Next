@@ -191,7 +191,7 @@ export const NoticeList = (props: NoticeListType) => {
 									>
 										<MenuItem value={NoticeStatus.ACTIVE}>Active</MenuItem>
 										<MenuItem value={NoticeStatus.HOLD}>Hold</MenuItem>
-										<MenuItem value={NoticeStatus.DELETE} sx={{ color: '#dc3545' }}>
+										<MenuItem value={NoticeStatus.DELETE} sx={{ color: 'var(--danger)' }}>
 											Delete
 										</MenuItem>
 									</Select>
