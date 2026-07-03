@@ -180,6 +180,12 @@
 	filter: invert(1);
 }
 
+/* Dark rejimda mypage yon menyudagi qora SVG ikonkalar oq bo'lsin
+   (oq variantlari — src'ida "White" borlar — aktiv holat uchun, ularga tegilmaydi) */
+[data-theme='dark'] img.com-icon:not([src*='White']) {
+	filter: invert(1) opacity(0.85);
+}
+
 /* Dark rejimda hero qidiruv paneli — dudli shisha effekti */
 [data-theme='dark'] .header-main .search-box {
 	backdrop-filter: blur(6px);
