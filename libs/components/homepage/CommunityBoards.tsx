@@ -91,8 +91,8 @@ const CommunityBoards = () => {
 					{[{ key: 'news' as const, label: t('News') }, { key: 'free' as const, label: t('Free') }].map((tab) => (
 						<button key={tab.key} onClick={() => handleTabChange(tab.key)} style={{
 							padding: '6px 18px', borderRadius: '20px', fontSize: '12px', fontWeight: 500,
-							border: activeTab === tab.key ? 'none' : '1px solid #ddd',
-							background: activeTab === tab.key ? 'var(--primary)' : '#fff',
+							border: activeTab === tab.key ? 'none' : '1px solid var(--border)',
+							background: activeTab === tab.key ? 'var(--primary)' : 'var(--surface)',
 							color: activeTab === tab.key ? '#fff' : 'var(--text-2)',
 							cursor: 'pointer'
 						}}>

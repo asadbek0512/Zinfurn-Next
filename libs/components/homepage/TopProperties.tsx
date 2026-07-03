@@ -107,8 +107,8 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 					{[{ key: 'top', label: t('Top Properties') }, { key: 'popular', label: t('Popular') }, { key: 'trend', label: t('Trend') }].map((tab) => (
 						<button key={tab.key} onClick={() => handleTabChange(tab.key)} style={{
 							padding: '6px 14px', borderRadius: '20px', fontSize: '12px', fontWeight: 500,
-							border: activeTab === tab.key ? 'none' : '1px solid #ddd',
-							background: activeTab === tab.key ? 'var(--primary)' : '#fff',
+							border: activeTab === tab.key ? 'none' : '1px solid var(--border)',
+							background: activeTab === tab.key ? 'var(--primary)' : 'var(--surface)',
 							color: activeTab === tab.key ? '#fff' : 'var(--text-2)',
 							cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0
 						}}>
