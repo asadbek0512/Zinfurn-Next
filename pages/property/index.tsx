@@ -349,14 +349,14 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 							<IconButton
 								onClick={() => viewModeHandler('grid-1')}
 								size="small"
-								style={{ padding: '6px', background: viewMode === 'grid-1' ? '#6b3f29' : 'var(--text-1)', color: '#fff', transition: 'all 0.3s ease' }}
+								style={{ padding: '6px', background: viewMode === 'grid-1' ? '#6b3f29' : 'var(--bg-inverse)', color: '#fff', transition: 'all 0.3s ease' }}
 							>
 								<ViewStreamIcon style={{ fontSize: '18px' }} />
 							</IconButton>
 							<IconButton
 								onClick={() => viewModeHandler('grid-2')}
 								size="small"
-								style={{ padding: '6px', background: viewMode === 'grid-2' ? '#6b3f29' : 'var(--text-1)', color: '#fff', transition: 'all 0.3s ease' }}
+								style={{ padding: '6px', background: viewMode === 'grid-2' ? '#6b3f29' : 'var(--bg-inverse)', color: '#fff', transition: 'all 0.3s ease' }}
 							>
 								<ViewModuleIcon style={{ fontSize: '18px' }} />
 							</IconButton>
