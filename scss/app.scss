@@ -113,3 +113,93 @@ hr {
 
 	textarea { min-height: 80px; line-height: 1.5; }
 }
+
+/* AI chat mahsulot kartalari + navigatsiya tugmalari — GLOBAL (mobil ham, desktop ham) */
+.ai-products {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin-top: 2px;
+
+	.ai-product-card {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		background: var(--surface, #fff);
+		border-radius: 12px;
+		padding: 6px;
+		cursor: pointer;
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+		&:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+		}
+
+		.ai-product-img {
+			width: 46px;
+			height: 46px;
+			border-radius: 8px;
+			object-fit: cover;
+			background: var(--bg-warm, #f0ede8);
+			flex-shrink: 0;
+		}
+
+		.ai-product-info {
+			min-width: 0;
+			flex: 1;
+
+			.ai-product-title {
+				font-size: 12px;
+				font-weight: 600;
+				color: var(--text-1, #181a20);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.ai-product-price {
+				display: flex;
+				align-items: center;
+				gap: 6px;
+				margin-top: 2px;
+
+				.ai-product-now {
+					font-size: 13px;
+					font-weight: 700;
+					color: var(--primary, #cf6422);
+				}
+
+				.ai-product-old {
+					font-size: 11px;
+					color: var(--text-4, #aaa);
+					text-decoration: line-through;
+				}
+			}
+		}
+	}
+}
+
+.ai-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 2px;
+
+	.ai-action-btn {
+		border: none;
+		background: var(--surface, #fff);
+		color: var(--primary, #cf6422);
+		font-size: 12px;
+		font-weight: 600;
+		padding: 7px 12px;
+		border-radius: 20px;
+		cursor: pointer;
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+		&:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+		}
+	}
+}
