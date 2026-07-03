@@ -170,10 +170,10 @@
 }
 
 /* Dark rejimda mobil navbar: burger chiziqlari, valyuta ramkasi, qora ikonkalar */
-[data-theme='dark'] #mobile-wrap .mobile-navbar .menu-icon span {
+[data-theme='dark'] #mobile-wrap .mobile-navbar .mobile-navbar-main .menu-icon span {
 	background: var(--text-1) !important;
 }
-[data-theme='dark'] #mobile-wrap .mobile-navbar .btn-currency {
+[data-theme='dark'] #mobile-wrap .mobile-navbar .mobile-navbar-main .btn-currency {
 	border-color: rgba(255, 255, 255, 0.3) !important;
 }
 [data-theme='dark'] img[src*='icons/stol'] {
