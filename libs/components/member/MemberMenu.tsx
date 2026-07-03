@@ -202,7 +202,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 									<div className={'flex-box'}>
 										<svg
 											className={'com-icon'}
-											fill={category === 'followers' ? 'white' : 'black'}
+											fill={category === 'followers' ? 'white' : 'var(--text-1)'}
 											height="800px"
 											width="800px"
 											version="1.1"
@@ -253,7 +253,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 									<div className={'flex-box'}>
 										<svg
 											className={'com-icon'}
-											fill={category === 'followings' ? 'white' : 'black'}
+											fill={category === 'followings' ? 'white' : 'var(--text-1)'}
 											height="800px"
 											width="800px"
 											version="1.1"
