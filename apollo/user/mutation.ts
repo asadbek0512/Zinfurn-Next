@@ -32,6 +32,7 @@ mutation Signup($input: MemberInput!) {
         createdAt
         updatedAt
         accessToken
+        refreshToken
         memberEmail
     }
 }
@@ -68,11 +69,22 @@ mutation Login($input: LoginInput!) {
         createdAt
         updatedAt
         accessToken
+        refreshToken
         memberEmail
 
     }
 }
 
+`;
+
+export const REFRESH_TOKEN = gql`
+	mutation RefreshToken($refreshToken: String!) {
+		refreshToken(refreshToken: $refreshToken) {
+			_id
+			accessToken
+			refreshToken
+		}
+	}
 `;
 
 export const UPDATE_MEMBER = gql`
@@ -103,6 +115,7 @@ mutation UpdateMember($input: MemberUpdate!) {
         createdAt
         updatedAt
         accessToken
+        refreshToken
         memberEmail
     }
 }
