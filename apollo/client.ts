@@ -4,10 +4,11 @@ import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { onError } from '@apollo/client/link/error';
-import { getJwtToken } from '../libs/auth';
+import { getJwtToken, getRefreshToken, setJwtToken, updateUserInfo } from '../libs/auth';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
 import { sweetErrorAlert } from '../libs/sweetAlert';
 import { socketVar } from './store';
+import decodeJWT from 'jwt-decode';
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 function getHeaders() {
@@ -18,14 +19,60 @@ function getHeaders() {
 	return headers;
 }
 
+/** Access token muddati tugagan (yoki 30s ichida tugaydigan) bo'lsa false qaytaradi */
+function isAccessTokenStillValid(): boolean {
+	const token = getJwtToken();
+	if (!token) return true; // token yo'q — anonim so'rov, refresh shart emas
+	try {
+		const { exp } = decodeJWT<{ exp?: number }>(token);
+		if (!exp) return true; // eski (muddatsiz) legacy token — o'z holicha ishlayveradi
+		return Date.now() < exp * 1000 - 30_000;
+	} catch {
+		return true;
+	}
+}
+
 const tokenRefreshLink = new TokenRefreshLink({
 	accessTokenField: 'accessToken',
 	isTokenValidOrUndefined: async () => {
-		return true;
-	}, // @ts-ignore
-	fetchAccessToken: () => {
-		// execute refresh token
-		return null;
+		// Refresh token bo'lmasa yangilab bo'lmaydi — so'rov o'z holicha ketadi
+		if (!getRefreshToken()) return true;
+		return isAccessTokenStillValid();
+	},
+	// Refresh mutation'ni to'g'ridan-to'g'ri fetch bilan chaqiramiz (Apollo link zanjiridan tashqarida)
+	fetchAccessToken: async () => {
+		const refreshToken = getRefreshToken();
+		const res = await fetch(process.env.REACT_APP_API_GRAPHQL_URL as string, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			credentials: 'include',
+			body: JSON.stringify({
+				query: `mutation RefreshToken($refreshToken: String!) {
+					refreshToken(refreshToken: $refreshToken) { _id accessToken refreshToken }
+				}`,
+				variables: { refreshToken },
+			}),
+		});
+		return res.json();
+	},
+	handleResponse: () => (response: any) => {
+		const payload = response?.data?.refreshToken;
+		if (!payload?.accessToken) throw new Error('Refresh failed');
+		// Yangi refresh tokenni ham aylantiramiz (rotation)
+		if (payload.refreshToken) localStorage.setItem('refreshToken', payload.refreshToken);
+		return { accessToken: payload.accessToken };
+	},
+	handleFetch: (accessToken: string) => {
+		setJwtToken(accessToken);
+		localStorage.setItem('accessToken', accessToken);
+		updateUserInfo(accessToken);
+	},
+	handleError: (err) => {
+		// Refresh ham eskirgan — sessiya tugadi, tokenlarni tozalaymiz (sahifani majburan yo'naltirmaymiz)
+		console.warn('Token refresh failed:', err);
+		setJwtToken('');
+		localStorage.removeItem('accessToken');
+		localStorage.removeItem('refreshToken');
 	},
 });
 

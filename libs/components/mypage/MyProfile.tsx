@@ -48,7 +48,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 				});
 				const data = await response.json();
 				if (data.token) {
-					updateStorage({ jwtToken: data.token });
+					updateStorage({ jwtToken: data.token, refreshToken: data.refresh });
 					updateUserInfo(data.token);
 					await sweetMixinSuccessAlert('Telegram linked successfully!');
 				}
@@ -130,7 +130,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 
 			// @ts-ignore
 			const jwtToken = result.data.updateMember?.accessToken;
-			await updateStorage({ jwtToken });
+			await updateStorage({ jwtToken, refreshToken: result.data.updateMember?.refreshToken });
 			updateUserInfo(result.data.updateMember?.accessToken);
 			await sweetMixinSuccessAlert(t('information updated successfully'));
 		} catch (err: any) {

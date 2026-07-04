@@ -57,7 +57,7 @@ const Join: NextPage = () => {
 				});
 				const data = await response.json();
 				if (data.token) {
-					updateStorage({ jwtToken: data.token });
+					updateStorage({ jwtToken: data.token, refreshToken: data.refresh });
 					updateUserInfo(data.token);
 					window.location.href = '/';
 				}

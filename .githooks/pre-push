@@ -1,0 +1,11 @@
+#!/bin/sh
+# Push oldidan production build tekshiruvi — buzuq kod main/develop'ga ketmasin
+# (server cron pull qilib runtime-build qiladi; buzuq build = jonli sayt yiqiladi)
+echo "[pre-push] yarn build tekshiruvi..."
+yarn build || {
+  echo ""
+  echo "[pre-push] ❌ BUILD YIQILDI — push bekor qilindi. Xatoni tuzatib qayta push qiling."
+  echo "[pre-push] (favqulodda o'tkazib yuborish: git push --no-verify)"
+  exit 1
+}
+echo "[pre-push] ✅ build toza — push davom etadi"

@@ -101,8 +101,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	const { messages, locale } = req.body as { messages: { role: string; content: string }[]; locale: string };
 	const lang = LANG_NAME[locale] || 'English';
 
-	// Kunlik limit tekshiruvi (IP bo'yicha)
+	// Input validatsiya: xabarlar soni va uzunligi cheklangan (prompt-flooding oldini olish)
+	if (!Array.isArray(messages) || messages.length === 0 || messages.length > 20) {
+		return res.status(400).json({ error: 'Invalid messages' });
+	}
+	for (const m of messages) {
+		if (typeof m?.content !== 'string' || m.content.length > 1000) {
+			return res.status(400).json({ error: 'Message too long' });
+		}
+	}
+
+	// Kunlik limit tekshiruvi (IP bo'yicha) — nginx qo'ygan x-real-ip ustuvor (x-forwarded-for'ni client soxtalashi mumkin)
 	const ip =
+		(req.headers['x-real-ip'] as string) ||
 		((req.headers['x-forwarded-for'] as string) || '').split(',')[0].trim() ||
 		req.socket?.remoteAddress ||
 		'unknown';

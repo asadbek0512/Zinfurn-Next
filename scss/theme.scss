@@ -222,6 +222,17 @@ html {
 	background: var(--bg-page);
 }
 
+/* RESPONSIVE SCALE-TO-FIT:
+   Desktop dizayn 1300px qat'iy kenglikka qurilgan. 769–1400px oynalarда
+   layout sig'may o'ng tomoni kesilib qolardi. Bu qoida butun sahifani
+   proporsional kichraytiradi — hech narsa yo'qolmaydi, xuddi brauzer
+   zoom-out qilgandek. ≤768px'da mobil layout o'zi ishlaydi. */
+@media (min-width: 769px) and (max-width: 1400px) {
+	html {
+		zoom: calc(100vw / 1400);
+	}
+}
+
 /* Third-party surfaces follow the theme */
 .swal2-popup {
 	background: var(--surface) !important;

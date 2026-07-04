@@ -74,11 +74,13 @@ const App = ({ Component, pageProps }: AppProps) => {
 	}, []);
 
 	useEffect(() => {
-		const { token } = router.query;
+		// OAuth (Google/Telegram) redirect: ?token=...&refresh=... — ikkalasini saqlaymiz.
+		// refresh bo'lmasa ham (eski oqim) token bilan ishlayveradi — bog'lash buzilmaydi.
+		const { token, refresh } = router.query;
 		if (token && typeof token === 'string') {
-			updateStorage({ jwtToken: token });
+			updateStorage({ jwtToken: token, refreshToken: typeof refresh === 'string' ? refresh : undefined });
 			updateUserInfo(token);
-			router.replace('/');
+			router.replace(router.pathname === '/mypage' ? '/mypage' : '/');
 		}
 	}, [router.query]);
 

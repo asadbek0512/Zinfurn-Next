@@ -19,11 +19,17 @@ export function setJwtToken(token: string) {
 	_inMemoryToken = token;
 }
 
+export function getRefreshToken(): string {
+	if (typeof window === 'undefined') return '';
+	const saved = localStorage.getItem('refreshToken');
+	return saved && saved !== 'undefined' ? saved : '';
+}
+
 export const logIn = async (nick: string, password: string): Promise<void> => {
 	try {
-		const { jwtToken } = await requestJwtToken({ nick, password });
+		const { jwtToken, refreshToken } = await requestJwtToken({ nick, password });
 		if (jwtToken) {
-			updateStorage({ jwtToken });
+			updateStorage({ jwtToken, refreshToken });
 			updateUserInfo(jwtToken);
 		}
 	} catch (err) {
@@ -38,7 +44,7 @@ const requestJwtToken = async ({
 }: {
 	nick: string;
 	password: string;
-}): Promise<{ jwtToken: string }> => {
+}): Promise<{ jwtToken: string; refreshToken?: string }> => {
 	const apolloClient = await initializeApollo();
 	const isEmail = nick.includes('@');
 	const input = {
@@ -51,8 +57,8 @@ const requestJwtToken = async ({
 			variables: { input },
 			fetchPolicy: 'network-only',
 		});
-		const { accessToken } = result?.data?.login;
-		return { jwtToken: accessToken };
+		const { accessToken, refreshToken } = result?.data?.login;
+		return { jwtToken: accessToken, refreshToken };
 	} catch (err: any) {
 		console.log('request token err', err.graphQLErrors);
 		switch (err.graphQLErrors[0].message) {
@@ -75,9 +81,9 @@ export const signUp = async (
 	type: string,
 ): Promise<void> => {
 	try {
-		const { jwtToken } = await requestSignUpJwtToken({ nick, password, phone, email, type });
+		const { jwtToken, refreshToken } = await requestSignUpJwtToken({ nick, password, phone, email, type });
 		if (jwtToken) {
-			updateStorage({ jwtToken });
+			updateStorage({ jwtToken, refreshToken });
 			updateUserInfo(jwtToken);
 		}
 	} catch (err) {
@@ -98,7 +104,7 @@ const requestSignUpJwtToken = async ({
 	phone: string;
 	email: string;
 	type: string;
-}): Promise<{ jwtToken: string }> => {
+}): Promise<{ jwtToken: string; refreshToken?: string }> => {
 	const apolloClient = await initializeApollo();
 	try {
 		const result = await apolloClient.mutate({
@@ -115,8 +121,8 @@ const requestSignUpJwtToken = async ({
 			fetchPolicy: 'network-only',
 		});
 		console.log('---------- signup ----------');
-		const { accessToken } = result?.data?.signup;
-		return { jwtToken: accessToken };
+		const { accessToken, refreshToken } = result?.data?.signup;
+		return { jwtToken: accessToken, refreshToken };
 	} catch (err: any) {
 		console.log('request signup token err', err.graphQLErrors);
 		switch (err.graphQLErrors[0]?.message) {
@@ -139,11 +145,14 @@ const requestSignUpJwtToken = async ({
 	}
 };
 
-export const updateStorage = ({ jwtToken }: { jwtToken: any }) => {
+export const updateStorage = ({ jwtToken, refreshToken }: { jwtToken: any; refreshToken?: any }) => {
 	if (!jwtToken || jwtToken === 'undefined') return;
 	setJwtToken(jwtToken);
 	if (typeof window !== 'undefined') {
 		localStorage.setItem('accessToken', jwtToken);
+		if (refreshToken && refreshToken !== 'undefined') {
+			localStorage.setItem('refreshToken', refreshToken);
+		}
 	}
 };
 
@@ -192,6 +201,7 @@ const deleteStorage = () => {
 	_inMemoryToken = '';
 	if (typeof window !== 'undefined') {
 		localStorage.removeItem('accessToken');
+		localStorage.removeItem('refreshToken');
 	}
 };
 
