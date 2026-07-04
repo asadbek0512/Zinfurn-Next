@@ -291,7 +291,7 @@ const Join: NextPage = () => {
 					{/* User Type - faqat signup uchun */}
 					{!loginView && (
 						<div className="mob-join-types">
-							<span className="mob-type-title">{t('I want to be registered as:')}</span>
+							<span className="mob-type-title">{t('I want to be registered as')}</span>
 							<div className="mob-type-options">
 								<FormControlLabel control={<Checkbox size="small" name="USER" onChange={checkUserTypeHandler} checked={input?.type === 'USER'} />} label={t('USER')} />
 								<FormControlLabel control={<Checkbox size="small" name="AGENT" onChange={checkUserTypeHandler} checked={input?.type === 'AGENT'} />} label={t('AGENT')} />
@@ -550,7 +550,7 @@ const Join: NextPage = () => {
 								{/* User Type - faqat signup uchun */}
 								{!loginView && (
 									<div className={'type-option'}>
-										<span className={'text'}>{t('I want to be registered as:')}</span>
+										<span className={'text'}>{t('I want to be registered as')}</span>
 										<div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
 											<FormGroup>
 												<FormControlLabel
