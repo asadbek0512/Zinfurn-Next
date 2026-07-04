@@ -161,19 +161,19 @@ const Footer = () => {
 							<strong>{t('Shop contact')}</strong>
 							<div className="contact-info">
 								<div className="info-row">
-									<span className="label">{t('Hotline:')}</span>
+									<span className="label">{t('Hotline')}:</span>
 									<span className="value">{t('Free 24/7')}</span>
 								</div>
 								<div className="info-row">
-									<span className="label">{t('Phone:')}</span>
+									<span className="label">{t('Phone')}:</span>
 									<span className="value">{t('+82 10 7329 5171')}</span>
 								</div>
 								<div className="info-row">
-									<span className="label">{t('Address:')}</span>
+									<span className="label">{t('Address')}:</span>
 									<span className="value">{t('Seoul, South Korea')}</span>
 								</div>
 								<div className="info-row">
-									<span className="label">{t('Email:')}</span>
+									<span className="label">{t('Email')}:</span>
 									<span className="value">khusanovasadbek777@gmail.com</span>
 								</div>
 							</div>
