@@ -31,6 +31,7 @@ import ViewComfyIcon from '@mui/icons-material/ViewComfy';
 import ViewStreamIcon from '@mui/icons-material/ViewStream';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../apollo/user/query';
+import { print } from 'graphql';
 import { T } from '../../libs/types/common';
 import { LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
@@ -39,13 +40,39 @@ import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'next-i18next';
 
-export const getStaticProps = async ({ locale }: any) => ({
-	props: {
-		...(await serverSideTranslations(locale, ['common'])),
-	},
-});
+/** SEO: mahsulotlar ro'yxati server'da render bo'ladi — Google bo'sh HTML emas, real kartalarni ko'radi.
+ *  Backend yiqilsa ham sahifa ochiladi (bo'sh boshlanadi, client qayta so'raydi). */
+export const getServerSideProps = async ({ locale, query }: any) => {
+	const translations = await serverSideTranslations(locale, ['common']);
 
-const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
+	let input: any = { page: 1, limit: 9, sort: 'createdAt', direction: 'DESC', search: {} };
+	if (query?.input) {
+		try {
+			input = JSON.parse(query.input as string);
+		} catch {
+			/* buzuq input — default bilan davom */
+		}
+	}
+
+	let ssrProperties: any[] = [];
+	let ssrTotal = 0;
+	try {
+		const res = await fetch(process.env.REACT_APP_API_GRAPHQL_URL as string, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ query: print(GET_PROPERTIES), variables: { input } }),
+		});
+		const json = await res.json();
+		ssrProperties = json?.data?.getProperties?.list ?? [];
+		ssrTotal = json?.data?.getProperties?.metaCounter?.[0]?.total ?? 0;
+	} catch {
+		/* SSR fetch yiqилsa — client o'zi yuklaydi */
+	}
+
+	return { props: { ...translations, ssrProperties, ssrTotal } };
+};
+
+const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 
@@ -73,8 +100,9 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 			limit: getItemsPerPage('grid-4'),
 		};
 	});
-	const [properties, setProperties] = useState<Property[]>([]);
-	const [total, setTotal] = useState<number>(0);
+	// SSR'dan kelgan mahsulotlar — birinchi HTML'da kartalar bor (SEO)
+	const [properties, setProperties] = useState<Property[]>(ssrProperties ?? []);
+	const [total, setTotal] = useState<number>(ssrTotal ?? 0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [sortingOpen, setSortingOpen] = useState(false);
@@ -117,7 +145,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	}, [device]);
 
 	// Skeleton kamida ~0.7s ko'rinsin (flash bo'lmasin — silliq UX)
-	const [showSkeleton, setShowSkeleton] = useState(true);
+	const [showSkeleton, setShowSkeleton] = useState(!(ssrProperties && ssrProperties.length));
 	useEffect(() => {
 		if (getPropertiesLoading) {
 			setShowSkeleton(true);
