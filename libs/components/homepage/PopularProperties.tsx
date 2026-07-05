@@ -88,9 +88,10 @@ FlashSale.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 6,
-		sort: 'createdAt',
-		direction: 'DESC',
-		search: {},
+		// Server AKTIV sale'larni beradi; eng tez tugaydiganlar birinchi (countdown mantiqi)
+		sort: 'propertySaleExpiresAt',
+		direction: 'ASC',
+		search: { propertyIsOnSale: true },
 	},
 };
 

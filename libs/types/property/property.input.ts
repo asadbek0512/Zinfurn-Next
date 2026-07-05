@@ -34,6 +34,7 @@ export interface PropertyInput {
 }
 
 export interface PISearch {
+	propertyIsOnSale?: boolean;
 	memberId?: string; /// memberId?: string;
 	categoryList?: PropertyCategory[]; // locationList?: PropertyLocation[];
 	typeList?: PropertyType[]; // typeList?: PropertyType[];
