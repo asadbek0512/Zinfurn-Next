@@ -47,3 +47,4 @@ next-env.d.ts
 .aider*
 doc.env
 .env.production
+.next-prepush/
