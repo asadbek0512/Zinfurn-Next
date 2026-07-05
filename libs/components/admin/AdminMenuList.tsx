@@ -6,7 +6,7 @@ import Collapse from '@mui/material/Collapse';
 import Typography from '@mui/material/Typography';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { ChatsCircle, Headset, User, UserCircleGear } from 'phosphor-react';
+import { ChatsCircle, Headset, User, UserCircleGear, Ticket } from 'phosphor-react';
 import cookies from 'js-cookie';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
@@ -94,6 +94,11 @@ const AdminMenuList = (props: any) => {
 			on_click: () => subMenuChangeHandler('Community'),
 		},
 		{
+			title: 'Coupons',
+			icon: <Ticket size={20} color="var(--text-4)" weight="fill" />,
+			on_click: () => subMenuChangeHandler('Coupons'),
+		},
+		{
 			title: 'Cs',
 			icon: <Headset size={20} color="var(--text-4)" weight="fill" />,
 			on_click: () => subMenuChangeHandler('Cs'),
@@ -104,6 +109,7 @@ const AdminMenuList = (props: any) => {
 		Users: [{ title: 'List', url: '/_admin/users' }],
 		Properties: [{ title: 'List', url: '/_admin/properties' }],
 		Community: [{ title: 'List', url: '/_admin/community' }],
+		Coupons: [{ title: 'List', url: '/_admin/coupons' }],
 		Cs: [
 			{ title: 'FAQ', url: '/_admin/cs/faq' },
 			{ title: 'Notice', url: '/_admin/cs/notice' },

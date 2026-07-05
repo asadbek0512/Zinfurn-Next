@@ -629,5 +629,9 @@
   "CARD HOLDER": "ВЛАДЕЛЕЦ",
   "EXPIRES": "ДЕЙСТВ. ДО",
   "Hotline": "Горячая линия",
-  "I want to be registered as": "Зарегистрироваться как"
+  "I want to be registered as": "Зарегистрироваться как",
+  "Coupon code": "Промокод",
+  "Apply": "Применить",
+  "Discount": "Скидка",
+  "Invalid coupon": "Неверный промокод"
 }

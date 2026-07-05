@@ -1,12 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { NextPage } from 'next';
 import { Button, Divider, Step, StepLabel, Stepper, TextField, Typography } from '@mui/material';
-import { useReactiveVar, useMutation } from '@apollo/client';
+import { useReactiveVar, useMutation, useLazyQuery } from '@apollo/client';
 import { cartVar, userVar } from '../apollo/store';
 import { clearCart, getCartTotal } from '../libs/utils/cartUtils';
 import { formatterStr } from '../libs/utils';
 import { REACT_APP_API_URL } from '../libs/config';
 import { CREATE_ORDER } from '../apollo/user/mutation';
+import { VALIDATE_COUPON } from '../apollo/user/query';
 import { Order } from '../libs/types/order/order';
 import Link from 'next/link';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
@@ -66,6 +67,41 @@ const Checkout: NextPage = () => {
 
 	const savedTotal = useRef(total);
 
+	/* ── Kupon ── */
+	const [couponCode, setCouponCode] = useState('');
+	const [couponApplied, setCouponApplied] = useState<{ code: string; discountAmount: number; finalTotal: number } | null>(null);
+	const [couponMsg, setCouponMsg] = useState('');
+	const [validateCouponQ, { loading: couponLoading }] = useLazyQuery(VALIDATE_COUPON, { fetchPolicy: 'network-only' });
+
+	const applyCoupon = async () => {
+		const code = couponCode.trim();
+		if (!code) return;
+		setCouponMsg('');
+		try {
+			const { data } = await validateCouponQ({ variables: { couponCode: code, orderTotal: total } });
+			const res = data?.validateCoupon;
+			if (res?.valid) {
+				setCouponApplied({ code: res.couponCode, discountAmount: res.discountAmount, finalTotal: res.finalTotal });
+				setCouponMsg('');
+			} else {
+				setCouponApplied(null);
+				setCouponMsg(res?.message || t('Invalid coupon'));
+			}
+		} catch (err: any) {
+			setCouponApplied(null);
+			setCouponMsg(err?.message || t('Invalid coupon'));
+		}
+	};
+
+	// Savat o'zgarsa kupon eskiradi — qayta apply talab qilinadi
+	useEffect(() => {
+		setCouponApplied(null);
+		setCouponMsg('');
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [total]);
+
+	const payableTotal = couponApplied ? couponApplied.finalTotal : total;
+
 	const [createOrder, { loading: placing }] = useMutation(CREATE_ORDER);
 
 	const step1Valid = fullName.trim() && address.trim() && phone.trim();
@@ -85,7 +121,7 @@ const Checkout: NextPage = () => {
 		if (step === 0 && !step1Valid) return;
 		if (step === 1) {
 			if (!validateStep2()) return;
-			savedTotal.current = total;
+			savedTotal.current = payableTotal;
 			setPlaceError('');
 			try {
 				const orderItems = items.map(item => ({
@@ -100,6 +136,7 @@ const Checkout: NextPage = () => {
 						input: {
 							orderItems,
 							orderTotal: total,
+							couponCode: couponApplied?.code || undefined,
 							deliveryInfo: { fullName, address, city: city || undefined, phone, note: note || undefined },
 						},
 					},
@@ -156,10 +193,38 @@ const Checkout: NextPage = () => {
 				);
 			})}
 			<Divider sx={{ my: 1.5 }} />
+
+			{/* Kupon */}
+			<div className="co-coupon">
+				{couponApplied ? (
+					<div className="co-coupon-applied">
+						<span>🎟 {couponApplied.code}</span>
+						<button type="button" className="co-coupon-remove" onClick={() => { setCouponApplied(null); setCouponCode(''); }}>✕</button>
+					</div>
+				) : (
+					<div className="co-coupon-row">
+						<input
+							className="co-coupon-input"
+							placeholder={t('Coupon code')}
+							value={couponCode}
+							onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+							onKeyDown={(e) => e.key === 'Enter' && applyCoupon()}
+						/>
+						<button type="button" className="co-coupon-btn" onClick={applyCoupon} disabled={couponLoading || !couponCode.trim()}>
+							{couponLoading ? '…' : t('Apply')}
+						</button>
+					</div>
+				)}
+				{couponMsg && <p className="co-coupon-msg">{couponMsg}</p>}
+			</div>
+
 			<div className="co-sum-row"><span>{t('Subtotal')}</span><span>{formatPrice(total)}</span></div>
+			{couponApplied && (
+				<div className="co-sum-row co-sum-discount"><span>{t('Discount')} ({couponApplied.code})</span><span>-{formatPrice(couponApplied.discountAmount)}</span></div>
+			)}
 			<div className="co-sum-row"><span>{t('Shipping')}</span><span className="co-free">{t('Free')}</span></div>
 			<Divider sx={{ my: 1 }} />
-			<div className="co-sum-row co-sum-total"><span>{t('Total')}</span><span>{formatPrice(total)}</span></div>
+			<div className="co-sum-row co-sum-total"><span>{t('Total')}</span><span>{formatPrice(payableTotal)}</span></div>
 		</div>
 	);
 

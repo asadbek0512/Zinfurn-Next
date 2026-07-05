@@ -629,5 +629,9 @@
   "CARD HOLDER": "카드 소유자",
   "EXPIRES": "만료일",
   "Hotline": "상담전화",
-  "I want to be registered as": "가입 유형"
+  "I want to be registered as": "가입 유형",
+  "Coupon code": "쿠폰 코드",
+  "Apply": "적용",
+  "Discount": "할인",
+  "Invalid coupon": "유효하지 않은 쿠폰"
 }

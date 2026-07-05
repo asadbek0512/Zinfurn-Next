@@ -1413,3 +1413,14 @@ export const GET_NOTICE = gql`
     }
   }
 `;
+export const VALIDATE_COUPON = gql`
+	query ValidateCoupon($couponCode: String!, $orderTotal: Float!) {
+		validateCoupon(couponCode: $couponCode, orderTotal: $orderTotal) {
+			valid
+			message
+			discountAmount
+			finalTotal
+			couponCode
+		}
+	}
+`;

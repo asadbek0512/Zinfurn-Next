@@ -4,6 +4,8 @@
 // sahifalarga ham qo'llanishi uchun (next.config headers() SSG'da ishonchsiz).
 
 const nextConfig = {
+	// Pre-push hook build'i alohida papkaga boradi — dev serverning .next'i buzilmaydi
+	distDir: process.env.NEXT_DIST_DIR || '.next',
 	poweredByHeader: false,
 	eslint: { ignoreDuringBuilds: true },
 	typescript: { ignoreBuildErrors: true },

@@ -628,5 +628,9 @@
   "CARD HOLDER": "حامل البطاقة",
   "EXPIRES": "تنتهي",
   "Hotline": "الخط الساخن",
-  "I want to be registered as": "أريد التسجيل كـ"
+  "I want to be registered as": "أريد التسجيل كـ",
+  "Coupon code": "رمز الكوبون",
+  "Apply": "تطبيق",
+  "Discount": "خصم",
+  "Invalid coupon": "كوبون غير صالح"
 }
