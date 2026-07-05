@@ -628,5 +628,9 @@
   "CARD HOLDER": "CARD HOLDER",
   "EXPIRES": "EXPIRES",
   "Hotline": "Hotline",
-  "I want to be registered as": "I want to be registered as"
+  "I want to be registered as": "I want to be registered as",
+  "Coupon code": "Coupon code",
+  "Apply": "Apply",
+  "Discount": "Discount",
+  "Invalid coupon": "Invalid coupon"
 }
