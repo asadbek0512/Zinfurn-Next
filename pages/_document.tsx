@@ -6,6 +6,7 @@ export default function Document() {
 			<Head>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<meta name="robots" content="index,follow" />
+				<meta name="google-site-verification" content="IygeEw_birveKtlTi85JuIJouvKjBnBSV9CPJ1NyGXE" />
 				<link rel="icon" type="image/png" href="/img/logo/005.png" />
 				<link rel="alternate" hrefLang="en" href="https://zinfurn.uz" />
 				<link rel="alternate" hrefLang="ko" href="https://zinfurn.uz/kr" />
