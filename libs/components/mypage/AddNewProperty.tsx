@@ -129,16 +129,22 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 			await sweetMixinErrorAlert(err.message);
 		}
 	}
+	// Backend PropertyInput DTO talablari: propertyTitle @Length(3,100), propertyDesc @Length(5,500)
+	const TITLE_MIN = 3;
+	const DESC_MIN = 5;
+	const titleTooShort = (insertPropertyData.propertyTitle?.trim().length ?? 0) < TITLE_MIN;
+	const descTooShort = (insertPropertyData.propertyDesc?.trim().length ?? 0) < DESC_MIN;
+
 	const doDisabledCheck = (): boolean => {
 		if (
-			insertPropertyData.propertyTitle === '' ||
+			titleTooShort ||
 			insertPropertyData.propertyPrice === 0 ||
 			!insertPropertyData.propertyType ||
 			!insertPropertyData.propertyCategory ||
 			!insertPropertyData.propertyCondition ||
 			!insertPropertyData.propertyMaterial ||
 			!insertPropertyData.propertyColor ||
-			insertPropertyData.propertyDesc === '' ||
+			descTooShort ||
 			(insertPropertyData.propertyImages?.length ?? 0) === 0 // Optional chaining + nullish coalescing
 		) {
 			return true;
@@ -229,6 +235,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 								setInsertPropertyData({ ...insertPropertyData, propertyTitle: value })
 							}
 						/>
+						{titleTooShort && insertPropertyData.propertyTitle !== '' && (
+							<span style={{ color: '#e03131', fontSize: 12 }}>{t('At least 3 characters')}</span>
+						)}
 					</div>
 
 					<div className="mob-addprop-row">
@@ -478,6 +487,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 								setInsertPropertyData({ ...insertPropertyData, propertyDesc: value })
 							}
 						/>
+						{descTooShort && (insertPropertyData.propertyDesc || '') !== '' && (
+							<span style={{ color: '#e03131', fontSize: 12 }}>{t('At least 5 characters')}</span>
+						)}
 					</div>
 
 					{/* Image Upload */}
@@ -547,6 +559,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										setInsertPropertyData({ ...insertPropertyData, propertyTitle: value })
 									}
 								/>
+								{titleTooShort && insertPropertyData.propertyTitle !== '' && (
+									<span style={{ color: '#e03131', fontSize: 12 }}>{t('At least 3 characters')}</span>
+								)}
 							</Stack>
 
 							<Stack className="config-row">
@@ -802,6 +817,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										setInsertPropertyData({ ...insertPropertyData, propertyDesc: value })
 									}
 								></textarea>
+								{descTooShort && (insertPropertyData.propertyDesc || '') !== '' && (
+									<span style={{ color: '#e03131', fontSize: 12 }}>{t('At least 5 characters')}</span>
+								)}
 							</Stack>
 						</Stack>
 						<Typography className="upload-title">{t('Upload photos of your property')}</Typography>
