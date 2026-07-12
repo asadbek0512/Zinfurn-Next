@@ -1,10 +1,27 @@
 import React from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 const SITE = 'Zinfurn';
 const SITE_URL = 'https://zinfurn.uz';
-const DEFAULT_DESC =
-	'Zinfurn — Best online furniture store. Shop sofas, tables, chairs, bedroom and kitchen furniture at the best prices. Fast delivery.';
+
+// Tilga qarab default tavsif — "zinfurn nima" degan qidiruvda o'z tilida aniq javob chiqishi uchun
+const DEFAULT_DESC_BY_LOCALE: Record<string, string> = {
+	uz: 'Zinfurn — onlayn mebel doʻkoni va bozori. Divan, stol, stul, yotoqxona va oshxona mebellarini eng yaxshi narxlarda xarid qiling. Tez yetkazib berish.',
+	en: 'Zinfurn — Best online furniture store. Shop sofas, tables, chairs, bedroom and kitchen furniture at the best prices. Fast delivery.',
+	ru: 'Zinfurn — интернет-магазин мебели. Диваны, столы, стулья, мебель для спальни и кухни по лучшим ценам. Быстрая доставка.',
+	kr: 'Zinfurn — 온라인 가구 쇼핑몰. 소파, 테이블, 의자, 침실 및 주방 가구를 최저가로 구매하세요. 빠른 배송.',
+	ar: 'Zinfurn — متجر أثاث عبر الإنترنت. تسوق الأرائك والطاولات والكراسي وأثاث غرف النوم والمطبخ بأفضل الأسعار. توصيل سريع.',
+};
+
+// Tilga qarab default title
+const DEFAULT_TITLE_BY_LOCALE: Record<string, string> = {
+	uz: `${SITE} — Onlayn Mebel Doʻkoni`,
+	en: `${SITE} — Best Furniture Store`,
+	ru: `${SITE} — Интернет-магазин мебели`,
+	kr: `${SITE} — 온라인 가구 쇼핑몰`,
+	ar: `${SITE} — متجر الأثاث`,
+};
 // Link preview rasmi: kontentli banner (logo shaffof/oq bo'lib previewда bo'sh ko'rinardi)
 const DEFAULT_IMAGE = `${SITE_URL}/img/banner/Home-1-.jpg`;
 const DEFAULT_IMAGE_W = '1917';
@@ -24,8 +41,12 @@ interface SEOProps {
 }
 
 const SEO = ({ title, description, image, url, type = 'website', price, currency = 'KRW', noindex, jsonLd }: SEOProps) => {
-	const fullTitle = title ? `${title} | ${SITE}` : `${SITE} — Best Furniture Store`;
-	const desc = description || DEFAULT_DESC;
+	const { locale = 'en' } = useRouter();
+	const localeDesc = DEFAULT_DESC_BY_LOCALE[locale] || DEFAULT_DESC_BY_LOCALE.en;
+	const localeTitle = DEFAULT_TITLE_BY_LOCALE[locale] || DEFAULT_TITLE_BY_LOCALE.en;
+
+	const fullTitle = title ? `${title} | ${SITE}` : localeTitle;
+	const desc = description || localeDesc;
 	const img = image || DEFAULT_IMAGE;
 	const isDefaultImg = img === DEFAULT_IMAGE;
 	const canonical = url || SITE_URL;
