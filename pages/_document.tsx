@@ -7,6 +7,7 @@ export default function Document() {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<meta name="robots" content="index,follow" />
 				<meta name="google-site-verification" content="IygeEw_birveKtlTi85JuIJouvKjBnBSV9CPJ1NyGXE" />
+				<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 				<link rel="icon" href="/favicon.ico" sizes="any" />
 				<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
 				<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png" />
