@@ -206,10 +206,24 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 			//execute likePropertyHandler Mutation
-			await likeTargetProperty({ variables: { input: id } });
+			const result = await likeTargetProperty({ variables: { input: id } });
 
-			//execute getPropertiesRefetch
-			await getPropertiesRefetch({ input: searchFilter });
+			// Refetch o'rniga faqat bosilgan kartani lokal yangilaymiz —
+			// butun ro'yxat qayta yuklanib skeleton "lip-lip" qilmasin
+			const updatedLikes = result?.data?.likeTargetProperty?.propertyLikes;
+			setProperties((prev) =>
+				prev.map((p) =>
+					p._id === id
+						? {
+								...p,
+								propertyLikes: updatedLikes ?? p.propertyLikes,
+								meLiked: p.meLiked?.[0]?.myFavorite
+									? []
+									: [{ memberId: user._id, likeRefId: id, myFavorite: true }],
+						  }
+						: p,
+				),
+			);
 		} catch (err: any) {
 			console.log('ERROR, likePropertyHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
