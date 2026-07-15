@@ -48,3 +48,4 @@ next-env.d.ts
 doc.env
 .env.production
 .next-prepush/
+.next-build/

@@ -295,7 +295,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				</div>
 
 				<button className={'mobile-filter-search'} onClick={pushSearchHandler}>
-					<img src="/img/icons/search_white.svg" alt="search" />
+					<img loading="lazy" decoding="async" src="/img/icons/search_white.svg" alt="search" />
 				</button>
 			</div>
 		);
@@ -330,7 +330,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					<Stack className={'search-box-other'}>
 						<Box className={'advanced-filter'} onClick={() => advancedFilterHandler(true)}></Box>
 						<Box className={'search-btn'} onClick={pushSearchHandler}>
-							<img src="/img/icons/search_white.svg" alt="" />
+							<img loading="lazy" decoding="async" src="/img/icons/search_white.svg" alt="" />
 						</Box>
 					</Stack>
 
@@ -339,7 +339,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						{propertyCategory.map((location: string) => {
 							return (
 								<div onClick={() => propertyCategorySelectHandler(location)} key={location}>
-									<img src={`img/banner/cities/${location}.jpg`} alt="" />
+									<img loading="lazy" decoding="async" src={`img/banner/cities/${location}.jpg`} alt="" />
 									<span>{t(location)}</span>
 								</div>
 							);
@@ -350,7 +350,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						{propertyType.map((type: string) => {
 							return (
 								<div onClick={() => propertyTypeSelectHandler(type)} key={type}>
-									<img src={`img/banner/types/${type}.jpg`} alt="" />
+									<img loading="lazy" decoding="async" src={`img/banner/types/${type}.jpg`} alt="" />
 									<span>{t(type)}</span>
 								</div>
 							);
@@ -361,7 +361,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						{propertyMaterial.map((material: string) => {
 							return (
 								<div onClick={() => propertyMaterialSelectHandler(material)} key={material}>
-									<img src={`img/banner/materials/${material}.jpg`} alt="" />
+									<img loading="lazy" decoding="async" src={`img/banner/materials/${material}.jpg`} alt="" />
 									<span>{t(material)}</span>
 								</div>
 							);
