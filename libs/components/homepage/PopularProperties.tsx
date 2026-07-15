@@ -49,10 +49,23 @@ const FlashSale = (props: FlashSaleProps) => {
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
 			// Execute likeTargetProperty Mutation
-			await likeTargetProperty({ variables: { input: id } });
+			const result = await likeTargetProperty({ variables: { input: id } });
 
-			// Execute getPropertiesRefetch
-			await getPropertiesRefetch({ input: initialInput });
+			// Refetch o'rniga faqat bosilgan kartani lokal yangilaymiz — ro'yxat "lip-lip" qilmasin
+			const updatedLikes = result?.data?.likeTargetProperty?.propertyLikes;
+			setFlashSaleProperties((prev) =>
+				prev.map((p) =>
+					p._id === id
+						? {
+								...p,
+								propertyLikes: updatedLikes ?? p.propertyLikes,
+								meLiked: p.meLiked?.[0]?.myFavorite
+									? []
+									: [{ memberId: user._id, likeRefId: id, myFavorite: true }],
+						  }
+						: p,
+				),
+			);
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, likePropertyHandler', err.message);
