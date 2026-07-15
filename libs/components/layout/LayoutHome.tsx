@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Top from '../Top';
 import { Stack } from '@mui/material';
-import FiberContainer from '../common/FiberContainer';
-// import HeaderFilter from '../homepage/HeaderFilter';
 import { userVar } from '../../../apollo/store';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { getJwtToken, updateUserInfo } from '../../auth';
-import Chat from '../Chat';
-import AiChat from '../AiChat';
-import SalePromoModal from '../common/SalePromoModal';
+
+// Og'ir client-only widgetlar — asosiy bundle'dan ajratilgan, sahifa yuklangach keladi
+const Chat = dynamic(() => import('../Chat'), { ssr: false });
+const AiChat = dynamic(() => import('../AiChat'), { ssr: false });
+const SalePromoModal = dynamic(() => import('../common/SalePromoModal'), { ssr: false });
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';

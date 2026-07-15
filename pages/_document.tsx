@@ -7,7 +7,8 @@ export default function Document() {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<meta name="robots" content="index,follow" />
 				<meta name="google-site-verification" content="IygeEw_birveKtlTi85JuIJouvKjBnBSV9CPJ1NyGXE" />
-				<link rel="icon" type="image/png" href="/img/logo/005.png" />
+				{/* Jigarrang favicon — 005.png bilan bir xil o'lcham/shakl, qora tab'da ham Google oq doirasida ham ko'rinadi */}
+				<link rel="icon" type="image/png" href="/favicon.png?v=10" />
 				<link rel="alternate" hrefLang="en" href="https://zinfurn.uz" />
 				<link rel="alternate" hrefLang="ko" href="https://zinfurn.uz/kr" />
 				<link rel="alternate" hrefLang="ru" href="https://zinfurn.uz/ru" />

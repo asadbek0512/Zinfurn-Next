@@ -81,7 +81,7 @@ const CategoryGrid = () => {
 				<div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
 					{/* Yuqori katta */}
 					<div style={card('110px')} onClick={() => handleClick(items[0].category)}>
-						<img src={items[0].image || '/placeholder.svg'} alt={items[0].title} style={imgStyle} />
+						<img loading="lazy" decoding="async" src={items[0].image || '/placeholder.svg'} alt={items[0].title} style={imgStyle} />
 						<div style={overlay()}>
 							<div style={{ fontSize: '12px', fontWeight: 600 }}>{items[0].title}</div>
 						</div>
@@ -90,7 +90,7 @@ const CategoryGrid = () => {
 					<div style={{ display: 'flex', gap: '8px', flex: 1 }}>
 						{[items[1], items[2]].map((item) => (
 							<div key={item.id} style={{ ...card('80px'), flex: 1 }} onClick={() => handleClick(item.category)}>
-								<img src={item.image || '/placeholder.svg'} alt={item.title} style={imgStyle} />
+								<img loading="lazy" decoding="async" src={item.image || '/placeholder.svg'} alt={item.title} style={imgStyle} />
 								<div style={overlay('6px 8px')}>
 									<div style={{ fontSize: '10px', fontWeight: 600 }}>{item.title}</div>
 								</div>
@@ -101,7 +101,7 @@ const CategoryGrid = () => {
 
 				{/* O'ng: 1ta baland karta */}
 				<div style={{ ...card('100%'), minHeight: '198px' }} onClick={() => handleClick(items[3].category)}>
-					<img src={items[3].image || '/placeholder.svg'} alt={items[3].title} style={imgStyle} />
+					<img loading="lazy" decoding="async" src={items[3].image || '/placeholder.svg'} alt={items[3].title} style={imgStyle} />
 					<div style={overlay('10px 12px')}>
 						<div style={{ fontSize: '13px', fontWeight: 600 }}>{items[3].title}</div>
 						<div style={{ fontSize: '10px', opacity: 0.85 }}>{items[3].subtitle}</div>
@@ -115,7 +115,7 @@ const CategoryGrid = () => {
 			<div className="category-grid">
 				{items.map((item) => (
 					<div className={`box ${item.className}`} key={item.id}>
-						<img src={item.image || '/placeholder.svg'} alt={item.title} />
+						<img loading="lazy" decoding="async" src={item.image || '/placeholder.svg'} alt={item.title} />
 						<div className="overlay">
 							<div className="content">
 								<h3>{item.title}</h3>

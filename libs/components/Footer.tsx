@@ -7,7 +7,6 @@ import { Stack, Box, Link } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 
-import moment from 'moment';
 import { useTranslation } from 'next-i18next';
 
 const Footer = () => {
@@ -64,7 +63,7 @@ const Footer = () => {
 						<img src="/img/icons/3.svg" alt="amex" />
 						<img src="/img/icons/4.svg" alt="paypal" />
 					</div>
-					<span>© {moment().year()} Zinfurn. {t('All rights reserved.')}</span>
+					<span>© {new Date().getFullYear()} Zinfurn. {t('All rights reserved.')}</span>
 				</div>
 			</div>
 		);
@@ -182,7 +181,7 @@ const Footer = () => {
 				</Stack>
 				<Stack className={'second'}>
 					<span>
-						© {moment().year()} Zinfurn. {t('All rights reserved.')}
+						© {new Date().getFullYear()} Zinfurn. {t('All rights reserved.')}
 					</span>
 					<div className="payment-icons">
 						<img src="/img/icons/1.svg" alt="visa" />
