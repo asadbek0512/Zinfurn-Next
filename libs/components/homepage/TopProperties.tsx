@@ -68,8 +68,23 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
-			await likeTargetProperty({ variables: { input: id } });
-			await getPropertiesRefetch({ input: getCurrentInput() });
+			const result = await likeTargetProperty({ variables: { input: id } });
+
+			// Refetch o'rniga faqat bosilgan kartani lokal yangilaymiz — ro'yxat "lip-lip" qilmasin
+			const updatedLikes = result?.data?.likeTargetProperty?.propertyLikes;
+			setProperties((prev) =>
+				prev.map((p) =>
+					p._id === id
+						? {
+								...p,
+								propertyLikes: updatedLikes ?? p.propertyLikes,
+								meLiked: p.meLiked?.[0]?.myFavorite
+									? []
+									: [{ memberId: user._id, likeRefId: id, myFavorite: true }],
+						  }
+						: p,
+				),
+			);
 		} catch (err: any) {
 			console.log('ERROR, likePropertyHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
