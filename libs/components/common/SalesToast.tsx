@@ -194,7 +194,7 @@ const SalesToast = (props: SalesToastProps) => {
 			}
 		},
 		onError: (error) => {
-			console.log('SalesToast - Query error:', error);
+			console.error('SalesToast - Query error:', error);
 		},
 	});
 

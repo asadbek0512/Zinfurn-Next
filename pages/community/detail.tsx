@@ -154,7 +154,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 
 			await sweetTopSmallSuccessAlert('Success!', 800);
 		} catch (err: any) {
-			console.log('ERROR, likeBoardArticleHandler:', err.message);
+			console.error('ERROR, likeBoardArticleHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		} finally {
 			setLikeLoading(false);

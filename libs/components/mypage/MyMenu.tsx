@@ -52,7 +52,7 @@ const MyMenu = () => {
 		try {
 			if (await sweetConfirmAlert(t('Do you want to logout?'))) logOut();
 		} catch (err: any) {
-			console.log('ERROR, logoutHandler:', err.message);
+			console.error('ERROR, logoutHandler:', err.message);
 		}
 	};
 

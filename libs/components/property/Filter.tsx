@@ -210,9 +210,8 @@ const Filter = (props: FilterType) => {
 					alert('error');
 				}
 
-				console.log('propertyLocationSelectHandler:', e.target.value);
 			} catch (err: any) {
-				console.log('ERROR, propertyLocationSelectHandler:', err);
+				console.error('ERROR, propertyLocationSelectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -259,9 +258,8 @@ const Filter = (props: FilterType) => {
 					alert('error');
 				}
 
-				console.log('propertyTypeSelectHandler:', e.target.value);
 			} catch (err: any) {
-				console.log('ERROR, propertyTypeSelectHandler:', err);
+				console.error('ERROR, propertyTypeSelectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -295,7 +293,7 @@ const Filter = (props: FilterType) => {
 					{ scroll: false },
 				);
 			} catch (err: any) {
-				console.log('ERROR, propertyConditionSelectHandler:', err);
+				console.error('ERROR, propertyConditionSelectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -336,9 +334,8 @@ const Filter = (props: FilterType) => {
 					{ scroll: false },
 				);
 
-				console.log('propertyOptionSelectHandler:', value, 'checked:', isChecked, 'newOptions:', newOptions);
 			} catch (err: any) {
-				console.log('ERROR, propertyOptionSelectHandler:', err);
+				console.error('ERROR, propertyOptionSelectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -385,9 +382,8 @@ const Filter = (props: FilterType) => {
 					);
 				}
 
-				console.log('propertyMaterialSelectHandler:', material);
 			} catch (err: any) {
-				console.log('ERROR, propertyMaterialSelectHandler:', err);
+				console.error('ERROR, propertyMaterialSelectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -430,7 +426,7 @@ const Filter = (props: FilterType) => {
 					);
 				}
 			} catch (err: any) {
-				console.log('ERROR, propertyColorHandler:', err);
+				console.error('ERROR, propertyColorHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -488,7 +484,7 @@ const Filter = (props: FilterType) => {
 				{ scroll: false },
 			);
 		} catch (err: any) {
-			console.log('ERROR, refreshHandler:', err);
+			console.error('ERROR, refreshHandler:', err);
 		}
 	};
 

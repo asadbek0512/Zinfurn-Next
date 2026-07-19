@@ -86,7 +86,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 				),
 			);
 		} catch (err: any) {
-			console.log('ERROR, likePropertyHandler', err.message);
+			console.error('ERROR, likePropertyHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};

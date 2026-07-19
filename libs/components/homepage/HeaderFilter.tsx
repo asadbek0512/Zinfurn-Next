@@ -142,7 +142,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				});
 				typeStateChangeHandler();
 			} catch (err: any) {
-				console.log('ERROR, propertyCategorySelectHandler:', err);
+				console.error('ERROR, propertyCategorySelectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -160,7 +160,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				});
 				materialStateChangeHandler();
 			} catch (err: any) {
-				console.log('ERROR, propertyTypeSelectHandler:', err);
+				console.error('ERROR, propertyTypeSelectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -178,7 +178,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				});
 				colorStateChangeHandler();
 			} catch (err: any) {
-				console.log('ERROR, propertyMaterialSelectHandler:', err);
+				console.error('ERROR, propertyMaterialSelectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -196,7 +196,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				});
 				disableAllStateHandler();
 			} catch (err: any) {
-				console.log('ERROR, propertyMaterialSelectHandler:', err);
+				console.error('ERROR, propertyMaterialSelectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -229,7 +229,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				`/property?input=${JSON.stringify(searchFilter)}`,
 			);
 		} catch (err: any) {
-			console.log('ERROR, pushSearchHandler:', err);
+			console.error('ERROR, pushSearchHandler:', err);
 		}
 	};
 

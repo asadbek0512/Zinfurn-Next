@@ -166,6 +166,11 @@ const AiChat = () => {
 			});
 
 			const data = await response.json();
+			// Server xatosi (500/rate-limit) yoki bo'sh javob — bo'sh bubble o'rniga xato xabari
+			if (!response.ok || !data?.reply) {
+				setMessages((prev) => [...prev, { role: 'assistant', content: t('AI error message') }]);
+				return;
+			}
 			const aiMessage: AiMessage = { role: 'assistant', content: data.reply, products: data.products, actions: data.actions };
 			setMessages((prev) => [...prev, aiMessage]);
 		} catch (err) {

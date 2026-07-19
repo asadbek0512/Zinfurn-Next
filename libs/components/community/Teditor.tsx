@@ -67,12 +67,11 @@ const TuiEditor = () => {
 			});
 
 			const responseImage = response.data.data.imageUploader;
-			console.log('=responseImage: ', responseImage);
 			memoizedValues.articleImage = responseImage; // bu articilemizni imageni qayerdaligini saqlab qoyayapmiz
 
 			return `${REACT_APP_API_URL}/${responseImage}`; // Bu rasmimizni backendga saqlab kelayapti
 		} catch (err) {
-			console.log('Error, uploadImage:', err);
+			console.error('Error, uploadImage:', err);
 		}
 	};
 
@@ -81,7 +80,6 @@ const TuiEditor = () => {
 	};
 
 	const articleTitleHandler = (e: T) => {
-		console.log(e.target.value);
 		memoizedValues.articleTitle = e.target.value;
 	};
 
@@ -96,7 +94,7 @@ const TuiEditor = () => {
 				setUploadedImages((prev) => [...prev, url]);
 			}
 		} catch (err) {
-			console.log('Image upload error:', err);
+			console.error('Image upload error:', err);
 		}
 		e.target.value = '';
 	}, []);
@@ -125,7 +123,7 @@ const TuiEditor = () => {
 				},
 			});
 		} catch (err: any) {
-			console.log(err);
+			console.error(err);
 			sweetErrorHandling(new Error(Message.INSERT_ALL_INPUTS)).then();
 		}
 	};

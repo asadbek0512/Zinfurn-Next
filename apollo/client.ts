@@ -85,11 +85,9 @@ class LoggingWebSocket {
 		socketVar(this.socket)
 
 		this.socket.onopen = () => {
-			console.log('WebSocket connection!');
 		};
 
 		this.socket.onmessage = (msg) => {
-			console.log('WebSocket message:', msg.data);
 		};
 
 		this.socket.onerror = (error) => {
@@ -141,12 +139,12 @@ function createIsomorphicLink() {
 		const errorLink = onError(({ graphQLErrors, networkError, response }) => {
 			if (graphQLErrors) {
 				graphQLErrors.map(({ message, locations, path, extensions }) => {
-					console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
+					console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
 					const isAuthError = message.includes('Token') || message.includes('Unauthorized') || message.includes('Forbidden') || message.includes('not provided');
 					if (!message.includes('input') && !isAuthError) sweetErrorAlert(message);
 				});
 			}
-			if (networkError) console.log(`[Network error]: ${networkError}`);
+			if (networkError) console.error(`[Network error]: ${networkError}`);
 			// @ts-ignore
 			if (networkError?.statusCode === 401) {
 			}

@@ -38,7 +38,7 @@ const FlashSale = (props: FlashSaleProps) => {
 			setFlashSaleProperties(data?.getProperties?.list);
 		},
 		onError: (error) => {
-			console.log('FlashSale - Query error:', error);
+			console.error('FlashSale - Query error:', error);
 		},
 	});
 
@@ -68,7 +68,7 @@ const FlashSale = (props: FlashSaleProps) => {
 			);
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.log('ERROR, likePropertyHandler', err.message);
+			console.error('ERROR, likePropertyHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};

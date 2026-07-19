@@ -65,7 +65,7 @@ const RecentlyVisited: NextPage = () => {
 
       await getVisitedRefetch({ input: searchVisited });
     } catch (err: any) {
-      console.log('ERROR, likePropertyHandler:', err.message);
+      console.error('ERROR, likePropertyHandler:', err.message);
       await sweetMixinErrorAlert(err.message).then();
     }
   };

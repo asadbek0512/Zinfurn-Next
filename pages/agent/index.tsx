@@ -135,7 +135,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 			await getAgentsRefetch({ input: searchFilter });
 		} catch (err: any) {
-			console.log('ERROR, likeMemberHandler:', err.message);
+			console.error('ERROR, likeMemberHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};

@@ -122,10 +122,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 			const responseImages = response.data.data.imagesUploader;
 
-			console.log('+responseImages: ', responseImages);
 			setInsertPropertyData({ ...insertPropertyData, propertyImages: responseImages });
 		} catch (err: any) {
-			console.log('err: ', err.message);
+			console.error('err: ', err.message);
 			await sweetMixinErrorAlert(err.message);
 		}
 	}
@@ -213,7 +212,6 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 		router.back();
 	}
 
-	console.log('+insertPropertyData', insertPropertyData);
 
 	if (device === 'mobile') {
 		const isEdit = !!router.query.propertyId;

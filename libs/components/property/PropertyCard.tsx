@@ -51,7 +51,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
 			: 0;
 
-	const handleAddToCart = (e: React.MouseEvent) => {
+	const handleAddToCart = (e: React.MouseEvent | React.KeyboardEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
 		addToCart({
@@ -117,7 +117,16 @@ const PropertyCard = (props: PropertyCardProps) => {
 							</div>
 							<div
 								className="mob-action"
+								role="button"
+								tabIndex={0}
+								aria-label={t('Like')}
 								onClick={(e) => { e.preventDefault(); likePropertyHandler?.(user, property?._id); }}
+								onKeyDown={(e) => {
+									if (e.key === 'Enter' || e.key === ' ') {
+										e.preventDefault();
+										likePropertyHandler?.(user, property?._id);
+									}
+								}}
 							>
 								{myFavorites || property?.meLiked?.[0]?.myFavorite
 									? <FavoriteIcon style={{ fontSize: 13, color: 'var(--primary)' }} />
@@ -126,7 +135,16 @@ const PropertyCard = (props: PropertyCardProps) => {
 							</div>
 							<div
 								className={`mob-action mob-action-cart ${addedFlash ? 'added' : ''}`}
+								role="button"
+								tabIndex={0}
+								aria-label={t('Add to Cart')}
 								onClick={handleAddToCart}
+								onKeyDown={(e) => {
+									if (e.key === 'Enter' || e.key === ' ') {
+										e.preventDefault();
+										handleAddToCart(e);
+									}
+								}}
 							>
 								<AddShoppingCartIcon sx={{ fontSize: 13, color: 'var(--primary)' }} />
 							</div>
