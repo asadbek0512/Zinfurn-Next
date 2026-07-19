@@ -181,7 +181,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				},
 			});
 		} catch (err: any) {
-			console.log('ERROR, likeRepairPropertyHandler', err.message);
+			console.error('ERROR, likeRepairPropertyHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};

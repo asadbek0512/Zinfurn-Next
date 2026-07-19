@@ -125,7 +125,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 			});
 			await boardArticlesRefetch();
 		} catch (err: any) {
-			console.log('ERROR, likeArticleHandler:', err.message);
+			console.error('ERROR, likeArticleHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};

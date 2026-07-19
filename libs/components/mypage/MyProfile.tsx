@@ -53,7 +53,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 					await sweetMixinSuccessAlert('Telegram linked successfully!');
 				}
 			} catch (err) {
-				console.log('Telegram link error:', err);
+				console.error('Telegram link error:', err);
 			}
 		};
 		

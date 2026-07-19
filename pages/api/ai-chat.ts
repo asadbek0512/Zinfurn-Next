@@ -10,9 +10,16 @@ const LANG_NAME: Record<string, string> = { uz: 'Uzbek', en: 'English', ru: 'Rus
 // Kunlik limit: bir IP kuniga 10 ta xabar
 const DAILY_LIMIT = 10;
 const rateMap = new Map<string, { count: number; day: string }>();
+let rateMapDay = new Date().toISOString().slice(0, 10);
 
 function checkRateLimit(ip: string): boolean {
 	const day = new Date().toISOString().slice(0, 10);
+	// Kun o'zgarganda butun map tozalanadi — eski IP yozuvlari cheksiz to'planib
+	// memory leak qilmasin (har kuni bir marta clear)
+	if (day !== rateMapDay) {
+		rateMap.clear();
+		rateMapDay = day;
+	}
 	const rec = rateMap.get(ip);
 	if (!rec || rec.day !== day) {
 		rateMap.set(ip, { count: 1, day });

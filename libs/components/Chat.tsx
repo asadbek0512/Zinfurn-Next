@@ -76,14 +76,12 @@ const Chat = () => {
 		ws.onmessage = (msg: MessageEvent) => {
 			try {
 				const parsedData = JSON.parse(msg.data);
-				console.log('📨 MESSAGE RECEIVED:', JSON.stringify(parsedData));
 
 				switch (parsedData.event) {
 					case 'info':
 						setOnlineUsers(parsedData.totalClients);
 						break;
 					case 'getMessages':
-						console.log('RAW LIST:', JSON.stringify(parsedData.list)); // ← SHU QATOR
 						const list: MessagePayload[] = (parsedData.list ?? []).map((msg: any) => ({
 							event: msg.event,
 							text: msg.text,
@@ -137,14 +135,12 @@ const Chat = () => {
 		const handleMessage = (msg: MessageEvent) => {
 			try {
 				const parsedData = JSON.parse(msg.data);
-				console.log('📨 MESSAGE RECEIVED:', JSON.stringify(parsedData));
 
 				switch (parsedData.event) {
 					case 'info':
 						setOnlineUsers(parsedData.totalClients);
 						break;
 					case 'getMessages':
-						console.log('RAW FROM SERVER:', parsedData.list);
 						const list: MessagePayload[] = (parsedData.list ?? []).map((msg: any) => ({
 							event: msg.event,
 							text: msg.text,
@@ -195,7 +191,6 @@ const Chat = () => {
 	};
 
 	const handleSetReply = (message: MessagePayload) => {
-		console.log('🔁 Setting reply to:', message);
 		setReplyTo(message);
 	};
 
@@ -218,7 +213,6 @@ const Chat = () => {
 				memberNick: replyTo.memberData?.memberNick ?? 'User',
 			};
 		}
-		console.log('SENDING:', JSON.stringify(messagePayload));
 		socket.send(JSON.stringify(messagePayload));
 
 		// Add message optimistically to the list with replyTo data

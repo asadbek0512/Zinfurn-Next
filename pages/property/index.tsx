@@ -166,7 +166,6 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 	}, [router]);
 
 	useEffect(() => {
-		console.log('searchFilter:', searchFilter);
 	}, [searchFilter]);
 
 	/** LIVE QIDIRUV: yozishni to'xtatgach ~0.4s da avtomatik qidiradi (Enter shart emas). */
@@ -225,7 +224,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 				),
 			);
 		} catch (err: any) {
-			console.log('ERROR, likePropertyHandler', err.message);
+			console.error('ERROR, likePropertyHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -305,7 +304,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 			setSearchFilter(refreshedInput);
 			setCurrentPage(1);
 		} catch (err: any) {
-			console.log('ERROR, refreshHandler:', err);
+			console.error('ERROR, refreshHandler:', err);
 		}
 	};
 

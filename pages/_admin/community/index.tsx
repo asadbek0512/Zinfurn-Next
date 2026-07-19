@@ -116,7 +116,7 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 				setCommunityInquiry({ ...communityInquiry });
 			}
 		} catch (err: any) {
-			console.log('searchTypeHandler: ', err.message);
+			console.error('searchTypeHandler: ', err.message);
 		}
 	};
 
@@ -152,8 +152,6 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 		}
 	};
 
-	console.log('+communityInquiry', communityInquiry);
-	console.log('+articles', articles);
 
 	return (
 		<Box component={'div'} className={'content'}>

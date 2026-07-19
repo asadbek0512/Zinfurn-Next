@@ -136,13 +136,12 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 				setPropertiesInquiry({ ...propertiesInquiry });
 			}
 		} catch (err: any) {
-			console.log('searchTypeHandler: ', err.message);
+			console.error('searchTypeHandler: ', err.message);
 		}
 	};
 
 	const updatePropertyHandler = async (updateData: PropertyUpdate) => {
 		try {
-			console.log('+updateData: ', updateData);
 			await updatePropertyByAdmin({
 				variables: {
 					input: updateData,

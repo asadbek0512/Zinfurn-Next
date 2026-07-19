@@ -155,7 +155,6 @@ const Join: NextPage = () => {
 		window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
 	};
 
-	console.log('+input: ', input);
 
 	if (device === 'mobile') {
 		return (

@@ -139,12 +139,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			if (data?.getProperty) setProperty(data?.getProperty);
-			if (data?.getProperty) setSlideImage(data?.getProperty?.propertyImages[0]);
+			if (data?.getProperty?.propertyImages?.[0]) setSlideImage(data?.getProperty?.propertyImages?.[0]);
 		},
 	});
-
-	console.log('propertyId:', propertyId, property?._id);
-	console.log('aaaaa', getPropertyData?.getProperty?.propertyImages[0], slideImage);
 
 	const {
 		loading: getPropertiesLoading,
@@ -269,7 +266,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				},
 			});
 		} catch (err: any) {
-			console.log('ERROR, likePropertyHandler', err.message);
+			console.error('ERROR, likePropertyHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};

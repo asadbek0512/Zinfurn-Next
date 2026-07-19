@@ -22,7 +22,7 @@ export const likeTargetPropertyHandler = async (likeTargetProperty: any, id: str
 			},
 		});
 	} catch (err: any) {
-		console.log('ERROR, likeTargetPropertyHandler:', err.message);
+		console.error('ERROR, likeTargetPropertyHandler:', err.message);
 		sweetMixinErrorAlert(err.message).then();
 	}
 };
@@ -35,7 +35,7 @@ export const likeTargetBoardArticleHandler = async (likeTargetBoardArticle: any,
 			},
 		});
 	} catch (err: any) {
-		console.log('ERROR, likeTargetBoardArticleHandler:', err.message);
+		console.error('ERROR, likeTargetBoardArticleHandler:', err.message);
 		sweetMixinErrorAlert(err.message).then();
 	}
 };
@@ -48,7 +48,7 @@ export const likeTargetMemberHandler = async (likeTargetMember: any, id: string)
 			},
 		});
 	} catch (err: any) {
-		console.log('ERROR, likeTargetMemberHandler:', err.message);
+		console.error('ERROR, likeTargetMemberHandler:', err.message);
 		sweetMixinErrorAlert(err.message).then();
 	}
 };

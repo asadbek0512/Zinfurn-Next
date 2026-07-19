@@ -60,7 +60,7 @@ const requestJwtToken = async ({
 		const { accessToken, refreshToken } = result?.data?.login;
 		return { jwtToken: accessToken, refreshToken };
 	} catch (err: any) {
-		console.log('request token err', err.graphQLErrors);
+		console.error('request token err', err.graphQLErrors);
 		switch (err.graphQLErrors[0].message) {
 			case 'Definer: login and password do not match':
 				await sweetMixinErrorAlert('Please check your password again');
@@ -120,11 +120,10 @@ const requestSignUpJwtToken = async ({
 			},
 			fetchPolicy: 'network-only',
 		});
-		console.log('---------- signup ----------');
 		const { accessToken, refreshToken } = result?.data?.signup;
 		return { jwtToken: accessToken, refreshToken };
 	} catch (err: any) {
-		console.log('request signup token err', err.graphQLErrors);
+		console.error('request signup token err', err.graphQLErrors);
 		switch (err.graphQLErrors[0]?.message) {
 			case 'Definer: login and password do not match':
 				await sweetMixinErrorAlert('Please check your password again');

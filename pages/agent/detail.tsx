@@ -195,14 +195,29 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
 
-			await likeTargetProperty({
+			const result = await likeTargetProperty({
 				variables: {
 					input: id,
 				},
 			});
-			await getPropertiesRefetch({ input: searchFilter });
+
+			// Refetch o'rniga faqat bosilgan kartani lokal yangilaymiz — ro'yxat "lip-lip" qilmasin
+			const updatedLikes = result?.data?.likeTargetProperty?.propertyLikes;
+			setAgentProperties((prev) =>
+				prev.map((p) =>
+					p._id === id
+						? {
+								...p,
+								propertyLikes: updatedLikes ?? p.propertyLikes,
+								meLiked: p.meLiked?.[0]?.myFavorite
+									? []
+									: [{ memberId: user._id, likeRefId: id, myFavorite: true }],
+						  }
+						: p,
+				),
+			);
 		} catch (err: any) {
-			console.log('ERROR, likePropertyHandler:', err.message);
+			console.error('ERROR, likePropertyHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
