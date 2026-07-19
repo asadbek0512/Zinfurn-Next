@@ -118,12 +118,38 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
 
-			await likeTargetBoardArticle({
+			const { data } = await likeTargetBoardArticle({
 				variables: {
 					input: id,
 				},
 			});
-			await boardArticlesRefetch();
+
+			// Refetch qilmaymiz (aks holda hamma card yo'qolib qayta chiqadi).
+			// Faqat like bosilgan article'ni lokal yangilaymiz.
+			const updatedLikes = data?.likeTargetBoardArticle?.articleLikes;
+			const updateArticle = (article: BoardArticle): BoardArticle => {
+				if (article._id !== id) return article;
+				const wasLiked = !!article?.meLiked?.[0]?.myFavorite;
+				return {
+					...article,
+					articleLikes: typeof updatedLikes === 'number' ? updatedLikes : article.articleLikes,
+					meLiked: [
+						{
+							memberId: user._id,
+							likeRefId: article._id,
+							...article?.meLiked?.[0],
+							myFavorite: !wasLiked,
+						},
+					],
+				};
+			};
+
+			setAllArticles((prev) => ({
+				FREE: prev.FREE.map(updateArticle),
+				RECOMMEND: prev.RECOMMEND.map(updateArticle),
+				NEWS: prev.NEWS.map(updateArticle),
+				HUMOR: prev.HUMOR.map(updateArticle),
+			}));
 		} catch (err: any) {
 			console.error('ERROR, likeArticleHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
