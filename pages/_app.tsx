@@ -11,7 +11,7 @@ import '../scss/app.scss';
 import '../scss/pc/main.scss';
 import '../scss/mobile/main.scss';
 import { useRouter } from 'next/router';
-import { setJwtToken, updateUserInfo, updateStorage } from '../libs/auth';
+import { updateUserInfo, updateStorage, restoreSession } from '../libs/auth';
 import CartDrawer from '../libs/components/cart/CartDrawer';
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
 import SEO from '../libs/components/common/SEO';
@@ -65,12 +65,20 @@ const App = ({ Component, pageProps }: AppProps) => {
 		};
 	}, []);
 
+	// Sessiyani tiklash: eskirgan token bo'lsa refresh qilinadi, imkonsiz bo'lsa tozalanadi.
+	// Muddati o'tgan tokenni ko'r-ko'rona userVar ga yozish — "login ko'rinadi, lekin har
+	// so'rov 401" holatiga olib kelardi.
 	useEffect(() => {
-		const savedToken = localStorage.getItem('accessToken');
-		if (savedToken) {
-			setJwtToken(savedToken);
-			updateUserInfo(savedToken);
-		}
+		restoreSession();
+	}, []);
+
+	// Sessiya boshqa tabda tugatilsa yoki tab uzoq ochiq turib qaytilsa — holatni qayta tekshiramiz
+	useEffect(() => {
+		const onFocus = () => {
+			if (document.visibilityState === 'visible') restoreSession();
+		};
+		document.addEventListener('visibilitychange', onFocus);
+		return () => document.removeEventListener('visibilitychange', onFocus);
 	}, []);
 
 	useEffect(() => {

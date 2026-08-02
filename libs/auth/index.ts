@@ -7,6 +7,21 @@ import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
 
 let _inMemoryToken = '';
 
+/** Token muddati tugashiga shuncha qolganda "eskirgan" deb hisoblaymiz (tarmoq kechikishi zaxirasi) */
+const TOKEN_EXPIRY_LEEWAY_MS = 30_000;
+
+/** JWT `exp` bo'yicha token eskirganmi. Token yo'q yoki buzuq bo'lsa ham `true`. */
+export function isTokenExpired(token: string): boolean {
+	if (!token) return true;
+	try {
+		const { exp } = decodeJWT<{ exp?: number }>(token);
+		if (!exp) return true; // exp'siz token — ishonchsiz, eskirgan deb qaraymiz
+		return Date.now() >= exp * 1000 - TOKEN_EXPIRY_LEEWAY_MS;
+	} catch {
+		return true;
+	}
+}
+
 export function getJwtToken(): string {
 	if (!_inMemoryToken && typeof window !== 'undefined') {
 		const saved = localStorage.getItem('accessToken');
@@ -186,6 +201,67 @@ export const updateUserInfo = (jwtToken: any) => {
 		memberTelegramId: claims.memberTelegramId ?? '',
 		memberGoogleId: claims.memberGoogleId ?? '',
 	});
+};
+
+/**
+ * Sessiyani jimgina tozalaydi — token + userVar, redirect'siz.
+ * Sessiya o'z-o'zidan tugaganda (refresh eskirgan) ishlatiladi: UI darrov "mehmon" holatiga o'tadi,
+ * shuning uchun eskirgan token bilan so'rov yuborilib qizil error chiqmaydi.
+ */
+export const clearSession = () => {
+	deleteStorage();
+	deleteUserInfo();
+};
+
+/**
+ * Sahifa ochilganda sessiyani tiklaydi.
+ * - access hali yaroqli → userVar to'ldiriladi
+ * - access eskirgan, refresh bor → jimgina yangilanadi
+ * - ikkalasi ham yaroqsiz → sessiya tozalanadi (UI login holatida "osilib" qolmaydi)
+ */
+export const restoreSession = async (): Promise<void> => {
+	if (typeof window === 'undefined') return;
+
+	const accessToken = localStorage.getItem('accessToken');
+	if (!accessToken || accessToken === 'undefined') {
+		clearSession();
+		return;
+	}
+
+	if (!isTokenExpired(accessToken)) {
+		setJwtToken(accessToken);
+		updateUserInfo(accessToken);
+		return;
+	}
+
+	const refreshToken = getRefreshToken();
+	if (!refreshToken || isTokenExpired(refreshToken)) {
+		clearSession();
+		return;
+	}
+
+	try {
+		const res = await fetch(process.env.REACT_APP_API_GRAPHQL_URL as string, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			credentials: 'include',
+			body: JSON.stringify({
+				query: `mutation RefreshToken($refreshToken: String!) {
+					refreshToken(refreshToken: $refreshToken) { _id accessToken refreshToken }
+				}`,
+				variables: { refreshToken },
+			}),
+		});
+		const json = await res.json();
+		const payload = json?.data?.refreshToken;
+		if (!payload?.accessToken) throw new Error('Refresh failed');
+
+		updateStorage({ jwtToken: payload.accessToken, refreshToken: payload.refreshToken });
+		updateUserInfo(payload.accessToken);
+	} catch (err) {
+		console.warn('session restore failed', err);
+		clearSession();
+	}
 };
 
 export const logOut = () => {
