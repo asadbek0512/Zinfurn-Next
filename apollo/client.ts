@@ -4,11 +4,10 @@ import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { onError } from '@apollo/client/link/error';
-import { getJwtToken, getRefreshToken, setJwtToken, updateUserInfo } from '../libs/auth';
+import { getJwtToken, getRefreshToken, setJwtToken, updateUserInfo, clearSession, isTokenExpired } from '../libs/auth';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
 import { sweetErrorAlert } from '../libs/sweetAlert';
 import { socketVar } from './store';
-import decodeJWT from 'jwt-decode';
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 function getHeaders() {
@@ -19,25 +18,21 @@ function getHeaders() {
 	return headers;
 }
 
-/** Access token muddati tugagan (yoki 30s ichida tugaydigan) bo'lsa false qaytaradi */
-function isAccessTokenStillValid(): boolean {
-	const token = getJwtToken();
-	if (!token) return true; // token yo'q — anonim so'rov, refresh shart emas
-	try {
-		const { exp } = decodeJWT<{ exp?: number }>(token);
-		if (!exp) return true; // eski (muddatsiz) legacy token — o'z holicha ishlayveradi
-		return Date.now() < exp * 1000 - 30_000;
-	} catch {
-		return true;
-	}
-}
-
 const tokenRefreshLink = new TokenRefreshLink({
 	accessTokenField: 'accessToken',
 	isTokenValidOrUndefined: async () => {
-		// Refresh token bo'lmasa yangilab bo'lmaydi — so'rov o'z holicha ketadi
-		if (!getRefreshToken()) return true;
-		return isAccessTokenStillValid();
+		const token = getJwtToken();
+		if (!token) return true; // token yo'q — anonim so'rov, refresh shart emas
+		if (!isTokenExpired(token)) return true;
+
+		// Access eskirgan. Refresh ham eskirgan/yo'q bo'lsa — sessiya tugagan:
+		// darrov tozalaymiz, aks holda eskirgan token bilan so'rov ketib 401 xatosi chiqadi.
+		const refreshToken = getRefreshToken();
+		if (!refreshToken || isTokenExpired(refreshToken)) {
+			clearSession();
+			return true;
+		}
+		return false; // refresh qilinsin
 	},
 	// Refresh mutation'ni to'g'ridan-to'g'ri fetch bilan chaqiramiz (Apollo link zanjiridan tashqarida)
 	fetchAccessToken: async () => {
@@ -68,11 +63,11 @@ const tokenRefreshLink = new TokenRefreshLink({
 		updateUserInfo(accessToken);
 	},
 	handleError: (err) => {
-		// Refresh ham eskirgan — sessiya tugadi, tokenlarni tozalaymiz (sahifani majburan yo'naltirmaymiz)
+		// Refresh ham eskirgan — sessiya tugadi. Token bilan birga userVar ham tozalanadi,
+		// aks holda UI login holatida qolib, har so'rovda 401 xatosi ko'rinardi.
+		// Sahifani majburan yo'naltirmaymiz — foydalanuvchi mehmon sifatida ko'rishda davom etadi.
 		console.warn('Token refresh failed:', err);
-		setJwtToken('');
-		localStorage.removeItem('accessToken');
-		localStorage.removeItem('refreshToken');
+		clearSession();
 	},
 });
 
@@ -140,14 +135,21 @@ function createIsomorphicLink() {
 			if (graphQLErrors) {
 				graphQLErrors.map(({ message, locations, path, extensions }) => {
 					console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
-					const isAuthError = message.includes('Token') || message.includes('Unauthorized') || message.includes('Forbidden') || message.includes('not provided');
+					const isAuthError =
+						message.includes('Token') ||
+						message.includes('Unauthorized') ||
+						message.includes('Forbidden') ||
+						message.includes('jwt expired') ||
+						message.includes('not provided');
+					// Sessiya server tomonda o'lgan (token eskirgan/bekor qilingan) — mahalliy holatni ham tozalaymiz,
+					// aks holda UI login ko'rinib turaveradi va har so'rov shu xatoni takrorlaydi.
+					if (isAuthError && getJwtToken()) clearSession();
 					if (!message.includes('input') && !isAuthError) sweetErrorAlert(message);
 				});
 			}
 			if (networkError) console.error(`[Network error]: ${networkError}`);
 			// @ts-ignore
-			if (networkError?.statusCode === 401) {
-			}
+			if (networkError?.statusCode === 401) clearSession();
 		});
 
 		const splitLink = split(
