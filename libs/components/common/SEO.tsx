@@ -22,6 +22,13 @@ const DEFAULT_TITLE_BY_LOCALE: Record<string, string> = {
 	kr: `${SITE} — 온라인 가구 쇼핑몰`,
 	ar: `${SITE} — متجر الأثاث`,
 };
+const LOCALES = ['en', 'uz', 'ru', 'kr', 'ar'];
+const DEFAULT_LOCALE = 'en';
+
+// hreflang ISO 639-1 kod talab qiladi. Loyihada koreys uchun 'kr' ishlatiladi,
+// lekin 'kr' — bu mamlakat kodi; noto'g'ri qiymatni Google e'tiborsiz qoldiradi.
+const HREFLANG_BY_LOCALE: Record<string, string> = { kr: 'ko' };
+
 // Link preview rasmi: kontentli banner (logo shaffof/oq bo'lib previewда bo'sh ko'rinardi)
 const DEFAULT_IMAGE = `${SITE_URL}/img/banner/Home-1-.jpg`;
 const DEFAULT_IMAGE_W = '1917';
@@ -41,7 +48,9 @@ interface SEOProps {
 }
 
 const SEO = ({ title, description, image, url, type = 'website', price, currency = 'KRW', noindex, jsonLd }: SEOProps) => {
-	const { locale = 'en' } = useRouter();
+	const { locale = 'en', asPath } = useRouter();
+	// Locale prefiksisiz yo'l — hreflang uchun har til varianti shundan yasaladi
+	const basePath = (asPath || '/').split('?')[0].split('#')[0];
 	const localeDesc = DEFAULT_DESC_BY_LOCALE[locale] || DEFAULT_DESC_BY_LOCALE.en;
 	const localeTitle = DEFAULT_TITLE_BY_LOCALE[locale] || DEFAULT_TITLE_BY_LOCALE.en;
 
@@ -57,6 +66,19 @@ const SEO = ({ title, description, image, url, type = 'website', price, currency
 			<meta key="desc" name="description" content={desc} />
 			{noindex && <meta key="robots" name="robots" content="noindex,nofollow" />}
 			<link key="canonical" rel="canonical" href={canonical} />
+
+			{/* hreflang — 5 til versiyasi bir-birini ko'rsatadi, aks holda Google
+			    ularni takroriy kontent deb hisoblab bittasini tashlab yuboradi */}
+			{!noindex &&
+				LOCALES.map((loc) => (
+					<link
+						key={`alt-${loc}`}
+						rel="alternate"
+						hrefLang={HREFLANG_BY_LOCALE[loc] || loc}
+						href={`${SITE_URL}${loc === DEFAULT_LOCALE ? '' : `/${loc}`}${basePath}`}
+					/>
+				))}
+			{!noindex && <link key="alt-default" rel="alternate" hrefLang="x-default" href={`${SITE_URL}${basePath}`} />}
 
 			{/* Open Graph */}
 			<meta key="og:title" property="og:title" content={fullTitle} />

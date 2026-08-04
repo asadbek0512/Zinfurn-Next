@@ -15,6 +15,7 @@ import { updateUserInfo, updateStorage, restoreSession } from '../libs/auth';
 import CartDrawer from '../libs/components/cart/CartDrawer';
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
 import SEO from '../libs/components/common/SEO';
+import BrandJsonLd from '../libs/components/common/BrandJsonLd';
 import { detectDevice } from '../libs/hooks/useDeviceDetect';
 
 const PAGE_TITLES: Record<string, string> = {
@@ -35,6 +36,13 @@ const App = ({ Component, pageProps }: AppProps) => {
 	const client = useApollo(pageProps.initialApolloState);
 	const router = useRouter();
 	const pageTitle = PAGE_TITLES[router.pathname];
+
+	// Canonical har til uchun o'ziga ishora qilishi kerak. Locale prefiksisiz
+	// barcha tillar bitta inglizcha URL'ga canonical berardi — Google faqat
+	// bittasini indekslab, qolgan 4 tilni tashlab yuborardi.
+	const { locale = 'en', defaultLocale = 'en' } = router;
+	const localePrefix = locale === defaultLocale ? '' : `/${locale}`;
+	const canonicalUrl = `https://zinfurn.uz${localePrefix}${router.asPath?.split('?')[0] || ''}`;
 
 	useEffect(() => {
 		// Refresh qilganda browser oldingi scroll joyini tiklamasin — har doim tepadan boshlansin
@@ -97,7 +105,8 @@ const App = ({ Component, pageProps }: AppProps) => {
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<CurrencyProvider>
-					<SEO title={pageTitle} url={`https://zinfurn.uz${router.asPath?.split('?')[0] || ''}`} />
+					<BrandJsonLd />
+					<SEO title={pageTitle} url={canonicalUrl} />
 					<Component {...pageProps} />
 					<CartDrawer />
 				</CurrencyProvider>
