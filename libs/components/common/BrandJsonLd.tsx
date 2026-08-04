@@ -3,24 +3,27 @@ import Head from 'next/head';
 
 const SITE = 'Zinfurn';
 const SITE_URL = 'https://zinfurn.uz';
-const LOGO = `${SITE_URL}/img/logo/11.png`;
+const LOGO = `${SITE_URL}/img/logo/005.png`;
 
-// Brendning rasmiy profillari. Google shu havolalar orqali saytni
-// haqiqiy tashkilot deb tanidi — yangi profil ochilsa shu yerga qo'shiladi.
-const SAME_AS: string[] = [];
+// Brendning rasmiy profillari — Google shu havolalar orqali saytni
+// haqiqiy tashkilot deb tanidi. Yangi profil ochilsa shu yerga qo'shiladi.
+const SAME_AS = ['https://t.me/Khusanov_Asadbek2000'];
 
 /**
- * Har sahifada chiqadigan global JSON-LD: Organization + WebSite.
+ * Har sahifada chiqadigan global JSON-LD: OnlineStore + WebSite.
  *
- * Bu "zinfurn" so'raldi deganda Google natijada brend sifatida ko'rsatishi
- * (sitelinks, knowledge panel) va AI qidiruvlar saytni manba sifatida
- * tanishi uchun kerak. Sahifaga xos schema (Product, Article) SEO.tsx ning
- * `jsonLd` prop'i orqali alohida qo'shiladi.
+ * "zinfurn" so'ralganda Google natijada brend sifatida ko'rsatishi (sitelinks,
+ * knowledge panel) va AI qidiruvlar saytni manba sifatida tanishi uchun kerak.
+ *
+ * Bu — brend schema'sining yagona manbasi. Ilgari `_document.tsx` da ham
+ * nusxasi bor edi; ikki xil schema bir sahifada ziddiyat yaratardi.
+ * Sahifaga xos schema (Product, Article) SEO.tsx ning `jsonLd` prop'i orqali qo'shiladi.
  */
 const BrandJsonLd = () => {
-	const organization = {
+	// OnlineStore — Organization'ning e-commerce uchun aniqroq turi
+	const store = {
 		'@context': 'https://schema.org',
-		'@type': 'Organization',
+		'@type': 'OnlineStore',
 		'@id': `${SITE_URL}/#organization`,
 		name: SITE,
 		url: SITE_URL,
@@ -28,9 +31,17 @@ const BrandJsonLd = () => {
 			'@type': 'ImageObject',
 			url: LOGO,
 		},
+		image: LOGO,
 		description:
 			'Zinfurn — onlayn mebel doʻkoni va bozori. Divan, stol, stul, yotoqxona va oshxona mebellari.',
-		...(SAME_AS.length > 0 && { sameAs: SAME_AS }),
+		contactPoint: {
+			'@type': 'ContactPoint',
+			telephone: '+82-10-7329-5171',
+			contactType: 'customer service',
+			areaServed: 'KR',
+			availableLanguage: ['uz', 'en', 'ru', 'ko', 'ar'],
+		},
+		sameAs: SAME_AS,
 	};
 
 	const website = {
@@ -49,7 +60,7 @@ const BrandJsonLd = () => {
 			<script
 				key="jsonld-organization"
 				type="application/ld+json"
-				dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(store) }}
 			/>
 			<script
 				key="jsonld-website"

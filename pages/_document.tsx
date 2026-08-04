@@ -11,34 +11,12 @@ export default function Document() {
 				    /favicon.ico — Google favicon crawler avval shu standart manzilni qidiradi (barqaror URL, ?v yo'q) */}
 				<link rel="icon" href="/favicon.ico" sizes="any" />
 				<link rel="icon" type="image/png" sizes="192x192" href="/favicon.png?v=13" />
-				<link rel="alternate" hrefLang="en" href="https://zinfurn.uz" />
-				<link rel="alternate" hrefLang="ko" href="https://zinfurn.uz/kr" />
-				<link rel="alternate" hrefLang="ru" href="https://zinfurn.uz/ru" />
-				<link rel="alternate" hrefLang="uz" href="https://zinfurn.uz/uz" />
-				<link rel="alternate" hrefLang="ar" href="https://zinfurn.uz/ar" />
-				<link rel="alternate" hrefLang="x-default" href="https://zinfurn.uz" />
+				{/* hreflang va brend JSON-LD bu yerda EMAS:
+				    - hreflang → SEO.tsx (har sahifa o'z tilidagi variantiga ishora qilishi kerak;
+				      bu yerda qattiq yozilganda har sahifa bosh sahifani ko'rsatardi)
+				    - OnlineStore/WebSite schema → BrandJsonLd.tsx (yagona manba) */}
 
 				<meta name="keywords" content={'zinfurn, zinfurn.uz, furniture, sofa, table, chair, bedroom furniture, kitchen furniture, best furniture store, 가구, 소파, 침대, 식탁'} />
-				<script
-					type="application/ld+json"
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify({
-							'@context': 'https://schema.org',
-							'@type': 'OnlineStore',
-							name: 'Zinfurn',
-							description: "Best online furniture store",
-							url: 'https://zinfurn.uz',
-							logo: 'https://zinfurn.uz/img/logo/005.png',
-							contactPoint: {
-								'@type': 'ContactPoint',
-								telephone: '+82-10-7329-5171',
-								contactType: 'customer service',
-								areaServed: 'KR',
-							},
-							sameAs: ['https://t.me/Khusanov_Asadbek2000'],
-						}),
-					}}
-				/>
 			</Head>
 			<body>
 				{/* Theme'ni birinchi paint'dan OLDIN qo'llash — dark/light flash bo'lmasligi uchun */}
