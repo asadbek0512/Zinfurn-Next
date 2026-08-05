@@ -17,13 +17,20 @@ interface SitemapEntry {
 	localized?: boolean;
 }
 
+// hreflang ISO 639-1 kod talab qiladi — loyihadagi 'kr' locale'i 'ko' ga o'giriladi
+// (SEO.tsx dagi map bilan bir xil bo'lishi shart, aks holda Google ziddiyat ko'radi)
+const HREFLANG_BY_LOCALE: Record<string, string> = { kr: 'ko' };
+
+// Yo'llar oxirida slash YO'Q: next.config.js da trailingSlash yoqilmagan,
+// shuning uchun '/property/' → '/property' ga 308 redirect bo'ladi.
+// Sitemap redirect emas, yakuniy URL'ni ko'rsatishi kerak.
 const staticPages: SitemapEntry[] = [
 	{ path: '/', priority: '1.0', changefreq: 'daily', localized: true },
-	{ path: '/property/', priority: '0.9', changefreq: 'daily', localized: true },
-	{ path: '/agent/', priority: '0.8', changefreq: 'weekly', localized: true },
-	{ path: '/repairService/', priority: '0.7', changefreq: 'weekly', localized: true },
-	{ path: '/community/', priority: '0.7', changefreq: 'daily', localized: true },
-	{ path: '/cs/', priority: '0.5', changefreq: 'monthly', localized: true },
+	{ path: '/property', priority: '0.9', changefreq: 'daily', localized: true },
+	{ path: '/agent', priority: '0.8', changefreq: 'weekly', localized: true },
+	{ path: '/repairService', priority: '0.7', changefreq: 'weekly', localized: true },
+	{ path: '/community', priority: '0.7', changefreq: 'daily', localized: true },
+	{ path: '/cs', priority: '0.5', changefreq: 'monthly', localized: true },
 ];
 
 const GET_PROPERTIES_FOR_SITEMAP = `
@@ -73,7 +80,7 @@ const fetchProductEntries = async (): Promise<SitemapEntry[]> => {
 		return list
 			.filter((item: { _id?: string }) => Boolean(item?._id))
 			.map((item: { _id: string; updatedAt?: string }) => ({
-				path: `/property/detail/?id=${item._id}`,
+				path: `/property/detail?id=${item._id}`,
 				priority: '0.8',
 				changefreq: 'weekly',
 				lastmod: item.updatedAt ? String(item.updatedAt).split('T')[0] : undefined,
@@ -89,7 +96,7 @@ const renderUrl = ({ path, priority, changefreq, lastmod, localized }: SitemapEn
 	const alternates = localized
 		? LOCALES.map(
 				(locale) =>
-					`\n    <xhtml:link rel="alternate" hreflang="${locale}" href="${escapeXml(
+					`\n    <xhtml:link rel="alternate" hreflang="${HREFLANG_BY_LOCALE[locale] || locale}" href="${escapeXml(
 						`${SITE_URL}${localePath(locale, path)}`,
 					)}"/>`,
 		  ).join('') +
