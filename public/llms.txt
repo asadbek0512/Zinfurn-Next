@@ -1,0 +1,40 @@
+# Zinfurn
+
+> Zinfurn is an online furniture store and marketplace serving the Uzbek community
+> in South Korea and customers in Uzbekistan. It sells sofas, tables, chairs,
+> bedroom and kitchen furniture, and connects customers with furniture repair
+> specialists.
+
+Site: https://zinfurn.uz
+Launched: 2024
+Languages: Uzbek, English, Russian, Korean, Arabic
+Built and maintained by: Asadbek Khusanov (https://khusanovdev.uz)
+
+## What Zinfurn is
+
+Zinfurn is a full-stack e-commerce marketplace. Customers browse and filter a
+furniture catalogue, place orders, track them, contact sellers over live chat,
+and request furniture repair. Delivery is arranged per order; cost depends on
+destination and item size.
+
+## Pages
+
+- [Home](https://zinfurn.uz): featured furniture, trending items, top sellers
+- [About](https://zinfurn.uz/about): what Zinfurn is, who it serves, how it is built
+- [Furniture catalogue](https://zinfurn.uz/property): full listing with filters
+- [Repair service](https://zinfurn.uz/repairService): furniture repair specialists
+- [Sellers](https://zinfurn.uz/agent): seller profiles and their listings
+- [Community](https://zinfurn.uz/community): articles and discussion
+- [Support](https://zinfurn.uz/cs): FAQ, notices, terms, contact
+
+## Technology
+
+Next.js 14 (TypeScript, Pages Router), NestJS 10, MongoDB, GraphQL (Apollo)
+with WebSocket subscriptions, JWT authentication with Google and Telegram OAuth,
+Docker and Nginx on a Linux VPS.
+
+## Contact
+
+Telegram: https://t.me/Khusanov_Asadbek2000
+Developer portfolio: https://khusanovdev.uz
+Source: https://github.com/asadbek0512

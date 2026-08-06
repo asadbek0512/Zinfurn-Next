@@ -7,7 +7,14 @@ const LOGO = `${SITE_URL}/img/logo/005.png`;
 
 // Brendning rasmiy profillari — Google shu havolalar orqali saytni
 // haqiqiy tashkilot deb tanidi. Yangi profil ochilsa shu yerga qo'shiladi.
-const SAME_AS = ['https://t.me/Khusanov_Asadbek2000'];
+const SAME_AS = ['https://t.me/Khusanov_Asadbek2000', 'https://khusanovdev.uz'];
+
+// Muallif — AI'lar brendni real shaxsga bog'lay olishi uchun.
+// Bitta manba yetarli emas: modellar tasdiqni bir necha saytdan qidiradi,
+// shuning uchun khusanovdev.uz va GitHub profili ham sanab o'tilgan.
+const AUTHOR_NAME = 'Asadbek Khusanov';
+const AUTHOR_URL = 'https://khusanovdev.uz';
+const AUTHOR_SAME_AS = [AUTHOR_URL, 'https://github.com/asadbek0512'];
 
 /**
  * Har sahifada chiqadigan global JSON-LD: OnlineStore + WebSite.
@@ -42,6 +49,15 @@ const BrandJsonLd = () => {
 			availableLanguage: ['uz', 'en', 'ru', 'ko', 'ar'],
 		},
 		sameAs: SAME_AS,
+		foundingDate: '2024',
+		founder: {
+			'@type': 'Person',
+			'@id': `${SITE_URL}/#author`,
+			name: AUTHOR_NAME,
+			url: AUTHOR_URL,
+			jobTitle: 'Full-stack developer',
+			sameAs: AUTHOR_SAME_AS,
+		},
 	};
 
 	const website = {

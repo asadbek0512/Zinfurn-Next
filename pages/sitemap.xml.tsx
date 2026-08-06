@@ -31,6 +31,8 @@ const staticPages: SitemapEntry[] = [
 	{ path: '/repairService', priority: '0.7', changefreq: 'weekly', localized: true },
 	{ path: '/community', priority: '0.7', changefreq: 'daily', localized: true },
 	{ path: '/cs', priority: '0.5', changefreq: 'monthly', localized: true },
+	// "Zinfurn nima?" javobi shu yerda — brend so'rovlari va AI uchun muhim
+	{ path: '/about', priority: '0.8', changefreq: 'monthly', localized: true },
 ];
 
 const GET_PROPERTIES_FOR_SITEMAP = `

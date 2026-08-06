@@ -45,7 +45,7 @@ const Footer = () => {
 					<span className={'mobile-footer-col-title'}>{t('Discover')}</span>
 					<span className={'mobile-footer-col-title'}>{t('Help')}</span>
 					<Link href="/"><span>{t('Home')}</span></Link>
-					<span>{t('About us')}</span>
+					<Link href="/about"><span>{t('About us')}</span></Link>
 					<Link href="/property"><span>{t('Furnitures')}</span></Link>
 					<span>{t('Faq')}</span>
 					<Link href="/agent"><span>{t('Agents')}</span></Link>
@@ -112,7 +112,7 @@ const Footer = () => {
 
 						<div className="footer-links">
 							<strong>{t('Popular categories')}</strong>
-							<span>{t('About us')}</span>
+							<Link href="/about"><span>{t('About us')}</span></Link>
 							<span>{t('Contact')}</span>
 							<span>{t('Faq')}</span>
 							<span>{t('Privacy policy')}</span>
@@ -148,7 +148,7 @@ const Footer = () => {
 						</div>
 						<div className="footer-links">
 							<strong>{t('quickLinks')}</strong>
-							<span>{t('About us')}</span>
+							<Link href="/about"><span>{t('About us')}</span></Link>
 							<span>{t('Contact')}</span>
 							<span>{t('Faq')}</span>
 							<span>{t('Privacy policy')}</span>
