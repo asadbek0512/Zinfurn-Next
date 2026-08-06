@@ -29,6 +29,12 @@ const PAGE_TITLES: Record<string, string> = {
 	'/account/join': 'Login / Sign up',
 };
 
+// Shaxsiy/tranzaksion sahifalar qidiruv natijasida chiqmasligi kerak — brend so'ralganda
+// "Login / Sign up" natijasi bosh sahifadan oldin turib qolardi.
+// Diqqat: bu yo'llar robots.txt da bloklanmasligi shart, aks holda Googlebot
+// sahifaga kira olmay noindex'ni ko'rmaydi va eski indeks yozuvi qolib ketadi.
+const NOINDEX_PATHS = new Set(['/account/join', '/checkout', '/mypage', '/order/tracking']);
+
 const App = ({ Component, pageProps }: AppProps) => {
 	const { mode } = useThemeMode();
 	// @ts-ignore
@@ -106,7 +112,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 				<CssBaseline />
 				<CurrencyProvider>
 					<BrandJsonLd />
-					<SEO title={pageTitle} url={canonicalUrl} />
+					<SEO title={pageTitle} url={canonicalUrl} noindex={NOINDEX_PATHS.has(router.pathname)} />
 					<Component {...pageProps} />
 					<CartDrawer />
 				</CurrencyProvider>

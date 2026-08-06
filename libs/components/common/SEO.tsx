@@ -64,7 +64,9 @@ const SEO = ({ title, description, image, url, type = 'website', price, currency
 		<Head>
 			<title key="title">{fullTitle}</title>
 			<meta key="desc" name="description" content={desc} />
-			{noindex && <meta key="robots" name="robots" content="noindex,nofollow" />}
+			{/* robots har doim yoziladi — _document'dagi qattiq "index,follow" olib tashlangan,
+			    aks holda ikkita qarama-qarshi robots meta chiqib, noindex ishlamay qolardi */}
+			<meta key="robots" name="robots" content={noindex ? 'noindex,nofollow' : 'index,follow'} />
 			<link key="canonical" rel="canonical" href={canonical} />
 
 			{/* hreflang — 5 til versiyasi bir-birini ko'rsatadi, aks holda Google

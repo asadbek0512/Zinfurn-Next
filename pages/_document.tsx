@@ -5,7 +5,8 @@ export default function Document() {
 		<Html lang="en">
 			<Head>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<meta name="robots" content="index,follow" />
+				{/* robots meta SEO.tsx da — shaxsiy sahifalar (login, checkout, mypage)
+				    noindex olishi uchun u sahifaga qarab o'zgarishi kerak */}
 				<meta name="google-site-verification" content="IygeEw_birveKtlTi85JuIJouvKjBnBSV9CPJ1NyGXE" />
 				{/* Jigarrang favicon — 005.png bilan bir xil o'lcham/shakl, qora tab'da ham Google oq doirasida ham ko'rinadi.
 				    /favicon.ico — Google favicon crawler avval shu standart manzilni qidiradi (barqaror URL, ?v yo'q) */}

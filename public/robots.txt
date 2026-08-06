@@ -4,9 +4,9 @@ User-agent: *
 Allow: /
 Disallow: /_admin
 Disallow: /api
-Disallow: /mypage
-Disallow: /checkout
-Disallow: /account/join
+# /mypage, /checkout, /account/join bu yerda bloklanmaydi: ular <meta robots="noindex">
+# bilan chiqadi, buni Googlebot faqat sahifaga kira olsa ko'radi. Bloklansa —
+# eski indeks yozuvi (masalan "Login / Sign up - Zinfurn") abadiy qolib ketadi.
 # Filtr URL'lari cheksiz kombinatsiya yasaydi — crawl budget'ni yeydi
 Disallow: /*?input=
 
