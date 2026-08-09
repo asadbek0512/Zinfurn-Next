@@ -121,14 +121,14 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 						return (
 							<div key={repairProperty._id} className="mob-repair-card" onClick={() => pushDetailHandler(repairProperty._id)}>
 								<div className="mob-repair-card-craftsman">
-									<img src={avatarSrc} alt="" className="mob-repair-avatar" />
+									<img src={avatarSrc} alt="" className="mob-repair-avatar" loading="lazy" decoding="async" />
 									<div>
 										<p className="mob-repair-craftsman-name">{repairProperty?.memberData?.memberNick}</p>
 										<p className="mob-repair-craftsman-role">{t('Technician')}</p>
 									</div>
 								</div>
 
-								<img src={imageUrl} alt="" className="mob-repair-card-img" />
+								<img src={imageUrl} alt="" className="mob-repair-card-img" loading="lazy" decoding="async" />
 
 								<div className="mob-repair-card-content">
 									<span

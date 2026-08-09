@@ -187,7 +187,7 @@ const AiChat = () => {
 	const aiMessages = (
 		<>
 			<Box className="ai-chat-top" component="div">
-				<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} />
+				<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} loading="lazy" decoding="async" />
 				<span>{t('Zinfurn AI Assistant')}</span>
 			</Box>
 			<Box className="ai-chat-content" component="div">
@@ -195,7 +195,7 @@ const AiChat = () => {
 					<Stack className="ai-chat-main">
 						<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
 							<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-								<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} />
+								<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} loading="lazy" decoding="async" />
 							</Avatar>
 							<div className="ai-msg-left">{t('AI Welcome Message')}</div>
 						</Box>
@@ -207,7 +207,7 @@ const AiChat = () => {
 							) : (
 								<Box key={idx} flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
 									<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-										<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
+										<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
 									</Avatar>
 									<div className="ai-msg-left">{msg.content}<AiProductCards products={msg.products} onPick={pickProduct} /><AiActionButtons actions={msg.actions} onGo={goTo} /></div>
 								</Box>
@@ -216,7 +216,7 @@ const AiChat = () => {
 						{loading && (
 							<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
 								<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-									<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
+									<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
 								</Avatar>
 								<div className="ai-msg-left ai-typing"><span></span><span></span><span></span></div>
 							</Box>
@@ -239,7 +239,7 @@ const AiChat = () => {
 				{open && <div className="mob-chat-backdrop" onClick={handleToggle} />}
 				<Stack className={`ai-chat-frame ${open ? 'open' : ''}`} ref={mobFrameRef as any}>
 					<Box className="ai-chat-top" component="div">
-						<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} />
+						<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} loading="lazy" decoding="async" />
 						<span>{t('Zinfurn AI Assistant')}</span>
 						<button onClick={handleToggle} style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px' }}>
 							<CloseIcon style={{ fontSize: 20, color: 'var(--text-2)' }} />
@@ -250,7 +250,7 @@ const AiChat = () => {
 							<Stack className="ai-chat-main">
 								<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
 									<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-										<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} />
+										<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} loading="lazy" decoding="async" />
 									</Avatar>
 									<div className="ai-msg-left">{t('AI Welcome Message')}</div>
 								</Box>
@@ -262,7 +262,7 @@ const AiChat = () => {
 									) : (
 										<Box key={idx} flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
 											<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-												<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
+												<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
 											</Avatar>
 											<div className="ai-msg-left">{msg.content}<AiProductCards products={msg.products} onPick={pickProduct} /><AiActionButtons actions={msg.actions} onGo={goTo} /></div>
 										</Box>
@@ -271,7 +271,7 @@ const AiChat = () => {
 								{loading && (
 									<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
 										<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-											<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
+											<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
 										</Avatar>
 										<div className="ai-msg-left ai-typing"><span></span><span></span><span></span></div>
 									</Box>
@@ -328,7 +328,7 @@ const AiChat = () => {
 								zIndex: 99999,
 							}}
 						>
-							<img src="/img/ai1.webp" alt="AI" style={{ width: 54, height: 74 }} />
+							<img src="/img/ai1.webp" alt="AI" style={{ width: 54, height: 74 }} loading="lazy" decoding="async" />
 						</button>
 					)}
 
@@ -361,7 +361,7 @@ const AiChat = () => {
 
 			<Stack className={`ai-chat-frame ${open ? 'open' : ''}`}>
 				<Box className="ai-chat-top" component="div">
-					<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} />
+					<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} loading="lazy" decoding="async" />
 					<span>{t('Zinfurn AI Assistant')}</span>
 				</Box>
 				<Box className="ai-chat-content" component="div">
@@ -369,7 +369,7 @@ const AiChat = () => {
 						<Stack className="ai-chat-main">
 							<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
 								<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-									<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} />
+									<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} loading="lazy" decoding="async" />
 								</Avatar>
 								<div className="ai-msg-left">{t('AI Welcome Message')}</div>
 							</Box>
@@ -389,7 +389,7 @@ const AiChat = () => {
 								) : (
 									<Box key={idx} flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
 										<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-											<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
+											<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
 										</Avatar>
 										<div className="ai-msg-left">{msg.content}<AiProductCards products={msg.products} onPick={pickProduct} /><AiActionButtons actions={msg.actions} onGo={goTo} /></div>
 									</Box>
@@ -398,7 +398,7 @@ const AiChat = () => {
 							{loading && (
 								<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
 									<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-										<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} />
+										<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
 									</Avatar>
 									<div className="ai-msg-left ai-typing">
 										<span></span>

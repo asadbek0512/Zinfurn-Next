@@ -108,7 +108,7 @@ const CartDrawer = () => {
 								return (
 									<div className="cart-drawer-item" key={item.property._id}>
 										<div className="cart-item-img-wrap">
-											<img src={imgSrc} alt={item.property.propertyTitle} className="cart-item-img" />
+											<img src={imgSrc} alt={item.property.propertyTitle} className="cart-item-img" loading="lazy" decoding="async" />
 										</div>
 										<div className="cart-item-info">
 											<Typography className="cart-item-title">{item.property.propertyTitle}</Typography>

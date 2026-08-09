@@ -148,7 +148,7 @@ const AdminFaq: NextPage = () => {
 												<CancelRoundedIcon onClick={() => handleSearchInput('')} style={{ cursor: 'pointer' }} />
 											)}
 											<InputAdornment position="end">
-												<img src="/img/icons/search_icon.png" alt={'searchIcon'} />
+												<img src="/img/icons/search_icon.png" alt={'searchIcon'} loading="lazy" decoding="async" />
 											</InputAdornment>
 										</>
 									}

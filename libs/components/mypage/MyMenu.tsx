@@ -263,7 +263,7 @@ const MyMenu = () => {
 					<Stack className={'user-info'}>
 						<Typography className={'user-name'}>{user?.memberNick}</Typography>
 						<Box component={'div'} className={'user-phone'}>
-							<img src={'/img/icons/call.svg'} alt={'icon'} />
+							<img src={'/img/icons/call.svg'} alt={'icon'} loading="lazy" decoding="async" />
 							<Typography className={'p-number'}>{user?.memberPhone}</Typography>
 						</Box>
 						{user?.memberType === 'ADMIN' ? (
@@ -336,9 +336,9 @@ const MyMenu = () => {
 										>
 											<div className={'flex-box'}>
 												{category === 'addProperty' ? (
-													<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} />
+													<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 												) : (
-													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
+													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} loading="lazy" decoding="async" />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 													{t('Add Property')}
@@ -359,9 +359,9 @@ const MyMenu = () => {
 										>
 											<div className={'flex-box'}>
 												{category === 'myProperties' ? (
-													<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} />
+													<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 												) : (
-													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
+													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 													{t('My Properties')}
@@ -387,9 +387,9 @@ const MyMenu = () => {
 										>
 											<div className={'flex-box'}>
 												{category === 'addRepairProperty' ? (
-													<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} />
+													<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 												) : (
-													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
+													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} loading="lazy" decoding="async" />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 													{t('Add Repair')}
@@ -410,9 +410,9 @@ const MyMenu = () => {
 										>
 											<div className={'flex-box'}>
 												{category === 'myRepairProperty' ? (
-													<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} />
+													<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 												) : (
-													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
+													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 													{t('My Repair')}
@@ -436,9 +436,9 @@ const MyMenu = () => {
 								>
 									<div className={'flex-box'}>
 										{category === 'myFavorites' ? (
-											<img className={'com-icon'} src={'/img/icons/likeWhite.svg'} alt={'com-icon'} />
+											<img className={'com-icon'} src={'/img/icons/likeWhite.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 										) : (
-											<img className={'com-icon'} src={'/img/icons/like.svg'} alt={'com-icon'} />
+											<img className={'com-icon'} src={'/img/icons/like.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 										)}
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
@@ -458,9 +458,9 @@ const MyMenu = () => {
 								>
 									<div className={'flex-box'}>
 										{category === 'recentlyVisited' ? (
-											<img className={'com-icon'} src={'/img/icons/searchWhite.svg'} alt={'com-icon'} />
+											<img className={'com-icon'} src={'/img/icons/searchWhite.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 										) : (
-											<img className={'com-icon'} src={'/img/icons/search.svg'} alt={'com-icon'} />
+											<img className={'com-icon'} src={'/img/icons/search.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 										)}
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
@@ -625,9 +625,9 @@ const MyMenu = () => {
 								>
 									<div className={'flex-box'}>
 										{category === 'myArticles' ? (
-											<img className={'com-icon'} src={'/img/icons/discoveryWhite.svg'} alt={'com-icon'} />
+											<img className={'com-icon'} src={'/img/icons/discoveryWhite.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 										) : (
-											<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} />
+											<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 										)}
 
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
@@ -646,9 +646,9 @@ const MyMenu = () => {
 								>
 									<div className={'flex-box'}>
 										{category === 'writeArticle' ? (
-											<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} />
+											<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 										) : (
-											<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
+											<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} loading="lazy" decoding="async" />
 										)}
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 											{t('Write Article')}
@@ -684,7 +684,7 @@ const MyMenu = () => {
 							</ListItem>
 							<ListItem onClick={logoutHandler}>
 								<div className={'flex-box'}>
-									<img className={'com-icon'} src={'/img/icons/logout.svg'} alt={'com-icon'} />
+									<img className={'com-icon'} src={'/img/icons/logout.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 									<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 										{t('Logout')}
 									</Typography>

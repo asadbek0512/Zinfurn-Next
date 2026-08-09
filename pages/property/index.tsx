@@ -431,7 +431,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 							Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
 						) : properties?.length === 0 ? (
 						<Stack className="mob-no-data">
-							<img src="/img/icons/icoAlert.svg" alt="" />
+							<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 							<Typography>{t('no_properties_found')}</Typography>
 						</Stack>
 					) : (
@@ -514,7 +514,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 											</>
 										}
 									/>
-									<img src={'/img/icons/search_icon.png'} alt={''} />
+									<img src={'/img/icons/search_icon.png'} alt={''} loading="lazy" decoding="async" />
 									<Tooltip title={t('reset')}>
 										<IconButton onClick={refreshHandler}>
 											<RefreshIcon />
@@ -569,7 +569,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 								Array.from({ length: 8 }).map((_, i) => <PropertyCardSkeleton key={i} />)
 							) : properties?.length === 0 ? (
 								<div className={'no-data'}>
-									<img src="/img/icons/icoAlert.svg" alt="" />
+									<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 									<p style={{ color: 'var(--text-1)' }}>{t('no_properties_found')}</p>
 								</div>
 							) : (

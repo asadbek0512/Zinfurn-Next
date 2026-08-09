@@ -60,7 +60,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 			<div id="mob-member-properties">
 				{agentProperties?.length === 0 ? (
 					<div className="mob-mem-empty">
-						<img src="/img/icons/icoAlert.svg" alt="" />
+						<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 						<span>{t('No Properties!')}</span>
 					</div>
 				) : (
@@ -76,7 +76,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 									onClick={() => router.push({ pathname: '/property/detail', query: { id: property._id } })}
 								>
 									<div className="mob-mem-prop-img">
-										<img src={imgSrc} alt="" />
+										<img src={imgSrc} alt="" loading="lazy" decoding="async" />
 										{property.propertyPrice && (
 											<div className="mob-mem-prop-price">{formatPrice(property.propertyPrice)}</div>
 										)}
@@ -128,7 +128,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 						)}
 						{agentProperties?.length === 0 && (
 							<div className={'no-data'}>
-								<img src="/img/icons/icoAlert.svg" alt="" />
+								<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 								<p>{t('No Property found!')}</p>
 							</div>
 						)}

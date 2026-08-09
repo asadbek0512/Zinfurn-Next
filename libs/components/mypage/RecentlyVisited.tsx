@@ -91,7 +91,7 @@ const RecentlyVisited: NextPage = () => {
                   onClick={() => router.push({ pathname: '/property/detail', query: { id: property._id } })}
                 >
                   <div className="mob-fav-card-img-wrap">
-                    <img src={imgSrc} alt="" />
+                    <img src={imgSrc} alt="" loading="lazy" decoding="async" />
                     {property.propertyPrice && (
                       <div className="mob-fav-badge">{formatPrice(property.propertyPrice)}</div>
                     )}
@@ -116,7 +116,7 @@ const RecentlyVisited: NextPage = () => {
             })
           ) : (
             <div className="mob-fav-empty">
-              <img src="/img/icons/icoAlert.svg" alt="" />
+              <img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
               <span>{t('No Visited Properties found!')}</span>
             </div>
           )}
@@ -169,7 +169,7 @@ const RecentlyVisited: NextPage = () => {
                 marginTop: '58px',
               }}
             >
-              <img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} />
+              <img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} loading="lazy" decoding="async" />
               <p style={{ fontSize: '18px', color: 'var(--text-2)', marginTop: '8px', marginLeft: '45px' }}>
                 {t('No Visited Properties found!')}
               </p>

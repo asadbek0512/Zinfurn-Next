@@ -497,7 +497,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 							{insertPropertyData?.propertyImages?.map((image: string, idx: number) => {
 								return (
 									<div key={idx} className="mob-addprop-img-item">
-										<img src={`${REACT_APP_API_URL}/${image}`} alt="" />
+										<img src={`${REACT_APP_API_URL}/${image}`} alt="" loading="lazy" decoding="async" />
 										<div className="delete-btn" onClick={() => {
 											const updatedImages = [...(insertPropertyData.propertyImages || [])];
 											updatedImages.splice(idx, 1);
@@ -600,7 +600,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									</select>
 
 									<div className="divider"></div>
-									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" />
+									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" loading="lazy" decoding="async" />
 								</Stack>
 							</Stack>
 
@@ -630,7 +630,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									</select>
 
 									<div className="divider"></div>
-									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" />
+									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" loading="lazy" decoding="async" />
 								</Stack>
 								<Stack className="price-year-after-price">
 									<Typography className="title">{t('Size')}</Typography>
@@ -672,7 +672,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										<option value="no">{t('No')}</option>
 									</select>
 									<div className="divider"></div>
-									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" />
+									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" loading="lazy" decoding="async" />
 								</Stack>
 							</Stack>
 
@@ -743,7 +743,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									</select>
 
 									<div className="divider"></div>
-									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" />
+									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" loading="lazy" decoding="async" />
 								</Stack>
 
 								<Stack className="price-year-after-price">
@@ -771,7 +771,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									</select>
 
 									<div className="divider"></div>
-									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" />
+									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" loading="lazy" decoding="async" />
 								</Stack>
 
 								<Stack className="price-year-after-price">
@@ -799,7 +799,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									</select>
 
 									<div className="divider"></div>
-									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" />
+									<img src="/img/icons/Vector.svg" className="arrow-down" alt="" loading="lazy" decoding="async" />
 								</Stack>
 							</Stack>
 
@@ -923,7 +923,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									const imagePath: string = `${REACT_APP_API_URL}/${image}`;
 									return (
 										<Stack key={idx} className="image-box">
-											<img src={imagePath} alt="" />
+											<img src={imagePath} alt="" loading="lazy" decoding="async" />
 											<div className="delete-btn">
 												<svg width="16" height="16" viewBox="0 0 24 24" fill="none">
 													<line

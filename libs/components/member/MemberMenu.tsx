@@ -50,7 +50,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 		return (
 			<div id="mob-member-menu">
 				<div className="mob-mem-profile-card">
-					<img className="mob-mem-avatar" src={avatarSrc} alt="" />
+					<img className="mob-mem-avatar" src={avatarSrc} alt="" loading="lazy" decoding="async" />
 					<div className="mob-mem-name">{member?.memberNick || 'User'}</div>
 					<div className="mob-mem-type-badge">{t(member?.memberType || '')}</div>
 					{member?.memberPhone && <div className="mob-mem-phone">{member.memberPhone}</div>}
@@ -123,13 +123,12 @@ const MemberMenu = (props: MemberMenuProps) => {
 					<Box component={'div'} className={'profile-img'}>
 						<img
 							src={member?.memberImage ? (member?.memberImage?.startsWith('http') ? member?.memberImage : `${REACT_APP_API_URL}/${member?.memberImage}`) : '/img/profile/defaultUser.svg'}
-							alt={'member-photo'}
-						/>
+							alt={'member-photo'} loading="lazy" decoding="async" />
 					</Box>
 					<Stack className={'user-info'}>
 						<Typography className={'user-name'}>{member?.memberNick}</Typography>
 						<Box component={'div'} className={'user-phone'}>
-							<img src={'/img/icons/call.svg'} alt={'icon'} />
+							<img src={'/img/icons/call.svg'} alt={'icon'} loading="lazy" decoding="async" />
 							<Typography className={'p-number'}>{member?.memberPhone}</Typography>
 						</Box>
 						<Typography className={'view-list'}>{t(member?.memberType || '')}</Typography>
@@ -176,9 +175,9 @@ const MemberMenu = (props: MemberMenuProps) => {
 									>
 										<div className={'flex-box'}>
 											{category === 'properties' ? (
-												<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} />
+												<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 											) : (
-												<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
+												<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 											)}
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 												{t('Properties')}
@@ -311,9 +310,9 @@ const MemberMenu = (props: MemberMenuProps) => {
 									>
 										<div className={'flex-box'}>
 											{category === 'articles' ? (
-												<img className={'com-icon'} src={'/img/icons/discoveryWhite.svg'} alt={'com-icon'} />
+												<img className={'com-icon'} src={'/img/icons/discoveryWhite.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 											) : (
-												<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} />
+												<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 											)}
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 												{t('Articles')}

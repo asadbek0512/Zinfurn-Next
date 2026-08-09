@@ -285,7 +285,7 @@ const Chat = () => {
 				{open && <div className="mob-chat-backdrop" onClick={handleOpenChat} />}
 				<Stack className={`chat-frame ${open ? 'open' : ''}`} style={{ zIndex: open ? 99999 : -1 }} ref={mobFrameRef as any}>
 					<Box className={'chat-top'} component={'div'}>
-						<img src="/img/logo/005.png" alt="Chat" style={{ width: 28, height: 28, marginRight: '10px', objectFit: 'contain' }} />
+						<img src="/img/logo/005.png" alt="Chat" style={{ width: 28, height: 28, marginRight: '10px', objectFit: 'contain' }} loading="lazy" decoding="async" />
 						<div style={{ fontFamily: 'Nunito', color: '#fff', fontWeight: 800, fontSize: '18px' }}>Live Chat</div>
 						<RippleBadge style={{ margin: '-18px 0 0 16px' }} badgeContent={onlineUsers} />
 						<button onClick={handleOpenChat} style={{ marginLeft: 'auto', background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '50%', width: 30, height: 30, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -386,7 +386,7 @@ const Chat = () => {
 							onClick={handleOpenChat}
 							style={{ bottom: '155px', right: '30px', zIndex: 100 }}
 						>
-							<img src="/img/banner/001..png" alt="Chat" style={{ width: '33px', height: '28px' }} />
+							<img src="/img/banner/001..png" alt="Chat" style={{ width: '33px', height: '28px' }} loading="lazy" decoding="async" />
 						</button>
 					)}
 					{open && (
@@ -417,7 +417,7 @@ const Chat = () => {
 
 			<Stack className={`chat-frame ${open ? 'open' : ''}`} style={{ zIndex: open ? 99998 : 100 }}>
 				<Box className={'chat-top'} component={'div'}>
-					<img src="/img/logo/005.png" alt="Chat" style={{ width: 28, height: 28, marginRight: '10px', objectFit: 'contain' }} />
+					<img src="/img/logo/005.png" alt="Chat" style={{ width: 28, height: 28, marginRight: '10px', objectFit: 'contain' }} loading="lazy" decoding="async" />
 					<div style={{ fontFamily: 'Nunito', color: '#fff', fontWeight: 800, fontSize: '18px' }}>Live Chat</div>
 					<RippleBadge style={{ margin: '-18px 0 0 16px' }} badgeContent={onlineUsers} />
 				</Box>

@@ -332,7 +332,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 						<>
 							{imgSrc && (
 								<div className="mob-com-det-article-img">
-									<img src={imgSrc} alt="" />
+									<img src={imgSrc} alt="" loading="lazy" decoding="async" />
 								</div>
 							)}
 							<div className="mob-com-det-content">
@@ -628,7 +628,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 														className="name-date"
 														onClick={() => goMemberPage(commentData?.memberData?._id as string)}
 													>
-														<img src={getCommentMemberImage(commentData?.memberData?.memberImage)} alt="" />
+														<img src={getCommentMemberImage(commentData?.memberData?.memberImage)} alt="" loading="lazy" decoding="async" />
 														<Stack className="name-date-column">
 															<Typography className="name">{commentData?.memberData?.memberNick}</Typography>
 															<Typography className="date">

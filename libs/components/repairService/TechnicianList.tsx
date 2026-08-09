@@ -167,7 +167,7 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 			<div className="mob-quality-section">
 				{/* Hero rasm + overlay + matn */}
 				<div className="mob-quality-hero-wrap">
-					<img src={technicianImage} alt={technicianName} className="mob-quality-hero-img" />
+					<img src={technicianImage} alt={technicianName} className="mob-quality-hero-img" loading="lazy" decoding="async" />
 					<div className="mob-quality-hero-overlay" />
 					<div className="mob-quality-hero-text">
 						<h2 className="mob-quality-hero-title">{t('Service Page')}</h2>
@@ -237,8 +237,7 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 								<img
 									src={technicianImage}
 									alt={t('Professional furniture craftsperson - {{name}}', { name: technicianName })}
-									className="main-image"
-								/>
+									className="main-image" loading="lazy" decoding="async" />
 								<Box component="div" className="overlay-gradient"></Box>
 								<Box component="div" className="decorative-border"></Box>
 							</Box>

@@ -451,8 +451,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					<img
 						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
 						alt={localizedTitle || ''}
-						className="mob-det-main-img"
-					/>
+						className="mob-det-main-img" loading="lazy" decoding="async" />
 					<IconButton className="mob-det-next" onClick={nextImage}><ArrowForwardIosIcon fontSize="small" /></IconButton>
 				</div>
 
@@ -464,7 +463,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							className={`mob-det-thumb ${slideImage === subImg ? 'active' : ''}`}
 							onClick={() => changeImageHandler(subImg)}
 						>
-							<img src={`${REACT_APP_API_URL}/${subImg}`} alt="" />
+							<img src={`${REACT_APP_API_URL}/${subImg}`} alt="" loading="lazy" decoding="async" />
 						</div>
 					))}
 				</div>
@@ -631,7 +630,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											return (
 												<div key={comment._id} className="mob-rev-card">
 													<div className="mob-rev-card-top">
-														<img src={avatarSrc} alt="" className="mob-rev-avatar" />
+														<img src={avatarSrc} alt="" className="mob-rev-avatar" loading="lazy" decoding="async" />
 														<div className="mob-rev-user">
 															<span className="mob-rev-name">{comment.memberData?.memberNick}</span>
 															<span className="mob-rev-type">{t(comment.memberData?.memberType ?? '')}</span>
@@ -672,8 +671,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							src={property?.memberData?.memberImage
 								? (property.memberData.memberImage.startsWith('http') ? property.memberData.memberImage : `${REACT_APP_API_URL}/${property.memberData.memberImage}`)
 								: '/img/profile/defaultUser.svg'}
-							alt=""
-						/>
+							alt="" loading="lazy" decoding="async" />
 						<div className="mob-det-agent-info">
 							<Link href={`/member?memberId=${property?.memberData?._id}`}>
 								<span className="mob-det-agent-name">{property?.memberData?.memberNick}</span>
@@ -754,8 +752,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												style={{
 													transform: isZoomed ? 'scale(2)' : 'scale(1)',
 													transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
-												}}
-											/>
+												}} loading="lazy" decoding="async" />
 
 											{/* Zoom Icon Overlay - sichqoncha bilan birga harakat qiladi */}
 											{!isZoomed && (
@@ -786,7 +783,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													onClick={() => changeImageHandler(subImg)}
 													key={subImg}
 												>
-													<img src={imagePath} alt={t('sub_image')} />
+													<img src={imagePath} alt={t('sub_image')} loading="lazy" decoding="async" />
 												</Stack>
 											);
 										})}
@@ -1124,8 +1121,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												property?.memberData?.memberImage
 													? (property?.memberData?.memberImage?.startsWith('http') ? property?.memberData?.memberImage : `${REACT_APP_API_URL}/${property?.memberData?.memberImage}`)
 													: '/img/profile/defaultUser.svg'
-											}
-										/>
+											} loading="lazy" decoding="async" />
 										<Stack className={'name-phone-listings'}>
 											<Link href={`/member?memberId=${property?.memberData?._id}`}>
 												<Typography className={'name'}>{property?.memberData?.memberNick}</Typography>

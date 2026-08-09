@@ -30,8 +30,7 @@ export default function InnovationSection() {
 						<img
 							src="/img/banner/usta.jpg"
 							alt="Craftsman repairing furniture"
-							style={{ width: '155px', height: '185px', objectFit: 'cover', borderRadius: '8px 0 0 8px', display: 'block' }}
-						/>
+							style={{ width: '155px', height: '185px', objectFit: 'cover', borderRadius: '8px 0 0 8px', display: 'block' }} loading="lazy" decoding="async" />
 					</div>
 
 					{/* Matn */}
@@ -68,7 +67,7 @@ export default function InnovationSection() {
 				<Box component={'div'} className="container">
 					<Stack direction={{ xs: 'column', md: 'row' }} spacing={4} className="contentWrapper">
 						<Box component={'div'} className="imageContainer">
-							<img src="/img/banner/usta.jpg" alt="Craftsman repairing furniture" className="image" />
+							<img src="/img/banner/usta.jpg" alt="Craftsman repairing furniture" className="image" loading="lazy" decoding="async" />
 						</Box>
 
 						<Stack spacing={2} className="textContent">

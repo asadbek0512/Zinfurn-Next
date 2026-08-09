@@ -184,7 +184,7 @@ const Checkout: NextPage = () => {
 				return (
 					<div className="co-sum-item" key={item.property._id}>
 						<div className="co-sum-img-wrap">
-							<img src={img} alt={item.property.propertyTitle} />
+							<img src={img} alt={item.property.propertyTitle} loading="lazy" decoding="async" />
 							<span className="co-sum-qty">{item.quantity}</span>
 						</div>
 						<span className="co-sum-name">{item.property.propertyTitle}</span>

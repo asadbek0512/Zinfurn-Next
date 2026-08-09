@@ -208,7 +208,7 @@ const LinkAccountToast = () => {
 			<CloseButton onClick={handleClose}>×</CloseButton>
 
 			<IconBox>
-				<img src={toastConfig.icon} alt="Account icon" />
+				<img src={toastConfig.icon} alt="Account icon" loading="lazy" decoding="async" />
 			</IconBox>
 
 			<ContentBox>

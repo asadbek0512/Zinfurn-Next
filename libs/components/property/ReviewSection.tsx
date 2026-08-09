@@ -278,8 +278,7 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 													: '/img/profile/defaultUser.svg'
 											}
 											alt={review.memberData?.memberNick}
-											className="rev-avatar"
-										/>
+											className="rev-avatar" loading="lazy" decoding="async" />
 										<div className="rev-user-details">
 											<span className="rev-user-name">{review.memberData?.memberNick || 'User'}</span>
 											<div className="rev-verified">
@@ -415,8 +414,7 @@ const ReviewSection = ({ propertyId }: ReviewSectionProps) => {
 						<img
 							className="rev-lb-img"
 							src={`${REACT_APP_API_URL}/${lightbox.images[lightbox.idx]}`}
-							alt=""
-						/>
+							alt="" loading="lazy" decoding="async" />
 						{lightbox.images.length > 1 && (
 							<>
 								<button

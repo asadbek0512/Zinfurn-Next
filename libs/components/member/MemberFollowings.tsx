@@ -75,7 +75,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 				<div className="mob-myfollows-list">
 					{memberFollowings?.length === 0 ? (
 						<div className="mob-myfollows-empty">
-							<img src="/img/icons/icoAlert.svg" alt="" />
+							<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 							<span>{t('No Followings yet!')}</span>
 						</div>
 					) : (
@@ -164,7 +164,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 					</Stack>
 					{memberFollowings?.length === 0 && (
 						<div className={'no-data'}>
-							<img src="/img/icons/icoAlert.svg" alt="" />
+							<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 							<p>{t('No Followings yet!')}</p>
 						</div>
 					)}
@@ -176,7 +176,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 							<Stack className="follows-card-box" key={follower._id}>
 								<Stack className={'info'} onClick={() => follower?.followingData?._id && redirectToMemberPageHandler(follower.followingData._id)}>
 									<Stack className="image-box">
-										<img src={imagePath} alt="" />
+										<img src={imagePath} alt="" loading="lazy" decoding="async" />
 									</Stack>
 									<Stack className="information-box">
 										<Typography className="name">{follower?.followingData?.memberNick}</Typography>

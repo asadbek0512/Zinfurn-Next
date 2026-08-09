@@ -72,7 +72,7 @@ const withAdminLayout = (Component: ComponentType) => {
 			<>
 				<Toolbar sx={{ flexDirection: 'column', alignItems: 'flexStart' }}>
 					<Stack className={'logo-box'}>
-						<img src={'/img/logo/001.3.png'} alt={'logo'} />
+						<img src={'/img/logo/001.3.png'} alt={'logo'} loading="lazy" decoding="async" />
 					</Stack>
 					<Stack
 						className="user"
@@ -100,7 +100,7 @@ const withAdminLayout = (Component: ComponentType) => {
 		const mobileDrawerContent = (
 			<>
 				<div className="mob-admin-sidebar-header">
-					<img src="/img/logo/001.3.png" alt="logo" className="mob-admin-sidebar-logo" />
+					<img src="/img/logo/001.3.png" alt="logo" className="mob-admin-sidebar-logo" loading="lazy" decoding="async" />
 					<div className="mob-admin-sidebar-user">
 						<Avatar src={userAvatar} sx={{ width: 38, height: 38 }} />
 						<div className="mob-admin-sidebar-user-info">
@@ -164,7 +164,7 @@ const withAdminLayout = (Component: ComponentType) => {
 								<IconButton onClick={() => setMobileDrawerOpen(true)} sx={{ color: 'var(--text-2)' }}>
 									<MenuIcon />
 								</IconButton>
-								<img src="/img/logo/001.3.png" alt="logo" style={{ height: 38 }} />
+								<img src="/img/logo/001.3.png" alt="logo" style={{ height: 38 }} loading="lazy" decoding="async" />
 								<Tooltip title="Open settings">
 									<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
 										<Avatar src={userAvatar} sx={{ width: 36, height: 36 }} />

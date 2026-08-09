@@ -256,7 +256,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 				<div className="mob-myprofile-social">
 					{!user.memberGoogleId && (
 						<button className="mob-myprofile-social-btn" onClick={handleLinkGoogle}>
-							<img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
+							<img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" loading="lazy" decoding="async" />
 							{t('Link Google')}
 						</button>
 					)}
@@ -509,8 +509,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 								<img
 									src="https://developers.google.com/identity/images/g-logo.png"
 									alt="Google"
-									style={{ width: '18px' }}
-								/>
+									style={{ width: '18px' }} loading="lazy" decoding="async" />
 								<Typography style={{ color: 'var(--text-1)', textTransform: 'none', fontSize: '13px', fontWeight: 500 }}>
 									{t('Link Google')}
 								</Typography>

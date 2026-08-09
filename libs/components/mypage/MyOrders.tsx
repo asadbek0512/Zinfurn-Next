@@ -361,7 +361,7 @@ const MyOrders = () => {
 											: '/img/banner/header1.svg';
 										return (
 											<div className="my-orders-item-thumb" key={idx} title={item.propertyTitle}>
-												<img src={imgSrc} alt={item.propertyTitle} />
+												<img src={imgSrc} alt={item.propertyTitle} loading="lazy" decoding="async" />
 												{item.quantity > 1 && <span className="my-orders-item-qty">×{item.quantity}</span>}
 											</div>
 										);
@@ -538,8 +538,7 @@ const MyOrders = () => {
 									>
 										<img
 											src={item.propertyImage ? `${REACT_APP_API_URL}/${item.propertyImage}` : '/img/banner/header1.svg'}
-											style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-										/>
+											style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" decoding="async" />
 										{isDone && (
 											<div style={{ position: 'absolute', inset: 0, background: 'rgba(34,197,94,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 20, fontWeight: 700 }}>
 												✓
@@ -612,8 +611,7 @@ const MyOrders = () => {
 									<div key={idx} style={{ position: 'relative', width: 80, height: 80 }}>
 										<img
 											src={`${REACT_APP_API_URL}/${img}`}
-											style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}
-										/>
+											style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} loading="lazy" decoding="async" />
 										<IconButton
 											size="small"
 											sx={{

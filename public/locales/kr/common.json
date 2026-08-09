@@ -633,5 +633,9 @@
   "Coupon code": "쿠폰 코드",
   "Apply": "적용",
   "Discount": "할인",
-  "Invalid coupon": "유효하지 않은 쿠폰"
+  "Invalid coupon": "유효하지 않은 쿠폰",
+  "404_title": "페이지를 찾을 수 없습니다",
+  "404_desc": "찾으시는 페이지가 존재하지 않거나 이동되었습니다.",
+  "404_go_home": "홈으로 이동",
+  "404_browse_property": "가구 둘러보기"
 }

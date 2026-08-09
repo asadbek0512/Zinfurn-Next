@@ -290,7 +290,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 					<p className="mob-agd-section-title">{t('properties')}</p>
 					{agentProperties.length === 0 ? (
 						<div className="mob-agd-nodata">
-							<img src="/img/icons/icoAlert.svg" alt="" />
+							<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 							<p>{t('No properties found!')}</p>
 						</div>
 					) : (
@@ -388,7 +388,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 									return (
 										<div key={comment._id} className="mob-agd-rev-card">
 											<div className="mob-agd-rev-card-top">
-												<img src={avatarSrc} alt="" className="mob-agd-rev-avatar" />
+												<img src={avatarSrc} alt="" className="mob-agd-rev-avatar" loading="lazy" decoding="async" />
 												<div className="mob-agd-rev-user">
 													<span className="mob-agd-rev-name">{comment.memberData?.memberNick}</span>
 													<span className="mob-agd-rev-type">{t(comment.memberData?.memberType ?? '')}</span>
@@ -426,12 +426,11 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 					<Stack className={'agent-info'}>
 						<img
 							src={agent?.memberImage ? (agent?.memberImage?.startsWith('http') ? agent?.memberImage : `${REACT_APP_API_URL}/${agent?.memberImage}`) : '/img/profile/defaultUser.svg'}
-							alt=""
-						/>
+							alt="" loading="lazy" decoding="async" />
 						<Box component={'div'} className={'info'} onClick={() => agent?._id && redirectToMemberPageHandler(agent._id)}>
 							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
 							<div>
-								<img src="/img/icons/call.svg" alt="" />
+								<img src="/img/icons/call.svg" alt="" loading="lazy" decoding="async" />
 								<span>{agent?.memberPhone}</span>
 							</div>
 						</Box>
@@ -473,7 +472,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 								</>
 							) : (
 								<Stack className="no-data">
-									<img src="/img/icons/icoAlert.svg" alt="No properties" />
+									<img src="/img/icons/icoAlert.svg" alt="No properties" loading="lazy" decoding="async" />
 									<Typography>{t('No properties found!')}</Typography>
 								</Stack>
 							)}

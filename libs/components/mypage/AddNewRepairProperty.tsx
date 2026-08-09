@@ -230,7 +230,7 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 							{repairPropertyData?.repairPropertyImages?.map((image: string, idx: number) => {
 								return (
 									<div key={idx} className="mob-addprop-img-item">
-										<img src={`${REACT_APP_API_URL}/${image}`} alt="" />
+										<img src={`${REACT_APP_API_URL}/${image}`} alt="" loading="lazy" decoding="async" />
 										<div className="delete-btn" onClick={() => {
 											const updatedImages = [...(repairPropertyData.repairPropertyImages || [])];
 											updatedImages.splice(idx, 1);
@@ -413,7 +413,7 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 									const imagePath: string = `${REACT_APP_API_URL}/${image}`;
 									return (
 										<Stack key={idx} className="image-box">
-											<img src={imagePath} alt="" />
+											<img src={imagePath} alt="" loading="lazy" decoding="async" />
 										</Stack>
 									);
 								})}

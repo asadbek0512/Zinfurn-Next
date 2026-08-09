@@ -61,7 +61,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 
     return (
       <div className="mob-myprop-card">
-        <img className="mob-myprop-card-img" src={imgSrc} alt="" />
+        <img className="mob-myprop-card-img" src={imgSrc} alt="" loading="lazy" decoding="async" />
         <div className="mob-myprop-card-body">
           <div className="mob-myprop-card-title">{property.propertyTitle}</div>
           <div className="mob-myprop-card-date">
@@ -89,7 +89,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
     return (
       <Stack className="property-card-box">
         <Stack className="image-box" onClick={() => pushPropertyDetail(property?._id)}>
-          <img src={`${process.env.REACT_APP_API_URL}/${property.propertyImages?.[0]}`} alt="" />
+          <img src={`${process.env.REACT_APP_API_URL}/${property.propertyImages?.[0]}`} alt="" loading="lazy" decoding="async" />
         </Stack>
         <Stack className="information-box" onClick={() => pushPropertyDetail(property?._id)}>
           <Typography className="name">{property.propertyTitle}</Typography>

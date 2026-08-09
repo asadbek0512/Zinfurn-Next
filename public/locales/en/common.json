@@ -632,5 +632,9 @@
   "Coupon code": "Coupon code",
   "Apply": "Apply",
   "Discount": "Discount",
-  "Invalid coupon": "Invalid coupon"
+  "Invalid coupon": "Invalid coupon",
+  "404_title": "Page Not Found",
+  "404_desc": "The page you're looking for doesn't exist or has been moved.",
+  "404_go_home": "Go to Homepage",
+  "404_browse_property": "Browse Furniture"
 }

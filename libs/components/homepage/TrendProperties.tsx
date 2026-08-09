@@ -126,7 +126,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
 							<span>
-								{t('Trend Properties')} <img className={"icons"} src="img/icons/stol.png" alt="" />
+								{t('Trend Properties')} <img className={"icons"} src="img/icons/stol.png" alt="" loading="lazy" decoding="async" />
 							</span>
 							<p>{t('Easily explore our carefully curated categories to find your favorite items')}</p>
 						</Box>

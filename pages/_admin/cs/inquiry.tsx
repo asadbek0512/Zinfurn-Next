@@ -80,7 +80,7 @@ const InquiryArticles: NextPage = (props: any) => {
 										<>
 											{true && <CancelRoundedIcon onClick={() => {}} />}
 											<InputAdornment position="end" onClick={() => {}}>
-												<img src="/img/icons/search_icon.png" alt={'searchIcon'} />
+												<img src="/img/icons/search_icon.png" alt={'searchIcon'} loading="lazy" decoding="async" />
 											</InputAdornment>
 										</>
 									}

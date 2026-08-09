@@ -181,7 +181,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 					</div>
 				) : agents?.length === 0 ? (
 					<div className="mob-agent-nodata">
-						<img src="/img/icons/icoAlert.svg" alt="" />
+						<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 						<p>{t('no_agents_found')}</p>
 					</div>
 				) : (
@@ -259,7 +259,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 							Array.from({ length: 8 }).map((_, i) => <PropertyCardSkeleton key={i} />)
 						) : agents?.length === 0 ? (
 							<div className={'no-data'}>
-								<img src="/img/icons/icoAlert.svg" alt="" />
+								<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 								<p>{t('no_agents_found')}</p>
 							</div>
 						) : (

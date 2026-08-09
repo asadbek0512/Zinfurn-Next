@@ -241,13 +241,12 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				<img
 					className="mob-rpd-img"
 					src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
-					alt=""
-				/>
+					alt="" loading="lazy" decoding="async" />
 
 				{/* Info */}
 				<div className="mob-rpd-info">
 					<div className="mob-rpd-technician">
-						<img src={techAvatar} alt="" className="mob-rpd-tech-avatar" />
+						<img src={techAvatar} alt="" className="mob-rpd-tech-avatar" loading="lazy" decoding="async" />
 						<div>
 							<p className="mob-rpd-tech-name">{repairProperty?.memberData?.memberNick}</p>
 							<p className="mob-rpd-tech-role">{t('Technician')}</p>
@@ -345,7 +344,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									return (
 										<div key={comment._id} className="mob-rpd-rev-card">
 											<div className="mob-rpd-rev-top">
-												<img src={avatarSrc} alt="" className="mob-rpd-rev-avatar" />
+												<img src={avatarSrc} alt="" className="mob-rpd-rev-avatar" loading="lazy" decoding="async" />
 												<div className="mob-rpd-rev-user">
 													<span className="mob-rpd-rev-name">{comment.memberData?.memberNick}</span>
 													<span className="mob-rpd-rev-type">{t(comment.memberData?.memberType ?? '')}</span>
@@ -383,7 +382,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			<Stack className="repair-detail" direction={{ xs: 'column', md: 'row' }} spacing={3}>
 				{/* Left - Image */}
 				<Box component="div" className="repair-detail__image-box">
-					<img src={`${REACT_APP_API_URL}/${slideImage}`} alt={t('Repair')} className="repair-detail__image" />
+					<img src={`${REACT_APP_API_URL}/${slideImage}`} alt={t('Repair')} className="repair-detail__image" loading="lazy" decoding="async" />
 				</Box>
 
 				{/* Right - Info */}

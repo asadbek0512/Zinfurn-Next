@@ -70,7 +70,7 @@ const TopAgents = (props: TopAgentsProps) => {
 									<div style={{ position: 'relative', height: '200px', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer' }}
 										onClick={() => router.push({ pathname: '/agent/detail', query: { agentId: agent._id } })}>
 										<img src={agentImage} alt={agent.memberNick}
-											style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+											style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} loading="lazy" decoding="async" />
 										<div style={{
 											position: 'absolute', bottom: 0, left: 0, right: 0,
 											background: 'rgba(45,55,72,0.88)', padding: '10px 12px',

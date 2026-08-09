@@ -58,10 +58,10 @@ const Footer = () => {
 
 				<div className={'mobile-footer-bottom'}>
 					<div className={'mobile-footer-payments'}>
-						<img src="/img/icons/1.svg" alt="visa" />
-						<img src="/img/icons/2.svg" alt="mastercard" />
-						<img src="/img/icons/3.svg" alt="amex" />
-						<img src="/img/icons/4.svg" alt="paypal" />
+						<img src="/img/icons/1.svg" alt="visa" loading="lazy" decoding="async" />
+						<img src="/img/icons/2.svg" alt="mastercard" loading="lazy" decoding="async" />
+						<img src="/img/icons/3.svg" alt="amex" loading="lazy" decoding="async" />
+						<img src="/img/icons/4.svg" alt="paypal" loading="lazy" decoding="async" />
 					</div>
 					<span>© {new Date().getFullYear()} Zinfurn. {t('All rights reserved.')}</span>
 				</div>
@@ -83,7 +83,7 @@ const Footer = () => {
 				<Stack className={'main'}>
 					<Box component={'div'} className={'bottom'}>
 						<div className="footer-link">
-							<img src="/img/logo/11.png" alt="" className={'logo'} />
+							<img src="/img/logo/11.png" alt="" className={'logo'} loading="lazy" decoding="async" />
 							<div className="text">
 								{t(
 									'Zinfurn — your trusted furniture destination. Quality pieces for every room, delivered with care.',
@@ -184,11 +184,11 @@ const Footer = () => {
 						© {new Date().getFullYear()} Zinfurn. {t('All rights reserved.')}
 					</span>
 					<div className="payment-icons">
-						<img src="/img/icons/1.svg" alt="visa" />
-						<img src="/img/icons/2.svg" alt="mastercard" />
-						<img src="/img/icons/3.svg" alt="amex" />
-						<img src="/img/icons/4.svg" alt="paypal" />
-						<img src="/img/icons/1.svg" alt="discover" />
+						<img src="/img/icons/1.svg" alt="visa" loading="lazy" decoding="async" />
+						<img src="/img/icons/2.svg" alt="mastercard" loading="lazy" decoding="async" />
+						<img src="/img/icons/3.svg" alt="amex" loading="lazy" decoding="async" />
+						<img src="/img/icons/4.svg" alt="paypal" loading="lazy" decoding="async" />
+						<img src="/img/icons/1.svg" alt="discover" loading="lazy" decoding="async" />
 					</div>
 				</Stack>
 			</Stack>

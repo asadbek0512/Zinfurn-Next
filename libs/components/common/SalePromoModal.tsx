@@ -148,7 +148,7 @@ const SalePromoModal = () => {
 
 				{/* ── Image ── */}
 				<div className="spm-img-wrap" onClick={goDetail}>
-					<img src={img} alt={prop.propertyTitle} className="spm-img" />
+					<img src={img} alt={prop.propertyTitle} className="spm-img" loading="lazy" decoding="async" />
 					{discount > 0 && <div className="spm-discount-badge">-{discount}%</div>}
 				</div>
 

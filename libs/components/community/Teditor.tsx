@@ -212,7 +212,7 @@ const TuiEditor = () => {
 				{uploadedImages.length > 0 && (
 					<div className="mob-teditor-previews">
 						{uploadedImages.map((url, i) => (
-							<img key={i} src={url} alt="" className="mob-teditor-preview-img" />
+							<img key={i} src={url} alt="" className="mob-teditor-preview-img" loading="lazy" decoding="async" />
 						))}
 					</div>
 				)}

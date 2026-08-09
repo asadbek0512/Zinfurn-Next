@@ -23,7 +23,7 @@ const ReviewCard = (props: ReviewCardProps) => {
 			<Box component={'div'} className={'review-card'}>
 				<div className={'info'}>
 					<div className={'left'}>
-						<img src={imagePath} alt="" />
+						<img src={imagePath} alt="" loading="lazy" decoding="async" />
 						<div>
 							<strong>{comment.memberData?.memberNick}</strong>
 							<span>

@@ -328,7 +328,7 @@ const Join: NextPage = () => {
 
 					<div className="mob-social-btns">
 						<button className="mob-social-btn" onClick={handleGoogleAuth}>
-							<img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
+							<img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" loading="lazy" decoding="async" />
 							{loginView ? t('Sign In With Google') : t('Create Account With Google')}
 						</button>
 
@@ -346,7 +346,7 @@ const Join: NextPage = () => {
 								}
 							}} className="mob-telegram-iframe-container" />
 							<button className="mob-social-btn" style={{ pointerEvents: 'none' }}>
-								<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" />
+								<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" loading="lazy" decoding="async" />
 								{loginView ? t('Sign In With Telegram') : t('Create Account With Telegram')}
 							</button>
 						</div>
@@ -683,7 +683,7 @@ const Join: NextPage = () => {
 
 								{/* Google Auth */}
 								<button className={'google-signin'} onClick={handleGoogleAuth}>
-									<img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
+									<img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" loading="lazy" decoding="async" />
 									{loginView ? t('Sign In With Google') : t('Sign Up With Google')}
 								</button>
 
@@ -719,8 +719,7 @@ const Join: NextPage = () => {
 										<img
 											src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
 											alt="Telegram"
-											style={{ width: '20px', height: '20px' }}
-										/>
+											style={{ width: '20px', height: '20px' }} loading="lazy" decoding="async" />
 										{loginView ? t('Sign In With Telegram') : t('Sign Up With Telegram')}
 									</button>
 								</div>
@@ -783,8 +782,7 @@ const Join: NextPage = () => {
 												<img
 													src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
 													alt="User 1"
-													style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-												/>
+													style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" decoding="async" />
 											</Box>
 
 											{/* Avatar 2 */}
@@ -802,8 +800,7 @@ const Join: NextPage = () => {
 												<img
 													src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face"
 													alt="User 2"
-													style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-												/>
+													style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" decoding="async" />
 											</Box>
 
 											{/* Avatar 3 */}
@@ -821,8 +818,7 @@ const Join: NextPage = () => {
 												<img
 													src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face"
 													alt="User 3"
-													style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-												/>
+													style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" decoding="async" />
 											</Box>
 
 											{/* Avatar 4 */}
@@ -840,8 +836,7 @@ const Join: NextPage = () => {
 												<img
 													src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?w=100&h=100&fit=crop&crop=face"
 													alt="User 4"
-													style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-												/>
+													style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" decoding="async" />
 											</Box>
 
 											{/* CN Badge */}

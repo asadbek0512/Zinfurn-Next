@@ -16,6 +16,8 @@ import CartDrawer from '../libs/components/cart/CartDrawer';
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
 import SEO from '../libs/components/common/SEO';
 import BrandJsonLd from '../libs/components/common/BrandJsonLd';
+import Analytics from '../libs/components/common/Analytics';
+import ErrorMonitoring from '../libs/components/common/ErrorMonitoring';
 import { detectDevice } from '../libs/hooks/useDeviceDetect';
 
 const PAGE_TITLES: Record<string, string> = {
@@ -112,6 +114,8 @@ const App = ({ Component, pageProps }: AppProps) => {
 				<CssBaseline />
 				<CurrencyProvider>
 					<BrandJsonLd />
+					<Analytics />
+					<ErrorMonitoring />
 					<SEO title={pageTitle} url={canonicalUrl} noindex={NOINDEX_PATHS.has(router.pathname)} />
 					<Component {...pageProps} />
 					<CartDrawer />

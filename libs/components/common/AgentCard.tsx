@@ -142,7 +142,7 @@ const AgentCard = (props: AgentCardProps) => {
 	if (device === 'mobile') {
 		return (
 			<Box className="mob-agent-card" component="div" onClick={handleAgentClick}>
-				<img className="mob-agent-card-img" src={imagePath} alt={agent?.memberNick} />
+				<img className="mob-agent-card-img" src={imagePath} alt={agent?.memberNick} loading="lazy" decoding="async" />
 
 				<span className="mob-agent-props-badge">{agent?.memberProperties || 0} {t('properties')}</span>
 

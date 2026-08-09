@@ -81,7 +81,7 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 			<div id="mob-member-articles">
 				{memberBoArticles?.length === 0 ? (
 					<div className="mob-mem-empty">
-						<img src="/img/icons/icoAlert.svg" alt="" />
+						<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 						<span>{t('No Articles!')}</span>
 					</div>
 				) : (
@@ -96,7 +96,7 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 									className="mob-mem-art-card"
 									onClick={() => router.push({ pathname: '/community/detail', query: { id: article._id } })}
 								>
-									<img src={imgSrc} alt="" />
+									<img src={imgSrc} alt="" loading="lazy" decoding="async" />
 									<div className="mob-mem-art-body">
 										<div className="mob-mem-art-cat">{t(article.articleCategory || '')}</div>
 										<div className="mob-mem-art-title">{article.articleTitle}</div>
@@ -156,7 +156,7 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 								marginTop: '58px',
 							}}
 						>
-							<img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} />
+							<img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} loading="lazy" decoding="async" />
 							<p style={{ fontSize: '18px', color: 'var(--text-2)', marginTop: '8px', marginLeft: '45px' }}>
 								{t('No Articles found!')}
 							</p>

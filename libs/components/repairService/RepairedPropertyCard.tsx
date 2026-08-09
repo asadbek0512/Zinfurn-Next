@@ -45,7 +45,7 @@ const TopRepairPropertyCard = (props: TopRepairPropertyCardProps) => {
 				<p className={'desc'}>{repairProperty?.repairPropertyAddress}</p>
 				<div className={'options'}>
 					<div>
-						<img src="/img/icons/bed.svg" alt={t('Property type')} />
+						<img src="/img/icons/bed.svg" alt={t('Property type')} loading="lazy" decoding="async" />
 						<span>{t(repairProperty?.repairPropertyType || '')}</span>
 					</div>
 				</div>

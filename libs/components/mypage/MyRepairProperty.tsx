@@ -61,7 +61,7 @@ const MyRepairProperty: NextPage = ({ initialInput, ...props }: any) => {
         <div className="mob-myrepair-list">
           {technicianRepairProperties?.length === 0 ? (
             <div className="mob-myrepair-empty">
-              <img src="/img/icons/icoAlert.svg" alt="" />
+              <img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
               <span>{t('No Repair Property found!')}</span>
             </div>
           ) : (
@@ -73,8 +73,7 @@ const MyRepairProperty: NextPage = ({ initialInput, ...props }: any) => {
                       ? `${process.env.REACT_APP_API_URL}/${repairProperty.repairPropertyImages[0]}`
                       : '/img/banner/Home-1-.jpg'
                   }
-                  alt=""
-                />
+                  alt="" loading="lazy" decoding="async" />
                 <div className="mob-myrepair-card-body">
                   <div className="mob-myrepair-type">{t(repairProperty.repairPropertyType)}</div>
                   <div className="mob-myrepair-address">{repairProperty.repairPropertyAddress}</div>
@@ -117,7 +116,7 @@ const MyRepairProperty: NextPage = ({ initialInput, ...props }: any) => {
           <Stack className="list-box">
             {technicianRepairProperties?.length === 0 ? (
               <div className={'no-data'}>
-                <img src="/img/icons/icoAlert.svg" alt="" />
+                <img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
                 <p>{t('No Repair Property found!')}</p>
               </div>
             ) : (
