@@ -78,6 +78,11 @@ const withLayoutBasic = (Component: any) => {
 					desc = 'Home / Members';
 					bgImage = '/img/banner/agent9.jpeg';
 					break;
+				case '/about':
+					title = 'About Zinfurn';
+					desc = 'Home / About';
+					bgImage = '/img/banner/Home-1-.jpg';
+					break;
 				default:
 					break;
 			}
