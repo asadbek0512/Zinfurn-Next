@@ -83,7 +83,8 @@ const Top = () => {
 		const isJoinPage = router.pathname === '/account/join';
 		const isDetailPage =
 			router.pathname === '/property/detail' ||
-			router.pathname === '/repairService/detail';
+			router.pathname === '/repairService/detail' ||
+			router.pathname === '/404';
 
 		// Solid white navbar only on these pages for mobile
 		const isSolidPage =

@@ -32,7 +32,7 @@ const NotFound: NextPage = () => {
 							{t('404_title')}
 						</Typography>
 						<Typography className={'not-found-desc'}>{t('404_desc')}</Typography>
-						<Stack className={'not-found-actions'}>
+						<Stack direction={{ xs: 'column', sm: 'row' }} className={'not-found-actions'}>
 							<Link href={'/'}>
 								<Button variant={'contained'} className={'not-found-btn-primary'}>
 									{t('404_go_home')}
