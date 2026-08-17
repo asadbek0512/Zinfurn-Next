@@ -490,7 +490,7 @@
 		.ai-room-banner {
 			border-radius: 16px;
 			overflow: hidden;
-			background: linear-gradient(135deg, var(--primary) 0%, #1646c1 100%);
+			background: linear-gradient(135deg, var(--brand-grad-a) 0%, var(--brand-grad-b) 100%);
 			padding: 2rem 1.25rem;
 
 			.content {

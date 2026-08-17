@@ -1,6 +1,33 @@
 import { gql } from '@apollo/client';
 
 /**************************
+ *         AI ROOM        *
+ *************************/
+
+export const ANALYZE_ROOM = gql`
+mutation AnalyzeRoom($input: RoomAnalysisInput!) {
+    analyzeRoom(input: $input) {
+        roomType
+        requestedType
+        dominantColors
+        suggestedMaterial
+        styleNotes
+        matchedProducts {
+            _id
+            propertyTitle
+            propertyPrice
+            propertySalePrice
+            propertyImages
+            propertyType
+            propertyCategory
+            propertyColor
+            propertyMaterial
+        }
+    }
+}
+`;
+
+/**************************
  *         MEMBER         *
  *************************/
 
