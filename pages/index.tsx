@@ -13,6 +13,7 @@ import Advertisement from '../libs/components/homepage/Advertisement';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import CategoryCards from '../libs/components/homepage/CategoryCard';
 import FlashSale from '../libs/components/homepage/PopularProperties';
+import AiRoomBanner from '../libs/components/homepage/AiRoomBanner';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -80,6 +81,9 @@ const Home: NextPage = () => {
 			<div data-aos="fade-up" data-aos-delay="100">
 				<TrendProperties />
 			</div>
+			<div data-aos="fade-up" data-aos-delay="150">
+				<AiRoomBanner />
+			</div>
 			<div data-aos="fade-up" data-aos-delay="200">
 				<FlashSale />
 			</div>
@@ -134,6 +138,9 @@ const Home: NextPage = () => {
 						</div>
 						<div data-aos="fade-up" data-aos-delay="100">
 							<TrendProperties />
+						</div>
+						<div data-aos="fade-up" data-aos-delay="150">
+							<AiRoomBanner />
 						</div>
 						<div data-aos="fade-up" data-aos-delay="200">
 							<FlashSale />

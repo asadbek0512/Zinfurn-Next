@@ -1987,4 +1987,77 @@
 			}
 		}
 	}
+
+	.ai-room-banner {
+		position: relative;
+		border-radius: 24px;
+		overflow: hidden;
+		background: linear-gradient(135deg, var(--primary) 0%, #1646c1 100%);
+		padding: 4rem 2rem;
+
+		.content {
+			max-width: 640px;
+			margin: 0 auto;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			gap: 1rem;
+		}
+
+		.iconBadge {
+			width: 64px;
+			height: 64px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.15);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			.sparkle {
+				color: #fff;
+				font-size: 32px;
+			}
+		}
+
+		.heading {
+			color: #fff;
+			font-weight: 700;
+		}
+
+		.subtext {
+			color: rgba(255, 255, 255, 0.85);
+		}
+
+		.actions {
+			margin-top: 1rem;
+		}
+
+		.primaryAction {
+			background: #fff;
+			color: var(--primary);
+			font-weight: 600;
+			text-transform: none;
+			padding: 0.75rem 1.75rem;
+			border-radius: 8px;
+
+			&:hover {
+				background: rgba(255, 255, 255, 0.9);
+			}
+		}
+
+		.secondaryAction {
+			border-color: rgba(255, 255, 255, 0.6);
+			color: #fff;
+			font-weight: 600;
+			text-transform: none;
+			padding: 0.75rem 1.75rem;
+			border-radius: 8px;
+
+			&.Mui-disabled {
+				border-color: rgba(255, 255, 255, 0.3);
+				color: rgba(255, 255, 255, 0.6);
+			}
+		}
+	}
 }

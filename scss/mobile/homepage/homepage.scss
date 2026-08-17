@@ -487,6 +487,73 @@
 			}
 		}
 
+		.ai-room-banner {
+			border-radius: 16px;
+			overflow: hidden;
+			background: linear-gradient(135deg, var(--primary) 0%, #1646c1 100%);
+			padding: 2rem 1.25rem;
+
+			.content {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				text-align: center;
+				gap: 0.75rem;
+			}
+
+			.iconBadge {
+				width: 48px;
+				height: 48px;
+				border-radius: 50%;
+				background: rgba(255, 255, 255, 0.15);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				.sparkle {
+					color: #fff;
+					font-size: 24px;
+				}
+			}
+
+			.heading {
+				color: #fff;
+				font-weight: 700;
+			}
+
+			.subtext {
+				color: rgba(255, 255, 255, 0.85);
+				font-size: 13px;
+			}
+
+			.actions {
+				margin-top: 0.75rem;
+				width: 100%;
+			}
+
+			.primaryAction,
+			.secondaryAction {
+				width: 100%;
+				text-transform: none;
+				font-weight: 600;
+				border-radius: 8px;
+			}
+
+			.primaryAction {
+				background: #fff;
+				color: var(--primary);
+			}
+
+			.secondaryAction {
+				border-color: rgba(255, 255, 255, 0.6);
+				color: #fff;
+
+				&.Mui-disabled {
+					border-color: rgba(255, 255, 255, 0.3);
+					color: rgba(255, 255, 255, 0.6);
+				}
+			}
+		}
 
 	}
 }
