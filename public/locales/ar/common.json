@@ -636,5 +636,18 @@
   "404_title": "الصفحة غير موجودة",
   "404_desc": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
   "404_go_home": "الذهاب إلى الصفحة الرئيسية",
-  "404_browse_property": "تصفح الأثاث"
+  "404_browse_property": "تصفح الأثاث",
+  "AI bilan xonangizga mos mebel toping": "اعثر على أثاث يناسب غرفتك بالذكاء الاصطناعي",
+  "Rasm yuklang — AI xonangizga eng mos mebillarni tavsiya qiladi": "ارفع صورة — سيقترح الذكاء الاصطناعي الأثاث الأنسب لغرفتك",
+  "Xonangiz rasmini yuklang, xohlasangiz nima izlayotganingizni yozing — AI mos mahsulotlarni tavsiya qiladi": "ارفع صورة غرفتك، ويمكنك وصف ما تبحث عنه — سيقترح الذكاء الاصطناعي منتجات مناسبة",
+  "Rasm orqali tanlash": "الاختيار عبر الصورة",
+  "AR bilan ko'rish": "عرض بتقنية AR",
+  "Tez orada": "قريباً",
+  "Bu funksiya hozircha tayyorlanmoqda": "هذه الميزة قيد التطوير حالياً",
+  "Xona rasmini yuklash uchun bosing": "اضغط لرفع صورة الغرفة",
+  "Masalan: shu xonaga mos krovat qo'yib ber": "مثال: أضف سريراً يناسب هذه الغرفة",
+  "Tahlil qilish": "تحليل",
+  "Xonaga joylashtirish": "وضع في الغرفة",
+  "Mos mahsulot topilmadi, boshqa rasm bilan urinib ko'ring": "لم يتم العثور على منتجات مطابقة، جرّب صورة أخرى",
+  "Natija": "النتيجة"
 }

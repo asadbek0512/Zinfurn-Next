@@ -84,6 +84,7 @@ const Top = () => {
 		const isDetailPage =
 			router.pathname === '/property/detail' ||
 			router.pathname === '/repairService/detail' ||
+			router.pathname === '/ai-room-designer' ||
 			router.pathname === '/404';
 
 		// Solid white navbar only on these pages for mobile

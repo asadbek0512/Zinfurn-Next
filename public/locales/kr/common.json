@@ -637,5 +637,18 @@
   "404_title": "페이지를 찾을 수 없습니다",
   "404_desc": "찾으시는 페이지가 존재하지 않거나 이동되었습니다.",
   "404_go_home": "홈으로 이동",
-  "404_browse_property": "가구 둘러보기"
+  "404_browse_property": "가구 둘러보기",
+  "AI bilan xonangizga mos mebel toping": "AI로 방에 어울리는 가구 찾기",
+  "Rasm yuklang — AI xonangizga eng mos mebillarni tavsiya qiladi": "사진을 업로드하면 AI가 방에 가장 잘 맞는 가구를 추천합니다",
+  "Xonangiz rasmini yuklang, xohlasangiz nima izlayotganingizni yozing — AI mos mahsulotlarni tavsiya qiladi": "방 사진을 업로드하고 원하시면 찾고 있는 것을 설명해 주세요 — AI가 어울리는 제품을 추천합니다",
+  "Rasm orqali tanlash": "사진으로 선택",
+  "AR bilan ko'rish": "AR로 보기",
+  "Tez orada": "곧 출시",
+  "Bu funksiya hozircha tayyorlanmoqda": "이 기능은 현재 준비 중입니다",
+  "Xona rasmini yuklash uchun bosing": "방 사진을 업로드하려면 클릭하세요",
+  "Masalan: shu xonaga mos krovat qo'yib ber": "예: 이 방에 어울리는 침대를 추천해줘",
+  "Tahlil qilish": "분석하기",
+  "Xonaga joylashtirish": "방에 배치하기",
+  "Mos mahsulot topilmadi, boshqa rasm bilan urinib ko'ring": "일치하는 제품을 찾을 수 없습니다. 다른 사진으로 시도해 보세요",
+  "Natija": "결과"
 }

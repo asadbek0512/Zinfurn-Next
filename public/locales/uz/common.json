@@ -636,5 +636,18 @@
   "404_title": "Sahifa topilmadi",
   "404_desc": "Siz izlayotgan sahifa mavjud emas yoki ko'chirilgan.",
   "404_go_home": "Bosh sahifaga o'tish",
-  "404_browse_property": "Mebellarni ko'rish"
+  "404_browse_property": "Mebellarni ko'rish",
+  "AI bilan xonangizga mos mebel toping": "AI bilan xonangizga mos mebel toping",
+  "Rasm yuklang — AI xonangizga eng mos mebillarni tavsiya qiladi": "Rasm yuklang — AI xonangizga eng mos mebillarni tavsiya qiladi",
+  "Xonangiz rasmini yuklang, xohlasangiz nima izlayotganingizni yozing — AI mos mahsulotlarni tavsiya qiladi": "Xonangiz rasmini yuklang, xohlasangiz nima izlayotganingizni yozing — AI mos mahsulotlarni tavsiya qiladi",
+  "Rasm orqali tanlash": "Rasm orqali tanlash",
+  "AR bilan ko'rish": "AR bilan ko'rish",
+  "Tez orada": "Tez orada",
+  "Bu funksiya hozircha tayyorlanmoqda": "Bu funksiya hozircha tayyorlanmoqda",
+  "Xona rasmini yuklash uchun bosing": "Xona rasmini yuklash uchun bosing",
+  "Masalan: shu xonaga mos krovat qo'yib ber": "Masalan: shu xonaga mos krovat qo'yib ber",
+  "Tahlil qilish": "Tahlil qilish",
+  "Xonaga joylashtirish": "Xonaga joylashtirish",
+  "Mos mahsulot topilmadi, boshqa rasm bilan urinib ko'ring": "Mos mahsulot topilmadi, boshqa rasm bilan urinib ko'ring",
+  "Natija": "Natija"
 }

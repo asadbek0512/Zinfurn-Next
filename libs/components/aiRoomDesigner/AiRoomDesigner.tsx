@@ -2,10 +2,11 @@ import { useRef, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { Box, Button, Card, CardContent, CircularProgress, Stack, TextField, Typography, Chip } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { ANALYZE_ROOM } from '../../../apollo/user/mutation';
-import { RoomAnalysisResult } from '../../types/aiRoom/aiRoom';
+import { ANALYZE_ROOM, GENERATE_ROOM_IMAGE } from '../../../apollo/user/mutation';
+import { GeneratedRoomImage, RoomAnalysisResult } from '../../types/aiRoom/aiRoom';
 import { getLocalizedTitle } from '../../utils/localizeProperty';
 import { sweetErrorHandling } from '../../sweetAlert';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -33,8 +34,11 @@ const AiRoomDesigner = () => {
 	const [mimeType, setMimeType] = useState<string | null>(null);
 	const [userRequest, setUserRequest] = useState('');
 	const [result, setResult] = useState<RoomAnalysisResult | null>(null);
+	const [generatedImage, setGeneratedImage] = useState<GeneratedRoomImage | null>(null);
+	const [generatingId, setGeneratingId] = useState<string | null>(null);
 
 	const [analyzeRoom, { loading }] = useMutation(ANALYZE_ROOM);
+	const [generateRoomImage] = useMutation(GENERATE_ROOM_IMAGE);
 
 	const handlePickImage = () => fileInputRef.current?.click();
 
@@ -61,6 +65,7 @@ const AiRoomDesigner = () => {
 				},
 			});
 			setResult(data?.analyzeRoom ?? null);
+			setGeneratedImage(null);
 		} catch (err: any) {
 			await sweetErrorHandling(err);
 		}
@@ -70,9 +75,33 @@ const AiRoomDesigner = () => {
 		router.push({ pathname: '/property/detail', query: { id } });
 	};
 
+	const handleGenerateImage = async (productId: string) => {
+		if (!imageBase64) return;
+		setGeneratingId(productId);
+		try {
+			const { data } = await generateRoomImage({
+				variables: {
+					input: {
+						roomImageBase64: imageBase64,
+						mimeType: mimeType || undefined,
+						productId,
+					},
+				},
+			});
+			setGeneratedImage(data?.generateRoomImage ?? null);
+		} catch (err: any) {
+			await sweetErrorHandling(err);
+		} finally {
+			setGeneratingId(null);
+		}
+	};
+
 	return (
 		<Box component="section" className="ai-room-designer">
-			<Stack spacing={1} className="intro">
+			<Stack spacing={1.5} className="intro" alignItems="center">
+				<Box className="intro-badge">
+					<AutoAwesomeIcon className="sparkle" />
+				</Box>
 				<Typography variant={device === 'mobile' ? 'h5' : 'h3'} component="h1">
 					{t('AI bilan xonangizga mos mebel toping')}
 				</Typography>
@@ -127,15 +156,31 @@ const AiRoomDesigner = () => {
 
 					<Box component="div" className="matched-grid">
 						{result.matchedProducts.map((property) => (
-							<Card key={property._id} className="matched-card" onClick={() => handleViewProduct(property._id)}>
+							<Card key={property._id} className="matched-card">
 								<Box
 									component="div"
 									className="matched-image"
+									onClick={() => handleViewProduct(property._id)}
 									sx={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${property.propertyImages?.[0]})` }}
 								/>
 								<CardContent>
-									<Typography className="matched-title">{getLocalizedTitle(property, router.locale)}</Typography>
+									<Typography className="matched-title" onClick={() => handleViewProduct(property._id)}>
+										{getLocalizedTitle(property, router.locale)}
+									</Typography>
 									<Typography className="matched-price">${property.propertySalePrice || property.propertyPrice}</Typography>
+									<Button
+										size="small"
+										variant="outlined"
+										className="generate-button"
+										disabled={generatingId === property._id}
+										onClick={() => handleGenerateImage(property._id)}
+									>
+										{generatingId === property._id ? (
+											<CircularProgress size={16} color="inherit" />
+										) : (
+											t('Xonaga joylashtirish')
+										)}
+									</Button>
 								</CardContent>
 							</Card>
 						))}
@@ -143,6 +188,17 @@ const AiRoomDesigner = () => {
 							<Typography className="no-match">{t("Mos mahsulot topilmadi, boshqa rasm bilan urinib ko'ring")}</Typography>
 						)}
 					</Box>
+
+					{generatedImage && (
+						<Box component="div" className="generated-result">
+							<Typography variant="h6">{t('Natija')}</Typography>
+							<img
+								src={`data:${generatedImage.mimeType};base64,${generatedImage.imageBase64}`}
+								alt="generated room"
+								className="generated-image"
+							/>
+						</Box>
+					)}
 				</Stack>
 			)}
 		</Box>

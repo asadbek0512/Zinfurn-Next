@@ -636,5 +636,18 @@
   "404_title": "Page Not Found",
   "404_desc": "The page you're looking for doesn't exist or has been moved.",
   "404_go_home": "Go to Homepage",
-  "404_browse_property": "Browse Furniture"
+  "404_browse_property": "Browse Furniture",
+  "AI bilan xonangizga mos mebel toping": "Find furniture that matches your room with AI",
+  "Rasm yuklang — AI xonangizga eng mos mebillarni tavsiya qiladi": "Upload a photo — AI will recommend furniture that fits your room best",
+  "Xonangiz rasmini yuklang, xohlasangiz nima izlayotganingizni yozing — AI mos mahsulotlarni tavsiya qiladi": "Upload a photo of your room, optionally describe what you're looking for — AI will recommend matching products",
+  "Rasm orqali tanlash": "Choose by photo",
+  "AR bilan ko'rish": "View in AR",
+  "Tez orada": "Coming soon",
+  "Bu funksiya hozircha tayyorlanmoqda": "This feature is coming soon",
+  "Xona rasmini yuklash uchun bosing": "Click to upload a photo of your room",
+  "Masalan: shu xonaga mos krovat qo'yib ber": "E.g.: add a bed that matches this room",
+  "Tahlil qilish": "Analyze",
+  "Xonaga joylashtirish": "Place in room",
+  "Mos mahsulot topilmadi, boshqa rasm bilan urinib ko'ring": "No matching products found, try another photo",
+  "Natija": "Result"
 }

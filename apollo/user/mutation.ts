@@ -27,6 +27,15 @@ mutation AnalyzeRoom($input: RoomAnalysisInput!) {
 }
 `;
 
+export const GENERATE_ROOM_IMAGE = gql`
+mutation GenerateRoomImage($input: GenerateRoomImageInput!) {
+    generateRoomImage(input: $input) {
+        imageBase64
+        mimeType
+    }
+}
+`;
+
 /**************************
  *         MEMBER         *
  *************************/

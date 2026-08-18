@@ -137,7 +137,7 @@ const withLayoutBasic = (Component: any) => {
 							<Top />
 						</Stack>
 
-						{!isJoinPage && memoizedValues.bgImage && router.pathname !== '/repairService' && router.pathname !== '/mypage' && router.pathname !== '/member' && (
+						{!isJoinPage && memoizedValues.bgImage && router.pathname !== '/repairService' && router.pathname !== '/mypage' && router.pathname !== '/member' && router.pathname !== '/ai-room-designer' && (
 							<Stack
 								className="mob-header-basic"
 								style={{
@@ -174,7 +174,7 @@ const withLayoutBasic = (Component: any) => {
 							<Top />
 						</Stack>
 
-						{!isJoinPage && (
+						{!isJoinPage && router.pathname !== '/ai-room-designer' && (
 							<Stack
 								className={`header-basic ${authHeader && 'auth'}`}
 								style={{

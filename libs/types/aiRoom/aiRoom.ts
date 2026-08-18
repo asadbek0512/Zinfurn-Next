@@ -15,3 +15,14 @@ export interface RoomAnalysisResult {
 	styleNotes: string;
 	matchedProducts: Property[];
 }
+
+export interface GenerateRoomImageInput {
+	roomImageBase64: string;
+	mimeType?: string;
+	productId: string;
+}
+
+export interface GeneratedRoomImage {
+	imageBase64: string;
+	mimeType: string;
+}
