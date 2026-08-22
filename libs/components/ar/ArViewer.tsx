@@ -195,6 +195,9 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		renderer.setClearColor(0x000000, 0); // camera passthrough must show through
 		renderer.xr.enabled = true;
+		// three defaults to 'local-floor', which immersive-ar only grants if requested as a
+		// feature — 'local' is always available and is enough since we place on hit-test poses.
+		renderer.xr.setReferenceSpaceType('local');
 		rendererRef.current = renderer;
 
 		const ambientLight = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
