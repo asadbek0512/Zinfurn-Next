@@ -94,6 +94,29 @@
 	}
 }
 
+// Temporary on-device diagnostics for the AR session
+.ar-diag {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	padding: 0 8px;
+	font-family: monospace;
+	font-size: 11px;
+	color: #fff;
+	text-shadow: 0 0 3px #000;
+	text-align: center;
+	word-break: break-word;
+
+	.ar-diag-error {
+		color: #ff6b6b;
+	}
+}
+
 .ar-icon-button {
 	width: 40px;
 	height: 40px;

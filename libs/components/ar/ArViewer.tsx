@@ -48,6 +48,10 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 	const [placedCount, setPlacedCount] = useState(0);
 	const [inSession, setInSession] = useState(false);
 	const [surfaceFound, setSurfaceFound] = useState(false);
+	const [diag, setDiag] = useState('init');
+	const [loadError, setLoadError] = useState<string | null>(null);
+	const hitsRef = useRef(0);
+	const hitSourceReadyRef = useRef<string>('no');
 
 	/** Scales a freshly loaded GLB to its real-world width and rests it on the floor. */
 	const normalizeModel = useCallback((group: THREE.Group, realWidth: number) => {
@@ -75,7 +79,12 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 				const gltf = await loader.loadAsync(model.url);
 				const normalized = normalizeModel(gltf.scene, model.realWidth);
 				modelCacheRef.current.set(model.id, normalized);
+				setLoadError(null);
 				return normalized;
+			} catch (error) {
+				// Surfaced on screen — a silent failure here looks identical to "AR is broken"
+				setLoadError(`${model.id}: ${(error as Error)?.message ?? 'load failed'}`);
+				throw error;
 			} finally {
 				setLoadingModelId(null);
 			}
@@ -264,9 +273,11 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 						.then((viewerSpace) => session.requestHitTestSource?.({ space: viewerSpace }))
 						.then((source) => {
 							hitTestSource = source ?? null;
+							hitSourceReadyRef.current = source ? 'yes' : 'null';
 						})
-						.catch(() => {
+						.catch((error: Error) => {
 							hitTestSource = null;
+							hitSourceReadyRef.current = `err:${error?.message ?? '?'}`;
 						});
 
 					session.addEventListener('end', () => {
@@ -277,6 +288,7 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 
 				if (hitTestSource && referenceSpace) {
 					const hits = frame.getHitTestResults(hitTestSource);
+					hitsRef.current = hits.length;
 					if (hits.length) {
 						const pose = hits[0].getPose(referenceSpace);
 						if (pose) {
@@ -298,7 +310,21 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 			renderer.render(scene, camera);
 		});
 
+		// Cheap on-device readout — polled instead of set per frame
+		const diagTimer = window.setInterval(() => {
+			setDiag(
+				[
+					`ses:${renderer.xr.getSession() ? 'on' : 'off'}`,
+					`ref:${renderer.xr.getReferenceSpace() ? 'ok' : '-'}`,
+					`src:${hitSourceReadyRef.current}`,
+					`hits:${hitsRef.current}`,
+					`cache:${modelCacheRef.current.size}`,
+				].join(' '),
+			);
+		}, 500);
+
 		return () => {
+			window.clearInterval(diagTimer);
 			renderer.setAnimationLoop(null);
 			window.removeEventListener('resize', onResize);
 			overlay.removeEventListener('beforexrselect', onBeforeXrSelect);
@@ -376,6 +402,11 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 								: t('Telefonni sekin yuriting — yer izlanmoqda')}
 						</span>
 					)}
+				</div>
+
+				<div className="ar-diag">
+					<span>{diag}</span>
+					{loadError && <span className="ar-diag-error">{loadError}</span>}
 				</div>
 
 				<div className="ar-overlay-bottom">
