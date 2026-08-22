@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, Button, Tooltip } from '@mui/material';
+import { Box, Stack, Typography, Button } from '@mui/material';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
@@ -11,6 +11,7 @@ import { useTranslation } from 'next-i18next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 const AI_ROOM_DESIGNER_PATH = '/ai-room-designer';
+const AR_VIEW_PATH = '/ar-view';
 
 const ORBIT_ICONS = [
 	{ Icon: ChairIcon, cls: 'orbit-1' },
@@ -26,6 +27,10 @@ export default function AiRoomBanner() {
 
 	const handleImageFlow = () => {
 		router.push(AI_ROOM_DESIGNER_PATH);
+	};
+
+	const handleArFlow = () => {
+		router.push(AR_VIEW_PATH);
 	};
 
 	return (
@@ -45,7 +50,7 @@ export default function AiRoomBanner() {
 							{t('Rasm yuklang — AI xonangizga eng mos mebillarni tavsiya qiladi')}
 						</Typography>
 
-						<Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} className="actions">
+						<Stack direction="row" spacing={2} className="actions">
 							<Button
 								variant="contained"
 								className="primaryAction"
@@ -55,13 +60,16 @@ export default function AiRoomBanner() {
 								{t('Rasm orqali tanlash')}
 							</Button>
 
-							<Tooltip title={t('Bu funksiya hozircha tayyorlanmoqda')}>
-								<span className="secondaryAction-wrap">
-									<Button variant="outlined" className="secondaryAction" startIcon={<ViewInArIcon />} disabled>
-										{t('AR bilan ko\'rish')} · {t('Tez orada')}
-									</Button>
-								</span>
-							</Tooltip>
+							<span className="secondaryAction-wrap">
+								<Button
+									variant="outlined"
+									className="secondaryAction"
+									startIcon={<ViewInArIcon />}
+									onClick={handleArFlow}
+								>
+									{t('AR bilan ko\'rish')}
+								</Button>
+							</span>
 						</Stack>
 					</Box>
 

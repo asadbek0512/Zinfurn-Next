@@ -650,5 +650,15 @@
   "Tahlil qilish": "Анализировать",
   "Xonaga joylashtirish": "Разместить в комнате",
   "Mos mahsulot topilmadi, boshqa rasm bilan urinib ko'ring": "Подходящие товары не найдены, попробуйте другое фото",
-  "Natija": "Результат"
+  "Natija": "Результат",
+  "AR qo'llab-quvvatlanishi tekshirilmoqda": "Проверка поддержки AR",
+  "Qurilmangiz AR ni qo'llab-quvvatlamaydi": "Ваше устройство не поддерживает AR",
+  "AR hozircha Android telefonlarda Chrome brauzeri orqali ishlaydi": "AR пока работает на Android-телефонах через браузер Chrome",
+  "Orqaga": "Назад",
+  "Yopish": "Закрыть",
+  "Yerga qarating va joylashtirish uchun bosing": "Наведите на пол и нажмите, чтобы разместить",
+  "Yuklanmoqda": "Загрузка",
+  "Burish": "Повернуть",
+  "Orqaga qaytarish": "Отменить",
+  "Tozalash": "Очистить"
 }

@@ -19,6 +19,12 @@ A production-deployed furniture marketplace: browsing with rich filters, orderin
 **AI**
 - Shopping assistant (Groq · Llama 3.3 70B) grounded in the live catalog: recommends real products as clickable cards and navigates the site via a whitelisted action set
 - Automatic content translation (Groq with Gemini fallback): product/article/notice content is machine-translated into all 5 locales on create/update
+- **AI Room Designer** — upload a photo of your room, optionally describe what you want, and get matched catalog products back; a selected product can be composited into the room photo
+
+**AR / 3D**
+- **WebXR furniture placement** (`/ar-view`): live camera view with real-plane hit-testing, a reticle that snaps to the detected floor, and tap-to-place furniture with real-world light estimation
+- Models are auto-scaled from their GLB bounding box to a declared real-world width (metres) and rested on the floor plane — no hand-tuned scale constants
+- Lazy per-model loading, place / rotate / undo / clear controls, and a graceful "not supported" screen on devices without `immersive-ar`
 
 **Platform**
 - i18n: `uz / en / ru / kr / ar` via next-i18next
@@ -75,6 +81,29 @@ Being upfront — these are conscious trade-offs, not blind spots:
 6. **~60s deploy window.** Runtime-build deploys briefly 502; an earlier zero-downtime attempt was reverted for env-injection reasons, and revisiting it needs build-arg plumbing.
 7. **Single-instance assumptions.** Rate-limit counters and the AI-chat daily quota are in-memory; horizontal scaling would need Redis.
 8. **Legacy TS looseness.** Some `any`/`@ts-ignore` remain in older components; new code is typed strictly.
+9. **AR is Android-only for now.** WebXR `immersive-ar` ships in Chrome on Android; iOS Safari has no WebXR, so iPhones get an explicit unsupported screen. A `<model-viewer>` + USDZ/Quick Look path is the planned iOS fallback.
+10. **AR uses stand-in models.** Catalog products have photos, not GLBs, so a product is mapped to the closest of six bundled models by title keyword and category. Per-product 3D assets (or image→3D generation) are the next step.
+
+## Credits & Third-Party Work
+
+The WebXR AR feature started from a public reference implementation and was rewritten for this codebase — stated plainly rather than passed off as original:
+
+- **[cynthiachiu/3D-WebXR-Furniture](https://github.com/cynthiachiu/3D-WebXR-Furniture)** (MIT) — the source of the hit-test + reticle + `XREstimatedLight` approach, and of the six bundled `.glb` furniture models in `public/models/`.
+
+What was rebuilt on top of it, in `libs/components/ar/ArViewer.tsx`:
+
+| Reference implementation | This codebase |
+|---|---|
+| Logic runs in the component body — re-runs every render, leaks WebGL contexts | `useEffect` with a full teardown: animation loop, listeners, session, geometries, materials, renderer |
+| `canvas.innerWidth` (not a real property) → `NaN` sizing | Sized from `window`, capped pixel ratio, `resize` handling |
+| Plain JS, DOM lookups via `document.getElementById` | TypeScript throughout, React refs and state |
+| All six GLBs (~12 MB) fetched eagerly on load | Lazy per-model load with a cache and a loading state |
+| Hand-tuned magic scale array (`[0.01, 0.005, …]`) | Bounding-box auto-scale to a declared real-world width, auto-rested on the floor |
+| Place only | Place, rotate, undo, clear |
+| No capability check — blank screen on unsupported devices | `isSessionSupported('immersive-ar')` probe with a translated fallback screen |
+| Hardcoded model list | Catalog-driven mapping from product title/category |
+
+Also used: [three.js](https://github.com/mrdoob/three.js) (MIT). The bundled `.glb` assets come from that reference repo; they are demo stand-ins and would be replaced by licensed or commissioned models before any commercial use.
 
 ## Running Locally
 

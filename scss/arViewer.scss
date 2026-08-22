@@ -1,0 +1,175 @@
+.ar-viewer {
+	position: fixed;
+	inset: 0;
+	z-index: 1400;
+	background: #000;
+	overflow: hidden;
+
+	.ar-canvas {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
+
+	&--message {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+		padding: 2rem 1.5rem;
+		text-align: center;
+		background: var(--surface, #fff);
+		color: var(--text-1, #212121);
+
+		h3 {
+			margin: 0;
+			font-size: 18px;
+			font-weight: 700;
+		}
+
+		p {
+			margin: 0;
+			max-width: 340px;
+			font-size: 14px;
+			line-height: 1.5;
+			color: var(--text-2, #616161);
+		}
+	}
+}
+
+.ar-overlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	pointer-events: none;
+
+	button {
+		pointer-events: auto;
+	}
+}
+
+.ar-overlay-top {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 1rem;
+}
+
+.ar-overlay-bottom {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	padding: 1rem 1rem 1.5rem;
+}
+
+.ar-hint {
+	padding: 6px 12px;
+	border-radius: 999px;
+	background: rgba(0, 0, 0, 0.55);
+	color: #fff;
+	font-size: 12px;
+	backdrop-filter: blur(4px);
+}
+
+.ar-icon-button {
+	width: 40px;
+	height: 40px;
+	flex-shrink: 0;
+	border: none;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, 0.55);
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+	backdrop-filter: blur(4px);
+}
+
+.ar-model-picker {
+	display: flex;
+	gap: 0.5rem;
+	overflow-x: auto;
+	padding-bottom: 2px;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+.ar-model-chip {
+	flex-shrink: 0;
+	padding: 8px 14px;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, 0.28);
+	background: rgba(0, 0, 0, 0.5);
+	color: #fff;
+	font-size: 12px;
+	font-weight: 600;
+	white-space: nowrap;
+	cursor: pointer;
+	backdrop-filter: blur(4px);
+	transition: background 0.15s ease, border-color 0.15s ease;
+
+	&.active {
+		background: var(--primary, #e92c28);
+		border-color: transparent;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: default;
+	}
+}
+
+.ar-actions {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.ar-secondary-button {
+	padding: 8px 14px;
+	border-radius: 8px;
+	border: 1px solid rgba(255, 255, 255, 0.28);
+	background: rgba(0, 0, 0, 0.5);
+	color: #fff;
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+	backdrop-filter: blur(4px);
+}
+
+.ar-viewer--message .ar-secondary-button {
+	border-color: var(--border, #e0e0e0);
+	background: var(--primary, #e92c28);
+	padding: 10px 20px;
+	font-size: 13px;
+}
+
+.ar-button-slot {
+	display: flex;
+	justify-content: center;
+
+	// three.js ARButton ships inline styles, so these need !important
+	.ar-start-button {
+		position: static !important;
+		width: 100% !important;
+		max-width: 320px !important;
+		height: 46px !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		border: none !important;
+		border-radius: 10px !important;
+		background: var(--primary, #e92c28) !important;
+		color: #fff !important;
+		font-size: 14px !important;
+		font-weight: 700 !important;
+		letter-spacing: 0.2px !important;
+		opacity: 1 !important;
+		pointer-events: auto !important;
+	}
+}
