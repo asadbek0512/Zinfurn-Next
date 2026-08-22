@@ -369,6 +369,21 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		flyToCart(e.currentTarget as HTMLElement, imgSrc);
 	};
 
+	const handleArView = () => {
+		if (!property) return;
+		const poster = property.propertyImages?.[0]
+			? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
+			: undefined;
+		router.push({
+			pathname: '/ar-view',
+			query: {
+				title: localizedTitle,
+				category: property.propertyCategory,
+				...(poster ? { poster } : {}),
+			},
+		});
+	};
+
 	const prevImage = () => {
 		if (currentIndex === -1) return;
 		const prevIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
@@ -882,6 +897,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Stack className="actionButtons">
 											<Button className="addToCartBtn" variant="contained" onClick={handleAddToCart}>
 												{t('add_to_cart')}
+											</Button>
+											<Button className="arViewBtn" variant="outlined" onClick={handleArView}>
+												{t('AR bilan ko\'rish')}
 											</Button>
 										</Stack>
 									</Stack>
