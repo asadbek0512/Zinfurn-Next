@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { ARButton } from 'three/examples/jsm/webxr/ARButton';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { XREstimatedLight } from 'three/examples/jsm/webxr/XREstimatedLight';
 import { useTranslation } from 'next-i18next';
@@ -13,6 +12,7 @@ const ROTATION_STEP = Math.PI / 8;
 const CAMERA_FOV = 70;
 const CAMERA_NEAR = 0.01;
 const CAMERA_FAR = 20;
+const AR_SESSION_MODE = 'immersive-ar';
 
 type ArSupport = 'checking' | 'supported' | 'unsupported';
 
@@ -32,7 +32,6 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const overlayRef = useRef<HTMLDivElement | null>(null);
-	const buttonSlotRef = useRef<HTMLDivElement | null>(null);
 
 	const sceneRef = useRef<THREE.Scene | null>(null);
 	const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -50,6 +49,8 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 	const [surfaceFound, setSurfaceFound] = useState(false);
 	const [diag, setDiag] = useState('init');
 	const [loadError, setLoadError] = useState<string | null>(null);
+	const [startError, setStartError] = useState<string | null>(null);
+	const [starting, setStarting] = useState(false);
 	const hitsRef = useRef(0);
 	const hitSourceReadyRef = useRef<string>('no');
 
@@ -117,6 +118,33 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 		setPlacedCount(0);
 	}, []);
 
+	/**
+	 * Requests the XR session directly instead of using three's ARButton, which
+	 * swallows the rejection and only disables itself — indistinguishable from a dead button.
+	 */
+	const handleStartAr = useCallback(async () => {
+		const renderer = rendererRef.current;
+		const overlay = overlayRef.current;
+		const xr = (navigator as Navigator & { xr?: XRSystem }).xr;
+		if (!renderer || !overlay || !xr) return;
+
+		setStartError(null);
+		setStarting(true);
+		try {
+			const session = await xr.requestSession(AR_SESSION_MODE, {
+				requiredFeatures: ['hit-test'],
+				optionalFeatures: ['dom-overlay', 'light-estimation'],
+				domOverlay: { root: overlay },
+			} as XRSessionInit);
+			await renderer.xr.setSession(session);
+		} catch (error) {
+			const err = error as Error;
+			setStartError(`${err?.name ?? 'Error'}: ${err?.message ?? 'requestSession failed'}`);
+		} finally {
+			setStarting(false);
+		}
+	}, []);
+
 	const handleRotate = useCallback(() => {
 		const last = placedRef.current[placedRef.current.length - 1];
 		if (last) last.rotateY(ROTATION_STEP);
@@ -150,8 +178,7 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 
 		const canvas = canvasRef.current;
 		const overlay = overlayRef.current;
-		const buttonSlot = buttonSlotRef.current;
-		if (!canvas || !overlay || !buttonSlot) return;
+		if (!canvas || !overlay) return;
 
 		const scene = new THREE.Scene();
 		sceneRef.current = scene;
@@ -226,14 +253,6 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 		const controller = renderer.xr.getController(0);
 		controller.addEventListener('select', onSelect);
 		scene.add(controller);
-
-		const arButton = ARButton.createButton(renderer, {
-			requiredFeatures: ['hit-test'],
-			optionalFeatures: ['dom-overlay', 'light-estimation'],
-			domOverlay: { root: overlay },
-		});
-		arButton.classList.add('ar-start-button');
-		buttonSlot.appendChild(arButton);
 
 		// Tapping overlay UI must not also fire an XR `select` (i.e. place furniture)
 		const onBeforeXrSelect = (event: Event) => {
@@ -334,7 +353,6 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 			renderer.xr.removeEventListener('sessionstart', onSessionStart);
 			renderer.xr.removeEventListener('sessionend', onSessionEnd);
 			renderer.xr.getSession()?.end().catch(() => undefined);
-			arButton.remove();
 			hitTestSource = null;
 
 			scene.traverse((object) => {
@@ -407,6 +425,7 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 				<div className="ar-diag">
 					<span>{diag}</span>
 					{loadError && <span className="ar-diag-error">{loadError}</span>}
+					{startError && <span className="ar-diag-error">{startError}</span>}
 				</div>
 
 				<div className="ar-overlay-bottom">
@@ -438,7 +457,18 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 						</div>
 					)}
 
-					<div ref={buttonSlotRef} className="ar-button-slot" />
+					{!inSession && (
+						<div className="ar-button-slot">
+							<button
+								type="button"
+								className="ar-start-button"
+								onClick={handleStartAr}
+								disabled={starting}
+							>
+								{starting ? t('Yuklanmoqda') : 'START AR'}
+							</button>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

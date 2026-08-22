@@ -195,22 +195,21 @@
 	display: flex;
 	justify-content: center;
 
-	// three.js ARButton ships inline styles, so these need !important
 	.ar-start-button {
-		position: static !important;
-		width: 100% !important;
-		max-width: 320px !important;
-		height: 46px !important;
-		margin: 0 !important;
-		padding: 0 !important;
-		border: none !important;
-		border-radius: 10px !important;
-		background: var(--primary, #e92c28) !important;
-		color: #fff !important;
-		font-size: 14px !important;
-		font-weight: 700 !important;
-		letter-spacing: 0.2px !important;
-		opacity: 1 !important;
-		pointer-events: auto !important;
+		width: 100%;
+		max-width: 320px;
+		height: 46px;
+		border: none;
+		border-radius: 10px;
+		background: var(--primary, #e92c28);
+		color: #fff;
+		font-size: 14px;
+		font-weight: 700;
+		letter-spacing: 0.2px;
+		cursor: pointer;
+
+		&:disabled {
+			opacity: 0.6;
+		}
 	}
 }
