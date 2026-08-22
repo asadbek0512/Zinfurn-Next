@@ -37,6 +37,7 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 	const sceneRef = useRef<THREE.Scene | null>(null);
 	const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
 	const reticleRef = useRef<THREE.Mesh | null>(null);
+	const surfaceRef = useRef(false);
 	const placedRef = useRef<THREE.Object3D[]>([]);
 	const modelCacheRef = useRef<Map<string, THREE.Group>>(new Map());
 	const activeModelRef = useRef<ArModel>(models.find((m) => m.id === initialModelId) ?? models[0]);
@@ -46,6 +47,7 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 	const [loadingModelId, setLoadingModelId] = useState<string | null>(null);
 	const [placedCount, setPlacedCount] = useState(0);
 	const [inSession, setInSession] = useState(false);
+	const [surfaceFound, setSurfaceFound] = useState(false);
 
 	/** Scales a freshly loaded GLB to its real-world width and rests it on the floor. */
 	const normalizeModel = useCallback((group: THREE.Group, realWidth: number) => {
@@ -155,6 +157,7 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 		const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 		renderer.setPixelRatio(Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO));
 		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.setClearColor(0x000000, 0); // camera passthrough must show through
 		renderer.xr.enabled = true;
 		rendererRef.current = renderer;
 
@@ -179,7 +182,7 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 
 		const reticle = new THREE.Mesh(
 			new THREE.RingGeometry(RETICLE_INNER_RADIUS, RETICLE_OUTER_RADIUS, 32).rotateX(-Math.PI / 2),
-			new THREE.MeshBasicMaterial({ color: 0xffb072 }),
+			new THREE.MeshBasicMaterial({ color: 0xffb072, side: THREE.DoubleSide, transparent: true, opacity: 0.9 }),
 		);
 		reticle.matrixAutoUpdate = false;
 		reticle.visible = false;
@@ -189,7 +192,11 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 		const onSelect = () => {
 			if (!reticle.visible) return;
 			const source = modelCacheRef.current.get(activeModelRef.current.id);
-			if (!source) return;
+			if (!source) {
+				// Not in cache yet (slow network / model just switched) — fetch it so the next tap lands
+				loadModel(activeModelRef.current).catch(() => undefined);
+				return;
+			}
 
 			const placed = source.clone(true);
 			const position = new THREE.Vector3();
@@ -219,9 +226,17 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 		arButton.classList.add('ar-start-button');
 		buttonSlot.appendChild(arButton);
 
+		// Tapping overlay UI must not also fire an XR `select` (i.e. place furniture)
+		const onBeforeXrSelect = (event: Event) => {
+			if ((event.target as HTMLElement | null)?.closest('button')) event.preventDefault();
+		};
+		overlay.addEventListener('beforexrselect', onBeforeXrSelect);
+
 		const onSessionStart = () => setInSession(true);
 		const onSessionEnd = () => {
 			setInSession(false);
+			surfaceRef.current = false;
+			setSurfaceFound(false);
 			handleClear();
 		};
 		renderer.xr.addEventListener('sessionstart', onSessionStart);
@@ -271,6 +286,12 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 					} else {
 						reticle.visible = false;
 					}
+
+					// Drives the hint text; only re-render when the state actually flips
+					if (reticle.visible !== surfaceRef.current) {
+						surfaceRef.current = reticle.visible;
+						setSurfaceFound(reticle.visible);
+					}
 				}
 			}
 
@@ -280,6 +301,7 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 		return () => {
 			renderer.setAnimationLoop(null);
 			window.removeEventListener('resize', onResize);
+			overlay.removeEventListener('beforexrselect', onBeforeXrSelect);
 			controller.removeEventListener('select', onSelect);
 			xrLight.removeEventListener('estimationstart', onEstimationStart);
 			xrLight.removeEventListener('estimationend', onEstimationEnd);
@@ -306,7 +328,7 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 			rendererRef.current = null;
 			reticleRef.current = null;
 		};
-	}, [support, handleClear]);
+	}, [support, handleClear, loadModel]);
 
 	// Warm up the initially selected model so the first tap places instantly
 	useEffect(() => {
@@ -337,7 +359,7 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 	}
 
 	return (
-		<div className="ar-viewer">
+		<div className={`ar-viewer${inSession ? ' ar-viewer--session' : ''}`}>
 			<canvas ref={canvasRef} className="ar-canvas" />
 
 			<div ref={overlayRef} className="ar-overlay">
@@ -347,7 +369,13 @@ const ArViewer = ({ models = AR_MODELS, initialModelId, onClose }: ArViewerProps
 							✕
 						</button>
 					)}
-					{inSession && <span className="ar-hint">{t('Yerga qarating va joylashtirish uchun bosing')}</span>}
+					{inSession && (
+						<span className={`ar-hint${surfaceFound ? ' ar-hint--ready' : ''}`}>
+							{surfaceFound
+								? t('Yerga qarating va joylashtirish uchun bosing')
+								: t('Telefonni sekin yuriting — yer izlanmoqda')}
+						</span>
+					)}
 				</div>
 
 				<div className="ar-overlay-bottom">

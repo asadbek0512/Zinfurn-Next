@@ -5,6 +5,12 @@
 	background: #000;
 	overflow: hidden;
 
+	// During an immersive-ar session the camera feed is composited behind the
+	// canvas — any opaque background of ours would dim it.
+	&--session {
+		background: transparent;
+	}
+
 	.ar-canvas {
 		position: absolute;
 		inset: 0;
@@ -47,9 +53,16 @@
 	flex-direction: column;
 	justify-content: space-between;
 	pointer-events: none;
+	background: transparent;
 
 	button {
 		pointer-events: auto;
+	}
+
+	// Chrome renders the WebXR DOM-overlay root like a fullscreen element, and the
+	// default ::backdrop is opaque black — it would hide the camera passthrough.
+	&::backdrop {
+		background: transparent;
 	}
 }
 
@@ -74,6 +87,11 @@
 	color: #fff;
 	font-size: 12px;
 	backdrop-filter: blur(4px);
+
+	&--ready {
+		background: rgba(233, 44, 40, 0.85);
+		font-weight: 600;
+	}
 }
 
 .ar-icon-button {
