@@ -10,6 +10,7 @@ import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useTranslation } from 'next-i18next';
+import { formatCount } from '../../utils';
 import { addToCart } from '../../utils/cartUtils';
 import { flyToCart } from '../../utils/flyToCart';
 import { useCurrency } from '../../context/CurrencyContext';
@@ -135,7 +136,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 								<FavoriteBorderIcon style={{ color: 'var(--text-4)' }} />
 							)}
 						</IconButton>
-						<Typography className="likes-count">{property?.propertyLikes}</Typography>
+						<Typography className="likes-count">{formatCount(property?.propertyLikes)}</Typography>
 					</Box>
 				</Box>
 			</Box>

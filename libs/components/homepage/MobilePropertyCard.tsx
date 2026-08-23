@@ -6,6 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Property } from '../../types/property/property';
 import { REACT_APP_API_URL } from '../../config';
+import { formatCount } from '../../utils';
 import { useCurrency } from '../../context/CurrencyContext';
 import { userVar } from '../../../apollo/store';
 import { getLocalizedTitle } from '../../utils/localizeProperty';
@@ -75,7 +76,7 @@ const MobilePropertyCard = ({ property, likePropertyHandler }: MobilePropertyCar
 						) : (
 							<FavoriteBorderIcon style={{ fontSize: '16px', color: 'var(--text-4)' }} />
 						)}
-						<span style={{ fontSize: '12px', color: 'var(--text-3)' }}>{property.propertyLikes}</span>
+						<span style={{ fontSize: '12px', color: 'var(--text-3)' }}>{formatCount(property.propertyLikes)}</span>
 					</div>
 				</div>
 			</div>
