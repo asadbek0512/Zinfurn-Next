@@ -20,28 +20,22 @@ import { REACT_APP_API_URL } from '../../libs/config';
 import { userVar } from '../../apollo/store';
 import { addToCart } from '../../libs/utils/cartUtils';
 import { flyToCart } from '../../libs/utils/flyToCart';
-import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
-import { Comment } from '../../libs/types/comment/comment';
-import { CommentGroup } from '../../libs/enums/comment.enum';
-import { Pagination as MuiPagination } from '@mui/material';
 import Link from 'next/link';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { GET_COMMENTS, GET_PROPERTIES, GET_PROPERTY, GET_PROPERTY_REVIEW_SUMMARY } from '../../apollo/user/query';
+import { GET_PROPERTIES, GET_PROPERTY, GET_PROPERTY_REVIEW_SUMMARY } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { CREATE_COMMENT, CREATE_REVIEW, LIKE_TARGET_PROPERTY, SEND_MESSAGE } from '../../apollo/user/mutation';
+import { CREATE_REVIEW, LIKE_TARGET_PROPERTY, SEND_MESSAGE } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { create } from 'domain';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import Review from '../../libs/components/property/Review';
 import ReviewSection from '../../libs/components/property/ReviewSection';
 import SEO from '../../libs/components/common/SEO';
 import { Add, ChevronLeft, ChevronRight, FavoriteBorder, Remove, Share } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import RateReviewIcon from '@mui/icons-material/RateReview';
 import SendIcon from '@mui/icons-material/Send';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -86,7 +80,7 @@ export const getServerSideProps = async ({ locale, query }: any) => {
 	return { props: { ...translations, seoProperty } };
 };
 
-const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
+const PropertyDetail: NextPage = (props: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
@@ -95,21 +89,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [property, setProperty] = useState<Property | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
 	const [destinationProperties, setDestinationProperties] = useState<Property[]>([]);
-	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
-	const [propertyComments, setPropertyComments] = useState<Comment[]>([]);
-	const [commentTotal, setCommentTotal] = useState<number>(0);
 	const [quantity, setQuantity] = useState(1);
 	const [tabIndex, setTabIndex] = useState(0);
 	const { t } = useTranslation('common');
 	const { formatPrice } = useCurrency();
 	const localizedTitle = getLocalizedTitle(property, router.locale);
 	const localizedDesc = getLocalizedDesc(property, router.locale);
-	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
-		commentGroup: CommentGroup.PROPERTY,
-		commentContent: '',
-		commentRefId: '',
-	});
-
 	// Zoom state
 	const [isZoomed, setIsZoomed] = useState<boolean>(false);
 	const [mousePosition, setMousePosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -125,7 +110,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
-	const [createComment] = useMutation(CREATE_COMMENT);
 	const [sendMessage] = useMutation(SEND_MESSAGE);
 
 	const {
@@ -169,23 +153,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		},
 	});
 
-	const {
-		loading: getCommentsLoading,
-		data: getCommentsData,
-		error: getCommentsError,
-		refetch: getCommentsRefetch,
-	} = useQuery(GET_COMMENTS, {
-		fetchPolicy: 'cache-and-network',
-		variables: {
-			input: initialComment,
-		},
-		skip: !commentInquiry.search.commentRefId,
-		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			if (data?.getComments?.list) setPropertyComments(data?.getComments?.list);
-			setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0);
-		},
-	});
 	const { data: reviewSummaryData } = useQuery(GET_PROPERTY_REVIEW_SUMMARY, {
 		variables: { propertyId: propertyId as string },
 		skip: !propertyId,
@@ -199,24 +166,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			setProperty(null);
 			setSlideImage('');
 			setPropertyId(router.query.id as string);
-			setCommentInquiry({
-				...commentInquiry,
-				search: {
-					commentRefId: router.query.id as string,
-				},
-			});
-			setInsertCommentData({
-				...insertCommentData,
-				commentRefId: router.query.id as string,
-			});
 		}
 	}, [router]);
-
-	useEffect(() => {
-		if (commentInquiry.search.commentRefId) {
-			getCommentsRefetch({ input: commentInquiry });
-		}
-	}, [commentInquiry]);
 
 	useEffect(() => {
 		if (user?._id) {
@@ -272,40 +223,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	};
 
-	const getRatingByMemberType = (type: string) => {
-		switch (type) {
-			case 'ADMIN':
-				return { score: '5.0', stars: '★★★★★' };
-			case 'TECHNICIAN':
-				return { score: '4.5', stars: '★★★★☆' };
-			case 'AGENT':
-				return { score: '3.5', stars: '★★★☆☆' };
-			case 'USER':
-				return { score: '3.0', stars: '★★☆☆☆' };
-			default:
-				return { score: '0.0', stars: '☆☆☆☆☆' };
-		}
-	};
-
-	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
-		commentInquiry.page = value;
-		setCommentInquiry({ ...commentInquiry });
-	};
-
-	const createCommentHandler = async () => {
-		try {
-			if (!user._id) throw Error(Message.NOT_AUTHENTICATED);
-			await createComment({ variables: { input: insertCommentData } });
-
-			setInsertCommentData({ ...insertCommentData, commentContent: '' });
-
-			await getCommentsRefetch({ input: commentInquiry });
-			sweetTopSmallSuccessAlert('Comment submitted successfully!', 2000);
-		} catch (err) {
-			await sweetErrorHandling(err);
-		}
-	};
-
 	const sendMessageHandler = async () => {
 		try {
 			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
@@ -341,10 +258,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	const handleTabChange = (_: any, newIndex: number) => {
 		setTabIndex(newIndex);
-	};
-
-	const insertEmoji = (emoji: string) => {
-		setInsertCommentData((prev) => ({ ...prev, commentContent: prev.commentContent + emoji }));
 	};
 
 	const handleQuantityChange = (change: number) => {
@@ -621,62 +534,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 					{tabIndex === 1 && (
 						<div className="mob-rev-tab">
-
-							{/* ── Star ratings summary ── */}
+							{/* Reyting va sharhlar — faqat sotib olgan mijoz qoldiradi */}
 							{property?._id && <ReviewSection propertyId={property._id} />}
-
-							{/* ── Reviews ro'yxati (PASTDA) ── */}
-							<div className="mob-rev-list-section">
-								<div className="mob-rev-list-header">
-									<span className="mob-rev-list-title">{t('reviews')}</span>
-									<span className="mob-rev-count-badge">{commentTotal}</span>
-								</div>
-
-								{commentTotal === 0 ? (
-									<div className="mob-rev-empty">
-										<RateReviewIcon sx={{ fontSize: 36, color: 'var(--bg-strong)' }} />
-										<p>{t('no_reviews_yet')}</p>
-									</div>
-								) : (
-									<>
-										{propertyComments?.map((comment: any) => {
-											const { stars, score } = getRatingByMemberType(comment.memberData?.memberType);
-											const avatarSrc = comment.memberData?.memberImage
-												? (comment.memberData.memberImage.startsWith('http')
-													? comment.memberData.memberImage
-													: `${REACT_APP_API_URL}/${comment.memberData.memberImage}`)
-												: '/img/profile/defaultUser.svg';
-											return (
-												<div key={comment._id} className="mob-rev-card">
-													<div className="mob-rev-card-top">
-														<img src={avatarSrc} alt="" className="mob-rev-avatar" loading="lazy" decoding="async" />
-														<div className="mob-rev-user">
-															<span className="mob-rev-name">{comment.memberData?.memberNick}</span>
-															<span className="mob-rev-type">{t(comment.memberData?.memberType ?? '')}</span>
-														</div>
-														<div className="mob-rev-right">
-															<span className="mob-rev-stars">{stars}</span>
-															<span className="mob-rev-date">{dayjs(comment.createdAt).fromNow()}</span>
-														</div>
-													</div>
-													<p className="mob-rev-body">{comment.commentContent}</p>
-												</div>
-											);
-										})}
-
-										<div className="mob-rev-pagination">
-											<MuiPagination
-												page={commentInquiry.page}
-												count={Math.ceil(commentTotal / commentInquiry.limit)}
-												onChange={commentPaginationChangeHandler}
-												shape="circular"
-												color="primary"
-												size="small"
-											/>
-										</div>
-									</>
-								)}
-							</div>
 						</div>
 					)}
 				</div>
@@ -1084,63 +943,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								{tabIndex === 1 && (
 									<Stack className="repair-detail__comments" spacing={3}>
 										{property?._id && <ReviewSection propertyId={property._id} />}
-
-										<Stack className="reviews-config">
-											{commentTotal !== 0 && (
-												<>
-													<Stack className="filter-box">
-														<Stack className="review-cnt">
-															<Typography className="reviews">{t('review_list')}</Typography>
-															<Typography className="Show">
-																{t('showing_results', { start: 1, end: 5, total: commentTotal })}
-															</Typography>
-														</Stack>
-													</Stack>
-
-													<Stack className="review-list">
-														{propertyComments?.map((comment: any) => {
-															const memberType = comment.memberData?.memberType;
-															const { score, stars } = memberType
-																? getRatingByMemberType(memberType)
-																: { score: '-', stars: '☆☆☆☆☆' };
-
-															return (
-																<Stack className="single-review" key={comment._id} spacing={1}>
-																	<Review comment={comment} />
-																	<Typography
-																		className="review-stars"
-																		sx={{ display: 'flex', alignItems: 'center', gap: '7px' }}
-																	>
-																		<span style={{ fontSize: '16px', color: 'var(--warning)' }}>{stars}</span>
-																		<span style={{ fontSize: '13px', color: 'var(--text-1)' }}>{score}</span>
-																	</Typography>
-																	<Typography className="created-at" fontSize={12} color="text.secondary">
-																		{dayjs(comment.createdAt).fromNow()}
-																	</Typography>
-																</Stack>
-															);
-														})}
-
-														<Stack className="pagination-config">
-															<Box component="div" className="pagination-box">
-																<MuiPagination
-																	className="custom-pagination"
-																	page={commentInquiry.page}
-																	count={Math.ceil(commentTotal / commentInquiry.limit)}
-																	onChange={commentPaginationChangeHandler}
-																	shape="circular"
-																	color="primary"
-																/>
-															</Box>
-
-															<Stack className="total-result">
-																<Typography>{t('total_reviews', { count: commentTotal })}</Typography>
-															</Stack>
-														</Stack>
-													</Stack>
-												</>
-											)}
-										</Stack>
 									</Stack>
 								)}
 							</Stack>
@@ -1257,18 +1059,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	}
 
 	return null;
-};
-
-PropertyDetail.defaultProps = {
-	initialComment: {
-		page: 1,
-		limit: 5,
-		sort: 'createdAt',
-		direction: 'DESC',
-		search: {
-			commentRefId: '',
-		},
-	},
 };
 
 export default withLayoutFull(PropertyDetail);
