@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckIcon from '@mui/icons-material/Check';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -117,7 +117,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 								{formatCount(property?.propertyViews)}
 							</div>
 							<div className="mob-action">
-								<ChatBubbleOutlineIcon sx={{ fontSize: 13 }} />
+								<RateReviewOutlinedIcon sx={{ fontSize: 13 }} />
 								{property?.propertyReviews || 0}
 							</div>
 							<div
@@ -259,7 +259,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 						</Box>
 						<Box component="div" className="action-item">
 							<IconButton size="small">
-								<ChatBubbleOutlineIcon />
+								<RateReviewOutlinedIcon />
 							</IconButton>
 							<Typography>{property?.propertyReviews || 0}</Typography>
 						</Box>
