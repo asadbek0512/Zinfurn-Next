@@ -33,7 +33,7 @@ import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { getCartCount } from '../utils/cartUtils';
-import { useCurrency, Currency } from '../context/CurrencyContext';
+import { useCurrency, Currency, CURRENCY_LIST } from '../context/CurrencyContext';
 import { useThemeMode } from '../context/ThemeContext';
 
 const Top = () => {
@@ -63,7 +63,7 @@ const Top = () => {
 	const [currencyAnchor, setCurrencyAnchor] = React.useState<null | HTMLElement>(null);
 	const currencyOpen = Boolean(currencyAnchor);
 
-	const CURRENCY_LABELS: Record<Currency, string> = { USD: '$', KRW: '₩', UZS: "so'm" };
+	const CURRENCY_LABELS: Record<Currency, string> = { USD: '$', KRW: '₩', UZS: "so'm", RUB: '₽', AED: 'د.إ' };
 
 	const handleCurrencyClick = (e: React.MouseEvent<HTMLElement>) => setCurrencyAnchor(e.currentTarget);
 	const handleCurrencyClose = () => setCurrencyAnchor(null);
@@ -272,7 +272,7 @@ const Top = () => {
 								<span className="currency-label">{CURRENCY_LABELS[currency]}</span>
 							</Button>
 							<StyledMenu anchorEl={currencyAnchor} open={currencyOpen} onClose={handleCurrencyClose}>
-								{(['USD', 'KRW', 'UZS'] as Currency[]).map((c) => (
+								{CURRENCY_LIST.map((c) => (
 									<MenuItem key={c} disableRipple selected={currency === c} onClick={() => handleCurrencySelect(c)}
 										sx={{ fontWeight: currency === c ? 700 : 400, color: currency === c ? 'var(--primary)' : 'inherit' }}>
 										<span style={{ marginRight: 8 }}>{CURRENCY_LABELS[c]}</span>{c}
@@ -578,7 +578,7 @@ const Top = () => {
 									<span className="currency-label">{CURRENCY_LABELS[currency]}</span>
 								</Button>
 								<StyledMenu anchorEl={currencyAnchor} open={currencyOpen} onClose={handleCurrencyClose}>
-									{(['USD', 'KRW', 'UZS'] as Currency[]).map((c) => (
+									{CURRENCY_LIST.map((c) => (
 										<MenuItem key={c} disableRipple selected={currency === c} onClick={() => handleCurrencySelect(c)}
 											sx={{ fontWeight: currency === c ? 700 : 400, color: currency === c ? 'var(--primary)' : 'inherit' }}>
 											<span style={{ marginRight: 8 }}>{CURRENCY_LABELS[c]}</span>{c}
