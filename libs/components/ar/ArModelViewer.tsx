@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useQuery } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
 import { AR_MODELS, ArModel } from '../../config/arModels';
+import { GET_AR_PROPERTIES } from '../../../apollo/user/query';
+import { REACT_APP_API_URL } from '../../config';
+import { Direction } from '../../enums/common.enum';
 
 /**
  * Scene Viewer (Android) / Quick Look (iOS) based AR, via <model-viewer>.
@@ -25,6 +29,16 @@ type ModelViewerElement = HTMLElement & { activateAR: () => Promise<void>; canAc
 
 const MODEL_VIEWER_TAG = 'model-viewer';
 const MODEL_VIEWER_SRC = '/vendor/model-viewer.min.js';
+/** Catalog page size scanned for products that already have a GLB attached */
+const AR_PROPERTY_LIMIT = 50;
+/** Uploaded product GLBs are already baked to real-world metres, so no scale hint is needed */
+const BAKED_REAL_WIDTH = 0;
+
+interface ArPropertyRow {
+	_id: string;
+	propertyTitle: string;
+	propertyArModel?: string;
+}
 
 const ArModelViewer = ({
 	modelUrl,
@@ -41,6 +55,27 @@ const ArModelViewer = ({
 	const [activeModel, setActiveModel] = useState<ArModel>(
 		() => AR_MODELS.find((item) => item.id === initialModelId) ?? AR_MODELS[0],
 	);
+
+	/** Real catalog products come first in the picker; the bundled models stay as a fallback */
+	const { data: arPropertiesData } = useQuery(GET_AR_PROPERTIES, {
+		fetchPolicy: 'cache-first',
+		variables: {
+			input: { page: 1, limit: AR_PROPERTY_LIMIT, sort: 'createdAt', direction: Direction.DESC, search: {} },
+		},
+	});
+
+	const pickerModels = useMemo<ArModel[]>(() => {
+		const rows: ArPropertyRow[] = arPropertiesData?.getProperties?.list ?? [];
+		const products = rows
+			.filter((row) => Boolean(row.propertyArModel))
+			.map((row) => ({
+				id: row._id,
+				label: row.propertyTitle,
+				url: `${REACT_APP_API_URL}/${row.propertyArModel}`,
+				realWidth: BAKED_REAL_WIDTH,
+			}));
+		return [...products, ...AR_MODELS];
+	}, [arPropertiesData]);
 
 	/**
 	 * Loaded as a vendored standalone bundle rather than the npm package: model-viewer's
@@ -133,7 +168,7 @@ const ArModelViewer = ({
 			<div className="ar-overlay-bottom">
 				{showPicker && (
 					<div className="ar-model-picker">
-						{AR_MODELS.map((model) => (
+						{pickerModels.map((model) => (
 							<button
 								key={model.id}
 								type="button"

@@ -2071,9 +2071,19 @@
 			margin-top: 0.5rem;
 		}
 
-		.primaryAction {
+		.secondaryAction-wrap {
+			display: flex;
+			flex: 1;
+		}
+
+		// Ikkala tugma bir xil ko'rinishda va bir xil kenglikda
+		.primaryAction,
+		.secondaryAction {
+			flex: 1;
+			width: 100%;
 			background: #fff;
 			color: var(--primary);
+			border: 1px solid #fff;
 			font-weight: 600;
 			text-transform: none;
 			padding: 0.75rem 1.75rem;
@@ -2082,20 +2092,13 @@
 
 			&:hover {
 				background: rgba(255, 255, 255, 0.9);
+				border-color: rgba(255, 255, 255, 0.9);
 			}
-		}
-
-		.secondaryAction {
-			border-color: rgba(255, 255, 255, 0.6);
-			color: #fff;
-			font-weight: 600;
-			text-transform: none;
-			padding: 0.75rem 1.75rem;
-			border-radius: 8px;
 
 			&.Mui-disabled {
-				border-color: rgba(255, 255, 255, 0.3);
-				color: rgba(255, 255, 255, 0.6);
+				background: rgba(255, 255, 255, 0.6);
+				border-color: rgba(255, 255, 255, 0.6);
+				color: rgba(0, 0, 0, 0.4);
 			}
 		}
 

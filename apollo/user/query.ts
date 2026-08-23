@@ -253,6 +253,20 @@ query GetProperty($input: String!) {
 
 `;
 
+/** Only the fields the AR picker needs — every product that has a GLB attached */
+export const GET_AR_PROPERTIES = gql`
+query GetArProperties($input: PropertiesInquiry!) {
+    getProperties(input: $input) {
+        list {
+            _id
+            propertyTitle
+            propertyArModel
+            propertyImages
+        }
+    }
+}
+`;
+
 export const GET_PROPERTIES = gql`
 query GetProperties($input: PropertiesInquiry!) {
     getProperties(input: $input) {
