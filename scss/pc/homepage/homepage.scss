@@ -2081,9 +2081,12 @@
 		.secondaryAction {
 			flex: 1;
 			width: 100%;
+			min-width: 230px;
+			white-space: nowrap; // "View in AR" ikki qatorga tushmasin
+			font-size: 1rem;
 			font-weight: 600;
 			text-transform: none;
-			padding: 0.75rem 1.75rem;
+			padding: 0.9rem 2rem;
 			border-radius: 8px;
 		}
 
