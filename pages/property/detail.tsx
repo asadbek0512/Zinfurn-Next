@@ -351,8 +351,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setQuantity((prev) => Math.max(1, prev + change));
 	};
 
+	// propertyInStock aniq `false` bo'lsagina tugagan deb hisoblanadi (undefined = ma'lumot yo'q)
+	const isOutOfStock = property?.propertyInStock === false;
+
 	const handleAddToCart = (e: React.MouseEvent) => {
-		if (!property) return;
+		if (!property || isOutOfStock) return;
 		addToCart(
 			{
 				_id: property._id,
@@ -538,7 +541,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								className="mob-det-qty-input" />
 							<IconButton size="small" onClick={() => handleQuantityChange(1)}><Add fontSize="small" /></IconButton>
 						</div>
-						<Button variant="contained" className="mob-det-cart-btn" onClick={handleAddToCart}>{t('add_to_cart')}</Button>
+						<Button variant="contained" className="mob-det-cart-btn" onClick={handleAddToCart} disabled={isOutOfStock}>
+							{t('add_to_cart')}
+						</Button>
 					</div>
 
 					<div className="mob-det-ar">
@@ -894,7 +899,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 
 										<Stack className="actionButtons">
-											<Button className="addToCartBtn" variant="contained" onClick={handleAddToCart}>
+											<Button
+												className="addToCartBtn"
+												variant="contained"
+												onClick={handleAddToCart}
+												disabled={isOutOfStock}
+											>
 												{t('add_to_cart')}
 											</Button>
 											<ArLaunchButton

@@ -397,6 +397,12 @@
           font-family: $font !important;
           text-transform: none !important;
           box-shadow: none !important;
+
+          // Mahsulot tugagan — bosilmaydi
+          &.Mui-disabled {
+            background-color: #e0e0e0 !important;
+            color: #9a9a9a !important;
+          }
         }
       }
 

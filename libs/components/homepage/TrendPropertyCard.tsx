@@ -41,6 +41,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 
 	const handleAddToCart = (e: React.MouseEvent) => {
 		e.stopPropagation();
+		if (property?.propertyInStock === false) return;
 		addToCart({
 			_id: property._id,
 			propertyTitle: title,
@@ -67,7 +68,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 
 	return (
 		<Box
-			className="product-card"
+			className={`product-card${property?.propertyInStock === false ? ' is-sold-out' : ''}`}
 			component="div"
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
@@ -81,6 +82,8 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 						transition: 'background-image 0.3s ease-in-out',
 					}}
 				/>
+
+				{property?.propertyInStock === false && <span className="soldOutBadge">{t('sold_out')}</span>}
 
 				<Box className="top-badges" component="div">
 					{discountPercent > 0 && (

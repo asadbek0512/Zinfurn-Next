@@ -43,6 +43,7 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 
 	const handleAddToCart = (e: React.MouseEvent) => {
 		e.stopPropagation();
+		if (property?.propertyInStock === false) return;
 		addToCart({
 			_id: property._id,
 			propertyTitle: property.propertyTitle,
@@ -63,8 +64,13 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<Box className="mob-big-card" component="div" onClick={() => goPropertyDetatilPage(property._id)}>
+			<Box
+				className={`mob-big-card${property?.propertyInStock === false ? ' is-sold-out' : ''}`}
+				component="div"
+				onClick={() => goPropertyDetatilPage(property._id)}
+			>
 				<Box className="mob-big-card-img-wrap" component="div">
+					{property?.propertyInStock === false && <span className="soldOutBadge">{t('sold_out')}</span>}
 					<Box
 						className="mob-big-card-img"
 						component="div"
@@ -101,13 +107,18 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 		);
 	} else {
 		return (
-			<Box className="product-card" component="div">
+			<Box
+				className={`product-card${property?.propertyInStock === false ? ' is-sold-out' : ''}`}
+				component="div"
+			>
 				<Box className="product-image-container" component="div" onClick={() => goPropertyDetatilPage(property._id)}>
 					<Box
 						className="product-image"
 						component="div"
 						sx={{ backgroundImage: `url(${imagePath})` }}
 					/>
+
+					{property?.propertyInStock === false && <span className="soldOutBadge">{t('sold_out')}</span>}
 
 					<Box className="top-badges" component="div">
 						{discountPercent > 0 && (

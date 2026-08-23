@@ -6,32 +6,82 @@ $sold-out-image-opacity: 0.72;
 $sold-out-grayscale: 0.35;
 $sold-out-card-opacity: 0.88;
 
-/* --- "Sold Out" nishoni: pastki chap burchakda, gorizontal, hira bo'lmaydi --- */
+/* --- "Sold Out": chap pastdan o'ng tepaga qiya, shaffof qora yozuv --- */
 .soldOutBadge {
 	position: absolute;
-	bottom: 10px;
-	left: 10px;
+	top: 50%;
+	left: 50%;
 	z-index: 4;
-	padding: 5px 12px;
-	border-radius: 4px;
-	background: #111;
-	color: #fff;
-	font-size: 10px;
-	font-weight: 700;
-	letter-spacing: 0.1em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 121%; // 300x200 karta rasmining diagonali
+	transform: translate(-50%, -50%) rotate(-34deg);
+	transform-origin: center;
+	background: transparent;
+	color: rgba(26, 26, 26, 0.45);
+	font-size: clamp(20px, 4.2vw, 34px);
+	font-weight: 900;
+	letter-spacing: 0.06em;
 	text-transform: uppercase;
-	line-height: 1.2;
+	line-height: 1.1;
+	text-align: center;
 	white-space: nowrap;
 	pointer-events: none;
-	opacity: 1;
-	filter: none;
-	box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.6);
+	text-shadow: 0 0 8px rgba(255, 255, 255, 0.55);
+}
+
+/* --- Umumiy: homepage/related kartalar (TrendPropertyCard, PropertyBigCard) --- */
+.product-card.is-sold-out {
+	.product-image-container {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.product-image,
+	img {
+		opacity: $sold-out-image-opacity;
+		filter: grayscale($sold-out-grayscale);
+	}
+
+	.product-info-container,
+	.product-content {
+		opacity: $sold-out-card-opacity;
+	}
+
+	.big-card-cart-btn {
+		opacity: 0.35;
+		pointer-events: none;
+	}
+}
+
+.mob-big-card.is-sold-out {
+	.mob-big-card-img-wrap {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.mob-big-card-img {
+		opacity: $sold-out-image-opacity;
+		filter: grayscale($sold-out-grayscale);
+	}
+
+	.mob-big-card-info {
+		opacity: $sold-out-card-opacity;
+	}
+
+	.soldOutBadge {
+		width: 133%;
+		transform: translate(-50%, -50%) rotate(-41deg);
+		font-size: clamp(14px, 4.6vw, 22px);
+	}
 }
 
 /* --- PC karta --- */
 .card-config.is-sold-out {
 	.top {
 		position: relative;
+		overflow: hidden;
 
 		img {
 			opacity: $sold-out-image-opacity;
@@ -66,11 +116,19 @@ $sold-out-card-opacity: 0.88;
 .mob-property-card.is-sold-out {
 	.mob-card-img-wrap {
 		position: relative;
+		overflow: hidden;
 	}
 
 	.mob-card-img {
 		opacity: $sold-out-image-opacity;
 		filter: grayscale($sold-out-grayscale);
+	}
+
+	// Mobil rasm kvadratga yaqin — burchak boshqacha
+	.soldOutBadge {
+		width: 133%;
+		transform: translate(-50%, -50%) rotate(-41deg);
+		font-size: clamp(14px, 4.6vw, 22px);
 	}
 
 	.mob-card-info {
@@ -139,5 +197,30 @@ $sold-out-card-opacity: 0.88;
 	100% {
 		opacity: 0;
 		transform: translate(-50%, -4px);
+	}
+}
+
+/* --- Agent sahifasi: stock toggle tugmasi --- */
+.stock-toggle-btn,
+.mob-myprop-card-actions .stock-toggle {
+	padding: 6px 12px;
+	border: 1px solid #cfe6d4;
+	border-radius: 20px;
+	background: #eaf7ee;
+	color: #1e7a3c;
+	font-size: 12px;
+	font-weight: 600;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		filter: brightness(0.96);
+	}
+
+	&.off {
+		border-color: #f0d2d2;
+		background: #fdeeee;
+		color: #b53c3c;
 	}
 }

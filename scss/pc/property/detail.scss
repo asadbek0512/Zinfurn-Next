@@ -370,6 +370,14 @@
 						flex: 1;
 						width: 140px;
 						height: 50px;
+
+						// Mahsulot tugagan — bosilmaydi
+						&.Mui-disabled {
+							background-color: #e0e0e0 !important;
+							color: #9a9a9a !important;
+							box-shadow: none !important;
+							cursor: not-allowed;
+						}
 					}
 
 					// Toast o'rami — tugmaning eski o'lchamini saqlaydi

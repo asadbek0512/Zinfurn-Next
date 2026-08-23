@@ -663,5 +663,7 @@
   "Telefonni sekin yuriting — yer izlanmoqda": "حرّك هاتفك ببطء — جارٍ البحث عن الأرضية",
   "Xonangizda sinab ko'ring": "جرّبه في غرفتك",
   "ar_model_missing": "لا يوجد نموذج ثلاثي الأبعاد",
-  "sold_out": "نفدت الكمية"
+  "sold_out": "نفدت الكمية",
+  "mark_sold_out": "وضع علامة نفد",
+  "mark_in_stock": "وضع علامة متوفر"
 }

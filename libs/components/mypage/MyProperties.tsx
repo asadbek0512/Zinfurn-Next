@@ -87,6 +87,23 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 		}
 	};
 
+	// Agent mahsulotni "tugadi / bor" holatiga o'tkazadi
+	const toggleStockHandler = async (inStock: boolean, id: string) => {
+		try {
+			await updateProperty({
+				variables: {
+					input: {
+						_id: id,
+						propertyInStock: inStock,
+					},
+				},
+			});
+			await getAgentPropertiesRefetch({ input: searchFilter });
+		} catch (err: any) {
+			await sweetErrorHandling(err);
+		}
+	};
+
 	if (user?.memberType !== 'AGENT') {
 		router.back();
 	}
@@ -125,6 +142,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 								property={property}
 								deletePropertyHandler={deletePropertyHandler}
 								updatePropertyHandler={updatePropertyHandler}
+								toggleStockHandler={toggleStockHandler}
 							/>
 						))
 					)}
@@ -205,6 +223,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 										property={property}
 										deletePropertyHandler={deletePropertyHandler}
 										updatePropertyHandler={updatePropertyHandler}
+										toggleStockHandler={toggleStockHandler}
 									/>
 								);
 							})

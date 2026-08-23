@@ -223,7 +223,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 						disabled={isOutOfStock}
 					>
 						<AddShoppingCartIcon sx={{ fontSize: 15 }} />{' '}
-						{isOutOfStock ? t('out_of_stock') : t('Add to Cart')}
+						{t('Add to Cart')}
 					</button>
 				)}
 

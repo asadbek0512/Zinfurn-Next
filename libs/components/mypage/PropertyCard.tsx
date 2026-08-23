@@ -17,16 +17,19 @@ interface PropertyCardProps {
   deletePropertyHandler?: any;
   memberPage?: boolean;
   updatePropertyHandler?: any;
+  toggleStockHandler?: any;
 }
 
 export const PropertyCard = (props: PropertyCardProps) => {
   const { t } = useTranslation('common');
   const { formatPrice } = useCurrency();
-  const { property, deletePropertyHandler, memberPage, updatePropertyHandler } = props;
+  const { property, deletePropertyHandler, memberPage, updatePropertyHandler, toggleStockHandler } = props;
   const device = useDeviceDetect();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  // propertyInStock aniq `false` bo'lsagina tugagan deb hisoblanadi (undefined = sotuvda bor)
+  const isInStock = property?.propertyInStock !== false;
 
   /** HANDLERS **/
   const pushEditProperty = async (id: string) => {
@@ -75,6 +78,14 @@ export const PropertyCard = (props: PropertyCardProps) => {
               {!isSold && (
                 <button className="edit" onClick={() => pushEditProperty(property._id)}>
                   {t('Edit')}
+                </button>
+              )}
+              {!isSold && (
+                <button
+                  className={`stock-toggle${isInStock ? '' : ' off'}`}
+                  onClick={() => toggleStockHandler?.(!isInStock, property._id)}
+                >
+                  {isInStock ? t('mark_sold_out') : t('mark_in_stock')}
                 </button>
               )}
               <button className="delete" onClick={() => deletePropertyHandler?.(property._id)}>
@@ -158,6 +169,13 @@ export const PropertyCard = (props: PropertyCardProps) => {
             <IconButton className="icon-button" onClick={() => deletePropertyHandler(property._id)}>
               <DeleteIcon className="buttons" />
             </IconButton>
+            <button
+              className={`stock-toggle-btn${isInStock ? '' : ' off'}`}
+              onClick={() => toggleStockHandler?.(!isInStock, property._id)}
+              title={isInStock ? t('mark_sold_out') : t('mark_in_stock')}
+            >
+              {isInStock ? t('in_stock') : t('sold_out')}
+            </button>
           </Stack>
         )}
       </Stack>

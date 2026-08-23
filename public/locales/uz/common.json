@@ -191,7 +191,7 @@
   "next_image": "Keyingi rasm",
   "main_image": "Asosiy rasm",
   "sub_image": "Qo‘shimcha rasm",
-  "in_stock": "Omborda",
+  "in_stock": "Sotuvda bor",
   "out_of_stock": "Omborda yo‘q",
   "no_description_provided": "Tavsif berilmagan.",
   "color": "Rang",
@@ -663,5 +663,7 @@
   "Telefonni sekin yuriting — yer izlanmoqda": "Telefonni sekin yuriting — yer izlanmoqda",
   "Xonangizda sinab ko'ring": "Xonangizda sinab ko'ring",
   "ar_model_missing": "3D model yo‘q",
-  "sold_out": "Sotuvda yo‘q"
+  "sold_out": "Sotuvda yo‘q",
+  "mark_sold_out": "Tugadi deb belgilash",
+  "mark_in_stock": "Sotuvda bor deb belgilash"
 }

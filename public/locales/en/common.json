@@ -663,5 +663,7 @@
   "Telefonni sekin yuriting — yer izlanmoqda": "Move your phone slowly — scanning for the floor",
   "Xonangizda sinab ko'ring": "Try it in your room",
   "ar_model_missing": "No 3D model",
-  "sold_out": "Sold Out"
+  "sold_out": "Sold Out",
+  "mark_sold_out": "Mark as Sold Out",
+  "mark_in_stock": "Mark as In Stock"
 }
