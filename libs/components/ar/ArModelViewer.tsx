@@ -97,8 +97,9 @@ const ArModelViewer = ({
 			ar: true,
 			'ar-modes': 'scene-viewer webxr quick-look',
 			'ar-placement': 'floor',
-			// Models are baked to real-world metres by scripts/normalizeArModels.mjs
-			'ar-scale': 'fixed',
+			// Models are baked to real-world metres, so AR opens at the right size —
+			// 'auto' still lets the viewer pinch to resize when the fit is off
+			'ar-scale': 'auto',
 			'camera-controls': true,
 			'touch-action': 'pan-y',
 			'shadow-intensity': '1',
