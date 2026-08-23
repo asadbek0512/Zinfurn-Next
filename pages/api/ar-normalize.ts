@@ -10,13 +10,15 @@ import { normalizeGlb } from '../../libs/utils/normalizeGlb';
  */
 
 const MAX_MODEL_BYTES = 25 * 1024 * 1024;
+/** Next.js only accepts literals in the exported `config`, so the limit is repeated here */
+const BODY_SIZE_LIMIT = '25mb';
 const MIN_WIDTH_CM = 5;
 const MAX_WIDTH_CM = 500;
 const CM_PER_METER = 100;
 
 export const config = {
 	api: {
-		bodyParser: { type: 'application/octet-stream', sizeLimit: MAX_MODEL_BYTES },
+		bodyParser: { type: 'application/octet-stream', sizeLimit: BODY_SIZE_LIMIT },
 		responseLimit: false,
 	},
 };
