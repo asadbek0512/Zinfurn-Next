@@ -556,10 +556,12 @@
 			.secondaryAction-wrap {
 				display: block;
 				width: 88%;
+				margin: 0 auto;
 			}
 
 			.primaryAction {
 				width: 88%;
+				margin: 0 auto;
 			}
 
 			.secondaryAction {
@@ -580,17 +582,18 @@
 				}
 			}
 
-			// Ikkala tugma bir xil ko'rinishda
-			.primaryAction,
-			.secondaryAction {
+			.primaryAction {
 				background: #fff;
-				border: 1px solid #fff;
 				color: var(--primary);
+			}
+
+			.secondaryAction {
+				border-color: rgba(255, 255, 255, 0.6);
+				color: #fff;
 
 				&.Mui-disabled {
-					background: rgba(255, 255, 255, 0.6);
-					border-color: rgba(255, 255, 255, 0.6);
-					color: rgba(0, 0, 0, 0.4);
+					border-color: rgba(255, 255, 255, 0.3);
+					color: rgba(255, 255, 255, 0.6);
 				}
 			}
 
