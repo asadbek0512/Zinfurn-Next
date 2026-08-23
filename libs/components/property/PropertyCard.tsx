@@ -51,9 +51,13 @@ const PropertyCard = (props: PropertyCardProps) => {
 			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
 			: 0;
 
+	// propertyInStock aniq `false` bo'lsagina tugagan deb hisoblanadi (undefined = ma'lumot yo'q)
+	const isOutOfStock = property?.propertyInStock === false;
+
 	const handleAddToCart = (e: React.MouseEvent | React.KeyboardEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
+		if (isOutOfStock) return;
 		addToCart({
 			_id: property?._id,
 			propertyTitle: title,
@@ -70,11 +74,12 @@ const PropertyCard = (props: PropertyCardProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<Stack className="mob-property-card">
+			<Stack className={`mob-property-card${isOutOfStock ? ' is-sold-out' : ''}`}>
 				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }} className="mob-card-img-wrap">
 					<img loading="lazy" decoding="async" src={imagePath} alt={title || 'Property'} className="mob-card-img" />
 					{discountPercent > 0 && <span className="mob-sale-badge">-{discountPercent}%</span>}
 					<span className="mob-cat-badge">{t(property?.propertyCategory)}</span>
+					{isOutOfStock && <span className="soldOutBadge">{t('out_of_stock')}</span>}
 				</Link>
 
 				<Stack className="mob-card-info">
@@ -134,9 +139,10 @@ const PropertyCard = (props: PropertyCardProps) => {
 								{formatCount(property?.propertyLikes)}
 							</div>
 							<div
-								className={`mob-action mob-action-cart ${addedFlash ? 'added' : ''}`}
+								className={`mob-action mob-action-cart ${addedFlash ? 'added' : ''}${isOutOfStock ? ' disabled' : ''}`}
 								role="button"
-								tabIndex={0}
+								tabIndex={isOutOfStock ? -1 : 0}
+								aria-disabled={isOutOfStock}
 								aria-label={t('Add to Cart')}
 								onClick={handleAddToCart}
 								onKeyDown={(e) => {
@@ -158,7 +164,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 	// ── PC ──
 	return (
 		<Stack
-			className="card-config"
+			className={`card-config${isOutOfStock ? ' is-sold-out' : ''}`}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 		>
@@ -176,6 +182,8 @@ const PropertyCard = (props: PropertyCardProps) => {
 				<Box component="div" className="category-badge">
 					<Typography>{t(property?.propertyCategory)}</Typography>
 				</Box>
+
+				{isOutOfStock && <span className="soldOutBadge">{t('out_of_stock')}</span>}
 			</Stack>
 
 			<Stack className="bottom">
@@ -212,8 +220,10 @@ const PropertyCard = (props: PropertyCardProps) => {
 					<button
 						className={`pc-card-cart-btn ${addedFlash ? 'added' : ''}`}
 						onClick={handleAddToCart}
+						disabled={isOutOfStock}
 					>
-						<AddShoppingCartIcon sx={{ fontSize: 15 }} /> {t('Add to Cart')}
+						<AddShoppingCartIcon sx={{ fontSize: 15 }} />{' '}
+						{isOutOfStock ? t('out_of_stock') : t('Add to Cart')}
 					</button>
 				)}
 

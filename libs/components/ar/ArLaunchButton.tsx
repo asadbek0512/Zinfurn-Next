@@ -26,6 +26,8 @@ type ModelViewerElement = HTMLElement & { activateAR: () => Promise<void>; canAc
 
 const MODEL_VIEWER_TAG = 'model-viewer';
 const MODEL_VIEWER_SRC = '/vendor/model-viewer.min.js';
+/** "3D yo'q" yozuvi ekranda turadigan vaqt — availability.scss dagi animatsiya bilan bir xil */
+const MISSING_TOAST_MS = 2400;
 
 const ArLaunchButton = ({ modelUrl, title, category, posterUrl, className }: ArLaunchButtonProps) => {
 	const router = useRouter();
@@ -33,6 +35,16 @@ const ArLaunchButton = ({ modelUrl, title, category, posterUrl, className }: ArL
 	const viewerRef = useRef<ModelViewerElement | null>(null);
 	const [ready, setReady] = useState(false);
 	const [launching, setLaunching] = useState(false);
+	const [showMissing, setShowMissing] = useState(false);
+	const missingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+	const hasModel = Boolean(modelUrl);
+
+	useEffect(() => {
+		return () => {
+			if (missingTimer.current) clearTimeout(missingTimer.current);
+		};
+	}, []);
 
 	useEffect(() => {
 		if (!modelUrl) return;
@@ -68,6 +80,14 @@ const ArLaunchButton = ({ modelUrl, title, category, posterUrl, className }: ArL
 	};
 
 	const handleClick = async () => {
+		// 3D modeli yo'q mahsulot — AR ochilmaydi, faqat qisqa yozuv chiqib yo'qoladi
+		if (!hasModel) {
+			if (missingTimer.current) clearTimeout(missingTimer.current);
+			setShowMissing(true);
+			missingTimer.current = setTimeout(() => setShowMissing(false), MISSING_TOAST_MS);
+			return;
+		}
+
 		const viewer = viewerRef.current;
 		if (!viewer?.canActivateAR) {
 			openPreviewPage();
@@ -86,17 +106,26 @@ const ArLaunchButton = ({ modelUrl, title, category, posterUrl, className }: ArL
 	};
 
 	return (
-		<>
+		<div className="arLaunchBtn-wrap">
+			{showMissing && <span className="arMissingToast">{t('ar_model_missing')}</span>}
+
 			<button
 				type="button"
-				className={className ? `arLaunchBtn ${className}` : 'arLaunchBtn'}
+				className={[
+					'arLaunchBtn',
+					className,
+					hasModel ? '' : 'is-unavailable',
+				]
+					.filter(Boolean)
+					.join(' ')}
 				onClick={handleClick}
 				disabled={launching}
+				aria-disabled={!hasModel}
 			>
 				<ViewInArIcon className="arLaunchBtn__icon" />
 				<span className="arLaunchBtn__text">
 					<strong>{t("AR bilan ko'rish")}</strong>
-					<small>{t("Xonangizda sinab ko'ring")}</small>
+					<small>{hasModel ? t("Xonangizda sinab ko'ring") : t('ar_model_missing')}</small>
 				</span>
 			</button>
 
@@ -114,7 +143,7 @@ const ArLaunchButton = ({ modelUrl, title, category, posterUrl, className }: ArL
 					{...(posterUrl ? { poster: posterUrl } : {})}
 				/>
 			)}
-		</>
+		</div>
 	);
 };
 
