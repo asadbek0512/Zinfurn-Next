@@ -18,6 +18,8 @@ interface ArLaunchButtonProps {
 	title: string;
 	category?: string;
 	posterUrl?: string;
+	/** Extra class so the button can adopt the look of the surface it sits on */
+	className?: string;
 }
 
 type ModelViewerElement = HTMLElement & { activateAR: () => Promise<void>; canActivateAR: boolean };
@@ -25,7 +27,7 @@ type ModelViewerElement = HTMLElement & { activateAR: () => Promise<void>; canAc
 const MODEL_VIEWER_TAG = 'model-viewer';
 const MODEL_VIEWER_SRC = '/vendor/model-viewer.min.js';
 
-const ArLaunchButton = ({ modelUrl, title, category, posterUrl }: ArLaunchButtonProps) => {
+const ArLaunchButton = ({ modelUrl, title, category, posterUrl, className }: ArLaunchButtonProps) => {
 	const router = useRouter();
 	const { t } = useTranslation('common');
 	const viewerRef = useRef<ModelViewerElement | null>(null);
@@ -85,7 +87,12 @@ const ArLaunchButton = ({ modelUrl, title, category, posterUrl }: ArLaunchButton
 
 	return (
 		<>
-			<button type="button" className="arLaunchBtn" onClick={handleClick} disabled={launching}>
+			<button
+				type="button"
+				className={className ? `arLaunchBtn ${className}` : 'arLaunchBtn'}
+				onClick={handleClick}
+				disabled={launching}
+			>
 				<ViewInArIcon className="arLaunchBtn__icon" />
 				<span className="arLaunchBtn__text">
 					<strong>{t("AR bilan ko'rish")}</strong>

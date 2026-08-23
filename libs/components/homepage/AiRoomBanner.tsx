@@ -1,7 +1,6 @@
 import { Box, Stack, Typography, Button } from '@mui/material';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import ChairIcon from '@mui/icons-material/Chair';
 import WeekendIcon from '@mui/icons-material/Weekend';
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
@@ -9,9 +8,12 @@ import BedIcon from '@mui/icons-material/Bed';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import ArLaunchButton from '../ar/ArLaunchButton';
+import { AR_MODELS } from '../../config/arModels';
 
 const AI_ROOM_DESIGNER_PATH = '/ai-room-designer';
-const AR_VIEW_PATH = '/ar-view';
+/** The banner has no product context, so AR opens with the first showcase model */
+const DEMO_MODEL = AR_MODELS[0];
 
 const ORBIT_ICONS = [
 	{ Icon: ChairIcon, cls: 'orbit-1' },
@@ -27,10 +29,6 @@ export default function AiRoomBanner() {
 
 	const handleImageFlow = () => {
 		router.push(AI_ROOM_DESIGNER_PATH);
-	};
-
-	const handleArFlow = () => {
-		router.push(AR_VIEW_PATH);
 	};
 
 	return (
@@ -61,14 +59,11 @@ export default function AiRoomBanner() {
 							</Button>
 
 							<span className="secondaryAction-wrap">
-								<Button
-									variant="outlined"
+								<ArLaunchButton
 									className="secondaryAction"
-									startIcon={<ViewInArIcon />}
-									onClick={handleArFlow}
-								>
-									{t('AR bilan ko\'rish')}
-								</Button>
+									modelUrl={DEMO_MODEL.url}
+									title={DEMO_MODEL.label}
+								/>
 							</span>
 						</Stack>
 					</Box>

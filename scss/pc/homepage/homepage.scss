@@ -2099,6 +2099,61 @@
 			}
 		}
 
+		/* AR launcher inside the banner — matches .secondaryAction, plus the hidden viewer */
+		.secondaryAction-wrap {
+			.arLaunchBtn {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				padding: 0.75rem 1.75rem;
+				border: 1px solid rgba(255, 255, 255, 0.6);
+				border-radius: 8px;
+				background: transparent;
+				color: #fff;
+				font-weight: 600;
+				cursor: pointer;
+
+				&:hover {
+					background: rgba(255, 255, 255, 0.12);
+				}
+
+				&:disabled {
+					border-color: rgba(255, 255, 255, 0.3);
+					color: rgba(255, 255, 255, 0.6);
+				}
+
+				.arLaunchBtn__icon {
+					font-size: 22px;
+				}
+
+				.arLaunchBtn__text {
+					display: flex;
+					flex-direction: column;
+					align-items: flex-start;
+					line-height: 1.2;
+
+					strong {
+						font-size: 14px;
+						font-weight: 600;
+					}
+
+					small {
+						font-size: 10px;
+						opacity: 0.8;
+					}
+				}
+			}
+
+			.arLaunchBtn__viewer {
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				opacity: 0;
+				pointer-events: none;
+			}
+		}
+
+
 		.visual {
 			position: relative;
 			z-index: 1;
