@@ -52,6 +52,7 @@ import { useTranslation } from 'next-i18next';
 import { getLocalizedTitle, getLocalizedDesc } from '../../libs/utils/localizeProperty';
 import { useCurrency } from '../../libs/context/CurrencyContext';
 import ShareModal from '../../libs/components/property/ShareModal';
+import ArLaunchButton from '../../libs/components/ar/ArLaunchButton';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -369,23 +370,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		flyToCart(e.currentTarget as HTMLElement, imgSrc);
 	};
 
-	const handleArView = () => {
-		if (!property) return;
-		const poster = property.propertyImages?.[0]
-			? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
-			: undefined;
-		router.push({
-			pathname: '/ar-view',
-			query: {
-				title: localizedTitle,
-				category: property.propertyCategory,
-				// Falls back to a stand-in model when the product has no GLB attached yet
-				...(property.propertyArModel ? { src: `${REACT_APP_API_URL}/${property.propertyArModel}` } : {}),
-				...(poster ? { poster } : {}),
-			},
-		});
-	};
-
 	const prevImage = () => {
 		if (currentIndex === -1) return;
 		const prevIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
@@ -555,6 +539,19 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<IconButton size="small" onClick={() => handleQuantityChange(1)}><Add fontSize="small" /></IconButton>
 						</div>
 						<Button variant="contained" className="mob-det-cart-btn" onClick={handleAddToCart}>{t('add_to_cart')}</Button>
+					</div>
+
+					<div className="mob-det-ar">
+					<ArLaunchButton
+						modelUrl={
+							property.propertyArModel ? `${REACT_APP_API_URL}/${property.propertyArModel}` : undefined
+						}
+						title={localizedTitle}
+						category={property.propertyCategory}
+						posterUrl={
+							property.propertyImages?.[0] ? `${REACT_APP_API_URL}/${property.propertyImages[0]}` : undefined
+						}
+					/>
 					</div>
 
 					<div className="mob-det-divider" />
@@ -900,9 +897,16 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<Button className="addToCartBtn" variant="contained" onClick={handleAddToCart}>
 												{t('add_to_cart')}
 											</Button>
-											<Button className="arViewBtn" variant="outlined" onClick={handleArView}>
-												{t('AR bilan ko\'rish')}
-											</Button>
+											<ArLaunchButton
+												modelUrl={
+													property.propertyArModel ? `${REACT_APP_API_URL}/${property.propertyArModel}` : undefined
+												}
+												title={localizedTitle}
+												category={property.propertyCategory}
+												posterUrl={
+													property.propertyImages?.[0] ? `${REACT_APP_API_URL}/${property.propertyImages[0]}` : undefined
+												}
+											/>
 										</Stack>
 									</Stack>
 
