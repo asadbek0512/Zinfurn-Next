@@ -255,6 +255,12 @@
 
       // AR tugmasi — bosilganda to'g'ridan-to'g'ri Scene Viewer ochiladi
       .mob-det-ar {
+        .arLaunchBtn-wrap {
+          width: 100%;
+          min-width: 0;
+          flex: none;
+        }
+
         .arLaunchBtn {
           display: flex;
           align-items: center;
