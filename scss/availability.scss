@@ -2,27 +2,30 @@
    Stock holati — tugagan mahsulot kartasi va AR tugmasi holati
    ========================================================================== */
 
-$sold-out-image-opacity: 0.45;
-$sold-out-card-opacity: 0.72;
+$sold-out-image-opacity: 0.72;
+$sold-out-grayscale: 0.35;
+$sold-out-card-opacity: 0.88;
 
-/* --- "Sotuvda yo'q" nishoni --- */
+/* --- "Sold Out" nishoni: pastki chap burchakda, gorizontal, hira bo'lmaydi --- */
 .soldOutBadge {
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	z-index: 3;
-	transform: translate(-50%, -50%);
-	padding: 6px 14px;
+	bottom: 10px;
+	left: 10px;
+	z-index: 4;
+	padding: 5px 12px;
 	border-radius: 4px;
-	background: rgba(17, 17, 17, 0.78);
+	background: #111;
 	color: #fff;
-	font-size: 11px;
+	font-size: 10px;
 	font-weight: 700;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.1em;
 	text-transform: uppercase;
+	line-height: 1.2;
 	white-space: nowrap;
 	pointer-events: none;
-	backdrop-filter: blur(2px);
+	opacity: 1;
+	filter: none;
+	box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.6);
 }
 
 /* --- PC karta --- */
@@ -32,7 +35,7 @@ $sold-out-card-opacity: 0.72;
 
 		img {
 			opacity: $sold-out-image-opacity;
-			filter: grayscale(0.85);
+			filter: grayscale($sold-out-grayscale);
 		}
 	}
 
@@ -67,7 +70,7 @@ $sold-out-card-opacity: 0.72;
 
 	.mob-card-img {
 		opacity: $sold-out-image-opacity;
-		filter: grayscale(0.85);
+		filter: grayscale($sold-out-grayscale);
 	}
 
 	.mob-card-info {

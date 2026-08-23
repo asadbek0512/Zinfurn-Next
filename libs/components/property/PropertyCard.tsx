@@ -79,7 +79,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 					<img loading="lazy" decoding="async" src={imagePath} alt={title || 'Property'} className="mob-card-img" />
 					{discountPercent > 0 && <span className="mob-sale-badge">-{discountPercent}%</span>}
 					<span className="mob-cat-badge">{t(property?.propertyCategory)}</span>
-					{isOutOfStock && <span className="soldOutBadge">{t('out_of_stock')}</span>}
+					{isOutOfStock && <span className="soldOutBadge">{t('sold_out')}</span>}
 				</Link>
 
 				<Stack className="mob-card-info">
@@ -183,7 +183,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 					<Typography>{t(property?.propertyCategory)}</Typography>
 				</Box>
 
-				{isOutOfStock && <span className="soldOutBadge">{t('out_of_stock')}</span>}
+				{isOutOfStock && <span className="soldOutBadge">{t('sold_out')}</span>}
 			</Stack>
 
 			<Stack className="bottom">
