@@ -379,6 +379,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			query: {
 				title: localizedTitle,
 				category: property.propertyCategory,
+				// Falls back to a stand-in model when the product has no GLB attached yet
+				...(property.propertyArModel ? { src: `${REACT_APP_API_URL}/${property.propertyArModel}` } : {}),
 				...(poster ? { poster } : {}),
 			},
 		});

@@ -22,6 +22,7 @@
     "@emoji-mart/react": "^1.1.1",
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
+    "@gltf-transform/core": "^4.4.2",
     "@mui/icons-material": "^5.4.2",
     "@mui/lab": "^5.0.0-alpha.85",
     "@mui/material": "^5.10.1",
@@ -87,7 +88,6 @@
     "valtio": "1.10.3"
   },
   "devDependencies": {
-    "@gltf-transform/core": "^4.4.2",
     "@types/aos": "^3.0.7",
     "@types/apollo-upload-client": "^17.0.0",
     "@types/assert": "^1.5.6",

@@ -187,6 +187,7 @@ query GetProperty($input: String!) {
         propertyIsOnSale
         propertySaleExpiresAt
         propertyImages
+        propertyArModel
         propertyDesc
         propertyTranslations {
           uz { title desc }

@@ -13,6 +13,7 @@ import { REACT_APP_API_URL, propertyColorList } from '../../config';
 import { PropertyInput } from '../../types/property/property.input';
 import axios from 'axios';
 import { getJwtToken } from '../../auth';
+import ArModelField from './ArModelField';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../sweetAlert';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -65,6 +66,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 					propertyInStock: data.getProperty.propertyInStock,
 					propertyCondition: data.getProperty.propertyCondition,
 					propertyImages: data.getProperty.propertyImages,
+					propertyArModel: data.getProperty.propertyArModel,
 				});
 			}
 		},
@@ -188,6 +190,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 				propertyInStock: insertPropertyData.propertyInStock,
 				propertyCondition: insertPropertyData.propertyCondition,
 				propertyImages: insertPropertyData.propertyImages,
+				propertyArModel: insertPropertyData.propertyArModel,
 				propertyStatus: getPropertyData?.getProperty?.propertyStatus,
 			};
 
@@ -524,6 +527,16 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 						</div>
 						<p>{t('JPEG or PNG • Min 2048x768 (Up to 5 images)')}</p>
 					</div>
+
+					<ArModelField
+						imageUrl={
+							insertPropertyData.propertyImages?.[0]
+								? `${REACT_APP_API_URL}/${insertPropertyData.propertyImages[0]}`
+								: undefined
+						}
+						value={insertPropertyData.propertyArModel}
+						onChange={(propertyArModel) => setInsertPropertyData({ ...insertPropertyData, propertyArModel })}
+					/>
 
 					<button
 						className="mob-addprop-btn"
@@ -953,6 +966,21 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 								})}
 							</Stack>
 						</Stack>
+
+						<Stack className="config-column">
+							<ArModelField
+								imageUrl={
+									insertPropertyData.propertyImages?.[0]
+										? `${REACT_APP_API_URL}/${insertPropertyData.propertyImages[0]}`
+										: undefined
+								}
+								value={insertPropertyData.propertyArModel}
+								onChange={(propertyArModel) =>
+									setInsertPropertyData({ ...insertPropertyData, propertyArModel })
+								}
+							/>
+						</Stack>
+
 						<Stack className="buttons-row">
 							<Button
 								className="next-button"
@@ -988,6 +1016,7 @@ AddProperty.defaultProps = {
 		propertyOriginCountry: '',
 		propertyDesc: '',
 		propertyImages: [],
+		propertyArModel: '',
 	},
 };
 

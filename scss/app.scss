@@ -204,3 +204,19 @@ hr {
 		}
 	}
 }
+
+/** AR 3D model field (add/edit property form) **/
+.ar-model-field {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin: 16px 0;
+
+	.ar-model-attached {
+		padding: 8px 12px;
+		border-radius: 8px;
+		background: var(--bg-warm, #f0ede8);
+		color: var(--text-2);
+		word-break: break-all;
+	}
+}

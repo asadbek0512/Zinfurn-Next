@@ -38,6 +38,7 @@ export interface Property {
 	propertyIsOnSale?: boolean;
 	propertySaleExpiresAt?: Date;
 	propertyImages?: string[];
+	propertyArModel?: string;
 	propertyDesc?: string;
 	propertyTranslations?: PropertyTranslations;
 	propertyBarter?: boolean;

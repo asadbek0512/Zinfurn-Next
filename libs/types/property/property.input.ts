@@ -21,6 +21,7 @@ export interface PropertyInput {
 	propertyIsOnSale?: boolean;
 	propertySaleExpiresAt?: Date;
 	propertyImages?: string[];
+	propertyArModel?: string;
 	propertyDesc?: string;
 	propertyBarter?: boolean;
 	propertyRent?: boolean;
