@@ -50,7 +50,6 @@ export interface Property {
 	propertyAddress?: string;
 	propertyViews: number;
 	propertyLikes?: number;
-	propertyComments?: number;
 	propertyReviews?: number;
 	propertyRating?: number;
 	propertySoldCount?: number;

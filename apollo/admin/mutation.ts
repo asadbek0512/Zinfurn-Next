@@ -63,7 +63,6 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
 			propertyAddress
 			propertyViews
 			propertyLikes
-			propertyComments
 			propertyRank
 			memberId
 			soldAt
@@ -101,7 +100,6 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
 			propertyAddress
 			propertyViews
 			propertyLikes
-			propertyComments
 			propertyRank
 			memberId
 			soldAt

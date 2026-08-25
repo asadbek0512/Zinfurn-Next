@@ -205,7 +205,6 @@ query GetProperty($input: String!) {
         propertyAddress
         propertyViews
         propertyLikes
-        propertyComments
         propertyReviews
         propertyRating
         propertySoldCount
@@ -301,7 +300,6 @@ query GetProperties($input: PropertiesInquiry!) {
             propertyAddress
             propertyViews
             propertyLikes
-            propertyComments
             propertyReviews
             propertyRating
             propertySoldCount
@@ -398,7 +396,6 @@ query GetAgentProperties($input: AgentPropertiesInquiry!) {
             propertyAddress
             propertyViews
             propertyLikes
-            propertyComments
             propertyReviews
             propertyRating
             propertySoldCount
@@ -485,7 +482,6 @@ query GetFavorites($input: OrdinaryInquiry!) {
             propertyAddress
             propertyViews
             propertyLikes
-            propertyComments
             propertyReviews
             propertyRating
             propertySoldCount
@@ -566,7 +562,6 @@ query GetVisited($input: OrdinaryInquiry!) {
             propertyAddress
             propertyViews
             propertyLikes
-            propertyComments
             propertyReviews
             propertyRating
             propertySoldCount

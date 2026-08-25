@@ -221,7 +221,6 @@ mutation CreateProperty($input: PropertyInput!) {
         propertyAddress
         propertyViews
         propertyLikes
-        propertyComments
         propertyRank
         memberId
         soldAt
@@ -259,7 +258,6 @@ mutation UpdateProperty($input: PropertyUpdate!) {
         propertyAddress
         propertyViews
         propertyLikes
-        propertyComments
         propertyRank
         memberId
         soldAt
@@ -298,7 +296,6 @@ mutation LikeTargetProperty($input: String!) {
         propertyAddress
         propertyViews
         propertyLikes
-        propertyComments
         propertyRank
         memberId
         soldAt

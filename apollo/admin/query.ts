@@ -69,7 +69,6 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 				propertyAddress
 				propertyViews
 				propertyLikes
-				propertyComments
 				propertyRank
 				memberId
 				soldAt
