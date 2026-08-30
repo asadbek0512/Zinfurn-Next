@@ -14,7 +14,6 @@ import { T } from '../../types/common';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { isSaleActive } from '../../utils/sale';
 
-const MAX_SALE_COUNTDOWN_MS = 15 * 24 * 60 * 60 * 1000;
 
 const DISMISS_KEY_PREFIX = 'zin_sale_promo';
 const LAST_SHOWN_KEY = 'zin_last_sale_id';
@@ -87,8 +86,7 @@ const SalePromoModal = () => {
 		if (!visible || !currentProp?.propertySaleExpiresAt) return;
 
 		const tick = () => {
-			// Taymer 15 kundan oshmasin — PopularPropertyCard bilan bir xil mantiq
-			const diff = Math.min(new Date(currentProp.propertySaleExpiresAt!).getTime() - Date.now(), MAX_SALE_COUNTDOWN_MS);
+			const diff = new Date(currentProp.propertySaleExpiresAt!).getTime() - Date.now();
 			if (diff <= 0) {
 				setTimeLeft({ h: 0, m: 0, s: 0 });
 				if (countdownRef.current) clearInterval(countdownRef.current);

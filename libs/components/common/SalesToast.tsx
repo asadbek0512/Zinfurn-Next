@@ -28,7 +28,6 @@ let globalSaleProperties: Property[] = [];
 let lastUpdateTime = 0;
 
 // Animations
-const MAX_SALE_COUNTDOWN_MS = 15 * 24 * 60 * 60 * 1000;
 
 const slideIn = keyframes`
   0% {
@@ -215,8 +214,7 @@ const SalesToast = (props: SalesToastProps) => {
 	const calculateTimeLeft = (targetDate: string | Date) => {
 		const now = new Date();
 		const target = new Date(targetDate);
-		// Taymer 15 kundan oshmasin — PopularPropertyCard bilan bir xil mantiq
-		const difference = Math.min(target.getTime() - now.getTime(), MAX_SALE_COUNTDOWN_MS);
+		const difference = target.getTime() - now.getTime();
 
 		if (difference > 0) {
 			const days = Math.floor(difference / (1000 * 60 * 60 * 24));

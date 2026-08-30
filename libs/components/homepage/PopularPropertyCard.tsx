@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-const MAX_SALE_COUNTDOWN_MS = 15 * 24 * 60 * 60 * 1000;
 import { Card, CardContent, Typography, Box, Chip, Button, Link } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { Property } from '../../types/property/property';
@@ -53,9 +52,7 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 	const calculateTimeLeft = (targetDate: string | Date) => {
 		const now = new Date();
 		const target = new Date(targetDate);
-		// Sale oynasi eng ko'pi 15 kun — eski yozuvlarda 60-120 kun bo'lsa ham
-		// taymer shu chegaradan oshmasin
-		const difference = Math.min(target.getTime() - now.getTime(), MAX_SALE_COUNTDOWN_MS);
+		const difference = target.getTime() - now.getTime();
 
 		if (difference > 0) {
 			const days = Math.floor(difference / (1000 * 60 * 60 * 24));
