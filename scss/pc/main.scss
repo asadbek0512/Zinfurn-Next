@@ -780,8 +780,7 @@ body::-webkit-scrollbar {
 		.chat-button {
 			border: none;
 			position: fixed;
-			// Vidjet tartibi: sotuv toast'i (24px) → chat (168px) → AI (248px)
-			bottom: 168px;
+			bottom: 155px;
 			right: 30px;
 			height: 50px;
 			width: 50px;
@@ -793,7 +792,7 @@ body::-webkit-scrollbar {
 			background: var(--surface);
 			box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.2);
 			transition: transform 0.3s;
-			z-index: 1300;
+			z-index: 999;
 
 			&:hover {
 				cursor: pointer;
@@ -930,7 +929,7 @@ body::-webkit-scrollbar {
 		.ai-chat-button {
 			border: none;
 			position: fixed;
-			bottom: 248px;
+			bottom: 280px;
 			right: 30px;
 			height: 50px;
 			width: 50px;
