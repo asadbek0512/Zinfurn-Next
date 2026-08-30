@@ -16,6 +16,7 @@ import { useTranslation } from 'next-i18next';
 import { useCurrency } from '../../context/CurrencyContext';
 import { addToCart } from '../../utils/cartUtils';
 import { flyToCart } from '../../utils/flyToCart';
+import { activeSalePrice } from '../../utils/sale';
 
 interface PropertyBigCardProps {
 	property: Property;
@@ -41,6 +42,9 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 		router.push(`/products/detail?id=${propertyId}`);
 	};
 
+	// Chegirma faqat sale oynasi ochiq bo'lgandagina qo'llanadi
+	const salePrice = activeSalePrice(property);
+
 	const handleAddToCart = (e: React.MouseEvent) => {
 		e.stopPropagation();
 		if (property?.propertyInStock === false) return;
@@ -48,7 +52,7 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 			_id: property._id,
 			propertyTitle: property.propertyTitle,
 			propertyPrice: property.propertyPrice,
-			propertySalePrice: property.propertySalePrice,
+			propertySalePrice: salePrice,
 			propertyImages: property.propertyImages,
 			propertyType: property.propertyType,
 		});
@@ -58,8 +62,8 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 	};
 
 	const discountPercent =
-		property.propertyPrice && property.propertySalePrice
-			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
+		property.propertyPrice && salePrice
+			? Math.round(((property.propertyPrice - salePrice) / property.propertyPrice) * 100)
 			: 0;
 
 	if (device === 'mobile') {
@@ -85,10 +89,10 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 					<Typography className="mob-big-card-title">{property.propertyTitle}</Typography>
 					<Box className="mob-big-card-bottom" component="div">
 						<Box className="mob-big-card-price" component="div">
-							{property.propertySalePrice ? (
+							{salePrice ? (
 								<>
 									<Typography className="mob-big-card-orig-price">{formatPrice(property.propertyPrice)}</Typography>
-									<Typography className="mob-big-card-sale-price">{formatPrice(property.propertySalePrice)}</Typography>
+									<Typography className="mob-big-card-sale-price">{formatPrice(salePrice)}</Typography>
 								</>
 							) : (
 								<Typography className="mob-big-card-sale-price">{formatPrice(property.propertyPrice)}</Typography>
@@ -147,10 +151,10 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 
 					<Box className="price-like-container" component="div">
 						<Box className="price-container" component="div">
-							{property.propertySalePrice ? (
+							{salePrice ? (
 								<>
 									<Typography className="original-price">{formatPrice(property.propertyPrice)}</Typography>
-									<Typography className="discounted-price">{formatPrice(property.propertySalePrice)}</Typography>
+									<Typography className="discounted-price">{formatPrice(salePrice)}</Typography>
 								</>
 							) : (
 								<Typography className="discounted-price">{formatPrice(property.propertyPrice)}</Typography>

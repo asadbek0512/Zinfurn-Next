@@ -12,8 +12,9 @@ import { REACT_APP_API_URL } from '../../config';
 import { Property } from '../../types/property/property';
 import { T } from '../../types/common';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { isSaleActive } from '../../utils/sale';
 
-const MAX_SALE_COUNTDOWN_MS = 48 * 60 * 60 * 1000;
+const MAX_SALE_COUNTDOWN_MS = 15 * 24 * 60 * 60 * 1000;
 
 const DISMISS_KEY_PREFIX = 'zin_sale_promo';
 const LAST_SHOWN_KEY = 'zin_last_sale_id';
@@ -52,13 +53,7 @@ const SalePromoModal = () => {
 			input: { page: 1, limit: 16, sort: 'createdAt', direction: 'DESC', search: {} },
 		},
 		onCompleted: (data: T) => {
-			const now = new Date();
-			const onSale: Property[] = (data?.getProperties?.list ?? []).filter(
-				(p: Property) =>
-					p.propertyIsOnSale &&
-					p.propertySalePrice &&
-					(!p.propertySaleExpiresAt || new Date(p.propertySaleExpiresAt) > now),
-			);
+			const onSale: Property[] = (data?.getProperties?.list ?? []).filter((p: Property) => isSaleActive(p));
 			if (onSale.length === 0) return;
 			setCurrentProp(pickProduct(onSale));
 		},
@@ -92,7 +87,7 @@ const SalePromoModal = () => {
 		if (!visible || !currentProp?.propertySaleExpiresAt) return;
 
 		const tick = () => {
-			// Taymer 48 soatdan oshmasin — PopularPropertyCard bilan bir xil mantiq
+			// Taymer 15 kundan oshmasin — PopularPropertyCard bilan bir xil mantiq
 			const diff = Math.min(new Date(currentProp.propertySaleExpiresAt!).getTime() - Date.now(), MAX_SALE_COUNTDOWN_MS);
 			if (diff <= 0) {
 				setTimeLeft({ h: 0, m: 0, s: 0 });

@@ -19,6 +19,7 @@ import { Property } from '../../types/property/property';
 import { useTranslation } from 'next-i18next';
 import { getLocalizedTitle } from '../../utils/localizeProperty';
 import { useCurrency } from '../../context/CurrencyContext';
+import { activeSalePrice } from '../../utils/sale';
 
 interface PropertyCardProps {
 	property: Property;
@@ -46,9 +47,11 @@ const PropertyCard = (props: PropertyCardProps) => {
 			? `${REACT_APP_API_URL}/${property.propertyImages[1]}`
 			: imagePath;
 
+	// Chegirma faqat sale oynasi ochiq bo'lgandagina ko'rsatiladi
+	const salePrice = activeSalePrice(property);
 	const discountPercent =
-		property?.propertyPrice && property?.propertySalePrice
-			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
+		property?.propertyPrice && salePrice
+			? Math.round(((property.propertyPrice - salePrice) / property.propertyPrice) * 100)
 			: 0;
 
 	// propertyInStock aniq `false` bo'lsagina tugagan deb hisoblanadi (undefined = ma'lumot yo'q)
@@ -62,7 +65,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 			_id: property?._id,
 			propertyTitle: title,
 			propertyPrice: property?.propertyPrice,
-			propertySalePrice: property?.propertySalePrice,
+			propertySalePrice: salePrice,
 			propertyImages: property?.propertyImages,
 			propertyType: property?.propertyType,
 			memberNick: property?.memberData?.memberNick,
@@ -103,7 +106,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 						{discountPercent > 0 ? (
 							<>
 								<Typography className="mob-old-price">{formatPrice(property?.propertyPrice)}</Typography>
-								<Typography className="mob-new-price">{formatPrice(property?.propertySalePrice)}</Typography>
+								<Typography className="mob-new-price">{formatPrice(salePrice)}</Typography>
 							</>
 						) : (
 							<Typography className="mob-cur-price">{formatPrice(property?.propertyPrice)}</Typography>
@@ -209,7 +212,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 					{discountPercent > 0 ? (
 						<Box component="div" className="price-container">
 							<Typography className="old-price">{formatPrice(property?.propertyPrice)}</Typography>
-							<Typography className="new-price">{formatPrice(property?.propertySalePrice)}</Typography>
+							<Typography className="new-price">{formatPrice(salePrice)}</Typography>
 						</Box>
 					) : (
 						<Typography className="current-price">{formatPrice(property?.propertyPrice)}</Typography>

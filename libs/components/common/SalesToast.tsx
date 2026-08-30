@@ -9,6 +9,7 @@ import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { useRouter } from 'next/router';
 import { T } from '../../types/common';
 import { useTranslation } from 'next-i18next';
+import { isSaleActive } from '../../utils/sale';
 
 interface SalesToastProps {
 	initialInput: PropertiesInquiry;
@@ -27,7 +28,7 @@ let globalSaleProperties: Property[] = [];
 let lastUpdateTime = 0;
 
 // Animations
-const MAX_SALE_COUNTDOWN_MS = 48 * 60 * 60 * 1000;
+const MAX_SALE_COUNTDOWN_MS = 15 * 24 * 60 * 60 * 1000;
 
 const slideIn = keyframes`
   0% {
@@ -205,7 +206,7 @@ const SalesToast = (props: SalesToastProps) => {
 		return properties
 			.filter((property: Property) => {
 				return (
-					property.propertyIsOnSale && property.propertySaleExpiresAt && new Date(property.propertySaleExpiresAt) > now
+					isSaleActive(property)
 				);
 			})
 			.sort((a, b) => new Date(a.propertySaleExpiresAt!).getTime() - new Date(b.propertySaleExpiresAt!).getTime());
@@ -214,7 +215,7 @@ const SalesToast = (props: SalesToastProps) => {
 	const calculateTimeLeft = (targetDate: string | Date) => {
 		const now = new Date();
 		const target = new Date(targetDate);
-		// Taymer 48 soatdan oshmasin — PopularPropertyCard bilan bir xil mantiq
+		// Taymer 15 kundan oshmasin — PopularPropertyCard bilan bir xil mantiq
 		const difference = Math.min(target.getTime() - now.getTime(), MAX_SALE_COUNTDOWN_MS);
 
 		if (difference > 0) {

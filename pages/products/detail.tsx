@@ -47,6 +47,7 @@ import { getLocalizedTitle, getLocalizedDesc } from '../../libs/utils/localizePr
 import { useCurrency } from '../../libs/context/CurrencyContext';
 import ShareModal from '../../libs/components/property/ShareModal';
 import ArLaunchButton from '../../libs/components/ar/ArLaunchButton';
+import { activeSalePrice, isSaleActive } from '../../libs/utils/sale';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -65,6 +66,7 @@ export const getServerSideProps = async ({ locale, query }: any) => {
 						getProperty(propertyId: $propertyId) {
 							propertyTitle propertyImages propertyDesc
 							propertyPrice propertySalePrice propertyRating propertyReviews propertyInStock
+							propertyIsOnSale propertySaleStartsAt propertySaleExpiresAt
 						}
 					}`,
 					variables: { propertyId: id },
@@ -267,6 +269,9 @@ const PropertyDetail: NextPage = (props: any) => {
 	// propertyInStock aniq `false` bo'lsagina tugagan deb hisoblanadi (undefined = ma'lumot yo'q)
 	const isOutOfStock = property?.propertyInStock === false;
 
+	// Chegirma faqat sale oynasi ochiq bo'lgandagina qo'llanadi
+	const salePrice = activeSalePrice(property);
+
 	const handleAddToCart = (e: React.MouseEvent) => {
 		if (!property || isOutOfStock) return;
 		addToCart(
@@ -274,7 +279,7 @@ const PropertyDetail: NextPage = (props: any) => {
 				_id: property._id,
 				propertyTitle: localizedTitle,
 				propertyPrice: property.propertyPrice,
-				propertySalePrice: property.propertySalePrice,
+				propertySalePrice: salePrice,
 				propertyImages: property.propertyImages,
 				propertyType: property.propertyType,
 			},
@@ -312,9 +317,9 @@ const PropertyDetail: NextPage = (props: any) => {
 			title={seoSrc.propertyTitle}
 			description={seoDesc}
 			image={seoImage}
-			url={`https://zinfurn.uz/property/detail?id=${seoId}`}
+			url={`https://zinfurn.uz/products/detail?id=${seoId}`}
 			type="product"
-			price={seoSrc.propertySalePrice || seoSrc.propertyPrice}
+			price={activeSalePrice(seoSrc) || seoSrc.propertyPrice}
 			jsonLd={{
 				'@context': 'https://schema.org',
 				'@type': 'Product',
@@ -323,7 +328,7 @@ const PropertyDetail: NextPage = (props: any) => {
 				description: seoDesc,
 				offers: {
 					'@type': 'Offer',
-					price: seoSrc.propertySalePrice || seoSrc.propertyPrice,
+					price: activeSalePrice(seoSrc) || seoSrc.propertyPrice,
 					priceCurrency: 'KRW',
 					availability: seoSrc.propertyInStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
 				},
@@ -421,14 +426,14 @@ const PropertyDetail: NextPage = (props: any) => {
 					{/* Narx */}
 					<div className="mob-det-price">
 						<span className="mob-det-cur-price">
-							{formatPrice(property?.propertySalePrice || property?.propertyPrice)}
+							{formatPrice(salePrice || property?.propertyPrice)}
 						</span>
-						{property?.propertySalePrice && (
+						{salePrice && (
 							<span className="mob-det-old-price">{formatPrice(property?.propertyPrice)}</span>
 						)}
-						{property?.propertySalePrice && (
+						{salePrice && (
 							<span className="mob-det-sale-badge">
-								-{Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)}%
+								-{Math.round(((property.propertyPrice - salePrice) / property.propertyPrice) * 100)}%
 							</span>
 						)}
 					</div>
@@ -711,9 +716,9 @@ const PropertyDetail: NextPage = (props: any) => {
 
 									<Stack className="priceRow">
 										<Typography className="currentPrice">
-											{formatPrice(property?.propertySalePrice || property?.propertyPrice)}
+											{formatPrice(salePrice || property?.propertyPrice)}
 										</Typography>
-										{property?.propertySalePrice && (
+										{salePrice && (
 											<Typography className="originalPrice">{formatPrice(property?.propertyPrice)}</Typography>
 										)}
 									</Stack>
@@ -914,11 +919,11 @@ const PropertyDetail: NextPage = (props: any) => {
 														<span className="detail-value">{formatPrice(property?.propertyPrice)}</span>
 													</Box>
 
-													{property?.propertyIsOnSale && (
+													{isSaleActive(property) && (
 														<>
 															<Box component="div" className="detail-row">
 																<span className="detail-label">{t('sale_price')}</span>
-																<span className="detail-value">{formatPrice(property?.propertySalePrice)}</span>
+																<span className="detail-value">{formatPrice(salePrice)}</span>
 															</Box>
 
 															<Box component="div" className="detail-row alternate">

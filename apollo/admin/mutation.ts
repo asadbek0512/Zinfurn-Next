@@ -51,6 +51,7 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
 			propertyPrice
 			propertySalePrice
 			propertyIsOnSale
+			propertySaleStartsAt
 			propertySaleExpiresAt
 			propertyImages
 			propertyDesc
@@ -88,6 +89,7 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
 			propertyPrice
 			propertySalePrice
 			propertyIsOnSale
+			propertySaleStartsAt
 			propertySaleExpiresAt
 			propertyImages
 			propertyDesc

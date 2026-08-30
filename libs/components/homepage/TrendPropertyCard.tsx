@@ -15,6 +15,7 @@ import { addToCart } from '../../utils/cartUtils';
 import { flyToCart } from '../../utils/flyToCart';
 import { useCurrency } from '../../context/CurrencyContext';
 import { getLocalizedTitle } from '../../utils/localizeProperty';
+import { activeSalePrice } from '../../utils/sale';
 
 interface TrendPropertyCardProps {
 	property: Property;
@@ -40,6 +41,9 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 		router.push({ pathname: '/products/detail', query: { id } });
 	};
 
+	// Chegirma faqat sale oynasi ochiq bo'lgandagina qo'llanadi
+	const salePrice = activeSalePrice(property);
+
 	const handleAddToCart = (e: React.MouseEvent) => {
 		e.stopPropagation();
 		if (property?.propertyInStock === false) return;
@@ -47,7 +51,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 			_id: property._id,
 			propertyTitle: title,
 			propertyPrice: property.propertyPrice,
-			propertySalePrice: property.propertySalePrice,
+			propertySalePrice: salePrice,
 			propertyImages: property.propertyImages,
 			propertyType: property.propertyType,
 		});
@@ -57,8 +61,8 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 	};
 
 	const discountPercent =
-		property.propertyPrice && property.propertySalePrice
-			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
+		property.propertyPrice && salePrice
+			? Math.round(((property.propertyPrice - salePrice) / property.propertyPrice) * 100)
 			: 0;
 
 	// Hover qilganda 2-chi rasm, aks holda 1-chi rasm
@@ -112,10 +116,10 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 
 				<Box className="price-like-container" component="div">
 					<Box className="price-container" component="div">
-						{property.propertySalePrice ? (
+						{salePrice ? (
 							<>
 								<Typography className="original-price">{formatPrice(property.propertyPrice)}</Typography>
-								<Typography className="discounted-price">{formatPrice(property.propertySalePrice)}</Typography>
+								<Typography className="discounted-price">{formatPrice(salePrice)}</Typography>
 							</>
 						) : (
 							<Typography className="discounted-price">{formatPrice(property.propertyPrice)}</Typography>

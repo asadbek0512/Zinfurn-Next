@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const MAX_SALE_COUNTDOWN_MS = 48 * 60 * 60 * 1000;
+const MAX_SALE_COUNTDOWN_MS = 15 * 24 * 60 * 60 * 1000;
 import { Card, CardContent, Typography, Box, Chip, Button, Link } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { Property } from '../../types/property/property';
@@ -10,6 +10,7 @@ import { getLocalizedTitle } from '../../utils/localizeProperty';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper';
+import { isSaleActive } from '../../utils/sale';
 
 interface TimeLeft {
 	days: number;
@@ -32,7 +33,7 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 
 		const activeProperties = properties.filter((property: Property) => {
 			return (
-				property.propertyIsOnSale && property.propertySaleExpiresAt && new Date(property.propertySaleExpiresAt) > now
+				isSaleActive(property)
 			);
 		});
 
@@ -52,8 +53,8 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 	const calculateTimeLeft = (targetDate: string | Date) => {
 		const now = new Date();
 		const target = new Date(targetDate);
-		// Flash sale qisqa muddatli bo'lishi kerak — eski yozuvlarda 60-120 kun bo'lsa ham
-		// taymer 48 soatdan oshib ketmasin, aks holda "chegirma" ishonchsiz ko'rinadi
+		// Sale oynasi eng ko'pi 15 kun — eski yozuvlarda 60-120 kun bo'lsa ham
+		// taymer shu chegaradan oshmasin
 		const difference = Math.min(target.getTime() - now.getTime(), MAX_SALE_COUNTDOWN_MS);
 
 		if (difference > 0) {

@@ -209,6 +209,7 @@ mutation CreateProperty($input: PropertyInput!) {
         propertyPrice
         propertySalePrice
         propertyIsOnSale
+        propertySaleStartsAt
         propertySaleExpiresAt
         propertyImages
         propertyDesc
@@ -246,6 +247,7 @@ mutation UpdateProperty($input: PropertyUpdate!) {
         propertyPrice
         propertySalePrice
         propertyIsOnSale
+        propertySaleStartsAt
         propertySaleExpiresAt
         propertyImages
         propertyDesc
@@ -284,6 +286,7 @@ mutation LikeTargetProperty($input: String!) {
         propertyPrice
         propertySalePrice
         propertyIsOnSale
+        propertySaleStartsAt
         propertySaleExpiresAt
         propertyImages
         propertyDesc

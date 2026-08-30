@@ -19,6 +19,7 @@ export interface PropertyInput {
 	propertyPrice: number;
 	propertySalePrice?: number;
 	propertyIsOnSale?: boolean;
+	propertySaleStartsAt?: Date;
 	propertySaleExpiresAt?: Date;
 	propertyImages?: string[];
 	propertyArModel?: string;

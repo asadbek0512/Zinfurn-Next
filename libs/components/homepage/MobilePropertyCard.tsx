@@ -10,6 +10,7 @@ import { formatCount } from '../../utils';
 import { useCurrency } from '../../context/CurrencyContext';
 import { userVar } from '../../../apollo/store';
 import { getLocalizedTitle } from '../../utils/localizeProperty';
+import { activeSalePrice } from '../../utils/sale';
 
 interface MobilePropertyCardProps {
 	property: Property;
@@ -26,9 +27,11 @@ const MobilePropertyCard = ({ property, likePropertyHandler }: MobilePropertyCar
 	const { formatPrice } = useCurrency();
 	const user = useReactiveVar(userVar);
 
+	// Chegirma faqat sale oynasi ochiq bo'lgandagina ko'rsatiladi
+	const salePrice = activeSalePrice(property);
 	const discountPercent =
-		property.propertyPrice && property.propertySalePrice
-			? Math.round(((property.propertyPrice - property.propertySalePrice) / property.propertyPrice) * 100)
+		property.propertyPrice && salePrice
+			? Math.round(((property.propertyPrice - salePrice) / property.propertyPrice) * 100)
 			: 0;
 	const imgUrl = `${REACT_APP_API_URL}/${property.propertyImages?.[0]}`;
 	const title = getLocalizedTitle(property, router.locale);
@@ -55,10 +58,10 @@ const MobilePropertyCard = ({ property, likePropertyHandler }: MobilePropertyCar
 				</div>
 				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '6px' }}>
 					<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', minWidth: 0 }}>
-						{property.propertySalePrice ? (
+						{salePrice ? (
 							<>
 								<span style={{ fontSize: '11px', color: 'var(--text-4)', textDecoration: 'line-through' }}>{formatPrice(property.propertyPrice)}</span>
-								<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>{formatPrice(property.propertySalePrice)}</span>
+								<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>{formatPrice(salePrice)}</span>
 							</>
 						) : (
 							<span style={{ fontSize: '14px', fontWeight: 700, color: '#ff6b35' }}>{formatPrice(property.propertyPrice)}</span>
