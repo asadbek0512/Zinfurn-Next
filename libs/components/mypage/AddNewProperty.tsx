@@ -21,6 +21,17 @@ import { CREATE_PROPERTY, UPDATE_PROPERTY } from '../../../apollo/user/mutation'
 import { GET_PROPERTY } from '../../../apollo/user/query';
 import { useTranslation } from 'next-i18next';
 
+// Flash sale qisqa muddatli bo'lishi kerak — eng ko'pi 2 kun
+const MAX_SALE_DAYS = 2;
+
+const toDateInputValue = (date: Date): string => date.toISOString().slice(0, 10);
+const todayInputValue = (): string => toDateInputValue(new Date());
+const maxSaleDateInputValue = (): string => {
+	const max = new Date();
+	max.setDate(max.getDate() + MAX_SALE_DAYS);
+	return toDateInputValue(max);
+};
+
 const AddProperty = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
@@ -379,6 +390,8 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 							<label>{t('Sale Expires At')}</label>
 							<input
 								type="date"
+								min={todayInputValue()}
+								max={maxSaleDateInputValue()}
 								value={
 									insertPropertyData.propertySaleExpiresAt
 										? new Date(insertPropertyData.propertySaleExpiresAt).toISOString().slice(0, 10)
@@ -713,6 +726,8 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										<input
 											type="date"
 											className="description-input"
+											min={todayInputValue()}
+											max={maxSaleDateInputValue()}
 											value={
 												insertPropertyData.propertySaleExpiresAt
 													? new Date(insertPropertyData.propertySaleExpiresAt).toISOString().slice(0, 10)

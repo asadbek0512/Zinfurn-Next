@@ -32,7 +32,8 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.35) 100%);
+      // Och rasmda oq matn ko'rinmay qolmasligi uchun to'qroq overlay
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.6) 100%);
     }
 
     .mob-header-content {
@@ -75,6 +76,21 @@
     &.slide-0 { background-image: url('/img/banner/Home-1-.jpg'); }
     &.slide-1 { background-image: url('/img/banner/Home-2-.jpg'); }
     &.slide-2 { background-image: url('/img/banner/257.jpg'); }
+
+    // Overlay — och rasmda oq matn o'qilmay qolmasligi uchun
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.28) 45%, rgba(0, 0, 0, 0.55) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
   }
 
   .mobile-navbar {
@@ -87,7 +103,8 @@
       display: flex;
       flex-direction: row;
       box-sizing: border-box;
-      z-index: 99;
+      // Kontent header ustiga chiqmasligi uchun eng yuqori qatlam
+      z-index: 1200;
       align-items: center;
       background-color: var(--surface);
       box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);

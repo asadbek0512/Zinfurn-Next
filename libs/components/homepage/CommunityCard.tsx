@@ -81,7 +81,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 								{title}
 							</div>
 							<div style={{ fontSize: '11px', color: 'var(--text-3)', lineHeight: 1.4, marginBottom: '6px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-								{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}
+								{t('Ideas, tips and stories from the Zinfurn community.')}
 							</div>
 							<div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600, textDecoration: 'underline' }}>{t('Read More')}</div>
 						</div>
@@ -99,7 +99,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 								{title}
 							</div>
 							<div style={{ fontSize: '9px', color: 'var(--text-3)', lineHeight: 1.4, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-								{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}
+								{t('Ideas, tips and stories from the Zinfurn community.')}
 							</div>
 							<div style={{ fontSize: '10px', color: 'var(--primary)', fontWeight: 500, textDecoration: 'underline' }}>{t('Read More')}</div>
 						</div>
@@ -120,7 +120,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 					</div>
 					<div className={'card-content'}>
 						<strong>{title}</strong>
-						<span>{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}</span>
+						<span>{t('Ideas, tips and stories from the Zinfurn community.')}</span>
 						<div className={'read-more'}>{t('Read More')}</div>
 					</div>
 				</Box>
@@ -133,7 +133,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 					<img loading="lazy" decoding="async" src={articleImage} alt={title} />
 					<div className={'card-info'}>
 						<strong>{title}</strong>
-						<span>{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}</span>
+						<span>{t('Ideas, tips and stories from the Zinfurn community.')}</span>
 						<div className={'read-more'}>{t('Read More')}</div>
 					</div>
 				</Box>

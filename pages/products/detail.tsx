@@ -348,7 +348,7 @@ const PropertyDetail: NextPage = (props: any) => {
 			<div id="mob-property-detail-page">
 				{seoEl}
 				{/* Back */}
-				<div className="mob-det-back" onClick={() => router.push('/property')}>
+				<div className="mob-det-back" onClick={() => router.push('/products')}>
 					{t('back_to_property')}
 				</div>
 
@@ -601,7 +601,7 @@ const PropertyDetail: NextPage = (props: any) => {
 				<div className={'container'}>
 					<Stack className={'property-detail-config'}>
 						<Stack className="productContainer">
-							<Stack className="back-link" onClick={() => router.push('/property')}>
+							<Stack className="back-link" onClick={() => router.push('/products')}>
 								{t('back_to_property')}
 							</Stack>
 							<Stack className="productGrid">

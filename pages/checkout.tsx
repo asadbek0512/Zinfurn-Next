@@ -167,7 +167,7 @@ const Checkout: NextPage = () => {
 			<div className="co-guard">
 				<InfoOutlinedIcon className="co-guard-icon co-guard-icon--info" />
 				<Typography className="co-guard-title">{t('Your cart is empty')}</Typography>
-				<Link href="/property"><Button variant="contained" className="co-guard-btn">{t('Browse Products')}</Button></Link>
+				<Link href="/products"><Button variant="contained" className="co-guard-btn">{t('Browse Products')}</Button></Link>
 			</div>
 		);
 	}

@@ -178,7 +178,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 				search: { ...searchFilter.search, text: searchText || undefined },
 				page: 1,
 			};
-			router.replace(`/property?input=${JSON.stringify(newSearchFilter)}`, undefined, { scroll: false, shallow: true });
+			router.replace(`/products?input=${JSON.stringify(newSearchFilter)}`, undefined, { scroll: false, shallow: true });
 			setSearchFilter(newSearchFilter);
 			setCurrentPage(1);
 		}, 400);
@@ -236,8 +236,8 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 		};
 
 		await router.push(
-			`/property?input=${JSON.stringify(newSearchFilter)}`,
-			`/property?input=${JSON.stringify(newSearchFilter)}`,
+			`/products?input=${JSON.stringify(newSearchFilter)}`,
+			`/products?input=${JSON.stringify(newSearchFilter)}`,
 			{
 				scroll: false,
 			},
@@ -276,8 +276,8 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 
 		// URL ni yangilash
 		await router.push(
-			`/property?input=${JSON.stringify(newSearchFilter)}`,
-			`/property?input=${JSON.stringify(newSearchFilter)}`,
+			`/products?input=${JSON.stringify(newSearchFilter)}`,
+			`/products?input=${JSON.stringify(newSearchFilter)}`,
 			{ scroll: false },
 		);
 
@@ -296,8 +296,8 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 			};
 
 			await router.push(
-				`/property?input=${JSON.stringify(refreshedInput)}`,
-				`/property?input=${JSON.stringify(refreshedInput)}`,
+				`/products?input=${JSON.stringify(refreshedInput)}`,
+				`/products?input=${JSON.stringify(refreshedInput)}`,
 				{ scroll: false },
 			);
 
@@ -322,8 +322,8 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 
 		// URL va state ni yangilash
 		await router.push(
-			`/property?input=${JSON.stringify(newSearchFilter)}`,
-			`/property?input=${JSON.stringify(newSearchFilter)}`,
+			`/products?input=${JSON.stringify(newSearchFilter)}`,
+			`/products?input=${JSON.stringify(newSearchFilter)}`,
 			{ scroll: false },
 		);
 
@@ -338,8 +338,8 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 			page: 1,
 		};
 		await router.push(
-			`/property?input=${JSON.stringify(newSearchFilter)}`,
-			`/property?input=${JSON.stringify(newSearchFilter)}`,
+			`/products?input=${JSON.stringify(newSearchFilter)}`,
+			`/products?input=${JSON.stringify(newSearchFilter)}`,
 			{ scroll: false },
 		);
 
@@ -356,8 +356,8 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 		};
 
 		await router.push(
-			`/property?input=${JSON.stringify(newSearchFilter)}`,
-			`/property?input=${JSON.stringify(newSearchFilter)}`,
+			`/products?input=${JSON.stringify(newSearchFilter)}`,
+			`/products?input=${JSON.stringify(newSearchFilter)}`,
 			{ scroll: false },
 		);
 

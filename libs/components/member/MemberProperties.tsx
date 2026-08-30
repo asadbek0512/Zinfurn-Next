@@ -73,7 +73,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 								<div
 									key={property._id}
 									className="mob-mem-prop-card"
-									onClick={() => router.push({ pathname: '/property/detail', query: { id: property._id } })}
+									onClick={() => router.push({ pathname: '/products/detail', query: { id: property._id } })}
 								>
 									<div className="mob-mem-prop-img">
 										<img src={imgSrc} alt="" loading="lazy" decoding="async" />

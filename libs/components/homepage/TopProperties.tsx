@@ -150,8 +150,8 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 				)}
 
 				<div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px 16px 0' }}>
-					<span onClick={() => router.push('/property')} style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 500, cursor: 'pointer' }}>
-						{t('All Furnitures')} →
+					<span onClick={() => router.push('/products')} style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 500, cursor: 'pointer' }}>
+						{t('All Properties')} →
 					</span>
 				</div>
 
@@ -211,7 +211,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 					)}
 				</Stack>
 
-				<Link href="/property" className="view-button">
+				<Link href="/products" className="view-button">
 					{t('All Properties')}
 				</Link>
 			</Stack>

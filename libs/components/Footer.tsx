@@ -8,6 +8,31 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 
 import { useTranslation } from 'next-i18next';
+import { PropertyCategory } from '../enums/property.enum';
+
+// Footer'da ko'rsatiladigan haqiqiy kategoriyalar — Quick Links bilan takrorlanmasligi uchun
+const FOOTER_CATEGORIES: PropertyCategory[] = [
+	PropertyCategory.HOME,
+	PropertyCategory.OFFICE,
+	PropertyCategory.KITCHEN,
+	PropertyCategory.BATHROOM,
+	PropertyCategory.OUTDOOR,
+];
+
+const CATEGORY_PRICE_MAX = 2000000;
+const CATEGORY_PAGE_LIMIT = 9;
+
+const categoryHref = (category: PropertyCategory): string => {
+	const searchFilter = {
+		page: 1,
+		limit: CATEGORY_PAGE_LIMIT,
+		search: {
+			pricesRange: { start: 0, end: CATEGORY_PRICE_MAX },
+			categoryList: [category],
+		},
+	};
+	return `/products?input=${encodeURIComponent(JSON.stringify(searchFilter))}`;
+};
 
 const Footer = () => {
 	const device = useDeviceDetect();
@@ -46,14 +71,14 @@ const Footer = () => {
 					<span className={'mobile-footer-col-title'}>{t('Help')}</span>
 					<Link href="/"><span>{t('Home')}</span></Link>
 					<Link href="/about"><span>{t('About us')}</span></Link>
-					<Link href="/property"><span>{t('Furnitures')}</span></Link>
+					<Link href="/products"><span>{t('Properties')}</span></Link>
 					<span>{t('Faq')}</span>
 					<Link href="/agent"><span>{t('Agents')}</span></Link>
 					<span>{t('Privacy policy')}</span>
 					<Link href="/repairService"><span>{t('Service')}</span></Link>
 					<span>{t('Contact')}</span>
 					<Link href="/community"><span>{t('Community')}</span></Link>
-					<span>{t('Terms & condition')}</span>
+					<span>{t('Terms & Conditions')}</span>
 				</div>
 
 				<div className={'mobile-footer-bottom'}>
@@ -112,13 +137,11 @@ const Footer = () => {
 
 						<div className="footer-links">
 							<strong>{t('Popular categories')}</strong>
-							<Link href="/about"><span>{t('About us')}</span></Link>
-							<span>{t('Contact')}</span>
-							<span>{t('Faq')}</span>
-							<span>{t('Privacy policy')}</span>
-							<span>{t('Return & exchange')}</span>
-							<span>{t('Shipping policy')}</span>
-							<span>{t('Terms & condition')}</span>
+							{FOOTER_CATEGORIES.map((category) => (
+								<Link key={category} href={categoryHref(category)}>
+									<span>{t(category)}</span>
+								</Link>
+							))}
 						</div>
 						<div className="footer-links">
 							<strong>{t('Discover')}</strong>
@@ -126,8 +149,8 @@ const Footer = () => {
 								<span>{t('Home')}</span>
 							</Link>
 
-							<Link href="/property">
-								<span>{t('Furnitures')}</span>
+							<Link href="/products">
+								<span>{t('Properties')}</span>
 							</Link>
 
 							<Link href="/agent">
@@ -154,7 +177,7 @@ const Footer = () => {
 							<span>{t('Privacy policy')}</span>
 							<span>{t('Return & exchange')}</span>
 							<span>{t('Shipping policy')}</span>
-							<span>{t('Terms & condition')}</span>
+							<span>{t('Terms & Conditions')}</span>
 						</div>
 						<div className="shop-contact">
 							<strong>{t('Shop contact')}</strong>

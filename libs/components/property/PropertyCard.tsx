@@ -75,7 +75,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 	if (device === 'mobile') {
 		return (
 			<Stack className={`mob-property-card${isOutOfStock ? ' is-sold-out' : ''}`}>
-				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }} className="mob-card-img-wrap">
+				<Link href={{ pathname: '/products/detail', query: { id: property?._id } }} className="mob-card-img-wrap">
 					<img loading="lazy" decoding="async" src={imagePath} alt={title || 'Property'} className="mob-card-img" />
 					{discountPercent > 0 && <span className="mob-sale-badge">-{discountPercent}%</span>}
 					<span className="mob-cat-badge">{t(property?.propertyCategory)}</span>
@@ -95,7 +95,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 						) : null}
 					</div>
 
-					<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
+					<Link href={{ pathname: '/products/detail', query: { id: property?._id } }}>
 						<Typography className="mob-card-title">{title}</Typography>
 					</Link>
 
@@ -169,7 +169,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 			onMouseLeave={() => setIsHovered(false)}
 		>
 			<Stack className="top">
-				<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
+				<Link href={{ pathname: '/products/detail', query: { id: property?._id } }}>
 					<img loading="lazy" decoding="async" src={hoverImagePath} alt={title || 'Property'} style={{ transition: 'opacity 0.3s' }} />
 				</Link>
 
@@ -200,7 +200,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 				</div>
 
 				<Stack className="title-section">
-					<Link href={{ pathname: '/property/detail', query: { id: property?._id } }}>
+					<Link href={{ pathname: '/products/detail', query: { id: property?._id } }}>
 						<Typography className="property-title">{title}</Typography>
 					</Link>
 				</Stack>

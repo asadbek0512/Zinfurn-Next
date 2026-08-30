@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+
+const MAX_SALE_COUNTDOWN_MS = 48 * 60 * 60 * 1000;
 import { Card, CardContent, Typography, Box, Chip, Button, Link } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { Property } from '../../types/property/property';
@@ -50,7 +52,9 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 	const calculateTimeLeft = (targetDate: string | Date) => {
 		const now = new Date();
 		const target = new Date(targetDate);
-		const difference = target.getTime() - now.getTime();
+		// Flash sale qisqa muddatli bo'lishi kerak — eski yozuvlarda 60-120 kun bo'lsa ham
+		// taymer 48 soatdan oshib ketmasin, aks holda "chegirma" ishonchsiz ko'rinadi
+		const difference = Math.min(target.getTime() - now.getTime(), MAX_SALE_COUNTDOWN_MS);
 
 		if (difference > 0) {
 			const days = Math.floor(difference / (1000 * 60 * 60 * 24));
@@ -89,7 +93,7 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 	};
 
 	const handleViewDetails = (id: string) => {
-		router.push({ pathname: '/property/detail', query: { id } });
+		router.push({ pathname: '/products/detail', query: { id } });
 	};
 
 	if (saleProperties.length === 0) {
@@ -112,9 +116,9 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 					</div>
 					<span
 						style={{ fontSize: '12px', color: '#ff6b35', cursor: 'pointer' }}
-						onClick={() => router.push('/property')}
+						onClick={() => router.push('/products')}
 					>
-						{t('All Furnitures')} →
+						{t('All Properties')} →
 					</span>
 				</div>
 
@@ -198,7 +202,7 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 						{t('Flash Sale!')}
 					</Typography>
 				</Box>
-				<Link href="/property" className="view-button">
+				<Link href="/products" className="view-button">
 					{t('All Properties')}
 				</Link>
 			</Box>

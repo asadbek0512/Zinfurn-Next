@@ -13,6 +13,8 @@ import { Property } from '../../types/property/property';
 import { T } from '../../types/common';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
+const MAX_SALE_COUNTDOWN_MS = 48 * 60 * 60 * 1000;
+
 const DISMISS_KEY_PREFIX = 'zin_sale_promo';
 const LAST_SHOWN_KEY = 'zin_last_sale_id';
 const SESSION_SHOWN_KEY = 'zin_promo_session_shown';
@@ -90,7 +92,8 @@ const SalePromoModal = () => {
 		if (!visible || !currentProp?.propertySaleExpiresAt) return;
 
 		const tick = () => {
-			const diff = new Date(currentProp.propertySaleExpiresAt!).getTime() - Date.now();
+			// Taymer 48 soatdan oshmasin — PopularPropertyCard bilan bir xil mantiq
+			const diff = Math.min(new Date(currentProp.propertySaleExpiresAt!).getTime() - Date.now(), MAX_SALE_COUNTDOWN_MS);
 			if (diff <= 0) {
 				setTimeLeft({ h: 0, m: 0, s: 0 });
 				if (countdownRef.current) clearInterval(countdownRef.current);
@@ -128,7 +131,7 @@ const SalePromoModal = () => {
 	};
 
 	const goDetail = () => {
-		router.push(`/property/detail?id=${prop._id}`);
+		router.push(`/products/detail?id=${prop._id}`);
 		handleClose();
 	};
 

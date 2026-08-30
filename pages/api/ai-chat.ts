@@ -73,7 +73,7 @@ interface AiAction {
 	href: string;
 }
 
-const ALLOWED_HREFS = ['/property', '/repairService', '/community', '/agent', '/cs', '/mypage', '/checkout', '/account/join'];
+const ALLOWED_HREFS = ['/products', '/repairService', '/community', '/agent', '/cs', '/mypage', '/checkout', '/account/join'];
 
 const cleanActions = (raw: any): AiAction[] =>
 	(Array.isArray(raw) ? raw : [])
@@ -158,7 +158,7 @@ REPLY STYLE (in ${lang}, 2-4 warm sentences, flowing text — no bullet lists, n
 - Then warmly introduce the recommended piece(s). Product cards are shown separately, so never repeat prices.
 
 YOU ALSO KNOW THE WHOLE ZINFURN WEBSITE. When the user needs a section/service (not a specific product), guide them there with a button in "actions" (label in ${lang} + the page path). Site map:
-- "/property" — browse & filter all furniture
+- "/products" — browse & filter all furniture
 - "/repairService" — Furniture Repair Service: request a repair, find technicians (use for "I need a repairman / fix my furniture / repair")
 - "/community" — community blog & articles, tips
 - "/agent" — our agents / sellers list

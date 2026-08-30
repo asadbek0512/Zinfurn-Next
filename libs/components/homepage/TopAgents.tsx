@@ -12,6 +12,7 @@ import { useQuery } from '@apollo/client';
 import { T } from '../../types/common';
 import { GET_AGENTS } from '../../../apollo/user/query';
 import { useTranslation } from 'next-i18next'; // Tarjima funksiyasi
+import { formatDisplayName } from '../../utils/formatName';
 
 interface TopAgentsProps {
 	initialInput: AgentsInquiry;
@@ -76,7 +77,7 @@ const TopAgents = (props: TopAgentsProps) => {
 											background: 'rgba(45,55,72,0.88)', padding: '10px 12px',
 											borderBottomLeftRadius: '12px', borderBottomRightRadius: '12px'
 										}}>
-											<div style={{ fontSize: '13px', fontWeight: 600, color: '#fff' }}>{agent.memberNick}</div>
+											<div style={{ fontSize: '13px', fontWeight: 600, color: '#fff' }}>{formatDisplayName(agent.memberNick)}</div>
 											<div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.8)', marginTop: '2px' }}>{t(agent.memberType)}</div>
 										</div>
 									</div>
@@ -96,7 +97,7 @@ const TopAgents = (props: TopAgentsProps) => {
 							<span>{t('Top Agents')}</span>
 							<p>{t('Our Top Agents always ready to serve you')}</p>
 						</Box>
-						<Link href="/property" className="view-button">
+						<Link href="/products" className="view-button">
 							{t('All Agents')}
 						</Link>
 					</Stack>

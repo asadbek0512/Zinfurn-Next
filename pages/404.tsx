@@ -38,7 +38,7 @@ const NotFound: NextPage = () => {
 									{t('404_go_home')}
 								</Button>
 							</Link>
-							<Link href={'/property'}>
+							<Link href={'/products'}>
 								<Button variant={'outlined'} className={'not-found-btn-secondary'}>
 									{t('404_browse_property')}
 								</Button>

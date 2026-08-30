@@ -57,7 +57,7 @@ const CategoryGrid = () => {
 			},
 		};
 
-		const query = `/property?input=${encodeURIComponent(JSON.stringify(searchFilter))}`;
+		const query = `/products?input=${encodeURIComponent(JSON.stringify(searchFilter))}`;
 		router.push(query);
 	};
 	if (device === 'mobile') {

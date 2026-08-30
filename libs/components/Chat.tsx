@@ -384,7 +384,7 @@ const Chat = () => {
 						<button
 							className="chat-button"
 							onClick={handleOpenChat}
-							style={{ bottom: '155px', right: '30px', zIndex: 100 }}
+							style={{ bottom: '168px', right: '30px', zIndex: 1300 }}
 						>
 							<img src="/img/banner/001..png" alt="Chat" style={{ width: '33px', height: '28px' }} loading="lazy" decoding="async" />
 						</button>

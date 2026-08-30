@@ -320,7 +320,7 @@ const MyOrders = () => {
 					<ShoppingBagOutlinedIcon className="my-orders-empty-icon" />
 					<Typography className="my-orders-empty-title">{t('No orders yet')}</Typography>
 					<Typography className="my-orders-empty-sub">{t('Your order history will appear here')}</Typography>
-					<Link href="/property">
+					<Link href="/products">
 						<Button variant="contained" className="my-orders-shop-btn">
 							{t('Browse Products')}
 						</Button>

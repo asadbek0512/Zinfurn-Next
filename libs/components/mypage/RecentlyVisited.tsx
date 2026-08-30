@@ -88,7 +88,7 @@ const RecentlyVisited: NextPage = () => {
                 <div
                   key={property._id}
                   className="mob-fav-card"
-                  onClick={() => router.push({ pathname: '/property/detail', query: { id: property._id } })}
+                  onClick={() => router.push({ pathname: '/products/detail', query: { id: property._id } })}
                 >
                   <div className="mob-fav-card-img-wrap">
                     <img src={imgSrc} alt="" loading="lazy" decoding="async" />

@@ -72,7 +72,7 @@ const AiRoomDesigner = () => {
 	};
 
 	const handleViewProduct = (id: string) => {
-		router.push({ pathname: '/property/detail', query: { id } });
+		router.push({ pathname: '/products/detail', query: { id } });
 	};
 
 	const handleGenerateImage = async (productId: string) => {

@@ -147,7 +147,7 @@ const CommunityCard = ({ boardArticle, likeArticleHandler }: CommunityCardProps)
 						{title}
 					</div>
 					<div style={{ fontSize: '10px', color: 'var(--text-3)', lineHeight: 1.4, marginBottom: '6px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
-						{t('Lorem ipsum dolor sit amet...')}
+						{t('Ideas, tips and stories from the Zinfurn community.')}
 					</div>
 					<div style={{ fontSize: '10px', color: 'var(--primary)', fontWeight: 700, textDecoration: 'underline' }}>{t('Read More')}</div>
 				</div>
@@ -186,7 +186,7 @@ const CommunityCard = ({ boardArticle, likeArticleHandler }: CommunityCardProps)
 
 				<Stack className="card-content" spacing={0.5}>
 					<Typography component="strong">{title}</Typography>
-					<Typography component="span">{t('Lorem ipsum dolor sit amet, consectetur adipiscing elit')}</Typography>
+					<Typography component="span">{t('Ideas, tips and stories from the Zinfurn community.')}</Typography>
 					<Typography className="read-more">{t('Read More')}</Typography>
 				</Stack>
 			</Box>

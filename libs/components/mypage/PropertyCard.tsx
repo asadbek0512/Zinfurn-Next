@@ -42,7 +42,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
   const pushPropertyDetail = async (id: string) => {
     if (memberPage)
       await router.push({
-        pathname: '/property/detail',
+        pathname: '/products/detail',
         query: { id: id },
       });
     else return;

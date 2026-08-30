@@ -272,7 +272,7 @@ const OrderTracking: NextPage = () => {
 
 						{/* Action buttons */}
 						<div className="tracking-actions">
-							<Link href="/property" className="tracking-action-link">
+							<Link href="/products" className="tracking-action-link">
 								<Button variant="contained" fullWidth className="tracking-shop-btn">
 									{t('Continue Shopping')}
 								</Button>

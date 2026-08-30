@@ -27,6 +27,8 @@ let globalSaleProperties: Property[] = [];
 let lastUpdateTime = 0;
 
 // Animations
+const MAX_SALE_COUNTDOWN_MS = 48 * 60 * 60 * 1000;
+
 const slideIn = keyframes`
   0% {
     transform: translateX(100%);
@@ -62,7 +64,7 @@ const ToastContainer = styled(Box)(({ theme }) => ({
 	display: 'flex',
 	alignItems: 'center',
 	gap: '16px',
-	zIndex: 9999,
+	zIndex: 1200,
 	boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
 	border: '1px solid rgba(255, 255, 255, 0.1)',
 	'&.toast-enter': {
@@ -212,7 +214,8 @@ const SalesToast = (props: SalesToastProps) => {
 	const calculateTimeLeft = (targetDate: string | Date) => {
 		const now = new Date();
 		const target = new Date(targetDate);
-		const difference = target.getTime() - now.getTime();
+		// Taymer 48 soatdan oshmasin — PopularPropertyCard bilan bir xil mantiq
+		const difference = Math.min(target.getTime() - now.getTime(), MAX_SALE_COUNTDOWN_MS);
 
 		if (difference > 0) {
 			const days = Math.floor(difference / (1000 * 60 * 60 * 24));

@@ -37,7 +37,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 	const title = getLocalizedTitle(property, router.locale);
 
 	const pushDetailHandler = (id: string) => {
-		router.push({ pathname: '/property/detail', query: { id } });
+		router.push({ pathname: '/products/detail', query: { id } });
 	};
 
 	const handleAddToCart = (e: React.MouseEvent) => {

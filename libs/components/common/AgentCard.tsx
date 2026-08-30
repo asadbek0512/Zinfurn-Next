@@ -15,6 +15,7 @@ import StarIcon from '@mui/icons-material/Star';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useTranslation } from 'next-i18next';
+import { formatDisplayName } from '../../utils/formatName';
 
 interface AgentCardProps {
 	agent: any;
@@ -55,7 +56,7 @@ const AgentTooltip = ({ agent }: { agent: any }) => {
 				/>
 				<Box component={'div'}>
 					<Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5 }}>
-						{agent?.memberFullName ?? agent?.memberNick}
+						{formatDisplayName(agent?.memberFullName ?? agent?.memberNick)}
 					</Typography>
 					<Typography variant="body2" sx={{ opacity: 0.9 }}>
 						{t('professional_agent')}
@@ -148,7 +149,7 @@ const AgentCard = (props: AgentCardProps) => {
 
 				<div className="mob-agent-card-bottom">
 					<div className="mob-agent-name-wrap">
-						<span className="mob-agent-name">{agent?.memberFullName ?? agent?.memberNick}</span>
+						<span className="mob-agent-name">{formatDisplayName(agent?.memberFullName ?? agent?.memberNick)}</span>
 						<span className="mob-agent-type">{t('agent')}</span>
 					</div>
 					<div className="mob-agent-actions">
@@ -278,7 +279,7 @@ const AgentCard = (props: AgentCardProps) => {
 										},
 									}}
 								>
-									{agent?.memberFullName ?? agent?.memberNick}
+									{formatDisplayName(agent?.memberFullName ?? agent?.memberNick)}
 								</Typography>
 							</Link>
 							<Typography

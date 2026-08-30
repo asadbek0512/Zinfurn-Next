@@ -898,7 +898,7 @@ const Join: NextPage = () => {
 							<div className={'testimonial'}>
 								<div className={'quote'}>
 									{t(
-										'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.',
+										'Zinfurn helped me furnish an entire apartment in one week — good quality, fair prices and delivery right on schedule.',
 									)}
 								</div>
 								<div className={'author'}>

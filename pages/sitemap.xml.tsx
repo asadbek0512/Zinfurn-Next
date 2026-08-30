@@ -22,11 +22,11 @@ interface SitemapEntry {
 const HREFLANG_BY_LOCALE: Record<string, string> = { kr: 'ko' };
 
 // Yo'llar oxirida slash YO'Q: next.config.js da trailingSlash yoqilmagan,
-// shuning uchun '/property/' → '/property' ga 308 redirect bo'ladi.
+// shuning uchun '/products/' → '/products' ga 308 redirect bo'ladi.
 // Sitemap redirect emas, yakuniy URL'ni ko'rsatishi kerak.
 const staticPages: SitemapEntry[] = [
 	{ path: '/', priority: '1.0', changefreq: 'daily', localized: true },
-	{ path: '/property', priority: '0.9', changefreq: 'daily', localized: true },
+	{ path: '/products', priority: '0.9', changefreq: 'daily', localized: true },
 	{ path: '/agent', priority: '0.8', changefreq: 'weekly', localized: true },
 	{ path: '/repairService', priority: '0.7', changefreq: 'weekly', localized: true },
 	{ path: '/community', priority: '0.7', changefreq: 'daily', localized: true },
@@ -82,7 +82,7 @@ const fetchProductEntries = async (): Promise<SitemapEntry[]> => {
 		return list
 			.filter((item: { _id?: string }) => Boolean(item?._id))
 			.map((item: { _id: string; updatedAt?: string }) => ({
-				path: `/property/detail?id=${item._id}`,
+				path: `/products/detail?id=${item._id}`,
 				priority: '0.8',
 				changefreq: 'weekly',
 				lastmod: item.updatedAt ? String(item.updatedAt).split('T')[0] : undefined,

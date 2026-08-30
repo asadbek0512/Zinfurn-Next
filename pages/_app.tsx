@@ -21,7 +21,7 @@ import ErrorMonitoring from '../libs/components/common/ErrorMonitoring';
 import { detectDevice } from '../libs/hooks/useDeviceDetect';
 
 const PAGE_TITLES: Record<string, string> = {
-	'/property': 'Furniture Collection',
+	'/products': 'Furniture Collection',
 	'/repairService': 'Furniture Repair Service',
 	'/community': 'Community',
 	'/agent': 'Our Agents',

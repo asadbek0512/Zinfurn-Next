@@ -97,7 +97,7 @@ const AiChat = () => {
 
 	const pickProduct = (id: string) => {
 		setOpen(false);
-		router.push({ pathname: '/property/detail', query: { id } });
+		router.push({ pathname: '/products/detail', query: { id } });
 	};
 
 	const goTo = (href: string) => {
@@ -322,10 +322,11 @@ const AiChat = () => {
 							className="ai-chat-button ai-btn-open"
 							onClick={handleToggle}
 							style={{
-								bottom: '320px',
+								// O'ng pastdagi vidjetlar tartibi: sotuv toast'i (24px) → chat (168px) → AI (248px)
+								bottom: '248px',
 								background: 'transparent',
 								boxShadow: 'none',
-								zIndex: 99999,
+								zIndex: 1300,
 							}}
 						>
 							<img src="/img/ai1.webp" alt="AI" style={{ width: 54, height: 74 }} loading="lazy" decoding="async" />
@@ -338,7 +339,8 @@ const AiChat = () => {
 							onClick={handleToggle}
 							style={{
 								position: 'fixed',
-								bottom: '100px', // 👈 pastda turadi
+								// Chat'ning yopish tugmasi 100px da — ustma-ust tushmasligi uchun balandroq
+								bottom: '168px',
 								right: '30px',
 								width: '50px',
 								height: '50px',

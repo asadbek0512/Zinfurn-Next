@@ -69,13 +69,16 @@ body::-webkit-scrollbar {
 				display: flex;
 				flex-direction: row;
 				box-sizing: border-box;
-				z-index: 99;
+				// Kontent (sale taymer, kartalar) header ustiga chiqib ketmasligi uchun
+				// eng yuqori qatlamda turadi
+				z-index: 1200;
 				align-items: center;
 				border-top: 1px solid rgba(255, 255, 255, 0.07);
 
 				&.transparent {
+					// To'liq shaffofmas fon — opacity butun header'ni yarim shaffof qilib,
+					// orqadagi mahsulotlarni menyu matni bilan aralashtirib yuborardi
 					background-color: var(--bg-warm);
-					opacity: 0.95;
 					box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 
 					.router-box div,
@@ -307,12 +310,19 @@ body::-webkit-scrollbar {
   &.slide-2 {
     background-image: url('/img/banner/257.jpg');
   }
-		// Overlay gradient - rasimni yanada chiroyli qilish uchun
-
-		// Shimmer effect - premium ko'rinish uchun
+		// Overlay gradient — banner rasmi och bo'lganda oq matn o'qilmay qolardi
+		&::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.3) 45%, rgba(0, 0, 0, 0.6) 100%);
+			pointer-events: none;
+			z-index: 1;
+		}
 
 		.container {
 			position: relative;
+			z-index: 2;
 			// margin-top: -80px;
 			padding-bottom: 80px;
 			flex-direction: column;
@@ -644,7 +654,18 @@ body::-webkit-scrollbar {
 			height: 300px;
 		}
 
+		// Och rasmlarda oq sarlavha o'qilmay qolardi — to'q overlay qo'shildi
+		&::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.55) 100%);
+			pointer-events: none;
+		}
+
 		.container {
+			position: relative;
+			z-index: 1;
 			margin-top: 175px;
 
 			strong {
@@ -759,7 +780,8 @@ body::-webkit-scrollbar {
 		.chat-button {
 			border: none;
 			position: fixed;
-			bottom: 155px;
+			// Vidjet tartibi: sotuv toast'i (24px) → chat (168px) → AI (248px)
+			bottom: 168px;
 			right: 30px;
 			height: 50px;
 			width: 50px;
@@ -771,7 +793,7 @@ body::-webkit-scrollbar {
 			background: var(--surface);
 			box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.2);
 			transition: transform 0.3s;
-			z-index: 999;
+			z-index: 1300;
 
 			&:hover {
 				cursor: pointer;
@@ -908,7 +930,7 @@ body::-webkit-scrollbar {
 		.ai-chat-button {
 			border: none;
 			position: fixed;
-			bottom: 280px;
+			bottom: 248px;
 			right: 30px;
 			height: 50px;
 			width: 50px;
@@ -919,7 +941,7 @@ body::-webkit-scrollbar {
 			background: transparent; // 👈 orqa fon yo'q
 			box-shadow: none; // 👈 soya yo'q
 			transition: transform 0.3s;
-			z-index: 999;
+			z-index: 1300;
 			padding: 0;
 
 			&:hover {

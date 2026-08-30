@@ -225,8 +225,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 			}
 
 			await router.push(
-				`/property?input=${JSON.stringify(searchFilter)}`,
-				`/property?input=${JSON.stringify(searchFilter)}`,
+				`/products?input=${JSON.stringify(searchFilter)}`,
+				`/products?input=${JSON.stringify(searchFilter)}`,
 			);
 		} catch (err: any) {
 			console.error('ERROR, pushSearchHandler:', err);

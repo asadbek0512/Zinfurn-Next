@@ -24,7 +24,7 @@ const PromoBanners = () => {
 		{
 			title: t('Latest Gaming'), // t() funktsiyasi qo'shildi
 			subtitle: t('Chairs'),
-			description: t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed'),
+			description: t('Comfort-first seating with a limited-time price — while stock lasts.'),
 			discount: t('Flat 20% Discount'),
 			buttonText: t('Shop Now'),
 			imageSrc: '/img/banner/game5.png',
@@ -35,7 +35,7 @@ const PromoBanners = () => {
 		{
 			title: t('Wood Chair'), // t() funktsiyasi qo'shildi
 			subtitle: t('Collection'),
-			description: t('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed'),
+			description: t('Comfort-first seating with a limited-time price — while stock lasts.'),
 			discount: t('Flat 15% Discount'),
 			buttonText: t('Shop Now'),
 			imageSrc: '/img/banner/chair3.png',
@@ -94,7 +94,7 @@ const PromoCard = ({ promo }: { promo: PromoData }) => {
 		};
 
 		const encodedParams = encodeURIComponent(JSON.stringify(filterParams));
-		router.push(`/property?input=${encodedParams}`);
+		router.push(`/products?input=${encodedParams}`);
 	};
 
 	if (device === 'mobile') {

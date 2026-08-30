@@ -22,9 +22,9 @@ const HeroSection: React.FC = () => {
 	const slides: Slide[] = [
 		{
 			overline: t('TIMELESS ELEGANCE'),
-			title: t("Discover Furniture's For Living"),
+			title: t("Discover Furniture For Living"),
 			mobileTitle: t('Furniture For Living'),
-			description: t('Consectetur a erat nam at. Facilisis magna etiam tempor orci. Sem et tortor consequat id. Fermentum egestas tellus. Nunc eu hendrerit turpis. Fusce non lectus sem.'),
+			description: t('Hand-picked furniture that brings warmth, comfort and lasting character to every room of your home.'),
 			mobileDescription: t('Quality furniture pieces that elevate your home with timeless style and elegance.'),
 			backgroundImage: '/img/banner/Home-1-.jpg',
 			mobileBackgroundImage: '/img/banner/mobail1.png',
@@ -33,16 +33,16 @@ const HeroSection: React.FC = () => {
 			overline: t('SMART SOLUTION'),
 			title: t('Enjoy With Style & Comfort'),
 			mobileTitle: t('Style & Comfort'),
-			description: t('Feugiat pretium nibh ipsum consequat nisi vel pretium lectus quam. Aliquam ut porttitor leo a diam sollicitudin. Nam at lectus urna duis convallis.'),
+			description: t('Ergonomic designs and durable materials — furniture built to stay comfortable through years of daily use.'),
 			mobileDescription: t('Modern furniture designed for comfort, durability, and everyday stylish living.'),
 			backgroundImage: '/img/banner/Home-2-.jpg',
 			mobileBackgroundImage: '/img/banner/mobail2.png',
 		},
 		{
 			overline: t('CREATE MEMORIES'),
-			title: t("Embrace The Beauty Of Furniture's"),
+			title: t("Embrace The Beauty Of Furniture"),
 			mobileTitle: t('Embrace The Beauty'),
-			description: t('Ut placerat orci nulla pellentesque posuere lorem ipsum dolor. A condimentum vitae sapien pellentesque habitant morbi tristique senectus.'),
+			description: t('From the living room to the home office, find pieces that fit your space, your budget and your style.'),
 			mobileDescription: t('Beautiful spaces start with the right furniture choices for your unique home.'),
 			backgroundImage: '/img/banner/Home-3-.jpg',
 			mobileBackgroundImage: '/img/banner/mobail3.png',
@@ -71,7 +71,7 @@ const HeroSection: React.FC = () => {
 	};
 
 	const handleClick = (): void => {
-		window.location.href = '/property';
+		window.location.href = '/products';
 	};
 
 	// currentSlide o'zgarganda darhol background yangilanadi
@@ -267,7 +267,7 @@ const HeroSection: React.FC = () => {
 									backgroundColor: '#ff6b35',
 									'& .arrow-icon': {
 										color: 'white',
-										transform: 'translateX(-50px)',
+										transform: 'translateX(50px)',
 										animation: 'slideOut 0.1s ease-out forwards, slideIn 0.2s ease-in 0.1s forwards',
 									},
 								},
@@ -275,6 +275,7 @@ const HeroSection: React.FC = () => {
 							transition: 'all 0.3s ease',
 						}}
 					>
+						<span style={{ marginRight: device === 'mobile' ? '-4px' : '-8px' }}>{t('Shop Now')}</span>
 						<Box
 							component={'div'}
 							className="arrow-circle"
@@ -288,11 +289,11 @@ const HeroSection: React.FC = () => {
 								justifyContent: 'center',
 								transition: 'all 0.3s ease',
 								position: 'relative',
-								left: device === 'mobile' ? -8 : -16,
+								right: device === 'mobile' ? -8 : -16,
 								overflow: 'hidden',
 							}}
 						>
-							<ArrowBack
+							<ArrowForward
 								className="arrow-icon"
 								sx={{
 									fontSize: '20px',
@@ -302,7 +303,6 @@ const HeroSection: React.FC = () => {
 								}}
 							/>
 						</Box>
-						<span style={{ marginLeft: device === 'mobile' ? '-4px' : '-8px' }}>{t('Shop Now')}</span>
 					</Button>
 				</Box>
 			</Stack>

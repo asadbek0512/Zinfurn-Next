@@ -82,7 +82,7 @@ const Top = () => {
 	useEffect(() => {
 		const isJoinPage = router.pathname === '/account/join';
 		const isDetailPage =
-			router.pathname === '/property/detail' ||
+			router.pathname === '/products/detail' ||
 			router.pathname === '/repairService/detail' ||
 			router.pathname === '/ai-room-designer' ||
 			router.pathname === '/404';
@@ -397,7 +397,7 @@ const Top = () => {
 					<div className={'mobile-side-items'}>
 						{[
 							{ href: '/',                               label: t('Home'),       icon: <HomeOutlinedIcon /> },
-							{ href: '/property',                       label: t('Properties'), icon: <WeekendOutlinedIcon /> },
+							{ href: '/products',                       label: t('Properties'), icon: <WeekendOutlinedIcon /> },
 							{ href: '/agent',                          label: t('Agents'),     icon: <PeopleOutlinedIcon /> },
 							{ href: '/repairService',                  label: t('Service'),    icon: <BuildOutlinedIcon /> },
 							{ href: '/community?articleCategory=FREE', label: t('Community'), icon: <ForumOutlinedIcon /> },
@@ -471,7 +471,7 @@ const Top = () => {
 							<Link href={'/'} prefetch={false}>
 								<div>{t('Home')}</div>
 							</Link>
-							<Link href={'/property'} prefetch={false}>
+							<Link href={'/products'} prefetch={false}>
 								<div>{t('Properties')}</div>
 							</Link>
 							<Link href={'/agent'} prefetch={false}>

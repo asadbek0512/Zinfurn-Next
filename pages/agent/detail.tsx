@@ -36,6 +36,7 @@ import { Pagination as MuiPagination } from '@mui/material';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import { useTranslation } from 'next-i18next';
+import { formatDisplayName } from '../../libs/utils/formatName';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -257,7 +258,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 						onClick={() => agent?._id && redirectToMemberPageHandler(agent._id)}
 						style={{ cursor: 'pointer' }}
 					/>
-					<h2 className="mob-agd-name">{agent?.memberFullName ?? agent?.memberNick}</h2>
+					<h2 className="mob-agd-name">{formatDisplayName(agent?.memberFullName ?? agent?.memberNick)}</h2>
 					<span className="mob-agd-badge">{t('agent')}</span>
 					{agent?.memberPhone && (
 						<div className="mob-agd-phone">
@@ -428,7 +429,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							src={agent?.memberImage ? (agent?.memberImage?.startsWith('http') ? agent?.memberImage : `${REACT_APP_API_URL}/${agent?.memberImage}`) : '/img/profile/defaultUser.svg'}
 							alt="" loading="lazy" decoding="async" />
 						<Box component={'div'} className={'info'} onClick={() => agent?._id && redirectToMemberPageHandler(agent._id)}>
-							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
+							<strong>{formatDisplayName(agent?.memberFullName ?? agent?.memberNick)}</strong>
 							<div>
 								<img src="/img/icons/call.svg" alt="" loading="lazy" decoding="async" />
 								<span>{agent?.memberPhone}</span>

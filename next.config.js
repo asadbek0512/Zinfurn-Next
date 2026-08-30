@@ -16,6 +16,13 @@ const nextConfig = {
 	experimental: {
 		optimizePackageImports: ['@mui/material', '@mui/icons-material', '@mui/lab'],
 	},
+	// /property /products ga ko'chirildi — eski havolalar buzilmasligi uchun
+	async redirects() {
+		return [
+			{ source: '/property', destination: '/products', permanent: true },
+			{ source: '/property/:path*', destination: '/products/:path*', permanent: true },
+		];
+	},
 	env: {
 		REACT_APP_API_URL: process.env.REACT_APP_API_URL,
 		REACT_APP_API_GRAPHQL_URL: process.env.REACT_APP_API_GRAPHQL_URL,

@@ -38,7 +38,7 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 
 	/** HANDLERS **/
 	const goPropertyDetatilPage = (propertyId: string) => {
-		router.push(`/property/detail?id=${propertyId}`);
+		router.push(`/products/detail?id=${propertyId}`);
 	};
 
 	const handleAddToCart = (e: React.MouseEvent) => {

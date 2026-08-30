@@ -36,7 +36,7 @@ const MobilePropertyCard = ({ property, likePropertyHandler }: MobilePropertyCar
 	return (
 		<div
 			style={{ background: 'var(--surface)', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
-			onClick={() => router.push({ pathname: '/property/detail', query: { id: property._id } })}
+			onClick={() => router.push({ pathname: '/products/detail', query: { id: property._id } })}
 		>
 			<div style={{ position: 'relative', height: '170px', background: 'var(--surface)' }}>
 				<img loading="lazy" decoding="async" src={imgUrl} alt={title} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }} />
