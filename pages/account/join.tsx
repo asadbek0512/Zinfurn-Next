@@ -14,6 +14,7 @@ import {
 	defaultCountries,
 } from 'react-international-phone';
 import 'react-international-phone/style.css';
+import { startGoogleAuth } from '../../libs/native';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -151,8 +152,8 @@ const Join: NextPage = () => {
 		}
 	}, [input, router, t, confirmPassword]);
 	(Join as any).hideTop = true;
-	const handleGoogleAuth = () => {
-		window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
+	const handleGoogleAuth = async () => {
+		await startGoogleAuth();
 	};
 
 

@@ -185,6 +185,23 @@
   resolved "https://registry.npmjs.org/@cahil/utils/-/utils-2.3.2.tgz"
   integrity sha512-vK4nnxiMTMS/Hc0+tmuOFcp9wIAX8qpXjST6dygcrIG/vLasth15Dd3cXoH4/8hXFKuQex2gcFRaM2vBWJssOg==
 
+"@capacitor/app@^8.1.1":
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/app/-/app-8.1.1.tgz#af00649d0c7799ec83469b1c4ada921f9933a77e"
+  integrity sha512-xM2ZTX5jK60tFtmjsmJv+Cdj1Qsb6NcavkqmdEnCPQBeya9oKhamZJxYOnQNj1ZvcJM7sWfG6BEtSLx42pisbA==
+
+"@capacitor/browser@^8.0.4":
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/@capacitor/browser/-/browser-8.0.4.tgz#6a51e03a3f6690fad1bc638e6da0c302418088a2"
+  integrity sha512-ORZ4u/y+7aMuu6yVuk6SP529fUZyqcbnuHB1q5McpA3o2SYfVoi28iB8rsQjI2ad1qlKJd29ZUuGtspXLBDlWg==
+
+"@capacitor/core@^8.5.2":
+  version "8.5.2"
+  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-8.5.2.tgz#3e347a4d5a0c341995d0a26d4fdce156bf65b330"
+  integrity sha512-agnQbGdhGw/KZFuLf7H9SY2o+oE7upkr/WPQsYaokXP6f9chaE8iVmbKkfN6SVl4w3pmz7oZ3Ur1hbkmy1hx+w==
+  dependencies:
+    tslib "^2.1.0"
+
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
   resolved "https://registry.npmjs.org/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz"

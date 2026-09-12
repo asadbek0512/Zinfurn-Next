@@ -4,7 +4,7 @@
   "private": true,
   "license": "ITC",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3006",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -17,6 +17,9 @@
     "@apollo/react-components": "^4.0.0-beta.2",
     "@babel/plugin-proposal-private-methods": "^7.16.11",
     "@cahil/utils": "^2.3.2",
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/browser": "^8.0.4",
+    "@capacitor/core": "^8.5.2",
     "@date-io/date-fns": "^2.14.0",
     "@emoji-mart/data": "^1.2.1",
     "@emoji-mart/react": "^1.1.1",

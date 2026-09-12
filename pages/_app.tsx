@@ -12,6 +12,7 @@ import '../scss/pc/main.scss';
 import '../scss/mobile/main.scss';
 import { useRouter } from 'next/router';
 import { updateUserInfo, updateStorage, restoreSession } from '../libs/auth';
+import { sweetMixinErrorAlert } from '../libs/sweetAlert';
 import CartDrawer from '../libs/components/cart/CartDrawer';
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
 import SEO from '../libs/components/common/SEO';
@@ -95,6 +96,39 @@ const App = ({ Component, pageProps }: AppProps) => {
 		};
 		document.addEventListener('visibilitychange', onFocus);
 		return () => document.removeEventListener('visibilitychange', onFocus);
+	}, []);
+
+	// Mobil app (Capacitor): OAuth tizim brauzerida bajariladi va natija
+	// uz.zinfurn.app://auth?token=...&refresh=...&target=/mypage deep link'i bilan qaytadi.
+	useEffect(() => {
+		let remove: (() => void) | undefined;
+
+		(async () => {
+			const { isNativeApp, closeSystemBrowser } = await import('../libs/native');
+			if (!isNativeApp()) return;
+
+			const { App: CapApp } = await import('@capacitor/app');
+			const handle = await CapApp.addListener('appUrlOpen', async ({ url }) => {
+				if (!url.includes('://auth')) return;
+				await closeSystemBrowser();
+
+				const params = new URLSearchParams(url.split('?')[1] ?? '');
+				const error = params.get('error');
+				if (error) {
+					await sweetMixinErrorAlert(error);
+					return;
+				}
+
+				const token = params.get('token');
+				if (!token) return;
+				updateStorage({ jwtToken: token, refreshToken: params.get('refresh') ?? undefined });
+				updateUserInfo(token);
+				await router.replace(params.get('target') || '/');
+			});
+			remove = () => handle.remove();
+		})();
+
+		return () => remove?.();
 	}, []);
 
 	useEffect(() => {
