@@ -339,8 +339,9 @@ const AiChat = () => {
 							onClick={handleToggle}
 							style={{
 								position: 'fixed',
-								// Chat'ning yopish tugmasi 100px da — ustma-ust tushmasligi uchun balandroq
-								bottom: '168px',
+								// Chat oynasi 150px dan boshlanadi, pastki paneli 80px —
+								// tugma input qatorining o'rtasiga to'g'ri kelsin
+								bottom: '150px',
 								right: '30px',
 								width: '50px',
 								height: '50px',
