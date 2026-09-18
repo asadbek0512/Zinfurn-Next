@@ -2,7 +2,7 @@
 
 **Live:** [zinfurn.uz](https://zinfurn.uz) · **API:** GraphQL @ api.zinfurn.uz · **Backend repo:** [Zinfurn](https://github.com/asadbek0512/Zinfurn)
 
-<img src="https://raw.githubusercontent.com/asadbek0512/asadbek0512/main/assets/zinfurn.png" alt="Screenshot" width="100%" />
+<!-- <img src="https://raw.githubusercontent.com/asadbek0512/asadbek0512/main/assets/zinfurn.png" alt="Screenshot" width="100%" />  -->
 
 A production-deployed furniture marketplace: catalog browsing with rich filters, ordering with coupons, a repair-service vertical, agent profiles, community articles, an AI shopping assistant, an AI room designer, native mobile AR placement, and a full admin panel — in 5 languages, on a hand-built dark/light theme system.
 
