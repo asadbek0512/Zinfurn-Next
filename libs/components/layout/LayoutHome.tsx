@@ -11,6 +11,7 @@ import { getJwtToken, updateUserInfo } from '../../auth';
 const Chat = dynamic(() => import('../Chat'), { ssr: false });
 const AiChat = dynamic(() => import('../AiChat'), { ssr: false });
 const SalePromoModal = dynamic(() => import('../common/SalePromoModal'), { ssr: false });
+const ScrollTop = dynamic(() => import('../ScrollTop'), { ssr: false });
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -85,6 +86,7 @@ const withLayoutMain = (Component: any) => {
 
 						<Chat />
 						<AiChat />
+						<ScrollTop />
 						<SalePromoModal />
 					</Stack>
 				</>
@@ -110,8 +112,10 @@ const withLayoutMain = (Component: any) => {
 						</Stack>
 
 						<Chat />
-						
+
 						<AiChat />
+
+						<ScrollTop />
 
 						<Stack id={'footer'}>
 							<Footer />

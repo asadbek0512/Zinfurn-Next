@@ -6,6 +6,7 @@ import { Stack } from '@mui/material';
 import { updateUserInfo, setJwtToken } from '../../auth';
 import Chat from '../Chat';
 import AiChat from '../AiChat';
+import ScrollTop from '../ScrollTop';
 import SalePromoModal from '../common/SalePromoModal';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -161,6 +162,7 @@ const withLayoutBasic = (Component: any) => {
 
 						<Chat />
 						<AiChat />
+						<ScrollTop />
 						<LinkAccountToast />
 						<SalePromoModal />
 					</Stack>
@@ -197,6 +199,8 @@ const withLayoutBasic = (Component: any) => {
 						<Chat />
 
 						<AiChat />
+
+						<ScrollTop />
 
 						<Stack id={'footer'}>
 							<Footer />
