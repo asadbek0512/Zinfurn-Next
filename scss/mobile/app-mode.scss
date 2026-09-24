@@ -17,8 +17,10 @@ html[data-app='1'] {
     padding-bottom: var(--app-nav-total);
   }
 
-  // Yon menyu tugmasi va footer app'da keraksiz — navigatsiya pastda
+  // Yon menyu tugmasi va footer app'da keraksiz — navigatsiya pastda.
+  // Savat ikoni ham olib tashlanadi: u pastdagi navbarda badge bilan turadi.
   .mobile-menu-btn,
+  .mobile-user-box .cart-nav-btn,
   #footer {
     display: none !important;
   }

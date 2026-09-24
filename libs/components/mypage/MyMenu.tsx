@@ -27,7 +27,18 @@ import UserAvatar from '../common/UserAvatar';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useTranslation } from 'next-i18next';
+
+const MORE_LINKS = [
+	{ href: '/agent', labelKey: 'Agents', icon: <PeopleOutlinedIcon /> },
+	{ href: '/community?articleCategory=FREE', labelKey: 'Community', icon: <ForumOutlinedIcon /> },
+	{ href: '/cs', labelKey: 'CS', icon: <HelpOutlineIcon /> },
+	{ href: '/about', labelKey: 'About Us', icon: <InfoOutlinedIcon /> },
+];
 
 const MyMenu = () => {
 	const { t } = useTranslation('common');
@@ -229,6 +240,20 @@ const MyMenu = () => {
 						</div>
 						<ChevronRightIcon className="mob-mymenu-item-chevron" />
 					</div>
+				</div>
+
+				{/* Ko'proq — app'da yon menyu yo'q, shu sahifalar shu yerdan ochiladi */}
+				<div className="mob-mymenu-section">
+					<div className="mob-mymenu-section-title">{t('More')}</div>
+					{MORE_LINKS.map((link) => (
+						<div key={link.href} className="mob-mymenu-item" onClick={() => router.push(link.href)}>
+							<div className="mob-mymenu-item-icon">{link.icon}</div>
+							<div className="mob-mymenu-item-text">
+								<span className="mob-mymenu-item-label">{t(link.labelKey)}</span>
+							</div>
+							<ChevronRightIcon className="mob-mymenu-item-chevron" />
+						</div>
+					))}
 				</div>
 
 				{/* Logout */}
