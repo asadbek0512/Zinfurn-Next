@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Avatar, Box, CircularProgress, Stack } from '@mui/material';
+import { Box, CircularProgress, Stack } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import CloseIcon from '@mui/icons-material/Close';
 import ScrollableFeed from 'react-scrollable-feed';
 import { useRouter } from 'next/router';
@@ -27,6 +26,8 @@ interface AiMessage {
 	products?: AiProduct[];
 	actions?: AiAction[];
 }
+
+const AI_SUGGESTION_KEYS = ['AI Suggestion 1', 'AI Suggestion 2', 'AI Suggestion 3'];
 
 /** AI navigatsiya tugmalari — bosilганda tegishli sahifaga o'tadi */
 const AiActionButtons = ({ actions, onGo }: { actions?: AiAction[]; onGo: (href: string) => void }) => {
@@ -145,8 +146,8 @@ const AiChat = () => {
 		}
 	};
 
-	const sendMessage = async () => {
-		const text = input.trim();
+	const sendMessage = async (preset?: string) => {
+		const text = (preset ?? input).trim();
 		if (!text || loading) return;
 
 		const userMessage: AiMessage = { role: 'user', content: text };
@@ -184,49 +185,72 @@ const AiChat = () => {
 		}
 	};
 
-	const aiMessages = (
+	const chatHeader = (
+		<Box className="ai-chat-top" component="div">
+			<span className="ai-status-dot" />
+			<div className="ai-chat-title">
+				<strong>Zinfurn AI</strong>
+				<small>{t('AI Subtitle')}</small>
+			</div>
+			<button type="button" className="ai-chat-close" aria-label="Close" onClick={handleToggle}>
+				<CloseIcon />
+			</button>
+		</Box>
+	);
+
+	const chatBody = (
 		<>
-			<Box className="ai-chat-top" component="div">
-				<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} loading="lazy" decoding="async" />
-				<span>{t('Zinfurn AI Assistant')}</span>
-			</Box>
 			<Box className="ai-chat-content" component="div">
 				<ScrollableFeed>
 					<Stack className="ai-chat-main">
-						<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-							<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-								<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} loading="lazy" decoding="async" />
-							</Avatar>
-							<div className="ai-msg-left">{t('AI Welcome Message')}</div>
-						</Box>
+						<div className="ai-welcome">{t('AI Welcome Message')}</div>
+						{messages.length === 0 && (
+							<div className="ai-suggestions">
+								{AI_SUGGESTION_KEYS.map((key) => (
+									<button key={key} type="button" className="ai-suggestion" onClick={() => sendMessage(t(key))} disabled={loading}>
+										{t(key)}
+									</button>
+								))}
+							</div>
+						)}
 						{messages.map((msg, idx) =>
 							msg.role === 'user' ? (
-								<Box key={idx} component="div" flexDirection="row" style={{ display: 'flex' }} alignItems="flex-end" justifyContent="flex-end" sx={{ m: '10px 0px' }}>
+								<Box key={idx} component="div" style={{ display: 'flex' }} justifyContent="flex-end" sx={{ m: '8px 0px' }}>
 									<div className="ai-msg-right">{msg.content}</div>
 								</Box>
 							) : (
-								<Box key={idx} flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-									<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-										<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
-									</Avatar>
-									<div className="ai-msg-left">{msg.content}<AiProductCards products={msg.products} onPick={pickProduct} /><AiActionButtons actions={msg.actions} onGo={goTo} /></div>
+								<Box key={idx} style={{ display: 'flex' }} sx={{ m: '8px 0px' }} component="div">
+									<div className="ai-msg-left">
+										{msg.content}
+										<AiProductCards products={msg.products} onPick={pickProduct} />
+										<AiActionButtons actions={msg.actions} onGo={goTo} />
+									</div>
 								</Box>
 							),
 						)}
 						{loading && (
-							<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-								<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-									<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
-								</Avatar>
-								<div className="ai-msg-left ai-typing"><span></span><span></span><span></span></div>
+							<Box style={{ display: 'flex' }} sx={{ m: '8px 0px' }} component="div">
+								<div className="ai-msg-left ai-typing">
+									<span></span>
+									<span></span>
+									<span></span>
+								</div>
 							</Box>
 						)}
 					</Stack>
 				</ScrollableFeed>
 			</Box>
 			<Box className="ai-chat-bott" component="div">
-				<input type="text" className="ai-msg-input" placeholder={t('AI Input Placeholder')} value={input} onChange={getInputHandler} onKeyDown={getKeyHandler} disabled={loading} />
-				<button className="ai-send-btn" onClick={sendMessage} disabled={loading}>
+				<input
+					type="text"
+					className="ai-msg-input"
+					placeholder={t('AI Input Placeholder')}
+					value={input}
+					onChange={getInputHandler}
+					onKeyDown={getKeyHandler}
+					disabled={loading}
+				/>
+				<button className="ai-send-btn" onClick={() => sendMessage()} disabled={loading}>
 					{loading ? <CircularProgress size={18} style={{ color: '#fff' }} /> : <SendIcon style={{ color: '#fff' }} />}
 				</button>
 			</Box>
@@ -237,54 +261,9 @@ const AiChat = () => {
 		return (
 			<Stack className="ai-chatting mob-ai-chatting">
 				{open && <div className="mob-chat-backdrop" onClick={handleToggle} />}
-				<Stack className={`ai-chat-frame ${open ? 'open' : ''}`} ref={mobFrameRef as any}>
-					<Box className="ai-chat-top" component="div">
-						<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} loading="lazy" decoding="async" />
-						<span>{t('Zinfurn AI Assistant')}</span>
-						<button onClick={handleToggle} style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px' }}>
-							<CloseIcon style={{ fontSize: 20, color: 'var(--text-2)' }} />
-						</button>
-					</Box>
-					<Box className="ai-chat-content" component="div">
-						<ScrollableFeed>
-							<Stack className="ai-chat-main">
-								<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-									<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-										<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} loading="lazy" decoding="async" />
-									</Avatar>
-									<div className="ai-msg-left">{t('AI Welcome Message')}</div>
-								</Box>
-								{messages.map((msg, idx) =>
-									msg.role === 'user' ? (
-										<Box key={idx} component="div" flexDirection="row" style={{ display: 'flex' }} alignItems="flex-end" justifyContent="flex-end" sx={{ m: '10px 0px' }}>
-											<div className="ai-msg-right">{msg.content}</div>
-										</Box>
-									) : (
-										<Box key={idx} flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-											<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-												<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
-											</Avatar>
-											<div className="ai-msg-left">{msg.content}<AiProductCards products={msg.products} onPick={pickProduct} /><AiActionButtons actions={msg.actions} onGo={goTo} /></div>
-										</Box>
-									),
-								)}
-								{loading && (
-									<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-										<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-											<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
-										</Avatar>
-										<div className="ai-msg-left ai-typing"><span></span><span></span><span></span></div>
-									</Box>
-								)}
-							</Stack>
-						</ScrollableFeed>
-					</Box>
-					<Box className="ai-chat-bott" component="div">
-						<input type="text" className="ai-msg-input" placeholder={t('AI Input Placeholder')} value={input} onChange={getInputHandler} onKeyDown={getKeyHandler} disabled={loading} />
-						<button className="ai-send-btn" onClick={sendMessage} disabled={loading}>
-							{loading ? <CircularProgress size={18} style={{ color: '#fff' }} /> : <SendIcon style={{ color: '#fff' }} />}
-						</button>
-					</Box>
+				<Stack className={`ai-chat-frame ${open ? 'open' : ''}`} ref={mobFrameRef}>
+					{chatHeader}
+					{chatBody}
 				</Stack>
 			</Stack>
 		);
@@ -314,123 +293,26 @@ const AiChat = () => {
 				}
 			`}</style>
 
-			{openButton ? (
-				<>
-					{/* Ochish buttoni — faqat chat yopiq bo'lganda */}
-					{!open && (
-						<button
-							className="ai-chat-button ai-btn-open"
-							onClick={handleToggle}
-							style={{
-								// O'ng pastdagi vidjetlar tartibi: sotuv toast'i (24px) → chat (168px) → AI (248px)
-								bottom: '248px',
-								background: 'transparent',
-								boxShadow: 'none',
-								zIndex: 1300,
-							}}
-						>
-							<img src="/img/ai1.webp" alt="AI" style={{ width: 54, height: 74 }} loading="lazy" decoding="async" />
-						</button>
-					)}
-
-					{/* Yopish buttoni — faqat chat ochiq bo'lganda, pastda alohida */}
-					{open && (
-						<button
-							onClick={handleToggle}
-							style={{
-								position: 'fixed',
-								// Chat oynasi 150px dan boshlanadi, pastki paneli 80px —
-								// tugma input qatorining o'rtasiga to'g'ri kelsin
-								bottom: '150px',
-								right: '30px',
-								width: '50px',
-								height: '50px',
-								borderRadius: '50%',
-								background: 'var(--primary)',
-								border: 'none',
-								cursor: 'pointer',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								boxShadow: '0px 0px 10px 0px rgba(50,50,50,0.3)',
-								zIndex: 99999, // 👈 hamma narsa ustida
-							}}
-						>
-							<CloseFullscreenIcon style={{ color: '#fff' }} />
-						</button>
-					)}
-				</>
-			) : null}
+			{/* Ochish buttoni — faqat chat yopiq bo'lganda; yopish endi header'dagi X da */}
+			{openButton && !open && (
+				<button
+					className="ai-chat-button ai-btn-open"
+					onClick={handleToggle}
+					style={{
+						// O'ng pastdagi vidjetlar tartibi: sotuv toast'i (24px) → chat (168px) → AI (248px)
+						bottom: '248px',
+						background: 'transparent',
+						boxShadow: 'none',
+						zIndex: 1300,
+					}}
+				>
+					<img src="/img/ai1.webp" alt="AI" style={{ width: 54, height: 74 }} loading="lazy" decoding="async" />
+				</button>
+			)}
 
 			<Stack className={`ai-chat-frame ${open ? 'open' : ''}`}>
-				<Box className="ai-chat-top" component="div">
-					<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} loading="lazy" decoding="async" />
-					<span>{t('Zinfurn AI Assistant')}</span>
-				</Box>
-				<Box className="ai-chat-content" component="div">
-					<ScrollableFeed>
-						<Stack className="ai-chat-main">
-							<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-								<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-									<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32 }} loading="lazy" decoding="async" />
-								</Avatar>
-								<div className="ai-msg-left">{t('AI Welcome Message')}</div>
-							</Box>
-							{messages.map((msg, idx) =>
-								msg.role === 'user' ? (
-									<Box
-										key={idx}
-										component="div"
-										flexDirection="row"
-										style={{ display: 'flex' }}
-										alignItems="flex-end"
-										justifyContent="flex-end"
-										sx={{ m: '10px 0px' }}
-									>
-										<div className="ai-msg-right">{msg.content}</div>
-									</Box>
-								) : (
-									<Box key={idx} flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-										<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-											<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
-										</Avatar>
-										<div className="ai-msg-left">{msg.content}<AiProductCards products={msg.products} onPick={pickProduct} /><AiActionButtons actions={msg.actions} onGo={goTo} /></div>
-									</Box>
-								),
-							)}
-							{loading && (
-								<Box flexDirection="row" style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
-									<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
-										<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
-									</Avatar>
-									<div className="ai-msg-left ai-typing">
-										<span></span>
-										<span></span>
-										<span></span>
-									</div>
-								</Box>
-							)}
-						</Stack>
-					</ScrollableFeed>
-				</Box>
-				<Box className="ai-chat-bott" component="div">
-					<input
-						type="text"
-						className="ai-msg-input"
-						placeholder={t('AI Input Placeholder')}
-						value={input}
-						onChange={getInputHandler}
-						onKeyDown={getKeyHandler}
-						disabled={loading}
-					/>
-					<button className="ai-send-btn" onClick={sendMessage} disabled={loading}>
-						{loading ? (
-							<CircularProgress size={18} style={{ color: '#fff' }} />
-						) : (
-							<SendIcon style={{ color: '#fff' }} />
-						)}
-					</button>
-				</Box>
+				{chatHeader}
+				{chatBody}
 			</Stack>
 		</Stack>
 	);

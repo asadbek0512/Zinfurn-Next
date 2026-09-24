@@ -4,7 +4,7 @@
 $app-nav-height: 64px;
 $app-nav-label-size: 11.5px;
 $app-center-size: 56px;
-$app-center-lift: 20px;
+$app-center-lift: 26px;
 
 :root {
   // Navbar balandligi + iPhone pastki xavfsiz zonasi (home indicator)
@@ -55,10 +55,13 @@ html[data-app='1'] {
     // Markazdagi Bosh sahifa — navbar'dan yuqoriga chiqqan katta doira
     .app-nav-item.center {
       .app-nav-icon {
+        box-sizing: border-box;
+        flex: 0 0 auto;
         height: $app-center-size;
         width: $app-center-size;
+        min-width: $app-center-size;
         margin-top: -#{$app-center-lift};
-        margin-bottom: calc(#{$app-center-lift} - 4px);
+        margin-bottom: 0;
         border-radius: 50%;
         background: var(--primary, #cf6422);
         border: 4px solid var(--surface, #fff);
