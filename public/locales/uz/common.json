@@ -664,5 +664,7 @@
   "ar_model_missing": "3D model yo‘q",
   "sold_out": "Sotuvda yo‘q",
   "mark_sold_out": "Tugadi deb belgilash",
-  "mark_in_stock": "Sotuvda bor deb belgilash"
+  "mark_in_stock": "Sotuvda bor deb belgilash",
+  "Cart": "Savat",
+  "Profile": "Profil"
 }

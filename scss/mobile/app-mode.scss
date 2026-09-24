@@ -1,0 +1,97 @@
+// Capacitor app (WebView) rejimi — html[data-app="1"] bo'lganda qo'llanadi.
+// Web brauzerdagi ko'rinish bu fayldan mutlaqo ta'sirlanmaydi.
+
+$app-nav-height: 58px;
+$app-nav-label-size: 10.5px;
+
+:root {
+  // Navbar balandligi + iPhone pastki xavfsiz zonasi (home indicator)
+  --app-nav-h: #{$app-nav-height};
+  --app-nav-total: calc(#{$app-nav-height} + env(safe-area-inset-bottom, 0px));
+}
+
+html[data-app='1'] {
+  // Kontent navbar ostida qolib ketmasin
+  #mobile-wrap,
+  #pc-wrap {
+    padding-bottom: var(--app-nav-total);
+  }
+
+  // Yon menyu tugmasi va footer app'da keraksiz — navigatsiya pastda
+  .mobile-menu-btn,
+  #footer {
+    display: none !important;
+  }
+
+  // O'ngdagi suzuvchi vidjetlar navbar ustiga ko'tariladi
+  .chatting .chat-button {
+    bottom: calc(168px + var(--app-nav-total)) !important;
+  }
+  .ai-chat-button.ai-btn-open {
+    bottom: calc(248px + var(--app-nav-total)) !important;
+  }
+  button[aria-label^='Scroll'] {
+    bottom: calc(16px + var(--app-nav-total)) !important;
+  }
+
+  .app-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1400;
+    display: flex;
+    align-items: stretch;
+    height: var(--app-nav-total);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--surface, #fff);
+    border-top: 1px solid var(--border-soft, rgba(0, 0, 0, 0.08));
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.06);
+
+    .app-nav-item {
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 6px 0 4px;
+      border: none;
+      background: transparent;
+      color: var(--text-3, #8a8a8a);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 0.15s ease, transform 0.12s ease;
+
+      &:active {
+        transform: scale(0.94);
+      }
+
+      &.active {
+        color: var(--primary, #cf6422);
+      }
+
+      .app-nav-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 24px;
+
+        svg {
+          font-size: 23px;
+        }
+      }
+
+      .app-nav-label {
+        font-size: $app-nav-label-size;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: 0.1px;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}

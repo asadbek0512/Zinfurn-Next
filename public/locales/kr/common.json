@@ -665,5 +665,7 @@
   "ar_model_missing": "3D 모델 없음",
   "sold_out": "품절",
   "mark_sold_out": "품절로 표시",
-  "mark_in_stock": "재고 있음으로 표시"
+  "mark_in_stock": "재고 있음으로 표시",
+  "Cart": "장바구니",
+  "Profile": "프로필"
 }

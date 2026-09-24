@@ -664,5 +664,7 @@
   "ar_model_missing": "No 3D model",
   "sold_out": "Sold Out",
   "mark_sold_out": "Mark as Sold Out",
-  "mark_in_stock": "Mark as In Stock"
+  "mark_in_stock": "Mark as In Stock",
+  "Cart": "Cart",
+  "Profile": "Profile"
 }

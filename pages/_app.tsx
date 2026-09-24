@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import React, { useEffect, useMemo } from 'react';
@@ -14,6 +15,7 @@ import { useRouter } from 'next/router';
 import { updateUserInfo, updateStorage, restoreSession } from '../libs/auth';
 import { sweetMixinErrorAlert } from '../libs/sweetAlert';
 import CartDrawer from '../libs/components/cart/CartDrawer';
+const AppBottomNav = dynamic(() => import('../libs/components/layout/AppBottomNav'), { ssr: false });
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
 import SEO from '../libs/components/common/SEO';
 import BrandJsonLd from '../libs/components/common/BrandJsonLd';
@@ -153,6 +155,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 					<SEO title={pageTitle} url={canonicalUrl} noindex={NOINDEX_PATHS.has(router.pathname)} />
 					<Component {...pageProps} />
 					<CartDrawer />
+					<AppBottomNav />
 				</CurrencyProvider>
 			</ThemeProvider>
 		</ApolloProvider>

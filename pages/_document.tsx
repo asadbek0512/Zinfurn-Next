@@ -26,6 +26,14 @@ export default function Document() {
 						__html: `(function(){try{var t=localStorage.getItem('theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){}})();`,
 					}}
 				/>
+				{/* App (Capacitor WebView) rejimi — birinchi paint'dan OLDIN belgilanadi, shunda
+				    pastdagi navbar/yashirin yon menyu CSS'i sakrash (flash) bilan qo'llanmaydi.
+				    UA tag'i zinfurn-app/capacitor.config.ts dagi appendUserAgent bilan bir xil. */}
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `(function(){try{if(/ZinfurnApp/.test(navigator.userAgent)){document.documentElement.dataset.app='1';}}catch(e){}})();`,
+					}}
+				/>
 				<Main />
 				<NextScript />
 			</body>
