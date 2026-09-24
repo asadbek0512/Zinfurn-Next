@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Box, CircularProgress, Stack } from '@mui/material';
+import { Avatar, Box, CircularProgress, Stack } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import CloseIcon from '@mui/icons-material/Close';
 import ScrollableFeed from 'react-scrollable-feed';
 import { useRouter } from 'next/router';
@@ -185,16 +186,21 @@ const AiChat = () => {
 		}
 	};
 
+	const aiAvatar = (
+		<Avatar sx={{ bgcolor: 'var(--primary)', width: 42, height: 42, flexShrink: 0 }}>
+			<img src="/img/ai1.webp" alt="AI" style={{ width: 30, height: 30 }} loading="lazy" decoding="async" />
+		</Avatar>
+	);
+
 	const chatHeader = (
 		<Box className="ai-chat-top" component="div">
-			<span className="ai-status-dot" />
-			<div className="ai-chat-title">
-				<strong>Zinfurn AI</strong>
-				<small>{t('AI Subtitle')}</small>
-			</div>
-			<button type="button" className="ai-chat-close" aria-label="Close" onClick={handleToggle}>
-				<CloseIcon />
-			</button>
+			<img src="/img/ai1.webp" alt="AI" style={{ width: 32, height: 32, marginRight: '8px' }} loading="lazy" decoding="async" />
+			<span>{t('Zinfurn AI Assistant')}</span>
+			{device === 'mobile' && (
+				<button onClick={handleToggle} style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px' }}>
+					<CloseIcon style={{ fontSize: 20, color: 'var(--text-2)' }} />
+				</button>
+			)}
 		</Box>
 	);
 
@@ -220,6 +226,7 @@ const AiChat = () => {
 								</Box>
 							) : (
 								<Box key={idx} style={{ display: 'flex' }} sx={{ m: '8px 0px' }} component="div">
+									{aiAvatar}
 									<div className="ai-msg-left">
 										{msg.content}
 										<AiProductCards products={msg.products} onPick={pickProduct} />
@@ -230,6 +237,7 @@ const AiChat = () => {
 						)}
 						{loading && (
 							<Box style={{ display: 'flex' }} sx={{ m: '8px 0px' }} component="div">
+								{aiAvatar}
 								<div className="ai-msg-left ai-typing">
 									<span></span>
 									<span></span>
@@ -293,7 +301,7 @@ const AiChat = () => {
 				}
 			`}</style>
 
-			{/* Ochish buttoni — faqat chat yopiq bo'lganda; yopish endi header'dagi X da */}
+			{/* Ochish buttoni — faqat chat yopiq bo'lganda */}
 			{openButton && !open && (
 				<button
 					className="ai-chat-button ai-btn-open"
@@ -307,6 +315,33 @@ const AiChat = () => {
 					}}
 				>
 					<img src="/img/ai1.webp" alt="AI" style={{ width: 54, height: 74 }} loading="lazy" decoding="async" />
+				</button>
+			)}
+
+			{/* Yopish buttoni — faqat chat ochiq bo'lganda, pastda alohida */}
+			{openButton && open && (
+				<button
+					onClick={handleToggle}
+					style={{
+						position: 'fixed',
+						// Chat oynasi 150px dan boshlanadi, pastki paneli 80px —
+						// tugma input qatorining o'rtasiga to'g'ri kelsin
+						bottom: '150px',
+						right: '30px',
+						width: '50px',
+						height: '50px',
+						borderRadius: '50%',
+						background: 'var(--primary)',
+						border: 'none',
+						cursor: 'pointer',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						boxShadow: '0px 0px 10px 0px rgba(50,50,50,0.3)',
+						zIndex: 99999,
+					}}
+				>
+					<CloseFullscreenIcon style={{ color: '#fff' }} />
 				</button>
 			)}
 
