@@ -129,4 +129,58 @@ html[data-app='1'] {
       }
     }
   }
+
+  // Chat / AI suzuvchi tugmalari — app'da yon menyu yo'q, PC'dagidek doim ko'rinadi
+  .app-chat-fabs {
+    position: fixed;
+    right: 14px;
+    bottom: calc(var(--app-nav-total) + 14px);
+    z-index: 1350;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    .app-fab {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background: var(--surface, #fff);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.12s ease;
+
+      &:active {
+        transform: scale(0.92);
+      }
+    }
+
+    .app-fab-ai {
+      background: transparent;
+      box-shadow: none;
+
+      img {
+        width: 46px;
+        height: 62px;
+        object-fit: contain;
+      }
+    }
+
+    .app-fab-chat img {
+      width: 28px;
+      height: 24px;
+      object-fit: contain;
+    }
+  }
+}
+
+// Chat yoki AI oynasi ochilganda tugmalar xalaqit bermasin
+body:has(.mob-chat-backdrop) .app-chat-fabs {
+  display: none;
 }

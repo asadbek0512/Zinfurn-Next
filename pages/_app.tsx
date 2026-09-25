@@ -16,6 +16,7 @@ import { updateUserInfo, updateStorage, restoreSession } from '../libs/auth';
 import { sweetMixinErrorAlert } from '../libs/sweetAlert';
 import CartDrawer from '../libs/components/cart/CartDrawer';
 const AppBottomNav = dynamic(() => import('../libs/components/layout/AppBottomNav'), { ssr: false });
+const AppChatFabs = dynamic(() => import('../libs/components/layout/AppChatFabs'), { ssr: false });
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
 import SEO from '../libs/components/common/SEO';
 import BrandJsonLd from '../libs/components/common/BrandJsonLd';
@@ -156,6 +157,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 					<Component {...pageProps} />
 					<CartDrawer />
 					<AppBottomNav />
+					<AppChatFabs />
 				</CurrencyProvider>
 			</ThemeProvider>
 		</ApolloProvider>
