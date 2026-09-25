@@ -209,7 +209,10 @@ const AiChat = () => {
 			<Box className="ai-chat-content" component="div">
 				<ScrollableFeed>
 					<Stack className="ai-chat-main">
-						<div className="ai-welcome">{t('AI Welcome Message')}</div>
+						<Box style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component="div">
+							{aiAvatar}
+							<div className="ai-msg-left">{t('AI Welcome Message')}</div>
+						</Box>
 						{messages.length === 0 && (
 							<div className="ai-suggestions">
 								{AI_SUGGESTION_KEYS.map((key) => (

@@ -222,15 +222,8 @@ hr {
 	}
 }
 
-// AI chat — welcome matni va suggestion chip'lar (PC + mobile)
+// AI chat — suggestion chip'lar (PC + mobile)
 .ai-chatting .ai-chat-frame {
-	.ai-welcome {
-		margin: 4px 0 12px;
-		font-size: 14.5px;
-		line-height: 1.55;
-		color: var(--text-1);
-	}
-
 	.ai-suggestions {
 		display: flex;
 		flex-direction: column;
