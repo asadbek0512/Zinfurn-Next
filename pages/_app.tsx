@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import { updateUserInfo, updateStorage, restoreSession } from '../libs/auth';
 import { sweetMixinErrorAlert } from '../libs/sweetAlert';
 import CartDrawer from '../libs/components/cart/CartDrawer';
+import CompareBar from '../libs/components/common/CompareBar';
 const AppBottomNav = dynamic(() => import('../libs/components/layout/AppBottomNav'), { ssr: false });
 const AppChatFabs = dynamic(() => import('../libs/components/layout/AppChatFabs'), { ssr: false });
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
@@ -156,6 +157,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 					<SEO title={pageTitle} url={canonicalUrl} noindex={NOINDEX_PATHS.has(router.pathname)} />
 					<Component {...pageProps} />
 					<CartDrawer />
+					<CompareBar />
 					<AppBottomNav />
 					<AppChatFabs />
 				</CurrencyProvider>

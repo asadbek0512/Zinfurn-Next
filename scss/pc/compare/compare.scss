@@ -1,0 +1,564 @@
+/* ── Header qidiruv (autocomplete) ── */
+.header-search {
+	position: relative;
+	display: flex;
+	align-items: center;
+	width: 240px;
+	height: 36px;
+	padding: 0 10px;
+	margin-right: 12px;
+	border: 1px solid var(--border);
+	border-radius: 18px;
+	background: var(--surface);
+	transition: border-color 0.2s, width 0.2s;
+
+	&:focus-within {
+		border-color: var(--primary);
+		width: 300px;
+	}
+
+	.header-search-icon {
+		font-size: 18px;
+		color: var(--text-3);
+	}
+
+	input {
+		flex: 1;
+		min-width: 0;
+		height: 100%;
+		padding: 0 6px;
+		border: none;
+		outline: none;
+		background: transparent;
+		color: var(--text-1);
+		font-size: 13px;
+
+		&::-webkit-search-cancel-button {
+			display: none;
+		}
+	}
+
+	.header-search-clear {
+		display: flex;
+		padding: 2px;
+		border: none;
+		background: none;
+		color: var(--text-3);
+		cursor: pointer;
+	}
+
+	&.compact {
+		position: absolute;
+		left: 12px;
+		right: 12px;
+		top: 50%;
+		transform: translateY(-50%);
+		width: auto;
+		margin: 0;
+		z-index: 20;
+
+		&:focus-within {
+			width: auto;
+		}
+
+		input {
+			font-size: 16px; /* iOS zoom qilmasligi uchun */
+		}
+	}
+}
+
+.header-search-toggle {
+	display: flex;
+	align-items: center;
+	padding: 5px;
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+
+.header-search-dropdown {
+	position: absolute;
+	top: calc(100% + 6px);
+	left: 0;
+	right: 0;
+	min-width: 300px;
+	max-height: 420px;
+	overflow-y: auto;
+	padding: 6px 0;
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	background: var(--surface);
+	box-shadow: var(--shadow-2);
+	z-index: 1300;
+
+	.hs-empty {
+		padding: 14px 16px;
+		color: var(--text-3);
+		font-size: 13px;
+	}
+
+	.hs-item {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 8px 12px;
+		cursor: pointer;
+
+		&:hover,
+		&.active {
+			background: var(--bg-muted);
+		}
+
+		img,
+		.hs-noimg {
+			width: 44px;
+			height: 44px;
+			flex-shrink: 0;
+			border-radius: 8px;
+			object-fit: cover;
+			background: var(--bg-muted);
+		}
+	}
+
+	.hs-info {
+		display: flex;
+		flex: 1;
+		min-width: 0;
+		flex-direction: column;
+	}
+
+	.hs-title {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		color: var(--text-1);
+		font-size: 13px;
+		font-weight: 500;
+	}
+
+	.hs-meta {
+		color: var(--text-3);
+		font-size: 11px;
+	}
+
+	.hs-price {
+		color: var(--primary);
+		font-size: 13px;
+		font-weight: 600;
+		white-space: nowrap;
+	}
+
+	.hs-all {
+		width: 100%;
+		padding: 10px 12px;
+		border: none;
+		border-top: 1px solid var(--border-soft);
+		background: none;
+		color: var(--primary);
+		font-size: 13px;
+		font-weight: 600;
+		text-align: left;
+		cursor: pointer;
+	}
+}
+
+/* ── Solishtirish paneli ── */
+.compare-bar {
+	position: fixed;
+	left: 50%;
+	bottom: 24px;
+	transform: translateX(-50%);
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 12px 10px 18px;
+	border-radius: 28px;
+	background: var(--bg-inverse);
+	color: var(--surface);
+	box-shadow: var(--shadow-2);
+	font-size: 14px;
+	z-index: 1200;
+
+	.compare-bar-go {
+		padding: 6px 14px;
+		border-radius: 18px;
+		background: var(--primary);
+		color: #fff;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.compare-bar-clear {
+		border: none;
+		background: none;
+		color: inherit;
+		opacity: 0.7;
+		cursor: pointer;
+	}
+}
+
+/* ── Solishtirish sahifasi ── */
+.compare-page {
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 40px 16px 80px;
+	color: var(--text-1);
+
+	h2 {
+		margin: 0;
+		font-size: 26px;
+	}
+}
+
+.compare-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 24px;
+}
+
+.cmp-clear {
+	border: none;
+	background: none;
+	color: var(--text-3);
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.compare-empty {
+	padding: 60px 0;
+	text-align: center;
+	color: var(--text-2);
+
+	p {
+		margin: 12px 0 24px;
+	}
+}
+
+.cmp-btn {
+	display: inline-block;
+	padding: 8px 18px;
+	border: none;
+	border-radius: 8px;
+	background: var(--primary);
+	color: #fff;
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+.compare-scroll {
+	overflow-x: auto;
+}
+
+.compare-table {
+	width: 100%;
+	min-width: 560px;
+	border-collapse: collapse;
+	table-layout: fixed;
+
+	th,
+	td {
+		padding: 12px;
+		border-bottom: 1px solid var(--border-soft);
+		text-align: left;
+		vertical-align: top;
+		font-size: 14px;
+	}
+
+	th:first-child,
+	.cmp-label {
+		width: 140px;
+		color: var(--text-3);
+		font-weight: 500;
+	}
+
+	tr.cmp-diff td:not(.cmp-label) {
+		background: var(--primary-soft);
+	}
+
+	.cmp-product {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		a {
+			color: var(--text-1);
+			text-decoration: none;
+		}
+
+		img,
+		.cmp-noimg {
+			display: block;
+			width: 100%;
+			aspect-ratio: 1;
+			border-radius: 12px;
+			object-fit: cover;
+			background: var(--bg-muted);
+		}
+	}
+
+	.cmp-title {
+		display: block;
+		margin-top: 8px;
+		font-weight: 600;
+	}
+
+	.cmp-remove {
+		position: absolute;
+		top: 6px;
+		right: 6px;
+		display: flex;
+		padding: 4px;
+		border: none;
+		border-radius: 50%;
+		background: var(--surface);
+		box-shadow: var(--shadow-1);
+		cursor: pointer;
+		z-index: 1;
+	}
+
+	.cmp-best {
+		color: var(--primary);
+		font-weight: 700;
+	}
+
+	.cmp-rating,
+	.cmp-color {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.cmp-color i {
+		width: 14px;
+		height: 14px;
+		border: 1px solid var(--border);
+		border-radius: 50%;
+	}
+}
+
+@media (max-width: 768px) {
+	.compare-page {
+		padding-top: 20px;
+
+		h2 {
+			font-size: 20px;
+		}
+	}
+
+	.compare-table {
+		th:first-child,
+		.cmp-label {
+			width: 90px;
+			font-size: 12px;
+		}
+
+		th,
+		td {
+			padding: 8px;
+			font-size: 12px;
+		}
+	}
+
+	.compare-bar {
+		bottom: 84px; /* mobil bottom navbar ustida */
+		font-size: 13px;
+	}
+}
+
+/* Mobil header ichida ochiladigan qidiruv shu konteynerga nisbatan joylashadi */
+.mobile-navbar .mobile-container {
+	position: relative;
+}
+
+/* ── Desktop header: tepadagi ixcham utility bar ── */
+$topbar-height: 36px;
+
+#pc-wrap #top .navbar {
+	.navbar-topbar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: $topbar-height;
+		z-index: 1201;
+		/* Light mode ranglari; dark mode pastda qayta belgilanadi */
+		--tb-bg: #141414;
+		--tb-border: rgba(255, 255, 255, 0.08);
+		--tb-text: rgba(255, 255, 255, 0.72);
+		--tb-text-strong: #ffffff;
+		--tb-icon: rgba(255, 255, 255, 0.8);
+		--tb-hover: rgba(255, 255, 255, 0.08);
+		--tb-outline: rgba(255, 255, 255, 0.18);
+		--tb-input: rgba(255, 255, 255, 0.07);
+		--tb-input-focus: rgba(255, 255, 255, 0.12);
+		--tb-input-border: rgba(255, 255, 255, 0.14);
+		--tb-input-border-focus: rgba(255, 255, 255, 0.35);
+		--tb-placeholder: rgba(255, 255, 255, 0.5);
+
+		background: var(--tb-bg);
+		border-bottom: 1px solid var(--tb-border);
+		transition: background 0.2s;
+
+		/* Pastdagi navbar .container bilan bir xil kenglik va chekka */
+		/* Chap linklar | markazdagi qidiruv | o'ng boshqaruvlar */
+		.topbar-inner {
+			display: grid;
+			grid-template-columns: 1fr auto 1fr;
+			align-items: center;
+			width: 1300px;
+			height: 100%;
+			margin: 0 auto;
+			padding: 0 clamp(14px, 2.5vw, 40px) 0 clamp(12px, 2vw, 32px);
+			box-sizing: border-box;
+		}
+
+		.topbar-links {
+			display: flex;
+			align-items: center;
+			gap: 22px;
+
+			a {
+				display: inline-flex;
+				align-items: center;
+				gap: 6px;
+				color: var(--tb-text);
+				font-size: 12px;
+				font-weight: 500;
+				letter-spacing: 0.2px;
+				text-decoration: none;
+				transition: color 0.2s;
+
+				svg {
+					font-size: 15px;
+					color: var(--primary);
+				}
+
+				&:hover {
+					color: var(--tb-text-strong);
+				}
+			}
+		}
+
+		.topbar-search {
+			display: flex;
+			justify-content: center;
+		}
+
+		.topbar-controls {
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+			gap: 24px;
+
+			.notification-icon {
+				color: var(--tb-icon);
+			}
+
+			.theme-toggle-btn {
+				padding: 5px;
+			}
+
+			.topbar-fav {
+				display: flex;
+				padding: 5px;
+				border-radius: 50%;
+				transition: background 0.2s;
+
+				&:hover {
+					background: var(--tb-hover);
+
+					.notification-icon {
+						color: var(--primary);
+					}
+				}
+			}
+
+			.btn-lang {
+				min-width: unset;
+				padding: 2px 4px;
+
+				.MuiButton-endIcon {
+					margin-left: 4px;
+				}
+			}
+
+			.btn-lang img {
+				display: block;
+				width: 20px;
+				height: 14px;
+				border-radius: 2px;
+			}
+
+			.btn-currency {
+				height: 24px;
+				padding: 0 10px;
+				border-radius: 12px;
+				border: 1px solid var(--tb-outline);
+
+				&:hover {
+					background: var(--tb-hover);
+				}
+
+				.currency-label {
+					color: var(--tb-text-strong);
+					font-size: 12px;
+					font-weight: 600;
+				}
+			}
+		}
+
+		.header-search {
+			width: 420px;
+			height: 26px;
+			margin-right: 0;
+			border-color: var(--tb-input-border);
+			background: var(--tb-input);
+
+			&:focus-within {
+				width: 460px;
+				border-color: var(--tb-input-border-focus);
+				background: var(--tb-input-focus);
+			}
+
+			.header-search-icon,
+			.header-search-clear {
+				color: var(--tb-placeholder);
+				font-size: 16px;
+			}
+
+			input {
+				color: var(--tb-text-strong);
+				font-size: 12px;
+
+				&::placeholder {
+					color: var(--tb-placeholder);
+				}
+			}
+
+			.header-search-dropdown {
+				left: 50%;
+				right: auto;
+				width: 460px;
+				transform: translateX(-50%);
+			}
+		}
+	}
+
+	.navbar-main {
+		top: $topbar-height;
+	}
+}
+
+[data-theme='dark'] #pc-wrap #top .navbar .navbar-topbar {
+	--tb-bg: #16130f;
+}

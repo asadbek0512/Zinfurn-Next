@@ -17,8 +17,11 @@ import { isSaleActive } from '../../utils/sale';
 
 const DISMISS_KEY_PREFIX = 'zin_sale_promo';
 const LAST_SHOWN_KEY = 'zin_last_sale_id';
+// Flag foydalanuvchi bo'yicha: login/logout'da qayta chiqadi, sahifa reload'ida esa yo'q
+// (reload paytida user avval bo'sh keladi — umumiy flag o'shanda o'chib ketardi)
 const SESSION_SHOWN_KEY = 'zin_promo_session_shown';
-const SESSION_USER_KEY = 'zin_promo_session_user';
+const GUEST_ID = 'guest';
+const getSessionShownKey = (userId?: string) => `${SESSION_SHOWN_KEY}_${userId || GUEST_ID}`;
 
 const SalePromoModal = () => {
 	const device = useDeviceDetect();
@@ -58,25 +61,15 @@ const SalePromoModal = () => {
 		},
 	});
 
-	// Login yoki logout bo'lganda session flagni tozalash
-	useEffect(() => {
-		if (typeof window === 'undefined') return;
-		const storedId = sessionStorage.getItem(SESSION_USER_KEY) ?? '';
-		const currentId = user?._id ?? '';
-		if (storedId !== currentId) {
-			sessionStorage.removeItem(SESSION_SHOWN_KEY);
-			sessionStorage.setItem(SESSION_USER_KEY, currentId);
-		}
-	}, [user?._id]);
-
 	// Modal ko'rsatish — har yangi kirish, login yoki logout bo'lganda
 	useEffect(() => {
 		if (typeof window === 'undefined' || !currentProp) return;
-		if (sessionStorage.getItem(SESSION_SHOWN_KEY)) return;
+		const sessionShownKey = getSessionShownKey(user?._id);
+		if (sessionStorage.getItem(sessionShownKey)) return;
 		if (user?._id && localStorage.getItem(getDismissKey())) return;
 		const timer = setTimeout(() => {
 			setVisible(true);
-			sessionStorage.setItem(SESSION_SHOWN_KEY, '1');
+			sessionStorage.setItem(sessionShownKey, '1');
 		}, 1800);
 		return () => clearTimeout(timer);
 	}, [currentProp, user?._id]);

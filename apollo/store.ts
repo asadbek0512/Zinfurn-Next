@@ -37,3 +37,6 @@ export const socketVar = makeVar<WebSocket>();
 // Cart: always start empty — CartDrawer loads from localStorage on mount (client only)
 export const cartVar = makeVar<CartItem[]>([]);
 export const cartDrawerVar = makeVar<boolean>(false);
+
+// Compare: always start empty — CompareBar loads from localStorage on mount (client only)
+export const compareVar = makeVar<string[]>([]);

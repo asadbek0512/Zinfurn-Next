@@ -35,6 +35,10 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { getCartCount } from '../utils/cartUtils';
 import { useCurrency, Currency, CURRENCY_LIST } from '../context/CurrencyContext';
 import { useThemeMode } from '../context/ThemeContext';
+import HeaderSearch from './common/HeaderSearch';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -52,8 +56,6 @@ const Top = () => {
 	const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
 	let open = Boolean(anchorEl);
 	const [bgColor, setBgColor] = useState<boolean>(false);
-	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
-	const logoutOpen = Boolean(logoutAnchor);
 	const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
 	const [notificationAnchor, setNotificationAnchor] = React.useState<null | HTMLElement>(null);
 	const notificationOpen = Boolean(notificationAnchor);
@@ -242,6 +244,7 @@ const Top = () => {
 
 						{/* Right icons */}
 						<div className={'mobile-user-box'}>
+							<HeaderSearch compact />
 								<IconButton size="small" onClick={() => cartDrawerVar(true)} className="cart-nav-btn">
 								<Badge badgeContent={cartCount} max={99} sx={{ '& .MuiBadge-badge': { backgroundColor: 'var(--primary)', color: '#fff' } }}>
 									<ShoppingCartOutlinedIcon className={'notification-icon'} />
@@ -460,6 +463,77 @@ const Top = () => {
 	} else {
 		return (
 			<Stack className={'navbar'}>
+				<div className={'navbar-topbar'}>
+					<div className={'topbar-inner'}>
+						<div className={'topbar-links'}>
+							<Link href={'/order/tracking'} prefetch={false}>
+								<LocalShippingOutlinedIcon />
+								{t('Track order')}
+							</Link>
+							<Link href={'/ai-room-designer'} prefetch={false}>
+								<AutoAwesomeOutlinedIcon />
+								{t('AI Designer')}
+							</Link>
+						</div>
+						<div className={'topbar-search'}>
+							<HeaderSearch />
+						</div>
+						<div className={'topbar-controls'}>
+							<Link href={user?._id ? '/mypage?category=myFavorites' : '/account/join'} prefetch={false} aria-label={t('My Favorites')} title={t('My Favorites')} className={'topbar-fav'}>
+								<FavoriteBorderIcon className={'notification-icon'} sx={{ fontSize: 18 }} />
+							</Link>
+							<IconButton size="small" onClick={toggleMode} className="theme-toggle-btn" aria-label="toggle theme">
+								{mode === 'dark' ? (
+									<LightModeOutlinedIcon className={'notification-icon'} sx={{ fontSize: 18 }} />
+								) : (
+									<DarkModeOutlinedIcon className={'notification-icon'} sx={{ fontSize: 18 }} />
+								)}
+							</IconButton>
+
+							<Button
+								disableRipple
+								className="btn-lang btn-currency"
+								onClick={handleCurrencyClick}
+								endIcon={<CaretDown size={12} color="var(--tb-icon)" weight="fill" />}
+							>
+								<span className="currency-label">{CURRENCY_LABELS[currency]}</span>
+							</Button>
+							<StyledMenu anchorEl={currencyAnchor} open={currencyOpen} onClose={handleCurrencyClose}>
+								{CURRENCY_LIST.map((c) => (
+									<MenuItem key={c} disableRipple selected={currency === c} onClick={() => handleCurrencySelect(c)}
+										sx={{ fontWeight: currency === c ? 700 : 400, color: currency === c ? 'var(--primary)' : 'inherit' }}>
+										<span style={{ marginRight: 8 }}>{CURRENCY_LABELS[c]}</span>{c}
+									</MenuItem>
+								))}
+							</StyledMenu>
+
+							<Button
+								disableRipple
+								className="btn-lang"
+								onClick={langClick}
+								endIcon={<CaretDown size={14} color="var(--tb-icon)" weight="fill" />}
+							>
+								<Box component={'div'} className={'flag'}>
+									<img src={lang ? `/img/flag/lang${lang}.png` : '/img/flag/langen.png'} alt="flag" />
+								</Box>
+							</Button>
+							<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose}>
+								{[
+									{ id: 'en', src: '/img/flag/langen.png', label: t('English') },
+									{ id: 'kr', src: '/img/flag/langkr.png', label: t('Korean') },
+									{ id: 'ru', src: '/img/flag/langru.png', label: t('Russian') },
+									{ id: 'ar', src: '/img/flag/langar.png', label: t('Arabic') },
+									{ id: 'uz', src: '/img/flag/languz.png', label: t('Uzbek') },
+								].map((l) => (
+									<MenuItem key={l.id} disableRipple onClick={langChoice} id={l.id}>
+										<img className="img-flag" src={l.src} id={l.id} alt={l.id} />
+										{l.label}
+									</MenuItem>
+								))}
+							</StyledMenu>
+						</div>
+					</div>
+				</div>
 				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
 					<Stack className={'container'}>
 						<Box
@@ -491,53 +565,15 @@ const Top = () => {
 								<div>{t('Community')}</div>
 							</Link>
 
-							{user?._id && (
-								<Link href={'/mypage'} prefetch={false}>
-									<div>{t('My Page')}</div>
-								</Link>
-							)}
+							<Link href={'/about'} prefetch={false}>
+								<div>{t('About Us')}</div>
+							</Link>
 
 							<Link href={'/cs'} prefetch={false}>
 								<div>{t('CS')}</div>
 							</Link>
 						</Box>
 						<Box component={'div'} className={'user-box'}>
-							{user?._id ? (
-								<>
-									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
-										<UserAvatar
-											src={
-												user?.memberImage
-													? user.memberImage.startsWith('http')
-														? user.memberImage
-														: `${REACT_APP_API_URL}/${user.memberImage}`
-													: undefined
-											}
-											nick={user?.memberNick}
-											size={36}
-										/>
-									</div>
-									<Menu
-										anchorEl={logoutAnchor}
-										open={logoutOpen}
-										onClose={() => setLogoutAnchor(null)}
-										sx={{ mt: '5px' }}
-									>
-										<MenuItem onClick={() => logOut()}>
-											<Logout fontSize="small" style={{ color: 'var(--text-2)', marginRight: '10px' }} />
-											{t('Logout')}
-										</MenuItem>
-									</Menu>
-								</>
-							) : (
-								<Link href={'/account/join'} prefetch={false}>
-									<div className={'join-box'}>
-										<AccountCircleOutlinedIcon />
-										<span>{t('Login')} / {t('Register')}</span>
-									</div>
-								</Link>
-							)}
-
 							<div className={'lan-box'}>
 								<IconButton onClick={() => cartDrawerVar(true)} size="small" className="cart-nav-btn">
 									<Badge badgeContent={cartCount} max={99} sx={{ '& .MuiBadge-badge': { backgroundColor: 'var(--primary)', color: '#fff', fontSize: '10px', minWidth: '16px', height: '16px' } }}>
@@ -561,56 +597,32 @@ const Top = () => {
 									</>
 								)}
 
-								<IconButton size="small" onClick={toggleMode} className="theme-toggle-btn" aria-label="toggle theme">
-									{mode === 'dark' ? (
-										<LightModeOutlinedIcon className={'notification-icon'} sx={{ fontSize: 18 }} />
-									) : (
-										<DarkModeOutlinedIcon className={'notification-icon'} sx={{ fontSize: 18 }} />
-									)}
-								</IconButton>
-
-								<Button
-									disableRipple
-									className="btn-lang btn-currency"
-									onClick={handleCurrencyClick}
-									endIcon={<CaretDown size={12} color={mode === 'dark' || !(colorChange || bgColor) ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.45)'} weight="fill" />}
-								>
-									<span className="currency-label">{CURRENCY_LABELS[currency]}</span>
-								</Button>
-								<StyledMenu anchorEl={currencyAnchor} open={currencyOpen} onClose={handleCurrencyClose}>
-									{CURRENCY_LIST.map((c) => (
-										<MenuItem key={c} disableRipple selected={currency === c} onClick={() => handleCurrencySelect(c)}
-											sx={{ fontWeight: currency === c ? 700 : 400, color: currency === c ? 'var(--primary)' : 'inherit' }}>
-											<span style={{ marginRight: 8 }}>{CURRENCY_LABELS[c]}</span>{c}
-										</MenuItem>
-									))}
-								</StyledMenu>
-
-								<Button
-									disableRipple
-									className="btn-lang"
-									onClick={langClick}
-									endIcon={<CaretDown size={14} color="var(--text-2)" weight="fill" />}
-								>
-									<Box component={'div'} className={'flag'}>
-										<img src={lang ? `/img/flag/lang${lang}.png` : '/img/flag/langen.png'} alt="flag" />
-									</Box>
-								</Button>
-								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose}>
-									{[
-										{ id: 'en', src: '/img/flag/langen.png', label: t('English') },
-										{ id: 'kr', src: '/img/flag/langkr.png', label: t('Korean') },
-										{ id: 'ru', src: '/img/flag/langru.png', label: t('Russian') },
-										{ id: 'ar', src: '/img/flag/langar.png', label: t('Arabic') },
-										{ id: 'uz', src: '/img/flag/languz.png', label: t('Uzbek') },
-									].map((l) => (
-										<MenuItem key={l.id} disableRipple onClick={langChoice} id={l.id}>
-											<img className="img-flag" src={l.src} id={l.id} alt={l.id} />
-											{l.label}
-										</MenuItem>
-									))}
-								</StyledMenu>
 							</div>
+
+							{user?._id ? (
+								<>
+									<Link href={'/mypage'} prefetch={false} className={'login-user'} title={t('My Page')}>
+										<UserAvatar
+											src={
+												user?.memberImage
+													? user.memberImage.startsWith('http')
+														? user.memberImage
+														: `${REACT_APP_API_URL}/${user.memberImage}`
+													: undefined
+											}
+											nick={user?.memberNick}
+											size={36}
+										/>
+									</Link>
+								</>
+							) : (
+								<Link href={'/account/join'} prefetch={false}>
+									<div className={'join-box'}>
+										<AccountCircleOutlinedIcon />
+										<span>{t('Login')}</span>
+									</div>
+								</Link>
+							)}
 						</Box>
 					</Stack>
 				</Stack>
