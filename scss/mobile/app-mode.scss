@@ -42,6 +42,11 @@ html[data-app='1'] {
     padding-top: calc(28px + 48px + #{$app-header-extra} + var(--app-safe-top));
   }
 
+  // Hero shaffof header ostida — matni header va status bar'ga urilmasin
+  #mobile-wrap .hero-section {
+    margin-top: calc(20px + #{$app-header-extra} + var(--app-safe-top)) !important;
+  }
+
   // Ro'yxat sahifalaridagi sticky top bar app header'ining ostiga yopishadi
   #mob-property-list-page .mob-top-bar,
   #mob-agent-list-page .mob-agent-topbar {

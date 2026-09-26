@@ -105,6 +105,7 @@ const HeroSection: React.FC = () => {
 	return (
 		<Box
 			component={'div'}
+			className={'hero-section'}
 			sx={{
 				position: 'relative',
 				height: device === 'mobile' ? '40vh' : '80vh',
