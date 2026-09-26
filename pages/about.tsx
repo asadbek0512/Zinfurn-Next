@@ -1,10 +1,24 @@
 import React from 'react';
 import { NextPage } from 'next';
-import { Stack, Typography, Divider, Link as MuiLink } from '@mui/material';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useQuery } from '@apollo/client';
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import TranslateOutlinedIcon from '@mui/icons-material/TranslateOutlined';
+import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import withLayoutBasic from '../libs/components/layout/LayoutBasic';
 import SEO from '../libs/components/common/SEO';
+import { GET_AGENTS, GET_PROPERTIES } from '../apollo/user/query';
+import { ABOUT_SECTIONS } from '../libs/components/about/aboutSections';
 
 const SITE_URL = 'https://zinfurn.uz';
 const AUTHOR = 'Asadbek Khusanov';
@@ -171,20 +185,44 @@ const TECH_STACK = [
 	'Docker + Nginx on a Linux VPS',
 ];
 
-// Tashqi o'ram MUI Box emas, oddiy div: Box'ning polymorphic tiplari bu sahifada
-// TS2590 ("union type too complex") beradi. Ichkarida MUI komponentlari ishlayveradi.
-const PAGE_STYLE: React.CSSProperties = {
-	maxWidth: 860,
-	margin: '0 auto',
-	padding: '48px 24px',
-	display: 'flex',
-	flexDirection: 'column',
+const LAUNCH_YEAR = 2024;
+const LANGUAGE_COUNT = 5;
+const COUNT_INPUT = { page: 1, limit: 1, sort: 'createdAt', direction: 'DESC', search: {} };
+const PRODUCTS_URL = '/products';
+const CONTACT_URL = '/cs';
+const INTRO_IMAGE = '/img/banner/34.jpeg';
+const STORY_IMAGE = '/img/banner/service1.jpg';
+const VALUE_ICONS = [VerifiedOutlinedIcon, LocalShippingOutlinedIcon, TranslateOutlinedIcon, HandymanOutlinedIcon];
+const STEP_ICONS = [SearchOutlinedIcon, ShoppingCartOutlinedIcon, ReceiptLongOutlinedIcon, HomeOutlinedIcon];
+
+type CountResult = { metaCounter?: { total: number }[] };
+
+const getTotal = (res?: CountResult): string => {
+	const total = res?.metaCounter?.[0]?.total;
+	return typeof total === 'number' ? `${total}+` : '—';
 };
 
 const About: NextPage = () => {
 	const { locale = 'en' } = useRouter();
 	const c = CONTENT[locale] || CONTENT.en;
+	const s = ABOUT_SECTIONS[locale] || ABOUT_SECTIONS.en;
 	const isRtl = locale === 'ar';
+
+	const { data: propertiesData } = useQuery<{ getProperties: CountResult }>(GET_PROPERTIES, {
+		variables: { input: COUNT_INPUT },
+		fetchPolicy: 'cache-first',
+	});
+	const { data: agentsData } = useQuery<{ getAgents: CountResult }>(GET_AGENTS, {
+		variables: { input: COUNT_INPUT },
+		fetchPolicy: 'cache-first',
+	});
+
+	const stats = [
+		{ value: getTotal(propertiesData?.getProperties), label: s.statsProducts },
+		{ value: getTotal(agentsData?.getAgents), label: s.statsAgents },
+		{ value: String(LAUNCH_YEAR), label: s.statsSince },
+		{ value: String(LANGUAGE_COUNT), label: s.statsLanguages },
+	];
 
 	// FAQPage — Google rich result va AI retrieval uchun savol/javob juftliklari
 	const faqJsonLd = {
@@ -200,46 +238,134 @@ const About: NextPage = () => {
 	};
 
 	return (
-		<div style={{ ...PAGE_STYLE, direction: isRtl ? 'rtl' : 'ltr' }}>
+		<div className="about-page" dir={isRtl ? 'rtl' : 'ltr'}>
 			<SEO title={c.title} description={c.intro} url={`${SITE_URL}${locale === 'en' ? '' : `/${locale}`}/about`} jsonLd={faqJsonLd} />
 
-			<Typography variant="h3" component="h1" sx={{ fontWeight: 700, mb: 2 }}>
-				{c.title}
-			</Typography>
-			<Typography sx={{ fontSize: 18, lineHeight: 1.7, mb: 5, opacity: 0.9 }}>{c.intro}</Typography>
-
-			{c.faq.map((item) => (
-				<div key={item.q} style={{ marginBottom: 32 }}>
-					<Typography variant="h6" component="h2" sx={{ fontWeight: 600, mb: 1 }}>
-						{item.q}
-					</Typography>
-					<Typography sx={{ lineHeight: 1.7, opacity: 0.85 }}>{item.a}</Typography>
+			<section className="about-intro about-wrap">
+				<div className="about-intro-text">
+					<span className="about-eyebrow">{s.eyebrow}</span>
+					<h1>{c.title}</h1>
+					<p>{c.intro}</p>
+					<div className="about-actions">
+						<Link href={PRODUCTS_URL} className="about-btn primary">
+							{s.browse}
+							<ArrowForwardIcon sx={{ fontSize: 18 }} />
+						</Link>
+						<Link href={CONTACT_URL} className="about-btn ghost">
+							{s.contact}
+						</Link>
+					</div>
 				</div>
-			))}
+				<div className="about-intro-media">
+					<img src={INTRO_IMAGE} alt={c.title} />
+					<div className="about-badge">
+						<strong>{LAUNCH_YEAR}</strong>
+						<span>{s.statsSince}</span>
+					</div>
+				</div>
+			</section>
 
-			<Divider sx={{ my: 4 }} />
-
-			<Typography variant="h6" component="h2" sx={{ fontWeight: 600, mb: 2 }}>
-				{c.techTitle}
-			</Typography>
-			<ul style={{ paddingInlineStart: 24, marginBottom: 40, lineHeight: 1.9, opacity: 0.85 }}>
-				{TECH_STACK.map((tech) => (
-					<li key={tech}>{tech}</li>
+			<section className="about-stats about-wrap">
+				{stats.map((stat) => (
+					<div className="about-stat" key={stat.label}>
+						<strong>{stat.value}</strong>
+						<span>{stat.label}</span>
+					</div>
 				))}
-			</ul>
+			</section>
 
-			<Typography variant="h6" component="h2" sx={{ fontWeight: 600, mb: 2 }}>
-				{c.authorTitle}
-			</Typography>
-			<Typography sx={{ lineHeight: 1.7, opacity: 0.85, mb: 2 }}>{c.authorText}</Typography>
-			<Stack direction="row" spacing={3} sx={{ flexWrap: 'wrap' }}>
-				<MuiLink href={AUTHOR_URL} target="_blank" rel="noopener author">
-					khusanovdev.uz
-				</MuiLink>
-				<MuiLink href={AUTHOR_GITHUB} target="_blank" rel="noopener author">
-					GitHub
-				</MuiLink>
-			</Stack>
+			<section className="about-section about-wrap">
+				<h2 className="about-title">{s.valuesTitle}</h2>
+				<div className="about-values">
+					{s.values.map((item, i) => {
+						const Icon = VALUE_ICONS[i];
+						return (
+							<div className="about-card" key={item.title}>
+								<div className="about-icon">
+									<Icon />
+								</div>
+								<h3>{item.title}</h3>
+								<p>{item.text}</p>
+							</div>
+						);
+					})}
+				</div>
+			</section>
+
+			<section className="about-section about-steps-wrap">
+				<div className="about-wrap">
+					<h2 className="about-title">{s.stepsTitle}</h2>
+					<div className="about-steps">
+						{s.steps.map((item, i) => {
+							const Icon = STEP_ICONS[i];
+							return (
+								<div className="about-step" key={item.title}>
+									<span className="about-step-num">{String(i + 1).padStart(2, '0')}</span>
+									<Icon className="about-step-icon" />
+									<h3>{item.title}</h3>
+									<p>{item.text}</p>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+			</section>
+
+			<section className="about-section about-story about-wrap">
+				<div className="about-story-media">
+					<img src={STORY_IMAGE} alt={s.storyTitle} />
+				</div>
+				<div className="about-story-text">
+					<span className="about-eyebrow">{s.storyEyebrow}</span>
+					<h2>{s.storyTitle}</h2>
+					<p>{s.storyText}</p>
+					<div className="about-author">
+						<div className="about-author-avatar">AK</div>
+						<div>
+							<h3>{c.authorTitle}</h3>
+							<p>{c.authorText}</p>
+							<div className="about-author-links">
+								<a href={AUTHOR_URL} target="_blank" rel="noopener noreferrer author">
+									khusanovdev.uz
+								</a>
+								<a href={AUTHOR_GITHUB} target="_blank" rel="noopener noreferrer author">
+									GitHub
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section className="about-section about-wrap about-faq" id="faq">
+				<h2 className="about-title">{s.faqTitle}</h2>
+				{c.faq.map((item, i) => (
+					<Accordion key={item.q} defaultExpanded={i === 0} disableGutters elevation={0} className="about-faq-item">
+						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+							<h3>{item.q}</h3>
+						</AccordionSummary>
+						<AccordionDetails>
+							<p>{item.a}</p>
+						</AccordionDetails>
+					</Accordion>
+				))}
+
+				<h2 className="about-subtitle">{c.techTitle}</h2>
+				<div className="about-tech">
+					{TECH_STACK.map((tech) => (
+						<span key={tech}>{tech}</span>
+					))}
+				</div>
+			</section>
+
+			<section className="about-cta about-wrap">
+				<h2>{s.ctaTitle}</h2>
+				<p>{s.ctaText}</p>
+				<Link href={PRODUCTS_URL} className="about-btn light">
+					{s.browse}
+					<ArrowForwardIcon sx={{ fontSize: 18 }} />
+				</Link>
+			</section>
 		</div>
 	);
 };

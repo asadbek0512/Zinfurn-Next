@@ -8,12 +8,15 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckIcon from '@mui/icons-material/Check';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { formatterStr, formatCount } from '../../utils';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
-import { userVar } from '../../../apollo/store';
+import { compareVar, userVar } from '../../../apollo/store';
 import { addToCart } from '../../utils/cartUtils';
+import { COMPARE_MAX, toggleCompare } from '../../utils/compareUtils';
+import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { flyToCart } from '../../utils/flyToCart';
 import { Property } from '../../types/property/property';
 import { useTranslation } from 'next-i18next';
@@ -41,6 +44,17 @@ const PropertyCard = (props: PropertyCardProps) => {
 
 	const [isHovered, setIsHovered] = useState(false);
 	const [addedFlash, setAddedFlash] = useState(false);
+	const compareIds = useReactiveVar(compareVar);
+	const inCompare = !!property?._id && compareIds.includes(property._id);
+
+	const handleCompare = async (e: React.SyntheticEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+		if (!property?._id) return;
+		if (!toggleCompare(property._id)) {
+			await sweetMixinErrorAlert(t('You can compare up to {{count}} products', { count: COMPARE_MAX }));
+		}
+	};
 
 	const hoverImagePath: string =
 		isHovered && property?.propertyImages?.[1]
@@ -140,6 +154,19 @@ const PropertyCard = (props: PropertyCardProps) => {
 									? <FavoriteIcon style={{ fontSize: 13, color: 'var(--primary)' }} />
 									: <FavoriteBorderIcon style={{ fontSize: 13, color: 'var(--text-4)' }} />}
 								{formatCount(property?.propertyLikes)}
+							</div>
+							<div
+								className={`mob-action${inCompare ? ' mob-action-compare-on' : ''}`}
+								role="button"
+								tabIndex={0}
+								aria-pressed={inCompare}
+								aria-label={t('Compare')}
+								onClick={handleCompare}
+								onKeyDown={(e) => {
+									if (e.key === 'Enter' || e.key === ' ') handleCompare(e);
+								}}
+							>
+								<CompareArrowsIcon sx={{ fontSize: 13, color: inCompare ? 'var(--primary)' : 'var(--text-4)' }} />
 							</div>
 							<div
 								className={`mob-action mob-action-cart ${addedFlash ? 'added' : ''}${isOutOfStock ? ' disabled' : ''}`}
@@ -275,6 +302,11 @@ const PropertyCard = (props: PropertyCardProps) => {
 								)}
 							</IconButton>
 							<Typography>{formatCount(property?.propertyLikes)}</Typography>
+						</Box>
+						<Box component="div" className="action-item">
+							<IconButton size="small" onClick={handleCompare} aria-pressed={inCompare} aria-label={t('Compare')} title={t('Compare')}>
+								<CompareArrowsIcon style={{ color: inCompare ? 'var(--primary)' : 'var(--text-4)' }} />
+							</IconButton>
 						</Box>
 					</Stack>
 				)}
