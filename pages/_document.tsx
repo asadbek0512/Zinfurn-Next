@@ -29,10 +29,10 @@ export default function Document() {
 				{/* App (Capacitor WebView) rejimi — birinchi paint'dan OLDIN belgilanadi, shunda
 				    pastdagi navbar/yashirin yon menyu CSS'i sakrash (flash) bilan qo'llanmaydi.
 				    UA tag'i zinfurn-app/capacitor.config.ts dagi appendUserAgent bilan bir xil.
-				    viewport-fit=cover — iPhone'da env(safe-area-inset-*) ishlashi uchun (notch/home indicator). */}
+				    viewport-fit=cover — iPhone'da (Next o'zi ham viewport meta qo'shadi, shuning uchun hammasi) env(safe-area-inset-*) ishlashi uchun (notch/home indicator). */}
 				<script
 					dangerouslySetInnerHTML={{
-						__html: `(function(){try{if(/ZinfurnApp/.test(navigator.userAgent)){document.documentElement.dataset.app='1';var v=document.querySelector('meta[name=viewport]');if(v){v.setAttribute('content','width=device-width, initial-scale=1, viewport-fit=cover');}}}catch(e){}})();`,
+						__html: `(function(){try{if(/ZinfurnApp/.test(navigator.userAgent)){document.documentElement.dataset.app='1';document.querySelectorAll('meta[name=viewport]').forEach(function(v){v.setAttribute('content','width=device-width, initial-scale=1, viewport-fit=cover');});}}catch(e){}})();`,
 					}}
 				/>
 				<Main />
