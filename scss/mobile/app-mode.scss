@@ -58,6 +58,18 @@ html[data-app='1'] {
     height: calc(#{$app-header-height} + var(--app-safe-top));
     padding-top: var(--app-safe-top);
 
+    // Status bar zonasi doim to'q fon — qora hero ustida soat/Wi-Fi ko'rinmay qolmasin
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--app-safe-top);
+      background: var(--surface, #fff);
+      pointer-events: none;
+    }
+
     .mobile-container {
       padding: 0 16px;
 
