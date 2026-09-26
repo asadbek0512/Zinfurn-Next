@@ -15,6 +15,8 @@ $app-fab-gap: 10px;
   // Navbar balandligi + iPhone pastki xavfsiz zonasi (home indicator)
   --app-nav-h: #{$app-nav-height};
   --app-nav-total: calc(#{$app-nav-height} + env(safe-area-inset-bottom, 0px));
+  // iPhone status bar / Dynamic Island zonasi (Android'da 0)
+  --app-safe-top: env(safe-area-inset-top, 0px);
 }
 
 html[data-app='1'] {
@@ -28,20 +30,28 @@ html[data-app='1'] {
   // boshlanadi — faqat header ostidan boshlanadigan sahifalar pastga suriladi.
   #mob-member-page,
   #mob-mypage {
-    padding-top: calc(48px + #{$app-header-extra});
+    padding-top: calc(48px + #{$app-header-extra} + var(--app-safe-top));
   }
 
   .mob-mypage-back {
-    padding-top: calc(48px + #{$app-header-extra});
-    height: calc(44px + 48px + #{$app-header-extra});
+    padding-top: calc(48px + #{$app-header-extra} + var(--app-safe-top));
+    height: calc(44px + 48px + #{$app-header-extra} + var(--app-safe-top));
   }
 
   #mob-mymenu .mob-mymenu-profile-card {
-    padding-top: calc(28px + 48px + #{$app-header-extra});
+    padding-top: calc(28px + 48px + #{$app-header-extra} + var(--app-safe-top));
   }
 
+  // Ro'yxat sahifalaridagi sticky top bar app header'ining ostiga yopishadi
+  #mob-property-list-page .mob-top-bar,
+  #mob-agent-list-page .mob-agent-topbar {
+    top: calc(#{$app-header-height} + var(--app-safe-top));
+  }
+
+  // Header status bar ostidan boshlanadi: fon tepaga cho'ziladi, kontent pastga suriladi
   #mobile-wrap .mobile-navbar .mobile-navbar-main {
-    height: $app-header-height;
+    height: calc(#{$app-header-height} + var(--app-safe-top));
+    padding-top: var(--app-safe-top);
 
     .mobile-container {
       padding: 0 16px;
