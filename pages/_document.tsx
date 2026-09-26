@@ -4,7 +4,7 @@ export default function Document() {
 	return (
 		<Html lang="en">
 			<Head>
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				{/* viewport meta — AppBottomNav.tsx (next/head): app'da viewport-fit=cover kerak */}
 				{/* robots meta SEO.tsx da — shaxsiy sahifalar (login, checkout, mypage)
 				    noindex olishi uchun u sahifaga qarab o'zgarishi kerak */}
 				<meta name="google-site-verification" content="IygeEw_birveKtlTi85JuIJouvKjBnBSV9CPJ1NyGXE" />
@@ -28,11 +28,10 @@ export default function Document() {
 				/>
 				{/* App (Capacitor WebView) rejimi — birinchi paint'dan OLDIN belgilanadi, shunda
 				    pastdagi navbar/yashirin yon menyu CSS'i sakrash (flash) bilan qo'llanmaydi.
-				    UA tag'i zinfurn-app/capacitor.config.ts dagi appendUserAgent bilan bir xil.
-				    viewport-fit=cover — iPhone'da (Next o'zi ham viewport meta qo'shadi, shuning uchun hammasi) env(safe-area-inset-*) ishlashi uchun (notch/home indicator). */}
+				    UA tag'i zinfurn-app/capacitor.config.ts dagi appendUserAgent bilan bir xil. */}
 				<script
 					dangerouslySetInnerHTML={{
-						__html: `(function(){try{if(/ZinfurnApp/.test(navigator.userAgent)){document.documentElement.dataset.app='1';document.querySelectorAll('meta[name=viewport]').forEach(function(v){v.setAttribute('content','width=device-width, initial-scale=1, viewport-fit=cover');});}}catch(e){}})();`,
+						__html: `(function(){try{if(/ZinfurnApp/.test(navigator.userAgent)){document.documentElement.dataset.app='1';}}catch(e){}})();`,
 					}}
 				/>
 				<Main />

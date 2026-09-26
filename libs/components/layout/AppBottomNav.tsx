@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
@@ -28,13 +29,25 @@ type NavTab = {
  * App (Capacitor) ichida pastda turadigan native uslubdagi navbar.
  * Web brauzerda render qilinmaydi — yon menyu o'sha yerda qoladi.
  */
+// iPhone notch/home indicator zonasi env(safe-area-inset-*) orqali olinadi — bu faqat
+// viewport-fit=cover bilan ishlaydi. next/head o'z viewport meta'sini qayta yozadi,
+// shuning uchun viewport yagona joyda — shu yerda (key bilan) boshqariladi.
+const WEB_VIEWPORT = 'width=device-width, initial-scale=1';
+const APP_VIEWPORT = `${WEB_VIEWPORT}, viewport-fit=cover`;
+
 const AppBottomNav = () => {
 	const appMode = useAppMode();
 	const router = useRouter();
 	const { t } = useTranslation('common');
 	const user = useReactiveVar(userVar);
 
-	if (!appMode) return null;
+	if (!appMode) {
+		return (
+			<Head>
+				<meta name="viewport" content={WEB_VIEWPORT} key="viewport" />
+			</Head>
+		);
+	}
 
 	const path = router.pathname;
 	const profileHref = user?._id ? '/mypage' : '/account/join';
@@ -59,24 +72,29 @@ const AppBottomNav = () => {
 	};
 
 	return (
-		<nav className={'app-bottom-nav'} role="navigation" aria-label="App navigation">
-			{tabs.map((tab) => {
-				const active = isActive(tab);
-				return (
-					<button
-						key={tab.key}
-						type="button"
-						className={`app-nav-item${tab.center ? ' center' : ''}${active ? ' active' : ''}`}
-						aria-current={active ? 'page' : undefined}
-						aria-label={tab.label}
-						onClick={() => handleTab(tab)}
-					>
-						<span className={'app-nav-icon'}>{active ? tab.activeIcon : tab.icon}</span>
-						<span className={'app-nav-label'}>{tab.label}</span>
-					</button>
-				);
-			})}
-		</nav>
+		<>
+			<Head>
+				<meta name="viewport" content={APP_VIEWPORT} key="viewport" />
+			</Head>
+			<nav className={'app-bottom-nav'} role="navigation" aria-label="App navigation">
+				{tabs.map((tab) => {
+					const active = isActive(tab);
+					return (
+						<button
+							key={tab.key}
+							type="button"
+							className={`app-nav-item${tab.center ? ' center' : ''}${active ? ' active' : ''}`}
+							aria-current={active ? 'page' : undefined}
+							aria-label={tab.label}
+							onClick={() => handleTab(tab)}
+						>
+							<span className={'app-nav-icon'}>{active ? tab.activeIcon : tab.icon}</span>
+							<span className={'app-nav-label'}>{tab.label}</span>
+						</button>
+					);
+				})}
+			</nav>
+		</>
 	);
 };
 
