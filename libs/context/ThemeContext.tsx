@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
+import { syncStatusBarTheme } from '../native';
 
 export type ThemeMode = 'light' | 'dark';
 
@@ -29,6 +30,10 @@ export const ThemeModeProvider = ({ children }: { children: ReactNode }) => {
 	useEffect(() => {
 		setMode(getAppliedMode());
 	}, []);
+
+	useEffect(() => {
+		syncStatusBarTheme(getAppliedMode());
+	}, [mode]);
 
 	const toggleMode = useCallback(() => {
 		setMode((prev) => {

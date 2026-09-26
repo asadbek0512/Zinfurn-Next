@@ -1,5 +1,6 @@
 import { Capacitor } from '@capacitor/core';
 import { Browser } from '@capacitor/browser';
+import { StatusBar, Style } from '@capacitor/status-bar';
 
 // Capacitor app zinfurn.uz ni WebView ichida ochadi. Google embedded WebView'da
 // OAuth'ni bloklaydi (disallowed_useragent), shuning uchun app'da OAuth tizim
@@ -38,4 +39,18 @@ export const startGoogleLink = async (memberId: string): Promise<void> => {
 		return;
 	}
 	window.location.href = `${api}/auth/link/google?state=${memberId}`;
+};
+
+// Status bar sayt temasiga mos bo'lsin (theme.scss dagi --bg-page)
+const STATUS_BAR_COLORS = { light: '#ffffff', dark: '#1e1b17' } as const;
+
+export const syncStatusBarTheme = async (mode: keyof typeof STATUS_BAR_COLORS): Promise<void> => {
+	if (!isNativeApp()) return;
+	try {
+		// Style.Dark = och matn (qora fon uchun), Style.Light = qora matn
+		await StatusBar.setStyle({ style: mode === 'dark' ? Style.Dark : Style.Light });
+		await StatusBar.setBackgroundColor({ color: STATUS_BAR_COLORS[mode] });
+	} catch {
+		// Eski app build'ida plugin bo'lmasa — jim o'tamiz
+	}
 };
