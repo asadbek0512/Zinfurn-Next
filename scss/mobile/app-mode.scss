@@ -266,3 +266,11 @@ html[data-app='1'] {
 body:has(.mob-chat-backdrop) .app-chat-fabs {
   display: none;
 }
+
+// Chat tugmasidagi logo qora PNG — tunda to'q fonda ko'rinmaydi, oqqa aylantiriladi
+[data-theme='dark'] {
+  .app-fab-chat img,
+  .chatting .chat-button img {
+    filter: brightness(0) invert(1);
+  }
+}
