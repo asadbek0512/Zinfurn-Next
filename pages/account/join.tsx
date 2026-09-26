@@ -15,6 +15,18 @@ import {
 } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { startGoogleAuth } from '../../libs/native';
+import useAppMode from '../../libs/hooks/useAppMode';
+
+// App WebView'da Telegram widget popup'i (window.open) ochilmaydi — o'rniga redirect oqimi
+const TELEGRAM_BOT_ID = '8693491156';
+const TELEGRAM_OAUTH_URL = 'https://oauth.telegram.org/auth';
+const TELEGRAM_RESULT_HASH = '#tgAuthResult=';
+
+const decodeTelegramResult = (encoded: string): Record<string, string | number> => {
+	const base64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+	const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
+	return JSON.parse(decodeURIComponent(escape(window.atob(padded))));
+};
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -42,31 +54,54 @@ const Join: NextPage = () => {
 	const [phoneError, setPhoneError] = useState<string>('');
 	const [detectedCountry, setDetectedCountry] = useState<string>('kr');
 
-	const handleTelegramAuth = () => {
-		// Telegram widget ochiladi
+	const appMode = useAppMode();
+
+	const loginWithTelegram = useCallback(async (telegramData: Record<string, string | number>) => {
+		try {
+			const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/telegram`, {
+				method: 'POST',
+				credentials: 'include',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(telegramData),
+			});
+			const data = await response.json();
+			if (data.token) {
+				updateStorage({ jwtToken: data.token, refreshToken: data.refresh });
+				updateUserInfo(data.token);
+				window.location.href = '/';
+			} else {
+				await sweetMixinErrorAlert('Telegram login failed');
+			}
+		} catch (err) {
+			await sweetMixinErrorAlert('Telegram login failed');
+		}
+	}, []);
+
+	const handleTelegramRedirect = () => {
+		const origin = window.location.origin;
+		const params = new URLSearchParams({
+			bot_id: TELEGRAM_BOT_ID,
+			origin,
+			request_access: 'write',
+			return_to: `${origin}${window.location.pathname}`,
+		});
+		window.location.href = `${TELEGRAM_OAUTH_URL}?${params.toString()}`;
 	};
 
 	useEffect(() => {
-		// Telegram widget callback
-		(window as any).onTelegramAuth = async (telegramData: any) => {
-			try {
-				const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/telegram`, {
-					method: 'POST',
-					credentials: 'include',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(telegramData),
-				});
-				const data = await response.json();
-				if (data.token) {
-					updateStorage({ jwtToken: data.token, refreshToken: data.refresh });
-					updateUserInfo(data.token);
-					window.location.href = '/';
-				}
-			} catch (err) {
-				await sweetMixinErrorAlert('Telegram login failed');
-			}
-		};
-	}, []);
+		// Telegram widget callback (web)
+		(window as unknown as { onTelegramAuth: typeof loginWithTelegram }).onTelegramAuth = loginWithTelegram;
+
+		// Redirect oqimidan qaytish (app): #tgAuthResult=<base64 json>
+		const { hash } = window.location;
+		if (!hash.startsWith(TELEGRAM_RESULT_HASH)) return;
+		window.history.replaceState(null, '', window.location.pathname + window.location.search);
+		try {
+			loginWithTelegram(decodeTelegramResult(hash.slice(TELEGRAM_RESULT_HASH.length)));
+		} catch (err) {
+			sweetMixinErrorAlert('Telegram login failed');
+		}
+	}, [loginWithTelegram]);
 
 	useEffect(() => {
 		fetch('https://ipapi.co/json/')
@@ -333,6 +368,12 @@ const Join: NextPage = () => {
 							{loginView ? t('Sign In With Google') : t('Create Account With Google')}
 						</button>
 
+						{appMode ? (
+							<button className="mob-social-btn" onClick={handleTelegramRedirect}>
+								<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" loading="lazy" decoding="async" />
+								{loginView ? t('Sign In With Telegram') : t('Create Account With Telegram')}
+							</button>
+						) : (
 						<div className="mob-telegram-wrapper">
 							<div ref={(el) => {
 								if (el && !el.querySelector('script')) {
@@ -351,6 +392,7 @@ const Join: NextPage = () => {
 								{loginView ? t('Sign In With Telegram') : t('Create Account With Telegram')}
 							</button>
 						</div>
+						)}
 					</div>
 
 					<div className="mob-join-switch">
