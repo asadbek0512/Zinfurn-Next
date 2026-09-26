@@ -83,6 +83,8 @@ const Top = () => {
 
 	useEffect(() => {
 		const isJoinPage = router.pathname === '/account/join';
+		// Desktop join sahifasida navbar foni och — logo doim to'q bo'lishi kerak
+		const isJoinPc = isJoinPage && device !== 'mobile';
 		const isDetailPage =
 			router.pathname === '/products/detail' ||
 			router.pathname === '/repairService/detail' ||
@@ -96,14 +98,14 @@ const Top = () => {
 		const checkInitialState = () => {
 			const scrolled = window.scrollY >= 50;
 			setColorChange(scrolled || isDetailPage);
-			setIsTransparent(!isSolidPage && !isDetailPage && !scrolled);
+			setIsTransparent(!isSolidPage && !isDetailPage && !isJoinPc && !scrolled);
 			setBgColor(isDetailPage || isJoinPage);
 		};
 
 		const handleScroll = () => {
 			const scrolled = window.scrollY >= 50;
 			setColorChange(scrolled || isDetailPage);
-			setIsTransparent(!isSolidPage && !isDetailPage && !scrolled);
+			setIsTransparent(!isSolidPage && !isDetailPage && !isJoinPc && !scrolled);
 		};
 
 		checkInitialState();
