@@ -18,6 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PropertyCard from '../../libs/components/property/PropertyCard';
 import PropertyCardSkeleton from '../../libs/components/common/PropertyCardSkeleton';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
+import { isAppMode } from '../../libs/hooks/useAppMode';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import Filter from '../../libs/components/property/Filter';
 import { useRouter } from 'next/router';
@@ -72,6 +73,9 @@ export const getServerSideProps = async ({ locale, query }: any) => {
 	return { props: { ...translations, ssrProperties, ssrTotal } };
 };
 
+// App'da 2 ustunli grid'da 5 qator karta
+const APP_GRID_2_LIMIT = 10;
+
 const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
@@ -82,7 +86,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 			case 'grid-1':
 				return 6; // 1 ustunda 6 ta
 			case 'grid-2':
-				return 6; // 2 ustunda 6 ta
+				return isAppMode() ? APP_GRID_2_LIMIT : 6; // 2 ustunda 6 ta (app'da 5 qator)
 			case 'grid-4':
 				return 9; // 4 ustunda 9 ta
 			default:
