@@ -47,6 +47,11 @@ html[data-app='1'] {
     margin-top: calc(20px + #{$app-header-extra} + var(--app-safe-top)) !important;
   }
 
+  // Bosh sahifa loader'i app'da ko'rsatilmaydi (app splash screen'i bor)
+  .page-loader {
+    display: none !important;
+  }
+
   // Ro'yxat sahifalaridagi sticky top bar app header'ining ostiga yopishadi
   #mob-property-list-page .mob-top-bar,
   #mob-agent-list-page .mob-agent-topbar {

@@ -15,6 +15,7 @@ import CategoryCards from '../libs/components/homepage/CategoryCard';
 import FlashSale from '../libs/components/homepage/PopularProperties';
 import AiRoomBanner from '../libs/components/homepage/AiRoomBanner';
 import AOS from 'aos';
+import useAppMode, { isAppMode } from '../libs/hooks/useAppMode';
 import 'aos/dist/aos.css';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -27,6 +28,10 @@ const Home: NextPage = () => {
 	const device = useDeviceDetect();
 	const [showLoader, setShowLoader] = useState(true);
 	const [logoLoaded, setLogoLoaded] = useState(false);
+	const appMode = useAppMode();
+
+	// App'da scroll effekti yo'q — kontent darrov ko'rinadi (faqat vebda fade-up)
+	const aosProps = (delay: number) => (appMode ? {} : { 'data-aos': 'fade-up', 'data-aos-delay': String(delay) });
 
 	// No-op qo'shildi
 	const unused = () => {};
@@ -46,6 +51,13 @@ const Home: NextPage = () => {
 	};
 
 	useEffect(() => {
+		// App'da loader window 'load'ni (hamma rasmlarni) kutmaydi — sekin internetda
+		// sahifa soniyalab kalta turib, scroll tepaga qaytib qolardi. App'ning o'z splash'i bor.
+		if (isAppMode()) {
+			setShowLoader(false);
+			return;
+		}
+
 		AOS.init({
 			duration: 1200,
 			easing: 'ease-out-cubic',
@@ -133,31 +145,31 @@ const Home: NextPage = () => {
 			{!showLoader &&
 				(device === 'mobile' ? (
 					<Stack className="home-page" spacing={4}>
-						<div data-aos="fade-up" data-aos-delay="0">
+						<div {...aosProps(0)}>
 							<CategoryCards />
 						</div>
-						<div data-aos="fade-up" data-aos-delay="100">
+						<div {...aosProps(100)}>
 							<TrendProperties />
 						</div>
-						<div data-aos="fade-up" data-aos-delay="150">
+						<div {...aosProps(150)}>
 							<AiRoomBanner />
 						</div>
-						<div data-aos="fade-up" data-aos-delay="200">
+						<div {...aosProps(200)}>
 							<FlashSale />
 						</div>
-						<div data-aos="fade-up" data-aos-delay="300">
+						<div {...aosProps(300)}>
 							<Advertisement />
 						</div>
-						<div data-aos="fade-up" data-aos-delay="400">
+						<div {...aosProps(400)}>
 							<TopProperties />
 						</div>
-						<div data-aos="fade-up" data-aos-delay="500">
+						<div {...aosProps(500)}>
 							<TopAgents />
 						</div>
-						<div data-aos="fade-up" data-aos-delay="600">
+						<div {...aosProps(600)}>
 							<Events />
 						</div>
-						<div data-aos="fade-up" data-aos-delay="700">
+						<div {...aosProps(700)}>
 							<CommunityBoards />
 						</div>
 					</Stack>
