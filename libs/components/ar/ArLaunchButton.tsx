@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
+import { isIosApp, openInSystemBrowser } from '../../native';
 
 /**
  * Opens Scene Viewer / Quick Look straight from the product page.
@@ -67,16 +68,23 @@ const ArLaunchButton = ({ modelUrl, title, category, posterUrl, className }: ArL
 		return () => script.removeEventListener('load', onLoad);
 	}, [modelUrl]);
 
+	const previewQuery = (): Record<string, string> => ({
+		title,
+		...(category ? { category } : {}),
+		...(modelUrl ? { src: modelUrl } : {}),
+		...(posterUrl ? { poster: posterUrl } : {}),
+	});
+
 	const openPreviewPage = () => {
-		router.push({
-			pathname: '/ar-view',
-			query: {
-				title,
-				...(category ? { category } : {}),
-				...(modelUrl ? { src: modelUrl } : {}),
-				...(posterUrl ? { poster: posterUrl } : {}),
-			},
-		});
+		router.push({ pathname: '/ar-view', query: previewQuery() });
+	};
+
+	// iOS WKWebView AR Quick Look'ni (rel="ar") qo'llamaydi — app'da AR sahifasi
+	// SFSafariViewController'da ochiladi, u yerda Quick Look ishlaydi.
+	const openIosArInSafari = async () => {
+		const url = new URL('/ar-view', window.location.origin);
+		Object.entries(previewQuery()).forEach(([key, value]) => url.searchParams.set(key, value));
+		await openInSystemBrowser(url.toString());
 	};
 
 	const handleClick = async () => {
@@ -85,6 +93,11 @@ const ArLaunchButton = ({ modelUrl, title, category, posterUrl, className }: ArL
 			if (missingTimer.current) clearTimeout(missingTimer.current);
 			setShowMissing(true);
 			missingTimer.current = setTimeout(() => setShowMissing(false), MISSING_TOAST_MS);
+			return;
+		}
+
+		if (isIosApp()) {
+			await openIosArInSafari();
 			return;
 		}
 

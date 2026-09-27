@@ -11,6 +11,8 @@ export const isNativeApp = (): boolean => {
 	return Capacitor.isNativePlatform();
 };
 
+export const isIosApp = (): boolean => isNativeApp() && Capacitor.getPlatform() === 'ios';
+
 export const openInSystemBrowser = async (url: string): Promise<void> => {
 	await Browser.open({ url, presentationStyle: 'popover' });
 };
