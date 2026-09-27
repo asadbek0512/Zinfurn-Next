@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -19,6 +19,12 @@ import withLayoutBasic from '../libs/components/layout/LayoutBasic';
 import SEO from '../libs/components/common/SEO';
 import { GET_AGENTS, GET_PROPERTIES } from '../apollo/user/query';
 import { ABOUT_SECTIONS } from '../libs/components/about/aboutSections';
+import { useTranslation } from 'next-i18next';
+import AndroidIcon from '@mui/icons-material/Android';
+import AppleIcon from '@mui/icons-material/Apple';
+import { ANDROID_DOWNLOAD_URL, APP_SECTION_ID } from '../libs/config/appDownload';
+
+const IOS_UA = /iPhone|iPad|iPod/i;
 
 const SITE_URL = 'https://zinfurn.uz';
 const AUTHOR = 'Asadbek Khusanov';
@@ -204,6 +210,13 @@ const getTotal = (res?: CountResult): string => {
 
 const About: NextPage = () => {
 	const { locale = 'en' } = useRouter();
+	const { t } = useTranslation('common');
+	// iPhone'da "bosh ekranga qo'shish" yo'riqnomasi darrov ochiq turadi
+	const [iosStepsOpen, setIosStepsOpen] = useState(false);
+
+	useEffect(() => {
+		if (IOS_UA.test(navigator.userAgent)) setIosStepsOpen(true);
+	}, []);
 	const c = CONTENT[locale] || CONTENT.en;
 	const s = ABOUT_SECTIONS[locale] || ABOUT_SECTIONS.en;
 	const isRtl = locale === 'ar';
@@ -355,6 +368,50 @@ const About: NextPage = () => {
 					{TECH_STACK.map((tech) => (
 						<span key={tech}>{tech}</span>
 					))}
+				</div>
+			</section>
+
+			<section className="about-app about-wrap" id={APP_SECTION_ID}>
+				<div className="about-app-text">
+					<span className="about-eyebrow">{t('Mobile app')}</span>
+					<h2>{t('Get the Zinfurn app')}</h2>
+					<p>{t('Browse furniture, track orders and place items in your room with AR — right from your phone.')}</p>
+					<div className="about-app-buttons">
+						<a href={ANDROID_DOWNLOAD_URL} download="zinfurn.apk" className="about-store-btn">
+							<AndroidIcon />
+							<span>
+								<small>{t('Download for')}</small>
+								Android
+							</span>
+						</a>
+						<button
+							type="button"
+							className={`about-store-btn outline${iosStepsOpen ? ' active' : ''}`}
+							aria-expanded={iosStepsOpen}
+							onClick={() => setIosStepsOpen((open) => !open)}
+						>
+							<AppleIcon />
+							<span>
+								<small>iPhone</small>
+								{t('Add to Home Screen')}
+							</span>
+						</button>
+					</div>
+					{iosStepsOpen && (
+						<ol className="about-ios-steps">
+							<li>{t('Open zinfurn.uz in Safari or Chrome')}</li>
+							<li>{t('Tap the Share button')}</li>
+							<li>{t('Choose “Add to Home Screen” and tap “Add”')}</li>
+						</ol>
+					)}
+					<p className="about-app-note">{t('Android 7.0 or later. If asked, allow installing apps from your browser.')}</p>
+				</div>
+				<div className="about-app-media">
+					<img src="/img/logo/app-icon.png" alt="Zinfurn app" className="about-app-icon" />
+					<figure className="about-app-qr">
+						<img src="/img/app-qr.svg" alt={t('Scan to download for Android')} />
+						<figcaption>{t('Scan to download for Android')}</figcaption>
+					</figure>
 				</div>
 			</section>
 

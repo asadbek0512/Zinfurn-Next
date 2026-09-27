@@ -1,6 +1,20 @@
 import { gql } from '@apollo/client';
 
 /**************************
+ *        APP STATS       *
+ *************************/
+
+export const GET_APP_STATS = gql`
+	query GetAppStats {
+		getAppStats {
+			platform
+			downloads
+			updatedAt
+		}
+	}
+`;
+
+/**************************
  *         MEMBER         *
  *************************/
 

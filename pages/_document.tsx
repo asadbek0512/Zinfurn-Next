@@ -12,6 +12,13 @@ export default function Document() {
 				    /favicon.ico — Google favicon crawler avval shu standart manzilni qidiradi (barqaror URL, ?v yo'q) */}
 				<link rel="icon" href="/favicon.ico" sizes="any" />
 				<link rel="icon" type="image/png" sizes="192x192" href="/favicon.png?v=13" />
+				{/* PWA — iPhone'da "Bosh ekranga qo'shish" ilovadek (to'liq ekran) ochiladi */}
+				<link rel="manifest" href="/manifest.webmanifest" />
+				<link rel="apple-touch-icon" href="/img/logo/apple-touch-icon.png" />
+				<meta name="apple-mobile-web-app-capable" content="yes" />
+				<meta name="mobile-web-app-capable" content="yes" />
+				<meta name="apple-mobile-web-app-title" content="Zinfurn" />
+				<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 				{/* hreflang va brend JSON-LD bu yerda EMAS:
 				    - hreflang → SEO.tsx (har sahifa o'z tilidagi variantiga ishora qilishi kerak;
 				      bu yerda qattiq yozilganda har sahifa bosh sahifani ko'rsatardi)

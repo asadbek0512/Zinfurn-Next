@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
 import { MemberPanelList } from '../../../libs/components/admin/users/MemberList';
+import AppDownloadStats from '../../../libs/components/admin/users/AppDownloadStats';
 import { Box, InputAdornment, List, ListItem, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -165,9 +166,12 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	return (
 		<Box component={'div'} className={'content'}>
-			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
-				Member List
-			</Typography>
+			<Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ mb: '24px' }}>
+				<Typography variant={'h2'} className={'tit'}>
+					Member List
+				</Typography>
+				<AppDownloadStats />
+			</Stack>
 			<Box component={'div'} className={'table-wrap'}>
 				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
 					<TabContext value={value}>

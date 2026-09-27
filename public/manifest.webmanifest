@@ -1,0 +1,14 @@
+{
+  "name": "Zinfurn",
+  "short_name": "Zinfurn",
+  "description": "Furniture marketplace — shop, compare and try furniture in your room with AR.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    { "src": "/img/logo/app-icon.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/img/logo/app-icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
