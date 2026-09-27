@@ -3,6 +3,8 @@ export const ANDROID_APK_URL = '/downloads/zinfurn.apk';
 /** Yuklab olishni sanab, APK'ga redirect qiladigan route — havolalar shunga qaraydi */
 export const ANDROID_DOWNLOAD_URL = '/api/app-download';
 export const APP_SECTION_ID = 'app';
+/** QR shu belgi bilan keladi (?src=qr) — Android bo'lmasa about'ga yo'naltiriladi */
+export const APP_QR_SOURCE = 'qr';
 export const SITE_ORIGIN = 'https://zinfurn.uz';
 
 /**

@@ -409,7 +409,7 @@ const About: NextPage = () => {
 				<div className="about-app-media">
 					<img src="/img/logo/app-icon.png" alt="Zinfurn app" className="about-app-icon" />
 					<figure className="about-app-qr">
-						<img src="/img/app-qr.svg" alt={t('Scan to download for Android')} />
+						<img src="/img/app-qr.svg?v=2" alt={t('Scan to download for Android')} />
 						<figcaption>{t('Scan to download for Android')}</figcaption>
 					</figure>
 				</div>
