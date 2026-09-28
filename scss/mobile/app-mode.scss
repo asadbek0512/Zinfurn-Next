@@ -47,6 +47,16 @@ html[data-app='1'] {
     margin-top: calc(20px + #{$app-header-extra} + var(--app-safe-top)) !important;
   }
 
+  // Service hero shaffof header ostidan boshlanadi — rasm pastga cho'ziladi,
+  // yuz/asosiy qism header ostida qolib ketmasin
+  .mob-quality-section .mob-quality-hero-wrap {
+    height: calc(240px + #{$app-header-height} + var(--app-safe-top));
+
+    .mob-quality-hero-img {
+      object-position: center 30%;
+    }
+  }
+
   // Bosh sahifa loader'i app'da ko'rsatilmaydi (app splash screen'i bor)
   .page-loader {
     display: none !important;

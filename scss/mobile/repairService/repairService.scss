@@ -101,12 +101,46 @@
           margin: 0 0 4px;
         }
 
+        .mob-quality-title {
+          font-size: 20px;
+          font-weight: 700;
+          color: var(--text-1);
+          font-family: $font;
+          line-height: 1.3;
+          margin: 0 0 8px;
+
+          span { color: var(--primary); }
+        }
+
         .mob-quality-text {
-          font-size: 13px;
+          font-size: 14px;
           color: var(--text-2);
           line-height: 1.65;
           font-family: $font;
           margin: 0;
+        }
+      }
+
+      // CTA — texnikka murojaat
+      .mob-quality-cta {
+        padding: 16px 14px 0;
+
+        .mob-quality-cta-btn {
+          width: 100%;
+          height: 48px;
+          gap: 8px;
+          border-radius: 12px;
+          background: var(--primary);
+          color: #fff;
+          font-family: $font;
+          font-size: 15px;
+          font-weight: 600;
+          text-transform: none;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+
+          &:hover { background: var(--primary-dark); }
+          &.Mui-disabled { opacity: 0.6; color: #fff; }
+          .arrow-icon { font-size: 18px; }
         }
       }
 
@@ -137,7 +171,7 @@
           }
 
           .mob-quality-stat-label {
-            font-size: 9px;
+            font-size: 10px;
             color: var(--text-3);
             font-family: $font;
             text-align: center;
@@ -152,7 +186,7 @@
         padding: 0 14px 16px;
 
         .mob-quality-features-title {
-          font-size: 14px;
+          font-size: 17px;
           font-weight: 700;
           color: var(--text-1);
           font-family: $font;
@@ -190,7 +224,7 @@
           }
 
           .mob-quality-feature-title {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--text-1);
             font-family: $font;
@@ -198,7 +232,7 @@
           }
 
           .mob-quality-feature-desc {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--text-3);
             font-family: $font;
             line-height: 1.5;

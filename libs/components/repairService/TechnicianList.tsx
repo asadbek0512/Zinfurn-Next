@@ -158,6 +158,43 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 		return stars;
 	}
 
+	const repairDialog = (
+		<Dialog open={repairOpen} onClose={() => setRepairOpen(false)} maxWidth="sm" fullWidth>
+			<DialogTitle sx={{ fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+				{t('Request a Repair')}
+				<IconButton onClick={() => setRepairOpen(false)} size="small"><CloseIcon /></IconButton>
+			</DialogTitle>
+			<DialogContent>
+				<Typography sx={{ fontSize: 14, color: 'var(--text-2)', mb: 2 }}>
+					{t('Send your repair request to')} <strong>{technicianName}</strong>
+				</Typography>
+				<div className="repair-req-field">
+					<label>{t('Describe the problem')}</label>
+					<textarea
+						placeholder={t('e.g. My wooden chair leg is broken...')}
+						value={reqMessage}
+						onChange={(e) => setReqMessage(e.target.value)}
+						rows={3}
+					/>
+				</div>
+				<div className="repair-req-field">
+					<label>{t('Address')}</label>
+					<input type="text" placeholder={t('Enter your address')} value={reqAddress} onChange={(e) => setReqAddress(e.target.value)} />
+				</div>
+				<div className="repair-req-field">
+					<label>{t('Phone')}</label>
+					<input type="text" placeholder={t('Enter your phone')} value={reqPhone} onChange={(e) => setReqPhone(e.target.value)} />
+				</div>
+			</DialogContent>
+			<DialogActions sx={{ px: 3, pb: 2 }}>
+				<Button onClick={() => setRepairOpen(false)} sx={{ color: 'var(--text-3)' }}>{t('Cancel')}</Button>
+				<Button onClick={submitRepairRequest} disabled={submitting || !reqMessage.trim()} variant="contained" sx={{ background: 'var(--primary)', '&:hover': { background: 'var(--primary-dark)' } }}>
+					{submitting ? t('Sending...') : t('Send Request')}
+				</Button>
+			</DialogActions>
+		</Dialog>
+	);
+
 	if (loadingTechnicians) {
 		return <Loading />;
 	}
@@ -191,6 +228,14 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 					</p>
 				</div>
 
+				{/* Texnikka murojaat */}
+				<div className="mob-quality-cta">
+					<Button className="mob-quality-cta-btn" onClick={openRepairModal} disabled={!topTechnician?._id}>
+						{t('Request Repair')}
+						<ArrowRight className="arrow-icon" weight="bold" />
+					</Button>
+				</div>
+
 				{/* Stats */}
 				<div className="mob-quality-stats">
 					{stats.map((stat) => (
@@ -219,6 +264,7 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 						})}
 					</div>
 				</div>
+				{repairDialog}
 			</div>
 		);
 	}
@@ -356,40 +402,7 @@ const QualitySection: React.FC<QualitySectionProps> = ({ initialInput }) => {
 			</Box>
 		</Stack>
 
-		<Dialog open={repairOpen} onClose={() => setRepairOpen(false)} maxWidth="sm" fullWidth>
-			<DialogTitle sx={{ fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-				{t('Request a Repair')}
-				<IconButton onClick={() => setRepairOpen(false)} size="small"><CloseIcon /></IconButton>
-			</DialogTitle>
-			<DialogContent>
-				<Typography sx={{ fontSize: 14, color: 'var(--text-2)', mb: 2 }}>
-					{t('Send your repair request to')} <strong>{technicianName}</strong>
-				</Typography>
-				<div className="repair-req-field">
-					<label>{t('Describe the problem')}</label>
-					<textarea
-						placeholder={t('e.g. My wooden chair leg is broken...')}
-						value={reqMessage}
-						onChange={(e) => setReqMessage(e.target.value)}
-						rows={3}
-					/>
-				</div>
-				<div className="repair-req-field">
-					<label>{t('Address')}</label>
-					<input type="text" placeholder={t('Enter your address')} value={reqAddress} onChange={(e) => setReqAddress(e.target.value)} />
-				</div>
-				<div className="repair-req-field">
-					<label>{t('Phone')}</label>
-					<input type="text" placeholder={t('Enter your phone')} value={reqPhone} onChange={(e) => setReqPhone(e.target.value)} />
-				</div>
-			</DialogContent>
-			<DialogActions sx={{ px: 3, pb: 2 }}>
-				<Button onClick={() => setRepairOpen(false)} sx={{ color: 'var(--text-3)' }}>{t('Cancel')}</Button>
-				<Button onClick={submitRepairRequest} disabled={submitting || !reqMessage.trim()} variant="contained" sx={{ background: 'var(--primary)', '&:hover': { background: 'var(--primary-dark)' } }}>
-					{submitting ? t('Sending...') : t('Send Request')}
-				</Button>
-			</DialogActions>
-		</Dialog>
+		{repairDialog}
 		</>
 	);
 };
