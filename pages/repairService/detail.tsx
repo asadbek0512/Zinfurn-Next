@@ -228,66 +228,104 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		const techAvatar = repairProperty?.memberData?.memberImage?.startsWith('http')
 			? repairProperty.memberData.memberImage
 			: `${REACT_APP_API_URL}/${repairProperty?.memberData?.memberImage || ''}`;
+		const techPhone = repairProperty?.memberData?.memberPhone;
+		const repairTitle = getLocalizedRepairText(repairProperty, router.locale);
+		const repairImages = repairProperty?.repairPropertyImages ?? [];
 
 		return (
 			<div id="mob-repair-detail-page">
 				{/* Back */}
-				<div className="mob-rpd-back" onClick={() => router.push('/repairService')}>
-					<ArrowBackIosIcon sx={{ fontSize: 15 }} />
-					{t('Back to property')}
+				<button className="mob-rpd-back" onClick={() => router.push('/repairService')}>
+					<ArrowBackIosIcon sx={{ fontSize: 14 }} />
+					{t('Back')}
+				</button>
+
+				{/* Rasm karta */}
+				<div className="mob-rpd-media">
+					<img
+						className="mob-rpd-img"
+						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
+						alt={repairTitle}
+						decoding="async"
+					/>
+					{repairProperty?.repairPropertyType && (
+						<span className="mob-rpd-type-chip">{t(repairProperty.repairPropertyType)}</span>
+					)}
 				</div>
-
-				{/* Main image */}
-				<img
-					className="mob-rpd-img"
-					src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
-					alt="" loading="lazy" decoding="async" />
-
-				{/* Info */}
-				<div className="mob-rpd-info">
-					<div className="mob-rpd-technician">
-						<img src={techAvatar} alt="" className="mob-rpd-tech-avatar" loading="lazy" decoding="async" />
-						<div>
-							<p className="mob-rpd-tech-name">{repairProperty?.memberData?.memberNick}</p>
-							<p className="mob-rpd-tech-role">{t('Technician')}</p>
-						</div>
+				{repairImages.length > 1 && (
+					<div className="mob-rpd-thumbs">
+						{repairImages.map((image) => (
+							<img
+								key={image}
+								src={`${REACT_APP_API_URL}/${image}`}
+								alt=""
+								className={`mob-rpd-thumb ${image === slideImage ? 'active' : ''}`}
+								onClick={() => changeImageHandler(image)}
+								loading="lazy"
+								decoding="async"
+							/>
+						))}
 					</div>
+				)}
 
+				{/* Sarlavha + statistika */}
+				<div className="mob-rpd-head">
+					{repairTitle && <h1 className="mob-rpd-title">{repairTitle}</h1>}
 					<div className="mob-rpd-stats">
 						<span className="mob-rpd-stat">
 							<RemoveRedEyeIcon />
 							{repairProperty?.repairPropertyViews ?? 0}
 						</span>
 						<button
-							className={`mob-rpd-like-btn ${repairProperty?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
+							className={`mob-rpd-stat mob-rpd-like-btn ${repairProperty?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
 							onClick={() => repairProperty?._id && likeRepairPropertyHandler(user, repairProperty._id)}
 						>
 							<FavoriteIcon />
 							{repairProperty?.repairPropertyLikes ?? 0}
 						</button>
+						<span className="mob-rpd-stat">
+							<AccessTimeIcon />
+							{moment(repairProperty?.createdAt).format('MMM D, YYYY')}
+						</span>
 					</div>
+				</div>
 
-					{repairProperty?.repairPropertyAddress && (
-						<div className="mob-rpd-row">
-							<LocationOnIcon />
-							<span>{repairProperty.repairPropertyAddress}</span>
-						</div>
-					)}
-					{repairProperty?.memberData?.memberPhone && (
-						<div className="mob-rpd-row">
+				{/* Manzil / telefon */}
+				{(repairProperty?.repairPropertyAddress || techPhone) && (
+					<div className="mob-rpd-info">
+						{repairProperty?.repairPropertyAddress && (
+							<div className="mob-rpd-row">
+								<span className="mob-rpd-row-icon"><LocationOnIcon /></span>
+								<div>
+									<span className="mob-rpd-row-label">{t('Address')}</span>
+									<span className="mob-rpd-row-value">{repairProperty.repairPropertyAddress}</span>
+								</div>
+							</div>
+						)}
+						{techPhone && (
+							<a className="mob-rpd-row" href={`tel:${techPhone}`}>
+								<span className="mob-rpd-row-icon"><PhoneIcon /></span>
+								<div>
+									<span className="mob-rpd-row-label">{t('Phone')}</span>
+									<span className="mob-rpd-row-value">{techPhone}</span>
+								</div>
+							</a>
+						)}
+					</div>
+				)}
+
+				{/* Texnik */}
+				<div className="mob-rpd-technician">
+					<img src={techAvatar} alt="" className="mob-rpd-tech-avatar" loading="lazy" decoding="async" />
+					<div className="mob-rpd-tech-meta">
+						<p className="mob-rpd-tech-name">{repairProperty?.memberData?.memberNick}</p>
+						<p className="mob-rpd-tech-role">{t('Technician')}</p>
+					</div>
+					{techPhone && (
+						<a className="mob-rpd-call-btn" href={`tel:${techPhone}`} aria-label={t('Phone')}>
 							<PhoneIcon />
-							<span>{repairProperty.memberData.memberPhone}</span>
-						</div>
+						</a>
 					)}
-					{getLocalizedRepairText(repairProperty, router.locale) && (
-						<div className="mob-rpd-row">
-							<DescriptionIcon />
-							<span>{getLocalizedRepairText(repairProperty, router.locale)}</span>
-						</div>
-					)}
-					<span className="mob-rpd-date">
-						{moment(repairProperty?.createdAt).format('YYYY-MM-DD HH:mm')}
-					</span>
 				</div>
 
 				{/* Reviews */}

@@ -428,121 +428,220 @@
     background: var(--surface);
     min-height: 100vh;
 
-    // Back arrow
+    // Back
     .mob-rpd-back {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 2px;
+      margin: 10px 14px 10px;
+      padding: 6px 12px 6px 14px;
+      border: 1px solid var(--border-soft);
+      border-radius: 20px;
+      background: var(--surface);
       font-size: 13px;
       font-weight: 600;
-      color: var(--primary);
-      padding: 8px 14px 4px;
+      font-family: $font;
+      color: var(--text-1);
       cursor: pointer;
-      width: fit-content;
     }
 
-    // Main image
-    .mob-rpd-img {
-      width: 100%;
-      height: 240px;
-      object-fit: cover;
-      display: block;
+    // Rasm karta
+    .mob-rpd-media {
+      position: relative;
+      margin: 0 14px;
+      border-radius: 16px;
+      overflow: hidden;
       background: var(--bg-muted);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+      .mob-rpd-img {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        display: block;
+      }
+
+      .mob-rpd-type-chip {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        padding: 5px 12px;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(6px);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 600;
+        font-family: $font;
+        letter-spacing: 0.3px;
+      }
     }
 
-    // Info section
-    .mob-rpd-info {
-      padding: 14px 14px 16px;
-      border-bottom: 1px solid var(--border-soft);
+    .mob-rpd-thumbs {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      gap: 8px;
+      padding: 10px 14px 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      &::-webkit-scrollbar { display: none; }
 
-      // Technician row
-      .mob-rpd-technician {
+      .mob-rpd-thumb {
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        object-fit: cover;
+        border: 2px solid transparent;
+        opacity: 0.7;
+        cursor: pointer;
+
+        &.active { border-color: var(--primary); opacity: 1; }
+      }
+    }
+
+    // Sarlavha + statistika
+    .mob-rpd-head {
+      padding: 16px 14px 4px;
+
+      .mob-rpd-title {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1.3;
+        color: var(--text-1);
+        font-family: $font;
+        margin: 0 0 10px;
+      }
+
+      .mob-rpd-stats {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+
+        .mob-rpd-stat {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 5px 10px;
+          border-radius: 20px;
+          background: var(--surface-2);
+          border: none;
+          font-size: 12px;
+          font-weight: 500;
+          color: var(--text-2);
+          font-family: $font;
+
+          svg { font-size: 15px; color: var(--text-3); }
+        }
+
+        .mob-rpd-like-btn {
+          cursor: pointer;
+          &.liked svg { color: var(--primary); }
+        }
+      }
+    }
+
+    // Manzil / telefon
+    .mob-rpd-info {
+      margin: 14px 14px 0;
+      border-radius: 14px;
+      background: var(--surface-2);
+      overflow: hidden;
+
+      .mob-rpd-row {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
+        padding: 12px 14px;
+        text-decoration: none;
 
-        .mob-rpd-tech-avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          object-fit: cover;
-          border: 1.5px solid var(--border-soft);
+        & + .mob-rpd-row { border-top: 1px solid var(--border-soft); }
+
+        .mob-rpd-row-icon {
+          width: 34px;
+          height: 34px;
           flex-shrink: 0;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--primary-soft);
+
+          svg { font-size: 18px; color: var(--primary); }
         }
 
-        .mob-rpd-tech-name {
-          font-size: 14px;
-          font-weight: 700;
-          color: var(--text-1);
-          font-family: $font;
-        }
-
-        .mob-rpd-tech-role {
+        .mob-rpd-row-label {
+          display: block;
           font-size: 11px;
           color: var(--text-4);
           font-family: $font;
         }
-      }
 
-      // Stats row
-      .mob-rpd-stats {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-
-        .mob-rpd-stat {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          font-size: 13px;
-          color: var(--text-2);
+        .mob-rpd-row-value {
+          display: block;
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--text-1);
           font-family: $font;
-
-          svg { font-size: 17px; }
-        }
-
-        .mob-rpd-like-btn {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          font-size: 13px;
-          color: var(--text-2);
-          font-family: $font;
-          cursor: pointer;
-          background: none;
-          border: none;
-          padding: 0;
-
-          &.liked svg { color: var(--primary); }
+          line-height: 1.4;
         }
       }
+    }
 
-      // Info rows
-      .mob-rpd-row {
-        display: flex;
-        align-items: flex-start;
-        gap: 8px;
-        font-size: 13px;
-        color: var(--text-2);
+    // Texnik kartasi
+    .mob-rpd-technician {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 12px 14px 16px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+
+      .mob-rpd-tech-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .mob-rpd-tech-meta { flex: 1; min-width: 0; }
+
+      .mob-rpd-tech-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-1);
         font-family: $font;
-        line-height: 1.55;
-
-        svg { font-size: 17px; color: var(--primary); flex-shrink: 0; margin-top: 1px; }
+        margin: 0;
       }
 
-      .mob-rpd-date {
+      .mob-rpd-tech-role {
         font-size: 12px;
         color: var(--text-4);
         font-family: $font;
+        margin: 0;
+      }
+
+      .mob-rpd-call-btn {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary);
+        color: #fff;
+
+        svg { font-size: 20px; }
       }
     }
 
     // Reviews
     .mob-rpd-reviews {
       background: var(--surface);
+      border-top: 8px solid var(--surface-2);
 
       .mob-rpd-rev-write {
         padding: 14px 14px 10px;

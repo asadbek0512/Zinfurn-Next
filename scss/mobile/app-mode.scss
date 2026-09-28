@@ -33,6 +33,10 @@ html[data-app='1'] {
     padding-top: calc(48px + #{$app-header-extra} + var(--app-safe-top));
   }
 
+  #mobile-wrap #mob-repair-detail-page {
+    padding-top: calc(52px + #{$app-header-extra} + var(--app-safe-top));
+  }
+
   .mob-mypage-back {
     padding-top: calc(48px + #{$app-header-extra} + var(--app-safe-top));
     height: calc(44px + 48px + #{$app-header-extra} + var(--app-safe-top));
