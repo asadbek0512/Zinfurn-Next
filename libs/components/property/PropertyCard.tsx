@@ -183,6 +183,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 								}}
 							>
 								<AddShoppingCartIcon sx={{ fontSize: 13, color: 'var(--primary)' }} />
+								<span className="mob-action-label">{t('Add to Cart')}</span>
 							</div>
 						</div>
 					)}

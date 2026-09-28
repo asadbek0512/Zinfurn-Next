@@ -353,3 +353,66 @@ html[data-app='1'] .compare-bar {
   bottom: calc(var(--app-nav-total) + 12px);
   z-index: 1300;
 }
+
+// Furniture grid-2 karta: statistikalar 1-qatorda, compare + savat katta tugma 2-qatorda
+$app-card-btn-height: 34px;
+
+html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list.grid-2 .mob-property-card .mob-card-info .mob-card-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  row-gap: 8px;
+  padding-top: 8px;
+
+  .mob-action {
+    justify-content: center;
+    gap: 3px;
+    padding: 4px 0;
+    font-size: 12px;
+    color: var(--text-2);
+
+    svg { font-size: 16px !important; }
+
+    &:first-child { justify-content: flex-start; }
+    &:nth-child(3) { justify-content: flex-end; }
+
+    &.mob-action-compare-on,
+    &[aria-label]:nth-child(4) {
+      height: $app-card-btn-height;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+
+      svg { font-size: 18px !important; }
+    }
+
+    &.mob-action-compare-on {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    &.mob-action-cart {
+      grid-column: span 2;
+      height: $app-card-btn-height;
+      gap: 4px;
+      margin-left: 8px;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+
+      svg { font-size: 17px !important; color: #fff !important; }
+
+      .mob-action-label {
+        display: inline;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      &.added { background: var(--success); }
+      &.added svg { color: #fff !important; }
+      &.disabled { opacity: 0.5; }
+    }
+  }
+}
