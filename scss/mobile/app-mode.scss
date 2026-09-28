@@ -40,6 +40,10 @@ html[data-app='1'] {
     padding-top: calc(52px + #{$app-header-extra} + var(--app-safe-top));
   }
 
+  #mobile-wrap .not-found-page {
+    padding-top: calc(100px + #{$app-header-extra} + var(--app-safe-top));
+  }
+
   #mobile-wrap .ai-room-designer {
     padding-top: calc(4.5rem + #{$app-header-extra} + var(--app-safe-top));
   }
