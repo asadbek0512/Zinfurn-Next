@@ -49,7 +49,7 @@ html[data-app='1'] {
 
   // Service hero shaffof header ostidan boshlanadi — rasm pastga cho'ziladi,
   // yuz/asosiy qism header ostida qolib ketmasin
-  .mob-quality-section .mob-quality-hero-wrap {
+  #mobile-wrap #mob-repair-service-page .mob-quality-section .mob-quality-hero-wrap {
     height: calc(240px + #{$app-header-height} + var(--app-safe-top));
 
     .mob-quality-hero-img {
