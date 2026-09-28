@@ -33,8 +33,20 @@ html[data-app='1'] {
     padding-top: calc(48px + #{$app-header-extra} + var(--app-safe-top));
   }
 
-  #mobile-wrap #mob-repair-detail-page {
+  // Header ostidan boshlanadigan detail sahifalar
+  #mobile-wrap #mob-repair-detail-page,
+  #mobile-wrap #mob-property-detail-page,
+  #mobile-wrap #mob-agent-detail-page {
     padding-top: calc(52px + #{$app-header-extra} + var(--app-safe-top));
+  }
+
+  #mobile-wrap .ai-room-designer {
+    padding-top: calc(4.5rem + #{$app-header-extra} + var(--app-safe-top));
+  }
+
+  // Tracking layout'siz sahifa — status bar ostiga kirib ketmasin
+  .tracking-page {
+    padding-top: var(--app-safe-top);
   }
 
   .mob-mypage-back {
