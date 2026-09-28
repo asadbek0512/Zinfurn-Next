@@ -493,9 +493,8 @@
         }
 
         .mob-card-actions {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          justify-items: center;
+          display: flex;
+          justify-content: space-between;
           align-items: center;
           margin-top: auto;
           padding: 10px 0 0;
@@ -511,7 +510,7 @@
             color: var(--text-3);
             font-family: $font;
             cursor: pointer;
-            width: 100%;
+            min-width: 20px;
 
             svg {
               font-size: 13px !important;

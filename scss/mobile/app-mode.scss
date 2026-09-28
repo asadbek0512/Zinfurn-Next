@@ -347,3 +347,9 @@ body:has(.mob-chat-backdrop) .app-chat-fabs {
     filter: brightness(0) invert(1);
   }
 }
+
+// Compare bar bottom nav ustida tursin
+html[data-app='1'] .compare-bar {
+  bottom: calc(var(--app-nav-total) + 12px);
+  z-index: 1300;
+}

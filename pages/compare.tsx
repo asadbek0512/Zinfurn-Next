@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
@@ -145,7 +145,7 @@ const Compare: NextPage = () => {
 				<div className="compare-empty">{t('Loading...')}</div>
 			) : (
 				<div className="compare-scroll">
-					<table className="compare-table">
+					<table className="compare-table" style={{ '--cmp-cols': properties.length } as CSSProperties}>
 						<thead>
 							<tr>
 								<th />
