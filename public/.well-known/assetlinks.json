@@ -1,0 +1,12 @@
+[
+	{
+		"relation": ["delegate_permission/common.handle_all_urls"],
+		"target": {
+			"namespace": "android_app",
+			"package_name": "uz.zinfurn.app",
+			"sha256_cert_fingerprints": [
+				"A0:A6:C3:7D:F3:F7:21:E5:E8:FC:1A:5B:98:47:E2:D6:DD:42:2A:9E:A8:37:2A:97:DA:76:BB:91:22:CF:F3:E1"
+			]
+		}
+	}
+]

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Dialog, IconButton, Stack } from '@mui/material';
 import { Close, Telegram, WhatsApp, Facebook, ContentCopy, Check, Link as LinkIcon, IosShare } from '@mui/icons-material';
 import { useTranslation } from 'next-i18next';
+import { canNativeShare, nativeShare } from '../../native';
 
 const COPIED_RESET_MS = 2000;
 
@@ -66,6 +67,17 @@ const ShareModal = ({ open, onClose, url, title, text }: ShareModalProps) => {
 		setHasNativeShare(typeof navigator !== 'undefined' && !!(navigator as any).share);
 	}, []);
 
+	// App'da tizimning native share oynasi ochiladi (Telegram, Instagram va h.k.)
+	useEffect(() => {
+		if (!open || !canNativeShare()) return;
+		const shareNatively = async () => {
+			await nativeShare({ title, text, url });
+			onClose();
+		};
+		shareNatively();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [open]);
+
 	useEffect(() => {
 		if (!copied) return;
 		const id = setTimeout(() => setCopied(false), COPIED_RESET_MS);
@@ -97,7 +109,7 @@ const ShareModal = ({ open, onClose, url, title, text }: ShareModalProps) => {
 
 	return (
 		<Dialog
-			open={open}
+			open={open && !canNativeShare()}
 			onClose={onClose}
 			PaperProps={{
 				sx: {

@@ -1,5 +1,6 @@
 import { cartVar } from '../../apollo/store';
 import { CartItem, CartProperty } from '../types/cart/cart';
+import { hapticTap } from '../native';
 
 const STORAGE_KEY = 'zinfurn_cart';
 
@@ -23,6 +24,7 @@ export const addToCart = (property: CartProperty, quantity = 1) => {
 		updated = [...current, { property, quantity }];
 	}
 	cartVar(updated);
+	hapticTap();
 	persist(updated);
 };
 

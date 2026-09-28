@@ -8,6 +8,9 @@ import { getJwtToken, getRefreshToken, setJwtToken, updateUserInfo, clearSession
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
 import { sweetErrorAlert } from '../libs/sweetAlert';
 import { socketVar } from './store';
+import { hapticTap } from '../libs/native';
+
+const LIKE_OPERATION_PATTERN = /^LikeTarget/;
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 function getHeaders() {
@@ -161,7 +164,13 @@ function createIsomorphicLink() {
 			authLink.concat(link),
 		);
 
-		return from([errorLink, tokenRefreshLink, splitLink]);
+		// App'da like bosilganda yengil tebranish
+		const hapticLink = new ApolloLink((operation, forward) => {
+			if (LIKE_OPERATION_PATTERN.test(operation.operationName)) hapticTap();
+			return forward(operation);
+		});
+
+		return from([hapticLink, errorLink, tokenRefreshLink, splitLink]);
 	}
 }
 

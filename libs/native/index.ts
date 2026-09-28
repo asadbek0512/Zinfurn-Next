@@ -1,4 +1,4 @@
-import { Capacitor } from '@capacitor/core';
+import { Capacitor, registerPlugin } from '@capacitor/core';
 import { Browser } from '@capacitor/browser';
 import { StatusBar, Style } from '@capacitor/status-bar';
 
@@ -54,5 +54,43 @@ export const syncStatusBarTheme = async (mode: keyof typeof STATUS_BAR_COLORS): 
 		await StatusBar.setBackgroundColor({ color: STATUS_BAR_COLORS[mode] });
 	} catch {
 		// Eski app build'ida plugin bo'lmasa — jim o'tamiz
+	}
+};
+
+// Haptics/Share native plugin'lari app build'ida bor — sayt JS paketlarsiz,
+// to'g'ridan-to'g'ri bridge orqali chaqiradi. Eski build'da plugin bo'lmasa jim o'tadi.
+interface HapticsPlugin {
+	impact(options: { style: 'LIGHT' | 'MEDIUM' | 'HEAVY' }): Promise<void>;
+}
+
+interface ShareOptions {
+	title?: string;
+	text?: string;
+	url?: string;
+}
+
+interface SharePlugin {
+	share(options: ShareOptions): Promise<unknown>;
+}
+
+const Haptics = registerPlugin<HapticsPlugin>('Haptics');
+const Share = registerPlugin<SharePlugin>('Share');
+
+export const hapticTap = async (): Promise<void> => {
+	if (!isNativeApp() || !Capacitor.isPluginAvailable('Haptics')) return;
+	try {
+		await Haptics.impact({ style: 'LIGHT' });
+	} catch {
+		// haptic ixtiyoriy
+	}
+};
+
+export const canNativeShare = (): boolean => isNativeApp() && Capacitor.isPluginAvailable('Share');
+
+export const nativeShare = async (options: ShareOptions): Promise<void> => {
+	try {
+		await Share.share(options);
+	} catch {
+		// foydalanuvchi share oynasini yopgan
 	}
 };

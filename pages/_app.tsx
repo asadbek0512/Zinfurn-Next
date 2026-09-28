@@ -17,7 +17,9 @@ import { sweetMixinErrorAlert } from '../libs/sweetAlert';
 import CartDrawer from '../libs/components/cart/CartDrawer';
 import CompareBar from '../libs/components/common/CompareBar';
 import AppBanner from '../libs/components/common/AppBanner';
+const APP_LINK_HOSTS = ['zinfurn.uz', 'www.zinfurn.uz'];
 const AppBottomNav = dynamic(() => import('../libs/components/layout/AppBottomNav'), { ssr: false });
+const AppPullToRefresh = dynamic(() => import('../libs/components/layout/AppPullToRefresh'), { ssr: false });
 const AppChatFabs = dynamic(() => import('../libs/components/layout/AppChatFabs'), { ssr: false });
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
 import SEO from '../libs/components/common/SEO';
@@ -113,7 +115,22 @@ const App = ({ Component, pageProps }: AppProps) => {
 			if (!isNativeApp()) return;
 
 			const { App: CapApp } = await import('@capacitor/app');
+
+			// zinfurn.uz havolasi (App Link / Universal Link) app'ni ochsa — o'sha sahifaga o'tamiz
+			const openSiteLink = async (url: string): Promise<boolean> => {
+				if (!url.startsWith('https://')) return false;
+				const link = new URL(url);
+				if (!APP_LINK_HOSTS.includes(link.hostname)) return false;
+				const path = `${link.pathname}${link.search}${link.hash}`;
+				if (path !== router.asPath) await router.push(path);
+				return true;
+			};
+
+			const launch = await CapApp.getLaunchUrl();
+			if (launch?.url) await openSiteLink(launch.url);
+
 			const handle = await CapApp.addListener('appUrlOpen', async ({ url }) => {
+				if (await openSiteLink(url)) return;
 				if (!url.includes('://auth')) return;
 				await closeSystemBrowser();
 
@@ -161,6 +178,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 					<CompareBar />
 					<AppBanner />
 					<AppBottomNav />
+					<AppPullToRefresh />
 					<AppChatFabs />
 				</CurrencyProvider>
 			</ThemeProvider>
