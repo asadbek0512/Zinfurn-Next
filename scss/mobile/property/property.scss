@@ -518,6 +518,8 @@
             }
 
             &.mob-action-cart {
+              margin-left: 0;
+
               svg {
                 color: var(--primary) !important;
               }
