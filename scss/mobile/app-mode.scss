@@ -42,6 +42,11 @@ html[data-app='1'] {
 
   // Yon drawer'lar (savatcha, menu, filter) to'liq balandlikda — kontent
   // status bar va home indicator ostida qolmasin
+  // Drawer bottom nav (1400) va chat FAB'lar ustida ochilsin
+  .MuiDrawer-root.MuiModal-root {
+    z-index: 1500;
+  }
+
   .MuiDrawer-paperAnchorLeft,
   .MuiDrawer-paperAnchorRight {
     box-sizing: border-box;
