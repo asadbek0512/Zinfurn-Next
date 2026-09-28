@@ -40,6 +40,15 @@ html[data-app='1'] {
     padding-top: calc(52px + #{$app-header-extra} + var(--app-safe-top));
   }
 
+  // Yon drawer'lar (savatcha, menu, filter) to'liq balandlikda — kontent
+  // status bar va home indicator ostida qolmasin
+  .MuiDrawer-paperAnchorLeft,
+  .MuiDrawer-paperAnchorRight {
+    box-sizing: border-box;
+    padding-top: var(--app-safe-top);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
   #mobile-wrap .not-found-page {
     padding-top: calc(100px + #{$app-header-extra} + var(--app-safe-top));
   }
