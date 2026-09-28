@@ -717,5 +717,17 @@
   "Scan to download for Android": "امسح للتحميل على أندرويد",
   "500_title": "حدث خطأ ما",
   "500_desc": "حدث خطأ مؤقت في الخادم. يرجى تحديث الصفحة بعد قليل.",
-  "Try again": "حاول مرة أخرى"
+  "Try again": "حاول مرة أخرى",
+  "Korean cards · KRW": "بطاقات كورية · KRW",
+  "Demo card": "بطاقة تجريبية",
+  "No real payment": "بدون دفع حقيقي",
+  "toss_redirect_hint": "سيتم تحويلك إلى نافذة Toss Payments لإتمام الدفع بالوون الكوري.",
+  "toss_test_hint": "وضع الاختبار: لن يتم خصم أي مبلغ حقيقي. اختر أي شركة بطاقات في النافذة للتجربة.",
+  "Pay with Toss": "ادفع عبر Toss",
+  "Payment was cancelled": "تم إلغاء الدفع",
+  "Payment failed": "فشل الدفع",
+  "Back to checkout": "العودة إلى الدفع",
+  "Confirming payment...": "جارٍ تأكيد الدفع...",
+  "Payment complete": "تم الدفع",
+  "Payment method": "طريقة الدفع"
 }

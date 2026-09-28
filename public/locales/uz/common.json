@@ -717,5 +717,17 @@
   "Scan to download for Android": "Android uchun skanerlab yuklab oling",
   "500_title": "Nimadir noto‘g‘ri ketdi",
   "500_desc": "Serverda vaqtinchalik xatolik. Birozdan so‘ng sahifani yangilab ko‘ring.",
-  "Try again": "Qayta urinish"
+  "Try again": "Qayta urinish",
+  "Korean cards · KRW": "Koreya kartalari · KRW",
+  "Demo card": "Demo karta",
+  "No real payment": "Haqiqiy to‘lov yo‘q",
+  "toss_redirect_hint": "To‘lovni KRW’da yakunlash uchun Toss Payments oynasiga o‘tasiz.",
+  "toss_test_hint": "Test rejim: haqiqiy pul yechilmaydi. Sinash uchun oynada istalgan karta kompaniyasini tanlang.",
+  "Pay with Toss": "Toss orqali to‘lash",
+  "Payment was cancelled": "To‘lov bekor qilindi",
+  "Payment failed": "To‘lov amalga oshmadi",
+  "Back to checkout": "Checkout’ga qaytish",
+  "Confirming payment...": "To‘lov tasdiqlanmoqda...",
+  "Payment complete": "To‘lov amalga oshdi",
+  "Payment method": "To‘lov usuli"
 }

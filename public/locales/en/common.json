@@ -717,5 +717,17 @@
   "Scan to download for Android": "Scan to download for Android",
   "500_title": "Something went wrong",
   "500_desc": "A temporary server error occurred. Please refresh the page in a moment.",
-  "Try again": "Try again"
+  "Try again": "Try again",
+  "Korean cards · KRW": "Korean cards · KRW",
+  "Demo card": "Demo card",
+  "No real payment": "No real payment",
+  "toss_redirect_hint": "You will be redirected to the Toss Payments window to complete the payment in KRW.",
+  "toss_test_hint": "Test mode: no real money is charged. Pick any card company in the window to try it.",
+  "Pay with Toss": "Pay with Toss",
+  "Payment was cancelled": "Payment was cancelled",
+  "Payment failed": "Payment failed",
+  "Back to checkout": "Back to checkout",
+  "Confirming payment...": "Confirming payment...",
+  "Payment complete": "Payment complete",
+  "Payment method": "Payment method"
 }

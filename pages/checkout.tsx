@@ -9,6 +9,8 @@ import { REACT_APP_API_URL } from '../libs/config';
 import { CREATE_ORDER } from '../apollo/user/mutation';
 import { VALIDATE_COUPON } from '../apollo/user/query';
 import { Order } from '../libs/types/order/order';
+import { PaymentMethod } from '../libs/enums/payment.enum';
+import { TOSS_USER_CANCEL, requestTossPayment } from '../libs/payment/toss';
 import Link from 'next/link';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -65,6 +67,9 @@ const Checkout: NextPage = () => {
 	const [expiry, setExpiry] = useState('');
 	const [cvv, setCvv] = useState('');
 	const [cardErrors, setCardErrors] = useState<Record<string, string>>({});
+	const [payMethod, setPayMethod] = useState<PaymentMethod>(PaymentMethod.TOSS);
+	const [tossOpening, setTossOpening] = useState(false);
+	const isToss = payMethod === PaymentMethod.TOSS;
 
 	const savedTotal = useRef(total);
 
@@ -121,7 +126,7 @@ const Checkout: NextPage = () => {
 	const handleNext = async () => {
 		if (step === 0 && !step1Valid) return;
 		if (step === 1) {
-			if (!validateStep2()) return;
+			if (!isToss && !validateStep2()) return;
 			savedTotal.current = payableTotal;
 			setPlaceError('');
 			try {
@@ -139,14 +144,24 @@ const Checkout: NextPage = () => {
 							orderTotal: total,
 							couponCode: couponApplied?.code || undefined,
 							deliveryInfo: { fullName, address, city: city || undefined, phone, note: note || undefined },
+							paymentMethod: payMethod,
 						},
 					},
 				});
+				if (isToss) {
+					// Savat success sahifasida (to'lov tasdiqlangach) tozalanadi
+					setTossOpening(true);
+					await requestTossPayment(data.createOrder, { name: fullName, email: user?.memberEmail });
+					return;
+				}
 				setPlacedOrder(data.createOrder);
 				clearCart();
 			} catch (err: unknown) {
-				setPlaceError(getErrorMessage(err) || 'Failed to place order. Please try again.');
+				const cancelled = (err as { code?: string })?.code === TOSS_USER_CANCEL;
+				setPlaceError(cancelled ? t('Payment was cancelled') : getErrorMessage(err) || 'Failed to place order. Please try again.');
 				return;
+			} finally {
+				setTossOpening(false);
 			}
 		}
 		setStep(s => s + 1);
@@ -264,6 +279,27 @@ const Checkout: NextPage = () => {
 				<span>{t('Payment Details')}</span>
 			</div>
 
+			<div className="co-pay-methods" role="radiogroup">
+				{[
+					{ value: PaymentMethod.TOSS, label: 'Toss Payments', sub: t('Korean cards · KRW') },
+					{ value: PaymentMethod.CARD, label: t('Demo card'), sub: t('No real payment') },
+				].map(m => (
+					<button key={m.value} type="button" role="radio" aria-checked={payMethod === m.value}
+						className={`co-pay-method${payMethod === m.value ? ' co-pay-method--active' : ''}`}
+						onClick={() => setPayMethod(m.value)}>
+						<span className="co-pay-method-label">{m.label}</span>
+						<span className="co-pay-method-sub">{m.sub}</span>
+					</button>
+				))}
+			</div>
+
+			{isToss ? (
+				<div className="co-toss">
+					<span className="co-toss-badge">TEST MODE</span>
+					<p className="co-toss-text">{t('toss_redirect_hint')}</p>
+					<p className="co-toss-text co-toss-text--muted">{t('toss_test_hint')}</p>
+				</div>
+			) : (<>
 			<div className="co-test-hint">
 				<span className="co-test-hint-label">Test card:</span>
 				<button className="co-test-hint-btn" onClick={() => {
@@ -315,6 +351,7 @@ const Checkout: NextPage = () => {
 					error={!!cardErrors.cvv} helperText={cardErrors.cvv}
 					size={isMobile ? 'small' : 'medium'} className="co-field" />
 			</div>
+			</>)}
 
 			{placeError && <p className="co-error">{placeError}</p>}
 
@@ -408,9 +445,9 @@ const Checkout: NextPage = () => {
 							fullWidth={step === 0}
 							onClick={handleNext}
 							className="co-mob-next-btn"
-							disabled={(step === 0 ? !step1Valid : false) || placing}
+							disabled={(step === 0 ? !step1Valid : false) || placing || tossOpening}
 						>
-							{placing ? t('Placing...') : step === 1 ? t('Place Order') : t('Continue')}
+							{placing || tossOpening ? t('Placing...') : step === 1 ? (isToss ? t('Pay with Toss') : t('Place Order')) : t('Continue')}
 						</Button>
 					</div>
 				)}
@@ -452,8 +489,8 @@ const Checkout: NextPage = () => {
 									</Button>
 								)}
 								<Button variant="contained" onClick={handleNext}
-									className="co-btn-primary" disabled={(step === 0 ? !step1Valid : false) || placing}>
-									{placing ? t('Placing...') : step === 1 ? t('Place Order') : t('Continue')}
+									className="co-btn-primary" disabled={(step === 0 ? !step1Valid : false) || placing || tossOpening}>
+									{placing || tossOpening ? t('Placing...') : step === 1 ? (isToss ? t('Pay with Toss') : t('Place Order')) : t('Continue')}
 								</Button>
 							</div>
 						)}

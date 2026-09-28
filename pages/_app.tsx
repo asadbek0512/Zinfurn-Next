@@ -43,7 +43,7 @@ const PAGE_TITLES: Record<string, string> = {
 // "Login / Sign up" natijasi bosh sahifadan oldin turib qolardi.
 // Diqqat: bu yo'llar robots.txt da bloklanmasligi shart, aks holda Googlebot
 // sahifaga kira olmay noindex'ni ko'rmaydi va eski indeks yozuvi qolib ketadi.
-const NOINDEX_PATHS = new Set(['/account/join', '/checkout', '/mypage', '/order/tracking']);
+const NOINDEX_PATHS = new Set(['/account/join', '/checkout', '/payment/toss/success', '/payment/toss/fail', '/mypage', '/order/tracking']);
 
 const App = ({ Component, pageProps }: AppProps) => {
 	const { mode } = useThemeMode();

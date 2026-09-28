@@ -1,4 +1,5 @@
 import { OrderStatus } from '../../enums/order.enum';
+import { PaymentMethod, PaymentStatus } from '../../enums/payment.enum';
 import { Member } from '../member/member';
 
 export interface OrderItem {
@@ -25,6 +26,11 @@ export interface Order {
 	orderStatus: OrderStatus;
 	orderTotal: number;
 	deliveryInfo: DeliveryInfo;
+	paymentMethod?: PaymentMethod;
+	paymentStatus?: PaymentStatus;
+	paymentAmount?: number;
+	paymentCurrency?: string;
+	paidAt?: Date;
 	confirmedAt?: Date;
 	cancelledAt?: Date;
 	returnRequestedAt?: Date;

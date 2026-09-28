@@ -718,5 +718,17 @@
   "Scan to download for Android": "Отсканируйте, чтобы скачать для Android",
   "500_title": "Что-то пошло не так",
   "500_desc": "Временная ошибка сервера. Обновите страницу чуть позже.",
-  "Try again": "Повторить"
+  "Try again": "Повторить",
+  "Korean cards · KRW": "Корейские карты · KRW",
+  "Demo card": "Демо-карта",
+  "No real payment": "Без реальной оплаты",
+  "toss_redirect_hint": "Вы перейдёте в окно Toss Payments для оплаты в KRW.",
+  "toss_test_hint": "Тестовый режим: реальные деньги не списываются. Выберите любую карту в окне.",
+  "Pay with Toss": "Оплатить через Toss",
+  "Payment was cancelled": "Оплата отменена",
+  "Payment failed": "Оплата не прошла",
+  "Back to checkout": "Вернуться к оформлению",
+  "Confirming payment...": "Подтверждаем оплату...",
+  "Payment complete": "Оплата прошла",
+  "Payment method": "Способ оплаты"
 }

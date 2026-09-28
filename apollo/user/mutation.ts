@@ -498,6 +498,10 @@ export const CREATE_ORDER = gql`
 				quantity
 			}
 			orderStatus
+			paymentMethod
+			paymentStatus
+			paymentAmount
+			paymentCurrency
 			orderTotal
 			deliveryInfo {
 				fullName
@@ -508,6 +512,20 @@ export const CREATE_ORDER = gql`
 			}
 			createdAt
 			updatedAt
+		}
+	}
+`;
+
+export const CONFIRM_TOSS_PAYMENT = gql`
+	mutation ConfirmTossPayment($input: ConfirmTossPaymentInput!) {
+		confirmTossPayment(input: $input) {
+			_id
+			orderId
+			orderTotal
+			paymentStatus
+			paymentAmount
+			paymentCurrency
+			paidAt
 		}
 	}
 `;
