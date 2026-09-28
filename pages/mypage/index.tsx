@@ -27,10 +27,11 @@ import MyMessages from '../../libs/components/mypage/MyMessages';
 import { GET_MY_PROFILE } from '../../apollo/user/query';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useTranslation } from 'next-i18next';
+import { LocaleContext, DEFAULT_LOCALE, getErrorMessage, RefetchFn, T } from '../../libs/types/common';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 
@@ -69,7 +70,7 @@ const MyPage: NextPage = () => {
 	}
 
 	/** HANDLERS **/
-	const subscribeHandler = async (id: string, refetch: any, query: any) => {
+	const subscribeHandler = async (id: string | undefined, refetch: RefetchFn, query: unknown) => {
 		try {
 			if (!id) throw new Error(Messages.error1);
 			if (!user._id) throw new Error(Messages.error2);
@@ -81,12 +82,12 @@ const MyPage: NextPage = () => {
 			});
 			await sweetTopSmallSuccessAlert('Subscribe', 800);
 			await refetch({ input: query })
-		} catch (err: any) {
+		} catch (err: unknown) {
 			sweetErrorHandling(err).then();
 		}
 	};
 
-	const unsubscribeHandler = async (id: string, refetch: any, query: any) => {
+	const unsubscribeHandler = async (id: string | undefined, refetch: RefetchFn, query: unknown) => {
 		try {
 			if (!id) throw new Error(Messages.error1);
 			if (!user._id) throw new Error(Messages.error2);
@@ -98,11 +99,11 @@ const MyPage: NextPage = () => {
 			});
 			await sweetTopSmallSuccessAlert('Unsubscribe', 800);
 			await refetch({ input: query })
-		} catch (err: any) {
+		} catch (err: unknown) {
 			sweetErrorHandling(err).then();
 		}
 	};
-	const likeMemberHandler = async (id: string, refetch: any, query: any) => {
+	const likeMemberHandler = async (id: string | undefined, refetch: RefetchFn, query: unknown) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
@@ -114,9 +115,9 @@ const MyPage: NextPage = () => {
 			});
 			await sweetTopSmallSuccessAlert("Success!", 808);
 			await refetch({ input: query })
-		} catch (err: any) {
-			console.error('ERROR, likeMemberHandler:', err.message);
-			sweetMixinErrorAlert(err.message).then()
+		} catch (err: unknown) {
+			console.error('ERROR, likeMemberHandler:', getErrorMessage(err));
+			sweetMixinErrorAlert(getErrorMessage(err)).then()
 		}
 	};
 

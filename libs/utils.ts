@@ -1,5 +1,6 @@
 import numeral from 'numeral';
 import { sweetMixinErrorAlert } from './sweetAlert';
+import { getErrorMessage, MutationFn } from './types/common';
 
 export const formatterStr = (value: number | undefined): string => {
 	return numeral(value).format('0,0') != '0' ? numeral(value).format('0,0') : '';
@@ -14,41 +15,41 @@ export const formatCount = (value: number | undefined | null): string => {
 	return `${str.endsWith('.0') ? str.slice(0, -2) : str}k`;
 };
 
-export const likeTargetPropertyHandler = async (likeTargetProperty: any, id: string) => {
+export const likeTargetPropertyHandler = async (likeTargetProperty: MutationFn, id: string) => {
 	try {
 		await likeTargetProperty({
 			variables: {
 				input: id,
 			},
 		});
-	} catch (err: any) {
-		console.error('ERROR, likeTargetPropertyHandler:', err.message);
-		sweetMixinErrorAlert(err.message).then();
+	} catch (err: unknown) {
+		console.error('ERROR, likeTargetPropertyHandler:', getErrorMessage(err));
+		sweetMixinErrorAlert(getErrorMessage(err)).then();
 	}
 };
 
-export const likeTargetBoardArticleHandler = async (likeTargetBoardArticle: any, id: string) => {
+export const likeTargetBoardArticleHandler = async (likeTargetBoardArticle: MutationFn, id: string) => {
 	try {
 		await likeTargetBoardArticle({
 			variables: {
 				input: id,
 			},
 		});
-	} catch (err: any) {
-		console.error('ERROR, likeTargetBoardArticleHandler:', err.message);
-		sweetMixinErrorAlert(err.message).then();
+	} catch (err: unknown) {
+		console.error('ERROR, likeTargetBoardArticleHandler:', getErrorMessage(err));
+		sweetMixinErrorAlert(getErrorMessage(err)).then();
 	}
 };
 
-export const likeTargetMemberHandler = async (likeTargetMember: any, id: string) => {
+export const likeTargetMemberHandler = async (likeTargetMember: MutationFn, id: string) => {
 	try {
 		await likeTargetMember({
 			variables: {
 				input: id,
 			},
 		});
-	} catch (err: any) {
-		console.error('ERROR, likeTargetMemberHandler:', err.message);
-		sweetMixinErrorAlert(err.message).then();
+	} catch (err: unknown) {
+		console.error('ERROR, likeTargetMemberHandler:', getErrorMessage(err));
+		sweetMixinErrorAlert(getErrorMessage(err)).then();
 	}
 };

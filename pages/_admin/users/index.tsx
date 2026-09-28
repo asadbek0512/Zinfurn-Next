@@ -21,7 +21,8 @@ import { MemberUpdate } from '../../../libs/types/member/member.update';
 import { useMutation, useQuery } from '@apollo/client';
 import { UPDATE_MEMBER_BY_ADMIN } from '../../../apollo/admin/mutation';
 import { GET_ALL_MEMBERS_BY_ADMIN } from '../../../apollo/admin/query';
-import { T } from '../../../libs/types/common';
+import { T, LocaleContext, DEFAULT_LOCALE, getErrorMessage, ElementClickEvent } from '../../../libs/types/common';
+import type { SyntheticEvent } from 'react';
 
 const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
@@ -71,7 +72,7 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 		setMembersInquiry({ ...membersInquiry });
 	};
 
-	const menuIconClickHandler = (e: any, index: number) => {
+	const menuIconClickHandler = (e: ElementClickEvent, index: number) => {
 		const tempAnchor = anchorEl.slice();
 		tempAnchor[index] = e.currentTarget;
 		setAnchorEl(tempAnchor);
@@ -81,7 +82,7 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 		setAnchorEl([]);
 	};
 
-	const tabChangeHandler = async (event: any, newValue: string) => {
+	const tabChangeHandler = async (event: SyntheticEvent, newValue: string) => {
 		setValue(newValue);
 		setSearchText('');
 
@@ -114,7 +115,7 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 			
 			menuIconCloseHandler();
 			await getAllMembersRefetch({ input: membersInquiry });
-		} catch (err: any) {
+		} catch (err: unknown) {
 			sweetErrorHandling(err).then();
 		}
 	};
@@ -122,8 +123,8 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 	const textHandler = useCallback((value: string) => {
 		try {
 			setSearchText(value);
-		} catch (err: any) {
-			console.error('textHandler: ', err.message);
+		} catch (err: unknown) {
+			console.error('textHandler: ', getErrorMessage(err));
 		}
 	}, []);
 
@@ -136,8 +137,8 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 					text: searchText,
 				},
 			});
-		} catch (err: any) {
-			console.error('searchTextHandler: ', err.message);
+		} catch (err: unknown) {
+			console.error('searchTextHandler: ', getErrorMessage(err));
 		}
 	};
 
@@ -159,8 +160,8 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 				delete membersInquiry?.search?.memberType;
 				setMembersInquiry({ ...membersInquiry });
 			}
-		} catch (err: any) {
-			console.error('searchTypeHandler: ', err.message);
+		} catch (err: unknown) {
+			console.error('searchTypeHandler: ', getErrorMessage(err));
 		}
 	};
 
@@ -210,7 +211,7 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 							<Stack className={'search-area'} sx={{ m: '24px' }}>
 								<OutlinedInput
 									value={searchText}
-									onChange={(e: any) => textHandler(e.target.value)}
+									onChange={(e) => textHandler(e.target.value)}
 									sx={{ width: '100%' }}
 									className={'search'}
 									placeholder="Search user name"
@@ -293,6 +294,6 @@ AdminUsers.defaultProps = {
 
 export default withAdminLayout(AdminUsers);
 
-export const getServerSideProps = async ({ locale }: any) => ({
-  props: { ...(await serverSideTranslations(locale ?? 'en', ['common'])) },
+export const getServerSideProps = async ({ locale }: LocaleContext) => ({
+  props: { ...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])) },
 });

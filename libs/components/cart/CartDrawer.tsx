@@ -103,7 +103,7 @@ const CartDrawer = () => {
 							{items.map((item) => {
 								const imgSrc = item.property.propertyImages?.[0]
 									? `${REACT_APP_API_URL}/${item.property.propertyImages[0]}`
-									: '/img/banner/header1.svg';
+									: '/img/banner/header1.jpg';
 								const price = item.property.propertySalePrice ?? item.property.propertyPrice;
 								return (
 									<div className="cart-drawer-item" key={item.property._id}>

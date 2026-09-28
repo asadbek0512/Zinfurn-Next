@@ -122,7 +122,7 @@ const TuiEditor = () => {
 					category: 'myArticles',
 				},
 			});
-		} catch (err: any) {
+		} catch (err: unknown) {
 			console.error(err);
 			sweetErrorHandling(new Error(Message.INSERT_ALL_INPUTS)).then();
 		}

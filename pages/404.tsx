@@ -7,10 +7,11 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Top from '../libs/components/Top';
 import Footer from '../libs/components/Footer';
 import SEO from '../libs/components/common/SEO';
+import { LocaleContext, DEFAULT_LOCALE } from '../libs/types/common';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 

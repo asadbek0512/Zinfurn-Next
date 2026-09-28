@@ -10,14 +10,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { userVar } from '../../../apollo/store';
 import { GET_MEMBER_FOLLOWINGS } from '../../../apollo/user/query';
-import { T } from '../../types/common';
+import { T, MemberActionHandler } from '../../types/common';
 import { useTranslation } from 'next-i18next';
 
 interface MemberFollowingsProps {
 	initialInput: FollowInquiry;
-	subscribeHandler: any;
-	unsubscribeHandler: any;
-	likeMemberHandler: any;
+	subscribeHandler: MemberActionHandler;
+	unsubscribeHandler: MemberActionHandler;
+	likeMemberHandler: MemberActionHandler;
 	redirectToMemberPageHandler: any;
 }
 

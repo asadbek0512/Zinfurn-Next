@@ -5,13 +5,14 @@ import { Pagination, Stack, Typography } from '@mui/material';
 import CommunityCard from '../common/CommunityCard';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { T } from '../../types/common';
+import { T, getErrorMessage } from '../../types/common';
 import { BoardArticle } from '../../types/board-article/board-article';
 import { LIKE_TARGET_BOARD_ARTICLE } from '../../../apollo/user/mutation';
 import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { Messages } from '../../config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { useTranslation } from 'next-i18next';
+import { CustomJwtPayload } from '../../types/customJwtPayload';
 
 const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 	const { t } = useTranslation('common');
@@ -49,7 +50,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 		setSearchCommunity({ ...searchCommunity, page: value });
 	};
 
-	const likeBoArticleHandler = async (e: any, user: any, id: string) => {
+	const likeBoArticleHandler = async (e: any, user: CustomJwtPayload, id: string) => {
 		try {
 			e.stopPropagation();
 			if (!id) return;
@@ -64,9 +65,9 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 			await boardArticlesRefetch({ input: searchCommunity });
 
 			await sweetTopSmallSuccessAlert(t('Success!'), 750);
-		} catch (err: any) {
-			console.error('ERROR, likeBoArticleHandler:', err.message);
-			await sweetMixinErrorAlert(err.message);
+		} catch (err: unknown) {
+			console.error('ERROR, likeBoArticleHandler:', getErrorMessage(err));
+			await sweetMixinErrorAlert(getErrorMessage(err));
 		}
 	};
 

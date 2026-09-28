@@ -4,7 +4,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
 import PropertyCard from '../property/PropertyCard';
 import { Property } from '../../types/property/property';
-import { T } from '../../types/common';
+import { T, getErrorMessage } from '../../types/common';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { GET_FAVORITES } from '../../../apollo/user/query';
@@ -18,6 +18,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useRouter } from 'next/router';
 import { userVar } from '../../../apollo/store';
+import { CustomJwtPayload } from '../../types/customJwtPayload';
 
 const MyFavorites: NextPage = () => {
   const { t } = useTranslation('common');
@@ -54,7 +55,7 @@ const MyFavorites: NextPage = () => {
     setSearchFavorites({ ...searchFavorites, page: value });
   };
   
-  const likePropertyHandler = async (user: any, id: string) => {
+  const likePropertyHandler = async (user: CustomJwtPayload, id: string) => {
     try {
       if (!id) return;
       if (!user?._id) throw new Error(Messages.error2);
@@ -66,9 +67,9 @@ const MyFavorites: NextPage = () => {
       });
 
       await getFavoritesRefetch({ input: searchFavorites });
-    } catch (err: any) {
-      console.error('ERROR, likePropertyHandler:', err.message);
-      await sweetMixinErrorAlert(err.message).then();
+    } catch (err: unknown) {
+      console.error('ERROR, likePropertyHandler:', getErrorMessage(err));
+      await sweetMixinErrorAlert(getErrorMessage(err)).then();
     }
   };
 

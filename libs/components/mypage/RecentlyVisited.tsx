@@ -4,7 +4,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
 import PropertyCard from '../property/PropertyCard';
 import { Property } from '../../types/property/property';
-import { T } from '../../types/common';
+import { T, getErrorMessage } from '../../types/common';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { GET_VISITED } from '../../../apollo/user/query';
 import TrendPropertyCard from '../homepage/TrendPropertyCard';
@@ -17,6 +17,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useRouter } from 'next/router';
 import { userVar } from '../../../apollo/store';
+import { CustomJwtPayload } from '../../types/customJwtPayload';
 
 const RecentlyVisited: NextPage = () => {
   const { t } = useTranslation('common');
@@ -52,7 +53,7 @@ const RecentlyVisited: NextPage = () => {
     setSearchVisited({ ...searchVisited, page: value });
   };
 
-  const likePropertyHandler = async (user: any, id: string) => {
+  const likePropertyHandler = async (user: CustomJwtPayload, id: string) => {
     try {
       if (!id) return;
       if (!user?._id) throw new Error(Messages.error2);
@@ -64,9 +65,9 @@ const RecentlyVisited: NextPage = () => {
       });
 
       await getVisitedRefetch({ input: searchVisited });
-    } catch (err: any) {
-      console.error('ERROR, likePropertyHandler:', err.message);
-      await sweetMixinErrorAlert(err.message).then();
+    } catch (err: unknown) {
+      console.error('ERROR, likePropertyHandler:', getErrorMessage(err));
+      await sweetMixinErrorAlert(getErrorMessage(err)).then();
     }
   };
 

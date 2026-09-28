@@ -16,10 +16,11 @@ import { flyToCart } from '../../utils/flyToCart';
 import { useCurrency } from '../../context/CurrencyContext';
 import { getLocalizedTitle } from '../../utils/localizeProperty';
 import { activeSalePrice } from '../../utils/sale';
+import { CustomJwtPayload } from '../../types/customJwtPayload';
 
 interface TrendPropertyCardProps {
 	property: Property;
-	likePropertyHandler: (user: any, propertyId: string) => void;
+	likePropertyHandler: (user: CustomJwtPayload, propertyId: string) => void;
 	myFavorites?: boolean;
 	recentlyVisited?: boolean;
 }
@@ -34,7 +35,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 
 	const imagePath = property?.propertyImages?.[0]
 		? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
-		: '/img/banner/header1.svg';
+		: '/img/banner/header1.jpg';
 	const title = getLocalizedTitle(property, router.locale);
 
 	const pushDetailHandler = (id: string) => {

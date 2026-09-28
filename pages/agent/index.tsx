@@ -14,13 +14,14 @@ import { Member } from '../../libs/types/member/member';
 import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_AGENTS } from '../../apollo/user/query';
-import { T } from '../../libs/types/common';
+import { T, LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
 import { Messages } from '../../libs/config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { CustomJwtPayload } from '../../libs/types/customJwtPayload';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 
@@ -122,7 +123,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 		setCurrentPage(value);
 	};
 
-	const likeMemberHandler = async (user: any, id: string) => {
+	const likeMemberHandler = async (user: CustomJwtPayload, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
@@ -134,9 +135,9 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			});
 
 			await getAgentsRefetch({ input: searchFilter });
-		} catch (err: any) {
-			console.error('ERROR, likeMemberHandler:', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		} catch (err: unknown) {
+			console.error('ERROR, likeMemberHandler:', getErrorMessage(err));
+			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
 
@@ -220,8 +221,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 								type="text"
 								placeholder={t('search_for_agent')}
 								value={searchText}
-								onChange={(e: any) => setSearchText(e.target.value)}
-								onKeyDown={(event: any) => {
+								onChange={(e) => setSearchText(e.target.value)}
+								onKeyDown={(event) => {
 									if (event.key == 'Enter') {
 										setSearchFilter({
 											...searchFilter,

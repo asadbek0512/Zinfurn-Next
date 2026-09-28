@@ -37,6 +37,7 @@ import RateReviewIcon from '@mui/icons-material/RateReview';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../sweetAlert';
+import { getErrorMessage } from '../../types/common';
 
 const STATUS_COLOR: Record<string, 'warning' | 'info' | 'primary' | 'success' | 'error' | 'default'> = {
 	[OrderStatus.PENDING]: 'warning',
@@ -157,8 +158,8 @@ const MyOrders = () => {
 		try {
 			await confirmDelivery({ variables: { orderId } });
 			refetch();
-		} catch (e: any) {
-			alert(e.message);
+		} catch (e: unknown) {
+			alert(getErrorMessage(e));
 		}
 	};
 
@@ -178,8 +179,8 @@ const MyOrders = () => {
 			setReturnOpen(false);
 			setReturnReason('');
 			refetch();
-		} catch (e: any) {
-			alert(e.message);
+		} catch (e: unknown) {
+			alert(getErrorMessage(e));
 		}
 	};
 
@@ -358,7 +359,7 @@ const MyOrders = () => {
 									{order.orderItems.slice(0, 3).map((item, idx) => {
 										const imgSrc = item.propertyImage
 											? `${REACT_APP_API_URL}/${item.propertyImage}`
-											: '/img/banner/header1.svg';
+											: '/img/banner/header1.jpg';
 										return (
 											<div className="my-orders-item-thumb" key={idx} title={item.propertyTitle}>
 												<img src={imgSrc} alt={item.propertyTitle} loading="lazy" decoding="async" />
@@ -537,7 +538,7 @@ const MyOrders = () => {
 										title={item.propertyTitle}
 									>
 										<img
-											src={item.propertyImage ? `${REACT_APP_API_URL}/${item.propertyImage}` : '/img/banner/header1.svg'}
+											src={item.propertyImage ? `${REACT_APP_API_URL}/${item.propertyImage}` : '/img/banner/header1.jpg'}
 											style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" decoding="async" />
 										{isDone && (
 											<div style={{ position: 'absolute', inset: 0, background: 'rgba(34,197,94,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 20, fontWeight: 700 }}>

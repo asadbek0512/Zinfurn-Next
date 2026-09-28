@@ -20,7 +20,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { GET_COMMENTS, GET_REPAIRPROPERTIES, GET_REPAIRPROPERTY } from '../../apollo/user/query';
-import { T } from '../../libs/types/common';
+import { T, LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
 import { CREATE_COMMENT, LIKE_TARGET_REPAIRPROPERTY } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { Direction, Message } from '../../libs/enums/common.enum';
@@ -41,9 +41,9 @@ import { getLocalizedRepairText } from '../../libs/utils/localizeRepair';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 
@@ -180,9 +180,9 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					},
 				},
 			});
-		} catch (err: any) {
-			console.error('ERROR, likeRepairPropertyHandler', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		} catch (err: unknown) {
+			console.error('ERROR, likeRepairPropertyHandler', getErrorMessage(err));
+			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
 
@@ -244,7 +244,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				<div className="mob-rpd-media">
 					<img
 						className="mob-rpd-img"
-						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
+						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.jpg'}
 						alt={repairTitle}
 						decoding="async"
 					/>

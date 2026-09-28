@@ -154,7 +154,7 @@ export const InquiryList = (props: InquiryPanelListType) => {
 									</TableCell>
 									<TableCell align="left">member.mb_phone</TableCell>
 									<TableCell align="center">
-										<Button onClick={(e: any) => handleMenuIconClick(e, index)} className={'badge success'}>
+										<Button onClick={(e) => handleMenuIconClick(e, index)} className={'badge success'}>
 											member.mb_type
 										</Button>
 
@@ -169,12 +169,12 @@ export const InquiryList = (props: InquiryPanelListType) => {
 											TransitionComponent={Fade}
 											sx={{ p: 1 }}
 										>
-											<MenuItem onClick={(e: any) => generateMentorTypeHandle('member._id', 'mentor', 'originate')}>
+											<MenuItem onClick={(e) => generateMentorTypeHandle('member._id', 'mentor', 'originate')}>
 												<Typography variant={'subtitle1'} component={'span'}>
 													MENTOR
 												</Typography>
 											</MenuItem>
-											<MenuItem onClick={(e: any) => generateMentorTypeHandle('member._id', 'user', 'remove')}>
+											<MenuItem onClick={(e) => generateMentorTypeHandle('member._id', 'user', 'remove')}>
 												<Typography variant={'subtitle1'} component={'span'}>
 													USER
 												</Typography>

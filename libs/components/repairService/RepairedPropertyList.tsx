@@ -16,7 +16,7 @@ import {
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_REPAIRPROPERTIES } from '../../../apollo/user/query';
-import { T } from '../../types/common';
+import { T, getErrorMessage } from '../../types/common';
 import { LIKE_TARGET_REPAIRPROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
@@ -74,9 +74,9 @@ const RepairPropertiesGrid = (props: RepairPropertiesGridProps) => {
 			await likeTargetRepairProperty({ variables: { input: id } });
 			await getRepairPropertiesRefetch({ input: searchFilter });
 			sweetTopSmallSuccessAlert(t('Successfully updated!'), 700);
-		} catch (err: any) {
-			console.error('ERROR, likeRepairPropertyHandler', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		} catch (err: unknown) {
+			console.error('ERROR, likeRepairPropertyHandler', getErrorMessage(err));
+			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
 

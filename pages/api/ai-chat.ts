@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { getErrorMessage } from '../../libs/types/common';
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -220,8 +221,8 @@ Return ONLY JSON: {"reply": "...", "productIds": ["id1","id2"], "actions": [{"la
 			}));
 
 		return res.status(200).json({ reply: reply || '...', products, actions });
-	} catch (error: any) {
-		console.error('AI chat error:', error.message);
-		return res.status(500).json({ error: error.message });
+	} catch (error: unknown) {
+		console.error('AI chat error:', getErrorMessage(error));
+		return res.status(500).json({ error: getErrorMessage(error) });
 	}
 }

@@ -519,7 +519,7 @@
   "Home / Community": "Bosh sahifa / Jamiyat",
   "Home / Members": "Bosh sahifa / A'zolar",
   "Seoul, South Korea": "Seul, Janubiy Koreya",
-  "Zinfurn — your trusted furniture destination in Korea. Quality pieces for every room, delivered with care.": "Zinfurn — Koreyaning ishonchli mebel do'koni. Har bir xona uchun sifatli mebellar.",
+  "Zinfurn — your trusted furniture destination. Quality pieces for every room, delivered with care.": "Zinfurn — Koreyaning ishonchli mebel do'koni. Har bir xona uchun sifatli mebellar.",
   "© Zinfurn - All rights reserved.": "© Zinfurn - Barcha huquqlar himoyalangan.",
   "Account": "Hisob",
   "All accounts linked": "Barcha hisoblar ulangan",
@@ -714,5 +714,8 @@
   "Open zinfurn.uz in Safari or Chrome": "zinfurn.uz ni Safari yoki Chrome’da oching",
   "Tap the Share button": "“Ulashish” tugmasini bosing",
   "Choose “Add to Home Screen” and tap “Add”": "“Bosh ekranga qo‘shish” ni tanlab, “Qo‘shish” ni bosing",
-  "Scan to download for Android": "Android uchun skanerlab yuklab oling"
+  "Scan to download for Android": "Android uchun skanerlab yuklab oling",
+  "500_title": "Nimadir noto‘g‘ri ketdi",
+  "500_desc": "Serverda vaqtinchalik xatolik. Birozdan so‘ng sahifani yangilab ko‘ring.",
+  "Try again": "Qayta urinish"
 }

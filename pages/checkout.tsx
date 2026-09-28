@@ -22,10 +22,11 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import { useCurrency } from '../libs/context/CurrencyContext';
+import { LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../libs/types/common';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 
@@ -87,9 +88,9 @@ const Checkout: NextPage = () => {
 				setCouponApplied(null);
 				setCouponMsg(res?.message || t('Invalid coupon'));
 			}
-		} catch (err: any) {
+		} catch (err: unknown) {
 			setCouponApplied(null);
-			setCouponMsg(err?.message || t('Invalid coupon'));
+			setCouponMsg(getErrorMessage(err) || t('Invalid coupon'));
 		}
 	};
 
@@ -143,8 +144,8 @@ const Checkout: NextPage = () => {
 				});
 				setPlacedOrder(data.createOrder);
 				clearCart();
-			} catch (err: any) {
-				setPlaceError(err?.message || 'Failed to place order. Please try again.');
+			} catch (err: unknown) {
+				setPlaceError(getErrorMessage(err) || 'Failed to place order. Please try again.');
 				return;
 			}
 		}
@@ -180,7 +181,7 @@ const Checkout: NextPage = () => {
 				const price = item.property.propertySalePrice ?? item.property.propertyPrice;
 				const img = item.property.propertyImages?.[0]
 					? `${REACT_APP_API_URL}/${item.property.propertyImages[0]}`
-					: '/img/banner/header1.svg';
+					: '/img/banner/header1.jpg';
 				return (
 					<div className="co-sum-item" key={item.property._id}>
 						<div className="co-sum-img-wrap">

@@ -19,7 +19,7 @@ import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.
 import { Comment } from '../../libs/types/comment/comment';
 import dynamic from 'next/dynamic';
 import { CommentGroup, CommentStatus } from '../../libs/enums/comment.enum';
-import { T } from '../../libs/types/common';
+import { T, LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
 import EditIcon from '@mui/icons-material/Edit';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { BoardArticle } from '../../libs/types/board-article/board-article';
@@ -35,12 +35,14 @@ import {
 import { CommentUpdate } from '../../libs/types/comment/comment.update';
 import { useTranslation } from 'next-i18next';
 import { getLocalizedArticleTitle, getLocalizedArticleContent } from '../../libs/utils/localizeArticle';
+import { CustomJwtPayload } from '../../libs/types/customJwtPayload';
+import type { SyntheticEvent } from 'react';
 
 const ToastViewerComponent = dynamic(() => import('../../libs/components/community/TViewer'), { ssr: false });
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 
@@ -137,7 +139,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 		);
 	};
 
-	const likeBoardArticleHandler = async (user: any, id: any) => {
+	const likeBoardArticleHandler = async (user: CustomJwtPayload, id: any) => {
 		try {
 			if (likeLoading) return;
 			if (!id) return;
@@ -153,9 +155,9 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			await boardArticleRefetch({ input: articleId });
 
 			await sweetTopSmallSuccessAlert('Success!', 800);
-		} catch (err: any) {
-			console.error('ERROR, likeBoardArticleHandler:', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		} catch (err: unknown) {
+			console.error('ERROR, likeBoardArticleHandler:', getErrorMessage(err));
+			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		} finally {
 			setLikeLoading(false);
 		}
@@ -187,8 +189,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 
 			await boardArticleRefetch({ input: articleId });
 			setComment('');
-		} catch (error: any) {
-			await sweetMixinErrorAlert(error.message);
+		} catch (error: unknown) {
+			await sweetMixinErrorAlert(getErrorMessage(error));
 		}
 	};
 
@@ -226,8 +228,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 				await sweetMixinSuccessAlert('Successfully updated!');
 			}
 			await getCommentsRefetch({ input: searchFilter });
-		} catch (error: any) {
-			await sweetMixinErrorAlert(error.message);
+		} catch (error: unknown) {
+			await sweetMixinErrorAlert(getErrorMessage(error));
 		} finally {
 			setOpenBackdrop(false);
 			setUpdatedComment('');

@@ -11,10 +11,11 @@ import { useCurrency } from '../../context/CurrencyContext';
 import { userVar } from '../../../apollo/store';
 import { getLocalizedTitle } from '../../utils/localizeProperty';
 import { activeSalePrice } from '../../utils/sale';
+import { CustomJwtPayload } from '../../types/customJwtPayload';
 
 interface MobilePropertyCardProps {
 	property: Property;
-	likePropertyHandler: (user: any, propertyId: string) => void;
+	likePropertyHandler: (user: CustomJwtPayload, propertyId: string) => void;
 }
 
 /**

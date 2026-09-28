@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import type { NextPage } from 'next';
 import withAdminLayout from '../../libs/components/layout/LayoutAdmin';
 import { useRouter } from 'next/router';
+import { LocaleContext, DEFAULT_LOCALE } from '../../libs/types/common';
 
 const AdminHome: NextPage = (props: any) => {
 	const router = useRouter();
@@ -16,6 +17,6 @@ const AdminHome: NextPage = (props: any) => {
 
 export default withAdminLayout(AdminHome);
 
-export const getServerSideProps = async ({ locale }: any) => ({
-  props: { ...(await serverSideTranslations(locale ?? 'en', ['common'])) },
+export const getServerSideProps = async ({ locale }: LocaleContext) => ({
+  props: { ...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])) },
 });

@@ -196,7 +196,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 
 											{property.propertyStatus === PropertyStatus.ACTIVE && (
 												<>
-													<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
+													<Button onClick={(e) => menuIconClickHandler(e, index)} className={'badge success'}>
 														{property.propertyStatus}
 													</Button>
 

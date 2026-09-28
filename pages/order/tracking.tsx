@@ -22,10 +22,11 @@ import { Order } from '../../libs/types/order/order';
 import { OrderStatus } from '../../libs/enums/order.enum';
 import { formatterStr } from '../../libs/utils';
 import { useCurrency } from '../../libs/context/CurrencyContext';
+import { LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 
@@ -70,8 +71,8 @@ const OrderTracking: NextPage = () => {
 		try {
 			await confirmDelivery({ variables: { orderId: order._id } });
 			await refetch();
-		} catch (e: any) {
-			alert(e.message);
+		} catch (e: unknown) {
+			alert(getErrorMessage(e));
 		} finally {
 			setConfirming(false);
 		}

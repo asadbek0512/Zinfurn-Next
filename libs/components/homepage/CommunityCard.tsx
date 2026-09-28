@@ -19,7 +19,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 
 	const articleImage = article?.articleImage
 		? `${process.env.REACT_APP_API_URL}/${article?.articleImage}`
-		: '/img/event.svg';
+		: '/img/event.jpg';
 	const title = getLocalizedArticleTitle(article, i18n.language);
 
 	const formatDate = (date: string | Date, locale: string) => {

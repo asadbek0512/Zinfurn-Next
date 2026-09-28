@@ -13,7 +13,7 @@ import { PropertiesInquiry } from '../../types/property/property.input';
 import TrendPropertyCard from './TrendPropertyCard';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
-import { T } from '../../types/common';
+import { T, getErrorMessage } from '../../types/common';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
@@ -78,9 +78,9 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 						: p,
 				),
 			);
-		} catch (err: any) {
-			console.error('ERROR, likePropertyHandler', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		} catch (err: unknown) {
+			console.error('ERROR, likePropertyHandler', getErrorMessage(err));
+			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
 

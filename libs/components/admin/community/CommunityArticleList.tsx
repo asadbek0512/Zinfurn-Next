@@ -199,7 +199,7 @@ const CommunityArticleList = (props: CommunityArticleListProps) => {
 											</Button>
 										) : (
 											<>
-												<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
+												<Button onClick={(e) => menuIconClickHandler(e, index)} className={'badge success'}>
 													{article.articleStatus}
 												</Button>
 

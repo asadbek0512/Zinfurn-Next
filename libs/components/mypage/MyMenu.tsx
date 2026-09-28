@@ -32,6 +32,7 @@ import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useTranslation } from 'next-i18next';
+import { getErrorMessage } from '../../types/common';
 
 const MORE_LINKS = [
 	{ href: '/agent', labelKey: 'Agents', icon: <PeopleOutlinedIcon /> },
@@ -62,8 +63,8 @@ const MyMenu = () => {
 	const logoutHandler = async () => {
 		try {
 			if (await sweetConfirmAlert(t('Do you want to logout?'))) logOut();
-		} catch (err: any) {
-			console.error('ERROR, logoutHandler:', err.message);
+		} catch (err: unknown) {
+			console.error('ERROR, logoutHandler:', getErrorMessage(err));
 		}
 	};
 

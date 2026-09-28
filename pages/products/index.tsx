@@ -33,7 +33,7 @@ import ViewStreamIcon from '@mui/icons-material/ViewStream';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../apollo/user/query';
 import { print } from 'graphql';
-import { T } from '../../libs/types/common';
+import { T, getErrorMessage } from '../../libs/types/common';
 import { LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { Direction, Message } from '../../libs/enums/common.enum';
@@ -227,9 +227,9 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 						: p,
 				),
 			);
-		} catch (err: any) {
-			console.error('ERROR, likePropertyHandler', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		} catch (err: unknown) {
+			console.error('ERROR, likePropertyHandler', getErrorMessage(err));
+			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
 
@@ -307,7 +307,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 
 			setSearchFilter(refreshedInput);
 			setCurrentPage(1);
-		} catch (err: any) {
+		} catch (err: unknown) {
 			console.error('ERROR, refreshHandler:', err);
 		}
 	};
@@ -414,8 +414,8 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 							type="text"
 							className="mob-search-input"
 							placeholder={t('search_placeholder')}
-							onChange={(e: any) => setSearchText(e.target.value)}
-							onKeyDown={(event: any) => { if (event.key === 'Enter') searchHandler(); }}
+							onChange={(e) => setSearchText(e.target.value)}
+							onKeyDown={(event) => { if (event.key === 'Enter') searchHandler(); }}
 							endAdornment={searchText ? <CancelRoundedIcon onClick={clearSearchHandler} style={{ cursor: 'pointer', fontSize: 16 }} /> : null}
 						/>
 					</Stack>
@@ -506,8 +506,8 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 										type={'text'}
 										className={'search-input'}
 										placeholder={t('search_placeholder')}
-										onChange={(e: any) => setSearchText(e.target.value)}
-										onKeyDown={(event: any) => {
+										onChange={(e) => setSearchText(e.target.value)}
+										onKeyDown={(event) => {
 											if (event.key === 'Enter') {
 												searchHandler();
 											}

@@ -16,6 +16,7 @@ import {
 import 'react-international-phone/style.css';
 import { startGoogleAuth } from '../../libs/native';
 import useAppMode from '../../libs/hooks/useAppMode';
+import { LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
 
 // App WebView'da Telegram widget popup'i (window.open) ochilmaydi — o'rniga redirect oqimi
 const TELEGRAM_BOT_ID = '8693491156';
@@ -28,9 +29,9 @@ const decodeTelegramResult = (encoded: string): Record<string, string | number> 
 	return JSON.parse(decodeURIComponent(escape(window.atob(padded))));
 };
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 
@@ -153,8 +154,8 @@ const Join: NextPage = () => {
 		try {
 			const result = await logIn(input.memberEmail, input.password);
 			window.location.href = router.query.referrer?.toString() ?? '/';
-		} catch (err: any) {
-			await sweetMixinErrorAlert(err.message || t('Login failed'));
+		} catch (err: unknown) {
+			await sweetMixinErrorAlert(getErrorMessage(err) || t('Login failed'));
 		}
 	}, [input, router, t]);
 
@@ -182,8 +183,8 @@ const Join: NextPage = () => {
 		try {
 			await signUp(input.nick, input.password, input.phone, input.memberEmail, input.type);
 			await router.push(`${router.query.referrer ?? '/'}`);
-		} catch (err: any) {
-			await sweetMixinErrorAlert(err.message);
+		} catch (err: unknown) {
+			await sweetMixinErrorAlert(getErrorMessage(err));
 		}
 	}, [input, router, t, confirmPassword]);
 	(Join as any).hideTop = true;

@@ -210,7 +210,7 @@ const Filter = (props: FilterType) => {
 					alert('error');
 				}
 
-			} catch (err: any) {
+			} catch (err: unknown) {
 				console.error('ERROR, propertyLocationSelectHandler:', err);
 			}
 		},
@@ -258,7 +258,7 @@ const Filter = (props: FilterType) => {
 					alert('error');
 				}
 
-			} catch (err: any) {
+			} catch (err: unknown) {
 				console.error('ERROR, propertyTypeSelectHandler:', err);
 			}
 		},
@@ -292,7 +292,7 @@ const Filter = (props: FilterType) => {
 					})}`,
 					{ scroll: false },
 				);
-			} catch (err: any) {
+			} catch (err: unknown) {
 				console.error('ERROR, propertyConditionSelectHandler:', err);
 			}
 		},
@@ -334,7 +334,7 @@ const Filter = (props: FilterType) => {
 					{ scroll: false },
 				);
 
-			} catch (err: any) {
+			} catch (err: unknown) {
 				console.error('ERROR, propertyOptionSelectHandler:', err);
 			}
 		},
@@ -382,7 +382,7 @@ const Filter = (props: FilterType) => {
 					);
 				}
 
-			} catch (err: any) {
+			} catch (err: unknown) {
 				console.error('ERROR, propertyMaterialSelectHandler:', err);
 			}
 		},
@@ -425,7 +425,7 @@ const Filter = (props: FilterType) => {
 						{ scroll: false },
 					);
 				}
-			} catch (err: any) {
+			} catch (err: unknown) {
 				console.error('ERROR, propertyColorHandler:', err);
 			}
 		},
@@ -483,7 +483,7 @@ const Filter = (props: FilterType) => {
 				`/products?input=${JSON.stringify(initialInput)}`,
 				{ scroll: false },
 			);
-		} catch (err: any) {
+		} catch (err: unknown) {
 			console.error('ERROR, refreshHandler:', err);
 		}
 	};
@@ -593,9 +593,9 @@ const Filter = (props: FilterType) => {
 							placeholder={t('minPrice')}
 							min={0}
 							value={searchFilter?.search?.pricesRange?.start ?? 0}
-							onChange={(e: any) => {
-								if (e.target.value >= 0) {
-									propertyPriceHandler(e.target.value, 'start');
+							onChange={(e) => {
+								if (Number(e.target.value) >= 0) {
+									propertyPriceHandler(Number(e.target.value), 'start');
 								}
 							}}
 						/>
@@ -604,9 +604,9 @@ const Filter = (props: FilterType) => {
 							type="number"
 							placeholder={t('maxPrice')}
 							value={searchFilter?.search?.pricesRange?.end ?? 0}
-							onChange={(e: any) => {
-								if (e.target.value >= 0) {
-									propertyPriceHandler(e.target.value, 'end');
+							onChange={(e) => {
+								if (Number(e.target.value) >= 0) {
+									propertyPriceHandler(Number(e.target.value), 'end');
 								}
 							}}
 						/>
@@ -760,9 +760,9 @@ const Filter = (props: FilterType) => {
 				<Stack className={'find-your-home'}>
 					<Typography className={'title'}>{t('priceRange')}</Typography>
 					<Stack className="square-year-input">
-						<input type="number" placeholder={t('minPrice')} min={0} value={searchFilter?.search?.pricesRange?.start ?? 0} onChange={(e: any) => { if (e.target.value >= 0) propertyPriceHandler(e.target.value, 'start'); }} />
+						<input type="number" placeholder={t('minPrice')} min={0} value={searchFilter?.search?.pricesRange?.start ?? 0} onChange={(e) => { if (Number(e.target.value) >= 0) propertyPriceHandler(Number(e.target.value), 'start'); }} />
 						<div className="central-divider"></div>
-						<input type="number" placeholder={t('maxPrice')} value={searchFilter?.search?.pricesRange?.end ?? 0} onChange={(e: any) => { if (e.target.value >= 0) propertyPriceHandler(e.target.value, 'end'); }} />
+						<input type="number" placeholder={t('maxPrice')} value={searchFilter?.search?.pricesRange?.end ?? 0} onChange={(e) => { if (Number(e.target.value) >= 0) propertyPriceHandler(Number(e.target.value), 'end'); }} />
 					</Stack>
 				</Stack>
 				<Stack className={'find-your-home'} mb={'30px'}>

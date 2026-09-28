@@ -520,7 +520,7 @@
   "Home / Community": "Главная / Сообщество",
   "Home / Members": "Главная / Участники",
   "Seoul, South Korea": "Сеул, Южная Корея",
-  "Zinfurn — your trusted furniture destination in Korea. Quality pieces for every room, delivered with care.": "Zinfurn — ваш надёжный магазин мебели в Корее. Качественные изделия для каждой комнаты.",
+  "Zinfurn — your trusted furniture destination. Quality pieces for every room, delivered with care.": "Zinfurn — ваш надёжный магазин мебели в Корее. Качественные изделия для каждой комнаты.",
   "© Zinfurn - All rights reserved.": "© Zinfurn - Все права защищены.",
   "Account": "Аккаунт",
   "All accounts linked": "Все аккаунты привязаны",
@@ -715,5 +715,8 @@
   "Open zinfurn.uz in Safari or Chrome": "Откройте zinfurn.uz в Safari или Chrome",
   "Tap the Share button": "Нажмите кнопку «Поделиться»",
   "Choose “Add to Home Screen” and tap “Add”": "Выберите «На экран “Домой”» и нажмите «Добавить»",
-  "Scan to download for Android": "Отсканируйте, чтобы скачать для Android"
+  "Scan to download for Android": "Отсканируйте, чтобы скачать для Android",
+  "500_title": "Что-то пошло не так",
+  "500_desc": "Временная ошибка сервера. Обновите страницу чуть позже.",
+  "Try again": "Повторить"
 }

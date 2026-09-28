@@ -30,17 +30,18 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PeopleIcon from '@mui/icons-material/People';
 import HomeIcon from '@mui/icons-material/Home';
-import { T } from '../../libs/types/common';
+import { T, LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
 import Review from '../../libs/components/property/Review';
 import { Pagination as MuiPagination } from '@mui/material';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import { useTranslation } from 'next-i18next';
 import { formatDisplayName } from '../../libs/utils/formatName';
+import { CustomJwtPayload } from '../../libs/types/customJwtPayload';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 
@@ -186,12 +187,12 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			setInsertCommentData({ ...insertCommentData, commentContent: '' });
 
 			await getCommentsRefetch({ input: commentInquiry });
-		} catch (err: any) {
+		} catch (err: unknown) {
 			sweetErrorHandling(err).then();
 		}
 	};
 
-	const likePropertyHandler = async (user: any, id: string) => {
+	const likePropertyHandler = async (user: CustomJwtPayload, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
@@ -217,9 +218,9 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 						: p,
 				),
 			);
-		} catch (err: any) {
-			console.error('ERROR, likePropertyHandler:', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		} catch (err: unknown) {
+			console.error('ERROR, likePropertyHandler:', getErrorMessage(err));
+			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
 

@@ -20,6 +20,7 @@ import { useQuery } from '@apollo/client';
 import { GET_ALL_NOTICES } from '../../../apollo/user/query';
 import { NoticeStatus, NoticeCategory } from '../../../libs/enums/notice.enum';
 import { typeNotice } from '../../../libs/types/notice/notice';
+import { LocaleContext, DEFAULT_LOCALE } from '../../../libs/types/common';
 
 const AdminFaq: NextPage = () => {
 	const router = useRouter();
@@ -184,6 +185,6 @@ const AdminFaq: NextPage = () => {
 
 export default withAdminLayout(AdminFaq);
 
-export const getServerSideProps = async ({ locale }: any) => ({
-  props: { ...(await serverSideTranslations(locale ?? 'en', ['common'])) },
+export const getServerSideProps = async ({ locale }: LocaleContext) => ({
+  props: { ...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])) },
 });

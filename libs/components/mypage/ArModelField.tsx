@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Button, Stack, TextField, Typography, LinearProgress } from '@mui/material';
 import { getJwtToken } from '../../auth';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
+import { axiosErrorMessage, getErrorMessage } from '../../types/common';
 
 /**
  * Attaches a real-world-scaled GLB to a property, either generated from its photo
@@ -75,8 +76,8 @@ const ArModelField = ({ imageUrl, value, onChange }: ArModelFieldProps) => {
 						return reject(new Error(`Generatsiya muvaffaqiyatsiz: ${data.status}`));
 					}
 					pollRef.current = setTimeout(poll, POLL_INTERVAL_MS);
-				} catch (error: any) {
-					reject(new Error(error?.response?.data?.error ?? error.message));
+				} catch (error: unknown) {
+					reject(new Error(axiosErrorMessage(error)));
 				}
 			};
 			poll();
@@ -105,9 +106,9 @@ const ArModelField = ({ imageUrl, value, onChange }: ArModelFieldProps) => {
 			setStatus('Yuklanmoqda…');
 			onChange(await uploadGlb(new Uint8Array(imported.data)));
 			setStatus('Tayyor');
-		} catch (error: any) {
+		} catch (error: unknown) {
 			setStatus('');
-			await sweetMixinErrorAlert(error?.response?.data?.error ?? error.message);
+			await sweetMixinErrorAlert(axiosErrorMessage(error));
 		} finally {
 			setBusy(false);
 		}
@@ -129,9 +130,9 @@ const ArModelField = ({ imageUrl, value, onChange }: ArModelFieldProps) => {
 			setStatus('Yuklanmoqda…');
 			onChange(await uploadGlb(new Uint8Array(normalized.data)));
 			setStatus('Tayyor');
-		} catch (error: any) {
+		} catch (error: unknown) {
 			setStatus('');
-			await sweetMixinErrorAlert(error.message);
+			await sweetMixinErrorAlert(getErrorMessage(error));
 		} finally {
 			setBusy(false);
 			if (fileRef.current) fileRef.current.value = '';

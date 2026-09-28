@@ -519,7 +519,7 @@
   "Home / Community": "الرئيسية / المجتمع",
   "Home / Members": "الرئيسية / الأعضاء",
   "Seoul, South Korea": "سيول، كوريا الجنوبية",
-  "Zinfurn — your trusted furniture destination in Korea. Quality pieces for every room, delivered with care.": "Zinfurn — وجهتك الموثوقة للأثاث في كوريا. قطع عالية الجودة لكل غرفة.",
+  "Zinfurn — your trusted furniture destination. Quality pieces for every room, delivered with care.": "Zinfurn — وجهتك الموثوقة للأثاث في كوريا. قطع عالية الجودة لكل غرفة.",
   "© Zinfurn - All rights reserved.": "© Zinfurn - جميع الحقوق محفوظة.",
   "Account": "الحساب",
   "All accounts linked": "جميع الحسابات مرتبطة",
@@ -714,5 +714,8 @@
   "Open zinfurn.uz in Safari or Chrome": "افتح zinfurn.uz في Safari أو Chrome",
   "Tap the Share button": "اضغط على زر المشاركة",
   "Choose “Add to Home Screen” and tap “Add”": "اختر “إضافة إلى الشاشة الرئيسية” ثم اضغط “إضافة”",
-  "Scan to download for Android": "امسح للتحميل على أندرويد"
+  "Scan to download for Android": "امسح للتحميل على أندرويد",
+  "500_title": "حدث خطأ ما",
+  "500_desc": "حدث خطأ مؤقت في الخادم. يرجى تحديث الصفحة بعد قليل.",
+  "Try again": "حاول مرة أخرى"
 }

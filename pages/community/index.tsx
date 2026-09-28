@@ -8,7 +8,7 @@ import PropertyCardSkeleton from '../../libs/components/common/PropertyCardSkele
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { BoardArticle } from '../../libs/types/board-article/board-article';
-import { T } from '../../libs/types/common';
+import { T, LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { BoardArticlesInquiry } from '../../libs/types/board-article/board-article.input';
 import { BoardArticleCategory } from '../../libs/enums/board-article.enum';
@@ -20,11 +20,12 @@ import { LIKE_TARGET_BOARD_ARTICLE } from '../../apollo/user/mutation';
 import { GET_BOARD_ARTICLES } from '../../apollo/user/query';
 import { Messages } from '../../libs/config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { CustomJwtPayload } from '../../libs/types/customJwtPayload';
 import { useTranslation } from 'next-i18next'; // Translation import
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 
@@ -112,7 +113,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	}, [boardArticlesLoading]);
 
 	/** HANDLERS **/
-	const likeArticleHandler = async (e: any, user: any, id: string) => {
+	const likeArticleHandler = async (e: any, user: CustomJwtPayload, id: string) => {
 		try {
 			e.stopPropagation();
 			if (!id) return;
@@ -150,9 +151,9 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 				NEWS: prev.NEWS.map(updateArticle),
 				HUMOR: prev.HUMOR.map(updateArticle),
 			}));
-		} catch (err: any) {
-			console.error('ERROR, likeArticleHandler:', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		} catch (err: unknown) {
+			console.error('ERROR, likeArticleHandler:', getErrorMessage(err));
+			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
 

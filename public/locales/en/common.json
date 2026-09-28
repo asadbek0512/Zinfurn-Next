@@ -714,5 +714,8 @@
   "Open zinfurn.uz in Safari or Chrome": "Open zinfurn.uz in Safari or Chrome",
   "Tap the Share button": "Tap the Share button",
   "Choose “Add to Home Screen” and tap “Add”": "Choose “Add to Home Screen” and tap “Add”",
-  "Scan to download for Android": "Scan to download for Android"
+  "Scan to download for Android": "Scan to download for Android",
+  "500_title": "Something went wrong",
+  "500_desc": "A temporary server error occurred. Please refresh the page in a moment.",
+  "Try again": "Try again"
 }

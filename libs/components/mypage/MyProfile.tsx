@@ -13,6 +13,7 @@ import { sweetErrorHandling, sweetMixinSuccessAlert } from '../../sweetAlert';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTranslation } from 'next-i18next';
 import UserAvatar from '../common/UserAvatar';
+import { axiosErrorMessage } from '../../types/common';
 
 const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const { t } = useTranslation('common');
@@ -105,9 +106,9 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			if (response.data.errors) throw new Error(response.data.errors[0].message);
 			const responseImage = response.data.data.imageUploader;
 			setUpdateData((prev) => ({ ...prev, memberImage: responseImage }));
-		} catch (err: any) {
+		} catch (err: unknown) {
 			console.error('Error, uploadImage:', err);
-			alert('Upload xato: ' + (err?.response?.data?.errors?.[0]?.message || err?.message || JSON.stringify(err)));
+			alert('Upload xato: ' + axiosErrorMessage(err));
 		}
 	};
 
@@ -133,7 +134,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			await updateStorage({ jwtToken, refreshToken: result.data.updateMember?.refreshToken });
 			updateUserInfo(result.data.updateMember?.accessToken);
 			await sweetMixinSuccessAlert(t('information updated successfully'));
-		} catch (err: any) {
+		} catch (err: unknown) {
 			sweetErrorHandling(err).then();
 		}
 	}, [updateData]);

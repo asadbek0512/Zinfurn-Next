@@ -35,7 +35,7 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 
 	const imagePath = property?.propertyImages?.[0]
 		? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
-		: '/img/banner/header1.svg';
+		: '/img/banner/header1.jpg';
 
 	/** HANDLERS **/
 	const goPropertyDetatilPage = (propertyId: string) => {

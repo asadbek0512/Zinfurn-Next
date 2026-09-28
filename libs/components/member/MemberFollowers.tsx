@@ -8,16 +8,16 @@ import { REACT_APP_API_URL } from '../../config';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { userVar } from '../../../apollo/store';
-import { T } from '../../types/common';
+import { T, MemberActionHandler } from '../../types/common';
 import { GET_MEMBER_FOLLOWERS } from '../../../apollo/user/query';
 import { useTranslation } from 'next-i18next';
 import { useQuery, useReactiveVar } from '@apollo/client';
 
 interface MemberFollowsProps {
 	initialInput: FollowInquiry;
-	subscribeHandler: any;
-	unsubscribeHandler: any;
-	likeMemberHandler: any;
+	subscribeHandler: MemberActionHandler;
+	unsubscribeHandler: MemberActionHandler;
+	likeMemberHandler: MemberActionHandler;
 	redirectToMemberPageHandler: any;
 }
 

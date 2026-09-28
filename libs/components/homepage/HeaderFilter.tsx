@@ -141,7 +141,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					},
 				});
 				typeStateChangeHandler();
-			} catch (err: any) {
+			} catch (err: unknown) {
 				console.error('ERROR, propertyCategorySelectHandler:', err);
 			}
 		},
@@ -159,7 +159,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					},
 				});
 				materialStateChangeHandler();
-			} catch (err: any) {
+			} catch (err: unknown) {
 				console.error('ERROR, propertyTypeSelectHandler:', err);
 			}
 		},
@@ -177,7 +177,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					},
 				});
 				colorStateChangeHandler();
-			} catch (err: any) {
+			} catch (err: unknown) {
 				console.error('ERROR, propertyMaterialSelectHandler:', err);
 			}
 		},
@@ -195,7 +195,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					},
 				});
 				disableAllStateHandler();
-			} catch (err: any) {
+			} catch (err: unknown) {
 				console.error('ERROR, propertyMaterialSelectHandler:', err);
 			}
 		},
@@ -228,7 +228,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				`/products?input=${JSON.stringify(searchFilter)}`,
 				`/products?input=${JSON.stringify(searchFilter)}`,
 			);
-		} catch (err: any) {
+		} catch (err: unknown) {
 			console.error('ERROR, pushSearchHandler:', err);
 		}
 	};

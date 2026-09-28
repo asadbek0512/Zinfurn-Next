@@ -66,7 +66,7 @@ const AiRoomDesigner = () => {
 			});
 			setResult(data?.analyzeRoom ?? null);
 			setGeneratedImage(null);
-		} catch (err: any) {
+		} catch (err: unknown) {
 			await sweetErrorHandling(err);
 		}
 	};
@@ -89,7 +89,7 @@ const AiRoomDesigner = () => {
 				},
 			});
 			setGeneratedImage(data?.generateRoomImage ?? null);
-		} catch (err: any) {
+		} catch (err: unknown) {
 			await sweetErrorHandling(err);
 		} finally {
 			setGeneratingId(null);

@@ -5,7 +5,7 @@ import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
-import { T } from '../../types/common';
+import { T, getErrorMessage } from '../../types/common';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
@@ -67,9 +67,9 @@ const FlashSale = (props: FlashSaleProps) => {
 				),
 			);
 			await sweetTopSmallSuccessAlert('success', 800);
-		} catch (err: any) {
-			console.error('ERROR, likePropertyHandler', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		} catch (err: unknown) {
+			console.error('ERROR, likePropertyHandler', getErrorMessage(err));
+			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
 

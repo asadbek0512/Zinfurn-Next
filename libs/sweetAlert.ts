@@ -1,11 +1,12 @@
 import Swal from 'sweetalert2';
 import 'animate.css';
 import { Messages } from './config';
+import { getErrorMessage } from './types/common';
 
-export const sweetErrorHandling = async (err: any) => {
+export const sweetErrorHandling = async (err: unknown) => {
 	await Swal.fire({
 		icon: 'error',
-		text: err.message,
+		text: getErrorMessage(err),
 		showConfirmButton: false,
 	});
 };
@@ -98,8 +99,8 @@ export const sweetBasicAlert = async (text: string) => {
 	Swal.fire(text);
 };
 
-export const sweetErrorHandlingForAdmin = async (err: any) => {
-	const errorMessage = err.message ?? Messages.error1;
+export const sweetErrorHandlingForAdmin = async (err: unknown) => {
+	const errorMessage = getErrorMessage(err, Messages.error1);
 	await Swal.fire({
 		icon: 'error',
 		text: errorMessage,

@@ -5,7 +5,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { useRouter } from 'next/router';
 import CommunityCard from '../common/CommunityCard';
 import { REACT_APP_API_URL } from '../../config';
-import { T } from '../../types/common';
+import { T, getErrorMessage } from '../../types/common';
 import { BoardArticle } from '../../types/board-article/board-article';
 import { BoardArticlesInquiry } from '../../types/board-article/board-article.input';
 import { useMutation, useQuery } from '@apollo/client';
@@ -14,6 +14,7 @@ import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { Messages } from '../../config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { useTranslation } from 'next-i18next';
+import { CustomJwtPayload } from '../../types/customJwtPayload';
 
 const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 	const { t } = useTranslation('common');
@@ -54,7 +55,7 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 		setSearchFilter({ ...searchFilter, page: value });
 	};
 
-	const likeArticleHandler = async (e: any, user: any, id: string) => {
+	const likeArticleHandler = async (e: any, user: CustomJwtPayload, id: string) => {
 		try {
 			e.stopPropagation();
 			if (!id) return;
@@ -70,9 +71,9 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 				input: searchFilter,
 			});
 
-		} catch (err: any) {
-			console.error('ERROR, likePropertyHandler:', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		} catch (err: unknown) {
+			console.error('ERROR, likePropertyHandler:', getErrorMessage(err));
+			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
 

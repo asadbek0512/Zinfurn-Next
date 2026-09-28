@@ -16,10 +16,11 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useTranslation } from 'next-i18next';
 import { formatDisplayName } from '../../utils/formatName';
+import { LikeHandler } from '../../types/common';
 
 interface AgentCardProps {
 	agent: any;
-	likeMemberHandler: any;
+	likeMemberHandler: LikeHandler;
 }
 
 // Custom Tooltip Component

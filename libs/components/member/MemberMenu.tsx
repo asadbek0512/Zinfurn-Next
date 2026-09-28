@@ -7,12 +7,12 @@ import { Member } from '../../types/member/member';
 import { REACT_APP_API_URL } from '../../config';
 import { useQuery } from '@apollo/client';
 import { GET_MEMBER } from '../../../apollo/user/query';
-import { T } from '../../types/common';
+import { T, MemberActionHandler } from '../../types/common';
 import { useTranslation } from 'next-i18next';
 
 interface MemberMenuProps {
-	subscribeHandler: any;
-	unsubscribeHandler: any;
+	subscribeHandler: MemberActionHandler;
+	unsubscribeHandler: MemberActionHandler;
 }
 
 const MemberMenu = (props: MemberMenuProps) => {

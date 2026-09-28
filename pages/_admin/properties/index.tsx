@@ -18,7 +18,8 @@ import { PropertyUpdate } from '../../../libs/types/property/property.update';
 import { useMutation, useQuery } from '@apollo/client';
 import { REMOVE_PROPERTY_BY_ADMIN, UPDATE_PROPERTY_BY_ADMIN } from '../../../apollo/admin/mutation';
 import { GET_ALL_PROPERTIES_BY_ADMIN } from '../../../apollo/admin/query';
-import { T } from '../../../libs/types/common';
+import { T, LocaleContext, DEFAULT_LOCALE, getErrorMessage, ElementClickEvent } from '../../../libs/types/common';
+import type { SyntheticEvent } from 'react';
 
 const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
@@ -68,7 +69,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 		setPropertiesInquiry({ ...propertiesInquiry });
 	};
 
-	const menuIconClickHandler = (e: any, index: number) => {
+	const menuIconClickHandler = (e: ElementClickEvent, index: number) => {
 		const tempAnchor = anchorEl.slice();
 		tempAnchor[index] = e.currentTarget;
 		setAnchorEl(tempAnchor);
@@ -78,7 +79,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 		setAnchorEl([]);
 	};
 
-	const tabChangeHandler = async (event: any, newValue: string) => {
+	const tabChangeHandler = async (event: SyntheticEvent, newValue: string) => {
 		setValue(newValue);
 
 		setPropertiesInquiry({ ...propertiesInquiry, page: 1, sort: 'createdAt' });
@@ -112,7 +113,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 				await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
 			}
 			menuIconCloseHandler();
-		} catch (err: any) {
+		} catch (err: unknown) {
 			sweetErrorHandling(err).then();
 		}
 	};
@@ -135,8 +136,8 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 				delete propertiesInquiry?.search?.propertyCategory;
 				setPropertiesInquiry({ ...propertiesInquiry });
 			}
-		} catch (err: any) {
-			console.error('searchTypeHandler: ', err.message);
+		} catch (err: unknown) {
+			console.error('searchTypeHandler: ', getErrorMessage(err));
 		}
 	};
 
@@ -150,7 +151,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 
 			menuIconCloseHandler();
 			await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
-		} catch (err: any) {
+		} catch (err: unknown) {
 			menuIconCloseHandler();
 			sweetErrorHandling(err).then();
 		}
@@ -247,6 +248,6 @@ AdminProperties.defaultProps = {
 
 export default withAdminLayout(AdminProperties);
 
-export const getServerSideProps = async ({ locale }: any) => ({
-  props: { ...(await serverSideTranslations(locale ?? 'en', ['common'])) },
+export const getServerSideProps = async ({ locale }: LocaleContext) => ({
+  props: { ...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])) },
 });

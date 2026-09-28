@@ -1,3 +1,4 @@
+import { ApolloError } from '@apollo/client';
 import decodeJWT from 'jwt-decode';
 import { initializeApollo } from '../../apollo/client';
 import { userVar } from '../../apollo/store';
@@ -74,9 +75,10 @@ const requestJwtToken = async ({
 		});
 		const { accessToken, refreshToken } = result?.data?.login;
 		return { jwtToken: accessToken, refreshToken };
-	} catch (err: any) {
-		console.error('request token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0].message) {
+	} catch (err: unknown) {
+		const gqlMessage = err instanceof ApolloError ? err.graphQLErrors[0]?.message : undefined;
+		console.error('request token err', err);
+		switch (gqlMessage) {
 			case 'Definer: login and password do not match':
 				await sweetMixinErrorAlert('Please check your password again');
 				break;
@@ -137,9 +139,10 @@ const requestSignUpJwtToken = async ({
 		});
 		const { accessToken, refreshToken } = result?.data?.signup;
 		return { jwtToken: accessToken, refreshToken };
-	} catch (err: any) {
-		console.error('request signup token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0]?.message) {
+	} catch (err: unknown) {
+		const gqlMessage = err instanceof ApolloError ? err.graphQLErrors[0]?.message : undefined;
+		console.error('request signup token err', err);
+		switch (gqlMessage) {
 			case 'Definer: login and password do not match':
 				await sweetMixinErrorAlert('Please check your password again');
 				break;

@@ -40,7 +40,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 	const title = getLocalizedTitle(property, i18n.language);
 	const imagePath: string = property?.propertyImages?.[0]
 		? `${REACT_APP_API_URL}/${property?.propertyImages?.[0]}`
-		: '/img/banner/header1.svg';
+		: '/img/banner/header1.jpg';
 
 	const [isHovered, setIsHovered] = useState(false);
 	const [addedFlash, setAddedFlash] = useState(false);

@@ -23,6 +23,7 @@ import { useTranslation } from 'next-i18next';
 import AndroidIcon from '@mui/icons-material/Android';
 import AppleIcon from '@mui/icons-material/Apple';
 import { ANDROID_DOWNLOAD_URL, APP_SECTION_ID } from '../libs/config/appDownload';
+import { LocaleContext, DEFAULT_LOCALE } from '../libs/types/common';
 
 const IOS_UA = /iPhone|iPad|iPod/i;
 
@@ -427,9 +428,9 @@ const About: NextPage = () => {
 	);
 };
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 

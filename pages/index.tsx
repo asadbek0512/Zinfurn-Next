@@ -17,10 +17,11 @@ import AiRoomBanner from '../libs/components/homepage/AiRoomBanner';
 import AOS from 'aos';
 import useAppMode, { isAppMode } from '../libs/hooks/useAppMode';
 import 'aos/dist/aos.css';
+import { LocaleContext, DEFAULT_LOCALE } from '../libs/types/common';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 

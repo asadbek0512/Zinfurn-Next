@@ -64,7 +64,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 				});
 			}
 			await getAgentPropertiesRefetch({ input: searchFilter });
-		} catch (err: any) {
+		} catch (err: unknown) {
 			await sweetErrorHandling(err);
 		}
 	};
@@ -82,7 +82,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 				});
 			}
 			await getAgentPropertiesRefetch({ input: searchFilter });
-		} catch (err: any) {
+		} catch (err: unknown) {
 			await sweetErrorHandling(err);
 		}
 	};
@@ -99,7 +99,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 				},
 			});
 			await getAgentPropertiesRefetch({ input: searchFilter });
-		} catch (err: any) {
+		} catch (err: unknown) {
 			await sweetErrorHandling(err);
 		}
 	};

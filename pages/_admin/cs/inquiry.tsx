@@ -13,6 +13,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import TablePagination from '@mui/material/TablePagination';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { InquiryList } from '../../../libs/components/admin/cs/InquiryList';
+import { LocaleContext, DEFAULT_LOCALE } from '../../../libs/types/common';
 
 const InquiryArticles: NextPage = (props: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
@@ -116,6 +117,6 @@ const InquiryArticles: NextPage = (props: any) => {
 
 export default withAdminLayout(InquiryArticles);
 
-export const getServerSideProps = async ({ locale }: any) => ({
-  props: { ...(await serverSideTranslations(locale ?? 'en', ['common'])) },
+export const getServerSideProps = async ({ locale }: LocaleContext) => ({
+  props: { ...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])) },
 });

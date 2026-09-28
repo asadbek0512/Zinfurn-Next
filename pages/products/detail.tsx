@@ -26,7 +26,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { GET_PROPERTIES, GET_PROPERTY, GET_PROPERTY_REVIEW_SUMMARY } from '../../apollo/user/query';
-import { T } from '../../libs/types/common';
+import { T, getErrorMessage } from '../../libs/types/common';
 import { CREATE_REVIEW, LIKE_TARGET_PROPERTY, SEND_MESSAGE } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { create } from 'domain';
@@ -219,9 +219,9 @@ const PropertyDetail: NextPage = (props: any) => {
 					},
 				},
 			});
-		} catch (err: any) {
-			console.error('ERROR, likePropertyHandler', err.message);
-			sweetMixinErrorAlert(err.message).then();
+		} catch (err: unknown) {
+			console.error('ERROR, likePropertyHandler', getErrorMessage(err));
+			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
 
@@ -258,7 +258,7 @@ const PropertyDetail: NextPage = (props: any) => {
 	const getShareUrl = () => `https://zinfurn.uz/property/detail?id=${property?._id}`;
 	const getShareText = () => `${localizedTitle} — Zinfurn`;
 
-	const handleTabChange = (_: any, newIndex: number) => {
+	const handleTabChange = (_: unknown, newIndex: number) => {
 		setTabIndex(newIndex);
 	};
 
@@ -287,7 +287,7 @@ const PropertyDetail: NextPage = (props: any) => {
 		);
 		const imgSrc = property.propertyImages?.[0]
 			? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
-			: '/img/banner/header1.svg';
+			: '/img/banner/header1.jpg';
 		flyToCart(e.currentTarget as HTMLElement, imgSrc);
 	};
 
@@ -371,7 +371,7 @@ const PropertyDetail: NextPage = (props: any) => {
 					</div>
 					<IconButton className="mob-det-prev" onClick={prevImage}><ArrowBackIosIcon fontSize="small" /></IconButton>
 					<img
-						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
+						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.jpg'}
 						alt={localizedTitle || ''}
 						className="mob-det-main-img" loading="lazy" decoding="async" />
 					<IconButton className="mob-det-next" onClick={nextImage}><ArrowForwardIosIcon fontSize="small" /></IconButton>
@@ -629,7 +629,7 @@ const PropertyDetail: NextPage = (props: any) => {
 											onMouseMove={handleMouseMove}
 										>
 											<img
-												src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
+												src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.jpg'}
 												alt={t('main_image')}
 												className="mainImage"
 												style={{

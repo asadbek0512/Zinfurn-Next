@@ -13,6 +13,7 @@ import { RepairPropertyInput } from '../../types/repairProperty/repairProperty.i
 import { RepairPropertyType } from '../../enums/repairProperty.enum';
 import { REACT_APP_API_URL } from '../../config';
 import { useTranslation } from 'next-i18next';
+import { getErrorMessage } from '../../types/common';
 
 const AddRepairProperty = ({ initialValues, ...props }: any) => {
 	const { t } = useTranslation('common');
@@ -98,8 +99,8 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 
 			const responseImages = response.data.data.imagesUploader;
 			setRepairPropertyData({ ...repairPropertyData, repairPropertyImages: responseImages });
-		} catch (err: any) {
-			await sweetMixinErrorAlert(err.message);
+		} catch (err: unknown) {
+			await sweetMixinErrorAlert(getErrorMessage(err));
 		}
 	}
 
@@ -149,7 +150,7 @@ const AddRepairProperty = ({ initialValues, ...props }: any) => {
 					category: 'addRepairProperty',
 				},
 			});
-		} catch (err: any) {
+		} catch (err: unknown) {
 			sweetErrorHandling(err).then();
 		}
 	}, [repairPropertyData]);

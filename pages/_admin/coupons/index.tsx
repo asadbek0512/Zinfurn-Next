@@ -8,8 +8,9 @@ import {
 	TableContainer, TableHead, TableRow, TextField, Typography,
 } from '@mui/material';
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../../libs/sweetAlert';
+import { LocaleContext, DEFAULT_LOCALE } from '../../../libs/types/common';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: { ...(await serverSideTranslations(locale as string, ['common'])) },
 });
 

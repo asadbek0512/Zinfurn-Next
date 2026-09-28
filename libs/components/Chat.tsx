@@ -90,7 +90,7 @@ const Chat = () => {
 							createdAt: msg.createdAt ?? new Date().toISOString(),
 						}));
 						setMessagesList(list);
-						const allIndices = new Set(list.map((_: any, idx: number) => idx));
+						const allIndices = new Set(list.map((_: unknown, idx: number) => idx));
 						setReadMessages(allIndices);
 						break;
 					case 'message':
@@ -154,7 +154,7 @@ const Chat = () => {
 							createdAt: msg.createdAt ?? new Date().toISOString(),
 						}));
 						setMessagesList(list);
-						const allIndices = new Set(list.map((_: any, idx: number) => idx));
+						const allIndices = new Set(list.map((_: unknown, idx: number) => idx));
 						setReadMessages(allIndices);
 						break;
 					default:

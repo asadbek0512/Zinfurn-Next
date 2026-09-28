@@ -18,7 +18,8 @@ import { BoardArticleUpdate } from '../../../libs/types/board-article/board-arti
 import { useMutation, useQuery } from '@apollo/client';
 import { REMOVE_BOARD_ARTICLE_BY_ADMIN, UPDATE_BOARD_ARTICLE_BY_ADMIN } from '../../../apollo/admin/mutation';
 import { GET_ALL_BOARD_ARTICLES_BY_ADMIN } from '../../../apollo/admin/query';
-import { T } from '../../../libs/types/common';
+import { T, LocaleContext, DEFAULT_LOCALE, getErrorMessage, ElementClickEvent } from '../../../libs/types/common';
+import type { SyntheticEvent } from 'react';
 
 const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<any>([]);
@@ -68,7 +69,7 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 		setCommunityInquiry({ ...communityInquiry });
 	};
 
-	const menuIconClickHandler = (e: any, index: number) => {
+	const menuIconClickHandler = (e: ElementClickEvent, index: number) => {
 		const tempAnchor = anchorEl.slice();
 		tempAnchor[index] = e.currentTarget;
 		setAnchorEl(tempAnchor);
@@ -78,7 +79,7 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 		setAnchorEl([]);
 	};
 
-	const tabChangeHandler = async (event: any, newValue: string) => {
+	const tabChangeHandler = async (event: SyntheticEvent, newValue: string) => {
 		setValue(newValue);
 
 		setCommunityInquiry({ ...communityInquiry, page: 1, sort: 'createdAt' });
@@ -115,8 +116,8 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 				delete communityInquiry?.search?.articleCategory;
 				setCommunityInquiry({ ...communityInquiry });
 			}
-		} catch (err: any) {
-			console.error('searchTypeHandler: ', err.message);
+		} catch (err: unknown) {
+			console.error('searchTypeHandler: ', getErrorMessage(err));
 		}
 	};
 
@@ -130,7 +131,7 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 
 			menuIconCloseHandler();
 			await getAllBoardArticlesByAdminRefetch({ input: communityInquiry });
-		} catch (err: any) {
+		} catch (err: unknown) {
 			menuIconCloseHandler();
 			sweetErrorHandling(err).then();
 		}
@@ -147,7 +148,7 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 
 				await getAllBoardArticlesByAdminRefetch({ input: communityInquiry });
 			}
-		} catch (err: any) {
+		} catch (err: unknown) {
 			sweetErrorHandling(err).then();
 		}
 	};
@@ -237,6 +238,6 @@ AdminCommunity.defaultProps = {
 
 export default withAdminLayout(AdminCommunity);
 
-export const getServerSideProps = async ({ locale }: any) => ({
-  props: { ...(await serverSideTranslations(locale ?? 'en', ['common'])) },
+export const getServerSideProps = async ({ locale }: LocaleContext) => ({
+  props: { ...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])) },
 });

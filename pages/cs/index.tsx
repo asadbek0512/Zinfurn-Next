@@ -13,10 +13,11 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import ArticleIcon from '@mui/icons-material/Article';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
+import { LocaleContext, DEFAULT_LOCALE } from '../../libs/types/common';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 

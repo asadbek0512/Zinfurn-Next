@@ -16,10 +16,11 @@ import { addToCart } from '../libs/utils/cartUtils';
 import { getLocalizedTitle } from '../libs/utils/localizeProperty';
 import { activeSalePrice } from '../libs/utils/sale';
 import { useCurrency } from '../libs/context/CurrencyContext';
+import { LocaleContext, DEFAULT_LOCALE } from '../libs/types/common';
 
-export const getStaticProps = async ({ locale }: any) => ({
+export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
-		...(await serverSideTranslations(locale, ['common'])),
+		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
 	},
 });
 

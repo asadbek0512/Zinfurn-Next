@@ -20,6 +20,7 @@ import { userVar } from '../../../apollo/store';
 import { CREATE_PROPERTY, UPDATE_PROPERTY } from '../../../apollo/user/mutation';
 import { GET_PROPERTY } from '../../../apollo/user/query';
 import { useTranslation } from 'next-i18next';
+import { getErrorMessage } from '../../types/common';
 
 // Flash sale oynasi: kamida 10, ko'pi bilan 15 kun. Sale'lar navbatma-navbat
 // tugab, keyingisi chiqishi uchun shu oraliq ushlab turiladi.
@@ -139,9 +140,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 			const responseImages = response.data.data.imagesUploader;
 
 			setInsertPropertyData({ ...insertPropertyData, propertyImages: responseImages });
-		} catch (err: any) {
-			console.error('err: ', err.message);
-			await sweetMixinErrorAlert(err.message);
+		} catch (err: unknown) {
+			console.error('err: ', getErrorMessage(err));
+			await sweetMixinErrorAlert(getErrorMessage(err));
 		}
 	}
 	// Backend PropertyInput DTO talablari: propertyTitle @Length(3,100), propertyDesc @Length(5,500)
@@ -181,7 +182,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 					category: 'myProperties',
 				},
 			});
-		} catch (err: any) {
+		} catch (err: unknown) {
 			sweetErrorHandling(err).then();
 		}
 	}, [insertPropertyData]);
@@ -220,7 +221,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 					category: 'myProperties',
 				},
 			});
-		} catch (err: any) {
+		} catch (err: unknown) {
 			sweetErrorHandling(err).then();
 		}
 	}, [insertPropertyData, getPropertyData?.getProperty?._id, getPropertyData?.getProperty?.propertyStatus]);

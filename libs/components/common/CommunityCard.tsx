@@ -165,7 +165,7 @@ const CommunityCard = ({ boardArticle, likeArticleHandler }: CommunityCardProps)
 
 					<Stack direction="row" spacing={1} className="hover-actions">
 						<Stack direction="row" spacing={0.5} alignItems="center" className="action-item">
-							<IconButton className="action-btn" onClick={(e: any) => likeArticleHandler(e, user, boardArticle?._id)}>
+							<IconButton className="action-btn" onClick={(e) => likeArticleHandler(e, user, boardArticle?._id)}>
 								{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon className="liked-icon" />
 								) : (
