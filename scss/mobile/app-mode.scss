@@ -295,6 +295,13 @@ html[data-app='1'] {
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+
+    &.is-hidden {
+      transform: translateX(calc(100% + 24px));
+      opacity: 0;
+      pointer-events: none;
+    }
 
     .app-fab {
       display: flex;
@@ -356,6 +363,28 @@ html[data-app='1'] .compare-bar {
 
 // Furniture grid-2 karta: statistikalar 1-qatorda, compare + savat katta tugma 2-qatorda
 $app-card-btn-height: 34px;
+
+html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list.grid-2 .mob-property-card {
+  .mob-card-img-wrap {
+    background: #fff;
+
+    .mob-card-img { padding: 8px; box-sizing: border-box; }
+  }
+
+  .mob-card-info .mob-card-title {
+    height: auto;
+    min-height: calc(2 * 1.3em);
+    font-size: 13px;
+    white-space: normal;
+  }
+
+  .mob-card-info .mob-card-price { margin-top: 2px; }
+}
+
+// Compare bar ochiq bo'lsa ro'yxat oxiri uning ostida qolmasin
+html[data-app='1'] body:has(.compare-bar) #mobile-wrap #mob-property-list-page {
+  padding-bottom: 76px;
+}
 
 html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list.grid-2 .mob-property-card .mob-card-info .mob-card-actions {
   display: grid;
