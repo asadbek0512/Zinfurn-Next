@@ -222,6 +222,37 @@ export const clearSession = () => {
  * - access eskirgan, refresh bor → jimgina yangilanadi
  * - ikkalasi ham yaroqsiz → sessiya tozalanadi (UI login holatida "osilib" qolmaydi)
  */
+interface RefreshResponse {
+	data?: { refreshToken?: { _id: string; accessToken?: string; refreshToken?: string } };
+}
+
+let _refreshInFlight: Promise<RefreshResponse> | null = null;
+
+/**
+ * Refresh mutation — bir vaqtda faqat bitta so'rov (app'da refresh token bir martalik).
+ * restoreSession va Apollo TokenRefreshLink shu promise'ni bo'lishadi.
+ */
+export const requestTokenRefresh = (): Promise<RefreshResponse> => {
+	if (_refreshInFlight) return _refreshInFlight;
+	_refreshInFlight = (async () => {
+		const res = await fetch(process.env.REACT_APP_API_GRAPHQL_URL as string, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			credentials: 'include',
+			body: JSON.stringify({
+				query: `mutation RefreshToken($refreshToken: String!) {
+					refreshToken(refreshToken: $refreshToken) { _id accessToken refreshToken }
+				}`,
+				variables: { refreshToken: getRefreshToken() },
+			}),
+		});
+		return await res.json();
+	})().finally(() => {
+		_refreshInFlight = null;
+	});
+	return _refreshInFlight;
+};
+
 export const restoreSession = async (): Promise<void> => {
 	if (typeof window === 'undefined') return;
 
@@ -244,18 +275,7 @@ export const restoreSession = async (): Promise<void> => {
 	}
 
 	try {
-		const res = await fetch(process.env.REACT_APP_API_GRAPHQL_URL as string, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			credentials: 'include',
-			body: JSON.stringify({
-				query: `mutation RefreshToken($refreshToken: String!) {
-					refreshToken(refreshToken: $refreshToken) { _id accessToken refreshToken }
-				}`,
-				variables: { refreshToken },
-			}),
-		});
-		const json = await res.json();
+		const json = await requestTokenRefresh();
 		const payload = json?.data?.refreshToken;
 		if (!payload?.accessToken) throw new Error('Refresh failed');
 
@@ -268,9 +288,16 @@ export const restoreSession = async (): Promise<void> => {
 };
 
 export const logOut = () => {
+	// Serverdagi sessiya ham yopilsin (app sessiyasi bazada saqlanadi)
+	const refreshToken = getRefreshToken();
 	deleteStorage();
 	deleteUserInfo();
-	fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, { method: 'POST', credentials: 'include' }).finally(() => {
+	fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
+		method: 'POST',
+		credentials: 'include',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ refreshToken }),
+	}).finally(() => {
 		window.location.href = '/';
 	});
 };

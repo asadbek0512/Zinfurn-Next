@@ -4,7 +4,7 @@ import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { onError } from '@apollo/client/link/error';
-import { getJwtToken, getRefreshToken, setJwtToken, updateUserInfo, clearSession, isTokenExpired } from '../libs/auth';
+import { getJwtToken, getRefreshToken, setJwtToken, updateUserInfo, clearSession, isTokenExpired, requestTokenRefresh } from '../libs/auth';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
 import { sweetErrorAlert } from '../libs/sweetAlert';
 import { socketVar } from './store';
@@ -37,22 +37,9 @@ const tokenRefreshLink = new TokenRefreshLink({
 		}
 		return false; // refresh qilinsin
 	},
-	// Refresh mutation'ni to'g'ridan-to'g'ri fetch bilan chaqiramiz (Apollo link zanjiridan tashqarida)
-	fetchAccessToken: async () => {
-		const refreshToken = getRefreshToken();
-		const res = await fetch(process.env.REACT_APP_API_GRAPHQL_URL as string, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			credentials: 'include',
-			body: JSON.stringify({
-				query: `mutation RefreshToken($refreshToken: String!) {
-					refreshToken(refreshToken: $refreshToken) { _id accessToken refreshToken }
-				}`,
-				variables: { refreshToken },
-			}),
-		});
-		return res.json();
-	},
+	// Refresh mutation Apollo zanjiridan tashqarida, restoreSession bilan bitta so'rovni bo'lishadi
+	// Kutubxona Response kutadi, lekin handleResponse'ga JSON'ni o'zimiz beramiz (avvalgi res.json() kabi)
+	fetchAccessToken: () => requestTokenRefresh() as unknown as Promise<Response>,
 	handleResponse: () => (response: any) => {
 		const payload = response?.data?.refreshToken;
 		if (!payload?.accessToken) throw new Error('Refresh failed');
