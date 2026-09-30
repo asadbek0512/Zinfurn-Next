@@ -16,7 +16,7 @@ import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { T, getErrorMessage } from '../../types/common';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
-import { Message } from '../../enums/common.enum';
+import { Direction, Message } from '../../enums/common.enum';
 import { useTranslation } from 'next-i18next';
 import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
@@ -36,7 +36,6 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 	const user = useReactiveVar(userVar);
 	const { formatPrice } = useCurrency();
 
-	const [trendProperties, setTrendProperties] = useState<Property[]>([]);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
@@ -50,10 +49,10 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setTrendProperties(data?.getProperties?.list);
-		},
 	});
+	// Like bosilgach lokal yangilangan ro'yxat; bo'lmasa query (SSR cache) natijasi
+	const [likedList, setLikedList] = useState<Property[] | null>(null);
+	const trendProperties: Property[] = likedList ?? getPropertiesData?.getProperties?.list ?? [];
 
 	/** HANDLERS **/
 	const likePropertyHandler = async (user: T, id: string) => {
@@ -65,8 +64,8 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 
 			// Refetch o'rniga faqat bosilgan kartani lokal yangilaymiz — ro'yxat "lip-lip" qilmasin
 			const updatedLikes = result?.data?.likeTargetProperty?.propertyLikes;
-			setTrendProperties((prev) =>
-				prev.map((p) =>
+			setLikedList(
+				trendProperties.map((p) =>
 					p._id === id
 						? {
 								...p,
@@ -172,14 +171,17 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 	}
 };
 
+// Home getStaticProps shu input bilan oldindan yuklaydi — cache kaliti mos kelishi uchun bitta joyda
+export const TREND_PROPERTIES_INPUT: PropertiesInquiry = {
+	page: 1,
+	limit: 8,
+	sort: 'propertyLikes',
+	direction: Direction.DESC,
+	search: {},
+};
+
 TrendProperties.defaultProps = {
-	initialInput: {
-		page: 1,
-		limit: 8,
-		sort: 'propertyLikes',
-		direction: 'DESC',
-		search: {},
-	},
+	initialInput: TREND_PROPERTIES_INPUT,
 };
 
 export default TrendProperties;

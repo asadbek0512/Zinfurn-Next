@@ -94,3 +94,16 @@ export const nativeShare = async (options: ShareOptions): Promise<void> => {
 		// foydalanuvchi share oynasini yopgan
 	}
 };
+
+interface SplashScreenPlugin {
+	hide(options?: { fadeOutDuration?: number }): Promise<void>;
+}
+
+const SplashScreen = registerPlugin<SplashScreenPlugin>('SplashScreen');
+const SPLASH_FADE_MS = 200;
+
+/** Native splash'ni yopish — sayt mobil ko'rinishini chizib bo'lgach chaqiriladi */
+export const hideSplash = async (): Promise<void> => {
+	if (!isNativeApp() || !Capacitor.isPluginAvailable('SplashScreen')) return;
+	await SplashScreen.hide({ fadeOutDuration: SPLASH_FADE_MS });
+};

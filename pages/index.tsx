@@ -6,7 +6,9 @@ import withLayoutMain from '../libs/components/layout/LayoutHome';
 import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 import TopAgents from '../libs/components/homepage/TopAgents';
 import Events from '../libs/components/homepage/Events';
-import TrendProperties from '../libs/components/homepage/TrendProperties';
+import TrendProperties, { TREND_PROPERTIES_INPUT } from '../libs/components/homepage/TrendProperties';
+import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
+import { GET_PROPERTIES } from '../apollo/user/query';
 import TopProperties from '../libs/components/homepage/TopProperties';
 import { Stack } from '@mui/material';
 import Advertisement from '../libs/components/homepage/Advertisement';
@@ -19,11 +21,34 @@ import useAppMode, { isAppMode } from '../libs/hooks/useAppMode';
 import 'aos/dist/aos.css';
 import { LocaleContext, DEFAULT_LOCALE } from '../libs/types/common';
 
-export const getStaticProps = async ({ locale }: LocaleContext) => ({
-	props: {
-		...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
-	},
-});
+const HOME_REVALIDATE_SECONDS = 60;
+
+// Trend mahsulotlar HTML bilan birga keladi — sahifa ochilganda keyinroq "sakrab" chiqmaydi
+const prefetchTrendProperties = async (): Promise<NormalizedCacheObject | null> => {
+	try {
+		const client = new ApolloClient({
+			ssrMode: true,
+			link: new HttpLink({ uri: process.env.REACT_APP_API_GRAPHQL_URL }),
+			cache: new InMemoryCache(),
+		});
+		await client.query({ query: GET_PROPERTIES, variables: { input: TREND_PROPERTIES_INPUT } });
+		return client.cache.extract();
+	} catch {
+		// API javob bermasa sahifa baribir chiqadi — trend client'da yuklanadi
+		return null;
+	}
+};
+
+export const getStaticProps = async ({ locale }: LocaleContext) => {
+	const initialApolloState = await prefetchTrendProperties();
+	return {
+		props: {
+			...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
+			...(initialApolloState ? { initialApolloState } : {}),
+		},
+		revalidate: HOME_REVALIDATE_SECONDS,
+	};
+};
 
 const Home: NextPage = () => {
 	const device = useDeviceDetect();

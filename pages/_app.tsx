@@ -19,6 +19,7 @@ import CompareBar from '../libs/components/common/CompareBar';
 import AppBanner from '../libs/components/common/AppBanner';
 const APP_LINK_HOSTS = ['zinfurn.uz', 'www.zinfurn.uz'];
 const AppBottomNav = dynamic(() => import('../libs/components/layout/AppBottomNav'), { ssr: false });
+import AppSplashGate from '../libs/components/layout/AppSplashGate';
 const AppPullToRefresh = dynamic(() => import('../libs/components/layout/AppPullToRefresh'), { ssr: false });
 const AppChatFabs = dynamic(() => import('../libs/components/layout/AppChatFabs'), { ssr: false });
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
@@ -179,6 +180,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 					<AppBanner />
 					<AppBottomNav />
 					<AppPullToRefresh />
+					<AppSplashGate />
 					<AppChatFabs />
 				</CurrencyProvider>
 			</ThemeProvider>

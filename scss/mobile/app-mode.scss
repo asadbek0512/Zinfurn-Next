@@ -499,3 +499,8 @@ html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list:not(.grid
 html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list .mob-property-card .mob-card-img-wrap .mob-card-img {
   background: #fff;
 }
+
+// App'da desktop layout hech qachon kerak emas — SSR'dagi desktop HTML birinchi kadrda ko'rinmasin
+html[data-app='1'] #pc-wrap {
+  visibility: hidden;
+}
