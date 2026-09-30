@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { isAppMode } from '../../hooks/useAppMode';
 import { hideSplash } from '../../native';
 
 /** _document'dagi app yuklanish qoplamasi (#app-boot-loader) va uning fade vaqti */
@@ -39,22 +38,24 @@ const nextPaint = async (): Promise<void> => {
 /**
  * SSR sahifani desktop ko'rinishida beradi, mobilga hydration'dan keyin o'tadi.
  * App'da web'dagi kabi to'liq sahifa loader'i turadi: mobil layout chizilib, sahifa yuklanguncha.
- * Native splash darrov yopiladi — undan keyin foydalanuvchi shu loader'ni ko'radi.
+ * Native splash mobil layout chizilgach yopiladi (mount paytida yopilsa iOS uni qayta ko'rsatadi),
+ * undan keyin foydalanuvchi shu loader'ni ko'radi.
  */
 const AppSplashGate = () => {
 	const device = useDeviceDetect();
 
 	useEffect(() => {
-		if (isAppMode()) void hideSplash();
-	}, []);
-
-	useEffect(() => {
 		if (device !== 'mobile') return;
 		let cancelled = false;
 		const reveal = async () => {
+			await nextPaint();
+			void hideSplash();
 			await waitForPageLoad();
 			await nextPaint();
-			if (!cancelled) dismissBootLoader();
+			if (cancelled) return;
+			dismissBootLoader();
+			// launchShowDuration tugamay turib yopilgan splash qayta chiqib qolmasin
+			void hideSplash();
 		};
 		void reveal();
 		return () => {
