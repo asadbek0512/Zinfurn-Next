@@ -67,11 +67,9 @@ const SalePromoModal = () => {
 		const sessionShownKey = getSessionShownKey(user?._id);
 		if (sessionStorage.getItem(sessionShownKey)) return;
 		if (user?._id && localStorage.getItem(getDismissKey())) return;
-		const timer = setTimeout(() => {
-			setVisible(true);
-			sessionStorage.setItem(sessionShownKey, '1');
-		}, 1800);
-		return () => clearTimeout(timer);
+		// Kechiktirmasdan — home page bilan birga chiqsin
+		setVisible(true);
+		sessionStorage.setItem(sessionShownKey, '1');
 	}, [currentProp, user?._id]);
 
 	// Countdown timer
@@ -137,7 +135,7 @@ const SalePromoModal = () => {
 
 				{/* ── Image ── */}
 				<div className="spm-img-wrap" onClick={goDetail}>
-					<img src={img} alt={prop.propertyTitle} className="spm-img" loading="lazy" decoding="async" />
+					<img src={img} alt={prop.propertyTitle} className="spm-img" decoding="async" />
 					{discount > 0 && <div className="spm-discount-badge">-{discount}%</div>}
 				</div>
 
