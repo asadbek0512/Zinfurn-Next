@@ -28,8 +28,8 @@ html[data-app='1'] {
 
   // Tepadagi header app'da kattaroq. Ko'p sahifada hero shaffof header ostidan
   // boshlanadi — faqat header ostidan boshlanadigan sahifalar pastga suriladi.
-  #mob-member-page,
-  #mob-mypage {
+  // #mob-mypage bu yerda yo'q: uning ichidagi .mob-mypage-back header offset'ini o'zi beradi
+  #mob-member-page {
     padding-top: calc(48px + #{$app-header-extra} + var(--app-safe-top));
   }
 

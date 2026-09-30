@@ -9,11 +9,12 @@ import { useMutation, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { MemberUpdate } from '../../types/member/member.update';
 import { UPDATE_MEMBER } from '../../../apollo/user/mutation';
-import { sweetErrorHandling, sweetMixinSuccessAlert } from '../../sweetAlert';
+import { sweetErrorHandling, sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../sweetAlert';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTranslation } from 'next-i18next';
 import UserAvatar from '../common/UserAvatar';
 import { axiosErrorMessage } from '../../types/common';
+import { TelegramAuthData, redirectToTelegramAuth, consumeTelegramRedirectResult } from '../../utils/telegramAuth';
 
 const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const { t } = useTranslation('common');
@@ -38,9 +39,8 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 		});
 	}, [user]);
 
-	// Telegram widget useEffect
-	useEffect(() => {
-		(window as any).onTelegramLinkAuth = async (telegramData: any) => {
+	const linkTelegram = useCallback(
+		async (telegramData: TelegramAuthData) => {
 			try {
 				const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/link/telegram`, {
 					method: 'POST',
@@ -48,16 +48,30 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 					body: JSON.stringify({ memberId: user._id, ...telegramData }),
 				});
 				const data = await response.json();
-				if (data.token) {
-					updateStorage({ jwtToken: data.token, refreshToken: data.refresh });
-					updateUserInfo(data.token);
-					await sweetMixinSuccessAlert('Telegram linked successfully!');
-				}
+				if (!data.token) throw new Error(data.message);
+				updateStorage({ jwtToken: data.token, refreshToken: data.refresh });
+				updateUserInfo(data.token);
+				await sweetMixinSuccessAlert('Telegram linked successfully!');
 			} catch (err) {
 				console.error('Telegram link error:', err);
+				await sweetMixinErrorAlert('Telegram link failed');
 			}
-		};
-		
+		},
+		[user._id],
+	);
+
+	// Telegram: widget callback (web desktop) + redirect oqimidan qaytish (mobil/app)
+	useEffect(() => {
+		(window as unknown as { onTelegramLinkAuth: typeof linkTelegram }).onTelegramLinkAuth = linkTelegram;
+		if (!user._id) return;
+
+		try {
+			const result = consumeTelegramRedirectResult();
+			if (result) linkTelegram(result);
+		} catch (err) {
+			sweetMixinErrorAlert('Telegram link failed');
+		}
+
 		// Auto-trigger Telegram link if coming from toast
 		const query = new URLSearchParams(window.location.search);
 		if (query.get('linkTelegram') === 'true') {
@@ -71,7 +85,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 				if (telegramBtn) telegramBtn.click();
 			}, 500);
 		}
-	}, [user._id]);
+	}, [user._id, linkTelegram]);
 
 	/** HANDLERS **/
 	const uploadImage = async (e: any) => {
@@ -262,21 +276,10 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 						</button>
 					)}
 					{!user.memberTelegramId && (
-						<div
-							ref={(el) => {
-								if (el && !el.querySelector('script')) {
-									const script = document.createElement('script');
-									script.src = 'https://telegram.org/js/telegram-widget.js?22';
-									script.setAttribute('data-telegram-login', 'zinfurn_auth_bot');
-									script.setAttribute('data-size', 'large');
-									script.setAttribute('data-onauth', 'onTelegramLinkAuth(user)');
-									script.setAttribute('data-request-access', 'write');
-									script.setAttribute('data-radius', '24');
-									script.async = true;
-									el.appendChild(script);
-								}
-							}}
-						/>
+						<button className="mob-myprofile-social-btn telegram-link-btn" onClick={redirectToTelegramAuth}>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" loading="lazy" decoding="async" />
+							{t('Link Telegram')}
+						</button>
 					)}
 					{user.memberGoogleId && user.memberTelegramId && (
 						<span className="mob-myprofile-linked">✅ {t('All accounts linked')}</span>

@@ -16,18 +16,8 @@ import {
 import 'react-international-phone/style.css';
 import { startGoogleAuth } from '../../libs/native';
 import useAppMode from '../../libs/hooks/useAppMode';
+import { redirectToTelegramAuth, consumeTelegramRedirectResult } from '../../libs/utils/telegramAuth';
 import { LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
-
-// App WebView'da Telegram widget popup'i (window.open) ochilmaydi — o'rniga redirect oqimi
-const TELEGRAM_BOT_ID = '8693491156';
-const TELEGRAM_OAUTH_URL = 'https://oauth.telegram.org/auth';
-const TELEGRAM_RESULT_HASH = '#tgAuthResult=';
-
-const decodeTelegramResult = (encoded: string): Record<string, string | number> => {
-	const base64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
-	const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
-	return JSON.parse(decodeURIComponent(escape(window.atob(padded))));
-};
 
 export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	props: {
@@ -78,27 +68,14 @@ const Join: NextPage = () => {
 		}
 	}, []);
 
-	const handleTelegramRedirect = () => {
-		const origin = window.location.origin;
-		const params = new URLSearchParams({
-			bot_id: TELEGRAM_BOT_ID,
-			origin,
-			request_access: 'write',
-			return_to: `${origin}${window.location.pathname}`,
-		});
-		window.location.href = `${TELEGRAM_OAUTH_URL}?${params.toString()}`;
-	};
-
 	useEffect(() => {
 		// Telegram widget callback (web)
 		(window as unknown as { onTelegramAuth: typeof loginWithTelegram }).onTelegramAuth = loginWithTelegram;
 
 		// Redirect oqimidan qaytish (app): #tgAuthResult=<base64 json>
-		const { hash } = window.location;
-		if (!hash.startsWith(TELEGRAM_RESULT_HASH)) return;
-		window.history.replaceState(null, '', window.location.pathname + window.location.search);
 		try {
-			loginWithTelegram(decodeTelegramResult(hash.slice(TELEGRAM_RESULT_HASH.length)));
+			const result = consumeTelegramRedirectResult();
+			if (result) loginWithTelegram(result);
 		} catch (err) {
 			sweetMixinErrorAlert('Telegram login failed');
 		}
@@ -370,7 +347,7 @@ const Join: NextPage = () => {
 						</button>
 
 						{appMode ? (
-							<button className="mob-social-btn" onClick={handleTelegramRedirect}>
+							<button className="mob-social-btn" onClick={redirectToTelegramAuth}>
 								<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" loading="lazy" decoding="async" />
 								{loginView ? t('Sign In With Telegram') : t('Create Account With Telegram')}
 							</button>
