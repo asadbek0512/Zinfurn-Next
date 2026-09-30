@@ -82,7 +82,11 @@ const cleanActions = (raw: any): AiAction[] =>
 		.slice(0, 3)
 		.map((a) => ({ label: a.label, href: a.href }));
 
-/** Groq (llama-3.3-70b) — JSON: { reply, productIds, actions } */
+/** Groq model — eski model o'chirilsa .env orqali almashtiriladi (GROQ_MODEL) */
+const DEFAULT_GROQ_MODEL = 'openai/gpt-oss-120b';
+const GROQ_MODEL = process.env.GROQ_MODEL || DEFAULT_GROQ_MODEL;
+
+/** Groq — JSON: { reply, productIds, actions } */
 async function askGroq(systemPrompt: string, history: { role: string; content: string }[]): Promise<{ reply: string; productIds: string[]; actions: AiAction[] }> {
 	const messages = [
 		{ role: 'system', content: systemPrompt },
@@ -91,7 +95,7 @@ async function askGroq(systemPrompt: string, history: { role: string; content: s
 	const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${GROQ_API_KEY}` },
-		body: JSON.stringify({ model: 'llama-3.3-70b-versatile', messages, response_format: { type: 'json_object' }, temperature: 0.55 }),
+		body: JSON.stringify({ model: GROQ_MODEL, messages, response_format: { type: 'json_object' }, temperature: 0.55 }),
 	});
 	if (!r.ok) throw new Error('Groq ' + r.status + ': ' + (await r.text()).slice(0, 150));
 	const data = await r.json();
