@@ -484,3 +484,14 @@ html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list:not(.grid
     }
   }
 }
+
+// List (1 ustun) karta: nom 2 qatorgacha, rasm foni oq
+html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list:not(.grid-2) .mob-property-card {
+  .mob-card-img-wrap {
+    background: #fff;
+
+    .mob-card-img { padding: 6px; box-sizing: border-box; }
+  }
+
+  .mob-card-info .mob-card-title { white-space: normal; }
+}
