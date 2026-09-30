@@ -495,3 +495,7 @@ html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list:not(.grid
 
   .mob-card-info .mob-card-title { white-space: normal; }
 }
+
+html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list .mob-property-card .mob-card-img-wrap .mob-card-img {
+  background: #fff;
+}
