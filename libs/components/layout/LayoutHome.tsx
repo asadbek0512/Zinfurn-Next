@@ -8,9 +8,10 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import { getJwtToken, updateUserInfo } from '../../auth';
 
 // Og'ir client-only widgetlar — asosiy bundle'dan ajratilgan, sahifa yuklangach keladi
+// Flash sale popup home page bilan birga chiqishi uchun asosiy bundle'da
+import SalePromoModal from '../common/SalePromoModal';
 const Chat = dynamic(() => import('../Chat'), { ssr: false });
 const AiChat = dynamic(() => import('../AiChat'), { ssr: false });
-const SalePromoModal = dynamic(() => import('../common/SalePromoModal'), { ssr: false });
 const ScrollTop = dynamic(() => import('../ScrollTop'), { ssr: false });
 import 'swiper/css';
 import 'swiper/css/pagination';

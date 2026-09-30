@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { hideSplash } from '../../native';
+import { waitForPromoReady } from '../../utils/promoReady';
 
 /** _document'dagi app yuklanish qoplamasi (#app-boot-loader) va uning fade vaqti */
 const BOOT_LOADER_ID = 'app-boot-loader';
 const BOOT_LOADER_FADE_MS = 250;
 /** Sahifa (rasmlar bilan) to'liq yuklanishini ko'pi bilan shuncha kutamiz — sekin internetda osilib qolmasin */
 // Sahifa ochila boshlaganidan (navigation start) hisoblanadi
-const PAGE_LOAD_MAX_WAIT_MS = 3000;
+const PAGE_LOAD_MAX_WAIT_MS = 5000;
 
 const dismissBootLoader = () => {
 	const loader = document.getElementById(BOOT_LOADER_ID);
@@ -51,7 +52,11 @@ const AppSplashGate = () => {
 		const reveal = async () => {
 			await nextPaint();
 			void hideSplash();
-			await waitForPageLoad();
+			// Flash sale popup ham tayyor bo'lsin — home page va popup birdan ko'rinadi
+			await Promise.all([
+				waitForPageLoad(),
+				waitForPromoReady(Math.max(0, PAGE_LOAD_MAX_WAIT_MS - performance.now())),
+			]);
 			await nextPaint();
 			if (cancelled) return;
 			dismissBootLoader();

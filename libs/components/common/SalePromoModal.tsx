@@ -13,7 +13,12 @@ import { Property } from '../../types/property/property';
 import { T } from '../../types/common';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { isSaleActive } from '../../utils/sale';
+import { markPromoReady } from '../../utils/promoReady';
 
+
+const FALLBACK_PROMO_IMAGE = '/img/banner/Home-1-.jpg';
+const getPromoImage = (prop: Property): string =>
+	prop.propertyImages?.[0] ? `${REACT_APP_API_URL}/${prop.propertyImages[0]}` : FALLBACK_PROMO_IMAGE;
 
 const DISMISS_KEY_PREFIX = 'zin_sale_promo';
 const LAST_SHOWN_KEY = 'zin_last_sale_id';
@@ -56,20 +61,35 @@ const SalePromoModal = () => {
 		},
 		onCompleted: (data: T) => {
 			const onSale: Property[] = (data?.getProperties?.list ?? []).filter((p: Property) => isSaleActive(p));
-			if (onSale.length === 0) return;
+			if (onSale.length === 0) return markPromoReady();
 			setCurrentProp(pickProduct(onSale));
 		},
+		onError: () => markPromoReady(),
 	});
 
 	// Modal ko'rsatish — har yangi kirish, login yoki logout bo'lganda
 	useEffect(() => {
 		if (typeof window === 'undefined' || !currentProp) return;
 		const sessionShownKey = getSessionShownKey(user?._id);
-		if (sessionStorage.getItem(sessionShownKey)) return;
-		if (user?._id && localStorage.getItem(getDismissKey())) return;
-		// Kechiktirmasdan — home page bilan birga chiqsin
-		setVisible(true);
-		sessionStorage.setItem(sessionShownKey, '1');
+		if (sessionStorage.getItem(sessionShownKey) || (user?._id && localStorage.getItem(getDismissKey()))) {
+			markPromoReady();
+			return;
+		}
+		// Rasm yuklanib bo'lgach ko'rsatiladi — popup bo'sh/yarim holda chiqmasin
+		let cancelled = false;
+		const preload = new Image();
+		const show = () => {
+			if (cancelled) return;
+			setVisible(true);
+			sessionStorage.setItem(sessionShownKey, '1');
+			markPromoReady();
+		};
+		preload.onload = show;
+		preload.onerror = show;
+		preload.src = getPromoImage(currentProp);
+		return () => {
+			cancelled = true;
+		};
 	}, [currentProp, user?._id]);
 
 	// Countdown timer
@@ -99,9 +119,7 @@ const SalePromoModal = () => {
 	if (!visible || !currentProp) return null;
 
 	const prop = currentProp;
-	const img = prop.propertyImages?.[0]
-		? `${REACT_APP_API_URL}/${prop.propertyImages[0]}`
-		: '/img/banner/Home-1-.jpg';
+	const img = getPromoImage(prop);
 	const discount = prop.propertySalePrice
 		? Math.round(((prop.propertyPrice - prop.propertySalePrice) / prop.propertyPrice) * 100)
 		: 0;
