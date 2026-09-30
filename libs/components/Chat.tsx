@@ -3,6 +3,7 @@ import { Avatar, Box, Stack, ClickAwayListener } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import DoneIcon from '@mui/icons-material/Done';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 import ReplyIcon from '@mui/icons-material/Reply';
@@ -21,10 +22,44 @@ import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 
+/** Backend AI persona'lari `isAi: true` bilan keladi — ular "AI" belgisi bilan ko'rsatiladi */
+type ChatMember = Member & { isAi?: boolean };
+
+const AI_BADGE_STYLE: React.CSSProperties = {
+	marginLeft: '6px',
+	padding: '1px 6px',
+	borderRadius: '6px',
+	background: 'var(--primary)',
+	color: '#fff',
+	fontSize: '10px',
+	fontWeight: 700,
+	verticalAlign: 'middle',
+};
+
+const ChatAvatar = ({ member, src }: { member: ChatMember | null; src: string }) =>
+	member?.isAi ? (
+		<Avatar alt={member.memberNick} sx={{ bgcolor: 'var(--primary)' }}>
+			<SmartToyIcon fontSize="small" />
+		</Avatar>
+	) : (
+		<Avatar alt={member?.memberNick ?? 'User'} src={src} />
+	);
+
+const ChatNick = ({ member }: { member: ChatMember | null }) => (
+	<>
+		{member?.memberNick ?? 'User'}
+		{member?.isAi && (
+			<span style={AI_BADGE_STYLE} title="AI assistant">
+				AI
+			</span>
+		)}
+	</>
+);
+
 interface MessagePayload {
 	event: string;
 	text: string;
-	memberData: Member | null;
+	memberData: ChatMember | null;
 	replyTo?: {
 		text: string;
 		memberNick: string;
@@ -331,9 +366,9 @@ const Chat = () => {
 										</Box>
 									) : (
 										<Box key={`msg-left-${index}`} component="div" flexDirection="row" style={{ display: 'flex', margin: isPrevSameUser ? '2px 0' : '10px 0' }} alignItems="flex-end">
-											{isNextSameUser ? <div style={{ width: '40px', minWidth: '40px' }} /> : <Avatar alt={memberData?.memberNick ?? 'User'} src={memberImage} />}
+											{isNextSameUser ? <div style={{ width: '40px', minWidth: '40px' }} /> : <ChatAvatar member={memberData} src={memberImage} />}
 											<div className="msg-left" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-												{!isPrevSameUser && <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--primary)', marginBottom: '4px' }}>{memberData?.memberNick ?? 'User'}</div>}
+												{!isPrevSameUser && <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--primary)', marginBottom: '4px' }}><ChatNick member={memberData} /></div>}
 												{messageReplyTo && (
 													<div style={{ background: 'rgba(207,100,34,0.12)', borderLeft: '3px solid var(--primary)', borderRadius: '6px', padding: '5px 8px', marginBottom: '4px' }}>
 														<div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--primary)', marginBottom: '2px' }}>↩ {messageReplyTo.memberNick}</div>
@@ -514,14 +549,14 @@ const Chat = () => {
 										{/* Avatar — show only on LAST message of group */}
 										{isNextSameUser
 											? <div style={{ width: '40px', minWidth: '40px' }} />
-											: <Avatar alt={memberData?.memberNick ?? 'User'} src={memberImage} />
+											: <ChatAvatar member={memberData} src={memberImage} />
 										}
 
 										<div className="msg-left" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
 											{/* Nickname — show only on FIRST message of group */}
 											{!isPrevSameUser && (
 												<div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--primary)', marginBottom: '4px' }}>
-													{memberData?.memberNick ?? 'User'}
+													<ChatNick member={memberData} />
 												</div>
 											)}
 											{messageReplyTo && (
