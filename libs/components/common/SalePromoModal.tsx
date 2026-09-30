@@ -20,6 +20,9 @@ const FALLBACK_PROMO_IMAGE = '/img/banner/Home-1-.jpg';
 const getPromoImage = (prop: Property): string =>
 	prop.propertyImages?.[0] ? `${REACT_APP_API_URL}/${prop.propertyImages[0]}` : FALLBACK_PROMO_IMAGE;
 
+// Rasm shu vaqtda yuklanmasa ham popup chiqaveradi (sekin tarmoq)
+const PROMO_IMAGE_MAX_WAIT_MS = 1500;
+
 const DISMISS_KEY_PREFIX = 'zin_sale_promo';
 const LAST_SHOWN_KEY = 'zin_last_sale_id';
 // Flag foydalanuvchi bo'yicha: login/logout'da qayta chiqadi, sahifa reload'ida esa yo'q
@@ -80,15 +83,18 @@ const SalePromoModal = () => {
 		const preload = new Image();
 		const show = () => {
 			if (cancelled) return;
+			cancelled = true;
 			setVisible(true);
 			sessionStorage.setItem(sessionShownKey, '1');
 			markPromoReady();
 		};
+		const fallbackTimer = setTimeout(show, PROMO_IMAGE_MAX_WAIT_MS);
 		preload.onload = show;
 		preload.onerror = show;
 		preload.src = getPromoImage(currentProp);
 		return () => {
 			cancelled = true;
+			clearTimeout(fallbackTimer);
 		};
 	}, [currentProp, user?._id]);
 
