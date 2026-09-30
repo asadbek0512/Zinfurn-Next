@@ -2,7 +2,9 @@
 
 **Live:** [zinfurn.uz](https://zinfurn.uz) · **API:** GraphQL @ api.zinfurn.uz · **Backend repo:** [Zinfurn](https://github.com/asadbek0512/Zinfurn)
 
-<!-- <img src="https://raw.githubusercontent.com/asadbek0512/asadbek0512/main/assets/zinfurn.png" alt="Screenshot" width="100%" />  -->
+<img src="docs/screenshots/home.jpg" alt="Zinfurn homepage" width="100%" />
+
+<img src="docs/screenshots/catalog.jpg" alt="Zinfurn catalog with filters" width="100%" />
 
 A production-deployed furniture marketplace: catalog browsing with rich filters, ordering with coupons, a repair-service vertical, agent profiles, community articles, an AI shopping assistant, an AI room designer, native mobile AR placement, and a full admin panel — in 5 languages, on a hand-built dark/light theme system.
 
@@ -20,7 +22,8 @@ A production-deployed furniture marketplace: catalog browsing with rich filters,
 - Agents manage their own listings, including an in-stock / sold-out toggle that reflects instantly on every card
 
 **AI**
-- **Shopping assistant** (`pages/api/ai-chat.ts` — Groq · `llama-3.3-70b-versatile`, Gemini `gemini-3.6-flash` fallback) grounded in the live catalog: it recommends real products as clickable cards and navigates the site through a whitelisted action set, so the model can never invent a route or a product it hasn't been given.
+- **Live community chat personas** — AI members (marked with an "AI" badge) keep the WebSocket chat active with short, casual threads that reply to each other, and answer real users; rate-limited to 15 messages/hour and only active while someone is online.
+- **Shopping assistant** (`pages/api/ai-chat.ts` — Groq · `openai/gpt-oss-120b`, Gemini `gemini-3.6-flash` fallback) grounded in the live catalog: it recommends real products as clickable cards and navigates the site through a whitelisted action set, so the model can never invent a route or a product it hasn't been given.
 - **AI Room Designer** (`analyzeRoom` / `generateRoomImage` GraphQL mutations, Gemini vision): the customer uploads a photo of their room and optionally describes what they want. The model returns a structured reading of the space — room type, dominant colors, suggested material, requested furniture type, a search keyword — every field validated against the project's own enums before it touches the database. Those constraints then drive a normal catalog query, so the recommendations are always real, in-stock products, never hallucinated ones. A chosen product can be composited back into the customer's own room photo through the image model.
 - **Automatic content translation** (`translation.service.ts` — Groq `openai/gpt-oss-120b`, Gemini fallback): product, article and notice content is machine-translated into all five locales on create/update, in one schema-constrained JSON call, with a per-locale retry path if the batch call fails.
 
@@ -82,7 +85,7 @@ Deploys are boring on purpose: push to `main` → the VPS cron detects the new c
 
 Being upfront — these are conscious trade-offs, not blind spots:
 
-1. **No real payment provider.** Checkout validates the card form and creates the order, but no PSP (Payme/Click/Stripe) is wired yet — a merchant-onboarding blocker, not a modelling one; the order model is ready for it.
+1. **Payments run in test mode only.** Toss Payments (KRW) is wired end-to-end — server-side confirm plus a cron that expires or reconciles unpaid orders — but uses sandbox keys; local PSPs (Payme/Click) are not integrated yet.
 2. **Demo order progression.** Order statuses auto-advance (pending→delivered in ~1 min) via in-process timers so reviewers can see the full lifecycle without a warehouse. In a real deployment this is replaced by admin/ops updates; the timers don't survive a restart.
 3. **JWTs live in `localStorage`.** Mitigated by a strict nginx CSP; an httpOnly-cookie migration is planned but touches WebSocket auth and both OAuth flows, so it is deliberately a separate change.
 4. **Refresh tokens are stateless.** Rotation works, but there is no server-side revocation store — a stolen refresh token stays valid until expiry unless the member is blocked.
