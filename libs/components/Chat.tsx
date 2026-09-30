@@ -36,8 +36,9 @@ const AI_BADGE_STYLE: React.CSSProperties = {
 	verticalAlign: 'middle',
 };
 
+/** AI persona'larning avatari backend'dan to'liq URL bilan keladi; bo'lmasa robot ikonka */
 const ChatAvatar = ({ member, src }: { member: ChatMember | null; src: string }) =>
-	member?.isAi ? (
+	member?.isAi && !member.memberImage ? (
 		<Avatar alt={member.memberNick} sx={{ bgcolor: 'var(--primary)' }}>
 			<SmartToyIcon fontSize="small" />
 		</Avatar>
