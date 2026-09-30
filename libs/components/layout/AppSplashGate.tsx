@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { isAppMode } from '../../hooks/useAppMode';
 import { hideSplash } from '../../native';
 
 /** _document'dagi app yuklanish qoplamasi (#app-boot-loader) va uning fade vaqti */
 const BOOT_LOADER_ID = 'app-boot-loader';
-const BOOT_LOADER_FADE_MS = 200;
+const BOOT_LOADER_FADE_MS = 250;
+/** Sahifa (rasmlar bilan) to'liq yuklanishini ko'pi bilan shuncha kutamiz — sekin internetda osilib qolmasin */
+const PAGE_LOAD_MAX_WAIT_MS = 4000;
 
 const dismissBootLoader = () => {
 	const loader = document.getElementById(BOOT_LOADER_ID);
@@ -13,23 +16,50 @@ const dismissBootLoader = () => {
 	setTimeout(() => loader.remove(), BOOT_LOADER_FADE_MS);
 };
 
+/** window 'load' (hamma rasm/resurs) yoki yuqori chegara — qaysi biri oldin bo'lsa */
+const waitForPageLoad = async (): Promise<void> => {
+	if (document.readyState === 'complete') return;
+	await new Promise<void>((resolve) => {
+		const timer = setTimeout(resolve, PAGE_LOAD_MAX_WAIT_MS);
+		window.addEventListener(
+			'load',
+			() => {
+				clearTimeout(timer);
+				resolve();
+			},
+			{ once: true },
+		);
+	});
+};
+
+const nextPaint = async (): Promise<void> => {
+	await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+};
+
 /**
  * SSR sahifani desktop ko'rinishida beradi, mobilga hydration'dan keyin o'tadi.
- * App'da splash va yuklanish qoplamasi shu paytgacha turadi — foydalanuvchi desktop
- * "sakrashini" ko'rmaydi (sahifa qayta yuklanganda ham: login/logout, pull-to-refresh).
+ * App'da web'dagi kabi to'liq sahifa loader'i turadi: mobil layout chizilib, sahifa yuklanguncha.
+ * Native splash darrov yopiladi — undan keyin foydalanuvchi shu loader'ni ko'radi.
  */
 const AppSplashGate = () => {
 	const device = useDeviceDetect();
 
 	useEffect(() => {
+		if (isAppMode()) void hideSplash();
+	}, []);
+
+	useEffect(() => {
 		if (device !== 'mobile') return;
-		// Mobil DOM ekranga chizilishini kutamiz (2 frame), keyin splash va qoplama yopiladi
-		requestAnimationFrame(() =>
-			requestAnimationFrame(() => {
-				dismissBootLoader();
-				void hideSplash();
-			}),
-		);
+		let cancelled = false;
+		const reveal = async () => {
+			await waitForPageLoad();
+			await nextPaint();
+			if (!cancelled) dismissBootLoader();
+		};
+		void reveal();
+		return () => {
+			cancelled = true;
+		};
 	}, [device]);
 
 	return null;

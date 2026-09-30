@@ -29,10 +29,10 @@ export default function Document() {
 
 				{/* App yuklanish ekrani: SSR HTML desktop layout bilan keladi, mobil layout mount bo'lguncha
 				    shu qoplama turadi (AppSplashGate olib tashlaydi). Web'da ko'rinmaydi.
-				    Logo o'lchami/joyi native splash bilan bir xil — splash'dan o'tishda sakrash bo'lmaydi. */}
+				    Ko'rinishi web'dagi bosh sahifa loader'i (pages/index.tsx .page-loader) bilan bir xil. */}
 				<style
 					dangerouslySetInnerHTML={{
-						__html: `#app-boot-loader{display:none}html[data-app='1'] #app-boot-loader{display:flex;position:fixed;inset:0;z-index:2147483000;align-items:center;justify-content:center;background:var(--bg-page,#fff);transition:opacity .2s ease}#app-boot-loader.is-done{opacity:0;pointer-events:none}#app-boot-loader img{width:352px;height:352px;max-width:none;object-fit:contain}html[data-theme='dark'] #app-boot-loader img{filter:invert(1)}#app-boot-loader .dots{position:absolute;left:0;right:0;top:calc(50% + 84px);text-align:center}#app-boot-loader .dots span{display:inline-block;margin:0 2px;font-size:28px;line-height:1;color:var(--text-1,#222);animation:app-boot-dot 1.2s infinite ease-in-out}#app-boot-loader .dots span:nth-child(2){animation-delay:.15s}#app-boot-loader .dots span:nth-child(3){animation-delay:.3s}#app-boot-loader .dots span:nth-child(4){animation-delay:.45s}#app-boot-loader .dots span:nth-child(5){animation-delay:.6s}@keyframes app-boot-dot{0%,80%,100%{opacity:.2;transform:translateY(0)}40%{opacity:1;transform:translateY(-6px)}}`,
+						__html: `#app-boot-loader{display:none}html[data-app='1'] #app-boot-loader{display:flex;position:fixed;inset:0;z-index:2147483000;align-items:center;justify-content:center;background:var(--bg-page,#fff);transition:opacity .25s ease}#app-boot-loader.is-done{opacity:0;pointer-events:none}#app-boot-loader .loader-content{display:flex;flex-direction:row;align-items:center;gap:20px}#app-boot-loader img{width:90px;height:auto}html[data-theme='dark'] #app-boot-loader img{filter:invert(1)}#app-boot-loader .dots{display:flex;gap:6px}#app-boot-loader .dots span{font-size:54px;font-weight:bold;color:var(--text-2,#666);animation:app-boot-blink 1.4s infinite}#app-boot-loader .dots span:nth-child(2){animation-delay:.2s}#app-boot-loader .dots span:nth-child(3){animation-delay:.4s}#app-boot-loader .dots span:nth-child(4){animation-delay:.6s}#app-boot-loader .dots span:nth-child(5){animation-delay:.8s}@keyframes app-boot-blink{0%,80%,100%{opacity:0}40%{opacity:1}}`,
 					}}
 				/>
 
@@ -54,14 +54,16 @@ export default function Document() {
 					}}
 				/>
 				<div id="app-boot-loader" aria-hidden="true">
-					{/* eslint-disable-next-line @next/next/no-img-element */}
-					<img src="/img/banner/001..png" alt="" />
-					<div className="dots">
-						<span>.</span>
-						<span>.</span>
-						<span>.</span>
-						<span>.</span>
-						<span>.</span>
+					<div className="loader-content">
+						{/* eslint-disable-next-line @next/next/no-img-element */}
+						<img src="/img/banner/001..png" alt="" />
+						<div className="dots">
+							<span>.</span>
+							<span>.</span>
+							<span>.</span>
+							<span>.</span>
+							<span>.</span>
+						</div>
 					</div>
 				</div>
 				{/* JS yiqilsa ham loader abadiy qolib ketmasin */}
