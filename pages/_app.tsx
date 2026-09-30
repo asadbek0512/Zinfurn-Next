@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import React, { useEffect, useMemo } from 'react';
@@ -173,6 +174,11 @@ const App = ({ Component, pageProps }: AppProps) => {
 					<BrandJsonLd />
 					<Analytics />
 					<ErrorMonitoring />
+					{/* SSR HTML'da ham initial-scale=1 bo'lsin — aks holda WebView desktop markup'ini
+					    ko'rib sahifani kichraytiradi (app loader'i kichrayib qoladi). AppBottomNav shu key bilan almashtiradi */}
+					<Head>
+						<meta name="viewport" content="width=device-width, initial-scale=1" key="viewport" />
+					</Head>
 					<SEO title={pageTitle} url={canonicalUrl} noindex={NOINDEX_PATHS.has(router.pathname)} />
 					<Component {...pageProps} />
 					<CartDrawer />
