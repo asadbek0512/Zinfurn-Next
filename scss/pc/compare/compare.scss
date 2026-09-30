@@ -299,17 +299,27 @@
 		.cmp-noimg {
 			display: block;
 			width: 100%;
-			aspect-ratio: 1;
+			aspect-ratio: 4 / 3;
+			padding: 12px;
+			box-sizing: border-box;
 			border-radius: 12px;
-			object-fit: cover;
+			/* Mebel rasmi to'liq ko'rinsin — qirqilmasin */
+			object-fit: contain;
 			background: var(--bg-muted);
 		}
 	}
 
 	.cmp-title {
-		display: block;
+		display: -webkit-box;
+		min-height: 2.8em; /* 2 qator — tugmalar bir chiziqda tursin */
 		margin-top: 8px;
+		overflow: hidden;
 		font-weight: 600;
+		line-height: 1.4;
+		white-space: normal;
+		overflow-wrap: anywhere;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
 	}
 
 	.cmp-remove {

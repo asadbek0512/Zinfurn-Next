@@ -25,7 +25,12 @@ const TossFail: NextPage = () => {
 		<div className="co-guard">
 			<ErrorOutlineIcon className="co-guard-icon" />
 			<Typography className="co-guard-title">{cancelled ? t('Payment was cancelled') : t('Payment failed')}</Typography>
-			{!cancelled && typeof message === 'string' && <Typography className="co-guard-sub">{message}</Typography>}
+			{!cancelled && typeof message === 'string' && (
+				<Typography className="co-guard-sub">
+					{message}
+					{typeof code === 'string' && ` (${code})`}
+				</Typography>
+			)}
 			<Link href="/checkout"><Button variant="contained" className="co-guard-btn">{t('Back to checkout')}</Button></Link>
 		</div>
 	);

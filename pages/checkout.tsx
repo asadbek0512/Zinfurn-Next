@@ -157,8 +157,10 @@ const Checkout: NextPage = () => {
 				setPlacedOrder(data.createOrder);
 				clearCart();
 			} catch (err: unknown) {
-				const cancelled = (err as { code?: string })?.code === TOSS_USER_CANCEL;
-				setPlaceError(cancelled ? t('Payment was cancelled') : getErrorMessage(err) || 'Failed to place order. Please try again.');
+				const code = (err as { code?: string })?.code;
+				const message = getErrorMessage(err) || 'Failed to place order. Please try again.';
+				// Toss SDK xatosida kodni ham ko'rsatamiz — debug uchun (masalan: UNKNOWN, INVALID_CLIENT_KEY)
+				setPlaceError(code === TOSS_USER_CANCEL ? t('Payment was cancelled') : code ? `${message} (${code})` : message);
 				return;
 			} finally {
 				setTossOpening(false);

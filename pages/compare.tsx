@@ -161,7 +161,7 @@ const Compare: NextPage = () => {
 												) : (
 													<span className="cmp-noimg" />
 												)}
-												<span className="cmp-title">{getLocalizedTitle(p, i18n.language)}</span>
+												<span className="cmp-title" title={getLocalizedTitle(p, i18n.language)}>{getLocalizedTitle(p, i18n.language)}</span>
 											</Link>
 											<button
 												type="button"

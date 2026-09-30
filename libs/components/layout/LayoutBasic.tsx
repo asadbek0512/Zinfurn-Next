@@ -31,7 +31,9 @@ const withLayoutBasic = (Component: any) => {
 		const memoizedValues = useMemo(() => {
 			let title = '',
 				desc = '',
-				bgImage = '';
+				bgImage = '',
+				// Default: rasm tepasi; mebel pastda bo'lgan bannerlar uchun 'center bottom'
+				bgPosition = 'left top';
 
 			switch (router.pathname) {
 				case '/products':
@@ -83,6 +85,7 @@ const withLayoutBasic = (Component: any) => {
 					title = 'Compare products';
 					desc = 'Home / Compare';
 					bgImage = '/img/banner/Home-3-.jpg';
+					bgPosition = 'center bottom';
 					break;
 				case '/about':
 					title = 'About Zinfurn';
@@ -93,7 +96,7 @@ const withLayoutBasic = (Component: any) => {
 					break;
 			}
 
-			return { title, desc, bgImage };
+			return { title, desc, bgImage, bgPosition };
 		}, [router.pathname]);
 
 		const { data: myProfileData } = useQuery(GET_MY_PROFILE, {
@@ -187,6 +190,7 @@ const withLayoutBasic = (Component: any) => {
 								style={{
 									backgroundImage: `url(${memoizedValues.bgImage})`,
 									backgroundSize: 'cover',
+									backgroundPosition: memoizedValues.bgPosition,
 									boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
 								}}
 							>

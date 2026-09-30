@@ -11,7 +11,7 @@ Next.js 14 frontend for the Zinfurn furniture marketplace — browsing, filterin
 - Auth: JWT in localStorage, auto-refreshed via `TokenRefreshLink`
 - i18n: next-i18next (uz, en, kr, ru, ar — 5 locales)
 - AI: OpenAI chat via `pages/api/ai-chat.ts`
-- Deploy: Docker on VPS, CI/CD via GitHub Actions
+- Deploy: Docker on VPS, auto-deploy via server cron on push to `main`
 
 ## Architecture
 
@@ -117,4 +117,4 @@ See `.env.local` (copy from `.env.example`). Frontend needs:
 
 ## Deployment
 
-VPS: Docker container behind Nginx with SSL. Port 4006 externally, 3006 internally. CI/CD via GitHub Actions on push to `develop` — build + lint, then SSH deploy with retry.
+VPS (2-server): Docker container behind Nginx with SSL. Port 4006 externally, 3006 internally. Deploy = push to `main`; a server cron pulls and rebuilds. Build env comes from `.env.production` on the server (`NEXT_PUBLIC_*` is baked in at build time).
