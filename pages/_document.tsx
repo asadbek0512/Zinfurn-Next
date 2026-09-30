@@ -2,6 +2,7 @@ import { Html, Head, Main, NextScript } from 'next/document';
 
 /** Loader'ning yuqori chegarasi — odatda AppSplashGate ancha oldin olib tashlaydi */
 const BOOT_LOADER_MAX_MS = 10000;
+const SPLASH_HIDE_FADE_MS = 200;
 
 export default function Document() {
 	return (
@@ -69,7 +70,8 @@ export default function Document() {
 				{/* JS yiqilsa ham loader abadiy qolib ketmasin */}
 				<script
 					dangerouslySetInnerHTML={{
-						__html: `setTimeout(function(){var l=document.getElementById('app-boot-loader');if(l)l.remove();},${BOOT_LOADER_MAX_MS});`,
+						// Loader chizildi — native splash'ni yopamiz (Capacitor bridge sahifadan oldin inject qilinadi)
+						__html: `setTimeout(function(){var l=document.getElementById('app-boot-loader');if(l)l.remove();},${BOOT_LOADER_MAX_MS});try{var C=window.Capacitor;if(C&&C.nativePromise&&C.isNativePlatform&&C.isNativePlatform())requestAnimationFrame(function(){C.nativePromise('SplashScreen','hide',{fadeOutDuration:${SPLASH_HIDE_FADE_MS}}).catch(function(){});});}catch(e){}`,
 					}}
 				/>
 				<Main />

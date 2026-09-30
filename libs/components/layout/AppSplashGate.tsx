@@ -6,7 +6,8 @@ import { hideSplash } from '../../native';
 const BOOT_LOADER_ID = 'app-boot-loader';
 const BOOT_LOADER_FADE_MS = 250;
 /** Sahifa (rasmlar bilan) to'liq yuklanishini ko'pi bilan shuncha kutamiz — sekin internetda osilib qolmasin */
-const PAGE_LOAD_MAX_WAIT_MS = 4000;
+// Sahifa ochila boshlaganidan (navigation start) hisoblanadi
+const PAGE_LOAD_MAX_WAIT_MS = 3000;
 
 const dismissBootLoader = () => {
 	const loader = document.getElementById(BOOT_LOADER_ID);
@@ -19,7 +20,7 @@ const dismissBootLoader = () => {
 const waitForPageLoad = async (): Promise<void> => {
 	if (document.readyState === 'complete') return;
 	await new Promise<void>((resolve) => {
-		const timer = setTimeout(resolve, PAGE_LOAD_MAX_WAIT_MS);
+		const timer = setTimeout(resolve, Math.max(0, PAGE_LOAD_MAX_WAIT_MS - performance.now()));
 		window.addEventListener(
 			'load',
 			() => {
