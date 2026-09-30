@@ -445,3 +445,42 @@ html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list.grid-2 .m
     }
   }
 }
+
+// Furniture list (1 ustun) karta: bitta qator, lekin kattaroq ikonka va dumaloq tugmalar
+$app-card-icon-btn: 32px;
+
+html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list:not(.grid-2) .mob-property-card .mob-card-info .mob-card-actions {
+  padding-top: 8px;
+
+  .mob-action {
+    gap: 3px;
+    font-size: 12px;
+    color: var(--text-2);
+
+    svg { font-size: 16px !important; }
+
+    &[aria-label]:nth-child(4),
+    &.mob-action-cart {
+      flex: 0 0 $app-card-icon-btn;
+      height: $app-card-icon-btn;
+      border-radius: 50%;
+    }
+
+    &[aria-label]:nth-child(4) {
+      border: 1px solid var(--border);
+
+      &.mob-action-compare-on {
+        border-color: var(--primary);
+        background: var(--primary-soft);
+      }
+    }
+
+    &.mob-action-cart {
+      background: var(--primary);
+
+      svg { font-size: 17px !important; color: #fff !important; }
+
+      &.added { background: var(--success); }
+    }
+  }
+}
