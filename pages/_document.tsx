@@ -28,10 +28,11 @@ export default function Document() {
 				    - OnlineStore/WebSite schema → BrandJsonLd.tsx (yagona manba) */}
 
 				{/* App yuklanish ekrani: SSR HTML desktop layout bilan keladi, mobil layout mount bo'lguncha
-				    shu qoplama turadi (AppSplashGate olib tashlaydi). Web'da ko'rinmaydi. */}
+				    shu qoplama turadi (AppSplashGate olib tashlaydi). Web'da ko'rinmaydi.
+				    Logo o'lchami/joyi native splash bilan bir xil — splash'dan o'tishda sakrash bo'lmaydi. */}
 				<style
 					dangerouslySetInnerHTML={{
-						__html: `#app-boot-loader{display:none}html[data-app='1'] #app-boot-loader{display:flex;position:fixed;inset:0;z-index:2147483000;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--bg-page,#fff);transition:opacity .2s ease}#app-boot-loader.is-done{opacity:0;pointer-events:none}#app-boot-loader img{width:110px;height:110px;object-fit:contain}html[data-theme='dark'] #app-boot-loader img{filter:invert(1)}#app-boot-loader .dots span{display:inline-block;margin:0 2px;font-size:28px;line-height:1;color:var(--text-1,#222);animation:app-boot-dot 1.2s infinite ease-in-out}#app-boot-loader .dots span:nth-child(2){animation-delay:.15s}#app-boot-loader .dots span:nth-child(3){animation-delay:.3s}#app-boot-loader .dots span:nth-child(4){animation-delay:.45s}#app-boot-loader .dots span:nth-child(5){animation-delay:.6s}@keyframes app-boot-dot{0%,80%,100%{opacity:.2;transform:translateY(0)}40%{opacity:1;transform:translateY(-6px)}}`,
+						__html: `#app-boot-loader{display:none}html[data-app='1'] #app-boot-loader{display:flex;position:fixed;inset:0;z-index:2147483000;align-items:center;justify-content:center;background:var(--bg-page,#fff);transition:opacity .2s ease}#app-boot-loader.is-done{opacity:0;pointer-events:none}#app-boot-loader img{width:352px;height:352px;max-width:none;object-fit:contain}html[data-theme='dark'] #app-boot-loader img{filter:invert(1)}#app-boot-loader .dots{position:absolute;left:0;right:0;top:calc(50% + 84px);text-align:center}#app-boot-loader .dots span{display:inline-block;margin:0 2px;font-size:28px;line-height:1;color:var(--text-1,#222);animation:app-boot-dot 1.2s infinite ease-in-out}#app-boot-loader .dots span:nth-child(2){animation-delay:.15s}#app-boot-loader .dots span:nth-child(3){animation-delay:.3s}#app-boot-loader .dots span:nth-child(4){animation-delay:.45s}#app-boot-loader .dots span:nth-child(5){animation-delay:.6s}@keyframes app-boot-dot{0%,80%,100%{opacity:.2;transform:translateY(0)}40%{opacity:1;transform:translateY(-6px)}}`,
 					}}
 				/>
 
