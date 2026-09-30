@@ -8,7 +8,8 @@ const BOOT_LOADER_ID = 'app-boot-loader';
 const BOOT_LOADER_FADE_MS = 250;
 /** Sahifa (rasmlar bilan) to'liq yuklanishini ko'pi bilan shuncha kutamiz — sekin internetda osilib qolmasin */
 // Sahifa ochila boshlaganidan (navigation start) hisoblanadi
-const PAGE_LOAD_MAX_WAIT_MS = 5000;
+const PAGE_LOAD_MAX_WAIT_MS = 8000;
+const CSS_URL_PATTERN = /url\(["']?([^"')]+)["']?\)/g;
 
 const dismissBootLoader = () => {
 	const loader = document.getElementById(BOOT_LOADER_ID);
@@ -21,7 +22,7 @@ const dismissBootLoader = () => {
 const waitForPageLoad = async (): Promise<void> => {
 	if (document.readyState === 'complete') return;
 	await new Promise<void>((resolve) => {
-		const timer = setTimeout(resolve, Math.max(0, PAGE_LOAD_MAX_WAIT_MS - performance.now()));
+		const timer = setTimeout(resolve, remainingWaitMs());
 		window.addEventListener(
 			'load',
 			() => {
@@ -31,6 +32,45 @@ const waitForPageLoad = async (): Promise<void> => {
 			{ once: true },
 		);
 	});
+};
+
+const remainingWaitMs = () => Math.max(0, PAGE_LOAD_MAX_WAIT_MS - performance.now());
+
+const isInViewport = (el: Element) => {
+	const rect = el.getBoundingClientRect();
+	return rect.bottom > 0 && rect.top < window.innerHeight && rect.width > 0 && rect.height > 0;
+};
+
+const waitForImage = async (img: HTMLImageElement): Promise<void> => {
+	if (img.complete) return;
+	await new Promise<void>((resolve) => {
+		img.addEventListener('load', () => resolve(), { once: true });
+		img.addEventListener('error', () => resolve(), { once: true });
+	});
+};
+
+/** Ekranda ko'rinadigan rasmlar (<img> va CSS fon rasmlari) yuklanguncha — foydalanuvchi bo'sh kartalarni ko'rmasin */
+const waitForVisibleImages = async (): Promise<void> => {
+	const pending: Promise<void>[] = [];
+	document.querySelectorAll('body *').forEach((el) => {
+		if (el.closest(`#${BOOT_LOADER_ID}`) || !isInViewport(el)) return;
+		if (el instanceof HTMLImageElement) {
+			if (el.loading === 'lazy') el.loading = 'eager';
+			pending.push(waitForImage(el));
+			return;
+		}
+		const bg = getComputedStyle(el).backgroundImage;
+		if (!bg || bg === 'none') return;
+		Array.from(bg.matchAll(CSS_URL_PATTERN)).forEach(([, src]) => {
+			const img = new Image();
+			img.src = src;
+			pending.push(waitForImage(img));
+		});
+	});
+	await Promise.race([
+		Promise.all(pending),
+		new Promise<void>((resolve) => setTimeout(resolve, remainingWaitMs())),
+	]);
 };
 
 const nextPaint = async (): Promise<void> => {
@@ -53,10 +93,9 @@ const AppSplashGate = () => {
 			await nextPaint();
 			void hideSplash();
 			// Flash sale popup ham tayyor bo'lsin — home page va popup birdan ko'rinadi
-			await Promise.all([
-				waitForPageLoad(),
-				waitForPromoReady(Math.max(0, PAGE_LOAD_MAX_WAIT_MS - performance.now())),
-			]);
+			await Promise.all([waitForPageLoad(), waitForPromoReady(remainingWaitMs())]);
+			await nextPaint();
+			await waitForVisibleImages();
 			await nextPaint();
 			if (cancelled) return;
 			dismissBootLoader();
