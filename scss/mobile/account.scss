@@ -254,6 +254,18 @@
             width: 20px;
             height: 20px;
           }
+
+          // Apple HIG: qora fon, oq logo
+          &.apple-signin-btn {
+            background: #000;
+            border-color: #000;
+            color: #fff;
+
+            svg {
+              width: 18px;
+              height: 20px;
+            }
+          }
         }
 
         .mob-telegram-wrapper {

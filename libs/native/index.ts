@@ -107,3 +107,44 @@ export const hideSplash = async (): Promise<void> => {
 	if (!isNativeApp() || !Capacitor.isPluginAvailable('SplashScreen')) return;
 	await SplashScreen.hide({ fadeOutDuration: SPLASH_FADE_MS });
 };
+
+// Sign in with Apple — @capacitor-community/apple-sign-in plugin (faqat iOS app).
+// Apple Developer Program'da capability yoqilmaguncha NEXT_PUBLIC_APPLE_SIGNIN o'chiq turadi.
+interface AppleSignInResponse {
+	response: { identityToken: string; givenName: string | null; familyName: string | null };
+}
+interface AppleSignInPlugin {
+	authorize(options: { clientId: string; redirectURI: string; scopes: string }): Promise<AppleSignInResponse>;
+}
+
+export interface AppleAuthResult {
+	identityToken: string;
+	givenName?: string;
+	familyName?: string;
+}
+
+const APPLE_PLUGIN = 'SignInWithApple';
+const APPLE_CLIENT_ID = 'uz.zinfurn.app';
+const APPLE_SCOPES = 'email name';
+const SignInWithApple = registerPlugin<AppleSignInPlugin>(APPLE_PLUGIN);
+
+export const isAppleSignInEnabled = (): boolean =>
+	process.env.NEXT_PUBLIC_APPLE_SIGNIN === 'true' && isIosApp() && Capacitor.isPluginAvailable(APPLE_PLUGIN);
+
+/** Apple oynasini ochadi. Foydalanuvchi bekor qilsa null */
+export const startAppleSignIn = async (): Promise<AppleAuthResult | null> => {
+	try {
+		const { response } = await SignInWithApple.authorize({
+			clientId: APPLE_CLIENT_ID,
+			redirectURI: `${window.location.origin}/account/join`,
+			scopes: APPLE_SCOPES,
+		});
+		return {
+			identityToken: response.identityToken,
+			givenName: response.givenName ?? undefined,
+			familyName: response.familyName ?? undefined,
+		};
+	} catch {
+		return null;
+	}
+};

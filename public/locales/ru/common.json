@@ -746,5 +746,7 @@
   "Report reason OTHER": "Другое",
   "Block user": "Заблокировать",
   "Block confirm": "Заблокировать пользователя? Вы больше не увидите его посты, комментарии и сообщения.",
-  "Block done": "Пользователь заблокирован"
+  "Block done": "Пользователь заблокирован",
+  "Sign In With Apple": "Войти через Apple",
+  "Create Account With Apple": "Регистрация через Apple"
 }

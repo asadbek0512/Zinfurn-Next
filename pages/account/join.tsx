@@ -14,7 +14,7 @@ import {
 	defaultCountries,
 } from 'react-international-phone';
 import 'react-international-phone/style.css';
-import { startGoogleAuth } from '../../libs/native';
+import { startGoogleAuth, isAppleSignInEnabled, startAppleSignIn } from '../../libs/native';
 import useAppMode from '../../libs/hooks/useAppMode';
 import { redirectToTelegramAuth, consumeTelegramRedirectResult } from '../../libs/utils/telegramAuth';
 import { LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
@@ -46,6 +46,29 @@ const Join: NextPage = () => {
 	const [detectedCountry, setDetectedCountry] = useState<string>('kr');
 
 	const appMode = useAppMode();
+
+	const [appleEnabled, setAppleEnabled] = useState(false);
+	useEffect(() => setAppleEnabled(isAppleSignInEnabled()), []);
+
+	const handleAppleAuth = async () => {
+		const apple = await startAppleSignIn();
+		if (!apple) return;
+		try {
+			const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/apple`, {
+				method: 'POST',
+				credentials: 'include',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(apple),
+			});
+			const data = await response.json();
+			if (!data.token) throw new Error(data.message);
+			updateStorage({ jwtToken: data.token, refreshToken: data.refresh });
+			updateUserInfo(data.token);
+			window.location.href = '/';
+		} catch {
+			await sweetMixinErrorAlert('Apple login failed');
+		}
+	};
 
 	const loginWithTelegram = useCallback(async (telegramData: Record<string, string | number>) => {
 		try {
@@ -341,6 +364,17 @@ const Join: NextPage = () => {
 					</div>
 
 					<div className="mob-social-btns">
+						{appleEnabled && (
+							<button className="mob-social-btn apple-signin-btn" onClick={handleAppleAuth}>
+								<svg viewBox="0 0 814 1000" aria-hidden="true">
+									<path
+										fill="currentColor"
+										d="M788 341c-6 4-108 62-108 190 0 148 130 200 134 202-1 3-21 72-69 142-43 62-88 124-156 124s-86-40-164-40c-77 0-104 41-167 41s-106-57-156-128C44 789 0 668 0 553c0-184 120-282 238-282 63 0 115 41 155 41 38 0 97-44 168-44 27 0 125 2 189 94zM554 169c29-35 50-83 50-131 0-7-1-14-2-19-48 2-104 32-138 72-27 31-52 79-52 128 0 7 1 15 2 17 3 1 8 1 13 1 43 0 97-29 127-68z"
+									/>
+								</svg>
+								{loginView ? t('Sign In With Apple') : t('Create Account With Apple')}
+							</button>
+						)}
 						<button className="mob-social-btn" onClick={handleGoogleAuth}>
 							<img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" loading="lazy" decoding="async" />
 							{loginView ? t('Sign In With Google') : t('Create Account With Google')}

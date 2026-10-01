@@ -745,5 +745,7 @@
   "Report reason OTHER": "Other",
   "Block user": "Block user",
   "Block confirm": "Block this user? You will no longer see their posts, comments or messages.",
-  "Block done": "User blocked"
+  "Block done": "User blocked",
+  "Sign In With Apple": "Sign in with Apple",
+  "Create Account With Apple": "Sign up with Apple"
 }

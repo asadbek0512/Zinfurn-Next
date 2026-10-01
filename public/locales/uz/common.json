@@ -745,5 +745,7 @@
   "Report reason OTHER": "Boshqa",
   "Block user": "Bloklash",
   "Block confirm": "Bu foydalanuvchini bloklaysizmi? Uning postlari, izohlari va xabarlari sizga ko'rinmaydi.",
-  "Block done": "Foydalanuvchi bloklandi"
+  "Block done": "Foydalanuvchi bloklandi",
+  "Sign In With Apple": "Apple orqali kirish",
+  "Create Account With Apple": "Apple orqali ro'yxatdan o'tish"
 }

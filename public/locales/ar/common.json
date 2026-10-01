@@ -745,5 +745,7 @@
   "Report reason OTHER": "أخرى",
   "Block user": "حظر المستخدم",
   "Block confirm": "حظر هذا المستخدم؟ لن ترى منشوراته أو تعليقاته أو رسائله بعد الآن.",
-  "Block done": "تم حظر المستخدم"
+  "Block done": "تم حظر المستخدم",
+  "Sign In With Apple": "تسجيل الدخول عبر Apple",
+  "Create Account With Apple": "التسجيل عبر Apple"
 }
