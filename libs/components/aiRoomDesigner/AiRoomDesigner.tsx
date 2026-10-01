@@ -99,9 +99,9 @@ const AiRoomDesigner = () => {
 	return (
 		<Box component="section" className="ai-room-designer">
 			<Stack spacing={1.5} className="intro" alignItems="center">
-				<Box className="intro-badge">
+				<div className="intro-badge">
 					<AutoAwesomeIcon className="sparkle" />
-				</Box>
+				</div>
 				<Typography variant={device === 'mobile' ? 'h5' : 'h3'} component="h1">
 					{t('AI bilan xonangizga mos mebel toping')}
 				</Typography>
