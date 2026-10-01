@@ -146,15 +146,11 @@ body::-webkit-scrollbar {
 						}
 					}
 
+					// Menyu, logo va user-box bitta flex qatorga yoyiladi — space-between har
+					// kenglikda barcha elementlar orasini teng taqsimlaydi (Support va savat
+					// orasida alohida katta bo'shliq qolmaydi)
 					.router-box {
-						margin-left: clamp(8px, 1.6vw, 30px);
-						position: relative;
-						width: auto;
-						gap: clamp(10px, 1.7vw, 28px);
-						display: flex;
-						flex-direction: row;
-						align-items: center;
-						justify-content: center;
+						display: contents;
 
 						&.korean-margin {
 							gap: 44px;
