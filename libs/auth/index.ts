@@ -1,5 +1,6 @@
 import { ApolloError } from '@apollo/client';
 import { clearUserCache } from '../utils/serviceWorker';
+import { unregisterPushToken } from '../native/push';
 import decodeJWT from 'jwt-decode';
 import { initializeApollo } from '../../apollo/client';
 import { userVar } from '../../apollo/store';
@@ -294,12 +295,15 @@ export const logOut = () => {
 	deleteStorage();
 	deleteUserInfo();
 	clearUserCache();
-	fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
-		method: 'POST',
-		credentials: 'include',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ refreshToken }),
-	}).finally(() => {
+	Promise.allSettled([
+		fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
+			method: 'POST',
+			credentials: 'include',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ refreshToken }),
+		}),
+		unregisterPushToken(),
+	]).finally(() => {
 		window.location.href = '/';
 	});
 };

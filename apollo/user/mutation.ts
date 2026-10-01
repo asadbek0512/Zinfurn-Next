@@ -726,3 +726,9 @@ export const UNBLOCK_MEMBER = gql`
 		unblockMember(memberId: $memberId)
 	}
 `;
+
+export const REGISTER_PUSH_TOKEN = gql`
+	mutation RegisterPushToken($input: PushTokenInput!) {
+		registerPushToken(input: $input)
+	}
+`;
