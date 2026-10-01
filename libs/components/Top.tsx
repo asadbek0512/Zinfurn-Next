@@ -40,6 +40,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 
+// Mobil'da hero rasmisiz sahifalar — navbar shaffof bo'lmasin (oq fonda logo ko'rinmay qoladi)
+const SOLID_MOBILE_NAV_PATHS = new Set(['/mypage', '/member', '/agent/detail', '/privacy', '/terms']);
+
 const Top = () => {
 	const device = useDeviceDetect();
 	const { mode, toggleMode } = useThemeMode();
@@ -93,7 +96,7 @@ const Top = () => {
 
 		// Solid white navbar only on these pages for mobile
 		const isSolidPage =
-			device === 'mobile' && (router.pathname === '/mypage' || router.pathname === '/member' || router.pathname === '/agent/detail');
+			device === 'mobile' && SOLID_MOBILE_NAV_PATHS.has(router.pathname);
 
 		const checkInitialState = () => {
 			const scrolled = window.scrollY >= 50;

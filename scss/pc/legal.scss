@@ -37,6 +37,11 @@ $legal-mobile: 768px;
 	ul {
 		margin: 0 0 10px;
 		padding-left: 22px;
+		list-style: disc;
+	}
+
+	li::marker {
+		color: var(--primary);
 	}
 
 	.legal-updated {
