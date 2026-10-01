@@ -14,7 +14,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useTranslation } from 'next-i18next';
 import UserAvatar from '../common/UserAvatar';
 import { axiosErrorMessage } from '../../types/common';
-import { TelegramAuthData, redirectToTelegramAuth, consumeTelegramRedirectResult } from '../../utils/telegramAuth';
+import { TelegramAuthData, consumeTelegramRedirectResult } from '../../utils/telegramAuth';
+import { startGoogleLinkFlow, startTelegramLinkFlow } from '../../utils/accountLink';
 
 const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const { t } = useTranslation('common');
@@ -45,8 +46,8 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			try {
 				const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/link/telegram`, {
 					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ memberId: user._id, ...telegramData }),
+					headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getJwtToken()}` },
+					body: JSON.stringify(telegramData),
 				});
 				const data = await response.json();
 				if (!data.token) throw new Error(data.message);
@@ -155,8 +156,20 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	}, [updateData]);
 
 	// Google bog'lash
-	const handleLinkGoogle = () => {
-		window.location.href = `${process.env.REACT_APP_API_URL}/auth/link/google?state=${user._id}`;
+	const handleLinkGoogle = async () => {
+		try {
+			await startGoogleLinkFlow();
+		} catch {
+			await sweetMixinErrorAlert('Google link failed');
+		}
+	};
+
+	const handleLinkTelegram = async () => {
+		try {
+			await startTelegramLinkFlow();
+		} catch {
+			await sweetMixinErrorAlert('Telegram link failed');
+		}
 	};
 
 	// Akkauntni o'chirish (App Store / Google Play talabi) — qaytarib bo'lmaydi, shuning uchun tasdiq so'raladi
@@ -290,7 +303,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 						</button>
 					)}
 					{!user.memberTelegramId && (
-						<button className="mob-myprofile-social-btn telegram-link-btn" onClick={redirectToTelegramAuth}>
+						<button className="mob-myprofile-social-btn telegram-link-btn" onClick={handleLinkTelegram}>
 							<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" loading="lazy" decoding="async" />
 							{t('Link Telegram')}
 						</button>

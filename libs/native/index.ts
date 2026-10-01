@@ -34,15 +34,6 @@ export const startGoogleAuth = async (): Promise<void> => {
 	window.location.href = `${api}/auth/google`;
 };
 
-export const startGoogleLink = async (memberId: string): Promise<void> => {
-	const api = process.env.REACT_APP_API_URL;
-	if (isNativeApp()) {
-		await openInSystemBrowser(`${api}/auth/link/google?state=${memberId}&client=app`);
-		return;
-	}
-	window.location.href = `${api}/auth/link/google?state=${memberId}`;
-};
-
 // Status bar sayt temasiga mos bo'lsin (theme.scss dagi --bg-page)
 const STATUS_BAR_COLORS = { light: '#ffffff', dark: '#1e1b17' } as const;
 

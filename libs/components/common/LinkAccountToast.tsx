@@ -3,6 +3,8 @@ import { Box, Typography } from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { startGoogleLinkFlow } from '../../utils/accountLink';
+import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { useRouter } from 'next/router';
 
 // Animations
@@ -193,7 +195,7 @@ const LinkAccountToast = () => {
 			setIsVisible(false);
 			// Direct link to Google or Telegram
 			if (toastConfig?.message === 'Connect Google') {
-				window.location.href = `${process.env.REACT_APP_API_URL}/auth/link/google?state=${user._id}`;
+				startGoogleLinkFlow().catch(() => sweetMixinErrorAlert('Google link failed'));
 			} else if (toastConfig?.message === 'Connect Telegram') {
 				// For Telegram, redirect to mypage where user can initiate Telegram link
 				router.push('/mypage?category=myProfile&linkTelegram=true');
