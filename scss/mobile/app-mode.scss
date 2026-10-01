@@ -82,6 +82,10 @@ html[data-app='1'] {
     padding-top: calc(100px + #{$app-header-extra} + var(--app-safe-top));
   }
 
+  #mobile-wrap .legal-page {
+    padding-top: calc(32px + #{$app-header-height} + var(--app-safe-top));
+  }
+
   #mobile-wrap .ai-room-designer {
     padding-top: calc(4.5rem + #{$app-header-extra} + var(--app-safe-top));
   }

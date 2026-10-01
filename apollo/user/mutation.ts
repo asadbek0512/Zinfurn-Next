@@ -123,6 +123,12 @@ export const REFRESH_TOKEN = gql`
 	}
 `;
 
+export const DELETE_MY_ACCOUNT = gql`
+	mutation DeleteMyAccount {
+		deleteMyAccount
+	}
+`;
+
 export const UPDATE_MEMBER = gql`
 mutation UpdateMember($input: MemberUpdate!) {
     updateMember(input: $input) {

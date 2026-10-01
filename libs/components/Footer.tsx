@@ -74,11 +74,11 @@ const Footer = () => {
 					<Link href="/products"><span>{t('Properties')}</span></Link>
 					<span>{t('Faq')}</span>
 					<Link href="/agent"><span>{t('Agents')}</span></Link>
-					<span>{t('Privacy policy')}</span>
+					<Link href="/privacy"><span>{t('Privacy policy')}</span></Link>
 					<Link href="/repairService"><span>{t('Service')}</span></Link>
 					<span>{t('Contact')}</span>
 					<Link href="/community"><span>{t('Community')}</span></Link>
-					<span>{t('Terms & Conditions')}</span>
+					<Link href="/terms"><span>{t('Terms & Conditions')}</span></Link>
 				</div>
 
 				<div className={'mobile-footer-bottom'}>
@@ -174,10 +174,10 @@ const Footer = () => {
 							<Link href="/about"><span>{t('About us')}</span></Link>
 							<span>{t('Contact')}</span>
 							<span>{t('Faq')}</span>
-							<span>{t('Privacy policy')}</span>
+							<Link href="/privacy"><span>{t('Privacy policy')}</span></Link>
 							<span>{t('Return & exchange')}</span>
 							<span>{t('Shipping policy')}</span>
-							<span>{t('Terms & Conditions')}</span>
+							<Link href="/terms"><span>{t('Terms & Conditions')}</span></Link>
 						</div>
 						<div className="shop-contact">
 							<strong>{t('Shop contact')}</strong>

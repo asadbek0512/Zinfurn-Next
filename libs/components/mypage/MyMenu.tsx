@@ -30,6 +30,8 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
+import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useTranslation } from 'next-i18next';
 import { getErrorMessage } from '../../types/common';
@@ -39,6 +41,8 @@ const MORE_LINKS = [
 	{ href: '/community?articleCategory=FREE', labelKey: 'Community', icon: <ForumOutlinedIcon /> },
 	{ href: '/cs', labelKey: 'CS', icon: <HelpOutlineIcon /> },
 	{ href: '/about', labelKey: 'About Us', icon: <InfoOutlinedIcon /> },
+	{ href: '/privacy', labelKey: 'Privacy policy', icon: <PrivacyTipOutlinedIcon /> },
+	{ href: '/terms', labelKey: 'Terms & Conditions', icon: <GavelOutlinedIcon /> },
 ];
 
 const MyMenu = () => {

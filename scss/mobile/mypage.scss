@@ -393,6 +393,20 @@
       cursor: not-allowed;
     }
   }
+
+  .mob-myprofile-delete-btn {
+    display: block;
+    margin: 0 auto 24px;
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    color: var(--danger, #e53935);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: $font;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 
 /* ===== MY PROPERTIES ===== */

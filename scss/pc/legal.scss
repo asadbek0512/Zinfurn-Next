@@ -1,0 +1,65 @@
+// Privacy / Terms sahifalari — PC va mobile uchun bitta fayl (media query bilan)
+$legal-max: 760px;
+$legal-mobile: 768px;
+
+.legal-page {
+	width: 100%;
+	padding: 56px 0 96px;
+	color: var(--text-1);
+
+	.legal-wrap {
+		max-width: $legal-max;
+		margin: 0 auto;
+		padding: 0 24px;
+		box-sizing: border-box;
+	}
+
+	h1 {
+		margin: 0 0 6px;
+		font-size: 34px;
+		font-weight: 700;
+	}
+
+	h2 {
+		margin: 32px 0 10px;
+		font-size: 19px;
+		font-weight: 700;
+	}
+
+	p,
+	li {
+		margin: 0 0 10px;
+		font-size: 15px;
+		line-height: 1.7;
+		color: var(--text-2);
+	}
+
+	ul {
+		margin: 0 0 10px;
+		padding-left: 22px;
+	}
+
+	.legal-updated {
+		font-size: 13px;
+		color: var(--text-3);
+	}
+
+	.legal-intro {
+		margin-top: 18px;
+		font-size: 16px;
+		color: var(--text-1);
+	}
+
+	section {
+		scroll-margin-top: 96px;
+	}
+
+	@media (max-width: $legal-mobile) {
+		padding: 88px 0 48px;
+
+		.legal-wrap { padding: 0 16px; }
+		h1 { font-size: 26px; }
+		h2 { font-size: 17px; margin-top: 26px; }
+		p, li { font-size: 14px; }
+	}
+}

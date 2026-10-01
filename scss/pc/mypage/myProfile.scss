@@ -228,6 +228,17 @@
 					button:disabled {
 						background: #692b04;
 					}
+					.delete-account-button {
+						align-self: flex-end;
+						margin-top: 8px;
+						color: var(--danger, #e53935);
+						font-family: $font;
+						font-size: 12px;
+						font-weight: 600;
+						text-transform: none;
+						text-decoration: underline;
+						background: none;
+					}
 				}
 			}
 

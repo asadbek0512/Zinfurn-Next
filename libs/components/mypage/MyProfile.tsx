@@ -4,12 +4,12 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Button, Stack, Typography } from '@mui/material';
 import axios from 'axios';
 import { Messages, REACT_APP_API_URL } from '../../config';
-import { getJwtToken, updateStorage, updateUserInfo } from '../../auth';
+import { getJwtToken, logOut, updateStorage, updateUserInfo } from '../../auth';
 import { useMutation, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { MemberUpdate } from '../../types/member/member.update';
-import { UPDATE_MEMBER } from '../../../apollo/user/mutation';
-import { sweetErrorHandling, sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../sweetAlert';
+import { DELETE_MY_ACCOUNT, UPDATE_MEMBER } from '../../../apollo/user/mutation';
+import { sweetConfirmAlert, sweetErrorHandling, sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../sweetAlert';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTranslation } from 'next-i18next';
 import UserAvatar from '../common/UserAvatar';
@@ -26,6 +26,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 	const [updateMember] = useMutation(UPDATE_MEMBER);
+	const [deleteMyAccount] = useMutation(DELETE_MY_ACCOUNT);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -156,6 +157,19 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	// Google bog'lash
 	const handleLinkGoogle = () => {
 		window.location.href = `${process.env.REACT_APP_API_URL}/auth/link/google?state=${user._id}`;
+	};
+
+	// Akkauntni o'chirish (App Store / Google Play talabi) — qaytarib bo'lmaydi, shuning uchun tasdiq so'raladi
+	const deleteAccountHandler = async () => {
+		const confirmed = await sweetConfirmAlert(t('Delete account confirm'));
+		if (!confirmed) return;
+		try {
+			await deleteMyAccount();
+			await sweetMixinSuccessAlert(t('Account deleted'));
+			logOut();
+		} catch (err) {
+			await sweetErrorHandling(err);
+		}
 	};
 
 	const doDisabledCheck = () => {
@@ -293,6 +307,10 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 					disabled={doDisabledCheck()}
 				>
 					{t('Update Profile')}
+				</button>
+
+				<button className="mob-myprofile-delete-btn" onClick={deleteAccountHandler}>
+					{t('Delete account')}
 				</button>
 			</div>
 		);
@@ -569,6 +587,11 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 									</clipPath>
 								</defs>
 							</svg>
+						</Button>
+					</Stack>
+					<Stack className="about-me-box">
+						<Button className="delete-account-button" onClick={deleteAccountHandler}>
+							{t('Delete account')}
 						</Button>
 					</Stack>
 				</Stack>
