@@ -86,10 +86,10 @@ Deploys are boring on purpose: push to `main` → the VPS cron detects the new c
 Being upfront — these are conscious trade-offs, not blind spots:
 
 1. **Payments run in test mode only.** Toss Payments (KRW) is wired end-to-end — server-side confirm plus a cron that expires or reconciles unpaid orders — but uses sandbox keys; local PSPs (Payme/Click) are not integrated yet.
-2. **Demo order progression.** Order statuses auto-advance (pending→delivered in ~1 min) via in-process timers so reviewers can see the full lifecycle without a warehouse. In a real deployment this is replaced by admin/ops updates; the timers don't survive a restart.
+2. **Demo order progression.** Order statuses auto-advance (pending→delivered in ~1 min) so reviewers can see the full lifecycle without a warehouse. The next step time is stored on the order and a 10-second cron advances it, so progression survives restarts; in a real deployment this would be replaced by admin/ops updates.
 3. **JWTs live in `localStorage`.** Mitigated by a strict nginx CSP; an httpOnly-cookie migration is planned but touches WebSocket auth and both OAuth flows, so it is deliberately a separate change.
-4. **Refresh tokens are stateless.** Rotation works, but there is no server-side revocation store — a stolen refresh token stays valid until expiry unless the member is blocked.
-5. **Test coverage is thin.** The auth token system has focused unit tests; the rest of the codebase relies on typed contracts and manual E2E passes. Widening coverage is top of the roadmap.
+4. **Refresh tokens are single-use and server-tracked.** Each session's current `jti` lives in the database: logout, password change or blocking a member revokes it immediately, and reuse of an old token closes the session. Tokens still live in `localStorage` (see 3).
+5. **Test coverage is focused, not exhaustive.** Unit tests cover the money and trust paths — auth/session tokens, order pricing, Toss reconciliation, demo progression, coupons and purchase-gated reviews (57 tests); other modules rely on typed contracts and manual E2E passes.
 6. **~60s deploy window.** Runtime-build deploys briefly 502; an earlier zero-downtime attempt was reverted for env-injection reasons and revisiting it needs build-arg plumbing.
 7. **Single-instance assumptions.** Rate limiting and AI-chat state are in-memory, so horizontal scaling would need Redis first.
 8. **3D coverage is partial.** Most of the catalog is photos only; products without their own GLB fall back to the bundled reference models. Filling the catalog is a content problem, and the generation pipeline exists precisely to grind it down.
