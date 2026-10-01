@@ -748,6 +748,11 @@
   "Block done": "Foydalanuvchi bloklandi",
   "Offline banner": "Internet yo'q — saqlangan ma'lumot ko'rsatilmoqda",
   "Online again": "Internet tiklandi",
+  "Camera search": "Rasm bilan qidirish",
+  "Camera search loading": "O'xshash mebel qidirilmoqda…",
+  "Camera search failed": "Rasmni tahlil qilib bo'lmadi. Qayta urinib ko'ring.",
+  "Camera search empty": "O'xshash mahsulot topilmadi",
+  "Camera search all": "Shu turdagi hammasini ko'rish",
   "Sign In With Apple": "Apple orqali kirish",
   "Create Account With Apple": "Apple orqali ro'yxatdan o'tish"
 }

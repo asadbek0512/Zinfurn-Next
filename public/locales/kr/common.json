@@ -749,6 +749,11 @@
   "Block done": "사용자를 차단했습니다",
   "Offline banner": "오프라인 — 저장된 내용을 표시합니다",
   "Online again": "다시 연결되었습니다",
+  "Camera search": "사진으로 검색",
+  "Camera search loading": "비슷한 가구를 찾는 중…",
+  "Camera search failed": "사진을 분석하지 못했습니다. 다시 시도해 주세요.",
+  "Camera search empty": "비슷한 상품이 없습니다",
+  "Camera search all": "이 유형 모두 보기",
   "Sign In With Apple": "Apple로 로그인",
   "Create Account With Apple": "Apple로 가입하기"
 }

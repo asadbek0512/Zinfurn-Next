@@ -749,6 +749,11 @@
   "Block done": "Пользователь заблокирован",
   "Offline banner": "Нет интернета — показаны сохранённые данные",
   "Online again": "Подключение восстановлено",
+  "Camera search": "Поиск по фото",
+  "Camera search loading": "Ищем похожую мебель…",
+  "Camera search failed": "Не удалось распознать фото. Попробуйте ещё раз.",
+  "Camera search empty": "Похожие товары не найдены",
+  "Camera search all": "Показать все такого типа",
   "Sign In With Apple": "Войти через Apple",
   "Create Account With Apple": "Регистрация через Apple"
 }

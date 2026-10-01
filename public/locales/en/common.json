@@ -748,6 +748,11 @@
   "Block done": "User blocked",
   "Offline banner": "You're offline — showing saved content",
   "Online again": "Back online",
+  "Camera search": "Search by photo",
+  "Camera search loading": "Looking for similar furniture…",
+  "Camera search failed": "Couldn't analyse the photo. Please try again.",
+  "Camera search empty": "No similar products found",
+  "Camera search all": "Show all of this type",
   "Sign In With Apple": "Sign in with Apple",
   "Create Account With Apple": "Sign up with Apple"
 }

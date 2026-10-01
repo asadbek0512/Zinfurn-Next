@@ -40,6 +40,7 @@ import { Direction, Message } from '../../libs/enums/common.enum';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'next-i18next';
+import CameraSearch from '../../libs/components/property/CameraSearch';
 
 /** SEO: mahsulotlar ro'yxati server'da render bo'ladi — Google bo'sh HTML emas, real kartalarni ko'radi.
  *  Backend yiqilsa ham sahifa ochiladi (bo'sh boshlanadi, client qayta so'raydi). */
@@ -416,7 +417,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 							placeholder={t('search_placeholder')}
 							onChange={(e) => setSearchText(e.target.value)}
 							onKeyDown={(event) => { if (event.key === 'Enter') searchHandler(); }}
-							endAdornment={searchText ? <CancelRoundedIcon onClick={clearSearchHandler} style={{ cursor: 'pointer', fontSize: 16 }} /> : null}
+							endAdornment={searchText ? <CancelRoundedIcon onClick={clearSearchHandler} style={{ cursor: 'pointer', fontSize: 16 }} /> : <CameraSearch />}
 						/>
 					</Stack>
 					<Button className="mob-sort-btn" onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
@@ -515,6 +516,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 										endAdornment={
 											<>
 												<CancelRoundedIcon onClick={clearSearchHandler} style={{ cursor: 'pointer' }} />
+												<CameraSearch />
 											</>
 										}
 									/>

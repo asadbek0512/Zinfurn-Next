@@ -748,6 +748,11 @@
   "Block done": "تم حظر المستخدم",
   "Offline banner": "أنت غير متصل — يتم عرض المحتوى المحفوظ",
   "Online again": "تمت استعادة الاتصال",
+  "Camera search": "البحث بالصورة",
+  "Camera search loading": "جارٍ البحث عن أثاث مشابه…",
+  "Camera search failed": "تعذر تحليل الصورة. حاول مرة أخرى.",
+  "Camera search empty": "لم يتم العثور على منتجات مشابهة",
+  "Camera search all": "عرض كل هذا النوع",
   "Sign In With Apple": "تسجيل الدخول عبر Apple",
   "Create Account With Apple": "التسجيل عبر Apple"
 }
