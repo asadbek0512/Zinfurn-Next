@@ -14,9 +14,9 @@ import {
 	defaultCountries,
 } from 'react-international-phone';
 import 'react-international-phone/style.css';
-import { startGoogleAuth, isAppleSignInEnabled, startAppleSignIn } from '../../libs/native';
+import { startGoogleAuth, isAppleSignInEnabled, startAppleSignIn, isNativeApp } from '../../libs/native';
 import useAppMode from '../../libs/hooks/useAppMode';
-import { redirectToTelegramAuth, consumeTelegramRedirectResult } from '../../libs/utils/telegramAuth';
+import { redirectToTelegramAuth, consumeTelegramRedirectResult, startTelegramAppAuth } from '../../libs/utils/telegramAuth';
 import { LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
 
 export const getStaticProps = async ({ locale }: LocaleContext) => ({
@@ -145,7 +145,6 @@ const Join: NextPage = () => {
 	};
 
 	const doLogin = useCallback(async () => {
-		console.warn(input);
 		if (!input.memberEmail || !input.password) {
 			await sweetMixinErrorAlert(t('Email and password are required'));
 			return;
@@ -160,7 +159,6 @@ const Join: NextPage = () => {
 	}, [input, router, t]);
 
 	const doSignUp = useCallback(async () => {
-		console.warn(input);
 
 		// Confirm Password validatsiyasi
 		if (input.password !== confirmPassword) {
@@ -190,6 +188,11 @@ const Join: NextPage = () => {
 	(Join as any).hideTop = true;
 	const handleGoogleAuth = async () => {
 		await startGoogleAuth();
+	};
+
+	const handleTelegramAuth = async () => {
+		if (isNativeApp()) return startTelegramAppAuth();
+		redirectToTelegramAuth();
 	};
 
 
@@ -381,7 +384,7 @@ const Join: NextPage = () => {
 						</button>
 
 						{appMode ? (
-							<button className="mob-social-btn" onClick={redirectToTelegramAuth}>
+							<button className="mob-social-btn" onClick={handleTelegramAuth}>
 								<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" loading="lazy" decoding="async" />
 								{loginView ? t('Sign In With Telegram') : t('Create Account With Telegram')}
 							</button>

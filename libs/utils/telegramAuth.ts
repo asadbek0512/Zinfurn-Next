@@ -30,3 +30,19 @@ export const consumeTelegramRedirectResult = (): TelegramAuthData | null => {
 	window.history.replaceState(window.history.state, '', pathname + search);
 	return decodeTelegramResult(hash.slice(TELEGRAM_RESULT_HASH.length));
 };
+
+export const TELEGRAM_APP_BRIDGE_PATH = '/auth/telegram-app';
+
+/** Mobil app: oauth tizim brauzerida ochiladi (WebView'da Telegram "Cancel" tugmasi ishlamaydi).
+ *  Natija bridge sahifasiga qaytadi, u backend orqali app'ga deep link bilan yuboradi */
+export const startTelegramAppAuth = async (): Promise<void> => {
+	const { origin } = window.location;
+	const params = new URLSearchParams({
+		bot_id: TELEGRAM_BOT_ID,
+		origin,
+		request_access: 'write',
+		return_to: `${origin}${TELEGRAM_APP_BRIDGE_PATH}`,
+	});
+	const { openInSystemBrowser } = await import('../native');
+	await openInSystemBrowser(`${TELEGRAM_OAUTH_URL}?${params.toString()}`);
+};
