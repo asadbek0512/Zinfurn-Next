@@ -130,3 +130,24 @@ export const sweetTopSmallSuccessAlert = async (
 		}
 	});
 };
+
+/** Variantlardan birini tanlash (masalan, shikoyat sababi). Bekor qilinsa null */
+export const sweetSelectAlert = async (
+	title: string,
+	options: Record<string, string>,
+	confirmText: string,
+	cancelText: string,
+): Promise<string | null> => {
+	const response = await Swal.fire({
+		title,
+		input: 'radio',
+		inputOptions: options,
+		inputValidator: (value) => (value ? null : title),
+		showCancelButton: true,
+		confirmButtonText: confirmText,
+		cancelButtonText: cancelText,
+		confirmButtonColor: '#e92C28',
+		cancelButtonColor: '#bdbdbd',
+	});
+	return response.isConfirmed ? String(response.value) : null;
+};

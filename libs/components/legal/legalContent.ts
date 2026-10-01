@@ -231,7 +231,7 @@ const TERMS_EN: LegalDoc = {
 		{
 			title: '5. Reporting and moderation',
 			paragraphs: [
-				`You can report inappropriate content or users through customer support or by emailing ${LEGAL_CONTACT_EMAIL}. We review reports and may remove content and block accounts that break these Terms.`,
+				`Use the ⋮ menu on any post, comment or profile to report content or block a user. Blocked users' posts, comments and messages are hidden from you. You can also email ${LEGAL_CONTACT_EMAIL}. We review reports within 24 hours and remove objectionable content and ban accounts that break these Terms.`,
 			],
 		},
 		{
@@ -293,7 +293,7 @@ const TERMS_UZ: LegalDoc = {
 		{
 			title: '5. Shikoyat va moderatsiya',
 			paragraphs: [
-				`Nomaqbul kontent yoki foydalanuvchi haqida qo'llab-quvvatlash xizmati yoki ${LEGAL_CONTACT_EMAIL} orqali xabar berishingiz mumkin. Shikoyatlar ko'rib chiqiladi; Shartlarni buzgan kontent o'chirilishi va akkaunt bloklanishi mumkin.`,
+				`Har qanday post, izoh yoki profildagi ⋮ menyu orqali shikoyat qilishingiz yoki foydalanuvchini bloklashingiz mumkin. Bloklangan foydalanuvchining postlari, izohlari va xabarlari sizga ko'rinmaydi. ${LEGAL_CONTACT_EMAIL} ga yozishingiz ham mumkin. Shikoyatlar 24 soat ichida ko'rib chiqiladi; qoidabuzar kontent o'chiriladi va akkaunt bloklanadi.`,
 			],
 		},
 		{

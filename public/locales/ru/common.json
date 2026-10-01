@@ -734,5 +734,17 @@
   "Back to checkout": "Вернуться к оформлению",
   "Confirming payment...": "Подтверждаем оплату...",
   "Payment complete": "Оплата прошла",
-  "Payment method": "Способ оплаты"
+  "Payment method": "Способ оплаты",
+  "Report": "Пожаловаться",
+  "Report title": "Почему вы жалуетесь?",
+  "Report submit": "Отправить",
+  "Report sent": "Спасибо! Мы рассмотрим жалобу в течение 24 часов",
+  "Report reason SPAM": "Спам",
+  "Report reason ABUSE": "Оскорбления или ненависть",
+  "Report reason INAPPROPRIATE": "Неприемлемый контент",
+  "Report reason FRAUD": "Мошенничество",
+  "Report reason OTHER": "Другое",
+  "Block user": "Заблокировать",
+  "Block confirm": "Заблокировать пользователя? Вы больше не увидите его посты, комментарии и сообщения.",
+  "Block done": "Пользователь заблокирован"
 }

@@ -733,5 +733,17 @@
   "Back to checkout": "Checkout’ga qaytish",
   "Confirming payment...": "To‘lov tasdiqlanmoqda...",
   "Payment complete": "To‘lov amalga oshdi",
-  "Payment method": "To‘lov usuli"
+  "Payment method": "To‘lov usuli",
+  "Report": "Shikoyat qilish",
+  "Report title": "Nima uchun shikoyat qilyapsiz?",
+  "Report submit": "Yuborish",
+  "Report sent": "Rahmat! Jamoamiz 24 soat ichida ko'rib chiqadi",
+  "Report reason SPAM": "Spam",
+  "Report reason ABUSE": "Haqorat yoki nafrat",
+  "Report reason INAPPROPRIATE": "Nomaqbul kontent",
+  "Report reason FRAUD": "Firibgarlik",
+  "Report reason OTHER": "Boshqa",
+  "Block user": "Bloklash",
+  "Block confirm": "Bu foydalanuvchini bloklaysizmi? Uning postlari, izohlari va xabarlari sizga ko'rinmaydi.",
+  "Block done": "Foydalanuvchi bloklandi"
 }

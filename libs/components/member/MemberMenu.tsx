@@ -9,6 +9,8 @@ import { useQuery } from '@apollo/client';
 import { GET_MEMBER } from '../../../apollo/user/query';
 import { T, MemberActionHandler } from '../../types/common';
 import { useTranslation } from 'next-i18next';
+import ModerationMenu from '../common/ModerationMenu';
+import { ReportGroup } from '../../enums/report.enum';
 
 interface MemberMenuProps {
 	subscribeHandler: MemberActionHandler;
@@ -50,6 +52,13 @@ const MemberMenu = (props: MemberMenuProps) => {
 		return (
 			<div id="mob-member-menu">
 				<div className="mob-mem-profile-card">
+					<ModerationMenu
+						className="mob-mem-more"
+						group={ReportGroup.MEMBER}
+						refId={member?._id}
+						authorId={member?._id}
+						onBlocked={() => router.back()}
+					/>
 					<img className="mob-mem-avatar" src={avatarSrc} alt="" loading="lazy" decoding="async" />
 					<div className="mob-mem-name">{member?.memberNick || 'User'}</div>
 					<div className="mob-mem-type-badge">{t(member?.memberType || '')}</div>
@@ -126,7 +135,15 @@ const MemberMenu = (props: MemberMenuProps) => {
 							alt={'member-photo'} loading="lazy" decoding="async" />
 					</Box>
 					<Stack className={'user-info'}>
-						<Typography className={'user-name'}>{member?.memberNick}</Typography>
+						<Typography className={'user-name'}>
+							{member?.memberNick}
+							<ModerationMenu
+								group={ReportGroup.MEMBER}
+								refId={member?._id}
+								authorId={member?._id}
+								onBlocked={() => router.back()}
+							/>
+						</Typography>
 						<Box component={'div'} className={'user-phone'}>
 							<img src={'/img/icons/call.svg'} alt={'icon'} loading="lazy" decoding="async" />
 							<Typography className={'p-number'}>{member?.memberPhone}</Typography>

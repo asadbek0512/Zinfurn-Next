@@ -43,6 +43,7 @@
   }
 
   .mob-com-det-meta {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -60,6 +61,13 @@
       flex-shrink: 0;
       border: 2px solid #fff;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    }
+
+    .mob-com-det-more {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      color: var(--text-2);
     }
 
     .mob-com-det-meta-body {

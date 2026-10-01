@@ -734,5 +734,17 @@
   "Back to checkout": "결제 페이지로 돌아가기",
   "Confirming payment...": "결제를 확인하는 중...",
   "Payment complete": "결제 완료",
-  "Payment method": "결제 수단"
+  "Payment method": "결제 수단",
+  "Report": "신고하기",
+  "Report title": "신고 사유를 선택하세요",
+  "Report submit": "신고",
+  "Report sent": "감사합니다! 24시간 이내에 검토하겠습니다",
+  "Report reason SPAM": "스팸",
+  "Report reason ABUSE": "괴롭힘 또는 혐오 발언",
+  "Report reason INAPPROPRIATE": "부적절한 콘텐츠",
+  "Report reason FRAUD": "사기",
+  "Report reason OTHER": "기타",
+  "Block user": "사용자 차단",
+  "Block confirm": "이 사용자를 차단할까요? 게시글, 댓글, 메시지가 더 이상 보이지 않습니다.",
+  "Block done": "사용자를 차단했습니다"
 }

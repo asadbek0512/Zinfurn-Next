@@ -733,5 +733,17 @@
   "Back to checkout": "Back to checkout",
   "Confirming payment...": "Confirming payment...",
   "Payment complete": "Payment complete",
-  "Payment method": "Payment method"
+  "Payment method": "Payment method",
+  "Report": "Report",
+  "Report title": "Why are you reporting this?",
+  "Report submit": "Send report",
+  "Report sent": "Thanks! Our team will review it within 24 hours",
+  "Report reason SPAM": "Spam",
+  "Report reason ABUSE": "Harassment or hate speech",
+  "Report reason INAPPROPRIATE": "Inappropriate content",
+  "Report reason FRAUD": "Fraud or scam",
+  "Report reason OTHER": "Other",
+  "Block user": "Block user",
+  "Block confirm": "Block this user? You will no longer see their posts, comments or messages.",
+  "Block done": "User blocked"
 }

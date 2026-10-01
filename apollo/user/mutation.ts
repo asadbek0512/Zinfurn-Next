@@ -709,3 +709,20 @@ query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
  
 
 `;
+export const REPORT_CONTENT = gql`
+	mutation ReportContent($input: ReportInput!) {
+		reportContent(input: $input)
+	}
+`;
+
+export const BLOCK_MEMBER = gql`
+	mutation BlockMember($memberId: String!) {
+		blockMember(memberId: $memberId)
+	}
+`;
+
+export const UNBLOCK_MEMBER = gql`
+	mutation UnblockMember($memberId: String!) {
+		unblockMember(memberId: $memberId)
+	}
+`;

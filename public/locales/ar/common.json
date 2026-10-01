@@ -733,5 +733,17 @@
   "Back to checkout": "العودة إلى الدفع",
   "Confirming payment...": "جارٍ تأكيد الدفع...",
   "Payment complete": "تم الدفع",
-  "Payment method": "طريقة الدفع"
+  "Payment method": "طريقة الدفع",
+  "Report": "إبلاغ",
+  "Report title": "لماذا تبلغ عن هذا؟",
+  "Report submit": "إرسال",
+  "Report sent": "شكراً! سيراجع فريقنا البلاغ خلال 24 ساعة",
+  "Report reason SPAM": "رسائل مزعجة",
+  "Report reason ABUSE": "تحرش أو خطاب كراهية",
+  "Report reason INAPPROPRIATE": "محتوى غير لائق",
+  "Report reason FRAUD": "احتيال",
+  "Report reason OTHER": "أخرى",
+  "Block user": "حظر المستخدم",
+  "Block confirm": "حظر هذا المستخدم؟ لن ترى منشوراته أو تعليقاته أو رسائله بعد الآن.",
+  "Block done": "تم حظر المستخدم"
 }

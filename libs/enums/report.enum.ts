@@ -1,0 +1,15 @@
+export enum ReportGroup {
+	ARTICLE = 'ARTICLE',
+	COMMENT = 'COMMENT',
+	MEMBER = 'MEMBER',
+	PROPERTY = 'PROPERTY',
+	MESSAGE = 'MESSAGE',
+}
+
+export enum ReportReason {
+	SPAM = 'SPAM',
+	ABUSE = 'ABUSE',
+	INAPPROPRIATE = 'INAPPROPRIATE',
+	FRAUD = 'FRAUD',
+	OTHER = 'OTHER',
+}

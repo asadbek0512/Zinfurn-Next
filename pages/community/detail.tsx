@@ -21,6 +21,8 @@ import dynamic from 'next/dynamic';
 import { CommentGroup, CommentStatus } from '../../libs/enums/comment.enum';
 import { T, LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
 import EditIcon from '@mui/icons-material/Edit';
+import ModerationMenu from '../../libs/components/common/ModerationMenu';
+import { ReportGroup } from '../../libs/enums/report.enum';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { BoardArticle } from '../../libs/types/board-article/board-article';
 import { CREATE_COMMENT, LIKE_TARGET_BOARD_ARTICLE, UPDATE_COMMENT } from '../../apollo/user/mutation';
@@ -298,6 +300,13 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 						<span className="mob-com-det-nick" onClick={() => goMemberPage(boardArticle?.memberData?._id)}>
 							{boardArticle?.memberData?.memberNick}
 						</span>
+						<ModerationMenu
+							className="mob-com-det-more"
+							group={ReportGroup.ARTICLE}
+							refId={boardArticle?._id}
+							authorId={boardArticle?.memberData?._id}
+							onBlocked={() => router.back()}
+						/>
 						<div className="mob-com-det-meta-row">
 							<Moment className="mob-com-det-date" format="DD.MM.YY HH:mm">
 								{boardArticle?.createdAt}
@@ -426,6 +435,12 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										{commentData?.createdAt}
 									</Moment>
 								</div>
+								<ModerationMenu
+									group={ReportGroup.COMMENT}
+									refId={commentData?._id}
+									authorId={commentData?.memberId}
+									onBlocked={() => getCommentsRefetch({ input: searchFilter })}
+								/>
 								{commentData?.memberId === user?._id && (
 									<div className="mob-com-det-cmt-btns">
 										<IconButton
@@ -545,6 +560,12 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 												<Moment className={'time-added'} format={'DD.MM.YY HH:mm'}>
 													{boardArticle?.createdAt}
 												</Moment>
+												<ModerationMenu
+													group={ReportGroup.ARTICLE}
+													refId={boardArticle?._id}
+													authorId={boardArticle?.memberData?._id}
+													onBlocked={() => router.back()}
+												/>
 											</Stack>
 										</Stack>
 										<Stack className="info">
@@ -640,6 +661,12 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 															</Typography>
 														</Stack>
 													</Stack>
+													<ModerationMenu
+														group={ReportGroup.COMMENT}
+														refId={commentData?._id}
+														authorId={commentData?.memberId}
+														onBlocked={() => getCommentsRefetch({ input: searchFilter })}
+													/>
 													{commentData?.memberId === user?._id && (
 														<Stack className="buttons">
 															<IconButton
