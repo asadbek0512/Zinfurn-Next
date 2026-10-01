@@ -1,4 +1,5 @@
 import { ApolloError } from '@apollo/client';
+import { clearUserCache } from '../utils/serviceWorker';
 import decodeJWT from 'jwt-decode';
 import { initializeApollo } from '../../apollo/client';
 import { userVar } from '../../apollo/store';
@@ -292,6 +293,7 @@ export const logOut = () => {
 	const refreshToken = getRefreshToken();
 	deleteStorage();
 	deleteUserInfo();
+	clearUserCache();
 	fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
 		method: 'POST',
 		credentials: 'include',

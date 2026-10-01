@@ -746,6 +746,8 @@
   "Block user": "حظر المستخدم",
   "Block confirm": "حظر هذا المستخدم؟ لن ترى منشوراته أو تعليقاته أو رسائله بعد الآن.",
   "Block done": "تم حظر المستخدم",
+  "Offline banner": "أنت غير متصل — يتم عرض المحتوى المحفوظ",
+  "Online again": "تمت استعادة الاتصال",
   "Sign In With Apple": "تسجيل الدخول عبر Apple",
   "Create Account With Apple": "التسجيل عبر Apple"
 }

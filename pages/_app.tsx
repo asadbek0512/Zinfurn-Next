@@ -18,6 +18,8 @@ import { sweetMixinErrorAlert } from '../libs/sweetAlert';
 import CartDrawer from '../libs/components/cart/CartDrawer';
 import CompareBar from '../libs/components/common/CompareBar';
 import AppBanner from '../libs/components/common/AppBanner';
+import OfflineBanner from '../libs/components/common/OfflineBanner';
+import { registerServiceWorker } from '../libs/utils/serviceWorker';
 const APP_LINK_HOSTS = ['zinfurn.uz', 'www.zinfurn.uz'];
 // Loader yopilganda navbar tayyor turishi uchun asosiy bundle'da (alohida chunk kech kelardi)
 import AppBottomNav from '../libs/components/layout/AppBottomNav';
@@ -97,6 +99,10 @@ const App = ({ Component, pageProps }: AppProps) => {
 	// so'rov 401" holatiga olib kelardi.
 	useEffect(() => {
 		restoreSession();
+	}, []);
+
+	useEffect(() => {
+		registerServiceWorker();
 	}, []);
 
 	// Sessiya boshqa tabda tugatilsa yoki tab uzoq ochiq turib qaytilsa — holatni qayta tekshiramiz
@@ -185,6 +191,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 					<CartDrawer />
 					<CompareBar />
 					<AppBanner />
+					<OfflineBanner />
 					<AppBottomNav />
 					<AppPullToRefresh />
 					<AppSplashGate />

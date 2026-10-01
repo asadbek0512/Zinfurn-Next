@@ -746,6 +746,8 @@
   "Block user": "Block user",
   "Block confirm": "Block this user? You will no longer see their posts, comments or messages.",
   "Block done": "User blocked",
+  "Offline banner": "You're offline — showing saved content",
+  "Online again": "Back online",
   "Sign In With Apple": "Sign in with Apple",
   "Create Account With Apple": "Sign up with Apple"
 }

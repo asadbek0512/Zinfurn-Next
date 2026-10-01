@@ -746,6 +746,8 @@
   "Block user": "Bloklash",
   "Block confirm": "Bu foydalanuvchini bloklaysizmi? Uning postlari, izohlari va xabarlari sizga ko'rinmaydi.",
   "Block done": "Foydalanuvchi bloklandi",
+  "Offline banner": "Internet yo'q — saqlangan ma'lumot ko'rsatilmoqda",
+  "Online again": "Internet tiklandi",
   "Sign In With Apple": "Apple orqali kirish",
   "Create Account With Apple": "Apple orqali ro'yxatdan o'tish"
 }

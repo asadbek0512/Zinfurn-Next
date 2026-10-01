@@ -747,6 +747,8 @@
   "Block user": "사용자 차단",
   "Block confirm": "이 사용자를 차단할까요? 게시글, 댓글, 메시지가 더 이상 보이지 않습니다.",
   "Block done": "사용자를 차단했습니다",
+  "Offline banner": "오프라인 — 저장된 내용을 표시합니다",
+  "Online again": "다시 연결되었습니다",
   "Sign In With Apple": "Apple로 로그인",
   "Create Account With Apple": "Apple로 가입하기"
 }
