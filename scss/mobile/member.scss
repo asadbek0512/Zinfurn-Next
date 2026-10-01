@@ -6,7 +6,7 @@
   min-height: 100vh;
   padding-bottom: 80px;
   font-family: $font;
-  padding-top: 48px;
+  padding-top: $mob-header-height;
 
   .mob-member-content {
     padding: 0;

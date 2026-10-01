@@ -100,7 +100,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 48px;
+      height: $mob-header-height;
       display: flex;
       flex-direction: row;
       box-sizing: border-box;
@@ -129,9 +129,9 @@
       .btn-currency {
         border: 1px solid rgba(0, 0, 0, 0.2) !important;
         border-radius: 20px !important;
-        padding: 3px 8px !important;
+        padding: 4px 10px !important;
         min-width: unset !important;
-        .currency-label { color: var(--text-1); font-size: 12px; font-weight: 600; }
+        .currency-label { color: var(--text-1); font-size: 13px; font-weight: 600; }
       }
 
       .mobile-container {
@@ -149,7 +149,7 @@
 
               img {
                 width: auto;
-                height: 40px;
+                height: 46px;
                 cursor: pointer;
                 transition: opacity 0.1s ease;
               }
@@ -185,7 +185,7 @@
 
             .notification-icon {
               color: var(--text-1);
-              font-size: 18px;
+              font-size: 21px;
               cursor: pointer;
             }
 
@@ -196,8 +196,8 @@
               padding: 5px;
 
               img {
-                width: 20px;
-                height: 14px;
+                width: 23px;
+                height: 16px;
                 border-radius: 2px;
               }
             }
@@ -205,16 +205,16 @@
             .mobile-menu-btn {
               background: transparent;
               border: none;
-              width: 30px;
-              height: 30px;
+              width: 34px;
+              height: 34px;
               cursor: pointer;
               display: flex;
               align-items: center;
               justify-content: center;
 
               .menu-icon {
-                width: 18px;
-                height: 14px;
+                width: 21px;
+                height: 16px;
                 position: relative;
                 display: flex;
                 flex-direction: column;

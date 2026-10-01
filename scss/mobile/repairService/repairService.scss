@@ -423,7 +423,7 @@
 
   // ── Repair Service Detail Page ──────────────────────────────
   #mob-repair-detail-page {
-    padding-top: 52px;
+    padding-top: $mob-header-height + 4px;
     padding-bottom: 80px;
     background: var(--surface);
     min-height: 100vh;

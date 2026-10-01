@@ -2,7 +2,7 @@
 
 #mobile-wrap {
   #mob-property-detail-page {
-    padding-top: 52px;
+    padding-top: $mob-header-height + 4px;
     padding-bottom: 60px;
     background: var(--surface);
     display: flex;

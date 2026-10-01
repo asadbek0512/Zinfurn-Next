@@ -11,7 +11,7 @@
     // Top bar
     .mob-agent-topbar {
       position: sticky;
-      top: 48px;
+      top: $mob-header-height;
       z-index: 10;
       background: var(--surface);
       display: flex;
@@ -196,7 +196,7 @@
 // ── Agent Detail Page ──────────────────────────────────────
 #mobile-wrap {
   #mob-agent-detail-page {
-    padding-top: 52px;
+    padding-top: $mob-header-height + 4px;
     padding-bottom: 80px;
     background: var(--bg-muted);
     min-height: 100vh;

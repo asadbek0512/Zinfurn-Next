@@ -14,8 +14,8 @@
   align-items: center;
   gap: 8px;
   padding: 0 16px;
-  padding-top: 48px;
-  height: calc(44px + 48px);
+  padding-top: $mob-header-height;
+  height: calc(44px + #{$mob-header-height});
   font-size: 15px;
   font-weight: 600;
   color: var(--text-1);
@@ -42,7 +42,7 @@
 
   .mob-mymenu-profile-card {
     background: linear-gradient(160deg, var(--brand-grad-a) 0%, var(--brand-grad-b) 100%);
-    padding-top: calc(28px + 48px);
+    padding-top: calc(28px + #{$mob-header-height});
     padding-bottom: 28px;
     padding-left: 16px;
     padding-right: 16px;

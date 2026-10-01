@@ -208,7 +208,7 @@
     // Top Bar
     .mob-top-bar {
       position: sticky;
-      top: 48px;
+      top: $mob-header-height;
       z-index: 10;
       background: var(--surface);
       display: flex;
