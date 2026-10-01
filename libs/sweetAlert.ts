@@ -143,6 +143,7 @@ export const sweetSelectAlert = async (
 		input: 'radio',
 		inputOptions: options,
 		inputValidator: (value) => (value ? null : title),
+		customClass: { popup: 'swal-select-popup' },
 		showCancelButton: true,
 		confirmButtonText: confirmText,
 		cancelButtonText: cancelText,
