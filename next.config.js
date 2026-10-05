@@ -17,6 +17,10 @@ const nextConfig = {
 		optimizePackageImports: ['@mui/material', '@mui/icons-material', '@mui/lab'],
 	},
 	// /property /products ga ko'chirildi — eski havolalar buzilmasligi uchun
+	// Apple universal links fayli kengaytmasiz — JSON deb berilmasa iOS uni o'qimaydi
+	async headers() {
+		return [{ source: '/.well-known/apple-app-site-association', headers: [{ key: 'Content-Type', value: 'application/json' }] }];
+	},
 	async redirects() {
 		return [
 			{ source: '/property', destination: '/products', permanent: true },
