@@ -11,7 +11,7 @@ export const SITE_ORIGIN = 'https://zinfurn.uz';
  * public/downloads/zinfurn.apk ning versionName'i (zinfurn-app/android/app/build.gradle).
  * Yangi APK qo'yilganda shuni oshir — eski app'dagilarga "yangilang" banneri chiqadi.
  */
-export const LATEST_ANDROID_APP_VERSION = '1.1';
+export const LATEST_ANDROID_APP_VERSION = '1.2';
 
 /** "1.2.10" > "1.2.9" — raqamlar bo'yicha solishtiradi */
 export const isVersionOlder = (current: string, latest: string): boolean => {
