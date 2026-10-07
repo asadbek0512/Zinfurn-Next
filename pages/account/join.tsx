@@ -51,9 +51,9 @@ const Join: NextPage = () => {
 	useEffect(() => setAppleEnabled(isAppleSignInEnabled()), []);
 
 	const handleAppleAuth = async () => {
-		const apple = await startAppleSignIn();
-		if (!apple) return;
 		try {
+			const apple = await startAppleSignIn();
+			if (!apple) return;
 			const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/apple`, {
 				method: 'POST',
 				credentials: 'include',

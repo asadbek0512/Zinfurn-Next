@@ -117,12 +117,14 @@ export interface AppleAuthResult {
 const APPLE_PLUGIN = 'SignInWithApple';
 const APPLE_CLIENT_ID = 'uz.zinfurn.app';
 const APPLE_SCOPES = 'email name';
+// ASAuthorizationError.canceled — foydalanuvchi oynani yopdi, xato emas
+const APPLE_CANCELED_CODE = '1001';
 const SignInWithApple = registerPlugin<AppleSignInPlugin>(APPLE_PLUGIN);
 
 export const isAppleSignInEnabled = (): boolean =>
 	process.env.NEXT_PUBLIC_APPLE_SIGNIN === 'true' && isIosApp() && Capacitor.isPluginAvailable(APPLE_PLUGIN);
 
-/** Apple oynasini ochadi. Foydalanuvchi bekor qilsa null */
+/** Apple oynasini ochadi. Foydalanuvchi bekor qilsa null, boshqa xatoda throw */
 export const startAppleSignIn = async (): Promise<AppleAuthResult | null> => {
 	try {
 		const { response } = await SignInWithApple.authorize({
@@ -135,7 +137,8 @@ export const startAppleSignIn = async (): Promise<AppleAuthResult | null> => {
 			givenName: response.givenName ?? undefined,
 			familyName: response.familyName ?? undefined,
 		};
-	} catch {
-		return null;
+	} catch (err) {
+		if (err instanceof Error && err.message.includes(APPLE_CANCELED_CODE)) return null;
+		throw err;
 	}
 };
