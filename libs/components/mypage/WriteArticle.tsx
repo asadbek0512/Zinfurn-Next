@@ -5,7 +5,10 @@ import { Stack, Typography } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
 
-const TuiEditor = dynamic(() => import('../community/Teditor'), { ssr: false });
+const TuiEditor = dynamic(() => import('../community/Teditor'), {
+	ssr: false,
+	loading: () => <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-2)' }}>Loading...</div>,
+});
 
 const WriteArticle: NextPage = () => {
 	const { t } = useTranslation('common');

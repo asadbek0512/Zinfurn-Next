@@ -38,7 +38,8 @@ const RecentlyVisited: NextPage = () => {
     error: getVisitedError,
     refetch: getVisitedRefetch,
   } = useQuery(GET_VISITED, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: searchVisited,
     },
@@ -115,6 +116,8 @@ const RecentlyVisited: NextPage = () => {
                 </div>
               );
             })
+          ) : getVisitedLoading ? (
+            <div className="mob-fav-empty"><span>{t('Loading...')}</span></div>
           ) : (
             <div className="mob-fav-empty">
               <img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
@@ -159,6 +162,10 @@ const RecentlyVisited: NextPage = () => {
             recentlyVisited?.map((property: Property) => {
               return <TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} recentlyVisited={true} />;
             })
+          ) : getVisitedLoading ? (
+            <div className="no-data" style={{ display: 'flex', justifyContent: 'center', marginTop: '58px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-2)' }}>{t('Loading...')}</p>
+            </div>
           ) : (
             <div
               className="no-data"

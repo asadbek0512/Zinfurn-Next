@@ -34,7 +34,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 		error: getBoardArticlesError,
 		refetch: boardArticlesRefetch,
 	} = useQuery(GET_BOARD_ARTICLES, {
-		fetchPolicy: 'network-only',
+		fetchPolicy: 'cache-and-network',
 		variables: {
 			input: searchCommunity,
 		},
@@ -88,6 +88,8 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 							/>
 						))}
 					</div>
+				) : boardArticlesLoading ? (
+					<div className="mob-myarticles-empty"><span>{t('Loading...')}</span></div>
 				) : (
 					<div className="mob-myarticles-empty">
 						<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
@@ -133,6 +135,10 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 								/>
 							);
 						})
+					) : boardArticlesLoading ? (
+						<div className="no-data" style={{ display: 'flex', justifyContent: 'center', marginTop: '58px' }}>
+							<p style={{ fontSize: '18px', color: 'var(--text-2)' }}>{t('Loading...')}</p>
+						</div>
 					) : (
 						<div
 							className="no-data"

@@ -39,7 +39,7 @@ const MyFavorites: NextPage = () => {
     error: getFavoritesError,
     refetch: getFavoritesRefetch,
   } = useQuery(GET_FAVORITES, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
     variables: {
       input: searchFavorites,
     },
@@ -117,6 +117,8 @@ const MyFavorites: NextPage = () => {
                 </div>
               );
             })
+          ) : getFavoritesLoading ? (
+            <div className="mob-fav-empty"><span>{t('Loading...')}</span></div>
           ) : (
             <div className="mob-fav-empty">
               <img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
@@ -167,6 +169,10 @@ const MyFavorites: NextPage = () => {
                 />
               );
             })
+          ) : getFavoritesLoading ? (
+            <div className="no-data" style={{ display: 'flex', justifyContent: 'center', marginTop: '58px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-2)' }}>{t('Loading...')}</p>
+            </div>
           ) : (
             <div
               className="no-data"
