@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { Stack, Typography } from '@mui/material';
+import RowSkeleton from '../common/RowSkeleton';
 import SendIcon from '@mui/icons-material/Send';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -79,7 +80,8 @@ const MyMessages = () => {
 			<div className="mm-layout">
 				{/* Conversations list */}
 				<div className={`mm-list ${activeId ? 'mm-hidden-mobile' : ''}`}>
-					{convLoading && conversations.length === 0 && <div className="mm-empty">{t('Loading...')}</div>}
+					{convLoading && conversations.length === 0 &&
+						Array.from({ length: 6 }).map((_, i) => <RowSkeleton key={i} />)}
 					{!convLoading && conversations.length === 0 && (
 						<div className="mm-empty">
 							<ChatBubbleOutlineIcon sx={{ fontSize: 40, color: 'var(--bg-strong)' }} />

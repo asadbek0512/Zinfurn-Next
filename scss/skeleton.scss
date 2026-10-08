@@ -113,3 +113,37 @@
 		animation: none;
 	}
 }
+
+/* Uzun qator skeleton (buyurtma / mulk / suhbat ro'yxati) */
+.zf-skel-row {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	width: 100%;
+	padding: 14px;
+	margin-bottom: 12px;
+	border-radius: 12px;
+	background: var(--surface);
+	border: 1px solid var(--border, #f0f0f0);
+
+	.zf-skel-row-thumb {
+		flex: 0 0 auto;
+		width: 64px;
+		height: 64px;
+		border-radius: 10px;
+	}
+	.zf-skel-row-body {
+		flex: 1 1 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 9px;
+		.zf-skel-line { height: 13px; width: 100%; }
+		.zf-skel-line.short { width: 55%; }
+	}
+	.zf-skel-row-chip {
+		flex: 0 0 auto;
+		width: 82px;
+		height: 26px;
+		border-radius: 999px;
+	}
+}

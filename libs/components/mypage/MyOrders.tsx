@@ -16,6 +16,7 @@ import {
 	IconButton,
 } from '@mui/material';
 import { useReactiveVar, useQuery, useMutation } from '@apollo/client';
+import RowSkeleton from '../common/RowSkeleton';
 import { userVar } from '../../../apollo/store';
 import { Order } from '../../types/order/order';
 import { OrderStatus } from '../../enums/order.enum';
@@ -284,10 +285,12 @@ const MyOrders = () => {
 		}
 	};
 
-	if (loading) {
+	if (loading && orders.length === 0) {
 		return (
-			<div className="my-orders-loading">
-				<HourglassEmptyOutlinedIcon /> {t('Loading...')}
+			<div className="my-orders-list" style={{ marginTop: '16px' }}>
+				{Array.from({ length: 5 }).map((_, i) => (
+					<RowSkeleton key={i} />
+				))}
 			</div>
 		);
 	}

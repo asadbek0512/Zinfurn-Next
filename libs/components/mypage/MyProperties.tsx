@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyCard } from './PropertyCard';
-import PropertyCardSkeleton from '../common/PropertyCardSkeleton';
+import RowSkeleton from '../common/RowSkeleton';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { Property } from '../../types/property/property';
 import { AgentPropertiesInquiry } from '../../types/property/property.input';
@@ -133,7 +133,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 				</div>
 				<div className="mob-myprop-list">
 					{getAgentPropertiesLoading && !agentProperties.length ? (
-						Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+						Array.from({ length: 5 }).map((_, i) => <RowSkeleton key={i} />)
 					) : agentProperties?.length === 0 ? (
 						<div className="mob-myprop-empty">
 							<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
@@ -205,7 +205,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 						</Stack>
 
 						{getAgentPropertiesLoading && !agentProperties.length ? (
-							Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+							Array.from({ length: 5 }).map((_, i) => <RowSkeleton key={i} />)
 						) : agentProperties?.length === 0 ? (
 							<div
 								className="no-data"
