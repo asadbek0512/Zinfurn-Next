@@ -22,6 +22,7 @@ import {
 	getBiometricCredentials,
 	getBiometryKind,
 	isBiometricLoginEnabled,
+	isBiometricLoginFor,
 } from '../../libs/native/biometric';
 import useAppMode from '../../libs/hooks/useAppMode';
 import { redirectToTelegramAuth, consumeTelegramRedirectResult, startTelegramAppAuth } from '../../libs/utils/telegramAuth';
@@ -172,7 +173,8 @@ const Join: NextPage = () => {
 
 		try {
 			await logIn(input.memberEmail, input.password);
-			if (biometryKind && !isBiometricLoginEnabled()) {
+			// Boshqa akkaunt bilan kirilsa ham so'raymiz — barmoq izini shu akkauntga o'tkazish mumkin
+			if (biometryKind && !isBiometricLoginFor(input.memberEmail)) {
 				const wantsBiometric = await sweetConfirmAlert(t('Use {{method}} to sign in next time?', { method: biometryLabel }));
 				if (wantsBiometric) await enableBiometricLogin(input.memberEmail, input.password, biometryLabel);
 			}

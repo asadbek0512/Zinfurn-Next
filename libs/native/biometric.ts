@@ -26,7 +26,7 @@ const CREDENTIAL_SERVER = 'zinfurn.uz';
 const BIOMETRY_CURRENT_SET = 1;
 /** BiometryType: 2 = Face ID, 4 = Android yuz; qolgani barmoq izi */
 const FACE_TYPES = new Set([2, 4]);
-/** isCredentialsSaved himoyalanmagan yozuvni ham sanaydi — shuning uchun o'z belgimiz */
+/** isCredentialsSaved himoyalanmagan yozuvni ham sanaydi — shuning uchun o'z belgimiz (qaysi email saqlangani) */
 const ENABLED_KEY = 'zinfurn_biometric_login';
 
 export type BiometryKind = 'face' | 'fingerprint';
@@ -43,13 +43,20 @@ export const getBiometryKind = async (): Promise<BiometryKind | null> => {
 	}
 };
 
-export const isBiometricLoginEnabled = (): boolean => {
+/** Barmoq iziga bog'langan email (eski versiyada '1' saqlangan) */
+const getSavedValue = (): string | null => {
 	try {
-		return localStorage.getItem(ENABLED_KEY) === '1';
+		return localStorage.getItem(ENABLED_KEY);
 	} catch {
-		return false;
+		return null;
 	}
 };
+
+export const isBiometricLoginEnabled = (): boolean => !!getSavedValue();
+
+/** Shu email allaqachon barmoq iziga bog'langanmi */
+export const isBiometricLoginFor = (email: string): boolean =>
+	getSavedValue()?.toLowerCase() === email.trim().toLowerCase();
 
 /** Email/parolni biometrik himoyali Keychain/Keystore'ga saqlaydi */
 export const enableBiometricLogin = async (email: string, password: string, title: string): Promise<boolean> => {
@@ -61,7 +68,7 @@ export const enableBiometricLogin = async (email: string, password: string, titl
 			accessControl: BIOMETRY_CURRENT_SET,
 			title,
 		});
-		localStorage.setItem(ENABLED_KEY, '1');
+		localStorage.setItem(ENABLED_KEY, email.trim().toLowerCase());
 		return true;
 	} catch {
 		return false;
