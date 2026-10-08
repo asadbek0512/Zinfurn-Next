@@ -58,6 +58,8 @@ const HeaderSearch = ({ compact = false }: HeaderSearchProps) => {
 	// Tashqariga bosilganda yopiladi
 	useEffect(() => {
 		const onClick = (e: MouseEvent) => {
+			// Skaner portal'da — uning ichidagi bosish "tashqari" emas
+			if (scannerOpen) return;
 			if (boxRef.current && !boxRef.current.contains(e.target as Node)) {
 				setOpen(false);
 				if (compact && !text) setExpanded(false);
@@ -65,7 +67,7 @@ const HeaderSearch = ({ compact = false }: HeaderSearchProps) => {
 		};
 		document.addEventListener('mousedown', onClick);
 		return () => document.removeEventListener('mousedown', onClick);
-	}, [compact, text]);
+	}, [compact, text, scannerOpen]);
 
 	// Sahifa almashganda tozalanadi
 	useEffect(() => {

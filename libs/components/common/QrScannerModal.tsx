@@ -20,6 +20,9 @@ const CAMERA_CONSTRAINTS: MediaStreamConstraints = {
 	audio: false,
 };
 
+/** Android WebView kamera ochilguncha kulrang "play" belgisini ko'rsatadi — bo'sh poster uni yashiradi */
+const EMPTY_POSTER = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+
 type ScanError = 'camera' | 'foreign' | null;
 
 const toSitePath = (text: string): string | null => {
@@ -69,7 +72,11 @@ const QrScannerModal = ({ open, onClose }: QrScannerModalProps) => {
 		const start = async () => {
 			try {
 				stream = await navigator.mediaDevices.getUserMedia(CAMERA_CONSTRAINTS);
-				if (stopped) return;
+				// Ruxsat oynasi paytida yopilgan bo'lsa kamera yoniq qolmasin
+				if (stopped) {
+					stream.getTracks().forEach((track) => track.stop());
+					return;
+				}
 				const video = videoRef.current;
 				if (!video) return;
 				video.srcObject = stream;
@@ -91,7 +98,7 @@ const QrScannerModal = ({ open, onClose }: QrScannerModalProps) => {
 
 	return (
 		<Dialog open={open} onClose={onClose} fullScreen PaperProps={{ className: 'qr-scanner' }}>
-			<video ref={videoRef} className="qr-scanner-video" playsInline muted />
+			<video ref={videoRef} className="qr-scanner-video" playsInline muted poster={EMPTY_POSTER} />
 			<div className="qr-scanner-frame" />
 			<IconButton className="qr-scanner-close" onClick={onClose} aria-label={t('Close')}>
 				<CloseIcon />
