@@ -4,6 +4,7 @@ import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
+import PropertyCardSkeleton from '../../libs/components/common/PropertyCardSkeleton';
 import ReviewCard from '../../libs/components/agent/ReviewCard';
 import { Box, Button, IconButton, Pagination, Stack, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
@@ -290,7 +291,11 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 				{/* Agent mahsulotlari */}
 				<div className="mob-agd-products">
 					<p className="mob-agd-section-title">{t('properties')}</p>
-					{agentProperties.length === 0 ? (
+					{getPropertiesLoading && agentProperties.length === 0 ? (
+						<div className="mob-agd-products-grid">
+							{Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)}
+						</div>
+					) : agentProperties.length === 0 ? (
 						<div className="mob-agd-nodata">
 							<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 							<p>{t('No properties found!')}</p>
@@ -439,7 +444,13 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 					</Stack>
 					<Stack className={'agent-home-list'}>
 						<Stack className={'card-wrap'}>
-							{agentProperties.map((property: Property) => {
+							{getPropertiesLoading && agentProperties.length === 0
+								? Array.from({ length: 6 }).map((_, i) => (
+										<div className={'wrap-main'} key={i}>
+											<PropertyCardSkeleton />
+										</div>
+								  ))
+								: agentProperties.map((property: Property) => {
 								return (
 									<div className={'wrap-main'} key={property?._id}>
 										<PropertyBigCard
@@ -472,7 +483,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 										</Typography>
 									</Stack>
 								</>
-							) : (
+							) : getPropertiesLoading ? null : (
 								<Stack className="no-data">
 									<img src="/img/icons/icoAlert.svg" alt="No properties" loading="lazy" decoding="async" />
 									<Typography>{t('No properties found!')}</Typography>
@@ -588,7 +599,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 AgentDetail.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 4,
+		limit: 6,
 		search: {
 			memberId: '',
 		},

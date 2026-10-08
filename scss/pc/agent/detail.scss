@@ -74,18 +74,15 @@
 					margin-top: 35px;
 					width: 100%;
 					height: auto;
-					display: flex;
-					// justify-content: center;
-					padding-left: 40px;
-					flex-direction: row;
-					flex-wrap: wrap;
-					.wrap-main {
-						margin-right: 0px;
-						margin-left: 5px;
-						display: flex;
-						flex-direction: row;
-						flex-wrap: wrap;
-					}
+						display: grid;
+						grid-template-columns: repeat(3, 1fr);
+						gap: 10px 0;
+						justify-items: center;
+						.wrap-main {
+							margin: 0;
+							display: flex;
+							justify-content: center;
+						}
 					.agent-card {
 						position: relative;
 						margin-right: 27px;

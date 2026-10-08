@@ -91,6 +91,8 @@ const Top = () => {
 		const isDetailPage =
 			router.pathname === '/products/detail' ||
 			router.pathname === '/repairService/detail' ||
+			router.pathname === '/agent/detail' ||
+			router.pathname === '/member' ||
 			router.pathname === '/ai-room-designer' ||
 			router.pathname === '/404';
 
