@@ -23,6 +23,9 @@ const CAMERA_CONSTRAINTS: MediaStreamConstraints = {
 /** Android WebView kamera ochilguncha kulrang "play" belgisini ko'rsatadi — bo'sh poster uni yashiradi */
 const EMPTY_POSTER = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
+/** Pastki menyu (1400) va AI chat tugmalari (99999) ustida turishi uchun */
+const SCANNER_Z_INDEX = 100000;
+
 type ScanError = 'camera' | 'foreign' | null;
 
 const toSitePath = (text: string): string | null => {
@@ -97,7 +100,7 @@ const QrScannerModal = ({ open, onClose }: QrScannerModalProps) => {
 	}, [open]);
 
 	return (
-		<Dialog open={open} onClose={onClose} fullScreen PaperProps={{ className: 'qr-scanner' }}>
+		<Dialog open={open} onClose={onClose} fullScreen sx={{ zIndex: SCANNER_Z_INDEX }} PaperProps={{ className: 'qr-scanner' }}>
 			<video ref={videoRef} className="qr-scanner-video" playsInline muted poster={EMPTY_POSTER} />
 			<div className="qr-scanner-frame" />
 			<IconButton className="qr-scanner-close" onClick={onClose} aria-label={t('Close')}>
