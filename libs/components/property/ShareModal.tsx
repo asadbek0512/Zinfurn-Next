@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react';
 import { Dialog, IconButton, Stack } from '@mui/material';
 import { Close, Telegram, WhatsApp, Facebook, ContentCopy, Check, Link as LinkIcon, IosShare } from '@mui/icons-material';
 import { useTranslation } from 'next-i18next';
+import QRCode from 'qrcode';
 import { canNativeShare, nativeShare } from '../../native';
 
 const COPIED_RESET_MS = 2000;
+/** Do'konda chop etish uchun — app'dagi QR skaner shu kodni o'qiydi */
+const QR_SIZE_PX = 512;
+const QR_DISPLAY_PX = 148;
 
 interface ShareNetwork {
 	key: 'telegram' | 'whatsapp' | 'facebook' | 'twitter';
@@ -62,6 +66,13 @@ const ShareModal = ({ open, onClose, url, title, text }: ShareModalProps) => {
 	const { t } = useTranslation('common');
 	const [copied, setCopied] = useState(false);
 	const [hasNativeShare, setHasNativeShare] = useState(false);
+	const [qrDataUrl, setQrDataUrl] = useState('');
+
+	useEffect(() => {
+		if (!open || canNativeShare()) return;
+		const renderQr = async () => setQrDataUrl(await QRCode.toDataURL(url, { width: QR_SIZE_PX, margin: 1 }));
+		renderQr();
+	}, [open, url]);
 
 	useEffect(() => {
 		setHasNativeShare(typeof navigator !== 'undefined' && !!(navigator as any).share);
@@ -209,6 +220,15 @@ const ShareModal = ({ open, onClose, url, title, text }: ShareModalProps) => {
 					{copied ? t('Copied') : t('Copy')}
 				</button>
 			</Stack>
+
+			{qrDataUrl && (
+				<Stack alignItems="center" spacing="8px" mt="20px">
+					<a href={qrDataUrl} download={`zinfurn-qr.png`} title={t('Download QR code')}>
+						<img src={qrDataUrl} alt="QR" width={QR_DISPLAY_PX} height={QR_DISPLAY_PX} style={{ borderRadius: 12, background: '#fff' }} />
+					</a>
+					<span style={{ fontSize: 12, color: 'var(--text-3)', textAlign: 'center' }}>{t('Scan in the Zinfurn app or download to print')}</span>
+				</Stack>
+			)}
 		</Dialog>
 	);
 };

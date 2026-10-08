@@ -755,5 +755,12 @@
   "Camera search empty": "비슷한 상품이 없습니다",
   "Camera search all": "이 유형 모두 보기",
   "Sign In With Apple": "Apple로 로그인",
-  "Create Account With Apple": "Apple로 가입하기"
+  "Create Account With Apple": "Apple로 가입하기",
+  "Recently viewed": "최근 본 상품",
+  "Scan QR code": "QR 코드 스캔",
+  "Point the camera at a Zinfurn QR code": "카메라를 Zinfurn QR 코드에 맞춰주세요",
+  "Camera access denied": "카메라 권한이 없습니다. 설정에서 허용해주세요.",
+  "Not a Zinfurn QR code": "Zinfurn QR 코드가 아닙니다",
+  "Download QR code": "QR 코드 다운로드",
+  "Scan in the Zinfurn app or download to print": "Zinfurn 앱에서 스캔하거나 눌러서 다운로드해 인쇄하세요"
 }

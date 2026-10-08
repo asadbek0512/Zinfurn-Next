@@ -754,5 +754,12 @@
   "Camera search empty": "O'xshash mahsulot topilmadi",
   "Camera search all": "Shu turdagi hammasini ko'rish",
   "Sign In With Apple": "Apple orqali kirish",
-  "Create Account With Apple": "Apple orqali ro'yxatdan o'tish"
+  "Create Account With Apple": "Apple orqali ro'yxatdan o'tish",
+  "Recently viewed": "Oxirgi ko'rilgan",
+  "Scan QR code": "QR kodni skanerlash",
+  "Point the camera at a Zinfurn QR code": "Kamerani Zinfurn QR kodiga qarating",
+  "Camera access denied": "Kameraga ruxsat berilmadi. Sozlamalardan ruxsat bering.",
+  "Not a Zinfurn QR code": "Bu Zinfurn QR kodi emas",
+  "Download QR code": "QR kodni yuklab olish",
+  "Scan in the Zinfurn app or download to print": "Zinfurn app'da skanerlang yoki bosib yuklab, chop eting"
 }

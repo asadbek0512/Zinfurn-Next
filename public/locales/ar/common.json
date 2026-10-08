@@ -754,5 +754,12 @@
   "Camera search empty": "لم يتم العثور على منتجات مشابهة",
   "Camera search all": "عرض كل هذا النوع",
   "Sign In With Apple": "تسجيل الدخول عبر Apple",
-  "Create Account With Apple": "التسجيل عبر Apple"
+  "Create Account With Apple": "التسجيل عبر Apple",
+  "Recently viewed": "شوهدت مؤخراً",
+  "Scan QR code": "مسح رمز QR",
+  "Point the camera at a Zinfurn QR code": "وجّه الكاميرا نحو رمز QR من Zinfurn",
+  "Camera access denied": "تم رفض الوصول إلى الكاميرا. اسمح به من الإعدادات.",
+  "Not a Zinfurn QR code": "هذا ليس رمز QR من Zinfurn",
+  "Download QR code": "تنزيل رمز QR",
+  "Scan in the Zinfurn app or download to print": "امسحه في تطبيق Zinfurn أو اضغط للتنزيل والطباعة"
 }

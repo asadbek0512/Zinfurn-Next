@@ -4,12 +4,18 @@ import { useTranslation } from 'next-i18next';
 import { useLazyQuery } from '@apollo/client';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
+import dynamic from 'next/dynamic';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { Property } from '../../types/property/property';
 import { REACT_APP_API_URL } from '../../config';
 import { getLocalizedTitle } from '../../utils/localizeProperty';
 import { activeSalePrice } from '../../utils/sale';
 import { useCurrency } from '../../context/CurrencyContext';
+import useAppMode from '../../hooks/useAppMode';
+
+// Kamera kodi (jsQR) faqat skaner ochilganda yuklanadi
+const QrScannerModal = dynamic(() => import('./QrScannerModal'), { ssr: false });
 
 const DEBOUNCE_MS = 300;
 const MIN_CHARS = 2;
@@ -28,6 +34,8 @@ const HeaderSearch = ({ compact = false }: HeaderSearchProps) => {
 	const [open, setOpen] = useState(false);
 	const [expanded, setExpanded] = useState(!compact);
 	const [activeIndex, setActiveIndex] = useState(-1);
+	const appMode = useAppMode();
+	const [scannerOpen, setScannerOpen] = useState(false);
 	const boxRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -139,6 +147,18 @@ const HeaderSearch = ({ compact = false }: HeaderSearchProps) => {
 					<CloseIcon sx={{ fontSize: 16 }} />
 				</button>
 			)}
+			{appMode && !text && (
+				<button
+					type="button"
+					className="header-search-clear"
+					aria-label={t('Scan QR code')}
+					onMouseDown={(e) => e.preventDefault()}
+					onClick={() => setScannerOpen(true)}
+				>
+					<QrCodeScannerIcon sx={{ fontSize: 20 }} />
+				</button>
+			)}
+			{scannerOpen && <QrScannerModal open={scannerOpen} onClose={() => setScannerOpen(false)} />}
 
 			{showDropdown && (
 				<div className="header-search-dropdown" role="listbox">

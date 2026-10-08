@@ -5,6 +5,7 @@ import { AR_MODELS, ArModel } from '../../config/arModels';
 import { GET_AR_PROPERTIES } from '../../../apollo/user/query';
 import { REACT_APP_API_URL } from '../../config';
 import { Direction } from '../../enums/common.enum';
+import { isNativeArQuickLookAvailable, openNativeArQuickLook } from '../../native/arQuickLook';
 
 /**
  * Scene Viewer (Android) / Quick Look (iOS) based AR, via <model-viewer>.
@@ -52,6 +53,9 @@ const ArModelViewer = ({
 	const viewerRef = useRef<ModelViewerElement | null>(null);
 	const [ready, setReady] = useState(false);
 	const [arAvailable, setArAvailable] = useState(false);
+	/** iOS app: AR native plugin orqali (WKWebView'da model-viewer Quick Look'ni ochmaydi) */
+	const [nativeAr, setNativeAr] = useState(false);
+	const [arLoading, setArLoading] = useState(false);
 	const [activeModel, setActiveModel] = useState<ArModel>(
 		() => AR_MODELS.find((item) => item.id === initialModelId) ?? AR_MODELS[0],
 	);
@@ -107,17 +111,33 @@ const ArModelViewer = ({
 		const viewer = viewerRef.current;
 		if (!viewer) return;
 
-		const syncArAvailability = () => setArAvailable(Boolean(viewer.canActivateAR));
+		const syncArAvailability = () => setArAvailable(nativeAr || Boolean(viewer.canActivateAR));
 		syncArAvailability();
 		viewer.addEventListener('load', syncArAvailability);
 		return () => viewer.removeEventListener('load', syncArAvailability);
-	}, [ready]);
+	}, [ready, nativeAr]);
+
+	useEffect(() => {
+		const detectNativeAr = async () => setNativeAr(await isNativeArQuickLookAvailable());
+		detectNativeAr();
+	}, []);
 
 	const src = modelUrl ?? activeModel.url;
 	const label = productTitle ?? activeModel.label;
 	const showPicker = !modelUrl;
 
 	const handleActivateAr = async () => {
+		if (nativeAr) {
+			setArLoading(true);
+			try {
+				await openNativeArQuickLook(new URL(src, window.location.href).href);
+			} catch {
+				setArAvailable(false);
+			} finally {
+				setArLoading(false);
+			}
+			return;
+		}
 		try {
 			await viewerRef.current?.activateAR();
 		} catch {
@@ -182,8 +202,8 @@ const ArModelViewer = ({
 				)}
 
 				<div className="ar-button-slot">
-					<button type="button" className="ar-start-button" onClick={handleActivateAr} disabled={!arAvailable}>
-						{arAvailable ? t('AR bilan ko\'rish') : t('Qurilmangiz AR ni qo\'llab-quvvatlamaydi')}
+					<button type="button" className="ar-start-button" onClick={handleActivateAr} disabled={!arAvailable || arLoading}>
+						{arLoading ? '…' : arAvailable ? t('AR bilan ko\'rish') : t('Qurilmangiz AR ni qo\'llab-quvvatlamaydi')}
 					</button>
 				</div>
 			</div>

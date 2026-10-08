@@ -754,5 +754,12 @@
   "Camera search empty": "No similar products found",
   "Camera search all": "Show all of this type",
   "Sign In With Apple": "Sign in with Apple",
-  "Create Account With Apple": "Sign up with Apple"
+  "Create Account With Apple": "Sign up with Apple",
+  "Recently viewed": "Recently viewed",
+  "Scan QR code": "Scan QR code",
+  "Point the camera at a Zinfurn QR code": "Point the camera at a Zinfurn QR code",
+  "Camera access denied": "Camera access denied. Allow it in Settings.",
+  "Not a Zinfurn QR code": "This is not a Zinfurn QR code",
+  "Download QR code": "Download QR code",
+  "Scan in the Zinfurn app or download to print": "Scan in the Zinfurn app or tap to download and print"
 }

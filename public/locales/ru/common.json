@@ -755,5 +755,12 @@
   "Camera search empty": "Похожие товары не найдены",
   "Camera search all": "Показать все такого типа",
   "Sign In With Apple": "Войти через Apple",
-  "Create Account With Apple": "Регистрация через Apple"
+  "Create Account With Apple": "Регистрация через Apple",
+  "Recently viewed": "Недавно просмотренные",
+  "Scan QR code": "Сканировать QR-код",
+  "Point the camera at a Zinfurn QR code": "Наведите камеру на QR-код Zinfurn",
+  "Camera access denied": "Нет доступа к камере. Разрешите его в настройках.",
+  "Not a Zinfurn QR code": "Это не QR-код Zinfurn",
+  "Download QR code": "Скачать QR-код",
+  "Scan in the Zinfurn app or download to print": "Отсканируйте в приложении Zinfurn или нажмите, чтобы скачать и распечатать"
 }
