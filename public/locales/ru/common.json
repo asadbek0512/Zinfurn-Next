@@ -767,5 +767,8 @@
   "Fingerprint": "отпечаток пальца",
   "Use {{method}} to sign in next time?": "Входить в следующий раз с помощью {{method}}?",
   "Sign in with {{method}}": "Войти с помощью: {{method}}",
-  "Sign in to Zinfurn": "Вход в Zinfurn"
+  "Sign in to Zinfurn": "Вход в Zinfurn",
+  "Only {{count}} left": "Осталось {{count}} шт",
+  "Stock (empty = unlimited)": "Остаток (пусто = без лимита)",
+  "Unlimited": "Без лимита"
 }

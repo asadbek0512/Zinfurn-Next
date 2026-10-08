@@ -77,6 +77,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 					propertySize: data.getProperty.propertySize,
 					propertySalePrice: data.getProperty.propertySalePrice,
 					propertyIsOnSale: data.getProperty.propertyIsOnSale,
+					propertyStock: data.getProperty.propertyStock,
 					propertySaleExpiresAt: data.getProperty.propertySaleExpiresAt,
 					propertyInStock: data.getProperty.propertyInStock,
 					propertyCondition: data.getProperty.propertyCondition,
@@ -202,6 +203,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 				propertySalePrice: insertPropertyData.propertySalePrice,
 				propertyIsOnSale: insertPropertyData.propertyIsOnSale,
 				propertySaleExpiresAt: insertPropertyData.propertySaleExpiresAt,
+				propertyStock: insertPropertyData.propertyStock,
 				propertyInStock: insertPropertyData.propertyInStock,
 				propertyCondition: insertPropertyData.propertyCondition,
 				propertyImages: insertPropertyData.propertyImages,
@@ -267,6 +269,21 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									const parsed = parseInt(value, 10);
 									setInsertPropertyData({ ...insertPropertyData, propertyPrice: isNaN(parsed) ? 0 : parsed });
 								}}
+							/>
+						</div>
+						<div className="mob-addprop-field">
+							<label>{t('Stock (empty = unlimited)')}</label>
+							<input
+								type="number"
+								min={0}
+								placeholder={t('Unlimited')}
+								value={insertPropertyData.propertyStock ?? ''}
+								onChange={({ target: { value } }) =>
+									setInsertPropertyData({
+										...insertPropertyData,
+										propertyStock: value === '' ? undefined : Math.max(0, Number(value)),
+									})
+								}
 							/>
 						</div>
 						<div className="mob-addprop-field">
@@ -602,6 +619,23 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										value={insertPropertyData.propertyPrice}
 										onChange={({ target: { value } }) =>
 											setInsertPropertyData({ ...insertPropertyData, propertyPrice: parseInt(value) })
+										}
+									/>
+								</Stack>
+
+								<Stack className="price-year-after-price">
+									<Typography className="title">{t('Stock (empty = unlimited)')}</Typography>
+									<input
+										type="number"
+										min={0}
+										className="description-input"
+										placeholder={t('Unlimited')}
+										value={insertPropertyData.propertyStock ?? ''}
+										onChange={({ target: { value } }) =>
+											setInsertPropertyData({
+												...insertPropertyData,
+												propertyStock: value === '' ? undefined : Math.max(0, Number(value)),
+											})
 										}
 									/>
 								</Stack>

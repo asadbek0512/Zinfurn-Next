@@ -33,6 +33,7 @@ import { create } from 'domain';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import ReviewSection from '../../libs/components/property/ReviewSection';
 import RecentlyViewed from '../../libs/components/property/RecentlyViewed';
+import { getStockInfo } from '../../libs/utils/stock';
 import useRecentlyViewed from '../../libs/hooks/useRecentlyViewed';
 import SEO from '../../libs/components/common/SEO';
 import { Add, ChevronLeft, ChevronRight, FavoriteBorder, Remove, Share } from '@mui/icons-material';
@@ -67,7 +68,7 @@ export const getServerSideProps = async ({ locale, query }: any) => {
 					query: `query($propertyId: String!) {
 						getProperty(propertyId: $propertyId) {
 							propertyTitle propertyImages propertyDesc
-							propertyPrice propertySalePrice propertyRating propertyReviews propertyInStock
+							propertyPrice propertySalePrice propertyRating propertyReviews propertyInStock propertyStock
 							propertyIsOnSale propertySaleStartsAt propertySaleExpiresAt
 						}
 					}`,
@@ -274,8 +275,10 @@ const PropertyDetail: NextPage = (props: any) => {
 		setQuantity((prev) => Math.max(1, prev + change));
 	};
 
-	// propertyInStock aniq `false` bo'lsagina tugagan deb hisoblanadi (undefined = ma'lumot yo'q)
-	const isOutOfStock = property?.propertyInStock === false;
+	// Tugagan: eski boolean (propertyInStock===false) YOKI numeric propertyStock<=0
+	const stockInfo = getStockInfo(property?.propertyStock);
+	const isOutOfStock = property?.propertyInStock === false || !!stockInfo?.soldOut;
+	const isLowStock = !isOutOfStock && !!stockInfo?.low;
 
 	// Chegirma faqat sale oynasi ochiq bo'lgandagina qo'llanadi
 	const salePrice = activeSalePrice(property);
@@ -338,7 +341,10 @@ const PropertyDetail: NextPage = (props: any) => {
 					'@type': 'Offer',
 					price: activeSalePrice(seoSrc) || seoSrc.propertyPrice,
 					priceCurrency: 'KRW',
-					availability: seoSrc.propertyInStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+					availability:
+						seoSrc.propertyInStock === false || (typeof seoSrc.propertyStock === 'number' && seoSrc.propertyStock <= 0)
+							? 'https://schema.org/OutOfStock'
+							: 'https://schema.org/InStock',
 				},
 				aggregateRating: seoSrc.propertyReviews
 					? { '@type': 'AggregateRating', ratingValue: seoSrc.propertyRating || 0, reviewCount: seoSrc.propertyReviews }
@@ -404,8 +410,8 @@ const PropertyDetail: NextPage = (props: any) => {
 					{/* Kategoriya + Stock badge */}
 					<div className="mob-det-top-row">
 						<span className="mob-det-cat">{t(property?.propertyCategory || '')}</span>
-						<span className={`mob-det-stock ${property?.propertyInStock ? 'in' : 'out'}`}>
-							{property?.propertyInStock ? t('in_stock') : t('out_of_stock')}
+						<span className={`mob-det-stock ${!isOutOfStock ? 'in' : 'out'}`}>
+							{isOutOfStock ? t('out_of_stock') : isLowStock ? t('Only {{count}} left', { count: stockInfo?.count }) : t('in_stock')}
 						</span>
 					</div>
 
@@ -692,10 +698,10 @@ const PropertyDetail: NextPage = (props: any) => {
 											{localizedTitle}
 										</Typography>
 										<Chip
-											label={property?.propertyInStock ? t('in_stock') : t('out_of_stock')}
+											label={isOutOfStock ? t('out_of_stock') : isLowStock ? t('Only {{count}} left', { count: stockInfo?.count }) : t('in_stock')}
 											sx={{
-												backgroundColor: property?.propertyInStock ? ' #d1fae5' : '#fbc1bf',
-												color: property?.propertyInStock ? '#065f46' : '#9b0b0b',
+												backgroundColor: isOutOfStock ? '#fbc1bf' : isLowStock ? '#ffe3cc' : ' #d1fae5',
+												color: isOutOfStock ? '#9b0b0b' : isLowStock ? '#9a3412' : '#065f46',
 												fontWeight: 600,
 												px: 2,
 												py: 0.5,

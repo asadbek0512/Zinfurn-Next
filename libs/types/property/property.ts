@@ -36,6 +36,7 @@ export interface Property {
 	propertyPrice: number;
 	propertySalePrice?: number;
 	propertyIsOnSale?: boolean;
+	propertyStock?: number;
 	propertySaleStartsAt?: Date;
 	propertySaleExpiresAt?: Date;
 	propertyImages?: string[];

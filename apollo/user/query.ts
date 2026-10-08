@@ -185,6 +185,7 @@ query GetProperty($input: String!) {
         propertyPrice
         propertySalePrice
         propertyIsOnSale
+        propertyStock
         propertySaleStartsAt
         propertySaleExpiresAt
         propertyImages
@@ -282,6 +283,7 @@ query GetProperties($input: PropertiesInquiry!) {
             propertyPrice
             propertySalePrice
             propertyIsOnSale
+            propertyStock
             propertySaleStartsAt
             propertySaleExpiresAt
             propertyImages
@@ -379,6 +381,7 @@ query GetAgentProperties($input: AgentPropertiesInquiry!) {
             propertyPrice
             propertySalePrice
             propertyIsOnSale
+            propertyStock
             propertySaleStartsAt
             propertySaleExpiresAt
             propertyImages
@@ -466,6 +469,7 @@ query GetFavorites($input: OrdinaryInquiry!) {
             propertyPrice
             propertySalePrice
             propertyIsOnSale
+            propertyStock
             propertySaleStartsAt
             propertySaleExpiresAt
             propertyImages
@@ -547,6 +551,7 @@ query GetVisited($input: OrdinaryInquiry!) {
             propertyPrice
             propertySalePrice
             propertyIsOnSale
+            propertyStock
             propertySaleStartsAt
             propertySaleExpiresAt
             propertyImages

@@ -766,5 +766,8 @@
   "Fingerprint": "fingerprint",
   "Use {{method}} to sign in next time?": "Use {{method}} to sign in next time?",
   "Sign in with {{method}}": "Sign in with {{method}}",
-  "Sign in to Zinfurn": "Sign in to Zinfurn"
+  "Sign in to Zinfurn": "Sign in to Zinfurn",
+  "Only {{count}} left": "Only {{count}} left",
+  "Stock (empty = unlimited)": "Stock (empty = unlimited)",
+  "Unlimited": "Unlimited"
 }

@@ -71,6 +71,7 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 				propertyPrice
 				propertySalePrice
 				propertyIsOnSale
+				propertyStock
 				propertySaleStartsAt
 				propertySaleExpiresAt
 				propertyImages

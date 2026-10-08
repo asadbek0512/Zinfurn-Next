@@ -767,5 +767,8 @@
   "Fingerprint": "지문",
   "Use {{method}} to sign in next time?": "다음부터 {{method}}(으)로 로그인할까요?",
   "Sign in with {{method}}": "{{method}}(으)로 로그인",
-  "Sign in to Zinfurn": "Zinfurn 로그인"
+  "Sign in to Zinfurn": "Zinfurn 로그인",
+  "Only {{count}} left": "{{count}}개 남음",
+  "Stock (empty = unlimited)": "재고 (비우면 무제한)",
+  "Unlimited": "무제한"
 }

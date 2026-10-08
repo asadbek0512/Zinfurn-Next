@@ -23,6 +23,7 @@ import { useTranslation } from 'next-i18next';
 import { getLocalizedTitle } from '../../utils/localizeProperty';
 import { useCurrency } from '../../context/CurrencyContext';
 import { activeSalePrice } from '../../utils/sale';
+import { getStockInfo } from '../../utils/stock';
 
 interface PropertyCardProps {
 	property: Property;
@@ -68,8 +69,10 @@ const PropertyCard = (props: PropertyCardProps) => {
 			? Math.round(((property.propertyPrice - salePrice) / property.propertyPrice) * 100)
 			: 0;
 
-	// propertyInStock aniq `false` bo'lsagina tugagan deb hisoblanadi (undefined = ma'lumot yo'q)
-	const isOutOfStock = property?.propertyInStock === false;
+	// Tugagan: eski boolean (propertyInStock===false) YOKI numeric propertyStock<=0
+	const stockInfo = getStockInfo(property?.propertyStock);
+	const isOutOfStock = property?.propertyInStock === false || !!stockInfo?.soldOut;
+	const isLowStock = !isOutOfStock && !!stockInfo?.low;
 
 	const handleAddToCart = (e: React.MouseEvent | React.KeyboardEvent) => {
 		e.preventDefault();
@@ -97,6 +100,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 					{discountPercent > 0 && <span className="mob-sale-badge">-{discountPercent}%</span>}
 					<span className="mob-cat-badge">{t(property?.propertyCategory)}</span>
 					{isOutOfStock && <span className="soldOutBadge">{t('sold_out')}</span>}
+					{isLowStock && <span className="lowStockBadge">{t("Only {{count}} left", { count: stockInfo?.count })}</span>}
 				</Link>
 
 				<Stack className="mob-card-info">
@@ -215,6 +219,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 				</Box>
 
 				{isOutOfStock && <span className="soldOutBadge">{t('sold_out')}</span>}
+					{isLowStock && <span className="lowStockBadge">{t("Only {{count}} left", { count: stockInfo?.count })}</span>}
 			</Stack>
 
 			<Stack className="bottom">

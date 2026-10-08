@@ -766,5 +766,8 @@
   "Fingerprint": "بصمة الإصبع",
   "Use {{method}} to sign in next time?": "هل تريد استخدام {{method}} لتسجيل الدخول في المرة القادمة؟",
   "Sign in with {{method}}": "تسجيل الدخول باستخدام {{method}}",
-  "Sign in to Zinfurn": "تسجيل الدخول إلى Zinfurn"
+  "Sign in to Zinfurn": "تسجيل الدخول إلى Zinfurn",
+  "Only {{count}} left": "بقي {{count}} فقط",
+  "Stock (empty = unlimited)": "المخزون (فارغ = غير محدود)",
+  "Unlimited": "غير محدود"
 }

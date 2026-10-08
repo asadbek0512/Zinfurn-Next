@@ -766,5 +766,8 @@
   "Fingerprint": "barmoq izi",
   "Use {{method}} to sign in next time?": "Keyingi safar {{method}} bilan kirasizmi?",
   "Sign in with {{method}}": "{{method}} bilan kirish",
-  "Sign in to Zinfurn": "Zinfurn’ga kirish"
+  "Sign in to Zinfurn": "Zinfurn’ga kirish",
+  "Only {{count}} left": "{{count}} ta qoldi",
+  "Stock (empty = unlimited)": "Zaxira (bo'sh = cheksiz)",
+  "Unlimited": "Cheksiz"
 }
