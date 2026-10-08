@@ -59,9 +59,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 	} = useQuery(GET_PROPERTY, {
 		fetchPolicy: 'network-only',
 		variables: {
-			input: {
-				propertyId: router.query.propertyId,
-			},
+			input: router.query.propertyId,
 		},
 		skip: !router.query.propertyId,
 		onCompleted: (data) => {
