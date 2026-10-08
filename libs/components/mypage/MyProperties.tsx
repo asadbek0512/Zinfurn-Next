@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyCard } from './PropertyCard';
+import PropertyCardSkeleton from '../common/PropertyCardSkeleton';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { Property } from '../../types/property/property';
 import { AgentPropertiesInquiry } from '../../types/property/property.input';
@@ -33,7 +34,8 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 		error: getAgentPropertiesError,
 		refetch: getAgentPropertiesRefetch,
 	} = useQuery(GET_AGENT_PROPERTIES, {
-		fetchPolicy: 'network-only',
+		fetchPolicy: 'cache-and-network',
+		notifyOnNetworkStatusChange: true,
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data) => {
@@ -130,7 +132,9 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 					</div>
 				</div>
 				<div className="mob-myprop-list">
-					{agentProperties?.length === 0 ? (
+					{getAgentPropertiesLoading && !agentProperties.length ? (
+						Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+					) : agentProperties?.length === 0 ? (
 						<div className="mob-myprop-empty">
 							<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 							<span>{t('No Properties found!')}</span>
@@ -200,7 +204,9 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 							)}
 						</Stack>
 
-						{agentProperties?.length === 0 ? (
+						{getAgentPropertiesLoading && !agentProperties.length ? (
+							Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+						) : agentProperties?.length === 0 ? (
 							<div
 								className="no-data"
 								style={{

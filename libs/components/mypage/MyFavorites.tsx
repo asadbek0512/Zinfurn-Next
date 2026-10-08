@@ -19,6 +19,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useRouter } from 'next/router';
 import { userVar } from '../../../apollo/store';
 import { CustomJwtPayload } from '../../types/customJwtPayload';
+import PropertyCardSkeleton from '../common/PropertyCardSkeleton';
 
 const MyFavorites: NextPage = () => {
   const { t } = useTranslation('common');
@@ -118,7 +119,7 @@ const MyFavorites: NextPage = () => {
               );
             })
           ) : getFavoritesLoading ? (
-            <div className="mob-fav-empty"><span>{t('Loading...')}</span></div>
+            Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
           ) : (
             <div className="mob-fav-empty">
               <img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
@@ -170,9 +171,7 @@ const MyFavorites: NextPage = () => {
               );
             })
           ) : getFavoritesLoading ? (
-            <div className="no-data" style={{ display: 'flex', justifyContent: 'center', marginTop: '58px' }}>
-              <p style={{ fontSize: '18px', color: 'var(--text-2)' }}>{t('Loading...')}</p>
-            </div>
+            Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
           ) : (
             <div
               className="no-data"
