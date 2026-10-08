@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
@@ -46,6 +46,18 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 		},
 	});
 
+	// Skeleton kamida ~0.7s ko'rinsin (tez kelsa ham miltillamasin)
+	const [showSkel, setShowSkel] = useState<boolean>(true);
+	useEffect(() => {
+		if (boardArticlesLoading) {
+			setShowSkel(true);
+			return;
+		}
+		const timer = setTimeout(() => setShowSkel(false), 700);
+		return () => clearTimeout(timer);
+	}, [boardArticlesLoading]);
+	const skelVisible = (boardArticlesLoading || showSkel) && !boardArticles.length;
+
 	/** HANDLERS **/
 	const paginationHandler = (e: T, value: number) => {
 		setSearchCommunity({ ...searchCommunity, page: value });
@@ -89,8 +101,10 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 							/>
 						))}
 					</div>
-				) : boardArticlesLoading ? (
-					Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+				) : skelVisible ? (
+					<div className="mob-myarticles-grid">
+						{Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)}
+					</div>
 				) : (
 					<div className="mob-myarticles-empty">
 						<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
@@ -136,7 +150,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 								/>
 							);
 						})
-					) : boardArticlesLoading ? (
+					) : skelVisible ? (
 						Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
 					) : (
 						<div
