@@ -100,7 +100,7 @@ body::-webkit-scrollbar {
 						.currency-label { color: var(--text-1) !important; }
 					}
 
-					.login-user img { border-color: rgba(0,0,0,0.2); }
+					.login-user img, .login-user div { border-color: var(--primary); }
 				}
 
 				.container {
@@ -217,12 +217,15 @@ body::-webkit-scrollbar {
 								height: 36px;
 								border-radius: 50%;
 								object-fit: cover;
-								border: 2px solid rgba(255,255,255,0.4);
+								border: 2px solid var(--primary);
 								display: flex;
 								align-items: center;
 								justify-content: center;
-								transition: border-color 0.2s;
-								&:hover { border-color: var(--primary); }
+								transition: border-color 0.2s, box-shadow 0.2s;
+							}
+							&:hover img, &:hover div {
+								border-color: #ff7b2e;
+								box-shadow: 0 0 0 2px rgba(207, 100, 34, 0.35);
 							}
 						}
 

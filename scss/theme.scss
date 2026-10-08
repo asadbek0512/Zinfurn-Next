@@ -165,8 +165,8 @@
 [data-theme='dark'] #pc-wrap #top .navbar .navbar-main.transparent .lan-box .btn-currency {
 	border-color: rgba(255, 255, 255, 0.3) !important;
 }
-[data-theme='dark'] #pc-wrap #top .navbar .navbar-main.transparent .login-user img {
-	border-color: rgba(255, 255, 255, 0.3) !important;
+[data-theme='dark'] #pc-wrap #top .navbar .navbar-main.transparent .login-user img, [data-theme='dark'] #pc-wrap #top .navbar .navbar-main.transparent .login-user div {
+	border-color: var(--primary) !important;
 }
 
 /* Dark rejimda mobil navbar: burger chiziqlari, valyuta ramkasi, qora ikonkalar */
