@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import RowSkeleton from '../common/RowSkeleton';
 import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { useRouter } from 'next/router';
@@ -39,7 +40,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 		error: getMemberFollowersError,
 		refetch: getMemberFollowersRefetch,
 	} = useQuery(GET_MEMBER_FOLLOWERS, {
-		fetchPolicy: 'network-only',
+		fetchPolicy: 'cache-and-network',
 		variables: { input: followInquiry },
 		skip: !followInquiry?.search.followingId,
 		notifyOnNetworkStatusChange: true,
@@ -73,7 +74,9 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 					<h2>{t('My Followers')}</h2>
 				</div>
 				<div className="mob-myfollows-list">
-					{memberFollowers?.length === 0 ? (
+					{getMemberFollowersLoading && memberFollowers.length === 0 ? (
+						Array.from({ length: 6 }).map((_, i) => <RowSkeleton key={i} />)
+					) : memberFollowers?.length === 0 ? (
 						<div className="mob-myfollows-empty">
 							<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 							<span>{t('No Followers yet!')}</span>
@@ -162,7 +165,9 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 						<Typography className="title-text">{t('Details')}</Typography>
 						<Typography className="title-text">{t('Subscription')}</Typography>
 					</Stack>
-					{memberFollowers?.length === 0 && (
+					{getMemberFollowersLoading && memberFollowers.length === 0 &&
+						Array.from({ length: 6 }).map((_, i) => <RowSkeleton key={i} />)}
+					{!getMemberFollowersLoading && memberFollowers?.length === 0 && (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
 							<p>{t('No Followers yet!')}</p>

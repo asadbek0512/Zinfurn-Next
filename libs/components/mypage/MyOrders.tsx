@@ -285,16 +285,6 @@ const MyOrders = () => {
 		}
 	};
 
-	if (loading && orders.length === 0) {
-		return (
-			<div className="my-orders-list" style={{ marginTop: '16px' }}>
-				{Array.from({ length: 5 }).map((_, i) => (
-					<RowSkeleton key={i} />
-				))}
-			</div>
-		);
-	}
-
 	return (
 		<div className="my-orders-wrap">
 			{!isMobile && (
@@ -319,7 +309,13 @@ const MyOrders = () => {
 				))}
 			</div>
 
-			{orders.length === 0 ? (
+			{loading && orders.length === 0 ? (
+				<div className="my-orders-list">
+					{Array.from({ length: 5 }).map((_, i) => (
+						<RowSkeleton key={i} />
+					))}
+				</div>
+			) : orders.length === 0 ? (
 				<div className="my-orders-empty">
 					<ShoppingBagOutlinedIcon className="my-orders-empty-icon" />
 					<Typography className="my-orders-empty-title">{t('No orders yet')}</Typography>
