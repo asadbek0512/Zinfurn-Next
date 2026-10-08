@@ -1439,3 +1439,14 @@ export const VALIDATE_COUPON = gql`
 		}
 	}
 `;
+
+/** Faqat id'lar — widget sevimlilari uchun */
+export const GET_FAVORITE_IDS = gql`
+	query GetFavoriteIds($input: OrdinaryInquiry!) {
+		getFavorites(input: $input) {
+			list {
+				_id
+			}
+		}
+	}
+`;

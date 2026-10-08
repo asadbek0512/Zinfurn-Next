@@ -20,6 +20,7 @@ import CompareBar from '../libs/components/common/CompareBar';
 import AppBanner from '../libs/components/common/AppBanner';
 import OfflineBanner from '../libs/components/common/OfflineBanner';
 import PushSetup from '../libs/components/common/PushSetup';
+import WidgetFavoritesSync from '../libs/components/common/WidgetFavoritesSync';
 import { registerServiceWorker } from '../libs/utils/serviceWorker';
 const APP_LINK_HOSTS = ['zinfurn.uz', 'www.zinfurn.uz'];
 // Loader yopilganda navbar tayyor turishi uchun asosiy bundle'da (alohida chunk kech kelardi)
@@ -194,6 +195,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 					<AppBanner />
 					<OfflineBanner />
 					<PushSetup />
+					<WidgetFavoritesSync />
 					<AppBottomNav />
 					<AppPullToRefresh />
 					<AppSplashGate />
