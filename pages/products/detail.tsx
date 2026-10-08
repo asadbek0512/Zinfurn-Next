@@ -32,6 +32,8 @@ import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } f
 import { create } from 'domain';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import ReviewSection from '../../libs/components/property/ReviewSection';
+import RecentlyViewed from '../../libs/components/property/RecentlyViewed';
+import useRecentlyViewed from '../../libs/hooks/useRecentlyViewed';
 import SEO from '../../libs/components/common/SEO';
 import { Add, ChevronLeft, ChevronRight, FavoriteBorder, Remove, Share } from '@mui/icons-material';
 import dayjs from 'dayjs';
@@ -91,6 +93,7 @@ const PropertyDetail: NextPage = (props: any) => {
 	const [property, setProperty] = useState<Property | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
 	const [destinationProperties, setDestinationProperties] = useState<Property[]>([]);
+	const { add: addRecentlyViewed } = useRecentlyViewed();
 	const [quantity, setQuantity] = useState(1);
 	const [tabIndex, setTabIndex] = useState(0);
 	const { t } = useTranslation('common');
@@ -170,6 +173,11 @@ const PropertyDetail: NextPage = (props: any) => {
 			setPropertyId(router.query.id as string);
 		}
 	}, [router]);
+
+	// Mahsulot yuklangach "oxirgi ko'rilgan" ro'yxatiga qo'shamiz (localStorage)
+	useEffect(() => {
+		if (property?._id) addRecentlyViewed(property);
+	}, [property?._id, addRecentlyViewed]);
 
 	useEffect(() => {
 		if (user?._id) {
@@ -596,6 +604,7 @@ const PropertyDetail: NextPage = (props: any) => {
 						</Swiper>
 					</div>
 				)}
+				<RecentlyViewed currentId={property?._id} />
 				<ShareModal open={shareOpen} onClose={() => setShareOpen(false)} url={getShareUrl()} title={localizedTitle || 'Zinfurn'} text={getShareText()} />
 			</div>
 		);
@@ -1056,6 +1065,7 @@ const PropertyDetail: NextPage = (props: any) => {
 								</Stack>
 							</Stack>
 						)}
+						<RecentlyViewed currentId={property?._id} />
 					</Stack>
 					<ShareModal open={shareOpen} onClose={() => setShareOpen(false)} url={getShareUrl()} title={localizedTitle || 'Zinfurn'} text={getShareText()} />
 				</div>
