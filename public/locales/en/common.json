@@ -761,5 +761,10 @@
   "Camera access denied": "Camera access denied. Allow it in Settings.",
   "Not a Zinfurn QR code": "This is not a Zinfurn QR code",
   "Download QR code": "Download QR code",
-  "Scan in the Zinfurn app or download to print": "Scan in the Zinfurn app or tap to download and print"
+  "Scan in the Zinfurn app or download to print": "Scan in the Zinfurn app or tap to download and print",
+  "Face ID": "Face ID",
+  "Fingerprint": "fingerprint",
+  "Use {{method}} to sign in next time?": "Use {{method}} to sign in next time?",
+  "Sign in with {{method}}": "Sign in with {{method}}",
+  "Sign in to Zinfurn": "Sign in to Zinfurn"
 }

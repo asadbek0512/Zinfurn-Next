@@ -762,5 +762,10 @@
   "Camera access denied": "Нет доступа к камере. Разрешите его в настройках.",
   "Not a Zinfurn QR code": "Это не QR-код Zinfurn",
   "Download QR code": "Скачать QR-код",
-  "Scan in the Zinfurn app or download to print": "Отсканируйте в приложении Zinfurn или нажмите, чтобы скачать и распечатать"
+  "Scan in the Zinfurn app or download to print": "Отсканируйте в приложении Zinfurn или нажмите, чтобы скачать и распечатать",
+  "Face ID": "Face ID",
+  "Fingerprint": "отпечаток пальца",
+  "Use {{method}} to sign in next time?": "Входить в следующий раз с помощью {{method}}?",
+  "Sign in with {{method}}": "Войти с помощью: {{method}}",
+  "Sign in to Zinfurn": "Вход в Zinfurn"
 }

@@ -211,6 +211,12 @@
         }
       }
 
+      .mob-join-btn.mob-biometric-btn {
+        background: transparent;
+        color: var(--primary);
+        border: 1.5px solid var(--primary);
+      }
+
       .mob-join-divider {
         display: flex;
         align-items: center;

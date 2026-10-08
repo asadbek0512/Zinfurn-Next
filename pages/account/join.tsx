@@ -5,7 +5,7 @@ import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { logIn, signUp } from '../../libs/auth';
-import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
+import { sweetConfirmAlert, sweetMixinErrorAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import { setJwtToken, updateUserInfo, updateStorage } from '../../libs/auth';
@@ -15,6 +15,14 @@ import {
 } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { startGoogleAuth, isAppleSignInEnabled, startAppleSignIn, isNativeApp } from '../../libs/native';
+import {
+	BiometryKind,
+	disableBiometricLogin,
+	enableBiometricLogin,
+	getBiometricCredentials,
+	getBiometryKind,
+	isBiometricLoginEnabled,
+} from '../../libs/native/biometric';
 import useAppMode from '../../libs/hooks/useAppMode';
 import { redirectToTelegramAuth, consumeTelegramRedirectResult, startTelegramAppAuth } from '../../libs/utils/telegramAuth';
 import { LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
@@ -49,6 +57,18 @@ const Join: NextPage = () => {
 
 	const [appleEnabled, setAppleEnabled] = useState(false);
 	useEffect(() => setAppleEnabled(isAppleSignInEnabled()), []);
+
+	/** Face ID / barmoq izi: qurilmada bo'lsa turi, login tugmasi faqat yoqilgan bo'lsa */
+	const [biometryKind, setBiometryKind] = useState<BiometryKind | null>(null);
+	const [biometricSaved, setBiometricSaved] = useState(false);
+	useEffect(() => {
+		const detectBiometry = async () => {
+			setBiometryKind(await getBiometryKind());
+			setBiometricSaved(isBiometricLoginEnabled());
+		};
+		detectBiometry();
+	}, []);
+	const biometryLabel = biometryKind === 'face' ? t('Face ID') : t('Fingerprint');
 
 	const handleAppleAuth = async () => {
 		try {
@@ -151,12 +171,30 @@ const Join: NextPage = () => {
 		}
 
 		try {
-			const result = await logIn(input.memberEmail, input.password);
+			await logIn(input.memberEmail, input.password);
+			if (biometryKind && !isBiometricLoginEnabled()) {
+				const wantsBiometric = await sweetConfirmAlert(t('Use {{method}} to sign in next time?', { method: biometryLabel }));
+				if (wantsBiometric) await enableBiometricLogin(input.memberEmail, input.password, biometryLabel);
+			}
 			window.location.href = router.query.referrer?.toString() ?? '/';
 		} catch (err: unknown) {
 			await sweetMixinErrorAlert(getErrorMessage(err) || t('Login failed'));
 		}
-	}, [input, router, t]);
+	}, [input, router, t, biometryKind, biometryLabel]);
+
+	const doBiometricLogin = async () => {
+		const credentials = await getBiometricCredentials(t('Sign in to Zinfurn'));
+		if (!credentials) return;
+		try {
+			await logIn(credentials.email, credentials.password);
+			window.location.href = router.query.referrer?.toString() ?? '/';
+		} catch (err: unknown) {
+			// Parol o'zgargan bo'lsa saqlangan yozuv eskirgan — o'chirib, oddiy kirishga qaytamiz
+			await disableBiometricLogin();
+			setBiometricSaved(false);
+			await sweetMixinErrorAlert(getErrorMessage(err) || t('Login failed'));
+		}
+	};
 
 	const doSignUp = useCallback(async () => {
 
@@ -361,6 +399,12 @@ const Join: NextPage = () => {
 					>
 						{loginView ? t('Sign In') : t('Create Account')}
 					</Button>
+
+					{loginView && biometryKind && biometricSaved && (
+						<Button className="mob-join-btn mob-biometric-btn" variant="outlined" onClick={doBiometricLogin}>
+							{t('Sign in with {{method}}', { method: biometryLabel })}
+						</Button>
+					)}
 
 					<div className="mob-join-divider">
 						<span>{t('or')} {loginView ? t('Sign In') : t('Create Account')} {t('with')}</span>

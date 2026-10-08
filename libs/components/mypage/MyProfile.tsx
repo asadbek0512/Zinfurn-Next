@@ -8,6 +8,7 @@ import { getJwtToken, logOut, updateStorage, updateUserInfo } from '../../auth';
 import { useMutation, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { MemberUpdate } from '../../types/member/member.update';
+import { disableBiometricLogin } from '../../native/biometric';
 import { DELETE_MY_ACCOUNT, UPDATE_MEMBER } from '../../../apollo/user/mutation';
 import { sweetConfirmAlert, sweetErrorHandling, sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../sweetAlert';
 import EditIcon from '@mui/icons-material/Edit';
@@ -178,6 +179,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 		if (!confirmed) return;
 		try {
 			await deleteMyAccount();
+			await disableBiometricLogin();
 			await sweetMixinSuccessAlert(t('Account deleted'));
 			logOut();
 		} catch (err) {

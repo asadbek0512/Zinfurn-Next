@@ -761,5 +761,10 @@
   "Camera access denied": "Kameraga ruxsat berilmadi. Sozlamalardan ruxsat bering.",
   "Not a Zinfurn QR code": "Bu Zinfurn QR kodi emas",
   "Download QR code": "QR kodni yuklab olish",
-  "Scan in the Zinfurn app or download to print": "Zinfurn app'da skanerlang yoki bosib yuklab, chop eting"
+  "Scan in the Zinfurn app or download to print": "Zinfurn app'da skanerlang yoki bosib yuklab, chop eting",
+  "Face ID": "Face ID",
+  "Fingerprint": "barmoq izi",
+  "Use {{method}} to sign in next time?": "Keyingi safar {{method}} bilan kirasizmi?",
+  "Sign in with {{method}}": "{{method}} bilan kirish",
+  "Sign in to Zinfurn": "Zinfurn’ga kirish"
 }
