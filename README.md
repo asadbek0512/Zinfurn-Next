@@ -96,6 +96,35 @@ Being upfront — these are conscious trade-offs, not blind spots:
 9. **iOS AR needs USDZ for the best result.** Quick Look accepts the GLB path, but a per-product `ios-src` USDZ would render more faithfully; conversion is not yet part of the pipeline.
 10. **Generated models are review-gated.** Image-to-3D output quality varies with the source photo, so every generated GLB is checked by an admin before it is attached to a product — the pipeline assists, it does not publish on its own.
 
+## Roadmap
+
+A pragmatic, value-ordered plan — what turns this from a polished showcase into a revenue-generating marketplace. Grouped by impact, not by effort.
+
+### 🔴 Revenue & trust — ship first
+
+These directly unblock money and buyer confidence.
+
+- **Live local payments (Payme · Click · Uzum).** Payme/Click are wired as a demo checkout today; promoting them to production (server-side confirm + webhook reconciliation) is the single highest-value step for the UZ market, replacing the Toss sandbox.
+- **Delivery & logistics.** Region-based shipping cost, estimated delivery date at checkout, and courier tracking numbers surfaced on the order timeline.
+- **Seller dashboard.** Per-agent analytics — views → order conversion, revenue, best-selling products, low-stock warnings — so agents have a reason to list and restock.
+- **Abandoned-cart recovery.** Telegram/email nudge when a cart is left unpaid; typically recovers a meaningful slice of lost orders with infrastructure that already exists (notifications are built).
+
+### 🟡 Conversion & retention — grow the numbers
+
+- **Recommendations & upsell.** "Related products", "frequently bought together", and recently-viewed-driven suggestions to lift average order value.
+- **Loyalty points & tiers.** `memberPoints` already lives on the member schema — spend/earn rules + checkout redemption turn it into repeat-purchase fuel.
+- **Back-in-stock & price-drop alerts.** Favorites already capture intent; notify the user when a saved item restocks or drops in price.
+- **Promoted / featured listings.** Let agents pay to boost placement — a clean marketplace monetization channel on top of order flow.
+- **Full returns & refund workflow.** Return requests exist; close the loop with approve → refund → restock states.
+
+### 🟢 Professional polish — the ideal build
+
+- **PWA + web push.** Installable app shell and push notifications (order updates, alerts) without a separate native build.
+- **Per-product iOS USDZ** for higher-fidelity Quick Look AR (today iOS reads the GLB path).
+- **Performance budget.** Lighthouse 95+ target, image CDN, route-level code splitting, and LCP/CLS tracking on the catalog and detail pages.
+- **Accessibility (WCAG AA).** Keyboard navigation, focus states, and screen-reader labels across catalog, cart, and checkout.
+- **Product analytics.** Funnel instrumentation (catalog → cart → pay) so roadmap priorities are driven by real drop-off data.
+
 ## Credits & Third-Party Work
 
 - **[three.js](https://github.com/mrdoob/three.js)** (MIT) — via `<model-viewer>`, which is vendored as a standalone bundle because its ESM build pins a different three.js version than this app.
