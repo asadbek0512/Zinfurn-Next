@@ -289,6 +289,11 @@ html[data-app='1'] {
     bottom: calc(var(--app-nav-total) + #{$app-fab-offset}) !important;
   }
 
+  // Checkout'ning pastki "Continue / Pay" paneli navbar ostida qolib ketmasin
+  .co-mob-footer {
+    bottom: var(--app-nav-total);
+  }
+
   // FAB'lar ScrollTop tugmasidan tepada — ular uni yopib qo'ymasin
   .app-chat-fabs {
     position: fixed;
