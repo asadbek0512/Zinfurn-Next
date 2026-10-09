@@ -67,7 +67,7 @@ const Checkout: NextPage = () => {
 	const [expiry, setExpiry] = useState('');
 	const [cvv, setCvv] = useState('');
 	const [cardErrors, setCardErrors] = useState<Record<string, string>>({});
-	const [payMethod, setPayMethod] = useState<PaymentMethod>(PaymentMethod.TOSS);
+	const [payMethod, setPayMethod] = useState<PaymentMethod>(PaymentMethod.CARD);
 	const [tossOpening, setTossOpening] = useState(false);
 	const isToss = payMethod === PaymentMethod.TOSS;
 
@@ -283,8 +283,8 @@ const Checkout: NextPage = () => {
 
 			<div className="co-pay-methods" role="radiogroup">
 				{[
-					{ value: PaymentMethod.TOSS, label: 'Toss Payments', sub: t('Korean cards · KRW') },
 					{ value: PaymentMethod.CARD, label: t('Demo card'), sub: t('No real payment') },
+					{ value: PaymentMethod.TOSS, label: 'Toss Payments', sub: t('Korean cards · KRW') },
 				].map(m => (
 					<button key={m.value} type="button" role="radio" aria-checked={payMethod === m.value}
 						className={`co-pay-method${payMethod === m.value ? ' co-pay-method--active' : ''}`}
