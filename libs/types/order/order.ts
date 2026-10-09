@@ -25,6 +25,8 @@ export interface Order {
 	orderItems: OrderItem[];
 	orderStatus: OrderStatus;
 	orderTotal: number;
+	orderDiscount?: number;
+	deliveryFee?: number;
 	deliveryInfo: DeliveryInfo;
 	paymentMethod?: PaymentMethod;
 	paymentStatus?: PaymentStatus;

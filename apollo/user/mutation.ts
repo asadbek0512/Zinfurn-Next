@@ -513,6 +513,8 @@ export const CREATE_ORDER = gql`
 			paymentAmount
 			paymentCurrency
 			orderTotal
+			orderDiscount
+			deliveryFee
 			deliveryInfo {
 				fullName
 				address
@@ -532,6 +534,8 @@ export const CONFIRM_TOSS_PAYMENT = gql`
 			_id
 			orderId
 			orderTotal
+			orderDiscount
+			deliveryFee
 			paymentStatus
 			paymentAmount
 			paymentCurrency
@@ -553,6 +557,8 @@ export const CONFIRM_DEMO_PAYMENT = gql`
 			_id
 			orderId
 			orderTotal
+			orderDiscount
+			deliveryFee
 			paymentMethod
 			paymentStatus
 			paymentAmount

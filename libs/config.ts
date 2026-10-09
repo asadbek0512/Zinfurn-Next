@@ -23,3 +23,9 @@ export const Messages = {
 export const topPropertyRank = 2;
 
 
+
+/** Yetkazib berish — backend bilan bir xil bo'lsin (order.service.ts) */
+export const FREE_DELIVERY_THRESHOLD = 500;
+export const DELIVERY_FEE = 15;
+export const calcDeliveryFee = (merchandise: number): number =>
+	merchandise >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;

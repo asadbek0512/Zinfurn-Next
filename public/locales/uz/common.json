@@ -777,5 +777,19 @@
   "demo_payment_hint": "Bu {{provider}} to'lov bosqichining demosi. Merchant kalitlari ulanmagan — kartadan pul yechilmaydi.",
   "Processing...": "Bajarilmoqda...",
   "Pay {{amount}}": "{{amount}} to'lash",
-  "Order": "Buyurtma"
+  "Order": "Buyurtma",
+  "Seller Dashboard": "Sotuvchi paneli",
+  "Your sales performance at a glance": "Savdo ko'rsatkichlaringiz bir qarashda",
+  "Revenue": "Daromad",
+  "Items Sold": "Sotilgan tovarlar",
+  "Active Listings": "Faol e'lonlar",
+  "Sold Listings": "Sotilgan e'lonlar",
+  "Total Views": "Jami ko'rishlar",
+  "Total Likes": "Jami yoqtirishlar",
+  "Total Listings": "Jami e'lonlar",
+  "Last 7 days": "Oxirgi 7 kun",
+  "Top Products": "Eng ko'p sotilganlar",
+  "No sales yet": "Hali savdo yo'q",
+  "No data": "Ma'lumot yo'q",
+  "sold": "sotildi"
 }

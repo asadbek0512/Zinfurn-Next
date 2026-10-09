@@ -5,7 +5,7 @@ import { useReactiveVar, useMutation, useLazyQuery } from '@apollo/client';
 import { cartVar, userVar } from '../apollo/store';
 import { clearCart, getCartTotal } from '../libs/utils/cartUtils';
 import { formatterStr } from '../libs/utils';
-import { REACT_APP_API_URL } from '../libs/config';
+import { REACT_APP_API_URL, calcDeliveryFee } from '../libs/config';
 import { CREATE_ORDER, START_PAYMENT } from '../apollo/user/mutation';
 import { VALIDATE_COUPON } from '../apollo/user/query';
 import { Order } from '../libs/types/order/order';
@@ -112,7 +112,9 @@ const Checkout: NextPage = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [total]);
 
-	const payableTotal = couponApplied ? couponApplied.finalTotal : total;
+	const deliveryFee = calcDeliveryFee(total);
+	const afterDiscount = couponApplied ? couponApplied.finalTotal : total;
+	const payableTotal = afterDiscount + deliveryFee;
 
 	const [createOrder, { loading: placing }] = useMutation(CREATE_ORDER);
 	const [startPayment] = useMutation(START_PAYMENT);
@@ -260,7 +262,7 @@ const Checkout: NextPage = () => {
 			{couponApplied && (
 				<div className="co-sum-row co-sum-discount"><span>{t('Discount')} ({couponApplied.code})</span><span>-{formatPrice(couponApplied.discountAmount)}</span></div>
 			)}
-			<div className="co-sum-row"><span>{t('Shipping')}</span><span className="co-free">{t('Free')}</span></div>
+			<div className="co-sum-row"><span>{t('Shipping')}</span>{deliveryFee > 0 ? <span>{formatPrice(deliveryFee)}</span> : <span className="co-free">{t('Free')}</span>}</div>
 			<Divider sx={{ my: 1 }} />
 			<div className="co-sum-row co-sum-total"><span>{t('Total')}</span><span>{formatPrice(payableTotal)}</span></div>
 		</div>

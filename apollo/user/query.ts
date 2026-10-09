@@ -1240,6 +1240,8 @@ export const GET_MY_ORDERS = gql`
 				}
 				orderStatus
 				orderTotal
+				orderDiscount
+				deliveryFee
 				deliveryInfo {
 					fullName
 					address
@@ -1277,6 +1279,8 @@ export const GET_ORDER_BY_ID = gql`
 			}
 			orderStatus
 			orderTotal
+			orderDiscount
+			deliveryFee
 			deliveryInfo {
 				fullName
 				address
