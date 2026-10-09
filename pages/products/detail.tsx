@@ -32,6 +32,7 @@ import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } f
 import { create } from 'domain';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import ReviewSection from '../../libs/components/property/ReviewSection';
+import QASection from '../../libs/components/property/QASection';
 import RecentlyViewed from '../../libs/components/property/RecentlyViewed';
 import { getStockInfo } from '../../libs/utils/stock';
 import useRecentlyViewed from '../../libs/hooks/useRecentlyViewed';
@@ -511,6 +512,7 @@ const PropertyDetail: NextPage = (props: any) => {
 					<Tabs value={tabIndex} onChange={handleTabChange} className="mob-det-tabs">
 						<Tab label={t('description')} />
 						<Tab label={`${t('reviews')} (${reviewTotal})`} />
+						<Tab label={t('Q&A')} />
 					</Tabs>
 
 					{tabIndex === 0 && (
@@ -555,6 +557,12 @@ const PropertyDetail: NextPage = (props: any) => {
 						<div className="mob-rev-tab">
 							{/* Reyting va sharhlar — faqat sotib olgan mijoz qoldiradi */}
 							{property?._id && <ReviewSection propertyId={property._id} />}
+						</div>
+					)}
+
+					{tabIndex === 2 && (
+						<div className="mob-rev-tab">
+							{property?._id && <QASection propertyId={property._id} ownerId={property?.memberData?._id} />}
 						</div>
 					)}
 				</div>
@@ -835,6 +843,7 @@ const PropertyDetail: NextPage = (props: any) => {
 								<Tabs value={tabIndex} onChange={handleTabChange} className="property-tabs">
 									<Tab label={t('description')} />
 									<Tab label={`${t('reviews')} (${reviewTotal})`} />
+									<Tab label={t('Q&A')} />
 								</Tabs>
 
 								{tabIndex === 0 && (
@@ -963,6 +972,12 @@ const PropertyDetail: NextPage = (props: any) => {
 								{tabIndex === 1 && (
 									<Stack className="repair-detail__comments" spacing={3}>
 										{property?._id && <ReviewSection propertyId={property._id} />}
+									</Stack>
+								)}
+
+								{tabIndex === 2 && (
+									<Stack className="repair-detail__comments" spacing={3}>
+										{property?._id && <QASection propertyId={property._id} ownerId={property?.memberData?._id} />}
 									</Stack>
 								)}
 							</Stack>

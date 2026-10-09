@@ -390,6 +390,7 @@ export const CREATE_COMMENT = gql`
 			commentGroup
 			commentContent
 			commentRefId
+			commentReplyId
 			memberId
 			createdAt
 			updatedAt

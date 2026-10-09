@@ -5,11 +5,13 @@ export interface CommentInput {
 	commentGroup: CommentGroup;
 	commentContent: string;
 	commentRefId: string;
+	commentReplyId?: string;
 	memberId?: string;
 }
 
 interface CISearch {
 	commentRefId: string;
+	commentGroup?: CommentGroup;
 }
 
 export interface CommentsInquiry {
