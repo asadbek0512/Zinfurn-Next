@@ -1456,3 +1456,32 @@ export const GET_FAVORITE_IDS = gql`
 		}
 	}
 `;
+
+/**         SELLER DASHBOARD        */
+
+export const GET_SELLER_DASHBOARD = gql`
+	query GetSellerDashboard {
+		getSellerDashboard {
+			totalRevenue
+			totalOrders
+			itemsSold
+			activeListings
+			soldListings
+			totalListings
+			totalViews
+			totalLikes
+			topProducts {
+				propertyId
+				propertyTitle
+				propertyImage
+				soldQty
+				revenue
+			}
+			salesTrend {
+				date
+				revenue
+				orders
+			}
+		}
+	}
+`;

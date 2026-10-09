@@ -1,0 +1,163 @@
+.seller-dashboard {
+	width: 100%;
+
+	.main-title-box {
+		margin-bottom: 24px;
+		.main-title {
+			font-size: 24px;
+			font-weight: 700;
+			color: var(--text, #1a1a1a);
+		}
+		.sub-title {
+			font-size: 14px;
+			color: #8a8a8a;
+			margin-top: 4px;
+		}
+	}
+
+	.sd-empty {
+		padding: 40px;
+		text-align: center;
+		color: #9a9a9a;
+		font-size: 15px;
+	}
+
+	.sd-cards {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 16px;
+		margin-bottom: 28px;
+
+		.sd-card {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+			padding: 20px;
+			border-radius: 14px;
+			background: var(--surface, #fff);
+			border: 1px solid #ececec;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+			.sd-card-value {
+				font-size: 24px;
+				font-weight: 700;
+				color: var(--primary, #ff9736);
+			}
+			.sd-card-label {
+				font-size: 13px;
+				color: #8a8a8a;
+			}
+		}
+	}
+
+	.sd-grid {
+		display: grid;
+		grid-template-columns: 1.3fr 1fr;
+		gap: 20px;
+
+		.sd-panel {
+			padding: 20px;
+			border-radius: 14px;
+			background: var(--surface, #fff);
+			border: 1px solid #ececec;
+
+			.sd-panel-title {
+				font-size: 16px;
+				font-weight: 600;
+				margin-bottom: 18px;
+				color: var(--text, #1a1a1a);
+			}
+		}
+
+		.sd-chart {
+			display: flex;
+			align-items: flex-end;
+			gap: 10px;
+			height: 180px;
+
+			.sd-bar-col {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: flex-end;
+				height: 100%;
+				gap: 6px;
+
+				.sd-bar {
+					width: 60%;
+					min-height: 3px;
+					border-radius: 6px 6px 0 0;
+					background: linear-gradient(180deg, var(--primary, #ff9736), #ffc08a);
+					transition: height 0.3s ease;
+				}
+				.sd-bar-label {
+					font-size: 11px;
+					color: #9a9a9a;
+				}
+			}
+		}
+
+		.sd-top-list {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+
+			.sd-top-item {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				cursor: pointer;
+				padding: 6px;
+				border-radius: 10px;
+				transition: background 0.2s;
+				&:hover { background: #faf7f3; }
+
+				.sd-top-rank {
+					width: 22px;
+					height: 22px;
+					flex-shrink: 0;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					border-radius: 50%;
+					background: var(--primary, #ff9736);
+					color: #fff;
+					font-size: 12px;
+					font-weight: 700;
+				}
+				.sd-top-img {
+					width: 48px;
+					height: 48px;
+					border-radius: 8px;
+					object-fit: cover;
+					flex-shrink: 0;
+				}
+				.sd-top-info {
+					display: flex;
+					flex-direction: column;
+					gap: 2px;
+					overflow: hidden;
+					.sd-top-name {
+						font-size: 14px;
+						font-weight: 500;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+					.sd-top-meta {
+						font-size: 12px;
+						color: #9a9a9a;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 900px) {
+	.seller-dashboard {
+		.sd-cards { grid-template-columns: repeat(2, 1fr); }
+		.sd-grid { grid-template-columns: 1fr; }
+	}
+}

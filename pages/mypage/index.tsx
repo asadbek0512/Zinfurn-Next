@@ -5,6 +5,7 @@ import { Stack } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import MyProperties from '../../libs/components/mypage/MyProperties';
+import SellerDashboard from '../../libs/components/mypage/SellerDashboard';
 import MyFavorites from '../../libs/components/mypage/MyFavorites';
 import RecentlyVisited from '../../libs/components/mypage/RecentlyVisited';
 import AddProperty from '../../libs/components/mypage/AddNewProperty';
@@ -145,6 +146,7 @@ const MyPage: NextPage = () => {
 				</div>
 				{mobileCategory === 'addProperty' && <AddProperty />}
 				{mobileCategory === 'addRepairProperty' && <AddRepairProperty />}
+				{mobileCategory === 'sellerDashboard' && <SellerDashboard />}
 				{mobileCategory === 'myProperties' && <MyProperties />}
 				{mobileCategory === 'myRepairProperty' && <MyRepairProperty />}
 				{mobileCategory === 'myFavorites' && <MyFavorites />}
@@ -186,6 +188,7 @@ const MyPage: NextPage = () => {
 								<Stack className={'list-config'}>
 									{category === 'addProperty' && <AddProperty />}
 									{category === 'addRepairProperty' && <AddRepairProperty />}
+									{category === 'sellerDashboard' && <SellerDashboard />}
 									{category === 'myProperties' && <MyProperties />}
 									{category === 'myRepairProperty' && <MyRepairProperty />}
 									{category === 'myFavorites' && <MyFavorites />}

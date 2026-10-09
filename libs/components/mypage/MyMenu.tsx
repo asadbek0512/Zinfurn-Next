@@ -22,6 +22,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import HistoryIcon from '@mui/icons-material/History';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import AddHomeIcon from '@mui/icons-material/AddHome';
+import InsightsIcon from '@mui/icons-material/Insights';
 import BuildIcon from '@mui/icons-material/Build';
 import UserAvatar from '../common/UserAvatar';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -147,6 +148,13 @@ const MyMenu = () => {
 
 					{user?.memberType === 'AGENT' && (
 						<>
+							<div className="mob-mymenu-item" onClick={() => goTo('sellerDashboard')}>
+								<div className="mob-mymenu-item-icon"><InsightsIcon /></div>
+								<div className="mob-mymenu-item-text">
+									<span className="mob-mymenu-item-label">{t('Seller Dashboard')}</span>
+								</div>
+								<ChevronRightIcon className="mob-mymenu-item-chevron" />
+							</div>
 							<div className="mob-mymenu-item" onClick={() => goTo('addProperty')}>
 								<div className="mob-mymenu-item-icon"><AddHomeIcon /></div>
 								<div className="mob-mymenu-item-text">
@@ -356,6 +364,25 @@ const MyMenu = () => {
 						<List className={'sub-section'}>
 							{user.memberType === 'AGENT' && (
 								<>
+									<ListItem className={pathname === 'sellerDashboard' ? 'focus' : ''}>
+										<Link
+											href={{
+												pathname: '/mypage',
+												query: { category: 'sellerDashboard' },
+											}}
+											scroll={false}
+										>
+											<div className={'flex-box'}>
+												<InsightsIcon className={'com-icon'} style={{ color: category === 'sellerDashboard' ? '#fff' : '#ff9736' }} />
+												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+													{t('Seller Dashboard')}
+												</Typography>
+												<IconButton aria-label="dashboard" sx={{ ml: '40px' }}>
+													<PortraitIcon style={{ color: '#ff9736' }} />
+												</IconButton>
+											</div>
+										</Link>
+									</ListItem>
 									<ListItem className={pathname === 'addProperty' ? 'focus' : ''}>
 										<Link
 											href={{
