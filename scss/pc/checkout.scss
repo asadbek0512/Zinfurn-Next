@@ -668,3 +668,88 @@ $font: 'Poppins', sans-serif;
 	width: 100%;
 	max-width: 420px;
 }
+
+/* ── To'lov logotiplari ── */
+.pay-logo {
+	height: 22px;
+	width: auto;
+	margin-bottom: 4px;
+
+	&--icon {
+		color: #374151;
+		font-size: 22px;
+	}
+}
+
+.co-pay-methods .co-pay-method-label {
+	font-size: 13px;
+}
+
+/* ── Demo Payme/Click sahifasi ── */
+.demo-pay {
+	.demo-pay-card {
+		width: 100%;
+		max-width: 400px;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 14px;
+		padding: 28px 24px;
+		border-radius: 20px;
+		background: #fff;
+		box-shadow: 0 10px 40px rgba(17, 24, 39, 0.08);
+	}
+
+	.demo-pay-badge {
+		align-self: center;
+		padding: 4px 10px;
+		border-radius: 999px;
+		background: #fff7ed;
+		color: #c2410c;
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+	}
+
+	.demo-pay-logo {
+		display: flex;
+		justify-content: center;
+		padding: 8px 0 4px;
+
+		.pay-logo {
+			height: 40px;
+		}
+	}
+
+	.demo-pay-row {
+		display: flex;
+		justify-content: space-between;
+		font-size: 14px;
+		color: #6b7280;
+
+		b {
+			color: #111827;
+		}
+	}
+
+	.demo-pay-total b {
+		font-size: 20px;
+	}
+
+	.demo-pay-hint {
+		margin: 0;
+		font-size: 12px;
+		color: #6b7280;
+		text-align: center;
+	}
+
+	.demo-pay-error {
+		color: #dc2626;
+		font-size: 13px;
+		text-align: center;
+	}
+
+	.demo-pay-cancel {
+		color: #6b7280;
+	}
+}

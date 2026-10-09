@@ -6,12 +6,14 @@ import { cartVar, userVar } from '../apollo/store';
 import { clearCart, getCartTotal } from '../libs/utils/cartUtils';
 import { formatterStr } from '../libs/utils';
 import { REACT_APP_API_URL } from '../libs/config';
-import { CREATE_ORDER } from '../apollo/user/mutation';
+import { CREATE_ORDER, START_PAYMENT } from '../apollo/user/mutation';
 import { VALIDATE_COUPON } from '../apollo/user/query';
 import { Order } from '../libs/types/order/order';
 import { PaymentMethod } from '../libs/enums/payment.enum';
 import { TOSS_USER_CANCEL, requestTossPayment } from '../libs/payment/toss';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import PaymentLogo from '../libs/components/common/PaymentLogo';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
@@ -67,9 +69,13 @@ const Checkout: NextPage = () => {
 	const [expiry, setExpiry] = useState('');
 	const [cvv, setCvv] = useState('');
 	const [cardErrors, setCardErrors] = useState<Record<string, string>>({});
-	const [payMethod, setPayMethod] = useState<PaymentMethod>(PaymentMethod.CARD);
+	const [payMethod, setPayMethod] = useState<PaymentMethod>(PaymentMethod.PAYME);
 	const [tossOpening, setTossOpening] = useState(false);
 	const isToss = payMethod === PaymentMethod.TOSS;
+	/** Payme/Click: buyurtmadan keyin provayder (yoki demo) sahifasiga o'tiladi */
+	const isUzProvider = payMethod === PaymentMethod.PAYME || payMethod === PaymentMethod.CLICK;
+	const isCard = payMethod === PaymentMethod.CARD;
+	const router = useRouter();
 
 	const savedTotal = useRef(total);
 
@@ -109,6 +115,7 @@ const Checkout: NextPage = () => {
 	const payableTotal = couponApplied ? couponApplied.finalTotal : total;
 
 	const [createOrder, { loading: placing }] = useMutation(CREATE_ORDER);
+	const [startPayment] = useMutation(START_PAYMENT);
 
 	const step1Valid = fullName.trim() && address.trim() && phone.trim();
 
@@ -126,7 +133,7 @@ const Checkout: NextPage = () => {
 	const handleNext = async () => {
 		if (step === 0 && !step1Valid) return;
 		if (step === 1) {
-			if (!isToss && !validateStep2()) return;
+			if (isCard && !validateStep2()) return;
 			savedTotal.current = payableTotal;
 			setPlaceError('');
 			try {
@@ -148,6 +155,19 @@ const Checkout: NextPage = () => {
 						},
 					},
 				});
+				if (isUzProvider) {
+					setTossOpening(true);
+					const { data: payment } = await startPayment({ variables: { orderId: data.createOrder.orderId } });
+					const url: string = payment.startPayment;
+					// Haqiqiy provayder — tashqi sahifa; demo — o'z sahifamiz (savat u yerda tozalanadi)
+					if (/^https?:\/\//.test(url)) {
+						clearCart();
+						window.location.href = url;
+					} else {
+						await router.push(url);
+					}
+					return;
+				}
 				if (isToss) {
 					// Savat success sahifasida (to'lov tasdiqlangach) tozalanadi
 					setTossOpening(true);
@@ -283,19 +303,30 @@ const Checkout: NextPage = () => {
 
 			<div className="co-pay-methods" role="radiogroup">
 				{[
-					{ value: PaymentMethod.CARD, label: t('Demo card'), sub: t('No real payment') },
+					{ value: PaymentMethod.PAYME, label: 'Payme', sub: t('Uzcard · Humo') },
+					{ value: PaymentMethod.CLICK, label: 'Click', sub: t('Uzcard · Humo') },
 					{ value: PaymentMethod.TOSS, label: 'Toss Payments', sub: t('Korean cards · KRW') },
+					{ value: PaymentMethod.CARD, label: t('Demo card'), sub: t('No real payment') },
 				].map(m => (
 					<button key={m.value} type="button" role="radio" aria-checked={payMethod === m.value}
 						className={`co-pay-method${payMethod === m.value ? ' co-pay-method--active' : ''}`}
 						onClick={() => setPayMethod(m.value)}>
+						<PaymentLogo method={m.value} />
 						<span className="co-pay-method-label">{m.label}</span>
 						<span className="co-pay-method-sub">{m.sub}</span>
 					</button>
 				))}
 			</div>
 
-			{isToss ? (
+			{isUzProvider ? (
+				<div className="co-toss co-toss--uz">
+					<span className="co-toss-badge">TEST MODE</span>
+					<p className="co-toss-text">
+						{t('uz_redirect_hint', { provider: payMethod === PaymentMethod.PAYME ? 'Payme' : 'Click' })}
+					</p>
+					<p className="co-toss-text co-toss-text--muted">{t('uz_test_hint')}</p>
+				</div>
+			) : isToss ? (
 				<div className="co-toss">
 					<span className="co-toss-badge">TEST MODE</span>
 					<p className="co-toss-text">{t('toss_redirect_hint')}</p>
@@ -449,7 +480,7 @@ const Checkout: NextPage = () => {
 							className="co-mob-next-btn"
 							disabled={(step === 0 ? !step1Valid : false) || placing || tossOpening}
 						>
-							{placing || tossOpening ? t('Placing...') : step === 1 ? (isToss ? t('Pay with Toss') : t('Place Order')) : t('Continue')}
+							{placing || tossOpening ? t('Placing...') : step === 1 ? (isToss ? t('Pay with Toss') : isUzProvider ? t('Pay with {{provider}}', { provider: payMethod === PaymentMethod.PAYME ? 'Payme' : 'Click' }) : t('Place Order')) : t('Continue')}
 						</Button>
 					</div>
 				)}
@@ -492,7 +523,7 @@ const Checkout: NextPage = () => {
 								)}
 								<Button variant="contained" onClick={handleNext}
 									className="co-btn-primary" disabled={(step === 0 ? !step1Valid : false) || placing || tossOpening}>
-									{placing || tossOpening ? t('Placing...') : step === 1 ? (isToss ? t('Pay with Toss') : t('Place Order')) : t('Continue')}
+									{placing || tossOpening ? t('Placing...') : step === 1 ? (isToss ? t('Pay with Toss') : isUzProvider ? t('Pay with {{provider}}', { provider: payMethod === PaymentMethod.PAYME ? 'Payme' : 'Click' }) : t('Place Order')) : t('Continue')}
 								</Button>
 							</div>
 						)}

@@ -770,5 +770,13 @@
   "Sign in to Zinfurn": "Вход в Zinfurn",
   "Only {{count}} left": "Осталось {{count}} шт",
   "Stock (empty = unlimited)": "Остаток (пусто = без лимита)",
-  "Unlimited": "Без лимита"
+  "Unlimited": "Без лимита",
+  "Uzcard · Humo": "Uzcard · Humo",
+  "uz_redirect_hint": "Вы будете перенаправлены в {{provider}} для оплаты в сумах.",
+  "uz_test_hint": "Демо-режим: реальные деньги не списываются.",
+  "Pay with {{provider}}": "Оплатить через {{provider}}",
+  "demo_payment_hint": "Это демо шага оплаты {{provider}}. Ключи мерчанта не подключены — деньги с карты не списываются.",
+  "Processing...": "Обработка...",
+  "Pay {{amount}}": "Оплатить {{amount}}",
+  "Order": "Заказ"
 }

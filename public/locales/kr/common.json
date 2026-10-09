@@ -770,5 +770,13 @@
   "Sign in to Zinfurn": "Zinfurn 로그인",
   "Only {{count}} left": "{{count}}개 남음",
   "Stock (empty = unlimited)": "재고 (비우면 무제한)",
-  "Unlimited": "무제한"
+  "Unlimited": "무제한",
+  "Uzcard · Humo": "Uzcard · Humo",
+  "uz_redirect_hint": "{{provider}} 결제 페이지로 이동하여 숨(UZS)으로 결제합니다.",
+  "uz_test_hint": "데모 모드: 실제 결제되지 않습니다.",
+  "Pay with {{provider}}": "{{provider}}로 결제",
+  "demo_payment_hint": "{{provider}} 결제 단계 데모입니다. 가맹점 키가 연결되지 않아 실제 결제되지 않습니다.",
+  "Processing...": "처리 중...",
+  "Pay {{amount}}": "{{amount}} 결제",
+  "Order": "주문"
 }

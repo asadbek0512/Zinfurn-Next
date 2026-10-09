@@ -769,5 +769,13 @@
   "Sign in to Zinfurn": "Zinfurn’ga kirish",
   "Only {{count}} left": "{{count}} ta qoldi",
   "Stock (empty = unlimited)": "Zaxira (bo'sh = cheksiz)",
-  "Unlimited": "Cheksiz"
+  "Unlimited": "Cheksiz",
+  "Uzcard · Humo": "Uzcard · Humo",
+  "uz_redirect_hint": "To'lov uchun {{provider}} sahifasiga o'tasiz (so'mda).",
+  "uz_test_hint": "Demo rejim: haqiqiy pul yechilmaydi.",
+  "Pay with {{provider}}": "{{provider}} orqali to'lash",
+  "demo_payment_hint": "Bu {{provider}} to'lov bosqichining demosi. Merchant kalitlari ulanmagan — kartadan pul yechilmaydi.",
+  "Processing...": "Bajarilmoqda...",
+  "Pay {{amount}}": "{{amount}} to'lash",
+  "Order": "Buyurtma"
 }

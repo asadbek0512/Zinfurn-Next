@@ -540,6 +540,28 @@ export const CONFIRM_TOSS_PAYMENT = gql`
 	}
 `;
 
+/** Payme/Click to'lov sahifasi havolasi — kalit yo'q bo'lsa /payment/demo */
+export const START_PAYMENT = gql`
+	mutation StartPayment($orderId: String!) {
+		startPayment(orderId: $orderId)
+	}
+`;
+
+export const CONFIRM_DEMO_PAYMENT = gql`
+	mutation ConfirmDemoPayment($orderId: String!) {
+		confirmDemoPayment(orderId: $orderId) {
+			_id
+			orderId
+			orderTotal
+			paymentMethod
+			paymentStatus
+			paymentAmount
+			paymentCurrency
+			paidAt
+		}
+	}
+`;
+
 export const CONFIRM_DELIVERY = gql`
 	mutation ConfirmDelivery($orderId: String!) {
 		confirmDelivery(orderId: $orderId) {

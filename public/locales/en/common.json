@@ -769,5 +769,13 @@
   "Sign in to Zinfurn": "Sign in to Zinfurn",
   "Only {{count}} left": "Only {{count}} left",
   "Stock (empty = unlimited)": "Stock (empty = unlimited)",
-  "Unlimited": "Unlimited"
+  "Unlimited": "Unlimited",
+  "Uzcard · Humo": "Uzcard · Humo",
+  "uz_redirect_hint": "You will be redirected to {{provider}} to pay in UZS.",
+  "uz_test_hint": "Demo mode: no real money is charged.",
+  "Pay with {{provider}}": "Pay with {{provider}}",
+  "demo_payment_hint": "This is a demo of the {{provider}} payment step. Merchant keys are not connected, so no card is charged.",
+  "Processing...": "Processing...",
+  "Pay {{amount}}": "Pay {{amount}}",
+  "Order": "Order"
 }

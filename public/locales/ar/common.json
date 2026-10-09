@@ -769,5 +769,13 @@
   "Sign in to Zinfurn": "تسجيل الدخول إلى Zinfurn",
   "Only {{count}} left": "بقي {{count}} فقط",
   "Stock (empty = unlimited)": "المخزون (فارغ = غير محدود)",
-  "Unlimited": "غير محدود"
+  "Unlimited": "غير محدود",
+  "Uzcard · Humo": "Uzcard · Humo",
+  "uz_redirect_hint": "ستتم إعادة توجيهك إلى {{provider}} للدفع بالسوم.",
+  "uz_test_hint": "وضع تجريبي: لن يتم خصم أموال حقيقية.",
+  "Pay with {{provider}}": "الدفع عبر {{provider}}",
+  "demo_payment_hint": "هذا عرض تجريبي لخطوة الدفع عبر {{provider}}. مفاتيح التاجر غير متصلة، لذلك لن يتم الخصم.",
+  "Processing...": "جارٍ المعالجة...",
+  "Pay {{amount}}": "ادفع {{amount}}",
+  "Order": "الطلب"
 }
