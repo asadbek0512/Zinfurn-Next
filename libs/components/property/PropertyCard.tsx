@@ -123,8 +123,8 @@ const PropertyCard = (props: PropertyCardProps) => {
 					<Stack className="mob-card-price">
 						{discountPercent > 0 ? (
 							<>
-								<Typography className="mob-old-price">{formatPrice(property?.propertyPrice)}</Typography>
 								<Typography className="mob-new-price">{formatPrice(salePrice)}</Typography>
+								<Typography className="mob-old-price">{formatPrice(property?.propertyPrice)}</Typography>
 							</>
 						) : (
 							<Typography className="mob-cur-price">{formatPrice(property?.propertyPrice)}</Typography>
@@ -244,8 +244,8 @@ const PropertyCard = (props: PropertyCardProps) => {
 				<Stack className="price-section">
 					{discountPercent > 0 ? (
 						<Box component="div" className="price-container">
-							<Typography className="old-price">{formatPrice(property?.propertyPrice)}</Typography>
 							<Typography className="new-price">{formatPrice(salePrice)}</Typography>
+							<Typography className="old-price">{formatPrice(property?.propertyPrice)}</Typography>
 						</Box>
 					) : (
 						<Typography className="current-price">{formatPrice(property?.propertyPrice)}</Typography>

@@ -432,11 +432,13 @@
           overflow: hidden;
         }
 
+        // Aksiya narxi chapda, eski narx o'ngda — bir qatorda
         .mob-card-price {
           display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 1px;
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-items: baseline;
+          gap: 6px;
 
           .mob-new-price {
             font-size: 17px;

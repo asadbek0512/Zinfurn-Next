@@ -589,11 +589,13 @@
 								.price-section {
 									margin-bottom: 16px;
 
+									// Aksiya narxi chapda, eski narx o'ngda — bir qatorda
 									.price-container {
 										display: flex;
-										flex-direction: column;
-										align-items: flex-start;
-										gap: 2px;
+										flex-direction: row;
+										flex-wrap: wrap;
+										align-items: baseline;
+										gap: 8px;
 									}
 
 									.old-price {
