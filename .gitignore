@@ -49,3 +49,7 @@ doc.env
 .env.production
 .next-prepush/
 .next-build/
+
+# playwright
+/test-results/
+/playwright-report/

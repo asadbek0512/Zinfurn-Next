@@ -2,6 +2,14 @@
 // loader shunga qadar turadi, shunda home page va popup birdan chiqadi.
 const PROMO_READY_EVENT = 'zin:promo-ready';
 let promoReady = false;
+/** Popup faqat ba'zi layout'larda bor (LayoutFull'da yo'q) — yo'q sahifada loader uni kutmasin */
+let promoMounted = false;
+
+export const markPromoMounted = (): void => {
+	promoMounted = true;
+};
+
+export const isPromoMounted = (): boolean => promoMounted;
 
 export const markPromoReady = (): void => {
 	if (promoReady || typeof window === 'undefined') return;

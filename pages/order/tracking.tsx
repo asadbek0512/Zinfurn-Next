@@ -46,6 +46,10 @@ const STEP_INDEX: Partial<Record<OrderStatus, number>> = {
 	[OrderStatus.CONFIRMED]: 4,
 };
 
+const DATE_FORMAT: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+const ESTIMATED_DELIVERY_DAYS = 4;
+const NO_DATE = '—';
+
 const OrderTracking: NextPage = () => {
 	const { t } = useTranslation('common');
 	const { formatPrice } = useCurrency();
@@ -81,14 +85,16 @@ const OrderTracking: NextPage = () => {
 	const activeStep = order ? (STEP_INDEX[order.orderStatus] ?? 0) : 0;
 
 	const orderDate = useMemo(() => {
-		const d = order?.createdAt ? new Date(order.createdAt) : new Date();
-		return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+		// Buyurtma yo'q bo'lsa "bugun" chizilmaydi — server (UTC) va telefon sanasi farqi hydration xatosi berardi
+		if (!order?.createdAt) return NO_DATE;
+		return new Date(order.createdAt).toLocaleDateString('en-US', DATE_FORMAT);
 	}, [order]);
 
 	const estimatedDate = useMemo(() => {
-		const base = order?.createdAt ? new Date(order.createdAt) : new Date();
-		base.setDate(base.getDate() + 4);
-		return base.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+		if (!order?.createdAt) return NO_DATE;
+		const base = new Date(order.createdAt);
+		base.setDate(base.getDate() + ESTIMATED_DELIVERY_DAYS);
+		return base.toLocaleDateString('en-US', DATE_FORMAT);
 	}, [order]);
 
 	const statusLabel = order ? (

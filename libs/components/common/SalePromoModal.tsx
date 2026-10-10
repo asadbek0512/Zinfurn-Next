@@ -13,7 +13,7 @@ import { Property } from '../../types/property/property';
 import { T } from '../../types/common';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { isSaleActive } from '../../utils/sale';
-import { markPromoReady } from '../../utils/promoReady';
+import { markPromoMounted, markPromoReady } from '../../utils/promoReady';
 
 
 const FALLBACK_PROMO_IMAGE = '/img/banner/Home-1-.jpg';
@@ -38,6 +38,10 @@ const SalePromoModal = () => {
 	const { t } = useTranslation('common');
 	const { formatPrice } = useCurrency();
 	const [visible, setVisible] = useState(false);
+
+	useEffect(() => {
+		markPromoMounted();
+	}, []);
 	const [dontShow, setDontShow] = useState(false);
 	const [currentProp, setCurrentProp] = useState<Property | null>(null);
 	const [timeLeft, setTimeLeft] = useState<{ h: number; m: number; s: number } | null>(null);

@@ -10,7 +10,8 @@
     "lint": "next lint",
     "changelog": "standard-version --skip.tag",
     "indexnow": "node scripts/indexnow.mjs",
-    "ar:normalize": "node scripts/normalizeArModels.mjs"
+    "ar:normalize": "node scripts/normalizeArModels.mjs",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
@@ -95,6 +96,7 @@
     "valtio": "1.10.3"
   },
   "devDependencies": {
+    "@playwright/test": "1.61.1",
     "@types/aos": "^3.0.7",
     "@types/apollo-upload-client": "^17.0.0",
     "@types/assert": "^1.5.6",

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { hideSplash } from '../../native';
-import { waitForPromoReady } from '../../utils/promoReady';
+import { isPromoMounted, waitForPromoReady } from '../../utils/promoReady';
 
 /** _document'dagi app yuklanish qoplamasi (#app-boot-loader) va uning fade vaqti */
 const BOOT_LOADER_ID = 'app-boot-loader';
@@ -92,8 +92,10 @@ const AppSplashGate = () => {
 		const reveal = async () => {
 			await nextPaint();
 			void hideSplash();
-			// Flash sale popup ham tayyor bo'lsin — home page va popup birdan ko'rinadi
-			await Promise.all([waitForPageLoad(), waitForPromoReady(remainingWaitMs())]);
+			await waitForPageLoad();
+			// Flash sale popup ham tayyor bo'lsin — home page va popup birdan ko'rinadi.
+			// 'load'gacha hamma effect'lar ishlagan bo'ladi: popup'i yo'q sahifa (detail, 404) 8s kutmaydi
+			if (isPromoMounted()) await waitForPromoReady(remainingWaitMs());
 			await nextPaint();
 			await waitForVisibleImages();
 			await nextPaint();
