@@ -8,7 +8,7 @@
  */
 export const LEGAL_CONTACT_EMAIL = 'khusanovasadbek777@gmail.com';
 export const LEGAL_OPERATOR = 'Asadbek Khusanov';
-export const LEGAL_UPDATED = '2026-10-01';
+export const LEGAL_UPDATED = '2026-10-10';
 export const ACCOUNT_DELETION_SECTION_ID = 'delete-account';
 
 export type LegalSection = { id?: string; title: string; paragraphs: string[]; items?: string[] };
@@ -28,6 +28,7 @@ const PRIVACY_EN: LegalDoc = {
 				'Order data: ordered items, delivery address, phone number, order status and payment status.',
 				'Content you create: listings, articles, comments, reviews, likes, follows and chat messages.',
 				'Technical data: device and browser type, app version, pages viewed, and error reports needed to fix crashes.',
+				'Push notification token: if you allow notifications in the app, we store a device token to send you order updates and price-drop alerts for items you liked. You can turn notifications off in your device settings at any time.',
 			],
 		},
 		{
@@ -45,7 +46,8 @@ const PRIVACY_EN: LegalDoc = {
 			title: '3. Third-party services',
 			paragraphs: ['We share data only with the services needed to operate the Service:'],
 			items: [
-				'Toss Payments — processes card payments. Card details are entered on Toss pages and are never stored by us.',
+				'Payme and Toss Payments — process payments. Card details are entered on the payment provider\'s pages and are never stored by us.',
+				'Firebase Cloud Messaging (Google) — delivers push notifications to the Android app.',
 				'Google and Telegram — only when you choose to sign in with them.',
 				'Groq (AI chat) — messages you type into the AI assistant are sent for processing to generate an answer.',
 				'Google Analytics and Yandex Metrica — anonymous usage statistics on the website.',
@@ -118,6 +120,7 @@ const PRIVACY_UZ: LegalDoc = {
 				"Buyurtma ma'lumotlari: mahsulotlar, yetkazish manzili, telefon, buyurtma va to'lov holati.",
 				"Siz yaratgan kontent: e'lonlar, maqolalar, izohlar, sharhlar, layklar, obunalar va chat xabarlari.",
 				"Texnik ma'lumotlar: qurilma va brauzer turi, ilova versiyasi, ko'rilgan sahifalar va xatolarni tuzatish uchun xato hisobotlari.",
+				"Push bildirishnoma tokeni: ilovada bildirishnomalarga ruxsat bersangiz, buyurtma holati va yoqtirgan mahsulotingiz narxi tushgani haqida xabar yuborish uchun qurilma tokeni saqlanadi. Bildirishnomani istalgan vaqt qurilma sozlamalarida o'chirishingiz mumkin.",
 			],
 		},
 		{
@@ -135,7 +138,8 @@ const PRIVACY_UZ: LegalDoc = {
 			title: '3. Uchinchi tomon xizmatlari',
 			paragraphs: ["Ma'lumot faqat Xizmat ishlashi uchun zarur xizmatlarga beriladi:"],
 			items: [
-				"Toss Payments — karta to'lovlari. Karta ma'lumotlari Toss sahifasida kiritiladi, bizda saqlanmaydi.",
+				"Payme va Toss Payments — to'lovlarni qayta ishlaydi. Karta ma'lumotlari to'lov tizimi sahifasida kiritiladi, bizda saqlanmaydi.",
+				'Firebase Cloud Messaging (Google) — Android ilovaga push bildirishnoma yetkazadi.',
 				'Google va Telegram — faqat ular orqali kirishni tanlasangiz.',
 				'Groq (AI chat) — AI yordamchiga yozgan xabarlaringiz javob tayyorlash uchun yuboriladi.',
 				'Google Analytics va Yandex Metrica — saytdan foydalanish bo\'yicha anonim statistika.',
