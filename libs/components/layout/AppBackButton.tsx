@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import useAppMode from '../../hooks/useAppMode';
@@ -27,11 +27,16 @@ const PAGES_WITHOUT_BACK = new Set<string>([
 
 const HOME_PATH = '/';
 
-/** Next.js history.state.idx — sayt ichida nechanchi sahifa. 0 = deep link / push'dan to'g'ridan ochilgan */
-const hasInAppHistory = (): boolean => {
-	const state = window.history.state as { idx?: number } | null;
-	return (state?.idx ?? 0) > 0;
-};
+/**
+ * Sayt ichida nechta client navigatsiya bo'ldi. 0 = sahifa deep link / push'dan to'g'ridan ochilgan,
+ * router.back() app'dan chiqib ketadi. Next 14 pages router history.state'da indeks saqlamaydi.
+ */
+let inAppNavigations = 0;
+if (typeof window !== 'undefined') {
+	Router.events.on('routeChangeComplete', () => {
+		inAppNavigations += 1;
+	});
+}
 
 const AppBackButton = () => {
 	const router = useRouter();
@@ -41,7 +46,7 @@ const AppBackButton = () => {
 	if (!appMode || !PAGES_WITHOUT_BACK.has(router.pathname)) return null;
 
 	const goBack = async () => {
-		if (hasInAppHistory()) router.back();
+		if (inAppNavigations > 0) router.back();
 		else await router.push(HOME_PATH);
 	};
 
