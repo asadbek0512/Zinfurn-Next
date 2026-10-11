@@ -7,6 +7,10 @@ import { execFileSync } from 'node:child_process';
 import { readdirSync, rmSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
+import nextEnv from '@next/env';
+
+// postbuild alohida process — .env.production'dagi SENTRY_* ni o'zimiz yuklaymiz (Docker build'da env_file yo'q)
+nextEnv.loadEnvConfig(process.cwd());
 
 const STATIC_DIR = join(process.env.NEXT_DIST_DIR || '.next', 'static');
 const MAP_EXT = '.map';

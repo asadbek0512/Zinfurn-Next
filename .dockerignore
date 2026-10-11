@@ -7,4 +7,9 @@ node_modules
 *.bak-sentry*
 npm-debug.log*
 .DS_Store
+# Lokal/dev env build'ga tushmasin: Next .env.local'ni .env.production'dan USTUN qo'yadi
+# (prod bundle'ga localhost:3007 yozilib, hamma joyda data chiqmay qolgandi)
+.env.local
+.env.*.local
+.env.development
 # .env.production build uchun KERAK — bu yerda exclude QILINMAYDI
