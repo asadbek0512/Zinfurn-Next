@@ -587,3 +587,8 @@ html[data-app='1'] #pc-wrap {
 		text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 	}
 }
+
+// Hero ustidagi shaffof header'da orqaga tugma oq bo'lsin (oq logo kabi)
+html[data-app='1'] .mobile-navbar-main.transparent .app-header-back {
+  color: #fff;
+}

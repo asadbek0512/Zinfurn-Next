@@ -19,16 +19,19 @@ const PAGES_WITHOUT_BACK = new Set<string>([
 	'/community',
 	'/member',
 	'/ai-room-designer',
-	'/payment/demo',
 	'/payment/toss/success',
 	'/payment/toss/fail',
 	'/404',
 	'/500',
 ]);
 
-/** Deep link / push'dan ochilgan sahifada orqada tarix yo'q — bosh sahifaga qaytaramiz */
-const MIN_HISTORY_TO_GO_BACK = 2;
 const HOME_PATH = '/';
+
+/** Next.js history.state.idx — sayt ichida nechanchi sahifa. 0 = deep link / push'dan to'g'ridan ochilgan */
+const hasInAppHistory = (): boolean => {
+	const state = window.history.state as { idx?: number } | null;
+	return (state?.idx ?? 0) > 0;
+};
 
 const AppBackButton = () => {
 	const router = useRouter();
@@ -38,7 +41,7 @@ const AppBackButton = () => {
 	if (!appMode || !PAGES_WITHOUT_BACK.has(router.pathname)) return null;
 
 	const goBack = async () => {
-		if (window.history.length >= MIN_HISTORY_TO_GO_BACK) router.back();
+		if (hasInAppHistory()) router.back();
 		else await router.push(HOME_PATH);
 	};
 
