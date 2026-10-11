@@ -236,10 +236,10 @@ const HeroSection: React.FC = () => {
               }
               @keyframes slideOut {
                 0% { transform: translateX(0); }
-                100% { transform: translateX(-50px); opacity: 0; }
+                100% { transform: translateX(50px); opacity: 0; }
               }
               @keyframes slideIn {
-                0% { transform: translateX(50px); opacity: 0; }
+                0% { transform: translateX(-50px); opacity: 0; }
                 100% { transform: translateX(0); opacity: 1; }
               }
             `}
@@ -268,7 +268,6 @@ const HeroSection: React.FC = () => {
 									backgroundColor: '#ff6b35',
 									'& .arrow-icon': {
 										color: 'white',
-										transform: 'translateX(50px)',
 										animation: 'slideOut 0.1s ease-out forwards, slideIn 0.2s ease-in 0.1s forwards',
 									},
 								},
