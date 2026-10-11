@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev -p 3006",
     "build": "next build",
+    "postbuild": "node scripts/sentrySourcemaps.mjs",
     "start": "next start",
     "lint": "next lint",
     "changelog": "standard-version --skip.tag",
@@ -37,6 +38,7 @@
     "@react-three/drei": "9.58.5",
     "@react-three/fiber": "8.12.0",
     "@sentry/browser": "^10.69.0",
+    "@sentry/cli": "^2.58.2",
     "@toast-ui/editor-plugin-color-syntax": "^3.0.3",
     "@toast-ui/editor-plugin-table-merged-cell": "^3.0.2",
     "@toast-ui/react-editor": "^3.1.7",

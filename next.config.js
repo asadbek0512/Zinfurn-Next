@@ -10,6 +10,8 @@ const nextConfig = {
 	eslint: { ignoreDuringBuilds: true },
 	typescript: { ignoreBuildErrors: true },
 	reactStrictMode: true,
+	// Map'lar faqat Sentry'ga yuklash uchun — postbuild ularni yuklab, o'chiradi
+	productionBrowserSourceMaps: !!process.env.SENTRY_AUTH_TOKEN,
 	compiler: {
 		removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
 	},
