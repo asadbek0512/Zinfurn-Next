@@ -1,0 +1,10 @@
+node_modules
+.next
+.next.build
+.next.old
+.git
+.deploy-backup
+*.bak-sentry*
+npm-debug.log*
+.DS_Store
+# .env.production build uchun KERAK — bu yerda exclude QILINMAYDI
