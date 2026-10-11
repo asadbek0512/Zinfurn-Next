@@ -35,6 +35,7 @@ import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
 import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useTranslation } from 'next-i18next';
+import AppVersionRow from './AppVersionRow';
 import { getErrorMessage } from '../../types/common';
 
 const MORE_LINKS = [
@@ -278,6 +279,8 @@ const MyMenu = () => {
 						</div>
 					</div>
 				</div>
+
+				<AppVersionRow />
 			</div>
 		);
 	} else {

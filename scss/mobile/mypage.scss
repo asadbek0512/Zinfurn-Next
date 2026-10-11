@@ -1420,3 +1420,42 @@ $orange-dark: #b8561e;
     }
   }
 }
+
+// Telegram uslubidagi versiya qatori — My Page eng pastida (faqat app)
+#mob-mymenu .mob-mymenu-version {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 16px 24px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--surface, #fff);
+
+  .mob-mymenu-version-icon { font-size: 22px; color: var(--text-muted, #8a8a8a); }
+
+  .mob-mymenu-version-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .mob-mymenu-version-name { font-size: 13px; font-weight: 600; color: var(--text, #222); }
+  .mob-mymenu-version-status { font-size: 12px; color: var(--text-muted, #8a8a8a); }
+
+  .mob-mymenu-version-btn {
+    padding: 7px 16px;
+    border: none;
+    border-radius: 18px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &.has-update {
+    .mob-mymenu-version-icon,
+    .mob-mymenu-version-status { color: var(--primary); }
+  }
+}

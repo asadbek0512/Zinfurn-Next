@@ -778,5 +778,8 @@
   "demo_payment_hint": "{{provider}} 결제 단계 데모입니다. 가맹점 키가 연결되지 않아 실제 결제되지 않습니다.",
   "Processing...": "처리 중...",
   "Pay {{amount}}": "{{amount}} 결제",
-  "Order": "주문"
+  "Order": "주문",
+  "Update available": "업데이트 가능",
+  "New version ready": "새 버전 준비됨",
+  "Latest version": "최신 버전"
 }

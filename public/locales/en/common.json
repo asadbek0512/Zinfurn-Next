@@ -777,5 +777,8 @@
   "demo_payment_hint": "This is a demo of the {{provider}} payment step. Merchant keys are not connected, so no card is charged.",
   "Processing...": "Processing...",
   "Pay {{amount}}": "Pay {{amount}}",
-  "Order": "Order"
+  "Order": "Order",
+  "Update available": "Update available",
+  "New version ready": "New version ready",
+  "Latest version": "Latest version"
 }

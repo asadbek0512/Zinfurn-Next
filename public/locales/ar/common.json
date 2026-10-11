@@ -777,5 +777,8 @@
   "demo_payment_hint": "هذا عرض تجريبي لخطوة الدفع عبر {{provider}}. مفاتيح التاجر غير متصلة، لذلك لن يتم الخصم.",
   "Processing...": "جارٍ المعالجة...",
   "Pay {{amount}}": "ادفع {{amount}}",
-  "Order": "الطلب"
+  "Order": "الطلب",
+  "Update available": "تحديث متاح",
+  "New version ready": "الإصدار الجديد جاهز",
+  "Latest version": "أحدث إصدار"
 }
