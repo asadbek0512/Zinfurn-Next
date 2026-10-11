@@ -150,6 +150,30 @@ html[data-app='1'] {
     .mobile-container {
       padding: 0 16px;
 
+      .mobile-logo-box {
+        display: flex;
+        align-items: center;
+      }
+
+      .app-header-back {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        margin-right: 2px;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+
+        &:active {
+          background: rgba(0, 0, 0, 0.08);
+        }
+      }
+
       .mobile-logo-box .logo-box img {
         height: 52px;
       }

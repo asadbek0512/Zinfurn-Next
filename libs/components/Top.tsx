@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
+import AppBackButton from './layout/AppBackButton';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
 import { Stack, Box, IconButton, Badge, Drawer } from '@mui/material';
@@ -241,6 +242,7 @@ const Top = () => {
 					<Stack className={'mobile-container'} display={'flex'}>
 						{/* Logo */}
 						<div className={'mobile-logo-box'}>
+							<AppBackButton />
 							<Link href={'/'}>
 								<div className={`logo-box ${isTransparent ? 'transparent' : ''}`}>
 									<img src="/img/logo/12.png" alt="Logo" className="logo11" />
