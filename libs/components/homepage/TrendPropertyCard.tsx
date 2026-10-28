@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { uploadImageUrl, MEDIUM_IMAGE_WIDTH } from '../../utils/imageUrl';
 import { Box, Stack, Typography, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -6,7 +7,6 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CheckIcon from '@mui/icons-material/Check';
 import { useRouter } from 'next/router';
 import { Property } from '../../types/property/property';
-import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useTranslation } from 'next-i18next';
@@ -34,7 +34,7 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 	const { formatPrice } = useCurrency();
 
 	const imagePath = property?.propertyImages?.[0]
-		? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
+		? uploadImageUrl(property.propertyImages[0], MEDIUM_IMAGE_WIDTH)
 		: '/img/banner/header1.jpg';
 	const title = getLocalizedTitle(property, router.locale);
 
@@ -69,8 +69,8 @@ const TrendPropertyCard = ({ property, likePropertyHandler }: TrendPropertyCardP
 	// Hover qilganda 2-chi rasm, aks holda 1-chi rasm
 	const backgroundImage =
 		isHovered && property?.propertyImages?.[1]
-			? `url(${REACT_APP_API_URL}/${property.propertyImages[1]})`
-			: `url(${REACT_APP_API_URL}/${property.propertyImages?.[0]})`;
+			? `url(${uploadImageUrl(property.propertyImages[1], MEDIUM_IMAGE_WIDTH)})`
+			: `url(${uploadImageUrl(property.propertyImages?.[0], MEDIUM_IMAGE_WIDTH)})`;
 
 	return (
 		<Box

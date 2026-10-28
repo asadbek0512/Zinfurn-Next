@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, Chip, CircularProgress, IconButton, Rating, Stack, Tab, Tabs, Typography } from '@mui/material';
+import StarRating from '../../libs/components/common/StarRating';
+import { Box, Button, Chip, CircularProgress, IconButton, Stack, Tab, Tabs, Typography } from '@mui/material';
 import Loading from '../../libs/components/common/Loading';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
@@ -26,6 +27,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { GET_PROPERTIES, GET_PROPERTY, GET_PROPERTY_REVIEW_SUMMARY } from '../../apollo/user/query';
+import { print } from 'graphql';
 import { T, getErrorMessage } from '../../libs/types/common';
 import { CREATE_REVIEW, LIKE_TARGET_PROPERTY, SEND_MESSAGE } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
@@ -65,16 +67,9 @@ export const getServerSideProps = async ({ locale, query }: any) => {
 			const res = await fetch(process.env.REACT_APP_API_GRAPHQL_URL as string, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					query: `query($propertyId: String!) {
-						getProperty(propertyId: $propertyId) {
-							propertyTitle propertyImages propertyDesc
-							propertyPrice propertySalePrice propertyRating propertyReviews propertyInStock propertyStock
-							propertyIsOnSale propertySaleStartsAt propertySaleExpiresAt
-						}
-					}`,
-					variables: { propertyId: id },
-				}),
+				// To'liq mahsulot — sahifa HTML bilan birga chiqadi (SEO ham shundan olinadi).
+				// Client keyin auth bilan qayta oladi (meLiked va h.k. yangilanadi).
+				body: JSON.stringify({ query: print(GET_PROPERTY), variables: { input: id } }),
 			});
 			const json = await res.json();
 			if (json?.data?.getProperty) seoProperty = json.data.getProperty;
@@ -91,9 +86,9 @@ const PropertyDetail: NextPage = (props: any) => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	dayjs.extend(relativeTime);
-	const [propertyId, setPropertyId] = useState<string | null>(null);
-	const [property, setProperty] = useState<Property | null>(null);
-	const [slideImage, setSlideImage] = useState<string>('');
+	const [propertyId, setPropertyId] = useState<string | null>(props.seoProperty?._id ?? null);
+	const [property, setProperty] = useState<Property | null>(props.seoProperty ?? null);
+	const [slideImage, setSlideImage] = useState<string>(props.seoProperty?.propertyImages?.[0] ?? '');
 	const [destinationProperties, setDestinationProperties] = useState<Property[]>([]);
 	const { add: addRecentlyViewed } = useRecentlyViewed();
 	const [quantity, setQuantity] = useState(1);
@@ -170,9 +165,14 @@ const PropertyDetail: NextPage = (props: any) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.id) {
-			setProperty(null);
-			setSlideImage('');
-			setPropertyId(router.query.id as string);
+			const id = router.query.id as string;
+			// SSR'dan kelgan mahsulot bo'lsa uni darrov ko'rsatamiz — loader faqat ma'lumot yo'q bo'lsa
+			const ssrProperty = props.seoProperty?._id === id ? props.seoProperty : null;
+			if (property?._id !== id) {
+				setProperty(ssrProperty);
+				setSlideImage(ssrProperty?.propertyImages?.[0] ?? '');
+			}
+			setPropertyId(id);
 		}
 	}, [router]);
 
@@ -354,7 +354,8 @@ const PropertyDetail: NextPage = (props: any) => {
 		/>
 	) : null;
 
-	if (!isPropertyReady || getPropertiesLoading) {
+	// O'xshash mahsulotlar alohida yuklanadi — asosiy kontent ularni kutmaydi
+	if (!isPropertyReady) {
 		return (
 			<>
 				{seoEl}
@@ -421,8 +422,7 @@ const PropertyDetail: NextPage = (props: any) => {
 
 					{/* Reyting + sotilgan */}
 					<div className="mob-det-rating">
-						<Rating readOnly size="small" value={property?.propertyRating || 0} precision={0.1}
-							sx={{ color: 'var(--star)', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
+						<StarRating value={property?.propertyRating || 0} />
 						<span className="mob-det-rating-val">{property?.propertyRating ? property.propertyRating.toFixed(1) : '0.0'}</span>
 						{property?.propertyReviews ? (
 							<>
@@ -720,7 +720,7 @@ const PropertyDetail: NextPage = (props: any) => {
 
 									<Stack className="ratingRow">
 										<Stack className="rating">
-											<Rating readOnly size="small" value={property?.propertyRating || 0} precision={0.1} sx={{ color: 'var(--star)', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
+											<StarRating value={property?.propertyRating || 0} />
 											<Typography variant="body2" sx={{ fontWeight: 600, color: 'var(--text-1)' }}>
 												{property?.propertyRating ? property.propertyRating.toFixed(1) : '0.0'}
 											</Typography>
@@ -921,7 +921,7 @@ const PropertyDetail: NextPage = (props: any) => {
 													<Box component="div" className="detail-row alternate">
 														<span className="detail-label">{t('customer_reviews')}</span>
 														<span className="detail-value" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-															<Rating readOnly size="small" value={property?.propertyRating || 0} precision={0.1} sx={{ color: 'var(--star)', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
+															<StarRating value={property?.propertyRating || 0} />
 															<span style={{ fontWeight: 600 }}>{property?.propertyRating ? property.propertyRating.toFixed(1) : '0.0'}</span>
 															{property?.propertyReviews ? <span style={{ color: 'var(--text-3)', fontSize: 12 }}>({property.propertyReviews})</span> : null}
 														</span>

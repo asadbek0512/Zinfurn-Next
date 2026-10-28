@@ -8,7 +8,7 @@ import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { T, getErrorMessage } from '../../types/common';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
-import { Message } from '../../enums/common.enum';
+import { Message, Direction } from '../../enums/common.enum';
 import FlashSaleCards from './PopularPropertyCard';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
@@ -97,15 +97,18 @@ const FlashSale = (props: FlashSaleProps) => {
 	);
 };
 
+// Home getStaticProps shu input bilan oldindan yuklaydi — cache kaliti mos kelishi uchun
+export const FLASH_SALE_INPUT: PropertiesInquiry = {
+	page: 1,
+	limit: 6,
+	// Server AKTIV sale'larni beradi; eng tez tugaydiganlar birinchi (countdown mantiqi)
+	sort: 'propertySaleExpiresAt',
+	direction: Direction.ASC,
+	search: { propertyIsOnSale: true },
+};
+
 FlashSale.defaultProps = {
-	initialInput: {
-		page: 1,
-		limit: 6,
-		// Server AKTIV sale'larni beradi; eng tez tugaydiganlar birinchi (countdown mantiqi)
-		sort: 'propertySaleExpiresAt',
-		direction: 'ASC',
-		search: { propertyIsOnSale: true },
-	},
+	initialInput: FLASH_SALE_INPUT,
 };
 
 export default FlashSale;

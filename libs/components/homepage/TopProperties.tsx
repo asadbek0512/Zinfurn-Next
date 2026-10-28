@@ -13,7 +13,7 @@ import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { T, getErrorMessage } from '../../types/common';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
-import { Message } from '../../enums/common.enum';
+import { Message, Direction } from '../../enums/common.enum';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -35,9 +35,9 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 	const getCurrentInput = () => {
 		switch (activeTab) {
 			case 'all':
-				return { ...latestInput, limit: 6 };
+				return { ...latestInput, limit: TAB_LIMIT };
 			case 'top':
-				return { ...latestInput, limit: 6 };
+				return { ...latestInput, limit: TAB_LIMIT };
 			case 'popular':
 				return bestSellersInput;
 			case 'trend':
@@ -219,14 +219,20 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 	);
 };
 
+const LATEST_INPUT: PropertiesInquiry = {
+	page: 1,
+	limit: 12,
+	sort: 'createdAt',
+	direction: Direction.DESC,
+	search: {},
+};
+const TAB_LIMIT = 6;
+
+// Boshlang'ich 'top' tab'i so'rovi — Home getStaticProps shuni oldindan yuklaydi
+export const TOP_PROPERTIES_INITIAL_INPUT: PropertiesInquiry = { ...LATEST_INPUT, limit: TAB_LIMIT };
+
 ProductsCollection.defaultProps = {
-	latestInput: {
-		page: 1,
-		limit: 12,
-		sort: 'createdAt',
-		direction: 'DESC',
-		search: {},
-	},
+	latestInput: LATEST_INPUT,
 	bestSellersInput: {
 		page: 1,
 		limit: 12,

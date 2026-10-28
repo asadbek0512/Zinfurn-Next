@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { uploadImageUrl, WIDE_IMAGE_WIDTH } from '../../utils/imageUrl';
 
 import { Card, CardContent, Typography, Box, Chip, Button, Link } from '@mui/material';
 import { useTranslation } from 'next-i18next';
@@ -130,7 +131,7 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 				>
 					{saleProperties.map((property, index) => {
 						const pct = calculateSalePercentage(property.propertyPrice, property.propertySalePrice);
-						const imgUrl = `${process.env.REACT_APP_API_URL}/${property.propertyImages?.[0]}`;
+						const imgUrl = uploadImageUrl(property.propertyImages?.[0], WIDE_IMAGE_WIDTH);
 						const tl = timeLeft[index] || { days: 0, hours: 0, minutes: 0, seconds: 0 };
 						const timerItems = [
 							{ label: t('Days'), val: tl.days },
@@ -218,7 +219,7 @@ const FlashSaleCards = ({ properties, likePropertyHandler }: FlashSaleCardsProps
 							component="div"
 							className="banner-bg"
 							sx={{
-								backgroundImage: `url(${process.env.REACT_APP_API_URL}/${property.propertyImages?.[0]})`,
+								backgroundImage: `url(${uploadImageUrl(property.propertyImages?.[0], WIDE_IMAGE_WIDTH)})`,
 							}}
 						/>
 						<Box component={'div'} className="banner-overlay" />

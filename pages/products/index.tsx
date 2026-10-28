@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { NextPage } from 'next';
 import {
 	Box,
@@ -151,11 +151,16 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 
 	// Skeleton kamida ~0.7s ko'rinsin (flash bo'lmasin — silliq UX)
 	const [showSkeleton, setShowSkeleton] = useState(!(ssrProperties && ssrProperties.length));
+	// SSR kartalar allaqachon ko'rinib turibdi — birinchi client fetch ularni skeleton bilan
+	// almashtirmasin (avval kontent yo'qolib, fetch + 0.7s dan keyin qaytib chiqardi)
+	const ssrFirstLoadRef = useRef(!!ssrProperties?.length);
 	useEffect(() => {
 		if (getPropertiesLoading) {
+			if (ssrFirstLoadRef.current) return;
 			setShowSkeleton(true);
 			return;
 		}
+		ssrFirstLoadRef.current = false;
 		const timer = setTimeout(() => setShowSkeleton(false), 700);
 		return () => clearTimeout(timer);
 	}, [getPropertiesLoading]);

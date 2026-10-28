@@ -15,6 +15,18 @@ const nextConfig = {
 	compiler: {
 		removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
 	},
+	// Yuklangan rasmlar (api /uploads) kartalarda /_next/image orqali kichraytirilib beriladi
+	// (libs/utils/imageUrl.ts). Fayl nomlari UUID — o'zgarmaydi, shuning uchun uzoq keshlanadi.
+	images: {
+		remotePatterns: [new URL(process.env.REACT_APP_API_URL || 'http://localhost:3007')].map((u) => ({
+			protocol: u.protocol.replace(':', ''),
+			hostname: u.hostname,
+			port: u.port,
+			pathname: '/uploads/**',
+		})),
+		formats: ['image/webp'],
+		minimumCacheTTL: 60 * 60 * 24 * 30,
+	},
 	experimental: {
 		optimizePackageImports: ['@mui/material', '@mui/icons-material', '@mui/lab'],
 	},

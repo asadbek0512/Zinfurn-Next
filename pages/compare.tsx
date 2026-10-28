@@ -1,10 +1,10 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
+import StarRating from '../libs/components/common/StarRating';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useApolloClient, useReactiveVar } from '@apollo/client';
-import { Rating } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import withLayoutBasic from '../libs/components/layout/LayoutBasic';
 import { compareVar } from '../apollo/store';
@@ -85,7 +85,7 @@ const Compare: NextPage = () => {
 			label: t('Rating'),
 			render: (p) => (
 				<span className="cmp-rating">
-					<Rating readOnly size="small" value={p.propertyRating || 0} precision={0.1} />
+					<StarRating value={p.propertyRating || 0} />
 					{p.propertyReviews || 0}
 				</span>
 			),

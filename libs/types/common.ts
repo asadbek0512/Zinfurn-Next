@@ -1,4 +1,3 @@
-import axios from 'axios';
 import type { MouseEvent } from 'react';
 import type { MutationFunction } from '@apollo/client';
 import type { CustomJwtPayload } from './customJwtPayload';
@@ -28,8 +27,9 @@ export const getErrorMessage = (err: unknown, fallback = ''): string => {
 
 /** axios xatosi — server javobidagi matnni oladi (REST `error` yoki GraphQL `errors[0].message`) */
 export const axiosErrorMessage = (err: unknown): string => {
-	if (axios.isAxiosError(err)) {
-		const data = err.response?.data as AxiosErrorBody | undefined;
+	// axios.isAxiosError o'rniga — axios butun bundle'ga (_app) tushib qolmasligi uchun
+	if (err && typeof err === 'object' && (err as { isAxiosError?: boolean }).isAxiosError) {
+		const data = (err as { response?: { data?: unknown } }).response?.data as AxiosErrorBody | undefined;
 		const serverMessage = data?.error ?? data?.errors?.[0]?.message;
 		if (serverMessage) return serverMessage;
 	}

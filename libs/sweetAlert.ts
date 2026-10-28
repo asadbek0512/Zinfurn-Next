@@ -1,10 +1,11 @@
-import Swal from 'sweetalert2';
-import 'animate.css';
 import { Messages } from './config';
 import { getErrorMessage } from './types/common';
 
+// sweetalert2 (~40KB) asosiy bundle'ga tushmasin — birinchi alert chaqirilganda yuklanadi
+const loadSwal = async () => (await import('sweetalert2')).default;
+
 export const sweetErrorHandling = async (err: unknown) => {
-	await Swal.fire({
+	await (await loadSwal()).fire({
 		icon: 'error',
 		text: getErrorMessage(err),
 		showConfirmButton: false,
@@ -12,7 +13,7 @@ export const sweetErrorHandling = async (err: unknown) => {
 };
 
 export const sweetTopSuccessAlert = async (msg: string, duration: number = 2000) => {
-	await Swal.fire({
+	await (await loadSwal()).fire({
 		position: 'center',
 		icon: 'success',
 		title: msg.replace('Definer: ', ''),
@@ -22,7 +23,7 @@ export const sweetTopSuccessAlert = async (msg: string, duration: number = 2000)
 };
 
 export const sweetContactAlert = async (msg: string, duration: number = 10000) => {
-	await Swal.fire({
+	await (await loadSwal()).fire({
 		title: msg,
 		showClass: {
 			popup: 'animate__bounceIn',
@@ -34,7 +35,7 @@ export const sweetContactAlert = async (msg: string, duration: number = 10000) =
 
 export const sweetConfirmAlert = (msg: string) => {
 	return new Promise(async (resolve, reject) => {
-		await Swal.fire({
+		await (await loadSwal()).fire({
 			icon: 'question',
 			text: msg,
 			showClass: {
@@ -53,7 +54,7 @@ export const sweetConfirmAlert = (msg: string) => {
 
 export const sweetLoginConfirmAlert = (msg: string) => {
 	return new Promise(async (resolve, reject) => {
-		await Swal.fire({
+		await (await loadSwal()).fire({
 			text: msg,
 			showCancelButton: true,
 			showConfirmButton: true,
@@ -69,7 +70,7 @@ export const sweetLoginConfirmAlert = (msg: string) => {
 };
 
 export const sweetErrorAlert = async (msg: string, duration: number = 3000) => {
-	await Swal.fire({
+	await (await loadSwal()).fire({
 		icon: 'error',
 		title: msg,
 		showConfirmButton: false,
@@ -78,7 +79,7 @@ export const sweetErrorAlert = async (msg: string, duration: number = 3000) => {
 };
 
 export const sweetMixinErrorAlert = async (msg: string, duration: number = 3000) => {
-	await Swal.fire({
+	await (await loadSwal()).fire({
 		icon: 'error',
 		title: msg,
 		showConfirmButton: false,
@@ -87,7 +88,7 @@ export const sweetMixinErrorAlert = async (msg: string, duration: number = 3000)
 };
 
 export const sweetMixinSuccessAlert = async (msg: string, duration: number = 2000) => {
-	await Swal.fire({
+	await (await loadSwal()).fire({
 		icon: 'success',
 		title: msg,
 		showConfirmButton: false,
@@ -96,12 +97,12 @@ export const sweetMixinSuccessAlert = async (msg: string, duration: number = 200
 };
 
 export const sweetBasicAlert = async (text: string) => {
-	Swal.fire(text);
+	(await loadSwal()).fire(text);
 };
 
 export const sweetErrorHandlingForAdmin = async (err: unknown) => {
 	const errorMessage = getErrorMessage(err, Messages.error1);
-	await Swal.fire({
+	await (await loadSwal()).fire({
 		icon: 'error',
 		text: errorMessage,
 		showConfirmButton: false,
@@ -113,7 +114,7 @@ export const sweetTopSmallSuccessAlert = async (
 	duration: number = 2000,
 	enable_forward: boolean = false,
 ) => {
-	const Toast = Swal.mixin({
+	const Toast = (await loadSwal()).mixin({
 		toast: true,
 		position: 'top-end',
 		showConfirmButton: false,
@@ -138,7 +139,7 @@ export const sweetSelectAlert = async (
 	confirmText: string,
 	cancelText: string,
 ): Promise<string | null> => {
-	const response = await Swal.fire({
+	const response = await (await loadSwal()).fire({
 		title,
 		input: 'radio',
 		inputOptions: options,

@@ -1,11 +1,11 @@
 import React from 'react';
+import { uploadImageUrl } from '../../utils/imageUrl';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { useReactiveVar } from '@apollo/client';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Property } from '../../types/property/property';
-import { REACT_APP_API_URL } from '../../config';
 import { formatCount } from '../../utils';
 import { useCurrency } from '../../context/CurrencyContext';
 import { userVar } from '../../../apollo/store';
@@ -34,7 +34,7 @@ const MobilePropertyCard = ({ property, likePropertyHandler }: MobilePropertyCar
 		property.propertyPrice && salePrice
 			? Math.round(((property.propertyPrice - salePrice) / property.propertyPrice) * 100)
 			: 0;
-	const imgUrl = `${REACT_APP_API_URL}/${property.propertyImages?.[0]}`;
+	const imgUrl = uploadImageUrl(property.propertyImages?.[0]);
 	const title = getLocalizedTitle(property, router.locale);
 
 	return (

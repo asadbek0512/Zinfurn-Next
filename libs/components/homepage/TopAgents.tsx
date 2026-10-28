@@ -13,6 +13,7 @@ import { T } from '../../types/common';
 import { GET_AGENTS } from '../../../apollo/user/query';
 import { useTranslation } from 'next-i18next'; // Tarjima funksiyasi
 import { formatDisplayName } from '../../utils/formatName';
+import { Direction } from '../../enums/common.enum';
 
 interface TopAgentsProps {
 	initialInput: AgentsInquiry;
@@ -133,14 +134,17 @@ const TopAgents = (props: TopAgentsProps) => {
 	}
 };
 
+// Home getStaticProps shu input bilan oldindan yuklaydi — cache kaliti mos kelishi uchun
+export const TOP_AGENTS_INPUT: AgentsInquiry = {
+	page: 1,
+	limit: 10,
+	sort: 'memberRank',
+	direction: Direction.DESC,
+	search: {},
+};
+
 TopAgents.defaultProps = {
-	initialInput: {
-		page: 1,
-		limit: 10,
-		sort: 'memberRank',
-		direction: 'DESC',
-		search: {},
-	},
+	initialInput: TOP_AGENTS_INPUT,
 };
 
 export default TopAgents;

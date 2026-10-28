@@ -15,7 +15,8 @@ const KNOWN_CACHES = [PAGE_CACHE, STATIC_CACHE, IMAGE_CACHE, API_CACHE];
 
 const OFFLINE_URL = '/offline.html';
 const API_HOST = 'api.zinfurn.uz';
-const NETWORK_TIMEOUT_MS = 6000;
+// Uzoq server (Tokyo) + sekin tarmoq: 3s da javob bo'lmasa keshdagi nusxa beriladi, tarmoq fonda yangilaydi
+const NETWORK_TIMEOUT_MS = 3000;
 const MAX_PAGES = 60;
 const MAX_IMAGES = 300;
 const MAX_API = 200;

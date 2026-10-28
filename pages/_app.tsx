@@ -15,12 +15,7 @@ import '../scss/mobile/main.scss';
 import { useRouter } from 'next/router';
 import { updateUserInfo, updateStorage, restoreSession } from '../libs/auth';
 import { sweetMixinErrorAlert } from '../libs/sweetAlert';
-import CartDrawer from '../libs/components/cart/CartDrawer';
-import CompareBar from '../libs/components/common/CompareBar';
 import AppBanner from '../libs/components/common/AppBanner';
-import OfflineBanner from '../libs/components/common/OfflineBanner';
-import PushSetup from '../libs/components/common/PushSetup';
-import WidgetFavoritesSync from '../libs/components/common/WidgetFavoritesSync';
 import { registerServiceWorker } from '../libs/utils/serviceWorker';
 const APP_LINK_HOSTS = ['zinfurn.uz', 'www.zinfurn.uz'];
 // Loader yopilganda navbar tayyor turishi uchun asosiy bundle'da (alohida chunk kech kelardi)
@@ -28,6 +23,12 @@ import AppBottomNav from '../libs/components/layout/AppBottomNav';
 import AppSplashGate from '../libs/components/layout/AppSplashGate';
 const AppPullToRefresh = dynamic(() => import('../libs/components/layout/AppPullToRefresh'), { ssr: false });
 const AppChatFabs = dynamic(() => import('../libs/components/layout/AppChatFabs'), { ssr: false });
+// Boshida ko'rinmaydigan overlay/fon komponentlari — asosiy bundle'ni og'irlashtirmasin
+const CartDrawer = dynamic(() => import('../libs/components/cart/CartDrawer'), { ssr: false });
+const CompareBar = dynamic(() => import('../libs/components/common/CompareBar'), { ssr: false });
+const OfflineBanner = dynamic(() => import('../libs/components/common/OfflineBanner'), { ssr: false });
+const PushSetup = dynamic(() => import('../libs/components/common/PushSetup'), { ssr: false });
+const WidgetFavoritesSync = dynamic(() => import('../libs/components/common/WidgetFavoritesSync'), { ssr: false });
 import { CurrencyProvider } from '../libs/context/CurrencyContext';
 import SEO from '../libs/components/common/SEO';
 import BrandJsonLd from '../libs/components/common/BrandJsonLd';

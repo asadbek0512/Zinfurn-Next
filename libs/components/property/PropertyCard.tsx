@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Stack, Box, Typography, Rating } from '@mui/material';
+import { uploadImageUrl, MEDIUM_IMAGE_WIDTH } from '../../utils/imageUrl';
+import StarRating from '../common/StarRating';
+import { Stack, Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -11,7 +13,6 @@ import CheckIcon from '@mui/icons-material/Check';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { formatterStr, formatCount } from '../../utils';
-import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { compareVar, userVar } from '../../../apollo/store';
 import { addToCart } from '../../utils/cartUtils';
@@ -40,7 +41,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 	const { formatPrice } = useCurrency();
 	const title = getLocalizedTitle(property, i18n.language);
 	const imagePath: string = property?.propertyImages?.[0]
-		? `${REACT_APP_API_URL}/${property?.propertyImages?.[0]}`
+		? uploadImageUrl(property.propertyImages[0], MEDIUM_IMAGE_WIDTH)
 		: '/img/banner/header1.jpg';
 
 	const [isHovered, setIsHovered] = useState(false);
@@ -59,7 +60,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 
 	const hoverImagePath: string =
 		isHovered && property?.propertyImages?.[1]
-			? `${REACT_APP_API_URL}/${property.propertyImages[1]}`
+			? uploadImageUrl(property.propertyImages[1], MEDIUM_IMAGE_WIDTH)
 			: imagePath;
 
 	// Chegirma faqat sale oynasi ochiq bo'lgandagina ko'rsatiladi
@@ -106,8 +107,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 				<Stack className="mob-card-info">
 					{/* Rating + sold */}
 					<div className="mob-card-rating">
-						<Rating readOnly size="small" value={property?.propertyRating || 0} precision={0.1}
-							sx={{ fontSize: 12, color: 'var(--star)', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
+						<StarRating value={property?.propertyRating || 0} size={12} />
 						{property?.propertyRating ? (
 							<span className="mob-card-rating-val">{property.propertyRating.toFixed(1)}</span>
 						) : null}
@@ -225,8 +225,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 			<Stack className="bottom">
 				{/* Rating + sold count */}
 				<div className="pc-card-rating">
-					<Rating readOnly size="small" value={property?.propertyRating || 0} precision={0.1}
-						sx={{ fontSize: 13, color: 'var(--star)', '& .MuiRating-iconEmpty': { color: '#e0e0e0' } }} />
+					<StarRating value={property?.propertyRating || 0} size={13} />
 					{property?.propertyRating ? (
 						<span className="pc-card-rating-val">{property.propertyRating.toFixed(1)}</span>
 					) : null}

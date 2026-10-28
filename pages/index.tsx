@@ -4,17 +4,17 @@ import Image from 'next/image';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutMain from '../libs/components/layout/LayoutHome';
 import CommunityBoards from '../libs/components/homepage/CommunityBoards';
-import TopAgents from '../libs/components/homepage/TopAgents';
+import TopAgents, { TOP_AGENTS_INPUT } from '../libs/components/homepage/TopAgents';
 import Events from '../libs/components/homepage/Events';
 import TrendProperties, { TREND_PROPERTIES_INPUT } from '../libs/components/homepage/TrendProperties';
 import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
-import { GET_PROPERTIES } from '../apollo/user/query';
-import TopProperties from '../libs/components/homepage/TopProperties';
+import { GET_AGENTS, GET_PROPERTIES } from '../apollo/user/query';
+import TopProperties, { TOP_PROPERTIES_INITIAL_INPUT } from '../libs/components/homepage/TopProperties';
 import { Stack } from '@mui/material';
 import Advertisement from '../libs/components/homepage/Advertisement';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import CategoryCards from '../libs/components/homepage/CategoryCard';
-import FlashSale from '../libs/components/homepage/PopularProperties';
+import FlashSale, { FLASH_SALE_INPUT } from '../libs/components/homepage/PopularProperties';
 import AiRoomBanner from '../libs/components/homepage/AiRoomBanner';
 import AOS from 'aos';
 import useAppMode, { isAppMode } from '../libs/hooks/useAppMode';
@@ -23,24 +23,31 @@ import { LocaleContext, DEFAULT_LOCALE } from '../libs/types/common';
 
 const HOME_REVALIDATE_SECONDS = 60;
 
-// Trend mahsulotlar HTML bilan birga keladi — sahifa ochilganda keyinroq "sakrab" chiqmaydi
-const prefetchTrendProperties = async (): Promise<NormalizedCacheObject | null> => {
+// Bosh sahifa bloklari ma'lumoti HTML bilan birga keladi — birinchi kirishda client
+// JS yuklangach yana API'ga (uzoq server) borib kutib o'tirmaydi
+const prefetchHomeData = async (): Promise<NormalizedCacheObject | null> => {
 	try {
 		const client = new ApolloClient({
 			ssrMode: true,
 			link: new HttpLink({ uri: process.env.REACT_APP_API_GRAPHQL_URL }),
 			cache: new InMemoryCache(),
 		});
-		await client.query({ query: GET_PROPERTIES, variables: { input: TREND_PROPERTIES_INPUT } });
+		// Bittasi yiqilsa qolganlari baribir keshga tushadi — yiqilgani client'da yuklanadi
+		await Promise.allSettled([
+			client.query({ query: GET_PROPERTIES, variables: { input: TREND_PROPERTIES_INPUT } }),
+			client.query({ query: GET_PROPERTIES, variables: { input: FLASH_SALE_INPUT } }),
+			client.query({ query: GET_PROPERTIES, variables: { input: TOP_PROPERTIES_INITIAL_INPUT } }),
+			client.query({ query: GET_AGENTS, variables: { input: TOP_AGENTS_INPUT } }),
+		]);
 		return client.cache.extract();
 	} catch {
-		// API javob bermasa sahifa baribir chiqadi — trend client'da yuklanadi
+		// API javob bermasa sahifa baribir chiqadi — bloklar client'da yuklanadi
 		return null;
 	}
 };
 
 export const getStaticProps = async ({ locale }: LocaleContext) => {
-	const initialApolloState = await prefetchTrendProperties();
+	const initialApolloState = await prefetchHomeData();
 	return {
 		props: {
 			...(await serverSideTranslations(locale ?? DEFAULT_LOCALE, ['common'])),
@@ -53,7 +60,6 @@ export const getStaticProps = async ({ locale }: LocaleContext) => {
 const Home: NextPage = () => {
 	const device = useDeviceDetect();
 	const [showLoader, setShowLoader] = useState(true);
-	const [logoLoaded, setLogoLoaded] = useState(false);
 	const appMode = useAppMode();
 
 	// App'da scroll effekti yo'q — kontent darrov ko'rinadi (faqat vebda fade-up)
@@ -72,13 +78,8 @@ const Home: NextPage = () => {
 	// No-op qo'shildi
 	const unused6 = () => {};
 
-	const handleLogoLoad = () => {
-		setLogoLoaded(true);
-	};
-
 	useEffect(() => {
-		// App'da loader window 'load'ni (hamma rasmlarni) kutmaydi — sekin internetda
-		// sahifa soniyalab kalta turib, scroll tepaga qaytib qolardi. App'ning o'z splash'i bor.
+		// App'ning o'z splash'i bor — loader kerak emas
 		if (isAppMode()) {
 			setShowLoader(false);
 			return;
@@ -94,22 +95,13 @@ const Home: NextPage = () => {
 			anchorPlacement: 'top-bottom',
 		});
 
-		const handlePageLoad = () => {
-			if (logoLoaded) {
-				setShowLoader(false);
-				setTimeout(() => {
-					AOS.refresh();
-				}, 100);
-			}
-		};
-
-		if (document.readyState === 'complete') {
-			handlePageLoad();
-		} else {
-			window.addEventListener('load', handlePageLoad);
-			return () => window.removeEventListener('load', handlePageLoad);
-		}
-	}, [logoLoaded]);
+		// Loader faqat hydration'gacha. Avval window 'load' (hamma rasmlar) kutilardi va kontent
+		// umuman render qilinmasdi — query'lar ham shundan keyin boshlanib, sekin tarmoqda
+		// birinchi kirish soniyalab cho'zilardi.
+		setShowLoader(false);
+		const refreshTimer = setTimeout(() => AOS.refresh(), 100);
+		return () => clearTimeout(refreshTimer);
+	}, []);
 
 	const Content = (
 		<Stack className="home-page" spacing={4}>
@@ -153,7 +145,6 @@ const Home: NextPage = () => {
 							alt="Logo"
 							width={110}
 							height={110}
-							onLoadingComplete={handleLogoLoad}
 							priority
 							className="logo"
 						/>
@@ -168,8 +159,7 @@ const Home: NextPage = () => {
 				</div>
 			)}
 
-			{!showLoader &&
-				(device === 'mobile' ? (
+			{device === 'mobile' ? (
 					<Stack className="home-page" spacing={4}>
 						<div {...aosProps(0)}>
 							<CategoryCards />
@@ -201,7 +191,7 @@ const Home: NextPage = () => {
 					</Stack>
 				) : (
 					Content
-				))}
+				)}
 
 			<style jsx>{`
 				.page-loader {
