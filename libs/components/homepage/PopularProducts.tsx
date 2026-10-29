@@ -20,7 +20,8 @@ const FlashSale = (props: FlashSaleProps) => {
 	const { initialInput } = props;
 	const { t } = useTranslation('common'); // Tarjima funksiyasi
 	const device = useDeviceDetect();
-	const [flashSaleProducts, setFlashSaleProducts] = useState<Product[]>([]);
+	// null — hali like bosilmagan: ro'yxat to'g'ridan-to'g'ri Apollo cache'dan olinadi (SSR bilan bir xil)
+	const [likedProducts, setFlashSaleProducts] = useState<Product[] | null>(null);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
@@ -34,13 +35,12 @@ const FlashSale = (props: FlashSaleProps) => {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setFlashSaleProducts(data?.getProducts?.list);
-		},
 		onError: (error) => {
 			console.error('FlashSale - Query error:', error);
 		},
 	});
+
+	const flashSaleProducts: Product[] = likedProducts ?? getProductsData?.getProducts?.list ?? [];
 
 	/** HANDLERS **/
 	const likeProductHandler = async (user: T, id: string) => {
@@ -54,7 +54,7 @@ const FlashSale = (props: FlashSaleProps) => {
 			// Refetch o'rniga faqat bosilgan kartani lokal yangilaymiz — ro'yxat "lip-lip" qilmasin
 			const updatedLikes = result?.data?.likeTargetProduct?.productLikes;
 			setFlashSaleProducts((prev) =>
-				prev.map((p) =>
+				(prev ?? flashSaleProducts).map((p) =>
 					p._id === id
 						? {
 								...p,
@@ -82,7 +82,8 @@ const FlashSale = (props: FlashSaleProps) => {
 		);
 	}
 
-	if (getProductsLoading) {
+	// Cache'da ma'lumot bo'lsa (getStaticProps prefetch) loading ko'rsatilmaydi — aks holda hydration mismatch
+	if (getProductsLoading && !getProductsData) {
 		return (
 			<Box component={'div'} style={{ padding: '20px' }}>
 				{t('Loading flash sale products')}...

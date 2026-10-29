@@ -28,7 +28,8 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 	const router = useRouter();
 	const device = useDeviceDetect();
 	const [activeTab, setActiveTab] = useState('top');
-	const [products, setProducts] = useState<Product[]>([]);
+	// null — like bosilmagan: ro'yxat Apollo cache'dan olinadi, shunda SSR va client bir xil chizadi
+	const [likedProducts, setProducts] = useState<Product[] | null>(null);
 
 	const { t } = useTranslation('common');
 
@@ -52,16 +53,19 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 	const {
 		loading: getProductsLoading,
 		data: getProductsData,
+		previousData: previousProductsData,
 		error: getProductsError,
 		refetch: getProductsRefetch,
 	} = useQuery(GET_PRODUCTS, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: getCurrentInput() },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setProducts(data?.getProducts?.list || []);
-		},
+		onCompleted: () => setProducts(null),
 	});
+
+	// Tab almashganda yangi ro'yxat kelguncha eskisi ko'rinib turadi
+	const products: Product[] =
+		likedProducts ?? (getProductsData ?? previousProductsData)?.getProducts?.list ?? [];
 
 	const likeProductHandler = async (user: T, id: string) => {
 		try {
@@ -73,7 +77,7 @@ const ProductsCollection = (props: ProductsCollectionProps) => {
 			// Refetch o'rniga faqat bosilgan kartani lokal yangilaymiz — ro'yxat "lip-lip" qilmasin
 			const updatedLikes = result?.data?.likeTargetProduct?.productLikes;
 			setProducts((prev) =>
-				prev.map((p) =>
+				(prev ?? products).map((p) =>
 					p._id === id
 						? {
 								...p,
