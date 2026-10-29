@@ -6,7 +6,6 @@ import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { Button, Stack, Typography, Tab, Tabs, IconButton, Backdrop, Pagination, Box } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import Moment from 'react-moment';
 import { userVar } from '../../apollo/store';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -28,6 +27,7 @@ import { BoardArticle } from '../../libs/types/board-article/board-article';
 import { CREATE_COMMENT, LIKE_TARGET_BOARD_ARTICLE, UPDATE_COMMENT } from '../../apollo/user/mutation';
 import { GET_BOARD_ARTICLE, GET_COMMENTS } from '../../apollo/user/query';
 import { Messages } from '../../libs/config';
+import { formatDisplayDate } from '../../libs/utils/displayDate';
 import {
 	sweetConfirmAlert,
 	sweetMixinErrorAlert,
@@ -308,9 +308,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 							onBlocked={() => router.back()}
 						/>
 						<div className="mob-com-det-meta-row">
-							<Moment className="mob-com-det-date" format="DD.MM.YY HH:mm">
-								{boardArticle?.createdAt}
-							</Moment>
+							<time className="mob-com-det-date">{formatDisplayDate(boardArticle?.createdAt, 'DD.MM.YY HH:mm')}</time>
 							<span className="mob-com-det-dot">·</span>
 							<span
 								className={`mob-com-det-stat-like${boardArticle?.meLiked?.[0]?.myFavorite ? ' liked' : ''}`}
@@ -431,9 +429,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 								/>
 								<div className="mob-com-det-cmt-info">
 									<span className="mob-com-det-cmt-nick">{commentData?.memberData?.memberNick}</span>
-									<Moment className="mob-com-det-cmt-date" format="DD.MM.YY HH:mm">
-										{commentData?.createdAt}
-									</Moment>
+									<time className="mob-com-det-cmt-date">{formatDisplayDate(commentData?.createdAt, 'DD.MM.YY HH:mm')}</time>
 								</div>
 								<ModerationMenu
 									group={ReportGroup.COMMENT}
@@ -557,9 +553,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 													{boardArticle?.memberData?.memberNick}
 												</Typography>
 												<Stack className="divider"></Stack>
-												<Moment className={'time-added'} format={'DD.MM.YY HH:mm'}>
-													{boardArticle?.createdAt}
-												</Moment>
+												<time className="time-added">{formatDisplayDate(boardArticle?.createdAt, 'DD.MM.YY HH:mm')}</time>
 												<ModerationMenu
 													group={ReportGroup.ARTICLE}
 													refId={boardArticle?._id}
@@ -655,9 +649,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 														<Stack className="name-date-column">
 															<Typography className="name">{commentData?.memberData?.memberNick}</Typography>
 															<Typography className="date">
-																<Moment className={'time-added'} format={'DD.MM.YY HH:mm'}>
-																	{commentData?.createdAt}
-																</Moment>
+																<time className="time-added">{formatDisplayDate(commentData?.createdAt, 'DD.MM.YY HH:mm')}</time>
 															</Typography>
 														</Stack>
 													</Stack>

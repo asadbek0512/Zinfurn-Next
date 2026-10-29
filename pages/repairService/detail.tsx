@@ -10,6 +10,7 @@ import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import { REACT_APP_API_URL } from '../../libs/config';
+import { formatDisplayDate } from '../../libs/utils/displayDate';
 import { userVar } from '../../apollo/store';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
@@ -488,7 +489,7 @@ const RepairProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 					<Stack direction="row" className="repair-detail__info-item">
 						<AccessTimeIcon fontSize="small" />
 						<Typography className="repair-detail__created">
-							{moment(repairProduct?.createdAt).format('YYYY-MM-DD HH:mm')}
+							{formatDisplayDate(repairProduct?.createdAt, 'YYYY-MM-DD HH:mm')}
 						</Typography>
 					</Stack>
 				</Stack>

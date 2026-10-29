@@ -6,7 +6,7 @@ import { GET_PRODUCT_REVIEWS, GET_PRODUCT_REVIEW_SUMMARY } from '../../../apollo
 import { TOGGLE_REVIEW_REACTION } from '../../../apollo/user/mutation';
 import { Review, ReviewSummary } from '../../types/review/review';
 import { ReviewReaction } from '../../enums/review.enum';
-import { REACT_APP_API_URL } from '../../config';
+import { DISPLAY_TIMEZONE, REACT_APP_API_URL } from '../../config';
 import { userVar } from '../../../apollo/store';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { useTranslation } from 'next-i18next';
@@ -311,6 +311,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
 												year: 'numeric',
 												month: 'short',
 												day: 'numeric',
+												timeZone: DISPLAY_TIMEZONE,
 											})}
 										</span>
 									</div>

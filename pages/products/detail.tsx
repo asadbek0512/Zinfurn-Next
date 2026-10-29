@@ -18,6 +18,7 @@ import { Product } from '../../libs/types/product/product';
 import moment from 'moment';
 import { formatterStr, formatCount } from '../../libs/utils';
 import { REACT_APP_API_URL } from '../../libs/config';
+import { formatDisplayDate } from '../../libs/utils/displayDate';
 import { userVar } from '../../apollo/store';
 import { addToCart } from '../../libs/utils/cartUtils';
 import { flyToCart } from '../../libs/utils/flyToCart';
@@ -953,7 +954,7 @@ const ProductDetail: NextPage = (props: any) => {
 															<Box component="div" className="detail-row alternate">
 																<span className="detail-label">{t('sale_ends')}</span>
 																<span className="detail-value">
-																	{moment(product?.productSaleExpiresAt).format('DD MMM YYYY')}
+																	{formatDisplayDate(product?.productSaleExpiresAt, 'DD MMM YYYY')}
 																</span>
 															</Box>
 														</>

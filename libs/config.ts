@@ -29,3 +29,10 @@ export const FREE_DELIVERY_THRESHOLD = 500;
 export const DELIVERY_FEE = 15;
 export const calcDeliveryFee = (merchandise: number): number =>
 	merchandise >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
+
+/**
+ * Sanalar shu vaqt zonasida ko'rsatiladi. Server (UTC) va brauzer bir xil sanani chizishi uchun shart —
+ * aks holda SSR sahifalarda hydration mismatch bo'ladi (masalan "30 Oct" vs "31 Oct").
+ */
+export const DISPLAY_TIMEZONE = 'Asia/Seoul';
+export const DISPLAY_UTC_OFFSET_MIN = 9 * 60;

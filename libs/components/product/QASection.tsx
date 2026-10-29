@@ -8,7 +8,7 @@ import { GET_COMMENTS } from '../../../apollo/user/query';
 import { CREATE_COMMENT } from '../../../apollo/user/mutation';
 import { Comment } from '../../types/comment/comment';
 import { CommentGroup } from '../../enums/comment.enum';
-import { REACT_APP_API_URL } from '../../config';
+import { DISPLAY_TIMEZONE, REACT_APP_API_URL } from '../../config';
 import { userVar } from '../../../apollo/store';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 
@@ -95,7 +95,7 @@ const QASection = ({ productId, ownerId }: QASectionProps) => {
 	};
 
 	const formatDate = (d: Date) =>
-		new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+		new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: DISPLAY_TIMEZONE });
 
 	return (
 		<div className="qa-section">
