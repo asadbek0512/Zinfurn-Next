@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { PropertyCategory } from '../../enums/property.enum';
+import { ProductCategory } from '../../enums/product.enum';
 import { useTranslation } from 'next-i18next'; // Tarjima
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
@@ -19,7 +19,7 @@ const CategoryGrid = () => {
 			subtitle: t('Modern and Practical'),
 			image: '/img/banner/93.jpg',
 			className: 'large-top-left',
-			category: PropertyCategory.KITCHEN,
+			category: ProductCategory.KITCHEN,
 		},
 		{
 			id: 2,
@@ -27,7 +27,7 @@ const CategoryGrid = () => {
 			subtitle: t('Work in Style'),
 			image: '/img/banner/office7.jpg',
 			className: 'small-bottom-left',
-			category: PropertyCategory.OFFICE,
+			category: ProductCategory.OFFICE,
 		},
 		{
 			id: 3,
@@ -35,7 +35,7 @@ const CategoryGrid = () => {
 			subtitle: t('Refresh Your Space'),
 			image: '/img/banner/bathroom3.jpg',
 			className: 'small-bottom-middle',
-			category: PropertyCategory.BATHROOM,
+			category: ProductCategory.BATHROOM,
 		},
 		{
 			id: 4,
@@ -43,7 +43,7 @@ const CategoryGrid = () => {
 			subtitle: t('Comfort for Your Living Space'),
 			image: '/img/banner/home1.jpg',
 			className: 'very-large-right',
-			category: PropertyCategory.HOME,
+			category: ProductCategory.HOME,
 		},
 	];
 

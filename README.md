@@ -49,7 +49,7 @@ A production-deployed furniture marketplace: catalog browsing with rich filters,
 - **Dark/light theming**: a single CSS custom-property token system (~40 semantic tokens replacing 270+ scattered hardcoded colors), a no-flash boot script, `prefers-color-scheme` as default, and MUI palettes derived from the same tokens
 - SEO: SSR product list and detail pages (crawlers get real product HTML), sitemap, hreflang, JSON-LD
 - Responsive: a dedicated mobile layout ≤768px; 769–1400px windows scale-to-fit so the fixed-width desktop design never clips
-- Admin panel: users, properties, community, CS content, **coupons**, order management, 3D model generation
+- Admin panel: users, products, community, CS content, **coupons**, order management, 3D model generation
 
 ## Tech Stack
 
@@ -106,7 +106,7 @@ zinfurn/
 │   └── apps/zinfurn-batch/       # Cron jobs (monthly ranking)
 └── zinfurn-next/                 # Next.js (:3006)
     ├── pages/                    # Routes (+ /_admin panel, /api AI & AR routes)
-    ├── libs/components/          # Feature components (ar/, aiRoomDesigner/, property/, …)
+    ├── libs/components/          # Feature components (ar/, aiRoomDesigner/, product/, …)
     ├── libs/utils/normalizeGlb.ts# Real-world GLB normalisation
     ├── apollo/                   # Client, queries, reactive stores
     └── scss/                     # pc/ + mobile/ splits, theme tokens

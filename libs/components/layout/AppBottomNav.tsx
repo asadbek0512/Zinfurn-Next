@@ -53,7 +53,7 @@ const AppBottomNav = () => {
 	const profileHref = user?._id ? '/mypage' : '/account/join';
 
 	const tabs: NavTab[] = [
-		{ key: 'products', label: t('Properties'), href: '/products', icon: <WeekendOutlinedIcon />, activeIcon: <WeekendIcon /> },
+		{ key: 'products', label: t('Products'), href: '/products', icon: <WeekendOutlinedIcon />, activeIcon: <WeekendIcon /> },
 		{ key: 'agents', label: t('Agents'), href: '/agent', icon: <PeopleOutlinedIcon />, activeIcon: <PeopleIcon /> },
 		{ key: 'home', label: t('Home'), href: '/', icon: <HomeIcon />, activeIcon: <HomeIcon />, center: true },
 		{ key: 'service', label: t('Service'), href: '/repairService', icon: <BuildOutlinedIcon />, activeIcon: <BuildIcon /> },

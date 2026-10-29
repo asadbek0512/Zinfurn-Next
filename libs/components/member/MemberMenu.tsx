@@ -85,7 +85,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 				<div className="mob-mem-stats">
 					{member?.memberType === 'AGENT' && (
 						<div className="mob-mem-stat-item">
-							<span className="mob-mem-stat-num">{member?.memberProperties || 0}</span>
+							<span className="mob-mem-stat-num">{member?.memberProducts || 0}</span>
 							<span className="mob-mem-stat-label">{t('Items')}</span>
 						</div>
 					)}
@@ -109,8 +109,8 @@ const MemberMenu = (props: MemberMenuProps) => {
 
 				<div className="mob-mem-tabs">
 					{member?.memberType === 'AGENT' && (
-						<Link href={{ pathname: '/member', query: { ...router.query, category: 'properties' } }} scroll={false}>
-							<div className={`mob-mem-tab ${category === 'properties' ? 'active' : ''}`}>{t('Properties')}</div>
+						<Link href={{ pathname: '/member', query: { ...router.query, category: 'products' } }} scroll={false}>
+							<div className={`mob-mem-tab ${category === 'products' ? 'active' : ''}`}>{t('Products')}</div>
 						</Link>
 					)}
 					<Link href={{ pathname: '/member', query: { ...router.query, category: 'followers' } }} scroll={false}>
@@ -181,26 +181,26 @@ const MemberMenu = (props: MemberMenuProps) => {
 						</Typography>
 						<List className={'sub-section'}>
 							{member?.memberType === 'AGENT' && (
-								<ListItem className={category === 'properties' ? 'focus' : ''}>
+								<ListItem className={category === 'products' ? 'focus' : ''}>
 									<Link
 										href={{
 											pathname: '/member',
-											query: { ...router.query, category: 'properties' },
+											query: { ...router.query, category: 'products' },
 										}}
 										scroll={false}
 										style={{ width: '100%' }}
 									>
 										<div className={'flex-box'}>
-											{category === 'properties' ? (
+											{category === 'products' ? (
 												<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 											) : (
 												<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 											)}
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-												{t('Properties')}
+												{t('Products')}
 											</Typography>
 											<Typography className="count-title" variant="subtitle1">
-												{member?.memberProperties}
+												{member?.memberProducts}
 											</Typography>
 										</div>
 									</Link>

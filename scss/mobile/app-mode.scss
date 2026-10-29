@@ -35,7 +35,7 @@ html[data-app='1'] {
 
   // Header ostidan boshlanadigan detail sahifalar
   #mobile-wrap #mob-repair-detail-page,
-  #mobile-wrap #mob-property-detail-page,
+  #mobile-wrap #mob-product-detail-page,
   #mobile-wrap #mob-agent-detail-page {
     padding-top: calc(52px + #{$app-header-extra} + var(--app-safe-top));
   }
@@ -125,7 +125,7 @@ html[data-app='1'] {
   }
 
   // Ro'yxat sahifalaridagi sticky top bar app header'ining ostiga yopishadi
-  #mob-property-list-page .mob-top-bar,
+  #mob-product-list-page .mob-top-bar,
   #mob-agent-list-page .mob-agent-topbar {
     top: calc(#{$app-header-height} + var(--app-safe-top));
   }
@@ -397,7 +397,7 @@ html[data-app='1'] .compare-bar {
 // Furniture grid-2 karta: statistikalar 1-qatorda, compare + savat katta tugma 2-qatorda
 $app-card-btn-height: 34px;
 
-html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list.grid-2 .mob-property-card {
+html[data-app='1'] #mobile-wrap #mob-product-list-page .mob-card-list.grid-2 .mob-product-card {
   .mob-card-img-wrap {
     background: #fff;
 
@@ -415,11 +415,11 @@ html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list.grid-2 .m
 }
 
 // Compare bar ochiq bo'lsa ro'yxat oxiri uning ostida qolmasin
-html[data-app='1'] body:has(.compare-bar) #mobile-wrap #mob-property-list-page {
+html[data-app='1'] body:has(.compare-bar) #mobile-wrap #mob-product-list-page {
   padding-bottom: 76px;
 }
 
-html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list.grid-2 .mob-property-card .mob-card-info .mob-card-actions {
+html[data-app='1'] #mobile-wrap #mob-product-list-page .mob-card-list.grid-2 .mob-product-card .mob-card-info .mob-card-actions {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   row-gap: 8px;
@@ -482,7 +482,7 @@ html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list.grid-2 .m
 // Furniture list (1 ustun) karta: bitta qator, lekin kattaroq ikonka va dumaloq tugmalar
 $app-card-icon-btn: 32px;
 
-html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list:not(.grid-2) .mob-property-card .mob-card-info .mob-card-actions {
+html[data-app='1'] #mobile-wrap #mob-product-list-page .mob-card-list:not(.grid-2) .mob-product-card .mob-card-info .mob-card-actions {
   padding-top: 8px;
 
   .mob-action {
@@ -519,7 +519,7 @@ html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list:not(.grid
 }
 
 // List (1 ustun) karta: nom 2 qatorgacha, rasm foni oq
-html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list:not(.grid-2) .mob-property-card {
+html[data-app='1'] #mobile-wrap #mob-product-list-page .mob-card-list:not(.grid-2) .mob-product-card {
   .mob-card-img-wrap {
     background: #fff;
 
@@ -529,7 +529,7 @@ html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list:not(.grid
   .mob-card-info .mob-card-title { white-space: normal; }
 }
 
-html[data-app='1'] #mobile-wrap #mob-property-list-page .mob-card-list .mob-property-card .mob-card-img-wrap .mob-card-img {
+html[data-app='1'] #mobile-wrap #mob-product-list-page .mob-card-list .mob-product-card .mob-card-img-wrap .mob-card-img {
   background: #fff;
 }
 

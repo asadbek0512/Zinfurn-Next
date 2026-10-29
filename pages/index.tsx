@@ -6,15 +6,15 @@ import withLayoutMain from '../libs/components/layout/LayoutHome';
 import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 import TopAgents, { TOP_AGENTS_INPUT } from '../libs/components/homepage/TopAgents';
 import Events from '../libs/components/homepage/Events';
-import TrendProperties, { TREND_PROPERTIES_INPUT } from '../libs/components/homepage/TrendProperties';
+import TrendProducts, { TREND_PRODUCTS_INPUT } from '../libs/components/homepage/TrendProducts';
 import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
-import { GET_AGENTS, GET_PROPERTIES } from '../apollo/user/query';
-import TopProperties, { TOP_PROPERTIES_INITIAL_INPUT } from '../libs/components/homepage/TopProperties';
+import { GET_AGENTS, GET_PRODUCTS } from '../apollo/user/query';
+import TopProducts, { TOP_PRODUCTS_INITIAL_INPUT } from '../libs/components/homepage/TopProducts';
 import { Stack } from '@mui/material';
 import Advertisement from '../libs/components/homepage/Advertisement';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import CategoryCards from '../libs/components/homepage/CategoryCard';
-import FlashSale, { FLASH_SALE_INPUT } from '../libs/components/homepage/PopularProperties';
+import FlashSale, { FLASH_SALE_INPUT } from '../libs/components/homepage/PopularProducts';
 import AiRoomBanner from '../libs/components/homepage/AiRoomBanner';
 import AOS from 'aos';
 import useAppMode, { isAppMode } from '../libs/hooks/useAppMode';
@@ -34,9 +34,9 @@ const prefetchHomeData = async (): Promise<NormalizedCacheObject | null> => {
 		});
 		// Bittasi yiqilsa qolganlari baribir keshga tushadi — yiqilgani client'da yuklanadi
 		await Promise.allSettled([
-			client.query({ query: GET_PROPERTIES, variables: { input: TREND_PROPERTIES_INPUT } }),
-			client.query({ query: GET_PROPERTIES, variables: { input: FLASH_SALE_INPUT } }),
-			client.query({ query: GET_PROPERTIES, variables: { input: TOP_PROPERTIES_INITIAL_INPUT } }),
+			client.query({ query: GET_PRODUCTS, variables: { input: TREND_PRODUCTS_INPUT } }),
+			client.query({ query: GET_PRODUCTS, variables: { input: FLASH_SALE_INPUT } }),
+			client.query({ query: GET_PRODUCTS, variables: { input: TOP_PRODUCTS_INITIAL_INPUT } }),
 			client.query({ query: GET_AGENTS, variables: { input: TOP_AGENTS_INPUT } }),
 		]);
 		return client.cache.extract();
@@ -109,7 +109,7 @@ const Home: NextPage = () => {
 				<CategoryCards />
 			</div>
 			<div data-aos="fade-up" data-aos-delay="100">
-				<TrendProperties />
+				<TrendProducts />
 			</div>
 			<div data-aos="fade-up" data-aos-delay="150">
 				<AiRoomBanner />
@@ -121,7 +121,7 @@ const Home: NextPage = () => {
 				<Advertisement />
 			</div>
 			<div data-aos="fade-up" data-aos-delay="400">
-				<TopProperties />
+				<TopProducts />
 			</div>
 			<div data-aos="fade-up" data-aos-delay="500">
 				<TopAgents />
@@ -165,7 +165,7 @@ const Home: NextPage = () => {
 							<CategoryCards />
 						</div>
 						<div {...aosProps(100)}>
-							<TrendProperties />
+							<TrendProducts />
 						</div>
 						<div {...aosProps(150)}>
 							<AiRoomBanner />
@@ -177,7 +177,7 @@ const Home: NextPage = () => {
 							<Advertisement />
 						</div>
 						<div {...aosProps(400)}>
-							<TopProperties />
+							<TopProducts />
 						</div>
 						<div {...aosProps(500)}>
 							<TopAgents />

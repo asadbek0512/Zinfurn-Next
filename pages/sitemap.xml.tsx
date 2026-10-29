@@ -35,9 +35,9 @@ const staticPages: SitemapEntry[] = [
 	{ path: '/about', priority: '0.8', changefreq: 'monthly', localized: true },
 ];
 
-const GET_PROPERTIES_FOR_SITEMAP = `
-	query GetPropertiesForSitemap($input: PropertiesInquiry!) {
-		getProperties(input: $input) {
+const GET_PRODUCTS_FOR_SITEMAP = `
+	query GetProductsForSitemap($input: ProductsInquiry!) {
+		getProducts(input: $input) {
 			list {
 				_id
 				updatedAt
@@ -68,7 +68,7 @@ const fetchProductEntries = async (): Promise<SitemapEntry[]> => {
 			headers: { 'Content-Type': 'application/json' },
 			signal: controller.signal,
 			body: JSON.stringify({
-				query: GET_PROPERTIES_FOR_SITEMAP,
+				query: GET_PRODUCTS_FOR_SITEMAP,
 				variables: { input: { page: 1, limit: PRODUCT_LIMIT, search: {} } },
 			}),
 		});
@@ -76,7 +76,7 @@ const fetchProductEntries = async (): Promise<SitemapEntry[]> => {
 		if (!response.ok) return [];
 
 		const json = await response.json();
-		const list = json?.data?.getProperties?.list;
+		const list = json?.data?.getProducts?.list;
 		if (!Array.isArray(list)) return [];
 
 		return list

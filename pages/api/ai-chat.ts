@@ -41,29 +41,29 @@ const LIMIT_MSG: Record<string, string> = {
 
 interface CatalogItem {
 	_id: string;
-	propertyTitle: string;
-	propertyCategory?: string;
-	propertyType?: string;
-	propertyMaterial?: string;
-	propertyColor?: string;
-	propertyPrice?: number;
-	propertySalePrice?: number;
-	propertyImages?: string[];
-	propertyTranslations?: Record<string, { title?: string }>;
+	productTitle: string;
+	productCategory?: string;
+	productType?: string;
+	productMaterial?: string;
+	productColor?: string;
+	productPrice?: number;
+	productSalePrice?: number;
+	productImages?: string[];
+	productTranslations?: Record<string, { title?: string }>;
 }
 
 const localizedTitle = (p: CatalogItem, locale: string): string =>
-	p.propertyTranslations?.[locale]?.title?.trim() || p.propertyTitle;
+	p.productTranslations?.[locale]?.title?.trim() || p.productTitle;
 
 /** Bazadan mahsulot katalogini olamiz (AI real mahsulotlarni tavsiya qilishi uchun) */
 async function fetchCatalog(): Promise<CatalogItem[]> {
-	const query = `query { getProperties(input:{ page:1, limit:60, sort:"propertyRank", direction:DESC, search:{} }) {
-		list { _id propertyTitle propertyCategory propertyType propertyMaterial propertyColor propertyPrice propertySalePrice propertyImages
-			propertyTranslations { uz{title} en{title} ru{title} kr{title} ar{title} } } } }`;
+	const query = `query { getProducts(input:{ page:1, limit:60, sort:"productRank", direction:DESC, search:{} }) {
+		list { _id productTitle productCategory productType productMaterial productColor productPrice productSalePrice productImages
+			productTranslations { uz{title} en{title} ru{title} kr{title} ar{title} } } } }`;
 	try {
 		const r = await fetch(GQL_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query }) });
 		const d = await r.json();
-		return d?.data?.getProperties?.list || [];
+		return d?.data?.getProducts?.list || [];
 	} catch {
 		return [];
 	}
@@ -138,7 +138,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		const catalogText = catalog
 			.map(
 				(p) =>
-					`- id:${p._id} | ${localizedTitle(p, locale)} | category:${p.propertyCategory} | type:${p.propertyType} | material:${p.propertyMaterial} | color:${p.propertyColor} | price:$${p.propertySalePrice || p.propertyPrice}`,
+					`- id:${p._id} | ${localizedTitle(p, locale)} | category:${p.productCategory} | type:${p.productType} | material:${p.productMaterial} | color:${p.productColor} | price:$${p.productSalePrice || p.productPrice}`,
 			)
 			.join('\n');
 
@@ -219,9 +219,9 @@ Return ONLY JSON: {"reply": "...", "productIds": ["id1","id2"], "actions": [{"la
 			.map((p) => ({
 				_id: p!._id,
 				title: localizedTitle(p!, locale),
-				price: p!.propertySalePrice || p!.propertyPrice || 0,
-				originalPrice: p!.propertySalePrice ? p!.propertyPrice : null,
-				image: p!.propertyImages?.[0] ? `${API_URL}/${p!.propertyImages[0]}` : '',
+				price: p!.productSalePrice || p!.productPrice || 0,
+				originalPrice: p!.productSalePrice ? p!.productPrice : null,
+				image: p!.productImages?.[0] ? `${API_URL}/${p!.productImages[0]}` : '',
 			}));
 
 		return res.status(200).json({ reply: reply || '...', products, actions });

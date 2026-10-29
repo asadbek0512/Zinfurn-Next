@@ -264,7 +264,7 @@
 			}
 		}
 
-		.trend-properties {
+		.trend-products {
 			padding: 24px 0 32px;
 			width: 100%;
 			height: auto; // Mobilga moslashgan
@@ -296,14 +296,14 @@
 						align-items: center;
 					}
 
-					.trend-property-swiper {
+					.trend-product-swiper {
 						width: 100%;
 						height: auto;
 						display: flex;
 						flex-direction: column;
 						gap: 12px;
 
-						.trend-property-slide {
+						.trend-product-slide {
 							width: 100%;
 							height: auto;
 							display: flex;

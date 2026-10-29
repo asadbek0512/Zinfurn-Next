@@ -1,14 +1,14 @@
-export interface CartProperty {
+export interface CartProduct {
 	_id: string;
-	propertyTitle: string;
-	propertyPrice: number;
-	propertySalePrice?: number;
-	propertyImages?: string[];
-	propertyType: string;
+	productTitle: string;
+	productPrice: number;
+	productSalePrice?: number;
+	productImages?: string[];
+	productType: string;
 	memberNick?: string;
 }
 
 export interface CartItem {
-	property: CartProperty;
+	product: CartProduct;
 	quantity: number;
 }

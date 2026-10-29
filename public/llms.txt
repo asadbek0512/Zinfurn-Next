@@ -21,7 +21,7 @@ destination and item size.
 
 - [Home](https://zinfurn.uz): featured furniture, trending items, top sellers
 - [About](https://zinfurn.uz/about): what Zinfurn is, who it serves, how it is built
-- [Furniture catalogue](https://zinfurn.uz/property): full listing with filters
+- [Furniture catalogue](https://zinfurn.uz/product): full listing with filters
 - [Repair service](https://zinfurn.uz/repairService): furniture repair specialists
 - [Sellers](https://zinfurn.uz/agent): seller profiles and their listings
 - [Community](https://zinfurn.uz/community): articles and discussion

@@ -6,10 +6,10 @@ import { useCurrency } from '../../context/CurrencyContext';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
-import { GET_PROPERTIES } from '../../../apollo/user/query';
+import { GET_PRODUCTS } from '../../../apollo/user/query';
 import { userVar } from '../../../apollo/store';
 import { REACT_APP_API_URL } from '../../config';
-import { Property } from '../../types/property/property';
+import { Product } from '../../types/product/product';
 import { T } from '../../types/common';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { isSaleActive } from '../../utils/sale';
@@ -17,8 +17,8 @@ import { markPromoMounted, markPromoReady } from '../../utils/promoReady';
 
 
 const FALLBACK_PROMO_IMAGE = '/img/banner/Home-1-.jpg';
-const getPromoImage = (prop: Property): string =>
-	prop.propertyImages?.[0] ? `${REACT_APP_API_URL}/${prop.propertyImages[0]}` : FALLBACK_PROMO_IMAGE;
+const getPromoImage = (prop: Product): string =>
+	prop.productImages?.[0] ? `${REACT_APP_API_URL}/${prop.productImages[0]}` : FALLBACK_PROMO_IMAGE;
 
 // Rasm shu vaqtda yuklanmasa ham popup chiqaveradi (sekin tarmoq)
 const PROMO_IMAGE_MAX_WAIT_MS = 1500;
@@ -43,7 +43,7 @@ const SalePromoModal = () => {
 		markPromoMounted();
 	}, []);
 	const [dontShow, setDontShow] = useState(false);
-	const [currentProp, setCurrentProp] = useState<Property | null>(null);
+	const [currentProp, setCurrentProp] = useState<Product | null>(null);
 	const [timeLeft, setTimeLeft] = useState<{ h: number; m: number; s: number } | null>(null);
 	const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -52,7 +52,7 @@ const SalePromoModal = () => {
 		return `${DISMISS_KEY_PREFIX}_${user!._id}_${today}`;
 	};
 
-	const pickProduct = (list: Property[]) => {
+	const pickProduct = (list: Product[]) => {
 		if (list.length === 0) return null;
 		const lastId = typeof window !== 'undefined' ? localStorage.getItem(LAST_SHOWN_KEY) : null;
 		const pool = list.filter((p) => p._id !== lastId);
@@ -61,13 +61,13 @@ const SalePromoModal = () => {
 		return chosen;
 	};
 
-	useQuery(GET_PROPERTIES, {
+	useQuery(GET_PRODUCTS, {
 		fetchPolicy: 'cache-and-network',
 		variables: {
 			input: { page: 1, limit: 16, sort: 'createdAt', direction: 'DESC', search: {} },
 		},
 		onCompleted: (data: T) => {
-			const onSale: Property[] = (data?.getProperties?.list ?? []).filter((p: Property) => isSaleActive(p));
+			const onSale: Product[] = (data?.getProducts?.list ?? []).filter((p: Product) => isSaleActive(p));
 			if (onSale.length === 0) return markPromoReady();
 			setCurrentProp(pickProduct(onSale));
 		},
@@ -104,10 +104,10 @@ const SalePromoModal = () => {
 
 	// Countdown timer
 	useEffect(() => {
-		if (!visible || !currentProp?.propertySaleExpiresAt) return;
+		if (!visible || !currentProp?.productSaleExpiresAt) return;
 
 		const tick = () => {
-			const diff = new Date(currentProp.propertySaleExpiresAt!).getTime() - Date.now();
+			const diff = new Date(currentProp.productSaleExpiresAt!).getTime() - Date.now();
 			if (diff <= 0) {
 				setTimeLeft({ h: 0, m: 0, s: 0 });
 				if (countdownRef.current) clearInterval(countdownRef.current);
@@ -130,8 +130,8 @@ const SalePromoModal = () => {
 
 	const prop = currentProp;
 	const img = getPromoImage(prop);
-	const discount = prop.propertySalePrice
-		? Math.round(((prop.propertyPrice - prop.propertySalePrice) / prop.propertyPrice) * 100)
+	const discount = prop.productSalePrice
+		? Math.round(((prop.productPrice - prop.productSalePrice) / prop.productPrice) * 100)
 		: 0;
 
 	const handleClose = () => {
@@ -163,16 +163,16 @@ const SalePromoModal = () => {
 
 				{/* ── Image ── */}
 				<div className="spm-img-wrap" onClick={goDetail}>
-					<img src={img} alt={prop.propertyTitle} className="spm-img" decoding="async" />
+					<img src={img} alt={prop.productTitle} className="spm-img" decoding="async" />
 					{discount > 0 && <div className="spm-discount-badge">-{discount}%</div>}
 				</div>
 
 				{/* ── Info ── */}
 				<div className="spm-info" onClick={goDetail}>
-					<p className="spm-title">{prop.propertyTitle}</p>
+					<p className="spm-title">{prop.productTitle}</p>
 					<div className="spm-price-row">
-						<span className="spm-sale-price">{formatPrice(prop.propertySalePrice)}</span>
-						<span className="spm-orig-price">{formatPrice(prop.propertyPrice)}</span>
+						<span className="spm-sale-price">{formatPrice(prop.productSalePrice)}</span>
+						<span className="spm-orig-price">{formatPrice(prop.productPrice)}</span>
 						{discount > 0 && <span className="spm-save-txt">Save {discount}%</span>}
 					</div>
 

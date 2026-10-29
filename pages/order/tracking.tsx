@@ -270,8 +270,8 @@ const OrderTracking: NextPage = () => {
 								<Divider className="tracking-divider" />
 								{order.orderItems.map((item, i) => (
 									<div key={i} className="tracking-item-row">
-										<Typography className="tracking-item-title">{item.propertyTitle}</Typography>
-										<Typography className="tracking-item-info">×{item.quantity} · {formatPrice(item.propertyPrice)}</Typography>
+										<Typography className="tracking-item-title">{item.productTitle}</Typography>
+										<Typography className="tracking-item-info">×{item.quantity} · {formatPrice(item.productPrice)}</Typography>
 									</div>
 								))}
 							</div>

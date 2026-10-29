@@ -6,7 +6,7 @@ import { Stack, Box, Button, Pagination, Typography } from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import AgentCard from '../../libs/components/common/AgentCard';
-import PropertyCardSkeleton from '../../libs/components/common/PropertyCardSkeleton';
+import ProductCardSkeleton from '../../libs/components/common/ProductCardSkeleton';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
@@ -177,7 +177,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 				{showSkeleton ? (
 					<div className="mob-agent-grid">
 						{Array.from({ length: 6 }).map((_, i) => (
-							<PropertyCardSkeleton key={i} />
+							<ProductCardSkeleton key={i} />
 						))}
 					</div>
 				) : agents?.length === 0 ? (
@@ -257,7 +257,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 					</Stack>
 					<Stack className={'card-wrap'}>
 						{showSkeleton ? (
-							Array.from({ length: 8 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+							Array.from({ length: 8 }).map((_, i) => <ProductCardSkeleton key={i} />)
 						) : agents?.length === 0 ? (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />

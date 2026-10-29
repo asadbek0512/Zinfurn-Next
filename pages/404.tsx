@@ -34,7 +34,7 @@ const NotFound: NextPage = () => {
 					</Link>
 					<Link href={'/products'}>
 						<Button variant={'outlined'} className={'not-found-btn-secondary'}>
-							{t('404_browse_property')}
+							{t('404_browse_product')}
 						</Button>
 					</Link>
 				</Stack>

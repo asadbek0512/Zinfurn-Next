@@ -1,5 +1,5 @@
 import React from 'react';
-import RepairedPropertyList from '../../libs/components/repairService/RepairedPropertyList';
+import RepairedProductList from '../../libs/components/repairService/RepairedProductList';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import TechnicianList from '../../libs/components/repairService/TechnicianList';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -19,7 +19,7 @@ const RepairServicePage = () => {
 		return (
 			<div id="mob-repair-service-page">
 				<TechnicianList />
-				<RepairedPropertyList />
+				<RepairedProductList />
 			</div>
 		);
 	}
@@ -30,7 +30,7 @@ const RepairServicePage = () => {
 				<TechnicianList />
 			</section>
 			<section>
-				<RepairedPropertyList />
+				<RepairedProductList />
 			</section>
 		</div>
 	);

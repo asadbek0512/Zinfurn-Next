@@ -72,7 +72,7 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 			});
 
 		} catch (err: unknown) {
-			console.error('ERROR, likePropertyHandler:', getErrorMessage(err));
+			console.error('ERROR, likeProductHandler:', getErrorMessage(err));
 			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};

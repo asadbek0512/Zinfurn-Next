@@ -72,7 +72,7 @@
 
 # [ORDER-1] ORDER TIZIMI — BAJARILDI
 #   Backend: CREATE_ORDER, GET_MY_ORDERS mutatsiyalar
-#   - orderItems: propertyId, title, image, price, quantity
+#   - orderItems: productId, title, image, price, quantity
 #   - deliveryInfo: fullName, address, city, phone, note
 #   - orderTotal, orderId (auto-generated)
 
@@ -95,21 +95,21 @@
 # [REV-1] REVIEW TIZIMI (BACKEND) — BAJARILDI
 #   Fayllar: apps/zinfurn-api/src/components/review/
 #   - Review schema, service, resolver, module
-#   - createReview: review yaratib propertyRating va propertyReviews ni yangilaydi
-#   - getPropertyReviewSummary: o'rtacha reyting + har yulduz bo'yicha taqsimot
+#   - createReview: review yaratib productRating va productReviews ni yangilaydi
+#   - getProductReviewSummary: o'rtacha reyting + har yulduz bo'yicha taqsimot
 
-# [REV-2] PROPERTY MODEL YANGILANISHI — BAJARILDI
-#   Fayl: apps/zinfurn-api/src/schemas/Property.model.ts
-#   - propertyReviews: Number (default 0) — review soni
-#   - propertyRating: Number (default 0) — o'rtacha reyting (Float)
-#   - propertySoldCount: Number (default 0) — sotilgan soni
+# [REV-2] PRODUCT MODEL YANGILANISHI — BAJARILDI
+#   Fayl: apps/zinfurn-api/src/schemas/Product.model.ts
+#   - productReviews: Number (default 0) — review soni
+#   - productRating: Number (default 0) — o'rtacha reyting (Float)
+#   - productSoldCount: Number (default 0) — sotilgan soni
 
-# [REV-3] ORDER SERVICE — propertySoldCount — BAJARILDI
+# [REV-3] ORDER SERVICE — productSoldCount — BAJARILDI
 #   Fayl: apps/zinfurn-api/src/components/order/order.service.ts
-#   - confirmDelivery() → har item uchun propertySoldCount $inc quantity
+#   - confirmDelivery() → har item uchun productSoldCount $inc quantity
 
 # [REV-4] REVIEW SECTION DIZAYNI — BAJARILDI (AliExpress uslubi)
-#   Fayl: libs/components/property/ReviewSection.tsx
+#   Fayl: libs/components/product/ReviewSection.tsx
 #   - O'rtacha reyting + umumiy son
 #   - Har yulduz uchun progress bar (1★ dan 5★ gacha, real ma'lumot)
 #   - Foto gallery strip — lightbox bilan (thumbnail nav)
@@ -117,7 +117,7 @@
 #   - "Helpful" tugmasi
 #   - Yulduz bo'yicha filter chips
 #   - Reyting label: 1→Terrible, 2→Poor, 3→Average, 4→Good, 5→Excellent
-#   SCSS: scss/pc/property/reviewSection.scss (to'liq qayta yozildi)
+#   SCSS: scss/pc/product/reviewSection.scss (to'liq qayta yozildi)
 
 # [REV-5] MYORDERS — MULTI-ITEM REVIEW MODAL — BAJARILDI
 #   Fayl: libs/components/mypage/MyOrders.tsx
@@ -128,25 +128,25 @@
 #   - Reyting label badge (Terrible→Excellent, har xil rang)
 #   - Belgi hisoblagich: {content.length} / 1000
 
-# [REV-6] PROPERTY CARD — REYTING + SOTILGAN — BAJARILDI
-#   Fayl: libs/components/property/PropertyCard.tsx
-#   - Real propertyRating (yulduzlar) + propertyRating raqami
-#   - propertySoldCount + "sold" ko'rsatadi
+# [REV-6] PRODUCT CARD — REYTING + SOTILGAN — BAJARILDI
+#   Fayl: libs/components/product/ProductCard.tsx
+#   - Real productRating (yulduzlar) + productRating raqami
+#   - productSoldCount + "sold" ko'rsatadi
 #   - Mobile gorizontal layout: reyting narx TAGIDA (CSS order: 3)
 #   - Mobile grid-2 layout: reyting nom USTIDA (CSS order: -1)
-#   SCSS: scss/mobile/property/property.scss — .mob-card-rating stillari
+#   SCSS: scss/mobile/product/product.scss — .mob-card-rating stillari
 
 # [REV-7] DETAIL SAHIFA — REAL REYTING — BAJARILDI
-#   Fayl: pages/property/detail.tsx
-#   - Hardcoded 4.9 o'rniga real propertyRating
+#   Fayl: pages/product/detail.tsx
+#   - Hardcoded 4.9 o'rniga real productRating
 #   - Tab label: "Reviews (N)" — real son
-#   - Product info jadvalida "Sold" qatori (propertySoldCount)
+#   - Product info jadvalida "Sold" qatori (productSoldCount)
 #   - ReviewSection da hasContent guard (summary + reviews.length)
 
 # ── FILTER TUZATISHLAR ───────────────────────────────────────
 
 # [FILT-1] RANG FILTRI — 5 TA KO'RINADI — BAJARILDI
-#   Fayl: scss/pc/property/property.scss
+#   Fayl: scss/pc/product/product.scss
 #   - .button-group1 height: 260px → 312px
 #   - Hover da 440px (barcha 7 ta rang)
 
@@ -175,7 +175,7 @@
 #   - Logo (chap), notification + til + hamburger (o'ng), position: fixed, height: 48px
 #   - MUI Drawer (o'ngdan, 285px) — gradient header (#763711 → #cf6422)
 #   - Drawer header: login bo'lsa avatar+ism+tel, bo'lmasa login linki
-#   - Nav items: Home(ko'k), Properties(brand), Agents(yashil), Service(binafsha),
+#   - Nav items: Home(ko'k), Products(brand), Agents(yashil), Service(binafsha),
 #                Community(sariq), My Page(qizil), CS(ko'k-yashil)
 #   - Har bir item: rangli icon + label + chevron, border-radius 12px, oq bg
 #   - Divider — keyin: Live Chat + AI Assistant items
@@ -183,10 +183,10 @@
 
 # [NAV-2] NAVBAR TRANSPARENTLIK — BAJARILDI
 #   Fayl: libs/components/Top.tsx
-#   - Transparent (gradient) boshlaydi: barcha sahifalar (home, property, agent,
+#   - Transparent (gradient) boshlaydi: barcha sahifalar (home, product, agent,
 #     service, community, cs, join, ...) — scroll qilganda solid bo'ladi
 #   - Solid (oq) boshlaydi: FAQAT /mypage, /member, /agent/detail
-#   - isDetailPage (/property/detail, /repairService/detail): doim solid
+#   - isDetailPage (/product/detail, /repairService/detail): doim solid
 
 # ── LAYOUT ──────────────────────────────────────────────────
 
@@ -240,21 +240,21 @@
 #   - HeroSection: 46vh, slides, overline+title+button, strelkalar kichik
 #   - HeaderFilter: filter kartlar (cities/types/materials — dinamik rasm)
 #   - CategoryCard: 3+1 grid (chap: 1 yuqori + 2 pastki, o'ng: 1 baland)
-#   - TrendProperties: Swiper 1.6, rasm 170px contain, oq fon
-#   - PopularPropertyCard (Flash Sale): Swiper 1.5, 220px, taymer, badge
+#   - TrendProducts: Swiper 1.6, rasm 170px contain, oq fon
+#   - PopularProductCard (Flash Sale): Swiper 1.5, 220px, taymer, badge
 #   - Advertisement (Repair): gorizontal, rasm chap, matn o'ng, #e66414 rang
-#   - TopProperties: 2×2 grid, tablar (Top/Popular/Trend), "All Furnitures→"
+#   - TopProducts: 2×2 grid, tablar (Top/Popular/Trend), "All Furnitures→"
 #   - TopAgents: Swiper 2.2, 200px karta, overlay
 #   - Events (PromoBanners): 2 ta vertikal karta, 110px
 #   - CommunityBoards: tablar (News/Free), Swiper va vertikal list
 #   - SalesToast: PC da ko'rinadi, mobile da yo'q (LayoutHome da faqat PC)
 
-# [PAGE-2] PROPERTY LIST — BAJARILDI
-#   Fayl: pages/property/index.tsx
+# [PAGE-2] PRODUCT LIST — BAJARILDI
+#   Fayl: pages/product/index.tsx
 #   - Filter sidebar, kartalar grid, pagination
 
-# [PAGE-3] PROPERTY DETAIL — BAJARILDI
-#   Fayl: pages/property/detail.tsx
+# [PAGE-3] PRODUCT DETAIL — BAJARILDI
+#   Fayl: pages/product/detail.tsx
 #   - Rasm slider, narx, tavsif, like, agent info, map, reviews
 
 # [PAGE-4] AGENT LIST — BAJARILDI
@@ -292,7 +292,7 @@
 #     * My Profile item: AccountCircle icon + ism + tel subtitle
 #     * Manage Listings, Followers, Followings, Favorites, Articles, Write Article
 #   - MyProfile: avatar, bio, edit forma
-#   - MyProperties: 2-ustun grid, pagination-config pattern
+#   - MyProducts: 2-ustun grid, pagination-config pattern
 #   - MyFollowers / MyFollowings: pagination-config Stack (total result ko'rinadi)
 #   - MyFavorites: karta grid
 #   - MyArticles: gorizontal karta list
@@ -304,7 +304,7 @@
 #   Komponentlar (libs/components/member/):
 #   - MemberMenu: gradient profile card (54px avatar), follow/unfollow button,
 #     stats bar (xabarsiz), horizontal tab navigation
-#   - MemberProperties: 2-ustun grid, pagination-config
+#   - MemberProducts: 2-ustun grid, pagination-config
 #   - MemberArticles: gorizontal card list (90px img), pagination-config
 #   - MemberFollowers / MemberFollowings: pagination-config Stack
 #   SCSS: scss/mobile/member.scss
@@ -320,7 +320,7 @@
 # ── UMUMIY KOMPONENTLAR ─────────────────────────────────────
 
 # [COM-1] HERO SECTION — BAJARILDI (yuqorida)
-# [COM-2] PROPERTY BIG CARD — BAJARILDI (mob-big-card class)
+# [COM-2] PRODUCT BIG CARD — BAJARILDI (mob-big-card class)
 # [COM-3] AGENT CARD — BAJARILDI
 # [COM-4] COMMUNITY CARD — BAJARILDI
 # [COM-5] SALES TOAST — faqat PC da (LayoutHome PC branch da)
@@ -342,10 +342,10 @@
 # ============================================================
 
 # [TODO-1] FLASH SALE — PC DA 1 TA KARTA MUAMMOSI — BAJARILMAGAN
-#   Fayl: libs/components/homepage/PopularPropertyCard.tsx
+#   Fayl: libs/components/homepage/PopularProductCard.tsx
 #   Muammo: PC da flash sale faqat 1 ta karta ko'rsatmoqda, 3 ta bo'lishi kerak
-#   Sabab: tekshirilmagan — getClosestSaleProperties() slice(0,3) to'g'ri
-#          lekin aktiveSaleProperty soni yetarli emasmi yoki CSS muammosimi?
+#   Sabab: tekshirilmagan — getClosestSaleProducts() slice(0,3) to'g'ri
+#          lekin aktiveSaleProduct soni yetarli emasmi yoki CSS muammosimi?
 #   CSS: .triple-banner-container { grid-template-columns: repeat(3, 1fr) } — to'g'ri
 
 # [?-1] SALES TOAST — mobile da ko'rsatilmaydi
@@ -366,7 +366,7 @@
 # ============================================================
 # scss/mobile/main.scss          — asosiy import + navbar + drawer + chat/AI
 # scss/mobile/homepage/          — homepage partial fayllar
-# scss/mobile/property/          — property list + detail
+# scss/mobile/product/          — product list + detail
 # scss/mobile/agent/             — agent list + detail
 # scss/mobile/repairService/     — service list + detail
 # scss/mobile/account.scss       — join sahifa

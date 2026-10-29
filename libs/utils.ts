@@ -15,15 +15,15 @@ export const formatCount = (value: number | undefined | null): string => {
 	return `${str.endsWith('.0') ? str.slice(0, -2) : str}k`;
 };
 
-export const likeTargetPropertyHandler = async (likeTargetProperty: MutationFn, id: string) => {
+export const likeTargetProductHandler = async (likeTargetProduct: MutationFn, id: string) => {
 	try {
-		await likeTargetProperty({
+		await likeTargetProduct({
 			variables: {
 				input: id,
 			},
 		});
 	} catch (err: unknown) {
-		console.error('ERROR, likeTargetPropertyHandler:', getErrorMessage(err));
+		console.error('ERROR, likeTargetProductHandler:', getErrorMessage(err));
 		sweetMixinErrorAlert(getErrorMessage(err)).then();
 	}
 };

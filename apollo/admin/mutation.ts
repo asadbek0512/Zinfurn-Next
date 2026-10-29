@@ -17,7 +17,7 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberProperties
+			memberProducts
 			memberRank
 			memberArticles
 			memberPoints
@@ -34,38 +34,38 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 `;
 
 /**************************
- *        PROPERTY        *
+ *        PRODUCT        *
  *************************/
 
-export const UPDATE_PROPERTY_BY_ADMIN = gql`
-	mutation UpdatePropertyByAdmin($input: PropertyUpdate!) {
-		updatePropertyByAdmin(input: $input) {
+export const UPDATE_PRODUCT_BY_ADMIN = gql`
+	mutation UpdateProductByAdmin($input: ProductUpdate!) {
+		updateProductByAdmin(input: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyCategory
-			propertyMaterial
-			propertyColor
-			propertySize
-			propertyTitle
-			propertyPrice
-			propertySalePrice
-			propertyIsOnSale
-			propertyStock
-			propertySaleStartsAt
-			propertySaleExpiresAt
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			propertyInStock
-			propertyCondition
-			propertyBrand
-			propertyOriginCountry
-			propertyAddress
-			propertyViews
-			propertyLikes
-			propertyRank
+			productType
+			productStatus
+			productCategory
+			productMaterial
+			productColor
+			productSize
+			productTitle
+			productPrice
+			productSalePrice
+			productIsOnSale
+			productStock
+			productSaleStartsAt
+			productSaleExpiresAt
+			productImages
+			productDesc
+			productBarter
+			productRent
+			productInStock
+			productCondition
+			productBrand
+			productOriginCountry
+			productAddress
+			productViews
+			productLikes
+			productRank
 			memberId
 			soldAt
 			deletedAt
@@ -76,35 +76,35 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
 	}
 `;
 
-export const REMOVE_PROPERTY_BY_ADMIN = gql`
-	mutation RemovePropertyByAdmin($input: String!) {
-		removePropertyByAdmin(propertyId: $input) {
+export const REMOVE_PRODUCT_BY_ADMIN = gql`
+	mutation RemoveProductByAdmin($input: String!) {
+		removeProductByAdmin(productId: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyCategory
-			propertyMaterial
-			propertyColor
-			propertySize
-			propertyTitle
-			propertyPrice
-			propertySalePrice
-			propertyIsOnSale
-			propertyStock
-			propertySaleStartsAt
-			propertySaleExpiresAt
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			propertyInStock
-			propertyCondition
-			propertyBrand
-			propertyOriginCountry
-			propertyAddress
-			propertyViews
-			propertyLikes
-			propertyRank
+			productType
+			productStatus
+			productCategory
+			productMaterial
+			productColor
+			productSize
+			productTitle
+			productPrice
+			productSalePrice
+			productIsOnSale
+			productStock
+			productSaleStartsAt
+			productSaleExpiresAt
+			productImages
+			productDesc
+			productBarter
+			productRent
+			productInStock
+			productCondition
+			productBrand
+			productOriginCountry
+			productAddress
+			productViews
+			productLikes
+			productRank
 			memberId
 			soldAt
 			deletedAt

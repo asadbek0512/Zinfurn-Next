@@ -13,7 +13,7 @@ import { Messages } from '../../config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { useTranslation } from 'next-i18next';
 import { CustomJwtPayload } from '../../types/customJwtPayload';
-import PropertyCardSkeleton from '../common/PropertyCardSkeleton';
+import ProductCardSkeleton from '../common/ProductCardSkeleton';
 
 const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 	const { t } = useTranslation('common');
@@ -103,7 +103,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 					</div>
 				) : skelVisible ? (
 					<div className="mob-myarticles-grid">
-						{Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)}
+						{Array.from({ length: 6 }).map((_, i) => <ProductCardSkeleton key={i} />)}
 					</div>
 				) : (
 					<div className="mob-myarticles-empty">
@@ -151,7 +151,7 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 							);
 						})
 					) : skelVisible ? (
-						Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+						Array.from({ length: 6 }).map((_, i) => <ProductCardSkeleton key={i} />)
 					) : (
 						<div
 							className="no-data"

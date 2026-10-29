@@ -2,7 +2,7 @@ export enum ReportGroup {
 	ARTICLE = 'ARTICLE',
 	COMMENT = 'COMMENT',
 	MEMBER = 'MEMBER',
-	PROPERTY = 'PROPERTY',
+	PRODUCT = 'PRODUCT',
 	MESSAGE = 'MESSAGE',
 }
 

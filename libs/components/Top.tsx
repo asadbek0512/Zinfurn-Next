@@ -409,7 +409,7 @@ const Top = () => {
 					<div className={'mobile-side-items'}>
 						{[
 							{ href: '/',                               label: t('Home'),       icon: <HomeOutlinedIcon /> },
-							{ href: '/products',                       label: t('Properties'), icon: <WeekendOutlinedIcon /> },
+							{ href: '/products',                       label: t('Products'), icon: <WeekendOutlinedIcon /> },
 							{ href: '/agent',                          label: t('Agents'),     icon: <PeopleOutlinedIcon /> },
 							{ href: '/repairService',                  label: t('Service'),    icon: <BuildOutlinedIcon /> },
 							{ href: '/community?articleCategory=FREE', label: t('Community'), icon: <ForumOutlinedIcon /> },
@@ -555,7 +555,7 @@ const Top = () => {
 								<div>{t('Home')}</div>
 							</Link>
 							<Link href={'/products'} prefetch={false}>
-								<div>{t('Properties')}</div>
+								<div>{t('Products')}</div>
 							</Link>
 							<Link href={'/agent'} prefetch={false}>
 								<div>{t('Agents')}</div>

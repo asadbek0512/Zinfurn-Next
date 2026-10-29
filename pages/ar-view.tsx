@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { PropertyCategory } from '../libs/enums/property.enum';
+import { ProductCategory } from '../libs/enums/product.enum';
 import { resolveArModel } from '../libs/config/arModels';
 import { LocaleContext, DEFAULT_LOCALE } from '../libs/types/common';
 
@@ -21,7 +21,7 @@ const ArViewPage = () => {
 	const initialModelId =
 		typeof model === 'string'
 			? model
-			: resolveArModel(typeof title === 'string' ? title : undefined, category as PropertyCategory | undefined).id;
+			: resolveArModel(typeof title === 'string' ? title : undefined, category as ProductCategory | undefined).id;
 
 	return (
 		<ArModelViewer

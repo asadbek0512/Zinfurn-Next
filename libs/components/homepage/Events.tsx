@@ -30,7 +30,7 @@ const PromoBanners = () => {
 			imageSrc: '/img/banner/game5.png',
 			backgroundColor: 'var(--bg-muted)',
 			isGaming: true,
-			filterOption: 'propertyIsOnSale',
+			filterOption: 'productIsOnSale',
 		},
 		{
 			title: t('Wood Chair'), // t() funktsiyasi qo'shildi
@@ -41,7 +41,7 @@ const PromoBanners = () => {
 			imageSrc: '/img/banner/chair3.png',
 			backgroundColor: 'var(--amber)',
 			isGaming: true,
-			filterOption: 'propertyIsOnSale',
+			filterOption: 'productIsOnSale',
 		},
 	];
 

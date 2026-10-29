@@ -25,7 +25,7 @@ const TopAgentCard = (props: TopAgentProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div style={{ height: '50px' }}>TrendProperties Mobile</div>;
+		return <div style={{ height: '50px' }}>TrendProducts Mobile</div>;
 	} else {
 		return (
 			<Box

@@ -19,13 +19,13 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { GET_COMMENTS, GET_REPAIRPROPERTIES, GET_REPAIRPROPERTY } from '../../apollo/user/query';
+import { GET_COMMENTS, GET_REPAIRPRODUCTS, GET_REPAIRPRODUCT } from '../../apollo/user/query';
 import { T, LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
-import { CREATE_COMMENT, LIKE_TARGET_REPAIRPROPERTY } from '../../apollo/user/mutation';
+import { CREATE_COMMENT, LIKE_TARGET_REPAIRPRODUCT } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { RepairProperty } from '../../libs/types/repairProperty/repairProperty';
-import Review from '../../libs/components/property/Review';
+import { RepairProduct } from '../../libs/types/repairProduct/repairProduct';
+import Review from '../../libs/components/product/Review';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import RateReviewIcon from '@mui/icons-material/RateReview';
@@ -47,23 +47,23 @@ export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	},
 });
 
-const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
+const RepairProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const { t } = useTranslation('common');
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	dayjs.extend(relativeTime);
-	const [repairPropertyId, setRepairPropertyId] = useState<string | null>(null);
-	const [repairProperty, setRepairProperty] = useState<RepairProperty | null>(null);
+	const [repairProductId, setRepairProductId] = useState<string | null>(null);
+	const [repairProduct, setRepairProduct] = useState<RepairProduct | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
-	const [destinationRepairProperties, setDestinationRepairProperties] = useState<RepairProperty[]>([]);
+	const [destinationRepairProducts, setDestinationRepairProducts] = useState<RepairProduct[]>([]);
 
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
-	const [repairPropertyComments, setRepairPropertyComments] = useState<Comment[]>([]);
+	const [repairProductComments, setRepairProductComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
 
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
-		commentGroup: CommentGroup.REPAIR_PROPERTY,
+		commentGroup: CommentGroup.REPAIR_PRODUCT,
 		commentContent: '',
 		commentRefId: '',
 	});
@@ -71,31 +71,31 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const insertEmoji = (emoji: string) => setInsertCommentData((prev) => ({ ...prev, commentContent: prev.commentContent + emoji }));
 
 	/** APOLLO REQUESTS **/
-	const [likeRepairProperty] = useMutation(LIKE_TARGET_REPAIRPROPERTY);
+	const [likeRepairProduct] = useMutation(LIKE_TARGET_REPAIRPRODUCT);
 	const [createRepairComment] = useMutation(CREATE_COMMENT);
 
 	const {
-		loading: getRepairPropertyLoading,
-		data: getRepairPropertyData,
-		error: getRepairPropertyError,
-		refetch: getRepairPropertyRefetch,
-	} = useQuery(GET_REPAIRPROPERTY, {
+		loading: getRepairProductLoading,
+		data: getRepairProductData,
+		error: getRepairProductError,
+		refetch: getRepairProductRefetch,
+	} = useQuery(GET_REPAIRPRODUCT, {
 		fetchPolicy: 'network-only',
-		variables: { input: repairPropertyId },
-		skip: !repairPropertyId,
+		variables: { input: repairProductId },
+		skip: !repairProductId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getRepairProperty) setRepairProperty(data?.getRepairProperty);
-			if (data?.getRepairProperty) setSlideImage(data?.getRepairProperty?.repairPropertyImages?.[0]);
+			if (data?.getRepairProduct) setRepairProduct(data?.getRepairProduct);
+			if (data?.getRepairProduct) setSlideImage(data?.getRepairProduct?.repairProductImages?.[0]);
 		},
 	});
 
 	const {
-		loading: getRepairPropertiesLoading,
-		data: getRepairPropertiesData,
-		error: getRepairPropertiesError,
-		refetch: getRepairPropertiesRefetch,
-	} = useQuery(GET_REPAIRPROPERTIES, {
+		loading: getRepairProductsLoading,
+		data: getRepairProductsData,
+		error: getRepairProductsError,
+		refetch: getRepairProductsRefetch,
+	} = useQuery(GET_REPAIRPRODUCTS, {
 		fetchPolicy: 'cache-and-network',
 		variables: {
 			input: {
@@ -104,14 +104,14 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				sort: 'createdAt',
 				direction: Direction.DESC,
 				search: {
-					typeList: repairProperty?.repairPropertyType ? [repairProperty.repairPropertyType] : [],
+					typeList: repairProduct?.repairProductType ? [repairProduct.repairProductType] : [],
 				},
 			},
 		},
-		skip: !repairPropertyId && !repairProperty,
+		skip: !repairProductId && !repairProduct,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getRepairProperties?.list) setDestinationRepairProperties(data?.getRepairProperties?.list);
+			if (data?.getRepairProducts?.list) setDestinationRepairProducts(data?.getRepairProducts?.list);
 		},
 	});
 
@@ -128,7 +128,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		skip: !commentInquiry.search.commentRefId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getComments?.list) setRepairPropertyComments(data?.getComments?.list);
+			if (data?.getComments?.list) setRepairProductComments(data?.getComments?.list);
 			setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0);
 		},
 	});
@@ -136,7 +136,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.id) {
-			setRepairPropertyId(router.query.id as string);
+			setRepairProductId(router.query.id as string);
 			setCommentInquiry({
 				...commentInquiry,
 				search: {
@@ -161,27 +161,27 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setSlideImage(image);
 	};
 
-	const likeRepairPropertyHandler = async (user: T, id: string) => {
+	const likeRepairProductHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(t(Message.NOT_AUTHENTICATED));
 
-			await likeRepairProperty({ variables: { input: id } });
+			await likeRepairProduct({ variables: { input: id } });
 
-			await getRepairPropertyRefetch({ input: id });
-			await getRepairPropertiesRefetch({
+			await getRepairProductRefetch({ input: id });
+			await getRepairProductsRefetch({
 				input: {
 					page: 1,
 					limit: 4,
 					sort: 'createdAt',
 					direction: Direction.DESC,
 					search: {
-						typeList: [repairProperty?.repairPropertyType],
+						typeList: [repairProduct?.repairProductType],
 					},
 				},
 			});
 		} catch (err: unknown) {
-			console.error('ERROR, likeRepairPropertyHandler', getErrorMessage(err));
+			console.error('ERROR, likeRepairProductHandler', getErrorMessage(err));
 			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
@@ -220,17 +220,17 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	};
 
-	if (getRepairPropertiesLoading) {
+	if (getRepairProductsLoading) {
 		return <Loading fullScreen={device === 'mobile'} />;
 	}
 
 	if (device === 'mobile') {
-		const techAvatar = repairProperty?.memberData?.memberImage?.startsWith('http')
-			? repairProperty.memberData.memberImage
-			: `${REACT_APP_API_URL}/${repairProperty?.memberData?.memberImage || ''}`;
-		const techPhone = repairProperty?.memberData?.memberPhone;
-		const repairTitle = getLocalizedRepairText(repairProperty, router.locale);
-		const repairImages = repairProperty?.repairPropertyImages ?? [];
+		const techAvatar = repairProduct?.memberData?.memberImage?.startsWith('http')
+			? repairProduct.memberData.memberImage
+			: `${REACT_APP_API_URL}/${repairProduct?.memberData?.memberImage || ''}`;
+		const techPhone = repairProduct?.memberData?.memberPhone;
+		const repairTitle = getLocalizedRepairText(repairProduct, router.locale);
+		const repairImages = repairProduct?.repairProductImages ?? [];
 
 		return (
 			<div id="mob-repair-detail-page">
@@ -244,12 +244,12 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				<div className="mob-rpd-media">
 					<img
 						className="mob-rpd-img"
-						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.jpg'}
+						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/product/bigImage.jpg'}
 						alt={repairTitle}
 						decoding="async"
 					/>
-					{repairProperty?.repairPropertyType && (
-						<span className="mob-rpd-type-chip">{t(repairProperty.repairPropertyType)}</span>
+					{repairProduct?.repairProductType && (
+						<span className="mob-rpd-type-chip">{t(repairProduct.repairProductType)}</span>
 					)}
 				</div>
 				{repairImages.length > 1 && (
@@ -274,31 +274,31 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					<div className="mob-rpd-stats">
 						<span className="mob-rpd-stat">
 							<RemoveRedEyeIcon />
-							{repairProperty?.repairPropertyViews ?? 0}
+							{repairProduct?.repairProductViews ?? 0}
 						</span>
 						<button
-							className={`mob-rpd-stat mob-rpd-like-btn ${repairProperty?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
-							onClick={() => repairProperty?._id && likeRepairPropertyHandler(user, repairProperty._id)}
+							className={`mob-rpd-stat mob-rpd-like-btn ${repairProduct?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
+							onClick={() => repairProduct?._id && likeRepairProductHandler(user, repairProduct._id)}
 						>
 							<FavoriteIcon />
-							{repairProperty?.repairPropertyLikes ?? 0}
+							{repairProduct?.repairProductLikes ?? 0}
 						</button>
 						<span className="mob-rpd-stat">
 							<AccessTimeIcon />
-							{moment(repairProperty?.createdAt).format('MMM D, YYYY')}
+							{moment(repairProduct?.createdAt).format('MMM D, YYYY')}
 						</span>
 					</div>
 				</div>
 
 				{/* Manzil / telefon */}
-				{(repairProperty?.repairPropertyAddress || techPhone) && (
+				{(repairProduct?.repairProductAddress || techPhone) && (
 					<div className="mob-rpd-info">
-						{repairProperty?.repairPropertyAddress && (
+						{repairProduct?.repairProductAddress && (
 							<div className="mob-rpd-row">
 								<span className="mob-rpd-row-icon"><LocationOnIcon /></span>
 								<div>
 									<span className="mob-rpd-row-label">{t('Address')}</span>
-									<span className="mob-rpd-row-value">{repairProperty.repairPropertyAddress}</span>
+									<span className="mob-rpd-row-value">{repairProduct.repairProductAddress}</span>
 								</div>
 							</div>
 						)}
@@ -318,7 +318,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				<div className="mob-rpd-technician">
 					<img src={techAvatar} alt="" className="mob-rpd-tech-avatar" loading="lazy" decoding="async" />
 					<div className="mob-rpd-tech-meta">
-						<p className="mob-rpd-tech-name">{repairProperty?.memberData?.memberNick}</p>
+						<p className="mob-rpd-tech-name">{repairProduct?.memberData?.memberNick}</p>
 						<p className="mob-rpd-tech-role">{t('Technician')}</p>
 					</div>
 					{techPhone && (
@@ -374,7 +374,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</div>
 						) : (
 							<>
-								{repairPropertyComments.map((comment: Comment) => {
+								{repairProductComments.map((comment: Comment) => {
 									const { stars } = getRatingByMemberType(comment.memberData?.memberType ?? '');
 									const avatarSrc = comment.memberData?.memberImage
 										? (comment.memberData.memberImage.startsWith('http') ? comment.memberData.memberImage : `${REACT_APP_API_URL}/${comment.memberData.memberImage}`)
@@ -415,7 +415,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	return (
 		<Stack className="repair-detail" direction="column" spacing={4}>
 			<Stack className="back-link" onClick={() => router.push('/repairService')}>
-				← {t('Back to property')}
+				← {t('Back to product')}
 			</Stack>
 			<Stack className="repair-detail" direction={{ xs: 'column', md: 'row' }} spacing={3}>
 				{/* Left - Image */}
@@ -428,11 +428,11 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					{/* Member */}
 					<Stack direction="row" alignItems="center" spacing={2} className="repair-detail__member-box">
 						<Avatar
-							src={repairProperty?.memberData?.memberImage?.startsWith('http') ? `${repairProperty?.memberData?.memberImage}` : `${REACT_APP_API_URL}/${repairProperty?.memberData?.memberImage}`}
-							alt={repairProperty?.memberData?.memberNick}
+							src={repairProduct?.memberData?.memberImage?.startsWith('http') ? `${repairProduct?.memberData?.memberImage}` : `${REACT_APP_API_URL}/${repairProduct?.memberData?.memberImage}`}
+							alt={repairProduct?.memberData?.memberNick}
 							className="repair-detail__member-avatar"
 						/>
-						<Typography className="repair-detail__member-nick">{repairProperty?.memberData?.memberNick}</Typography>
+						<Typography className="repair-detail__member-nick">{repairProduct?.memberData?.memberNick}</Typography>
 					</Stack>
 
 					{/* Likes & Views */}
@@ -447,18 +447,18 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<IconButton color="default" disableRipple>
 							<RemoveRedEyeIcon />
 						</IconButton>
-						<Typography className="view-cnt">{repairProperty?.repairPropertyViews || 0}</Typography>
+						<Typography className="view-cnt">{repairProduct?.repairProductViews || 0}</Typography>
 
 						{/* Likes */}
-						{repairProperty?._id && (
+						{repairProduct?._id && (
 							<IconButton
 								color="default"
 								onClick={(e) => {
 									e.stopPropagation();
-									likeRepairPropertyHandler(user, repairProperty._id);
+									likeRepairProductHandler(user, repairProduct._id);
 								}}
 							>
-								{repairProperty.meLiked && repairProperty.meLiked[0]?.myFavorite ? (
+								{repairProduct.meLiked && repairProduct.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon style={{ color: 'red' }} />
 								) : (
 									<FavoriteIcon />
@@ -466,29 +466,29 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</IconButton>
 						)}
 
-						<Typography className="view-cnt">{repairProperty?.repairPropertyLikes || 0}</Typography>
+						<Typography className="view-cnt">{repairProduct?.repairProductLikes || 0}</Typography>
 					</Stack>
 
 					{/* Address */}
 					<Stack direction="row" className="repair-detail__info-item">
 						<LocationOnIcon fontSize="small" />
-						<Typography className="repair-detail__address">{repairProperty?.repairPropertyAddress}</Typography>
+						<Typography className="repair-detail__address">{repairProduct?.repairProductAddress}</Typography>
 					</Stack>
 
 					<Stack direction="row" className="repair-detail__info-item">
 						<PhoneIcon fontSize="small" />
-						<Typography className="repair-detail__address">{repairProperty?.memberData?.memberPhone}</Typography>
+						<Typography className="repair-detail__address">{repairProduct?.memberData?.memberPhone}</Typography>
 					</Stack>
 
 					<Stack direction="row" className="repair-detail__info-item">
 						<DescriptionIcon fontSize="small" />
-						<Typography className="repair-detail__desc">{getLocalizedRepairText(repairProperty, router.locale)}</Typography>
+						<Typography className="repair-detail__desc">{getLocalizedRepairText(repairProduct, router.locale)}</Typography>
 					</Stack>
 
 					<Stack direction="row" className="repair-detail__info-item">
 						<AccessTimeIcon fontSize="small" />
 						<Typography className="repair-detail__created">
-							{moment(repairProperty?.createdAt).format('YYYY-MM-DD HH:mm')}
+							{moment(repairProduct?.createdAt).format('YYYY-MM-DD HH:mm')}
 						</Typography>
 					</Stack>
 				</Stack>
@@ -543,7 +543,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</Stack>
 
 							<Stack className="review-list">
-								{repairPropertyComments?.map((comment: Comment) => {
+								{repairProductComments?.map((comment: Comment) => {
 									const memberType = comment.memberData?.memberType;
 									const { score, stars } = memberType
 										? getRatingByMemberType(memberType)
@@ -563,7 +563,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									);
 								})}
 
-								{repairPropertyComments.length !== 0 && (
+								{repairProductComments.length !== 0 && (
 									<Stack className="pagination-config">
 										<Box component="div" className="pagination-box">
 											<MuiPagination
@@ -595,7 +595,7 @@ const RepairPropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	);
 };
 
-RepairPropertyDetail.defaultProps = {
+RepairProductDetail.defaultProps = {
 	initialComment: {
 		page: 1,
 		limit: 5,
@@ -607,4 +607,4 @@ RepairPropertyDetail.defaultProps = {
 	},
 };
 
-export default withLayoutFull(RepairPropertyDetail);
+export default withLayoutFull(RepairProductDetail);

@@ -6,10 +6,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import dynamic from 'next/dynamic';
-import { GET_PROPERTIES } from '../../../apollo/user/query';
-import { Property } from '../../types/property/property';
+import { GET_PRODUCTS } from '../../../apollo/user/query';
+import { Product } from '../../types/product/product';
 import { REACT_APP_API_URL } from '../../config';
-import { getLocalizedTitle } from '../../utils/localizeProperty';
+import { getLocalizedTitle } from '../../utils/localizeProduct';
 import { activeSalePrice } from '../../utils/sale';
 import { useCurrency } from '../../context/CurrencyContext';
 import useAppMode from '../../hooks/useAppMode';
@@ -39,16 +39,16 @@ const HeaderSearch = ({ compact = false }: HeaderSearchProps) => {
 	const boxRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 
-	const [fetchSuggestions, { data, loading }] = useLazyQuery(GET_PROPERTIES, { fetchPolicy: 'cache-first' });
+	const [fetchSuggestions, { data, loading }] = useLazyQuery(GET_PRODUCTS, { fetchPolicy: 'cache-first' });
 	const trimmed = text.trim();
-	const suggestions: Property[] = trimmed.length >= MIN_CHARS ? data?.getProperties?.list ?? [] : [];
+	const suggestions: Product[] = trimmed.length >= MIN_CHARS ? data?.getProducts?.list ?? [] : [];
 
 	useEffect(() => {
 		if (trimmed.length < MIN_CHARS) return;
 		const timer = setTimeout(() => {
 			fetchSuggestions({
 				variables: {
-					input: { page: 1, limit: SUGGESTION_LIMIT, sort: 'propertyViews', direction: 'DESC', search: { text: trimmed } },
+					input: { page: 1, limit: SUGGESTION_LIMIT, sort: 'productViews', direction: 'DESC', search: { text: trimmed } },
 				},
 			});
 		}, DEBOUNCE_MS);
@@ -177,16 +177,16 @@ const HeaderSearch = ({ compact = false }: HeaderSearchProps) => {
 								onMouseDown={(e) => e.preventDefault()}
 								onClick={() => goToProduct(p._id)}
 							>
-								{p.propertyImages?.[0] ? (
-									<img src={`${REACT_APP_API_URL}/${p.propertyImages[0]}`} alt="" loading="lazy" />
+								{p.productImages?.[0] ? (
+									<img src={`${REACT_APP_API_URL}/${p.productImages[0]}`} alt="" loading="lazy" />
 								) : (
 									<span className="hs-noimg" />
 								)}
 								<div className="hs-info">
 									<span className="hs-title">{getLocalizedTitle(p, i18n.language)}</span>
-									<span className="hs-meta">{t(p.propertyCategory)}</span>
+									<span className="hs-meta">{t(p.productCategory)}</span>
 								</div>
-								<span className="hs-price">{formatPrice(sale || p.propertyPrice)}</span>
+								<span className="hs-price">{formatPrice(sale || p.productPrice)}</span>
 							</div>
 						);
 					})}

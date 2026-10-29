@@ -1,17 +1,17 @@
-import { PropertyColor } from "./enums/property.enum";
+import { ProductColor } from "./enums/product.enum";
 
 export const REACT_APP_API_URL = `${process.env.REACT_APP_API_URL}`;
 
-export const availableOptions = ['propertyBarter', 'propertyRent'];
+export const availableOptions = ['productBarter', 'productRent'];
 
 const thisYear = new Date().getFullYear();
 
-export const propertyYears: any = [];
+export const productYears: any = [];
 
 for (let i = 1970; i <= thisYear; i++) {
-	propertyYears.push(String(i));
+	productYears.push(String(i));
 }
-export const propertyColorList: PropertyColor[] = Object.values(PropertyColor) as PropertyColor[];
+export const productColorList: ProductColor[] = Object.values(ProductColor) as ProductColor[];
 export const Messages = {
 	error1: 'Something went wrong!',
 	error2: 'Please login first!',
@@ -20,7 +20,7 @@ export const Messages = {
 	error5: 'Only images with jpeg, jpg, png format allowed!',
 };
 
-export const topPropertyRank = 2;
+export const topProductRank = 2;
 
 
 

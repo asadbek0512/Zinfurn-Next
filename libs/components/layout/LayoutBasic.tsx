@@ -37,7 +37,7 @@ const withLayoutBasic = (Component: any) => {
 
 			switch (router.pathname) {
 				case '/products':
-					title = 'Property Search';
+					title = 'Product Search';
 					desc = 'We are glad to see you again!';
 					bgImage = '/img/banner/83.jpg';
 					break;
@@ -129,7 +129,7 @@ const withLayoutBasic = (Component: any) => {
 					memberImage: member.memberImage || '/img/profile/defaultUser.svg',
 					memberAddress: member.memberAddress ?? '',
 					memberDesc: member.memberDesc ?? '',
-					memberProperties: member.memberProperties ?? 0,
+					memberProducts: member.memberProducts ?? 0,
 					memberRank: member.memberRank ?? 0,
 					memberEmail: member.memberEmail ?? '',
 					memberArticles: member.memberArticles ?? 0,
