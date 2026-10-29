@@ -1,8 +1,17 @@
 import React, { useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Top from '../Top';
 import { Stack } from '@mui/material';
+
+// Hero LCP rasmi — SSR'da darhol yuklansin (JS hydration'ni kutmasin)
+const HERO_FIRST_SLIDE_IMAGE = '/img/banner/Home-1-.jpg';
+const heroPreload = (
+	<Head>
+		<link rel="preload" as="image" href={HERO_FIRST_SLIDE_IMAGE} fetchPriority="high" />
+	</Head>
+);
 import { userVar } from '../../../apollo/store';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { getJwtToken, updateUserInfo } from '../../auth';
@@ -68,12 +77,13 @@ const withLayoutMain = (Component: any) => {
 		if (device == 'mobile') {
 			return (
 				<>
+					{heroPreload}
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
 							<Top />
 						</Stack>
 
-						<div className={'mobile-header-main'}>
+						<div className={'mobile-header-main slide-0'}>
 							<HeroSection />
 						</div>
 
@@ -95,12 +105,13 @@ const withLayoutMain = (Component: any) => {
 		} else {
 			return (
 				<>
+					{heroPreload}
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>
 							<Top />
 						</Stack>
 
-						<Stack className={'header-main'}>
+						<Stack className={'header-main slide-0'}>
 							{/* <FiberContainer /> */}
 							<HeroSection />
 							<Stack className={'container'}>

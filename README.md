@@ -1,12 +1,22 @@
 # Zinfurn — Furniture E-commerce Marketplace
 
-**Live:** [zinfurn.uz](https://zinfurn.uz) · **API:** GraphQL @ api.zinfurn.uz · **Backend repo:** [Zinfurn](https://github.com/asadbek0512/Zinfurn)
+**Live:** [zinfurn.uz](https://zinfurn.uz) · **API:** GraphQL @ api.zinfurn.uz · **Backend repo:** [Zinfurn](https://github.com/asadbek0512/Zinfurn) · **Mobile app:** [zinfurn-app](https://github.com/asadbek0512/zinfurn-app)
+
+[![CI](https://github.com/asadbek0512/Zinfurn-Next/actions/workflows/ci.yml/badge.svg)](https://github.com/asadbek0512/Zinfurn-Next/actions/workflows/ci.yml) [![API CI](https://github.com/asadbek0512/Zinfurn/actions/workflows/ci.yml/badge.svg)](https://github.com/asadbek0512/Zinfurn/actions/workflows/ci.yml)
 
 <img src="docs/screenshots/home.jpg" alt="Zinfurn homepage" width="100%" />
 
 <img src="docs/screenshots/catalog.jpg" alt="Zinfurn catalog with filters" width="100%" />
 
 A production-deployed furniture marketplace: catalog browsing with rich filters, ordering with coupons, a repair-service vertical, agent profiles, community articles, an AI shopping assistant, an AI room designer, native mobile AR placement, and a full admin panel — in 5 languages, on a hand-built dark/light theme system.
+
+### Try it
+
+| | |
+|---|---|
+| Demo login | `DEMO_NICK` / `DEMO_PASSWORD` — regular customer account (orders auto-advance to *delivered* in ~1 min) |
+| Payments | Toss sandbox — any test card, no real charge |
+| Android | APK on [zinfurn.uz/about#app](https://zinfurn.uz/about#app) |
 
 ---
 
@@ -62,9 +72,32 @@ A production-deployed furniture marketplace: catalog browsing with rich filters,
 - **Outbound fetches are allowlisted**: the AR import route accepts only HTTPS URLs on known generator hosts, so no user-supplied URL can make the server fetch arbitrary hosts (SSRF)
 - **All AI keys are server-side only** — Groq, Gemini and Meshy credentials live in `.env` and are never exposed to the browser
 - GraphQL: depth limit, introspection and playground disabled in production
-- Nginx layer: HSTS, CSP (Telegram-widget aware), frame and content-type protections; helmet on the API
+- Nginx layer: HSTS, X-Frame-Options, nosniff, Referrer-Policy and Permissions-Policy on both site and API; helmet on the API
 
 ## Architecture
+
+```mermaid
+flowchart LR
+  subgraph Clients
+    W[Browser<br/>Next.js SSR/ISR]
+    M[Android / iOS<br/>Capacitor shell]
+  end
+  subgraph VPS["VPS (Docker, nginx + TLS)"]
+    N[nginx<br/>TLS · security headers · cache]
+    F[zinfurn-next<br/>Next.js 14 :3006]
+    A[zinfurn-api<br/>NestJS GraphQL + WS :3007]
+    B[zinfurn-batch<br/>cron: ranking, flash sale]
+  end
+  DB[(MongoDB)]
+  EXT[Toss · Google/Apple/Telegram OAuth<br/>Groq/Gemini · Meshy · Resend · FCM/APNs]
+  W & M --> N
+  N --> F & A
+  F -- GraphQL --> A
+  A & B --> DB
+  A --> EXT
+```
+
+**CI/CD:** GitHub Actions runs lint + tests + production build on every push/PR; a `pre-push` hook repeats the build locally, and the server cron pulls `main` and redeploys the container.
 
 ```
 zinfurn/
@@ -87,9 +120,9 @@ Being upfront — these are conscious trade-offs, not blind spots:
 
 1. **Payments run in test mode only.** Toss Payments (KRW) is wired end-to-end — server-side confirm plus a cron that expires or reconciles unpaid orders — but uses sandbox keys; local PSPs (Payme/Click) are not integrated yet.
 2. **Demo order progression.** Order statuses auto-advance (pending→delivered in ~1 min) so reviewers can see the full lifecycle without a warehouse. The next step time is stored on the order and a 10-second cron advances it, so progression survives restarts; in a real deployment this would be replaced by admin/ops updates.
-3. **JWTs live in `localStorage`.** Mitigated by a strict nginx CSP; an httpOnly-cookie migration is planned but touches WebSocket auth and both OAuth flows, so it is deliberately a separate change.
+3. **JWTs live in `localStorage`.** No Content-Security-Policy yet (third-party scripts — Toss, analytics, Telegram widget, model-viewer — need an allow-list first), so XSS hygiene relies on React escaping and sanitised inputs. An httpOnly-cookie migration is planned but touches WebSocket auth and both OAuth flows, so it is deliberately a separate change.
 4. **Refresh tokens are single-use and server-tracked.** Each session's current `jti` lives in the database: logout, password change or blocking a member revokes it immediately, and reuse of an old token closes the session. Tokens still live in `localStorage` (see 3).
-5. **Test coverage is focused, not exhaustive.** Unit tests cover the money and trust paths — auth/session tokens, order pricing, Toss reconciliation, demo progression, coupons and purchase-gated reviews (57 tests); other modules rely on typed contracts and manual E2E passes.
+5. **Test coverage is focused, not exhaustive.** Unit tests cover the money and trust paths — auth/session tokens, order pricing, Toss reconciliation, demo progression, coupons and purchase-gated reviews (81 tests, run in CI); other modules rely on typed contracts and manual E2E passes.
 6. **~60s deploy window.** Runtime-build deploys briefly 502; an earlier zero-downtime attempt was reverted for env-injection reasons and revisiting it needs build-arg plumbing.
 7. **Single-instance assumptions.** Rate limiting and AI-chat state are in-memory, so horizontal scaling would need Redis first.
 8. **3D coverage is partial.** Most of the catalog is photos only; products without their own GLB fall back to the bundled reference models. Filling the catalog is a content problem, and the generation pipeline exists precisely to grind it down.

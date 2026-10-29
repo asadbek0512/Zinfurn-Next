@@ -1,3 +1,6 @@
+# Zinfurn — Mobile version notes
+
+```text
 # ============================================================
 # ZINFURN — MOBILE VERSIYA HUJJATI
 # Oxirgi yangilanish: 2026-05-02
@@ -371,3 +374,4 @@
 # scss/mobile/community.scss     — community sahifalar
 # scss/mobile/cs.scss            — cs sahifa
 # scss/mobile/mypage.scss        — mypage barcha komponentlar
+```
