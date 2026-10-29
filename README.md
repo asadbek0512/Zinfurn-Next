@@ -114,6 +114,20 @@ zinfurn/
 
 Deploys are boring on purpose: push to `main` → the VPS cron detects the new commit within a minute → `git reset --hard` + container recreate → runtime build. A committed pre-push hook builds the project locally in an isolated dist dir, so a broken build can never reach `main`.
 
+## Performance
+
+Measured on the production homepage with Lighthouse 12 (median of 3 runs, default throttling, 2026-10-29).
+
+| Change | Metric | Before | After |
+|---|---|---|---|
+| `8b78cd5` lighter bundle (lazy sweetalert2/overlays, no animate.css/axios in `_app`, StarRating instead of MUI Rating) | JS shared by all pages | 365 kB | **303 kB** (−17%) |
+| | Homepage first-load JS | 400 kB | **367 kB** |
+| `743cc73` hero slide class rendered on the server + `<link rel=preload>` for the LCP image (it was a CSS background only discovered after hydration) | Mobile LCP | 14.6 s | **4.6 s** |
+| | Mobile performance score | 53 | **66** |
+| | Desktop LCP / score | 5.1 s / 58 | **3.1 s / 65** |
+
+Accessibility 86–88 · Best practices 93 · SEO 100 · CLS ≈ 0. Server render time is ~5 ms (cached ISR); the remaining ~1 s TTFB is network latency to the Tokyo VPS, so a CDN is the next lever.
+
 ## Known Limitations
 
 Being upfront — these are conscious trade-offs, not blind spots:
