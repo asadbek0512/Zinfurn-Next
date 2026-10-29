@@ -14,14 +14,14 @@ mutation AnalyzeRoom($input: RoomAnalysisInput!) {
         styleNotes
         matchedProducts {
             _id
-            propertyTitle
-            propertyPrice
-            propertySalePrice
-            propertyImages
-            propertyType
-            propertyCategory
-            propertyColor
-            propertyMaterial
+            productTitle
+            productPrice
+            productSalePrice
+            productImages
+            productType
+            productCategory
+            productColor
+            productMaterial
         }
     }
 }
@@ -53,7 +53,7 @@ mutation Signup($input: MemberInput!) {
         memberImage
         memberAddress
         memberDesc
-        memberProperties
+        memberProducts
         memberArticles
         memberFollowers
         memberFollowings
@@ -90,7 +90,7 @@ mutation Login($input: LoginInput!) {
         memberImage
         memberAddress
         memberDesc
-        memberProperties
+        memberProducts
         memberArticles
         memberFollowers
         memberFollowings
@@ -142,7 +142,7 @@ mutation UpdateMember($input: MemberUpdate!) {
         memberImage
         memberAddress
         memberDesc
-        memberProperties
+        memberProducts
         memberArticles
         memberFollowers
         memberFollowings
@@ -177,7 +177,7 @@ mutation LikeTargetMember($input: String!) {
         memberImage
         memberAddress
         memberDesc
-        memberProperties
+        memberProducts
         memberArticles
         memberFollowers
         memberFollowings
@@ -198,38 +198,38 @@ mutation LikeTargetMember($input: String!) {
 `;
 
 /**************************
- *        PROPERTY        *
+ *        PRODUCT        *
  *************************/
 
-export const CREATE_PROPERTY = gql`
-mutation CreateProperty($input: PropertyInput!) {
-    createProperty(input: $input) {
+export const CREATE_PRODUCT = gql`
+mutation CreateProduct($input: ProductInput!) {
+    createProduct(input: $input) {
         _id
-        propertyType
-        propertyStatus
-        propertyCategory
-        propertyMaterial
-        propertyColor
-        propertySize
-        propertyTitle
-        propertyPrice
-        propertySalePrice
-        propertyIsOnSale
-        propertyStock
-        propertySaleStartsAt
-        propertySaleExpiresAt
-        propertyImages
-        propertyDesc
-        propertyBarter
-        propertyRent
-        propertyInStock
-        propertyCondition
-        propertyBrand
-        propertyOriginCountry
-        propertyAddress
-        propertyViews
-        propertyLikes
-        propertyRank
+        productType
+        productStatus
+        productCategory
+        productMaterial
+        productColor
+        productSize
+        productTitle
+        productPrice
+        productSalePrice
+        productIsOnSale
+        productStock
+        productSaleStartsAt
+        productSaleExpiresAt
+        productImages
+        productDesc
+        productBarter
+        productRent
+        productInStock
+        productCondition
+        productBrand
+        productOriginCountry
+        productAddress
+        productViews
+        productLikes
+        productRank
         memberId
         soldAt
         deletedAt
@@ -240,35 +240,35 @@ mutation CreateProperty($input: PropertyInput!) {
 }
 `;
 
-export const UPDATE_PROPERTY = gql`
-mutation UpdateProperty($input: PropertyUpdate!) {
-    updateProperty(input: $input) {
+export const UPDATE_PRODUCT = gql`
+mutation UpdateProduct($input: ProductUpdate!) {
+    updateProduct(input: $input) {
         _id
-        propertyType
-        propertyStatus
-        propertyCategory
-        propertyMaterial
-        propertyColor
-        propertySize
-        propertyTitle
-        propertyPrice
-        propertySalePrice
-        propertyIsOnSale
-        propertyStock
-        propertySaleStartsAt
-        propertySaleExpiresAt
-        propertyImages
-        propertyDesc
-        propertyBarter
-        propertyRent
-        propertyInStock
-        propertyCondition
-        propertyBrand
-        propertyOriginCountry
-        propertyAddress
-        propertyViews
-        propertyLikes
-        propertyRank
+        productType
+        productStatus
+        productCategory
+        productMaterial
+        productColor
+        productSize
+        productTitle
+        productPrice
+        productSalePrice
+        productIsOnSale
+        productStock
+        productSaleStartsAt
+        productSaleExpiresAt
+        productImages
+        productDesc
+        productBarter
+        productRent
+        productInStock
+        productCondition
+        productBrand
+        productOriginCountry
+        productAddress
+        productViews
+        productLikes
+        productRank
         memberId
         soldAt
         deletedAt
@@ -280,35 +280,35 @@ mutation UpdateProperty($input: PropertyUpdate!) {
 
 `;
 
-export const LIKE_TARGET_PROPERTY = gql`
-mutation LikeTargetProperty($input: String!) {
-    likeTargetProperty(propertyId: $input) {
+export const LIKE_TARGET_PRODUCT = gql`
+mutation LikeTargetProduct($input: String!) {
+    likeTargetProduct(productId: $input) {
         _id
-        propertyType
-        propertyStatus
-        propertyCategory
-        propertyMaterial
-        propertyColor
-        propertySize
-        propertyTitle
-        propertyPrice
-        propertySalePrice
-        propertyIsOnSale
-        propertyStock
-        propertySaleStartsAt
-        propertySaleExpiresAt
-        propertyImages
-        propertyDesc
-        propertyBarter
-        propertyRent
-        propertyInStock
-        propertyCondition
-        propertyBrand
-        propertyOriginCountry
-        propertyAddress
-        propertyViews
-        propertyLikes
-        propertyRank
+        productType
+        productStatus
+        productCategory
+        productMaterial
+        productColor
+        productSize
+        productTitle
+        productPrice
+        productSalePrice
+        productIsOnSale
+        productStock
+        productSaleStartsAt
+        productSaleExpiresAt
+        productImages
+        productDesc
+        productBarter
+        productRent
+        productInStock
+        productCondition
+        productBrand
+        productOriginCountry
+        productAddress
+        productViews
+        productLikes
+        productRank
         memberId
         soldAt
         deletedAt
@@ -443,21 +443,21 @@ export const UNSUBSCRIBE = gql`
 
 
 /**************************
- *      REPAIRPROPERTY     *
+ *      REPAIRPRODUCT     *
  *************************/
 
-export const CREATE_REPAIRPROPERTY = gql`
-mutation CreateRepairProperty($input: RepairPropertyInput!) {
-    createRepairProperty(input: $input) {
+export const CREATE_REPAIRPRODUCT = gql`
+mutation CreateRepairProduct($input: RepairProductInput!) {
+    createRepairProduct(input: $input) {
         _id
-        repairPropertyType
-        repairPropertyStatus
-        repairPropertyAddress
-        repairPropertyDescription
-        repairPropertyImages
-        repairPropertyViews
-        repairPropertyLikes
-        repairPropertyComments
+        repairProductType
+        repairProductStatus
+        repairProductAddress
+        repairProductDescription
+        repairProductImages
+        repairProductViews
+        repairProductLikes
+        repairProductComments
         memberId
         deletedAt
         constructedAt
@@ -468,18 +468,18 @@ mutation CreateRepairProperty($input: RepairPropertyInput!) {
 `;
 
 
-export const LIKE_TARGET_REPAIRPROPERTY = gql`
-mutation LikeTargetRepairProperty($input: String!) {
-    likeTargetRepairProperty(repairId: $input) {
+export const LIKE_TARGET_REPAIRPRODUCT = gql`
+mutation LikeTargetRepairProduct($input: String!) {
+    likeTargetRepairProduct(repairId: $input) {
         _id
-        repairPropertyType
-        repairPropertyStatus
-        repairPropertyAddress
-        repairPropertyDescription
-        repairPropertyImages
-        repairPropertyViews
-        repairPropertyLikes
-        repairPropertyComments
+        repairProductType
+        repairProductStatus
+        repairProductAddress
+        repairProductDescription
+        repairProductImages
+        repairProductViews
+        repairProductLikes
+        repairProductComments
         memberId
         deletedAt
         constructedAt
@@ -501,10 +501,10 @@ export const CREATE_ORDER = gql`
 			orderId
 			memberId
 			orderItems {
-				propertyId
-				propertyTitle
-				propertyImage
-				propertyPrice
+				productId
+				productTitle
+				productImage
+				productPrice
 				quantity
 			}
 			orderStatus
@@ -613,7 +613,7 @@ export const CREATE_REVIEW = gql`
 		createReview(input: $input) {
 			_id
 			memberId
-			propertyId
+			productId
 			orderId
 			reviewRating
 			reviewContent
@@ -682,19 +682,19 @@ export const SEND_REPAIR_REQUEST = gql`
 	}
 `;
 
-export const GET_TECHNICIAN_PROPERTIES = gql`
-query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
-    getTechnicianProperties(input: $input) {
+export const GET_TECHNICIAN_PRODUCTS = gql`
+query GetTechnicianProducts($input: TechnicianProductsInquiry!) {
+    getTechnicianProducts(input: $input) {
         list {
             _id
-            repairPropertyType
-            repairPropertyStatus
-            repairPropertyAddress
-            repairPropertyDescription
-            repairPropertyImages
-            repairPropertyViews
-            repairPropertyLikes
-            repairPropertyComments
+            repairProductType
+            repairProductStatus
+            repairProductAddress
+            repairProductDescription
+            repairProductImages
+            repairProductViews
+            repairProductLikes
+            repairProductComments
             memberId
             deletedAt
             constructedAt
@@ -715,7 +715,7 @@ query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberProducts
                 memberArticles
                 memberFollowers
                 memberFollowings

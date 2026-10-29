@@ -39,6 +39,7 @@ const nextConfig = {
 		return [
 			{ source: '/property', destination: '/products', permanent: true },
 			{ source: '/property/:path*', destination: '/products/:path*', permanent: true },
+			{ source: '/_admin/properties', destination: '/_admin/products', permanent: true },
 		];
 	},
 	env: {

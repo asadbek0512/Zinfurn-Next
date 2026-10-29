@@ -17,7 +17,7 @@ export const GET_MY_PROFILE = gql`
             memberImage
             memberAddress
             memberDesc
-            memberProperties
+            memberProducts
             memberArticles
             memberFollowers
             memberFollowings
@@ -48,7 +48,7 @@ query GetAgents($input: AgentsInquiry!) {
             memberImage
             memberAddress
             memberDesc
-            memberProperties
+            memberProducts
             memberArticles
             memberFollowers
             memberFollowings
@@ -91,7 +91,7 @@ query GetTechnicians($input: TechnicianInquiry!) {
             memberImage
             memberAddress
             memberDesc
-            memberProperties
+            memberProducts
             memberArticles
             memberFollowers
             memberFollowings
@@ -138,7 +138,7 @@ query GetMember($input: String!) {
         memberImage
         memberAddress
         memberDesc
-        memberProperties
+        memberProducts
         memberArticles
         memberFollowers
         memberFollowings
@@ -168,49 +168,49 @@ query GetMember($input: String!) {
 `);
 
 /**************************
- *        PROPERTY        *
+ *        PRODUCT        *
  *************************/
 
-export const GET_PROPERTY = gql`
-query GetProperty($input: String!) {
-    getProperty(propertyId: $input) {
+export const GET_PRODUCT = gql`
+query GetProduct($input: String!) {
+    getProduct(productId: $input) {
         _id
-        propertyType
-        propertyStatus
-        propertyCategory
-        propertyMaterial
-        propertyColor
-        propertySize
-        propertyTitle
-        propertyPrice
-        propertySalePrice
-        propertyIsOnSale
-        propertyStock
-        propertySaleStartsAt
-        propertySaleExpiresAt
-        propertyImages
-        propertyArModel
-        propertyDesc
-        propertyTranslations {
+        productType
+        productStatus
+        productCategory
+        productMaterial
+        productColor
+        productSize
+        productTitle
+        productPrice
+        productSalePrice
+        productIsOnSale
+        productStock
+        productSaleStartsAt
+        productSaleExpiresAt
+        productImages
+        productArModel
+        productDesc
+        productTranslations {
           uz { title desc }
           en { title desc }
           ru { title desc }
           kr { title desc }
           ar { title desc }
         }
-        propertyBarter
-        propertyRent
-        propertyInStock
-        propertyCondition
-        propertyBrand
-        propertyOriginCountry
-        propertyAddress
-        propertyViews
-        propertyLikes
-        propertyReviews
-        propertyRating
-        propertySoldCount
-        propertyRank
+        productBarter
+        productRent
+        productInStock
+        productCondition
+        productBrand
+        productOriginCountry
+        productAddress
+        productViews
+        productLikes
+        productReviews
+        productRating
+        productSoldCount
+        productRank
         memberId
         soldAt
         deletedAt
@@ -233,7 +233,7 @@ query GetProperty($input: String!) {
             memberImage
             memberAddress
             memberDesc
-            memberProperties
+            memberProducts
             memberArticles
             memberFollowers
             memberFollowings
@@ -255,59 +255,59 @@ query GetProperty($input: String!) {
 `;
 
 /** Only the fields the AR picker needs — every product that has a GLB attached */
-export const GET_AR_PROPERTIES = gql`
-query GetArProperties($input: PropertiesInquiry!) {
-    getProperties(input: $input) {
+export const GET_AR_PRODUCTS = gql`
+query GetArProducts($input: ProductsInquiry!) {
+    getProducts(input: $input) {
         list {
             _id
-            propertyTitle
-            propertyArModel
-            propertyImages
+            productTitle
+            productArModel
+            productImages
         }
     }
 }
 `;
 
-export const GET_PROPERTIES = gql`
-query GetProperties($input: PropertiesInquiry!) {
-    getProperties(input: $input) {
+export const GET_PRODUCTS = gql`
+query GetProducts($input: ProductsInquiry!) {
+    getProducts(input: $input) {
         list {
             _id
-            propertyType
-            propertyStatus
-            propertyCategory
-            propertyMaterial
-            propertyColor
-            propertySize
-            propertyTitle
-            propertyPrice
-            propertySalePrice
-            propertyIsOnSale
-            propertyStock
-            propertySaleStartsAt
-            propertySaleExpiresAt
-            propertyImages
-            propertyDesc
-            propertyTranslations {
+            productType
+            productStatus
+            productCategory
+            productMaterial
+            productColor
+            productSize
+            productTitle
+            productPrice
+            productSalePrice
+            productIsOnSale
+            productStock
+            productSaleStartsAt
+            productSaleExpiresAt
+            productImages
+            productDesc
+            productTranslations {
               uz { title desc }
               en { title desc }
               ru { title desc }
               kr { title desc }
               ar { title desc }
             }
-            propertyBarter
-            propertyRent
-            propertyInStock
-            propertyCondition
-            propertyBrand
-            propertyOriginCountry
-            propertyAddress
-            propertyViews
-            propertyLikes
-            propertyReviews
-            propertyRating
-            propertySoldCount
-            propertyRank
+            productBarter
+            productRent
+            productInStock
+            productCondition
+            productBrand
+            productOriginCountry
+            productAddress
+            productViews
+            productLikes
+            productReviews
+            productRating
+            productSoldCount
+            productRank
             memberId
             soldAt
             deletedAt
@@ -330,7 +330,7 @@ query GetProperties($input: PropertiesInquiry!) {
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberProducts
                 memberArticles
                 memberFollowers
                 memberFollowings
@@ -366,46 +366,46 @@ query GetProperties($input: PropertiesInquiry!) {
 
 `;
 
-export const GET_AGENT_PROPERTIES = gql`
-query GetAgentProperties($input: AgentPropertiesInquiry!) {
-    getAgentProperties(input: $input) {
+export const GET_AGENT_PRODUCTS = gql`
+query GetAgentProducts($input: AgentProductsInquiry!) {
+    getAgentProducts(input: $input) {
         list {
             _id
-            propertyType
-            propertyStatus
-            propertyCategory
-            propertyMaterial
-            propertyColor
-            propertySize
-            propertyTitle
-            propertyPrice
-            propertySalePrice
-            propertyIsOnSale
-            propertyStock
-            propertySaleStartsAt
-            propertySaleExpiresAt
-            propertyImages
-            propertyDesc
-            propertyTranslations {
+            productType
+            productStatus
+            productCategory
+            productMaterial
+            productColor
+            productSize
+            productTitle
+            productPrice
+            productSalePrice
+            productIsOnSale
+            productStock
+            productSaleStartsAt
+            productSaleExpiresAt
+            productImages
+            productDesc
+            productTranslations {
               uz { title desc }
               en { title desc }
               ru { title desc }
               kr { title desc }
               ar { title desc }
             }
-            propertyBarter
-            propertyRent
-            propertyInStock
-            propertyCondition
-            propertyBrand
-            propertyOriginCountry
-            propertyAddress
-            propertyViews
-            propertyLikes
-            propertyReviews
-            propertyRating
-            propertySoldCount
-            propertyRank
+            productBarter
+            productRent
+            productInStock
+            productCondition
+            productBrand
+            productOriginCountry
+            productAddress
+            productViews
+            productLikes
+            productReviews
+            productRating
+            productSoldCount
+            productRank
             memberId
             soldAt
             deletedAt
@@ -428,7 +428,7 @@ query GetAgentProperties($input: AgentPropertiesInquiry!) {
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberProducts
                 memberArticles
                 memberFollowers
                 memberFollowings
@@ -459,41 +459,41 @@ query GetFavorites($input: OrdinaryInquiry!) {
     getFavorites(input: $input) {
         list {
             _id
-            propertyType
-            propertyStatus
-            propertyCategory
-            propertyMaterial
-            propertyColor
-            propertySize
-            propertyTitle
-            propertyPrice
-            propertySalePrice
-            propertyIsOnSale
-            propertyStock
-            propertySaleStartsAt
-            propertySaleExpiresAt
-            propertyImages
-            propertyDesc
-            propertyTranslations {
+            productType
+            productStatus
+            productCategory
+            productMaterial
+            productColor
+            productSize
+            productTitle
+            productPrice
+            productSalePrice
+            productIsOnSale
+            productStock
+            productSaleStartsAt
+            productSaleExpiresAt
+            productImages
+            productDesc
+            productTranslations {
               uz { title desc }
               en { title desc }
               ru { title desc }
               kr { title desc }
               ar { title desc }
             }
-            propertyBarter
-            propertyRent
-            propertyInStock
-            propertyCondition
-            propertyBrand
-            propertyOriginCountry
-            propertyAddress
-            propertyViews
-            propertyLikes
-            propertyReviews
-            propertyRating
-            propertySoldCount
-            propertyRank
+            productBarter
+            productRent
+            productInStock
+            productCondition
+            productBrand
+            productOriginCountry
+            productAddress
+            productViews
+            productLikes
+            productReviews
+            productRating
+            productSoldCount
+            productRank
             memberId
             soldAt
             deletedAt
@@ -511,7 +511,7 @@ query GetFavorites($input: OrdinaryInquiry!) {
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberProducts
                 memberArticles
                 memberFollowers
                 memberFollowings
@@ -541,41 +541,41 @@ query GetVisited($input: OrdinaryInquiry!) {
     getVisited(input: $input) {
         list {
             _id
-            propertyType
-            propertyStatus
-            propertyCategory
-            propertyMaterial
-            propertyColor
-            propertySize
-            propertyTitle
-            propertyPrice
-            propertySalePrice
-            propertyIsOnSale
-            propertyStock
-            propertySaleStartsAt
-            propertySaleExpiresAt
-            propertyImages
-            propertyDesc
-            propertyTranslations {
+            productType
+            productStatus
+            productCategory
+            productMaterial
+            productColor
+            productSize
+            productTitle
+            productPrice
+            productSalePrice
+            productIsOnSale
+            productStock
+            productSaleStartsAt
+            productSaleExpiresAt
+            productImages
+            productDesc
+            productTranslations {
               uz { title desc }
               en { title desc }
               ru { title desc }
               kr { title desc }
               ar { title desc }
             }
-            propertyBarter
-            propertyRent
-            propertyInStock
-            propertyCondition
-            propertyBrand
-            propertyOriginCountry
-            propertyAddress
-            propertyViews
-            propertyLikes
-            propertyReviews
-            propertyRating
-            propertySoldCount
-            propertyRank
+            productBarter
+            productRent
+            productInStock
+            productCondition
+            productBrand
+            productOriginCountry
+            productAddress
+            productViews
+            productLikes
+            productReviews
+            productRating
+            productSoldCount
+            productRank
             memberId
             soldAt
             deletedAt
@@ -593,7 +593,7 @@ query GetVisited($input: OrdinaryInquiry!) {
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberProducts
                 memberArticles
                 memberFollowers
                 memberFollowings
@@ -657,7 +657,7 @@ export const GET_BOARD_ARTICLE = gql`
 				memberDesc
 				memberWarnings
 				memberBlocks
-				memberProperties
+				memberProducts
 				memberRank
 				memberPoints
 				memberLikes
@@ -716,7 +716,7 @@ export const GET_BOARD_ARTICLES = gql`
 					memberDesc
 					memberWarnings
 					memberBlocks
-					memberProperties
+					memberProducts
 					memberRank
 					memberPoints
 					memberLikes
@@ -763,7 +763,7 @@ export const GET_COMMENTS = gql`
 					memberDesc
 					memberWarnings
 					memberBlocks
-					memberProperties
+					memberProducts
 					memberRank
 					memberPoints
 					memberLikes
@@ -804,7 +804,7 @@ query GetMemberFollowers($input: FollowInquiry!) {
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberProducts
                 memberArticles
                 memberFollowers
                 memberFollowings
@@ -858,7 +858,7 @@ export const GET_MEMBER_FOLLOWINGS = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberProducts
 					memberArticles
 					memberPoints
 					memberLikes
@@ -894,28 +894,28 @@ export const GET_MEMBER_FOLLOWINGS = gql`
 
 
 /**************************
- *      REPAIRPROPERTY     *
+ *      REPAIRPRODUCT     *
  *************************/
 
-export const GET_REPAIRPROPERTY = gql`
-query GetRepairProperty($input: String!) {
-    getRepairProperty(repairId: $input) {
+export const GET_REPAIRPRODUCT = gql`
+query GetRepairProduct($input: String!) {
+    getRepairProduct(repairId: $input) {
         _id
-        repairPropertyType
-        repairPropertyStatus
-        repairPropertyAddress
-        repairPropertyDescription
-        repairPropertyTranslations {
+        repairProductType
+        repairProductStatus
+        repairProductAddress
+        repairProductDescription
+        repairProductTranslations {
         	uz { title desc }
         	en { title desc }
         	ru { title desc }
         	kr { title desc }
         	ar { title desc }
         }
-        repairPropertyImages
-        repairPropertyViews
-        repairPropertyLikes
-        repairPropertyComments
+        repairProductImages
+        repairProductViews
+        repairProductLikes
+        repairProductComments
         memberId
         deletedAt
         constructedAt
@@ -936,7 +936,7 @@ query GetRepairProperty($input: String!) {
             memberImage
             memberAddress
             memberDesc
-            memberProperties
+            memberProducts
             memberArticles
             memberFollowers
             memberFollowings
@@ -958,26 +958,26 @@ query GetRepairProperty($input: String!) {
 
 `;
 
-export const GET_REPAIRPROPERTIES = gql`
-query GetRepairProperties($input: RepairPropertiesInquiry!) {
-    getRepairProperties(input: $input) {
+export const GET_REPAIRPRODUCTS = gql`
+query GetRepairProducts($input: RepairProductsInquiry!) {
+    getRepairProducts(input: $input) {
         list {
             _id
-            repairPropertyType
-            repairPropertyStatus
-            repairPropertyAddress
-            repairPropertyDescription
-            repairPropertyTranslations {
+            repairProductType
+            repairProductStatus
+            repairProductAddress
+            repairProductDescription
+            repairProductTranslations {
             	uz { title desc }
             	en { title desc }
             	ru { title desc }
             	kr { title desc }
             	ar { title desc }
             }
-            repairPropertyImages
-            repairPropertyViews
-            repairPropertyLikes
-            repairPropertyComments
+            repairProductImages
+            repairProductViews
+            repairProductLikes
+            repairProductComments
             memberId
             deletedAt
             constructedAt
@@ -998,7 +998,7 @@ query GetRepairProperties($input: RepairPropertiesInquiry!) {
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberProducts
                 memberArticles
                 memberFollowers
                 memberFollowings
@@ -1024,26 +1024,26 @@ query GetRepairProperties($input: RepairPropertiesInquiry!) {
 
 `;
 
-export const GET_TECHNICIANPROPERTY = gql`
-query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
-    getTechnicianProperties(input: $input) {
+export const GET_TECHNICIANPRODUCT = gql`
+query GetTechnicianProducts($input: TechnicianProductsInquiry!) {
+    getTechnicianProducts(input: $input) {
         list {
             _id
-            repairPropertyType
-            repairPropertyStatus
-            repairPropertyAddress
-            repairPropertyDescription
-            repairPropertyTranslations {
+            repairProductType
+            repairProductStatus
+            repairProductAddress
+            repairProductDescription
+            repairProductTranslations {
             	uz { title desc }
             	en { title desc }
             	ru { title desc }
             	kr { title desc }
             	ar { title desc }
             }
-            repairPropertyImages
-            repairPropertyViews
-            repairPropertyLikes
-            repairPropertyComments
+            repairProductImages
+            repairProductViews
+            repairProductLikes
+            repairProductComments
             memberId
             deletedAt
             constructedAt
@@ -1064,7 +1064,7 @@ query GetTechnicianProperties($input: TechnicianPropertiesInquiry!) {
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberProducts
                 memberArticles
                 memberFollowers
                 memberFollowings
@@ -1095,21 +1095,21 @@ query GetRepairFavorites($input: RepairOrdinaryInquiry!) {
     getRepairFavorites(input: $input) {
         list {
             _id
-            repairPropertyType
-            repairPropertyStatus
-            repairPropertyAddress
-            repairPropertyDescription
-            repairPropertyTranslations {
+            repairProductType
+            repairProductStatus
+            repairProductAddress
+            repairProductDescription
+            repairProductTranslations {
             	uz { title desc }
             	en { title desc }
             	ru { title desc }
             	kr { title desc }
             	ar { title desc }
             }
-            repairPropertyImages
-            repairPropertyViews
-            repairPropertyLikes
-            repairPropertyComments
+            repairProductImages
+            repairProductViews
+            repairProductLikes
+            repairProductComments
             memberId
             deletedAt
             constructedAt
@@ -1130,7 +1130,7 @@ query GetRepairFavorites($input: RepairOrdinaryInquiry!) {
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberProducts
                 memberArticles
                 memberFollowers
                 memberFollowings
@@ -1161,21 +1161,21 @@ query GetRepairVisited($input: RepairOrdinaryInquiry!) {
     getRepairVisited(input: $input) {
         list {
             _id
-            repairPropertyType
-            repairPropertyStatus
-            repairPropertyAddress
-            repairPropertyDescription
-            repairPropertyTranslations {
+            repairProductType
+            repairProductStatus
+            repairProductAddress
+            repairProductDescription
+            repairProductTranslations {
             	uz { title desc }
             	en { title desc }
             	ru { title desc }
             	kr { title desc }
             	ar { title desc }
             }
-            repairPropertyImages
-            repairPropertyViews
-            repairPropertyLikes
-            repairPropertyComments
+            repairProductImages
+            repairProductViews
+            repairProductLikes
+            repairProductComments
             memberId
             deletedAt
             constructedAt
@@ -1196,7 +1196,7 @@ query GetRepairVisited($input: RepairOrdinaryInquiry!) {
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberProducts
                 memberArticles
                 memberFollowers
                 memberFollowings
@@ -1232,10 +1232,10 @@ export const GET_MY_ORDERS = gql`
 				orderId
 				memberId
 				orderItems {
-					propertyId
-					propertyTitle
-					propertyImage
-					propertyPrice
+					productId
+					productTitle
+					productImage
+					productPrice
 					quantity
 				}
 				orderStatus
@@ -1271,10 +1271,10 @@ export const GET_ORDER_BY_ID = gql`
 			orderId
 			memberId
 			orderItems {
-				propertyId
-				propertyTitle
-				propertyImage
-				propertyPrice
+				productId
+				productTitle
+				productImage
+				productPrice
 				quantity
 			}
 			orderStatus
@@ -1303,13 +1303,13 @@ export const GET_ORDER_BY_ID = gql`
  *         REVIEW         *
  *************************/
 
-export const GET_PROPERTY_REVIEWS = gql`
-	query GetPropertyReviews($input: ReviewsInquiry!) {
-		getPropertyReviews(input: $input) {
+export const GET_PRODUCT_REVIEWS = gql`
+	query GetProductReviews($input: ReviewsInquiry!) {
+		getProductReviews(input: $input) {
 			list {
 				_id
 				memberId
-				propertyId
+				productId
 				orderId
 				reviewRating
 				reviewContent
@@ -1333,9 +1333,9 @@ export const GET_PROPERTY_REVIEWS = gql`
 	}
 `;
 
-export const GET_PROPERTY_REVIEW_SUMMARY = gql`
-	query GetPropertyReviewSummary($propertyId: String!) {
-		getPropertyReviewSummary(propertyId: $propertyId) {
+export const GET_PRODUCT_REVIEW_SUMMARY = gql`
+	query GetProductReviewSummary($productId: String!) {
+		getProductReviewSummary(productId: $productId) {
 			averageRating
 			totalReviews
 			ratingDistribution {
@@ -1350,10 +1350,10 @@ export const GET_MY_CONVERSATIONS = gql`
 	query GetMyConversations {
 		getMyConversations {
 			conversationId
-			propertyId
+			productId
 			kind
-			propertyTitle
-			propertyImage
+			productTitle
+			productImage
 			lastMessage
 			lastMessageAt
 			unreadCount
@@ -1475,9 +1475,9 @@ export const GET_SELLER_DASHBOARD = gql`
 			totalViews
 			totalLikes
 			topProducts {
-				propertyId
-				propertyTitle
-				propertyImage
+				productId
+				productTitle
+				productImage
 				soldQty
 				revenue
 			}

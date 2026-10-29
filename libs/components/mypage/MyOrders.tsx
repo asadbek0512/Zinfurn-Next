@@ -111,15 +111,15 @@ const MyOrders = () => {
 	const reviewTarget = reviewOrder
 		? {
 				orderId: reviewOrder._id,
-				propertyId: reviewOrder.orderItems[reviewItemIdx]?.propertyId,
-				propertyTitle: reviewOrder.orderItems[reviewItemIdx]?.propertyTitle,
-				propertyImage: reviewOrder.orderItems[reviewItemIdx]?.propertyImage,
+				productId: reviewOrder.orderItems[reviewItemIdx]?.productId,
+				productTitle: reviewOrder.orderItems[reviewItemIdx]?.productTitle,
+				productImage: reviewOrder.orderItems[reviewItemIdx]?.productImage,
 		  }
 		: null;
 
 	const openReviewModal = (order: Order) => {
 		const firstIdx = order.orderItems.findIndex(
-			(item) => !reviewedKeys.has(`${order._id}_${item.propertyId}`),
+			(item) => !reviewedKeys.has(`${order._id}_${item.productId}`),
 		);
 		const idx = firstIdx >= 0 ? firstIdx : 0;
 		setReviewOrder(order);
@@ -247,7 +247,7 @@ const MyOrders = () => {
 			await createReview({
 				variables: {
 					input: {
-						propertyId: reviewTarget.propertyId,
+						productId: reviewTarget.productId,
 						orderId: reviewTarget.orderId,
 						reviewRating,
 						reviewContent,
@@ -257,13 +257,13 @@ const MyOrders = () => {
 			});
 
 			// mark this item as reviewed
-			const key = `${reviewOrder._id}_${reviewTarget.propertyId}`;
+			const key = `${reviewOrder._id}_${reviewTarget.productId}`;
 			const newReviewedKeys = new Set(Array.from(reviewedKeys).concat(key));
 			setReviewedKeys(newReviewedKeys);
 
 			// check if there are more unreviewed items in this order
 			const nextIdx = reviewOrder.orderItems.findIndex(
-				(item, i) => i !== reviewItemIdx && !newReviewedKeys.has(`${reviewOrder._id}_${item.propertyId}`),
+				(item, i) => i !== reviewItemIdx && !newReviewedKeys.has(`${reviewOrder._id}_${item.productId}`),
 			);
 
 			if (nextIdx >= 0 && reviewOrder.orderItems.length > 1) {
@@ -356,12 +356,12 @@ const MyOrders = () => {
 								{/* Items preview */}
 								<div className="my-orders-items-preview">
 									{order.orderItems.slice(0, 3).map((item, idx) => {
-										const imgSrc = item.propertyImage
-											? `${REACT_APP_API_URL}/${item.propertyImage}`
+										const imgSrc = item.productImage
+											? `${REACT_APP_API_URL}/${item.productImage}`
 											: '/img/banner/header1.jpg';
 										return (
-											<div className="my-orders-item-thumb" key={idx} title={item.propertyTitle}>
-												<img src={imgSrc} alt={item.propertyTitle} loading="lazy" decoding="async" />
+											<div className="my-orders-item-thumb" key={idx} title={item.productTitle}>
+												<img src={imgSrc} alt={item.productTitle} loading="lazy" decoding="async" />
 												{item.quantity > 1 && <span className="my-orders-item-qty">×{item.quantity}</span>}
 											</div>
 										);
@@ -370,7 +370,7 @@ const MyOrders = () => {
 										<div className="my-orders-item-more">+{order.orderItems.length - 3}</div>
 									)}
 									<div className="my-orders-item-name">
-										{order.orderItems[0]?.propertyTitle}
+										{order.orderItems[0]?.productTitle}
 										{order.orderItems.length > 1 && ` +${order.orderItems.length - 1} more`}
 									</div>
 								</div>
@@ -521,7 +521,7 @@ const MyOrders = () => {
 					{reviewOrder && reviewOrder.orderItems.length > 1 && (
 						<div style={{ display: 'flex', gap: 8, overflowX: 'auto', marginBottom: 16, paddingBottom: 4 }}>
 							{reviewOrder.orderItems.map((item, i) => {
-								const key = `${reviewOrder._id}_${item.propertyId}`;
+								const key = `${reviewOrder._id}_${item.productId}`;
 								const isDone = reviewedKeys.has(key);
 								const isActive = i === reviewItemIdx;
 								return (
@@ -534,10 +534,10 @@ const MyOrders = () => {
 											overflow: 'hidden', cursor: isDone ? 'default' : 'pointer',
 											opacity: isDone ? 0.6 : 1,
 										}}
-										title={item.propertyTitle}
+										title={item.productTitle}
 									>
 										<img
-											src={item.propertyImage ? `${REACT_APP_API_URL}/${item.propertyImage}` : '/img/banner/header1.jpg'}
+											src={item.productImage ? `${REACT_APP_API_URL}/${item.productImage}` : '/img/banner/header1.jpg'}
 											style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" decoding="async" />
 										{isDone && (
 											<div style={{ position: 'absolute', inset: 0, background: 'rgba(34,197,94,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 20, fontWeight: 700 }}>
@@ -551,7 +551,7 @@ const MyOrders = () => {
 					)}
 
 					<Typography variant="body2" sx={{ mb: 3, color: 'var(--text-2)' }}>
-						{t('Share your experience with')} <strong>{reviewTarget?.propertyTitle}</strong>
+						{t('Share your experience with')} <strong>{reviewTarget?.productTitle}</strong>
 					</Typography>
 
 						<div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>

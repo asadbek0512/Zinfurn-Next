@@ -17,7 +17,7 @@ Next.js 14 frontend for the Zinfurn furniture marketplace — browsing, filterin
 
 ```
 pages/
-├── _admin/             # Admin panel (community, cs, properties, users)
+├── _admin/             # Admin panel (community, cs, products, users)
 ├── account/join.tsx    # Login / signup
 ├── agent/              # Agent list and detail
 ├── community/          # Articles (index, detail)
@@ -25,7 +25,7 @@ pages/
 ├── member/             # Member profile
 ├── mypage/             # Personal dashboard
 ├── order/tracking.tsx  # Order tracking
-├── property/           # Furniture list and detail
+├── product/           # Furniture list and detail
 ├── repairService/      # Repair service (index, detail)
 ├── checkout.tsx        # Checkout
 ├── index.tsx           # Homepage
@@ -40,7 +40,7 @@ libs/
 │   ├── community/      # Article components
 │   ├── homepage/       # Hero, trending, top agents, brands
 │   ├── layout/         # LayoutHome, LayoutAdmin
-│   ├── property/       # Furniture components
+│   ├── product/       # Furniture components
 │   ├── repairService/  # Repair components
 │   ├── AiChat.tsx      # AI chat widget
 │   ├── Chat.tsx        # WebSocket chat
@@ -48,7 +48,7 @@ libs/
 │   └── Top.tsx         # Navigation header
 ├── auth/index.ts       # logIn, signUp, refreshTokens, logOut
 ├── config.ts           # Constants (price ranges, mileage, years)
-├── enums/              # Shared enums (property, order, member, etc.)
+├── enums/              # Shared enums (product, order, member, etc.)
 ├── hooks/useDeviceDetect.ts
 ├── sweetAlert.ts       # sweetalert2 helpers
 ├── types/              # TypeScript interfaces (mirrors backend DTOs)

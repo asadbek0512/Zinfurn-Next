@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
-import PropertyCard from '../property/PropertyCard';
-import { Property } from '../../types/property/property';
+import ProductCard from '../product/ProductCard';
+import { Product } from '../../types/product/product';
 import { T, getErrorMessage } from '../../types/common';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { GET_VISITED } from '../../../apollo/user/query';
-import TrendPropertyCard from '../homepage/TrendPropertyCard';
+import TrendProductCard from '../homepage/TrendProductCard';
 import { Messages, REACT_APP_API_URL } from '../../config';
-import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+import { LIKE_TARGET_PRODUCT } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { useTranslation } from 'next-i18next';
 import { useCurrency } from '../../context/CurrencyContext';
@@ -18,7 +18,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useRouter } from 'next/router';
 import { userVar } from '../../../apollo/store';
 import { CustomJwtPayload } from '../../types/customJwtPayload';
-import PropertyCardSkeleton from '../common/PropertyCardSkeleton';
+import ProductCardSkeleton from '../common/ProductCardSkeleton';
 
 const RecentlyVisited: NextPage = () => {
   const { t } = useTranslation('common');
@@ -26,12 +26,12 @@ const RecentlyVisited: NextPage = () => {
   const device = useDeviceDetect();
   const router = useRouter();
   const user = useReactiveVar(userVar);
-  const [recentlyVisited, setRecentlyVisited] = useState<Property[]>([]);
+  const [recentlyVisited, setRecentlyVisited] = useState<Product[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [searchVisited, setSearchVisited] = useState<T>({ page: 1, limit: 6 });
 
   /** APOLLO REQUESTS **/
-  const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+  const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
 
   const {
     loading: getVisitedLoading,
@@ -55,12 +55,12 @@ const RecentlyVisited: NextPage = () => {
     setSearchVisited({ ...searchVisited, page: value });
   };
 
-  const likePropertyHandler = async (user: CustomJwtPayload, id: string) => {
+  const likeProductHandler = async (user: CustomJwtPayload, id: string) => {
     try {
       if (!id) return;
       if (!user?._id) throw new Error(Messages.error2);
 
-      await likeTargetProperty({
+      await likeTargetProduct({
         variables: {
           input: id,
         },
@@ -68,7 +68,7 @@ const RecentlyVisited: NextPage = () => {
 
       await getVisitedRefetch({ input: searchVisited });
     } catch (err: unknown) {
-      console.error('ERROR, likePropertyHandler:', getErrorMessage(err));
+      console.error('ERROR, likeProductHandler:', getErrorMessage(err));
       await sweetMixinErrorAlert(getErrorMessage(err)).then();
     }
   };
@@ -82,25 +82,25 @@ const RecentlyVisited: NextPage = () => {
         </div>
         <div className="mob-fav-list">
           {recentlyVisited?.length ? (
-            recentlyVisited.map((property: Property) => {
-              const imgSrc = property.propertyImages?.[0]
-                ? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
+            recentlyVisited.map((product: Product) => {
+              const imgSrc = product.productImages?.[0]
+                ? `${REACT_APP_API_URL}/${product.productImages[0]}`
                 : '/img/banner/Home-1-.jpg';
-              const isLiked = property.meLiked?.[0]?.myFavorite;
+              const isLiked = product.meLiked?.[0]?.myFavorite;
               return (
                 <div
-                  key={property._id}
+                  key={product._id}
                   className="mob-fav-card"
-                  onClick={() => router.push({ pathname: '/products/detail', query: { id: property._id } })}
+                  onClick={() => router.push({ pathname: '/products/detail', query: { id: product._id } })}
                 >
                   <div className="mob-fav-card-img-wrap">
                     <img src={imgSrc} alt="" loading="lazy" decoding="async" />
-                    {property.propertyPrice && (
-                      <div className="mob-fav-badge">{formatPrice(property.propertyPrice)}</div>
+                    {product.productPrice && (
+                      <div className="mob-fav-badge">{formatPrice(product.productPrice)}</div>
                     )}
                     <div
                       className="mob-fav-like-btn"
-                      onClick={(e) => { e.stopPropagation(); likePropertyHandler(user, property._id); }}
+                      onClick={(e) => { e.stopPropagation(); likeProductHandler(user, product._id); }}
                     >
                       {isLiked
                         ? <FavoriteIcon sx={{ fontSize: 18, color: 'var(--primary)' }} />
@@ -109,20 +109,20 @@ const RecentlyVisited: NextPage = () => {
                     </div>
                   </div>
                   <div className="mob-fav-card-body">
-                    <div className="mob-fav-title">{property.propertyTitle}</div>
+                    <div className="mob-fav-title">{product.productTitle}</div>
                     <div className="mob-fav-meta">
-                      <span>{property.propertyCategory}</span>
+                      <span>{product.productCategory}</span>
                     </div>
                   </div>
                 </div>
               );
             })
           ) : getVisitedLoading ? (
-            Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+            Array.from({ length: 6 }).map((_, i) => <ProductCardSkeleton key={i} />)
           ) : (
             <div className="mob-fav-empty">
               <img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
-              <span>{t('No Visited Properties found!')}</span>
+              <span>{t('No Visited Products found!')}</span>
             </div>
           )}
         </div>
@@ -139,9 +139,9 @@ const RecentlyVisited: NextPage = () => {
             </Stack>
             <Stack className="total-result">
               <Typography>
-                {t('Total {{total}} recently visited {{property}}', { 
+                {t('Total {{total}} recently visited {{product}}', { 
                   total, 
-                  property: total > 1 ? t('properties') : t('property') 
+                  product: total > 1 ? t('products') : t('product') 
                 })}
               </Typography>
             </Stack>
@@ -160,11 +160,11 @@ const RecentlyVisited: NextPage = () => {
         </Stack>
         <Stack className="favorites-list-box">
           {recentlyVisited?.length ? (
-            recentlyVisited?.map((property: Property) => {
-              return <TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} recentlyVisited={true} />;
+            recentlyVisited?.map((product: Product) => {
+              return <TrendProductCard product={product} likeProductHandler={likeProductHandler} recentlyVisited={true} />;
             })
           ) : getVisitedLoading ? (
-            Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+            Array.from({ length: 6 }).map((_, i) => <ProductCardSkeleton key={i} />)
           ) : (
             <div
               className="no-data"
@@ -178,7 +178,7 @@ const RecentlyVisited: NextPage = () => {
             >
               <img src="/img/icons/icoAlert.svg" alt="" style={{ width: '60px', height: '60px' }} loading="lazy" decoding="async" />
               <p style={{ fontSize: '18px', color: 'var(--text-2)', marginTop: '8px', marginLeft: '45px' }}>
-                {t('No Visited Properties found!')}
+                {t('No Visited Products found!')}
               </p>
             </div>
           )}
@@ -196,9 +196,9 @@ const RecentlyVisited: NextPage = () => {
             </Stack>
             <Stack className="total-result">
               <Typography>
-                {t('Total {{total}} recently visited {{property}}', { 
+                {t('Total {{total}} recently visited {{product}}', { 
                   total, 
-                  property: total > 1 ? t('properties') : t('property') 
+                  product: total > 1 ? t('products') : t('product') 
                 })}
               </Typography>
             </Stack>

@@ -17,7 +17,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import withLayoutBasic from '../libs/components/layout/LayoutBasic';
 import SEO from '../libs/components/common/SEO';
-import { GET_AGENTS, GET_PROPERTIES } from '../apollo/user/query';
+import { GET_AGENTS, GET_PRODUCTS } from '../apollo/user/query';
 import { ABOUT_SECTIONS } from '../libs/components/about/aboutSections';
 import { useTranslation } from 'next-i18next';
 import AndroidIcon from '@mui/icons-material/Android';
@@ -222,7 +222,7 @@ const About: NextPage = () => {
 	const s = ABOUT_SECTIONS[locale] || ABOUT_SECTIONS.en;
 	const isRtl = locale === 'ar';
 
-	const { data: propertiesData } = useQuery<{ getProperties: CountResult }>(GET_PROPERTIES, {
+	const { data: productsData } = useQuery<{ getProducts: CountResult }>(GET_PRODUCTS, {
 		variables: { input: COUNT_INPUT },
 		fetchPolicy: 'cache-first',
 	});
@@ -232,7 +232,7 @@ const About: NextPage = () => {
 	});
 
 	const stats = [
-		{ value: getTotal(propertiesData?.getProperties), label: s.statsProducts },
+		{ value: getTotal(productsData?.getProducts), label: s.statsProducts },
 		{ value: getTotal(agentsData?.getAgents), label: s.statsAgents },
 		{ value: String(LAUNCH_YEAR), label: s.statsSince },
 		{ value: String(LANGUAGE_COUNT), label: s.statsLanguages },

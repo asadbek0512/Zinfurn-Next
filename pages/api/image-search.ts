@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PropertyType } from '../../libs/enums/property.enum';
+import { ProductType } from '../../libs/enums/product.enum';
 
 /**
  * Kamera bilan qidiruv: foydalanuvchi rasmi + katalog Gemini vision'ga beriladi,
@@ -22,15 +22,15 @@ export const config = { api: { bodyParser: { sizeLimit: BODY_SIZE_LIMIT } } };
 
 interface CatalogItem {
 	_id: string;
-	propertyTitle: string;
-	propertyCategory?: string;
-	propertyType?: string;
-	propertyMaterial?: string;
-	propertyColor?: string;
-	propertyPrice?: number;
-	propertySalePrice?: number;
-	propertyImages?: string[];
-	propertyTranslations?: Record<string, { title?: string }>;
+	productTitle: string;
+	productCategory?: string;
+	productType?: string;
+	productMaterial?: string;
+	productColor?: string;
+	productPrice?: number;
+	productSalePrice?: number;
+	productImages?: string[];
+	productTranslations?: Record<string, { title?: string }>;
 }
 
 export interface ImageSearchProduct {
@@ -42,7 +42,7 @@ export interface ImageSearchProduct {
 }
 
 export interface ImageSearchResponse {
-	type: PropertyType | null;
+	type: ProductType | null;
 	description: string;
 	products: ImageSearchProduct[];
 	error?: string;
@@ -64,15 +64,15 @@ const allowRequest = (ip: string): boolean => {
 };
 
 const fetchCatalog = async (): Promise<CatalogItem[]> => {
-	const query = `query { getProperties(input:{ page:1, limit:${CATALOG_LIMIT}, sort:"propertyRank", direction:DESC, search:{} }) {
-		list { _id propertyTitle propertyCategory propertyType propertyMaterial propertyColor propertyPrice propertySalePrice propertyImages
-			propertyTranslations { uz{title} en{title} ru{title} kr{title} ar{title} } } } }`;
+	const query = `query { getProducts(input:{ page:1, limit:${CATALOG_LIMIT}, sort:"productRank", direction:DESC, search:{} }) {
+		list { _id productTitle productCategory productType productMaterial productColor productPrice productSalePrice productImages
+			productTranslations { uz{title} en{title} ru{title} kr{title} ar{title} } } } }`;
 	const r = await fetch(GQL_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query }) });
 	const d = await r.json();
-	return d?.data?.getProperties?.list || [];
+	return d?.data?.getProducts?.list || [];
 };
 
-const localizedTitle = (p: CatalogItem, locale: string): string => p.propertyTranslations?.[locale]?.title?.trim() || p.propertyTitle;
+const localizedTitle = (p: CatalogItem, locale: string): string => p.productTranslations?.[locale]?.title?.trim() || p.productTitle;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<ImageSearchResponse>) => {
 	const empty: ImageSearchResponse = { type: null, description: '', products: [] };
@@ -97,12 +97,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ImageSearchResp
 		const catalogText = catalog
 			.map(
 				(p) =>
-					`- id:${p._id} | ${p.propertyTitle} | category:${p.propertyCategory} | type:${p.propertyType} | material:${p.propertyMaterial} | color:${p.propertyColor}`,
+					`- id:${p._id} | ${p.productTitle} | category:${p.productCategory} | type:${p.productType} | material:${p.productMaterial} | color:${p.productColor}`,
 			)
 			.join('\n');
 		const prompt = `You are a furniture visual search engine. Look at the photo and find the most visually similar products in the catalog
 (same furniture type first, then similar style, colour and material).
-Furniture types: ${Object.values(PropertyType).join(', ')}.
+Furniture types: ${Object.values(ProductType).join(', ')}.
 Return JSON: {"type": one of the types or null if the photo has no furniture, "description": short description of the furniture in the photo (max 12 words, language: ${locale}), "productIds": up to ${MAX_RESULTS} catalog ids, best match first}.
 Only use ids from this catalog:
 ${catalogText}`;
@@ -122,7 +122,7 @@ ${catalogText}`;
 			productIds?: string[];
 		};
 
-		const type = Object.values(PropertyType).includes(parsed.type as PropertyType) ? (parsed.type as PropertyType) : null;
+		const type = Object.values(ProductType).includes(parsed.type as ProductType) ? (parsed.type as ProductType) : null;
 		const byId = new Map(catalog.map((p) => [p._id, p]));
 		const products = (Array.isArray(parsed.productIds) ? parsed.productIds : [])
 			.map((id) => byId.get(id))
@@ -131,9 +131,9 @@ ${catalogText}`;
 			.map((p) => ({
 				_id: p._id,
 				title: localizedTitle(p, locale),
-				price: p.propertySalePrice || p.propertyPrice || 0,
-				originalPrice: p.propertySalePrice ? p.propertyPrice ?? null : null,
-				image: p.propertyImages?.[0] ? `${API_URL}/${p.propertyImages[0]}` : '',
+				price: p.productSalePrice || p.productPrice || 0,
+				originalPrice: p.productSalePrice ? p.productPrice ?? null : null,
+				image: p.productImages?.[0] ? `${API_URL}/${p.productImages[0]}` : '',
 			}));
 
 		return res.status(200).json({ type, description: String(parsed.description ?? ''), products });

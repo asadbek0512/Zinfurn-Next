@@ -6,7 +6,7 @@ import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { axiosErrorMessage, getErrorMessage } from '../../types/common';
 
 /**
- * Attaches a real-world-scaled GLB to a property, either generated from its photo
+ * Attaches a real-world-scaled GLB to a product, either generated from its photo
  * or uploaded by hand. Both paths go through the same normalisation and the same
  * validated `modelUploader` mutation.
  */
@@ -44,7 +44,7 @@ const ArModelField = ({ imageUrl, value, onChange }: ArModelFieldProps) => {
 				query: `mutation ModelUploader($file: Upload!, $target: String!) {
 					modelUploader(file: $file, target: $target)
 				}`,
-				variables: { file: null, target: 'property' },
+				variables: { file: null, target: 'product' },
 			}),
 		);
 		formData.append('map', JSON.stringify({ '0': ['variables.file'] }));

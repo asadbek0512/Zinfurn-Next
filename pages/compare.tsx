@@ -8,12 +8,12 @@ import { useApolloClient, useReactiveVar } from '@apollo/client';
 import CloseIcon from '@mui/icons-material/Close';
 import withLayoutBasic from '../libs/components/layout/LayoutBasic';
 import { compareVar } from '../apollo/store';
-import { GET_PROPERTY } from '../apollo/user/query';
-import { Property } from '../libs/types/property/property';
+import { GET_PRODUCT } from '../apollo/user/query';
+import { Product } from '../libs/types/product/product';
 import { REACT_APP_API_URL } from '../libs/config';
 import { removeFromCompare, clearCompare } from '../libs/utils/compareUtils';
 import { addToCart } from '../libs/utils/cartUtils';
-import { getLocalizedTitle } from '../libs/utils/localizeProperty';
+import { getLocalizedTitle } from '../libs/utils/localizeProduct';
 import { activeSalePrice } from '../libs/utils/sale';
 import { useCurrency } from '../libs/context/CurrencyContext';
 import { LocaleContext, DEFAULT_LOCALE } from '../libs/types/common';
@@ -26,9 +26,9 @@ export const getStaticProps = async ({ locale }: LocaleContext) => ({
 
 interface CompareRow {
 	label: string;
-	render: (p: Property) => React.ReactNode;
+	render: (p: Product) => React.ReactNode;
 	/** Farq qiluvchi qiymatlarni ajratib ko'rsatish uchun solishtiriladigan qiymat */
-	value?: (p: Property) => string | number | undefined;
+	value?: (p: Product) => string | number | undefined;
 }
 
 const Compare: NextPage = () => {
@@ -36,12 +36,12 @@ const Compare: NextPage = () => {
 	const { formatPrice } = useCurrency();
 	const client = useApolloClient();
 	const ids = useReactiveVar(compareVar);
-	const [properties, setProperties] = useState<Property[]>([]);
+	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		if (!ids.length) {
-			setProperties([]);
+			setProducts([]);
 			return;
 		}
 		let cancelled = false;
@@ -50,8 +50,8 @@ const Compare: NextPage = () => {
 			const results = await Promise.all(
 				ids.map(async (id) => {
 					try {
-						const { data } = await client.query({ query: GET_PROPERTY, variables: { input: id }, fetchPolicy: 'cache-first' });
-						return (data?.getProperty as Property) ?? null;
+						const { data } = await client.query({ query: GET_PRODUCT, variables: { input: id }, fetchPolicy: 'cache-first' });
+						return (data?.getProduct as Product) ?? null;
 					} catch {
 						// O'chirilgan mahsulot — ro'yxatdan chiqariladi
 						removeFromCompare(id);
@@ -60,7 +60,7 @@ const Compare: NextPage = () => {
 				}),
 			);
 			if (!cancelled) {
-				setProperties(results.filter((p): p is Property => !!p));
+				setProducts(results.filter((p): p is Product => !!p));
 				setLoading(false);
 			}
 		};
@@ -70,14 +70,14 @@ const Compare: NextPage = () => {
 		};
 	}, [ids, client]);
 
-	const priceOf = (p: Property) => activeSalePrice(p) || p.propertyPrice;
-	const minPrice = properties.length ? Math.min(...properties.map(priceOf)) : 0;
+	const priceOf = (p: Product) => activeSalePrice(p) || p.productPrice;
+	const minPrice = products.length ? Math.min(...products.map(priceOf)) : 0;
 
 	const rows: CompareRow[] = [
 		{
 			label: t('Price'),
 			render: (p) => (
-				<span className={properties.length > 1 && priceOf(p) === minPrice ? 'cmp-best' : ''}>{formatPrice(priceOf(p))}</span>
+				<span className={products.length > 1 && priceOf(p) === minPrice ? 'cmp-best' : ''}>{formatPrice(priceOf(p))}</span>
 			),
 			value: priceOf,
 		},
@@ -85,38 +85,38 @@ const Compare: NextPage = () => {
 			label: t('Rating'),
 			render: (p) => (
 				<span className="cmp-rating">
-					<StarRating value={p.propertyRating || 0} />
-					{p.propertyReviews || 0}
+					<StarRating value={p.productRating || 0} />
+					{p.productReviews || 0}
 				</span>
 			),
-			value: (p) => p.propertyRating,
+			value: (p) => p.productRating,
 		},
-		{ label: t('Category'), render: (p) => t(p.propertyCategory), value: (p) => p.propertyCategory },
-		{ label: t('Type'), render: (p) => t(p.propertyType), value: (p) => p.propertyType },
-		{ label: t('Material'), render: (p) => t(p.propertyMaterial), value: (p) => p.propertyMaterial },
+		{ label: t('Category'), render: (p) => t(p.productCategory), value: (p) => p.productCategory },
+		{ label: t('Type'), render: (p) => t(p.productType), value: (p) => p.productType },
+		{ label: t('Material'), render: (p) => t(p.productMaterial), value: (p) => p.productMaterial },
 		{
 			label: t('Color'),
 			render: (p) => (
 				<span className="cmp-color">
-					<i style={{ backgroundColor: p.propertyColor?.toLowerCase() }} />
-					{t(p.propertyColor)}
+					<i style={{ backgroundColor: p.productColor?.toLowerCase() }} />
+					{t(p.productColor)}
 				</span>
 			),
-			value: (p) => p.propertyColor,
+			value: (p) => p.productColor,
 		},
-		{ label: t('Size'), render: (p) => p.propertySize || '—', value: (p) => p.propertySize },
-		{ label: t('Condition'), render: (p) => t(p.propertyCondition), value: (p) => p.propertyCondition },
-		{ label: t('Brand'), render: (p) => p.propertyBrand || '—', value: (p) => p.propertyBrand },
-		{ label: t('Origin'), render: (p) => p.propertyOriginCountry || '—', value: (p) => p.propertyOriginCountry },
+		{ label: t('Size'), render: (p) => p.productSize || '—', value: (p) => p.productSize },
+		{ label: t('Condition'), render: (p) => t(p.productCondition), value: (p) => p.productCondition },
+		{ label: t('Brand'), render: (p) => p.productBrand || '—', value: (p) => p.productBrand },
+		{ label: t('Origin'), render: (p) => p.productOriginCountry || '—', value: (p) => p.productOriginCountry },
 		{
 			label: t('Stock'),
-			render: (p) => (p.propertyInStock === false ? t('sold_out') : t('In stock')),
-			value: (p) => String(p.propertyInStock !== false),
+			render: (p) => (p.productInStock === false ? t('sold_out') : t('In stock')),
+			value: (p) => String(p.productInStock !== false),
 		},
 	];
 
 	const isDifferent = (row: CompareRow) =>
-		!!row.value && properties.length > 1 && new Set(properties.map((p) => String(row.value?.(p) ?? ''))).size > 1;
+		!!row.value && products.length > 1 && new Set(products.map((p) => String(row.value?.(p) ?? ''))).size > 1;
 
 	if (!ids.length) {
 		return (
@@ -141,23 +141,23 @@ const Compare: NextPage = () => {
 				</button>
 			</div>
 
-			{loading && !properties.length ? (
+			{loading && !products.length ? (
 				<div className="compare-empty">{t('Loading...')}</div>
 			) : (
 				<div className="compare-scroll">
-					<table className="compare-table" style={{ '--cmp-cols': properties.length } as CSSProperties}>
+					<table className="compare-table" style={{ '--cmp-cols': products.length } as CSSProperties}>
 						<thead>
 							<tr>
 								<th />
-								{properties.map((p) => (
+								{products.map((p) => (
 									<th key={p._id}>
 										<div className="cmp-product">
 											<button type="button" className="cmp-remove" aria-label={t('Remove')} onClick={() => removeFromCompare(p._id)}>
 												<CloseIcon sx={{ fontSize: 16 }} />
 											</button>
 											<Link href={{ pathname: '/products/detail', query: { id: p._id } }}>
-												{p.propertyImages?.[0] ? (
-													<img src={`${REACT_APP_API_URL}/${p.propertyImages[0]}`} alt={getLocalizedTitle(p, i18n.language)} />
+												{p.productImages?.[0] ? (
+													<img src={`${REACT_APP_API_URL}/${p.productImages[0]}`} alt={getLocalizedTitle(p, i18n.language)} />
 												) : (
 													<span className="cmp-noimg" />
 												)}
@@ -166,15 +166,15 @@ const Compare: NextPage = () => {
 											<button
 												type="button"
 												className="cmp-btn"
-												disabled={p.propertyInStock === false}
+												disabled={p.productInStock === false}
 												onClick={() =>
 													addToCart({
 														_id: p._id,
-														propertyTitle: getLocalizedTitle(p, i18n.language),
-														propertyPrice: p.propertyPrice,
-														propertySalePrice: activeSalePrice(p),
-														propertyImages: p.propertyImages,
-														propertyType: p.propertyType,
+														productTitle: getLocalizedTitle(p, i18n.language),
+														productPrice: p.productPrice,
+														productSalePrice: activeSalePrice(p),
+														productImages: p.productImages,
+														productType: p.productType,
 														memberNick: p.memberData?.memberNick,
 													})
 												}
@@ -190,7 +190,7 @@ const Compare: NextPage = () => {
 							{rows.map((row) => (
 								<tr key={row.label} className={isDifferent(row) ? 'cmp-diff' : ''}>
 									<td className="cmp-label">{row.label}</td>
-									{properties.map((p) => (
+									{products.map((p) => (
 										<td key={p._id}>{row.render(p)}</td>
 									))}
 								</tr>

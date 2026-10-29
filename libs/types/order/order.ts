@@ -3,10 +3,10 @@ import { PaymentMethod, PaymentStatus } from '../../enums/payment.enum';
 import { Member } from '../member/member';
 
 export interface OrderItem {
-	propertyId: string;
-	propertyTitle: string;
-	propertyImage?: string;
-	propertyPrice: number;
+	productId: string;
+	productTitle: string;
+	productImage?: string;
+	productPrice: number;
 	quantity: number;
 }
 

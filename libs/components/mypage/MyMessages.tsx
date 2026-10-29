@@ -98,7 +98,7 @@ const MyMessages = () => {
 							<div className="mm-conv-info">
 								<span className="mm-conv-name">{c.partner?.memberNick || t('User')}</span>
 								<span className="mm-conv-last">{c.lastMessage}</span>
-								<span className="mm-conv-prop">{c.kind === 'REPAIR' ? `🔧 ${t('Repair Request')}` : c.propertyTitle}</span>
+								<span className="mm-conv-prop">{c.kind === 'REPAIR' ? `🔧 ${t('Repair Request')}` : c.productTitle}</span>
 							</div>
 							<div className="mm-conv-meta">
 								<span className="mm-conv-time">{dayjs(c.lastMessageAt).fromNow()}</span>
@@ -124,7 +124,7 @@ const MyMessages = () => {
 								<img className="mm-thread-avatar" src={img(activeConv?.partner?.memberImage)} alt="" loading="lazy" decoding="async" />
 								<div className="mm-thread-head-info">
 									<span className="mm-thread-name">{activeConv?.partner?.memberNick || t('User')}</span>
-									<span className="mm-thread-prop">{activeConv?.kind === 'REPAIR' ? `🔧 ${t('Repair Request')}` : activeConv?.propertyTitle}</span>
+									<span className="mm-thread-prop">{activeConv?.kind === 'REPAIR' ? `🔧 ${t('Repair Request')}` : activeConv?.productTitle}</span>
 								</div>
 							</div>
 

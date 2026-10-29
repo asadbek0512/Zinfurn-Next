@@ -140,10 +140,10 @@ const Checkout: NextPage = () => {
 			setPlaceError('');
 			try {
 				const orderItems = items.map(item => ({
-					propertyId: item.property._id,
-					propertyTitle: item.property.propertyTitle,
-					propertyImage: item.property.propertyImages?.[0] || null,
-					propertyPrice: item.property.propertySalePrice ?? item.property.propertyPrice,
+					productId: item.product._id,
+					productTitle: item.product.productTitle,
+					productImage: item.product.productImages?.[0] || null,
+					productPrice: item.product.productSalePrice ?? item.product.productPrice,
 					quantity: item.quantity,
 				}));
 				const { data } = await createOrder({
@@ -217,17 +217,17 @@ const Checkout: NextPage = () => {
 		<div className="co-summary">
 			<p className="co-summary-label">{t('Order Summary')}</p>
 			{items.map(item => {
-				const price = item.property.propertySalePrice ?? item.property.propertyPrice;
-				const img = item.property.propertyImages?.[0]
-					? `${REACT_APP_API_URL}/${item.property.propertyImages[0]}`
+				const price = item.product.productSalePrice ?? item.product.productPrice;
+				const img = item.product.productImages?.[0]
+					? `${REACT_APP_API_URL}/${item.product.productImages[0]}`
 					: '/img/banner/header1.jpg';
 				return (
-					<div className="co-sum-item" key={item.property._id}>
+					<div className="co-sum-item" key={item.product._id}>
 						<div className="co-sum-img-wrap">
-							<img src={img} alt={item.property.propertyTitle} loading="lazy" decoding="async" />
+							<img src={img} alt={item.product.productTitle} loading="lazy" decoding="async" />
 							<span className="co-sum-qty">{item.quantity}</span>
 						</div>
-						<span className="co-sum-name">{item.property.propertyTitle}</span>
+						<span className="co-sum-name">{item.product.productTitle}</span>
 						<span className="co-sum-price">{formatPrice(price * item.quantity)}</span>
 					</div>
 				);

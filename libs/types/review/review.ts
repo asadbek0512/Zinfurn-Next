@@ -9,7 +9,7 @@ export interface RatingCount {
 export interface Review {
 	_id: string;
 	memberId: string;
-	propertyId: string;
+	productId: string;
 	orderId: string;
 	reviewRating: number;
 	reviewContent: string;
@@ -35,7 +35,7 @@ export interface Reviews {
 }
 
 export interface CreateReviewInput {
-	propertyId: string;
+	productId: string;
 	orderId: string;
 	reviewRating: number;
 	reviewContent: string;
@@ -47,5 +47,5 @@ export interface ReviewsInquiry {
 	limit: number;
 	sort?: string;
 	direction?: string;
-	search: { propertyId: string };
+	search: { productId: string };
 }

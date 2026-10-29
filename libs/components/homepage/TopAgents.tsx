@@ -28,7 +28,7 @@ const TopAgents = (props: TopAgentsProps) => {
 	const [topAgents, setTopAgents] = useState<Member[]>([]);
 
 	const {
-		loading: getPropertiesLoading,
+		loading: getProductsLoading,
 		data: getAgentsData,
 		error: getAgentsError,
 		refetch: getAgemtsRefetch,

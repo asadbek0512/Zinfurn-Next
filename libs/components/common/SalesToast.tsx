@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Avatar } from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
-import { Property } from '../../types/property/property';
-import { getLocalizedTitle } from '../../utils/localizeProperty';
-import { PropertiesInquiry } from '../../types/property/property.input';
+import { Product } from '../../types/product/product';
+import { getLocalizedTitle } from '../../utils/localizeProduct';
+import { ProductsInquiry } from '../../types/product/product.input';
 import { useQuery } from '@apollo/client';
-import { GET_PROPERTIES } from '../../../apollo/user/query';
+import { GET_PRODUCTS } from '../../../apollo/user/query';
 import { useRouter } from 'next/router';
 import { T } from '../../types/common';
 import { useTranslation } from 'next-i18next';
 import { isSaleActive } from '../../utils/sale';
 
 interface SalesToastProps {
-	initialInput: PropertiesInquiry;
+	initialInput: ProductsInquiry;
 }
 
 interface TimeLeft {
@@ -24,7 +24,7 @@ interface TimeLeft {
 
 // Global state for toast index - persists between pages
 let globalToastIndex = 0;
-let globalSaleProperties: Property[] = [];
+let globalSaleProducts: Product[] = [];
 let lastUpdateTime = 0;
 
 // Animations
@@ -173,22 +173,22 @@ const SalesToast = (props: SalesToastProps) => {
 	const { t, i18n } = useTranslation('common');
 	const router = useRouter();
 	const { initialInput } = props;
-	const [saleProperties, setSaleProperties] = useState<Property[]>(globalSaleProperties);
+	const [saleProducts, setSaleProducts] = useState<Product[]>(globalSaleProducts);
 	const [currentToastIndex, setCurrentToastIndex] = useState(globalToastIndex);
 	const [isVisible, setIsVisible] = useState(false);
 	const [animationClass, setAnimationClass] = useState('');
 	const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
 	// Apollo Query
-	const { data: getPropertiesData } = useQuery(GET_PROPERTIES, {
+	const { data: getProductsData } = useQuery(GET_PRODUCTS, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		onCompleted: (data: T) => {
-			const properties = data?.getProperties?.list || [];
-			const saleProps = getSaleProperties(properties);
+			const products = data?.getProducts?.list || [];
+			const saleProps = getSaleProducts(products);
 
-			globalSaleProperties = saleProps;
-			setSaleProperties(saleProps);
+			globalSaleProducts = saleProps;
+			setSaleProducts(saleProps);
 
 			if (saleProps.length > 0 && globalToastIndex >= saleProps.length) {
 				globalToastIndex = 0;
@@ -200,15 +200,15 @@ const SalesToast = (props: SalesToastProps) => {
 		},
 	});
 
-	const getSaleProperties = (properties: Property[]) => {
+	const getSaleProducts = (products: Product[]) => {
 		const now = new Date();
-		return properties
-			.filter((property: Property) => {
+		return products
+			.filter((product: Product) => {
 				return (
-					isSaleActive(property)
+					isSaleActive(product)
 				);
 			})
-			.sort((a, b) => new Date(a.propertySaleExpiresAt!).getTime() - new Date(b.propertySaleExpiresAt!).getTime());
+			.sort((a, b) => new Date(a.productSaleExpiresAt!).getTime() - new Date(b.productSaleExpiresAt!).getTime());
 	};
 
 	const calculateTimeLeft = (targetDate: string | Date) => {
@@ -239,28 +239,28 @@ const SalesToast = (props: SalesToastProps) => {
 	};
 
 	const showToast = () => {
-		if (saleProperties.length === 0) return;
+		if (saleProducts.length === 0) return;
 
 		setAnimationClass('toast-enter');
 		setIsVisible(true);
 
-		const currentProperty = saleProperties[currentToastIndex];
-		if (currentProperty?.propertySaleExpiresAt) {
-			setTimeLeft(calculateTimeLeft(currentProperty.propertySaleExpiresAt));
+		const currentProduct = saleProducts[currentToastIndex];
+		if (currentProduct?.productSaleExpiresAt) {
+			setTimeLeft(calculateTimeLeft(currentProduct.productSaleExpiresAt));
 		}
 
 		setTimeout(() => {
 			setAnimationClass('toast-exit');
 			setTimeout(() => {
 				setIsVisible(false);
-				globalToastIndex = (globalToastIndex + 1) % saleProperties.length;
+				globalToastIndex = (globalToastIndex + 1) % saleProducts.length;
 				setCurrentToastIndex(globalToastIndex);
 			}, 800);
 		}, 5000);
 	};
 
 	useEffect(() => {
-		if (saleProperties.length === 0) return;
+		if (saleProducts.length === 0) return;
 
 		const now = Date.now();
 		const timeSinceLastUpdate = now - lastUpdateTime;
@@ -282,20 +282,20 @@ const SalesToast = (props: SalesToastProps) => {
 		}, 15000);
 
 		return () => clearInterval(interval);
-	}, [saleProperties, currentToastIndex]);
+	}, [saleProducts, currentToastIndex]);
 
 	useEffect(() => {
-		if (!isVisible || saleProperties.length === 0) return;
+		if (!isVisible || saleProducts.length === 0) return;
 
 		const timer = setInterval(() => {
-			const currentProperty = saleProperties[currentToastIndex];
-			if (currentProperty?.propertySaleExpiresAt) {
-				setTimeLeft(calculateTimeLeft(currentProperty.propertySaleExpiresAt));
+			const currentProduct = saleProducts[currentToastIndex];
+			if (currentProduct?.productSaleExpiresAt) {
+				setTimeLeft(calculateTimeLeft(currentProduct.productSaleExpiresAt));
 			}
 		}, 20000);
 
 		return () => clearInterval(timer);
-	}, [isVisible, currentToastIndex, saleProperties]);
+	}, [isVisible, currentToastIndex, saleProducts]);
 
 	const handleClose = () => {
 		setAnimationClass('toast-exit');
@@ -304,25 +304,25 @@ const SalesToast = (props: SalesToastProps) => {
 		}, 800);
 	};
 
-	if (!isVisible || saleProperties.length === 0 || !router.isReady || router.pathname === '/account/join') return null;
+	if (!isVisible || saleProducts.length === 0 || !router.isReady || router.pathname === '/account/join') return null;
 
-	const currentProperty = saleProperties[currentToastIndex];
-	const discountPercentage = calculateSalePercentage(currentProperty.propertyPrice, currentProperty.propertySalePrice);
+	const currentProduct = saleProducts[currentToastIndex];
+	const discountPercentage = calculateSalePercentage(currentProduct.productPrice, currentProduct.productSalePrice);
 
 	return (
 		<ToastContainer className={animationClass}>
 			<CloseButton onClick={handleClose}>×</CloseButton>
 
 			<ProductImage
-				src={`${process.env.REACT_APP_API_URL}/${currentProperty.propertyImages?.[0]}`}
-				alt={getLocalizedTitle(currentProperty, i18n.language)}
+				src={`${process.env.REACT_APP_API_URL}/${currentProduct.productImages?.[0]}`}
+				alt={getLocalizedTitle(currentProduct, i18n.language)}
 			/>
 
 			<ContentBox>
 				<PurchaseText>{t('Someone purchased a')}</PurchaseText>
-				<ProductTitle>{getLocalizedTitle(currentProperty, i18n.language)}</ProductTitle>
+				<ProductTitle>{getLocalizedTitle(currentProduct, i18n.language)}</ProductTitle>
 				<LocationText>
-					{t('Category')}: {t(currentProperty.propertyCategory || t('Unknown Category'))}
+					{t('Category')}: {t(currentProduct.productCategory || t('Unknown Category'))}
 				</LocationText>
 			</ContentBox>
 

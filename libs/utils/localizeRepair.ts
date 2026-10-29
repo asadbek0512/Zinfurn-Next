@@ -1,4 +1,4 @@
-import { RepairProperty, RepairTranslations } from '../types/repairProperty/repairProperty';
+import { RepairProduct, RepairTranslations } from '../types/repairProduct/repairProduct';
 
 type Locale = keyof RepairTranslations;
 
@@ -11,10 +11,10 @@ const normalizeLocale = (locale?: string): Locale => {
 
 /**
  * Joriy tilga mos repair tavsifini (= nom) qaytaradi.
- * Tarjima yo'q bo'lsa — asl repairPropertyDescription.
+ * Tarjima yo'q bo'lsa — asl repairProductDescription.
  */
-export const getLocalizedRepairText = (repair?: RepairProperty | null, locale?: string): string => {
+export const getLocalizedRepairText = (repair?: RepairProduct | null, locale?: string): string => {
 	if (!repair) return '';
 	const loc = normalizeLocale(locale);
-	return repair.repairPropertyTranslations?.[loc]?.title?.trim() || repair.repairPropertyDescription || '';
+	return repair.repairProductTranslations?.[loc]?.title?.trim() || repair.repairProductDescription || '';
 };

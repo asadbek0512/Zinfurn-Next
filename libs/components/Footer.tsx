@@ -8,21 +8,21 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 
 import { useTranslation } from 'next-i18next';
-import { PropertyCategory } from '../enums/property.enum';
+import { ProductCategory } from '../enums/product.enum';
 
 // Footer'da ko'rsatiladigan haqiqiy kategoriyalar — Quick Links bilan takrorlanmasligi uchun
-const FOOTER_CATEGORIES: PropertyCategory[] = [
-	PropertyCategory.HOME,
-	PropertyCategory.OFFICE,
-	PropertyCategory.KITCHEN,
-	PropertyCategory.BATHROOM,
-	PropertyCategory.OUTDOOR,
+const FOOTER_CATEGORIES: ProductCategory[] = [
+	ProductCategory.HOME,
+	ProductCategory.OFFICE,
+	ProductCategory.KITCHEN,
+	ProductCategory.BATHROOM,
+	ProductCategory.OUTDOOR,
 ];
 
 const CATEGORY_PRICE_MAX = 2000000;
 const CATEGORY_PAGE_LIMIT = 9;
 
-const categoryHref = (category: PropertyCategory): string => {
+const categoryHref = (category: ProductCategory): string => {
 	const searchFilter = {
 		page: 1,
 		limit: CATEGORY_PAGE_LIMIT,
@@ -71,7 +71,7 @@ const Footer = () => {
 					<span className={'mobile-footer-col-title'}>{t('Help')}</span>
 					<Link href="/"><span>{t('Home')}</span></Link>
 					<Link href="/about"><span>{t('About us')}</span></Link>
-					<Link href="/products"><span>{t('Properties')}</span></Link>
+					<Link href="/products"><span>{t('Products')}</span></Link>
 					<span>{t('Faq')}</span>
 					<Link href="/agent"><span>{t('Agents')}</span></Link>
 					<Link href="/privacy"><span>{t('Privacy policy')}</span></Link>
@@ -150,7 +150,7 @@ const Footer = () => {
 							</Link>
 
 							<Link href="/products">
-								<span>{t('Properties')}</span>
+								<span>{t('Products')}</span>
 							</Link>
 
 							<Link href="/agent">

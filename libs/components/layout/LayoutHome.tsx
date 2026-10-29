@@ -9,7 +9,7 @@ import { Stack } from '@mui/material';
 const HERO_FIRST_SLIDE_IMAGE = '/img/banner/Home-1-.jpg';
 const heroPreload = (
 	<Head>
-		<link rel="preload" as="image" href={HERO_FIRST_SLIDE_IMAGE} fetchPriority="high" />
+		<link rel="preload" as="image" href={HERO_FIRST_SLIDE_IMAGE} {...{ fetchpriority: 'high' }} />
 	</Head>
 );
 import { userVar } from '../../../apollo/store';
@@ -55,7 +55,7 @@ const withLayoutMain = (Component: any) => {
 					memberImage: member.memberImage || '/img/profile/defaultUser.svg',
 					memberAddress: member.memberAddress ?? '',
 					memberDesc: member.memberDesc ?? '',
-					memberProperties: member.memberProperties ?? 0,
+					memberProducts: member.memberProducts ?? 0,
 					memberRank: member.memberRank ?? 0,
 					memberEmail: member.memberEmail ?? '',
 					memberArticles: member.memberArticles ?? 0,

@@ -108,7 +108,7 @@ const MyMenu = () => {
 				<div className="mob-mymenu-stats">
 					{(user?.memberType === 'AGENT' || user?.memberType === 'TECHNICIAN') && (
 						<div className="mob-mymenu-stat-item">
-							<span className="mob-mymenu-stat-num">{user?.memberProperties || 0}</span>
+							<span className="mob-mymenu-stat-num">{user?.memberProducts || 0}</span>
 							<span className="mob-mymenu-stat-label">{user?.memberType === 'AGENT' ? t('Items') : t('Repair')}</span>
 						</div>
 					)}
@@ -156,17 +156,17 @@ const MyMenu = () => {
 								</div>
 								<ChevronRightIcon className="mob-mymenu-item-chevron" />
 							</div>
-							<div className="mob-mymenu-item" onClick={() => goTo('addProperty')}>
+							<div className="mob-mymenu-item" onClick={() => goTo('addProduct')}>
 								<div className="mob-mymenu-item-icon"><AddHomeIcon /></div>
 								<div className="mob-mymenu-item-text">
-									<span className="mob-mymenu-item-label">{t('Add Property')}</span>
+									<span className="mob-mymenu-item-label">{t('Add Product')}</span>
 								</div>
 								<ChevronRightIcon className="mob-mymenu-item-chevron" />
 							</div>
-							<div className="mob-mymenu-item" onClick={() => goTo('myProperties')}>
+							<div className="mob-mymenu-item" onClick={() => goTo('myProducts')}>
 								<div className="mob-mymenu-item-icon"><WeekendIcon /></div>
 								<div className="mob-mymenu-item-text">
-									<span className="mob-mymenu-item-label">{t('My Properties')}</span>
+									<span className="mob-mymenu-item-label">{t('My Products')}</span>
 								</div>
 								<ChevronRightIcon className="mob-mymenu-item-chevron" />
 							</div>
@@ -175,14 +175,14 @@ const MyMenu = () => {
 
 					{user?.memberType === 'TECHNICIAN' && (
 						<>
-							<div className="mob-mymenu-item" onClick={() => goTo('addRepairProperty')}>
+							<div className="mob-mymenu-item" onClick={() => goTo('addRepairProduct')}>
 								<div className="mob-mymenu-item-icon"><BuildIcon /></div>
 								<div className="mob-mymenu-item-text">
 									<span className="mob-mymenu-item-label">{t('Add Repair')}</span>
 								</div>
 								<ChevronRightIcon className="mob-mymenu-item-chevron" />
 							</div>
-							<div className="mob-mymenu-item" onClick={() => goTo('myRepairProperty')}>
+							<div className="mob-mymenu-item" onClick={() => goTo('myRepairProduct')}>
 								<div className="mob-mymenu-item-icon"><HandymanIcon /></div>
 								<div className="mob-mymenu-item-text">
 									<span className="mob-mymenu-item-label">{t('My Repair')}</span>
@@ -320,7 +320,7 @@ const MyMenu = () => {
 						{user?.memberType === 'AGENT' && (
 							<Box component="div" className={'stat-item'}>
 								<WeekendIcon className="stat-icon" />
-								<Typography className={'stat-number'}>{user?.memberProperties}</Typography>
+								<Typography className={'stat-number'}>{user?.memberProducts}</Typography>
 								<Typography className={'stat-label'}>{t('Furniture')}</Typography>
 							</Box>
 						)}
@@ -328,7 +328,7 @@ const MyMenu = () => {
 						{user?.memberType === 'TECHNICIAN' && (
 							<Box component="div" className={'stat-item'}>
 								<HandymanIcon className="stat-icon" />
-								<Typography className={'stat-number'}>{user?.memberProperties}</Typography>
+								<Typography className={'stat-number'}>{user?.memberProducts}</Typography>
 								<Typography className={'stat-label'}>{t('Repair')}</Typography>
 							</Box>
 						)}
@@ -386,22 +386,22 @@ const MyMenu = () => {
 											</div>
 										</Link>
 									</ListItem>
-									<ListItem className={pathname === 'addProperty' ? 'focus' : ''}>
+									<ListItem className={pathname === 'addProduct' ? 'focus' : ''}>
 										<Link
 											href={{
 												pathname: '/mypage',
-												query: { category: 'addProperty' },
+												query: { category: 'addProduct' },
 											}}
 											scroll={false}
 										>
 											<div className={'flex-box'}>
-												{category === 'addProperty' ? (
+												{category === 'addProduct' ? (
 													<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 												) : (
 													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} loading="lazy" decoding="async" />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													{t('Add Property')}
+													{t('Add Product')}
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '40px' }}>
 													<PortraitIcon style={{ color: '#ff9736' }} />
@@ -409,22 +409,22 @@ const MyMenu = () => {
 											</div>
 										</Link>
 									</ListItem>
-									<ListItem className={pathname === 'myProperties' ? 'focus' : ''}>
+									<ListItem className={pathname === 'myProducts' ? 'focus' : ''}>
 										<Link
 											href={{
 												pathname: '/mypage',
-												query: { category: 'myProperties' },
+												query: { category: 'myProducts' },
 											}}
 											scroll={false}
 										>
 											<div className={'flex-box'}>
-												{category === 'myProperties' ? (
+												{category === 'myProducts' ? (
 													<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 												) : (
 													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													{t('My Properties')}
+													{t('My Products')}
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '36px' }}>
 													<PortraitIcon style={{ color: '#ff9736' }} />
@@ -437,16 +437,16 @@ const MyMenu = () => {
 
 							{user.memberType === 'TECHNICIAN' && (
 								<>
-									<ListItem className={pathname === 'addRepairProperty' ? 'focus' : ''}>
+									<ListItem className={pathname === 'addRepairProduct' ? 'focus' : ''}>
 										<Link
 											href={{
 												pathname: '/mypage',
-												query: { category: 'addRepairProperty' },
+												query: { category: 'addRepairProduct' },
 											}}
 											scroll={false}
 										>
 											<div className={'flex-box'}>
-												{category === 'addRepairProperty' ? (
+												{category === 'addRepairProduct' ? (
 													<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 												) : (
 													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} loading="lazy" decoding="async" />
@@ -460,16 +460,16 @@ const MyMenu = () => {
 											</div>
 										</Link>
 									</ListItem>
-									<ListItem className={pathname === 'myRepairProperty' ? 'focus' : ''}>
+									<ListItem className={pathname === 'myRepairProduct' ? 'focus' : ''}>
 										<Link
 											href={{
 												pathname: '/mypage',
-												query: { category: 'myRepairProperty' },
+												query: { category: 'myRepairProduct' },
 											}}
 											scroll={false}
 										>
 											<div className={'flex-box'}>
-												{category === 'myRepairProperty' ? (
+												{category === 'myRepairProduct' ? (
 													<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} loading="lazy" decoding="async" />
 												) : (
 													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} loading="lazy" decoding="async" />

@@ -1,5 +1,5 @@
-import { PropertyCategory, PropertyColor, PropertyMaterial, PropertyType } from '../../enums/property.enum';
-import { Property } from '../property/property';
+import { ProductCategory, ProductColor, ProductMaterial, ProductType } from '../../enums/product.enum';
+import { Product } from '../product/product';
 
 export interface RoomAnalysisInput {
 	imageBase64: string;
@@ -8,12 +8,12 @@ export interface RoomAnalysisInput {
 }
 
 export interface RoomAnalysisResult {
-	roomType?: PropertyCategory;
-	requestedType?: PropertyType;
-	dominantColors: PropertyColor[];
-	suggestedMaterial?: PropertyMaterial;
+	roomType?: ProductCategory;
+	requestedType?: ProductType;
+	dominantColors: ProductColor[];
+	suggestedMaterial?: ProductMaterial;
 	styleNotes: string;
-	matchedProducts: Property[];
+	matchedProducts: Product[];
 }
 
 export interface GenerateRoomImageInput {

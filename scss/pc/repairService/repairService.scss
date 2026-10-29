@@ -515,7 +515,7 @@
 	}
 }
 
-.repair-properties-grid {
+.repair-products-grid {
 	padding: 24px;
 	background: linear-gradient(135deg, var(--surface-2) 0%, var(--bg-muted) 100%);
 
@@ -539,8 +539,8 @@
 			}
 		}
 
-		.properties-grid {
-			.property-card {
+		.furniture-grid {
+			.furniture-card {
 				height: 100%;
 				cursor: pointer;
 				transition: all 0.3s ease;
@@ -590,7 +590,7 @@
 					height: 200px;
 					overflow: hidden;
 
-					.property-image {
+					.furniture-image {
 						width: 100%;
 						height: 100%;
 						object-fit: cover;
@@ -605,7 +605,7 @@
 						font-weight: 600;
 					}
 
-					.property-description {
+					.product-description {
 						margin-bottom: 8px;
 						font-size: 1rem;
 						font-weight: bold;
@@ -618,7 +618,7 @@
 						height: 2.8em;
 					}
 
-					.property-address {
+					.product-address {
 						display: flex;
 						align-items: center;
 						margin-bottom: 16px;
@@ -642,7 +642,7 @@
 						margin: 8px 0;
 					}
 
-					.property-stats {
+					.product-stats {
 						display: flex;
 						justify-content: space-between;
 						align-items: center;
@@ -794,8 +794,8 @@
 				}
 			}
 
-			.properties-grid {
-				.property-card {
+			.furniture-grid {
+				.furniture-card {
 					.image-container {
 						height: 180px;
 
@@ -827,11 +827,11 @@
 					.card-content {
 						padding: 12px;
 
-						.property-description {
+						.product-description {
 							font-size: 0.9rem;
 						}
 
-						.property-address {
+						.product-address {
 							margin-bottom: 12px;
 						}
 					}
@@ -844,8 +844,8 @@
 		padding: 12px;
 
 		.container {
-			.properties-grid {
-				.property-card {
+			.furniture-grid {
+				.furniture-card {
 					.image-container {
 						height: 160px;
 
@@ -869,7 +869,7 @@
 					.card-content {
 						padding: 10px;
 
-						.property-description {
+						.product-description {
 							font-size: 0.85rem;
 							-webkit-line-clamp: 3;
 							height: 3.6em;

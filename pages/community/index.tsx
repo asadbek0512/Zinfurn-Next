@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Stack, Typography, Button, Pagination, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CommunityCard from '../../libs/components/common/CommunityCard';
-import PropertyCardSkeleton from '../../libs/components/common/PropertyCardSkeleton';
+import ProductCardSkeleton from '../../libs/components/common/ProductCardSkeleton';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { BoardArticle } from '../../libs/types/board-article/board-article';
@@ -335,7 +335,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 				{showSkeleton ? (
 					<div className="mob-articles-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', padding: '0 16px' }}>
 						{Array.from({ length: 4 }).map((_, i) => (
-							<PropertyCardSkeleton key={i} />
+							<ProductCardSkeleton key={i} />
 						))}
 					</div>
 				) : (
@@ -376,7 +376,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 								{showSkeleton ? (
 									<div className="zf-community-skel">
 										{Array.from({ length: 6 }).map((_, i) => (
-											<PropertyCardSkeleton key={i} />
+											<ProductCardSkeleton key={i} />
 										))}
 									</div>
 								) : (

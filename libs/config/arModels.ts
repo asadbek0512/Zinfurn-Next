@@ -1,4 +1,4 @@
-import { PropertyCategory } from '../enums/property.enum';
+import { ProductCategory } from '../enums/product.enum';
 
 export interface ArModel {
 	id: string;
@@ -31,12 +31,12 @@ const TITLE_HINTS: Array<{ keywords: string[]; modelId: string }> = [
 	{ keywords: ['chair', 'stul', 'kursi'], modelId: 'armchair-yellow' },
 ];
 
-const CATEGORY_FALLBACK: Partial<Record<PropertyCategory, string>> = {
-	[PropertyCategory.HOME]: 'armchair-gold',
-	[PropertyCategory.OFFICE]: 'armchair-yellow',
-	[PropertyCategory.OUTDOOR]: 'side-tables-marble',
-	[PropertyCategory.KITCHEN]: 'coffee-table-walnut',
-	[PropertyCategory.BATHROOM]: 'side-tables-marble',
+const CATEGORY_FALLBACK: Partial<Record<ProductCategory, string>> = {
+	[ProductCategory.HOME]: 'armchair-gold',
+	[ProductCategory.OFFICE]: 'armchair-yellow',
+	[ProductCategory.OUTDOOR]: 'side-tables-marble',
+	[ProductCategory.KITCHEN]: 'coffee-table-walnut',
+	[ProductCategory.BATHROOM]: 'side-tables-marble',
 };
 
 export const getArModelById = (id: string): ArModel | undefined => AR_MODELS.find((model) => model.id === id);
@@ -46,7 +46,7 @@ export const getArModelById = (id: string): ArModel | undefined => AR_MODELS.fin
  * Products do not carry their own GLB yet, so we match on title keywords
  * and fall back to the product category.
  */
-export const resolveArModel = (title?: string, category?: PropertyCategory): ArModel => {
+export const resolveArModel = (title?: string, category?: ProductCategory): ArModel => {
 	const normalizedTitle = (title ?? '').toLowerCase();
 
 	if (normalizedTitle) {

@@ -15,7 +15,7 @@ const SITE_URL = `https://${HOST}`;
 const ENDPOINT = 'https://api.indexnow.org/indexnow';
 
 const LOCALES = ['en', 'uz', 'ru', 'kr', 'ar'];
-const PATHS = ['/', '/about', '/property', '/agent', '/repairService', '/community', '/cs'];
+const PATHS = ['/', '/about', '/products', '/agent', '/repairService', '/community', '/cs'];
 
 const defaultUrls = () =>
 	PATHS.flatMap((path) => LOCALES.map((locale) => `${SITE_URL}${locale === 'en' ? '' : `/${locale}`}${path}`));

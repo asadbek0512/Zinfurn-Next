@@ -15,15 +15,15 @@ import {
 } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
 import CloseIcon from '@mui/icons-material/Close';
-import PropertyCard from '../../libs/components/property/PropertyCard';
-import PropertyCardSkeleton from '../../libs/components/common/PropertyCardSkeleton';
+import ProductCard from '../../libs/components/product/ProductCard';
+import ProductCardSkeleton from '../../libs/components/common/ProductCardSkeleton';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import { isAppMode } from '../../libs/hooks/useAppMode';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import Filter from '../../libs/components/property/Filter';
+import Filter from '../../libs/components/product/Filter';
 import { useRouter } from 'next/router';
-import { PropertiesInquiry } from '../../libs/types/property/property.input';
-import { Property } from '../../libs/types/property/property';
+import { ProductsInquiry } from '../../libs/types/product/product.input';
+import { Product } from '../../libs/types/product/product';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
@@ -31,16 +31,16 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewComfyIcon from '@mui/icons-material/ViewComfy';
 import ViewStreamIcon from '@mui/icons-material/ViewStream';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_PROPERTIES } from '../../apollo/user/query';
+import { GET_PRODUCTS } from '../../apollo/user/query';
 import { print } from 'graphql';
 import { T, getErrorMessage } from '../../libs/types/common';
-import { LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'next-i18next';
-import CameraSearch from '../../libs/components/property/CameraSearch';
+import CameraSearch from '../../libs/components/product/CameraSearch';
 
 /** SEO: mahsulotlar ro'yxati server'da render bo'ladi — Google bo'sh HTML emas, real kartalarni ko'radi.
  *  Backend yiqilsa ham sahifa ochiladi (bo'sh boshlanadi, client qayta so'raydi). */
@@ -56,28 +56,28 @@ export const getServerSideProps = async ({ locale, query }: any) => {
 		}
 	}
 
-	let ssrProperties: any[] = [];
+	let ssrProducts: any[] = [];
 	let ssrTotal = 0;
 	try {
 		const res = await fetch(process.env.REACT_APP_API_GRAPHQL_URL as string, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ query: print(GET_PROPERTIES), variables: { input } }),
+			body: JSON.stringify({ query: print(GET_PRODUCTS), variables: { input } }),
 		});
 		const json = await res.json();
-		ssrProperties = json?.data?.getProperties?.list ?? [];
-		ssrTotal = json?.data?.getProperties?.metaCounter?.[0]?.total ?? 0;
+		ssrProducts = json?.data?.getProducts?.list ?? [];
+		ssrTotal = json?.data?.getProducts?.metaCounter?.[0]?.total ?? 0;
 	} catch {
 		/* SSR fetch yiqилsa — client o'zi yuklaydi */
 	}
 
-	return { props: { ...translations, ssrProperties, ssrTotal } };
+	return { props: { ...translations, ssrProducts, ssrTotal } };
 };
 
 // App'da 2 ustunli grid'da 5 qator karta
 const APP_GRID_2_LIMIT = 10;
 
-const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...props }: any) => {
+const ProductList: NextPage = ({ initialInput, ssrProducts, ssrTotal, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 
@@ -96,7 +96,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 	};
 
 	const [viewMode, setViewMode] = useState('grid-4');
-	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(() => {
+	const [searchFilter, setSearchFilter] = useState<ProductsInquiry>(() => {
 		if (router?.query?.input) {
 			return JSON.parse(router?.query?.input as string);
 		}
@@ -106,7 +106,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 		};
 	});
 	// SSR'dan kelgan mahsulotlar — birinchi HTML'da kartalar bor (SEO)
-	const [properties, setProperties] = useState<Property[]>(ssrProperties ?? []);
+	const [products, setProducts] = useState<Product[]>(ssrProducts ?? []);
 	const [total, setTotal] = useState<number>(ssrTotal ?? 0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -124,20 +124,20 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 	const { t } = useTranslation('common');
 
 	/** APOLLO REQUESTS **/
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
 
 	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
-	} = useQuery(GET_PROPERTIES, {
+		loading: getProductsLoading,
+		data: getProductsData,
+		error: getProductsError,
+		refetch: getProductsRefetch,
+	} = useQuery(GET_PRODUCTS, {
 		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setProperties(data?.getProperties?.list);
-			setTotal(data?.getProperties?.metaCounter[0]?.total);
+			setProducts(data?.getProducts?.list);
+			setTotal(data?.getProducts?.metaCounter[0]?.total);
 		},
 	});
 
@@ -150,12 +150,12 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 	}, [device]);
 
 	// Skeleton kamida ~0.7s ko'rinsin (flash bo'lmasin — silliq UX)
-	const [showSkeleton, setShowSkeleton] = useState(!(ssrProperties && ssrProperties.length));
+	const [showSkeleton, setShowSkeleton] = useState(!(ssrProducts && ssrProducts.length));
 	// SSR kartalar allaqachon ko'rinib turibdi — birinchi client fetch ularni skeleton bilan
 	// almashtirmasin (avval kontent yo'qolib, fetch + 0.7s dan keyin qaytib chiqardi)
-	const ssrFirstLoadRef = useRef(!!ssrProperties?.length);
+	const ssrFirstLoadRef = useRef(!!ssrProducts?.length);
 	useEffect(() => {
-		if (getPropertiesLoading) {
+		if (getProductsLoading) {
 			if (ssrFirstLoadRef.current) return;
 			setShowSkeleton(true);
 			return;
@@ -163,7 +163,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 		ssrFirstLoadRef.current = false;
 		const timer = setTimeout(() => setShowSkeleton(false), 700);
 		return () => clearTimeout(timer);
-	}, [getPropertiesLoading]);
+	}, [getProductsLoading]);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -183,7 +183,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 		const timer = setTimeout(() => {
 			const currentText = searchFilter.search?.text ?? '';
 			if (searchText === currentText) return;
-			const newSearchFilter: PropertiesInquiry = {
+			const newSearchFilter: ProductsInquiry = {
 				...searchFilter,
 				search: { ...searchFilter.search, text: searchText || undefined },
 				page: 1,
@@ -210,22 +210,22 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 
 	/** HANDLERS **/
 
-	const likePropertyHandler = async (user: T, id: string) => {
+	const likeProductHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
-			//execute likePropertyHandler Mutation
-			const result = await likeTargetProperty({ variables: { input: id } });
+			//execute likeProductHandler Mutation
+			const result = await likeTargetProduct({ variables: { input: id } });
 
 			// Refetch o'rniga faqat bosilgan kartani lokal yangilaymiz —
 			// butun ro'yxat qayta yuklanib skeleton "lip-lip" qilmasin
-			const updatedLikes = result?.data?.likeTargetProperty?.propertyLikes;
-			setProperties((prev) =>
+			const updatedLikes = result?.data?.likeTargetProduct?.productLikes;
+			setProducts((prev) =>
 				prev.map((p) =>
 					p._id === id
 						? {
 								...p,
-								propertyLikes: updatedLikes ?? p.propertyLikes,
+								productLikes: updatedLikes ?? p.productLikes,
 								meLiked: p.meLiked?.[0]?.myFavorite
 									? []
 									: [{ memberId: user._id, likeRefId: id, myFavorite: true }],
@@ -234,7 +234,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 				),
 			);
 		} catch (err: unknown) {
-			console.error('ERROR, likePropertyHandler', getErrorMessage(err));
+			console.error('ERROR, likeProductHandler', getErrorMessage(err));
 			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
@@ -275,11 +275,11 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 				setFilterSortName('New');
 				break;
 			case 'lowest':
-				newSearchFilter = { ...searchFilter, sort: 'propertyPrice', direction: Direction.ASC, page: 1 };
+				newSearchFilter = { ...searchFilter, sort: 'productPrice', direction: Direction.ASC, page: 1 };
 				setFilterSortName('Lowest Price');
 				break;
 			case 'highest':
-				newSearchFilter = { ...searchFilter, sort: 'propertyPrice', direction: Direction.DESC, page: 1 };
+				newSearchFilter = { ...searchFilter, sort: 'productPrice', direction: Direction.DESC, page: 1 };
 				setFilterSortName('Highest Price');
 				break;
 		}
@@ -377,7 +377,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 
 	if (device === 'mobile') {
 		return (
-			<div id="mob-property-list-page">
+			<div id="mob-product-list-page">
 				{/* Filter Drawer */}
 				<Drawer anchor="left" open={filterOpen} onClose={() => setFilterOpen(false)}>
 					<Stack className="mob-filter-drawer">
@@ -438,25 +438,25 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 				{/* Card List */}
 				<Stack className={`mob-card-list ${viewMode}`}>
 					{showSkeleton ? (
-							Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
-						) : properties?.length === 0 ? (
+							Array.from({ length: 6 }).map((_, i) => <ProductCardSkeleton key={i} />)
+						) : products?.length === 0 ? (
 						<Stack className="mob-no-data">
 							<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
-							<Typography>{t('no_properties_found')}</Typography>
+							<Typography>{t('no_products_found')}</Typography>
 						</Stack>
 					) : (
-						properties.map((property: Property) => (
-							<PropertyCard
-								property={property}
-								likePropertyHandler={likePropertyHandler}
-								key={property?._id}
+						products.map((product: Product) => (
+							<ProductCard
+								product={product}
+								likeProductHandler={likeProductHandler}
+								key={product?._id}
 							/>
 						))
 					)}
 				</Stack>
 
 				{/* Pagination */}
-				{properties.length !== 0 && (
+				{products.length !== 0 && (
 					<Stack className="mob-pagination">
 						<Pagination
 							page={currentPage}
@@ -465,16 +465,16 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 							shape="rounded"
 							color="primary"
 						/>
-						<Typography className="mob-total">{t('total_properties_count', { count: total })}</Typography>
+						<Typography className="mob-total">{t('total_products_count', { count: total })}</Typography>
 					</Stack>
 				)}
 			</div>
 		);
 	} else {
 		return (
-		<div id="property-list-page" style={{ position: 'relative' }}>
+		<div id="product-list-page" style={{ position: 'relative' }}>
 			<div className="container">
-				<Stack className={'property-page'}>
+				<Stack className={'product-page'}>
 					<Stack className={'filter-config'}>
 						{/* @ts-ignore */}
 						<Filter searchFilter={searchFilter} setSearchFilter={setSearchFilter} initialInput={initialInput} />
@@ -577,23 +577,23 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 
 						<Stack className={`list-config ${viewMode}`}>
 							{showSkeleton ? (
-								Array.from({ length: 8 }).map((_, i) => <PropertyCardSkeleton key={i} />)
-							) : properties?.length === 0 ? (
+								Array.from({ length: 8 }).map((_, i) => <ProductCardSkeleton key={i} />)
+							) : products?.length === 0 ? (
 								<div className={'no-data'}>
 									<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
-									<p style={{ color: 'var(--text-1)' }}>{t('no_properties_found')}</p>
+									<p style={{ color: 'var(--text-1)' }}>{t('no_products_found')}</p>
 								</div>
 							) : (
-								properties.map((property: Property) => {
+								products.map((product: Product) => {
 									return (
-										<PropertyCard property={property} likePropertyHandler={likePropertyHandler} key={property?._id} />
+										<ProductCard product={product} likeProductHandler={likeProductHandler} key={product?._id} />
 									);
 								})
 							)}
 						</Stack>
 
 						<Stack className="pagination-config">
-							{properties.length !== 0 && (
+							{products.length !== 0 && (
 								<Stack className="pagination-box">
 									<Pagination
 										className="custom-pagination"
@@ -605,9 +605,9 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 								</Stack>
 							)}
 
-							{properties.length !== 0 && (
+							{products.length !== 0 && (
 								<Stack className="total-result">
-									<Typography>{t('total_properties_count', { count: total })}</Typography>
+									<Typography>{t('total_products_count', { count: total })}</Typography>
 								</Stack>
 							)}
 						</Stack>
@@ -619,7 +619,7 @@ const PropertyList: NextPage = ({ initialInput, ssrProperties, ssrTotal, ...prop
 	}
 };
 
-PropertyList.defaultProps = {
+ProductList.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 9, // Default limit
@@ -629,4 +629,4 @@ PropertyList.defaultProps = {
 	},
 };
 
-export default withLayoutBasic(PropertyList);
+export default withLayoutBasic(ProductList);

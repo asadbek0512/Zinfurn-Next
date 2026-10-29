@@ -80,19 +80,19 @@ const SellerDashboard: NextPage = () => {
 								<div className="sd-top-list">
 									{dash.topProducts.map((p: T, i: number) => (
 										<div
-											key={p.propertyId}
+											key={p.productId}
 											className="sd-top-item"
-											onClick={() => router.push(`/products/detail?id=${p.propertyId}`)}
+											onClick={() => router.push(`/products/detail?id=${p.productId}`)}
 										>
 											<span className="sd-top-rank">{i + 1}</span>
 											<img
 												className="sd-top-img"
-												src={p.propertyImage ? `${REACT_APP_API_URL}/${p.propertyImage}` : '/img/banner/header1.svg'}
-												alt={p.propertyTitle}
+												src={p.productImage ? `${REACT_APP_API_URL}/${p.productImage}` : '/img/banner/header1.svg'}
+												alt={p.productTitle}
 												loading="lazy"
 											/>
 											<div className="sd-top-info">
-												<span className="sd-top-name">{p.propertyTitle}</span>
+												<span className="sd-top-name">{p.productTitle}</span>
 												<span className="sd-top-meta">
 													{p.soldQty} {t('sold')} · {money(p.revenue)}
 												</span>

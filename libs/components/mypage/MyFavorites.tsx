@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
-import PropertyCard from '../property/PropertyCard';
-import { Property } from '../../types/property/property';
+import ProductCard from '../product/ProductCard';
+import { Product } from '../../types/product/product';
 import { T, getErrorMessage } from '../../types/common';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+import { LIKE_TARGET_PRODUCT } from '../../../apollo/user/mutation';
 import { GET_FAVORITES } from '../../../apollo/user/query';
 import { Messages, REACT_APP_API_URL } from '../../config';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
-import PropertyBigCard from '../common/PropertyBigCard';
-import TrendPropertyCard from '../homepage/TrendPropertyCard';
+import ProductBigCard from '../common/ProductBigCard';
+import TrendProductCard from '../homepage/TrendProductCard';
 import { useTranslation } from 'next-i18next';
 import { useCurrency } from '../../context/CurrencyContext';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -19,7 +19,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useRouter } from 'next/router';
 import { userVar } from '../../../apollo/store';
 import { CustomJwtPayload } from '../../types/customJwtPayload';
-import PropertyCardSkeleton from '../common/PropertyCardSkeleton';
+import ProductCardSkeleton from '../common/ProductCardSkeleton';
 
 const MyFavorites: NextPage = () => {
   const { t } = useTranslation('common');
@@ -27,12 +27,12 @@ const MyFavorites: NextPage = () => {
   const device = useDeviceDetect();
   const router = useRouter();
   const user = useReactiveVar(userVar);
-  const [myFavorites, setMyFavorites] = useState<Property[]>([]);
+  const [myFavorites, setMyFavorites] = useState<Product[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 6 });
 
   /** APOLLO REQUESTS **/
-  const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+  const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
 
   const {
     loading: getFavoritesLoading,
@@ -56,12 +56,12 @@ const MyFavorites: NextPage = () => {
     setSearchFavorites({ ...searchFavorites, page: value });
   };
   
-  const likePropertyHandler = async (user: CustomJwtPayload, id: string) => {
+  const likeProductHandler = async (user: CustomJwtPayload, id: string) => {
     try {
       if (!id) return;
       if (!user?._id) throw new Error(Messages.error2);
 
-      await likeTargetProperty({
+      await likeTargetProduct({
         variables: {
           input: id,
         },
@@ -69,7 +69,7 @@ const MyFavorites: NextPage = () => {
 
       await getFavoritesRefetch({ input: searchFavorites });
     } catch (err: unknown) {
-      console.error('ERROR, likePropertyHandler:', getErrorMessage(err));
+      console.error('ERROR, likeProductHandler:', getErrorMessage(err));
       await sweetMixinErrorAlert(getErrorMessage(err)).then();
     }
   };
@@ -83,25 +83,25 @@ const MyFavorites: NextPage = () => {
         </div>
         <div className="mob-fav-list">
           {myFavorites?.length ? (
-            myFavorites.map((property: Property) => {
-              const imgSrc = property.propertyImages?.[0]
-                ? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
+            myFavorites.map((product: Product) => {
+              const imgSrc = product.productImages?.[0]
+                ? `${REACT_APP_API_URL}/${product.productImages[0]}`
                 : '/img/banner/Home-1-.jpg';
-              const isLiked = property.meLiked?.[0]?.myFavorite;
+              const isLiked = product.meLiked?.[0]?.myFavorite;
               return (
                 <div
-                  key={property._id}
+                  key={product._id}
                   className="mob-fav-card"
-                  onClick={() => router.push({ pathname: '/products/detail', query: { id: property._id } })}
+                  onClick={() => router.push({ pathname: '/products/detail', query: { id: product._id } })}
                 >
                   <div className="mob-fav-card-img-wrap">
                     <img src={imgSrc} alt="" loading="lazy" decoding="async" />
-                    {property.propertyPrice && (
-                      <div className="mob-fav-badge">{formatPrice(property.propertyPrice)}</div>
+                    {product.productPrice && (
+                      <div className="mob-fav-badge">{formatPrice(product.productPrice)}</div>
                     )}
                     <div
                       className="mob-fav-like-btn"
-                      onClick={(e) => { e.stopPropagation(); likePropertyHandler(user, property._id); }}
+                      onClick={(e) => { e.stopPropagation(); likeProductHandler(user, product._id); }}
                     >
                       {isLiked
                         ? <FavoriteIcon sx={{ fontSize: 18, color: 'var(--primary)' }} />
@@ -110,16 +110,16 @@ const MyFavorites: NextPage = () => {
                     </div>
                   </div>
                   <div className="mob-fav-card-body">
-                    <div className="mob-fav-title">{property.propertyTitle}</div>
+                    <div className="mob-fav-title">{product.productTitle}</div>
                     <div className="mob-fav-meta">
-                      <span>{property.propertyCategory}</span>
+                      <span>{product.productCategory}</span>
                     </div>
                   </div>
                 </div>
               );
             })
           ) : getFavoritesLoading ? (
-            Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+            Array.from({ length: 6 }).map((_, i) => <ProductCardSkeleton key={i} />)
           ) : (
             <div className="mob-fav-empty">
               <img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
@@ -140,9 +140,9 @@ const MyFavorites: NextPage = () => {
             </Stack>
             <Stack className="total-result">
               <Typography>
-                {t('Total {{total}} favorite {{property}}', { 
+                {t('Total {{total}} favorite {{product}}', { 
                   total, 
-                  property: total > 1 ? t('properties') : t('property') 
+                  product: total > 1 ? t('products') : t('product') 
                 })}
               </Typography>
             </Stack>
@@ -161,17 +161,17 @@ const MyFavorites: NextPage = () => {
         </Stack>
         <Stack className="favorites-list-box">
           {myFavorites?.length ? (
-            myFavorites?.map((property: Property) => {
+            myFavorites?.map((product: Product) => {
               return (
-                <TrendPropertyCard
-                  property={property}
-                  likePropertyHandler={likePropertyHandler}
+                <TrendProductCard
+                  product={product}
+                  likeProductHandler={likeProductHandler}
                   myFavorites={true}
                 />
               );
             })
           ) : getFavoritesLoading ? (
-            Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
+            Array.from({ length: 6 }).map((_, i) => <ProductCardSkeleton key={i} />)
           ) : (
             <div
               className="no-data"
@@ -203,9 +203,9 @@ const MyFavorites: NextPage = () => {
             </Stack>
             <Stack className="total-result">
               <Typography>
-                {t('Total {{total}} favorite {{property}}', { 
+                {t('Total {{total}} favorite {{product}}', { 
                   total, 
-                  property: total > 1 ? t('properties') : t('property') 
+                  product: total > 1 ? t('products') : t('product') 
                 })}
               </Typography>
             </Stack>

@@ -4,11 +4,11 @@ import { NextPage } from 'next';
 import { Stack } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import MyProperties from '../../libs/components/mypage/MyProperties';
+import MyProducts from '../../libs/components/mypage/MyProducts';
 import SellerDashboard from '../../libs/components/mypage/SellerDashboard';
 import MyFavorites from '../../libs/components/mypage/MyFavorites';
 import RecentlyVisited from '../../libs/components/mypage/RecentlyVisited';
-import AddProperty from '../../libs/components/mypage/AddNewProperty';
+import AddProduct from '../../libs/components/mypage/AddNewProduct';
 import MyProfile from '../../libs/components/mypage/MyProfile';
 import MyArticles from '../../libs/components/mypage/MyArticles';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
@@ -21,8 +21,8 @@ import MemberFollowings from '../../libs/components/member/MemberFollowings';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { Messages } from '../../libs/config';
-import AddRepairProperty from '../../libs/components/mypage/AddNewRepairProperty';
-import MyRepairProperty from '../../libs/components/mypage/MyRepairProperty';
+import AddRepairProduct from '../../libs/components/mypage/AddNewRepairProduct';
+import MyRepairProduct from '../../libs/components/mypage/MyRepairProduct';
 import MyOrders from '../../libs/components/mypage/MyOrders';
 import MyMessages from '../../libs/components/mypage/MyMessages';
 import { GET_MY_PROFILE } from '../../apollo/user/query';
@@ -144,11 +144,11 @@ const MyPage: NextPage = () => {
 					<ArrowBackIosNewIcon sx={{ fontSize: 13 }} />
 					<span>{t('My Page')}</span>
 				</div>
-				{mobileCategory === 'addProperty' && <AddProperty />}
-				{mobileCategory === 'addRepairProperty' && <AddRepairProperty />}
+				{mobileCategory === 'addProduct' && <AddProduct />}
+				{mobileCategory === 'addRepairProduct' && <AddRepairProduct />}
 				{mobileCategory === 'sellerDashboard' && <SellerDashboard />}
-				{mobileCategory === 'myProperties' && <MyProperties />}
-				{mobileCategory === 'myRepairProperty' && <MyRepairProperty />}
+				{mobileCategory === 'myProducts' && <MyProducts />}
+				{mobileCategory === 'myRepairProduct' && <MyRepairProduct />}
 				{mobileCategory === 'myFavorites' && <MyFavorites />}
 				{mobileCategory === 'recentlyVisited' && <RecentlyVisited />}
 				{mobileCategory === 'myArticles' && <MyArticles />}
@@ -186,11 +186,11 @@ const MyPage: NextPage = () => {
 							</Stack>
 							<Stack className="main-config" mb={'76px'}>
 								<Stack className={'list-config'}>
-									{category === 'addProperty' && <AddProperty />}
-									{category === 'addRepairProperty' && <AddRepairProperty />}
+									{category === 'addProduct' && <AddProduct />}
+									{category === 'addRepairProduct' && <AddRepairProduct />}
 									{category === 'sellerDashboard' && <SellerDashboard />}
-									{category === 'myProperties' && <MyProperties />}
-									{category === 'myRepairProperty' && <MyRepairProperty />}
+									{category === 'myProducts' && <MyProducts />}
+									{category === 'myRepairProduct' && <MyRepairProduct />}
 									{category === 'myFavorites' && <MyFavorites />}
 									{category === 'recentlyVisited' && <RecentlyVisited />}
 									{category === 'myArticles' && <MyArticles />}

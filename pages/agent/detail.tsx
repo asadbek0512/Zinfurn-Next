@@ -3,25 +3,25 @@ import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
-import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
-import PropertyCardSkeleton from '../../libs/components/common/PropertyCardSkeleton';
+import ProductBigCard from '../../libs/components/common/ProductBigCard';
+import ProductCardSkeleton from '../../libs/components/common/ProductCardSkeleton';
 import ReviewCard from '../../libs/components/agent/ReviewCard';
 import { Box, Button, IconButton, Pagination, Stack, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Property } from '../../libs/types/property/property';
+import { Product } from '../../libs/types/product/product';
 import { Member } from '../../libs/types/member/member';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { userVar } from '../../apollo/store';
-import { PropertiesInquiry } from '../../libs/types/property/property.input';
+import { ProductsInquiry } from '../../libs/types/product/product.input';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
 import { Messages, REACT_APP_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
-import { GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
+import { CREATE_COMMENT, LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
+import { GET_COMMENTS, GET_MEMBER, GET_PRODUCTS } from '../../apollo/user/query';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import SendIcon from '@mui/icons-material/Send';
@@ -32,7 +32,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import PeopleIcon from '@mui/icons-material/People';
 import HomeIcon from '@mui/icons-material/Home';
 import { T, LocaleContext, DEFAULT_LOCALE, getErrorMessage } from '../../libs/types/common';
-import Review from '../../libs/components/property/Review';
+import Review from '../../libs/components/product/Review';
 import { Pagination as MuiPagination } from '@mui/material';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
@@ -55,9 +55,9 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	dayjs.extend(relativeTime);
 	const [agentId, setAgentId] = useState<string | null>(null);
 	const [agent, setAgent] = useState<Member | null>(null);
-	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
-	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
-	const [propertyTotal, setPropertyTotal] = useState<number>(0);
+	const [searchFilter, setSearchFilter] = useState<ProductsInquiry>(initialInput);
+	const [agentProducts, setAgentProducts] = useState<Product[]>([]);
+	const [productTotal, setProductTotal] = useState<number>(0);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [agentComments, setAgentComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -74,7 +74,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 	/** APOLLO REQUESTS **/
 	const [createComment] = useMutation(CREATE_COMMENT);
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
 
 	const {
 		loading: getMemberLoading,
@@ -107,18 +107,18 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	});
 
 	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
-	} = useQuery(GET_PROPERTIES, {
+		loading: getProductsLoading,
+		data: getProductsData,
+		error: getProductsError,
+		refetch: getProductsRefetch,
+	} = useQuery(GET_PRODUCTS, {
 		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		skip: !searchFilter.search.memberId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setAgentProperties(data?.getProperties?.list);
-			setPropertyTotal(data?.getProperties?.metaCounter[0]?.total ?? 0);
+			setAgentProducts(data?.getProducts?.list);
+			setProductTotal(data?.getProducts?.metaCounter[0]?.total ?? 0);
 		},
 	});
 
@@ -145,7 +145,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 	useEffect(() => {
 		if (searchFilter.search.memberId) {
-			getPropertiesRefetch({ variables: { input: searchFilter } }).then();
+			getProductsRefetch({ variables: { input: searchFilter } }).then();
 		}
 	}, [searchFilter]);
 
@@ -165,7 +165,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		}
 	};
 
-	const propertyPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
+	const productPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		searchFilter.page = value;
 		setSearchFilter({ ...searchFilter });
 	};
@@ -193,25 +193,25 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		}
 	};
 
-	const likePropertyHandler = async (user: CustomJwtPayload, id: string) => {
+	const likeProductHandler = async (user: CustomJwtPayload, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
 
-			const result = await likeTargetProperty({
+			const result = await likeTargetProduct({
 				variables: {
 					input: id,
 				},
 			});
 
 			// Refetch o'rniga faqat bosilgan kartani lokal yangilaymiz — ro'yxat "lip-lip" qilmasin
-			const updatedLikes = result?.data?.likeTargetProperty?.propertyLikes;
-			setAgentProperties((prev) =>
+			const updatedLikes = result?.data?.likeTargetProduct?.productLikes;
+			setAgentProducts((prev) =>
 				prev.map((p) =>
 					p._id === id
 						? {
 								...p,
-								propertyLikes: updatedLikes ?? p.propertyLikes,
+								productLikes: updatedLikes ?? p.productLikes,
 								meLiked: p.meLiked?.[0]?.myFavorite
 									? []
 									: [{ memberId: user._id, likeRefId: id, myFavorite: true }],
@@ -220,7 +220,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 				),
 			);
 		} catch (err: unknown) {
-			console.error('ERROR, likePropertyHandler:', getErrorMessage(err));
+			console.error('ERROR, likeProductHandler:', getErrorMessage(err));
 			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
@@ -270,8 +270,8 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 					)}
 					<div className="mob-agd-stats">
 						<div className="mob-agd-stat">
-							<span className="mob-agd-stat-val">{agent?.memberProperties ?? 0}</span>
-							<span className="mob-agd-stat-label">{t('properties')}</span>
+							<span className="mob-agd-stat-val">{agent?.memberProducts ?? 0}</span>
+							<span className="mob-agd-stat-label">{t('products')}</span>
 						</div>
 						<div className="mob-agd-stat">
 							<span className="mob-agd-stat-val">{agent?.memberViews ?? 0}</span>
@@ -290,29 +290,29 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 				{/* Agent mahsulotlari */}
 				<div className="mob-agd-products">
-					<p className="mob-agd-section-title">{t('properties')}</p>
-					{getPropertiesLoading && agentProperties.length === 0 ? (
+					<p className="mob-agd-section-title">{t('products')}</p>
+					{getProductsLoading && agentProducts.length === 0 ? (
 						<div className="mob-agd-products-grid">
-							{Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)}
+							{Array.from({ length: 6 }).map((_, i) => <ProductCardSkeleton key={i} />)}
 						</div>
-					) : agentProperties.length === 0 ? (
+					) : agentProducts.length === 0 ? (
 						<div className="mob-agd-nodata">
 							<img src="/img/icons/icoAlert.svg" alt="" loading="lazy" decoding="async" />
-							<p>{t('No properties found!')}</p>
+							<p>{t('No products found!')}</p>
 						</div>
 					) : (
 						<>
 							<div className="mob-agd-products-grid">
-								{agentProperties.map((property: Property) => (
-									<PropertyBigCard key={property._id} property={property} likePropertyHandler={likePropertyHandler} />
+								{agentProducts.map((product: Product) => (
+									<ProductBigCard key={product._id} product={product} likeProductHandler={likeProductHandler} />
 								))}
 							</div>
-							{propertyTotal > searchFilter.limit && (
+							{productTotal > searchFilter.limit && (
 								<div className="mob-agd-prod-pagination">
 									<Pagination
 										page={searchFilter.page}
-										count={Math.ceil(propertyTotal / searchFilter.limit)}
-										onChange={propertyPaginationChangeHandler}
+										count={Math.ceil(productTotal / searchFilter.limit)}
+										onChange={productPaginationChangeHandler}
 										shape="circular"
 										color="primary"
 										size="small"
@@ -444,33 +444,33 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 					</Stack>
 					<Stack className={'agent-home-list'}>
 						<Stack className={'card-wrap'}>
-							{getPropertiesLoading && agentProperties.length === 0
+							{getProductsLoading && agentProducts.length === 0
 								? Array.from({ length: 6 }).map((_, i) => (
 										<div className={'wrap-main'} key={i}>
-											<PropertyCardSkeleton />
+											<ProductCardSkeleton />
 										</div>
 								  ))
-								: agentProperties.map((property: Property) => {
+								: agentProducts.map((product: Product) => {
 								return (
-									<div className={'wrap-main'} key={property?._id}>
-										<PropertyBigCard
-											property={property}
-											likePropertyHandler={likePropertyHandler}
-											key={property?._id}
+									<div className={'wrap-main'} key={product?._id}>
+										<ProductBigCard
+											product={product}
+											likeProductHandler={likeProductHandler}
+											key={product?._id}
 										/>
 									</div>
 								);
 							})}
 						</Stack>
 						<Stack className="pagination-config">
-							{propertyTotal > 0 ? (
+							{productTotal > 0 ? (
 								<>
 									<Stack className="pagination-box">
 										<Pagination
 											className="custom-pagination"
 											page={searchFilter.page}
-											count={Math.ceil(propertyTotal / searchFilter.limit) || 1}
-											onChange={propertyPaginationChangeHandler}
+											count={Math.ceil(productTotal / searchFilter.limit) || 1}
+											onChange={productPaginationChangeHandler}
 											shape="circular"
 											color="primary"
 										/>
@@ -478,15 +478,15 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 									<Stack className="total-result">
 										<Typography>
-											{t('Total')} {propertyTotal} {t('propert')}
-											{propertyTotal !== 1 ? t('ies') : t('y')} {t('available')}
+											{t('Total')} {productTotal} {t('product_label')}
+											{productTotal !== 1 ? t('ies') : t('y')} {t('available')}
 										</Typography>
 									</Stack>
 								</>
-							) : getPropertiesLoading ? null : (
+							) : getProductsLoading ? null : (
 								<Stack className="no-data">
-									<img src="/img/icons/icoAlert.svg" alt="No properties" loading="lazy" decoding="async" />
-									<Typography>{t('No properties found!')}</Typography>
+									<img src="/img/icons/icoAlert.svg" alt="No products" loading="lazy" decoding="async" />
+									<Typography>{t('No products found!')}</Typography>
 								</Stack>
 							)}
 						</Stack>

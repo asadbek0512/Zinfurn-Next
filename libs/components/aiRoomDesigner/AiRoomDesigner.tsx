@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { ANALYZE_ROOM, GENERATE_ROOM_IMAGE } from '../../../apollo/user/mutation';
 import { GeneratedRoomImage, RoomAnalysisResult } from '../../types/aiRoom/aiRoom';
-import { getLocalizedTitle } from '../../utils/localizeProperty';
+import { getLocalizedTitle } from '../../utils/localizeProduct';
 import { sweetErrorHandling } from '../../sweetAlert';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
@@ -155,27 +155,27 @@ const AiRoomDesigner = () => {
 					</Stack>
 
 					<Box component="div" className="matched-grid">
-						{result.matchedProducts.map((property) => (
-							<Card key={property._id} className="matched-card">
+						{result.matchedProducts.map((product) => (
+							<Card key={product._id} className="matched-card">
 								<Box
 									component="div"
 									className="matched-image"
-									onClick={() => handleViewProduct(property._id)}
-									sx={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${property.propertyImages?.[0]})` }}
+									onClick={() => handleViewProduct(product._id)}
+									sx={{ backgroundImage: `url(${process.env.REACT_APP_API_URL}/${product.productImages?.[0]})` }}
 								/>
 								<CardContent>
-									<Typography className="matched-title" onClick={() => handleViewProduct(property._id)}>
-										{getLocalizedTitle(property, router.locale)}
+									<Typography className="matched-title" onClick={() => handleViewProduct(product._id)}>
+										{getLocalizedTitle(product, router.locale)}
 									</Typography>
-									<Typography className="matched-price">${property.propertySalePrice || property.propertyPrice}</Typography>
+									<Typography className="matched-price">${product.productSalePrice || product.productPrice}</Typography>
 									<Button
 										size="small"
 										variant="outlined"
 										className="generate-button"
-										disabled={generatingId === property._id}
-										onClick={() => handleGenerateImage(property._id)}
+										disabled={generatingId === product._id}
+										onClick={() => handleGenerateImage(product._id)}
 									>
-										{generatingId === property._id ? (
+										{generatingId === product._id ? (
 											<CircularProgress size={16} color="inherit" />
 										) : (
 											t('Xonaga joylashtirish')

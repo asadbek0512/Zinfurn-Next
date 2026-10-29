@@ -14,7 +14,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { useReactiveVar, useQuery } from '@apollo/client';
 import { cartVar, cartDrawerVar, userVar } from '../../../apollo/store';
-import { removeFromCart, updateCartQty, getCartTotal } from '../../utils/cartUtils';
+import { removeFromCart, updateCartQty, getCartTotal, loadPersistedCart } from '../../utils/cartUtils';
 import { OrderStatus } from '../../enums/order.enum';
 import { formatterStr } from '../../utils';
 import { REACT_APP_API_URL } from '../../config';
@@ -47,15 +47,8 @@ const CartDrawer = () => {
 
 	// Load persisted cart from localStorage (client-side only)
 	useEffect(() => {
-		try {
-			const raw = localStorage.getItem('zinfurn_cart');
-			if (raw) {
-				const parsed = JSON.parse(raw);
-				if (Array.isArray(parsed) && parsed.length > 0) {
-					cartVar(parsed);
-				}
-			}
-		} catch {}
+		const items = loadPersistedCart();
+		if (items.length > 0) cartVar(items);
 	}, []);
 
 	const handleClose = () => cartDrawerVar(false);
@@ -101,30 +94,30 @@ const CartDrawer = () => {
 					) : (
 						<div className="cart-drawer-items">
 							{items.map((item) => {
-								const imgSrc = item.property.propertyImages?.[0]
-									? `${REACT_APP_API_URL}/${item.property.propertyImages[0]}`
+								const imgSrc = item.product.productImages?.[0]
+									? `${REACT_APP_API_URL}/${item.product.productImages[0]}`
 									: '/img/banner/header1.jpg';
-								const price = item.property.propertySalePrice ?? item.property.propertyPrice;
+								const price = item.product.productSalePrice ?? item.product.productPrice;
 								return (
-									<div className="cart-drawer-item" key={item.property._id}>
+									<div className="cart-drawer-item" key={item.product._id}>
 										<div className="cart-item-img-wrap">
-											<img src={imgSrc} alt={item.property.propertyTitle} className="cart-item-img" loading="lazy" decoding="async" />
+											<img src={imgSrc} alt={item.product.productTitle} className="cart-item-img" loading="lazy" decoding="async" />
 										</div>
 										<div className="cart-item-info">
-											<Typography className="cart-item-title">{item.property.propertyTitle}</Typography>
-											{item.property.propertySalePrice ? (
+											<Typography className="cart-item-title">{item.product.productTitle}</Typography>
+											{item.product.productSalePrice ? (
 												<div className="cart-item-price-row">
-													<Typography className="cart-item-sale-price">{formatPrice(item.property.propertySalePrice)}</Typography>
-													<Typography className="cart-item-orig-price">{formatPrice(item.property.propertyPrice)}</Typography>
+													<Typography className="cart-item-sale-price">{formatPrice(item.product.productSalePrice)}</Typography>
+													<Typography className="cart-item-orig-price">{formatPrice(item.product.productPrice)}</Typography>
 												</div>
 											) : (
-												<Typography className="cart-item-price">{formatPrice(item.property.propertyPrice)}</Typography>
+												<Typography className="cart-item-price">{formatPrice(item.product.productPrice)}</Typography>
 											)}
 											<div className="cart-item-controls">
 												<div className="cart-qty-box">
 													<IconButton
 														size="small"
-														onClick={() => updateCartQty(item.property._id, item.quantity - 1)}
+														onClick={() => updateCartQty(item.product._id, item.quantity - 1)}
 														className="cart-qty-btn"
 													>
 														<RemoveIcon fontSize="small" />
@@ -132,7 +125,7 @@ const CartDrawer = () => {
 													<span className="cart-qty-val">{item.quantity}</span>
 													<IconButton
 														size="small"
-														onClick={() => updateCartQty(item.property._id, item.quantity + 1)}
+														onClick={() => updateCartQty(item.product._id, item.quantity + 1)}
 														className="cart-qty-btn"
 													>
 														<AddIcon fontSize="small" />
@@ -140,7 +133,7 @@ const CartDrawer = () => {
 												</div>
 												<IconButton
 													size="small"
-													onClick={() => removeFromCart(item.property._id)}
+													onClick={() => removeFromCart(item.product._id)}
 													className="cart-delete-btn"
 												>
 													<DeleteOutlineIcon fontSize="small" />

@@ -7,14 +7,14 @@ import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
-import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
+import ProductBigCard from '../../libs/components/common/ProductBigCard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Property } from '../../libs/types/property/property';
+import { Product } from '../../libs/types/product/product';
 import moment from 'moment';
 import { formatterStr, formatCount } from '../../libs/utils';
 import { REACT_APP_API_URL } from '../../libs/config';
@@ -26,16 +26,16 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { GET_PROPERTIES, GET_PROPERTY, GET_PROPERTY_REVIEW_SUMMARY } from '../../apollo/user/query';
+import { GET_PRODUCTS, GET_PRODUCT, GET_PRODUCT_REVIEW_SUMMARY } from '../../apollo/user/query';
 import { print } from 'graphql';
 import { T, getErrorMessage } from '../../libs/types/common';
-import { CREATE_REVIEW, LIKE_TARGET_PROPERTY, SEND_MESSAGE } from '../../apollo/user/mutation';
+import { CREATE_REVIEW, LIKE_TARGET_PRODUCT, SEND_MESSAGE } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { create } from 'domain';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import ReviewSection from '../../libs/components/property/ReviewSection';
-import QASection from '../../libs/components/property/QASection';
-import RecentlyViewed from '../../libs/components/property/RecentlyViewed';
+import ReviewSection from '../../libs/components/product/ReviewSection';
+import QASection from '../../libs/components/product/QASection';
+import RecentlyViewed from '../../libs/components/product/RecentlyViewed';
 import { getStockInfo } from '../../libs/utils/stock';
 import useRecentlyViewed from '../../libs/hooks/useRecentlyViewed';
 import SEO from '../../libs/components/common/SEO';
@@ -46,12 +46,12 @@ import SendIcon from '@mui/icons-material/Send';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import TrendPropertyCard from '../../libs/components/homepage/TrendPropertyCard';
+import TrendProductCard from '../../libs/components/homepage/TrendProductCard';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import { useTranslation } from 'next-i18next';
-import { getLocalizedTitle, getLocalizedDesc } from '../../libs/utils/localizeProperty';
+import { getLocalizedTitle, getLocalizedDesc } from '../../libs/utils/localizeProduct';
 import { useCurrency } from '../../libs/context/CurrencyContext';
-import ShareModal from '../../libs/components/property/ShareModal';
+import ShareModal from '../../libs/components/product/ShareModal';
 import ArLaunchButton from '../../libs/components/ar/ArLaunchButton';
 import { activeSalePrice, isSaleActive } from '../../libs/utils/sale';
 
@@ -59,7 +59,7 @@ SwiperCore.use([Autoplay, Navigation, Pagination]);
 
 export const getServerSideProps = async ({ locale, query }: any) => {
 	const translations = await serverSideTranslations(locale, ['common']);
-	let seoProperty = null;
+	let seoProduct = null;
 
 	const id = query?.id;
 	if (id) {
@@ -69,39 +69,39 @@ export const getServerSideProps = async ({ locale, query }: any) => {
 				headers: { 'Content-Type': 'application/json' },
 				// To'liq mahsulot — sahifa HTML bilan birga chiqadi (SEO ham shundan olinadi).
 				// Client keyin auth bilan qayta oladi (meLiked va h.k. yangilanadi).
-				body: JSON.stringify({ query: print(GET_PROPERTY), variables: { input: id } }),
+				body: JSON.stringify({ query: print(GET_PRODUCT), variables: { input: id } }),
 			});
 			const json = await res.json();
-			if (json?.data?.getProperty) seoProperty = json.data.getProperty;
+			if (json?.data?.getProduct) seoProduct = json.data.getProduct;
 		} catch {
 			/* SEO is best-effort; page still renders */
 		}
 	}
 
-	return { props: { ...translations, seoProperty } };
+	return { props: { ...translations, seoProduct } };
 };
 
-const PropertyDetail: NextPage = (props: any) => {
+const ProductDetail: NextPage = (props: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	dayjs.extend(relativeTime);
-	const [propertyId, setPropertyId] = useState<string | null>(props.seoProperty?._id ?? null);
-	const [property, setProperty] = useState<Property | null>(props.seoProperty ?? null);
-	const [slideImage, setSlideImage] = useState<string>(props.seoProperty?.propertyImages?.[0] ?? '');
-	const [destinationProperties, setDestinationProperties] = useState<Property[]>([]);
+	const [productId, setProductId] = useState<string | null>(props.seoProduct?._id ?? null);
+	const [product, setProduct] = useState<Product | null>(props.seoProduct ?? null);
+	const [slideImage, setSlideImage] = useState<string>(props.seoProduct?.productImages?.[0] ?? '');
+	const [destinationProducts, setDestinationProducts] = useState<Product[]>([]);
 	const { add: addRecentlyViewed } = useRecentlyViewed();
 	const [quantity, setQuantity] = useState(1);
 	const [tabIndex, setTabIndex] = useState(0);
 	const { t } = useTranslation('common');
 	const { formatPrice } = useCurrency();
-	const localizedTitle = getLocalizedTitle(property, router.locale);
-	const localizedDesc = getLocalizedDesc(property, router.locale);
+	const localizedTitle = getLocalizedTitle(product, router.locale);
+	const localizedDesc = getLocalizedDesc(product, router.locale);
 	// Zoom state
 	const [isZoomed, setIsZoomed] = useState<boolean>(false);
 	const [mousePosition, setMousePosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
-	const images = property?.propertyImages ?? [];
+	const images = product?.productImages ?? [];
 	const currentIndex = images.indexOf(slideImage);
 
 	// Contact agent form
@@ -111,31 +111,31 @@ const PropertyDetail: NextPage = (props: any) => {
 	const [sendingMessage, setSendingMessage] = useState(false);
 
 	/** APOLLO REQUESTS **/
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
 	const [sendMessage] = useMutation(SEND_MESSAGE);
 
 	const {
-		loading: getPropertyLoading,
-		data: getPropertyData,
-		error: getPropertyError,
-		refetch: getPropertyRefetch,
-	} = useQuery(GET_PROPERTY, {
+		loading: getProductLoading,
+		data: getProductData,
+		error: getProductError,
+		refetch: getProductRefetch,
+	} = useQuery(GET_PRODUCT, {
 		fetchPolicy: 'network-only',
-		variables: { input: propertyId },
-		skip: !propertyId,
+		variables: { input: productId },
+		skip: !productId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getProperty) setProperty(data?.getProperty);
-			if (data?.getProperty?.propertyImages?.[0]) setSlideImage(data?.getProperty?.propertyImages?.[0]);
+			if (data?.getProduct) setProduct(data?.getProduct);
+			if (data?.getProduct?.productImages?.[0]) setSlideImage(data?.getProduct?.productImages?.[0]);
 		},
 	});
 
 	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
-	} = useQuery(GET_PROPERTIES, {
+		loading: getProductsLoading,
+		data: getProductsData,
+		error: getProductsError,
+		refetch: getProductsRefetch,
+	} = useQuery(GET_PRODUCTS, {
 		fetchPolicy: 'cache-and-network',
 		variables: {
 			input: {
@@ -144,42 +144,42 @@ const PropertyDetail: NextPage = (props: any) => {
 				sort: 'createdAt',
 				direction: Direction.DESC,
 				search: {
-					categoryList: property?.propertyCategory ? [property?.propertyCategory] : [],
+					categoryList: product?.productCategory ? [product?.productCategory] : [],
 				},
 			},
 		},
-		skip: !propertyId && !property,
+		skip: !productId && !product,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getProperties?.list) setDestinationProperties(data?.getProperties?.list);
+			if (data?.getProducts?.list) setDestinationProducts(data?.getProducts?.list);
 		},
 	});
 
-	const { data: reviewSummaryData } = useQuery(GET_PROPERTY_REVIEW_SUMMARY, {
-		variables: { propertyId: propertyId as string },
-		skip: !propertyId,
+	const { data: reviewSummaryData } = useQuery(GET_PRODUCT_REVIEW_SUMMARY, {
+		variables: { productId: productId as string },
+		skip: !productId,
 		fetchPolicy: 'cache-and-network',
 	});
-	const reviewTotal: number = reviewSummaryData?.getPropertyReviewSummary?.totalReviews ?? property?.propertyReviews ?? 0;
+	const reviewTotal: number = reviewSummaryData?.getProductReviewSummary?.totalReviews ?? product?.productReviews ?? 0;
 
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.id) {
 			const id = router.query.id as string;
 			// SSR'dan kelgan mahsulot bo'lsa uni darrov ko'rsatamiz — loader faqat ma'lumot yo'q bo'lsa
-			const ssrProperty = props.seoProperty?._id === id ? props.seoProperty : null;
-			if (property?._id !== id) {
-				setProperty(ssrProperty);
-				setSlideImage(ssrProperty?.propertyImages?.[0] ?? '');
+			const ssrProduct = props.seoProduct?._id === id ? props.seoProduct : null;
+			if (product?._id !== id) {
+				setProduct(ssrProduct);
+				setSlideImage(ssrProduct?.productImages?.[0] ?? '');
 			}
-			setPropertyId(id);
+			setProductId(id);
 		}
 	}, [router]);
 
 	// Mahsulot yuklangach "oxirgi ko'rilgan" ro'yxatiga qo'shamiz (localStorage)
 	useEffect(() => {
-		if (property?._id) addRecentlyViewed(property);
-	}, [property?._id, addRecentlyViewed]);
+		if (product?._id) addRecentlyViewed(product);
+	}, [product?._id, addRecentlyViewed]);
 
 	useEffect(() => {
 		if (user?._id) {
@@ -209,28 +209,28 @@ const PropertyDetail: NextPage = (props: any) => {
 		setMousePosition({ x, y });
 	};
 
-	const likePropertyHandler = async (user: T, id: string) => {
+	const likeProductHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
-			//execute likePropertyHandler Mutation
-			await likeTargetProperty({ variables: { input: id } });
+			//execute likeProductHandler Mutation
+			await likeTargetProduct({ variables: { input: id } });
 
-			//execute getPropertiesRefetch
-			await getPropertyRefetch({ input: id });
-			await getPropertiesRefetch({
+			//execute getProductsRefetch
+			await getProductRefetch({ input: id });
+			await getProductsRefetch({
 				input: {
 					page: 1,
 					limit: 4,
 					sort: 'createdAt',
 					direction: Direction.DESC,
 					search: {
-						categoryList: [property?.propertyCategory],
+						categoryList: [product?.productCategory],
 					},
 				},
 			});
 		} catch (err: unknown) {
-			console.error('ERROR, likePropertyHandler', getErrorMessage(err));
+			console.error('ERROR, likeProductHandler', getErrorMessage(err));
 			sweetMixinErrorAlert(getErrorMessage(err)).then();
 		}
 	};
@@ -238,7 +238,7 @@ const PropertyDetail: NextPage = (props: any) => {
 	const sendMessageHandler = async () => {
 		try {
 			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
-			if (!property?._id) return;
+			if (!product?._id) return;
 			if (!contactMessage.trim()) {
 				await sweetMixinErrorAlert(t('Please write a message'));
 				return;
@@ -247,7 +247,7 @@ const PropertyDetail: NextPage = (props: any) => {
 			await sendMessage({
 				variables: {
 					input: {
-						propertyId: property._id,
+						productId: product._id,
 						message: contactMessage,
 						name: contactName || undefined,
 						phone: contactPhone || undefined,
@@ -265,7 +265,7 @@ const PropertyDetail: NextPage = (props: any) => {
 
 	/** SHARE **/
 	const [shareOpen, setShareOpen] = useState(false);
-	const getShareUrl = () => `https://zinfurn.uz/property/detail?id=${property?._id}`;
+	const getShareUrl = () => `https://zinfurn.uz/product/detail?id=${product?._id}`;
 	const getShareText = () => `${localizedTitle} — Zinfurn`;
 
 	const handleTabChange = (_: unknown, newIndex: number) => {
@@ -276,29 +276,29 @@ const PropertyDetail: NextPage = (props: any) => {
 		setQuantity((prev) => Math.max(1, prev + change));
 	};
 
-	// Tugagan: eski boolean (propertyInStock===false) YOKI numeric propertyStock<=0
-	const stockInfo = getStockInfo(property?.propertyStock);
-	const isOutOfStock = property?.propertyInStock === false || !!stockInfo?.soldOut;
+	// Tugagan: eski boolean (productInStock===false) YOKI numeric productStock<=0
+	const stockInfo = getStockInfo(product?.productStock);
+	const isOutOfStock = product?.productInStock === false || !!stockInfo?.soldOut;
 	const isLowStock = !isOutOfStock && !!stockInfo?.low;
 
 	// Chegirma faqat sale oynasi ochiq bo'lgandagina qo'llanadi
-	const salePrice = activeSalePrice(property);
+	const salePrice = activeSalePrice(product);
 
 	const handleAddToCart = (e: React.MouseEvent) => {
-		if (!property || isOutOfStock) return;
+		if (!product || isOutOfStock) return;
 		addToCart(
 			{
-				_id: property._id,
-				propertyTitle: localizedTitle,
-				propertyPrice: property.propertyPrice,
-				propertySalePrice: salePrice,
-				propertyImages: property.propertyImages,
-				propertyType: property.propertyType,
+				_id: product._id,
+				productTitle: localizedTitle,
+				productPrice: product.productPrice,
+				productSalePrice: salePrice,
+				productImages: product.productImages,
+				productType: product.productType,
 			},
 			quantity,
 		);
-		const imgSrc = property.propertyImages?.[0]
-			? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
+		const imgSrc = product.productImages?.[0]
+			? `${REACT_APP_API_URL}/${product.productImages[0]}`
 			: '/img/banner/header1.jpg';
 		flyToCart(e.currentTarget as HTMLElement, imgSrc);
 	};
@@ -315,47 +315,47 @@ const PropertyDetail: NextPage = (props: any) => {
 		setSlideImage(images[nextIndex]);
 	};
 
-	const isPropertyReady = !!property && property._id === propertyId;
+	const isProductReady = !!product && product._id === productId;
 
-	// SEO source: client-loaded property when ready, otherwise server-fetched data (SSR) for link previews
-	const seoSrc: any = (isPropertyReady ? property : null) || props.seoProperty;
-	const seoId = (router.query?.id as string) || property?._id || '';
-	const seoImage = seoSrc?.propertyImages?.[0] ? `${REACT_APP_API_URL}/${seoSrc.propertyImages[0]}` : undefined;
-	const seoDesc = seoSrc?.propertyDesc
-		? seoSrc.propertyDesc.slice(0, 160)
-		: `${seoSrc?.propertyTitle || 'Furniture'} — buy at Zinfurn. ${seoSrc?.propertyReviews || 0} reviews, rated ${seoSrc?.propertyRating || 0}/5.`;
+	// SEO source: client-loaded product when ready, otherwise server-fetched data (SSR) for link previews
+	const seoSrc: any = (isProductReady ? product : null) || props.seoProduct;
+	const seoId = (router.query?.id as string) || product?._id || '';
+	const seoImage = seoSrc?.productImages?.[0] ? `${REACT_APP_API_URL}/${seoSrc.productImages[0]}` : undefined;
+	const seoDesc = seoSrc?.productDesc
+		? seoSrc.productDesc.slice(0, 160)
+		: `${seoSrc?.productTitle || 'Furniture'} — buy at Zinfurn. ${seoSrc?.productReviews || 0} reviews, rated ${seoSrc?.productRating || 0}/5.`;
 	const seoEl = seoSrc ? (
 		<SEO
-			title={seoSrc.propertyTitle}
+			title={seoSrc.productTitle}
 			description={seoDesc}
 			image={seoImage}
 			url={`https://zinfurn.uz/products/detail?id=${seoId}`}
 			type="product"
-			price={activeSalePrice(seoSrc) || seoSrc.propertyPrice}
+			price={activeSalePrice(seoSrc) || seoSrc.productPrice}
 			jsonLd={{
 				'@context': 'https://schema.org',
 				'@type': 'Product',
-				name: seoSrc.propertyTitle,
+				name: seoSrc.productTitle,
 				image: seoImage,
 				description: seoDesc,
 				offers: {
 					'@type': 'Offer',
-					price: activeSalePrice(seoSrc) || seoSrc.propertyPrice,
+					price: activeSalePrice(seoSrc) || seoSrc.productPrice,
 					priceCurrency: 'KRW',
 					availability:
-						seoSrc.propertyInStock === false || (typeof seoSrc.propertyStock === 'number' && seoSrc.propertyStock <= 0)
+						seoSrc.productInStock === false || (typeof seoSrc.productStock === 'number' && seoSrc.productStock <= 0)
 							? 'https://schema.org/OutOfStock'
 							: 'https://schema.org/InStock',
 				},
-				aggregateRating: seoSrc.propertyReviews
-					? { '@type': 'AggregateRating', ratingValue: seoSrc.propertyRating || 0, reviewCount: seoSrc.propertyReviews }
+				aggregateRating: seoSrc.productReviews
+					? { '@type': 'AggregateRating', ratingValue: seoSrc.productRating || 0, reviewCount: seoSrc.productReviews }
 					: undefined,
 			}}
 		/>
 	) : null;
 
 	// O'xshash mahsulotlar alohida yuklanadi — asosiy kontent ularni kutmaydi
-	if (!isPropertyReady) {
+	if (!isProductReady) {
 		return (
 			<>
 				{seoEl}
@@ -366,11 +366,11 @@ const PropertyDetail: NextPage = (props: any) => {
 
 	if (device === 'mobile') {
 		return (
-			<div id="mob-property-detail-page">
+			<div id="mob-product-detail-page">
 				{seoEl}
 				{/* Back */}
 				<div className="mob-det-back" onClick={() => router.push('/products')}>
-					{t('back_to_property')}
+					{t('back_to_product')}
 				</div>
 
 				{/* Asosiy rasm */}
@@ -379,15 +379,15 @@ const PropertyDetail: NextPage = (props: any) => {
 						<button type="button" className="mob-det-img-btn" onClick={() => setShareOpen(true)} aria-label={t('share')}>
 							<Share sx={{ fontSize: 17 }} />
 						</button>
-						<button type="button" className="mob-det-img-btn" onClick={() => likePropertyHandler(user, property!._id)} aria-label={t('like')}>
-							{property?.meLiked?.[0]?.myFavorite
+						<button type="button" className="mob-det-img-btn" onClick={() => likeProductHandler(user, product!._id)} aria-label={t('like')}>
+							{product?.meLiked?.[0]?.myFavorite
 								? <FavoriteIcon sx={{ fontSize: 18, color: 'var(--primary)' }} />
 								: <FavoriteBorderIcon sx={{ fontSize: 18 }} />}
 						</button>
 					</div>
 					<IconButton className="mob-det-prev" onClick={prevImage}><ArrowBackIosIcon fontSize="small" /></IconButton>
 					<img
-						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.jpg'}
+						src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/product/bigImage.jpg'}
 						alt={localizedTitle || ''}
 						className="mob-det-main-img" loading="lazy" decoding="async" />
 					<IconButton className="mob-det-next" onClick={nextImage}><ArrowForwardIosIcon fontSize="small" /></IconButton>
@@ -411,7 +411,7 @@ const PropertyDetail: NextPage = (props: any) => {
 
 					{/* Kategoriya + Stock badge */}
 					<div className="mob-det-top-row">
-						<span className="mob-det-cat">{t(property?.propertyCategory || '')}</span>
+						<span className="mob-det-cat">{t(product?.productCategory || '')}</span>
 						<span className={`mob-det-stock ${!isOutOfStock ? 'in' : 'out'}`}>
 							{isOutOfStock ? t('out_of_stock') : isLowStock ? t('Only {{count}} left', { count: stockInfo?.count }) : t('in_stock')}
 						</span>
@@ -422,18 +422,18 @@ const PropertyDetail: NextPage = (props: any) => {
 
 					{/* Reyting + sotilgan */}
 					<div className="mob-det-rating">
-						<StarRating value={property?.propertyRating || 0} />
-						<span className="mob-det-rating-val">{property?.propertyRating ? property.propertyRating.toFixed(1) : '0.0'}</span>
-						{property?.propertyReviews ? (
+						<StarRating value={product?.productRating || 0} />
+						<span className="mob-det-rating-val">{product?.productRating ? product.productRating.toFixed(1) : '0.0'}</span>
+						{product?.productReviews ? (
 							<>
 								<span className="mob-det-rating-dot">·</span>
-								<span className="mob-det-reviews-count">({property.propertyReviews} {t('reviews')})</span>
+								<span className="mob-det-reviews-count">({product.productReviews} {t('reviews')})</span>
 							</>
 						) : null}
-						{property?.propertySoldCount ? (
+						{product?.productSoldCount ? (
 							<>
 								<span className="mob-det-rating-dot">·</span>
-								<span className="mob-det-sold">{formatCount(property.propertySoldCount)}+ {t('sold')}</span>
+								<span className="mob-det-sold">{formatCount(product.productSoldCount)}+ {t('sold')}</span>
 							</>
 						) : null}
 					</div>
@@ -441,14 +441,14 @@ const PropertyDetail: NextPage = (props: any) => {
 					{/* Narx */}
 					<div className="mob-det-price">
 						<span className="mob-det-cur-price">
-							{formatPrice(salePrice || property?.propertyPrice)}
+							{formatPrice(salePrice || product?.productPrice)}
 						</span>
 						{salePrice && (
-							<span className="mob-det-old-price">{formatPrice(property?.propertyPrice)}</span>
+							<span className="mob-det-old-price">{formatPrice(product?.productPrice)}</span>
 						)}
 						{salePrice && (
 							<span className="mob-det-sale-badge">
-								-{Math.round(((property.propertyPrice - salePrice) / property.propertyPrice) * 100)}%
+								-{Math.round(((product.productPrice - salePrice) / product.productPrice) * 100)}%
 							</span>
 						)}
 					</div>
@@ -461,8 +461,8 @@ const PropertyDetail: NextPage = (props: any) => {
 					{/* Rang */}
 					<div className="mob-det-color-row">
 						<span className="mob-det-color-label">{t('color')}:</span>
-						<span className="mob-det-color-dot" style={{ backgroundColor: property?.propertyColor?.toLowerCase() || '#ccc' }} />
-						<span className="mob-det-color-name">{t(property?.propertyColor || '')}</span>
+						<span className="mob-det-color-dot" style={{ backgroundColor: product?.productColor?.toLowerCase() || '#ccc' }} />
+						<span className="mob-det-color-name">{t(product?.productColor || '')}</span>
 					</div>
 
 					{/* Miqdor + Savatchaga */}
@@ -482,12 +482,12 @@ const PropertyDetail: NextPage = (props: any) => {
 					<div className="mob-det-ar">
 					<ArLaunchButton
 						modelUrl={
-							property.propertyArModel ? `${REACT_APP_API_URL}/${property.propertyArModel}` : undefined
+							product.productArModel ? `${REACT_APP_API_URL}/${product.productArModel}` : undefined
 						}
 						title={localizedTitle}
-						category={property.propertyCategory}
+						category={product.productCategory}
 						posterUrl={
-							property.propertyImages?.[0] ? `${REACT_APP_API_URL}/${property.propertyImages[0]}` : undefined
+							product.productImages?.[0] ? `${REACT_APP_API_URL}/${product.productImages[0]}` : undefined
 						}
 					/>
 					</div>
@@ -498,11 +498,11 @@ const PropertyDetail: NextPage = (props: any) => {
 					<div className="mob-det-meta">
 						<div className="mob-det-meta-row">
 							<span className="mob-det-meta-label">{t('tags')}</span>
-							<span className="mob-det-meta-val">{t(property?.propertyType || '')}</span>
+							<span className="mob-det-meta-val">{t(product?.productType || '')}</span>
 						</div>
 						<div className="mob-det-meta-row">
 							<span className="mob-det-meta-label">{t('material')}</span>
-							<span className="mob-det-meta-val">{t(property?.propertyMaterial || '')}</span>
+							<span className="mob-det-meta-val">{t(product?.productMaterial || '')}</span>
 						</div>
 					</div>
 				</div>
@@ -523,10 +523,10 @@ const PropertyDetail: NextPage = (props: any) => {
 								</div>
 								{[
 									[t('brand'), localizedTitle],
-									[t('color'), property?.propertyColor],
-									[t('size'), property?.propertySize ? `${property.propertySize} ${t('cm')}` : null],
-									[t('material'), property?.propertyMaterial],
-									[t('style'), property?.propertyType],
+									[t('color'), product?.productColor],
+									[t('size'), product?.productSize ? `${product.productSize} ${t('cm')}` : null],
+									[t('material'), product?.productMaterial],
+									[t('style'), product?.productType],
 								].map(([label, value], i) => (
 									<div key={i} className={`mob-det-table-row ${i % 2 === 1 ? 'alt' : ''}`}>
 										<span className="mob-det-table-label">{label}</span>
@@ -540,9 +540,9 @@ const PropertyDetail: NextPage = (props: any) => {
 									<span>{t('features')}</span><span>{t('information')}</span>
 								</div>
 								{[
-									[t('category'), t(property?.propertyCategory || '')],
-									[t('price'), `${formatPrice(property?.propertyPrice)}`],
-									[t('condition'), property?.propertyCondition],
+									[t('category'), t(product?.productCategory || '')],
+									[t('price'), `${formatPrice(product?.productPrice)}`],
+									[t('condition'), product?.productCondition],
 								].map(([label, value], i) => (
 									<div key={i} className={`mob-det-table-row ${i % 2 === 1 ? 'alt' : ''}`}>
 										<span className="mob-det-table-label">{label}</span>
@@ -556,13 +556,13 @@ const PropertyDetail: NextPage = (props: any) => {
 					{tabIndex === 1 && (
 						<div className="mob-rev-tab">
 							{/* Reyting va sharhlar — faqat sotib olgan mijoz qoldiradi */}
-							{property?._id && <ReviewSection propertyId={property._id} />}
+							{product?._id && <ReviewSection productId={product._id} />}
 						</div>
 					)}
 
 					{tabIndex === 2 && (
 						<div className="mob-rev-tab">
-							{property?._id && <QASection propertyId={property._id} ownerId={property?.memberData?._id} />}
+							{product?._id && <QASection productId={product._id} ownerId={product?.memberData?._id} />}
 						</div>
 					)}
 				</div>
@@ -573,15 +573,15 @@ const PropertyDetail: NextPage = (props: any) => {
 					<div className="mob-det-agent-row">
 						<img
 							className="mob-det-agent-img"
-							src={property?.memberData?.memberImage
-								? (property.memberData.memberImage.startsWith('http') ? property.memberData.memberImage : `${REACT_APP_API_URL}/${property.memberData.memberImage}`)
+							src={product?.memberData?.memberImage
+								? (product.memberData.memberImage.startsWith('http') ? product.memberData.memberImage : `${REACT_APP_API_URL}/${product.memberData.memberImage}`)
 								: '/img/profile/defaultUser.svg'}
 							alt="" loading="lazy" decoding="async" />
 						<div className="mob-det-agent-info">
-							<Link href={`/member?memberId=${property?.memberData?._id}`}>
-								<span className="mob-det-agent-name">{property?.memberData?.memberNick}</span>
+							<Link href={`/member?memberId=${product?.memberData?._id}`}>
+								<span className="mob-det-agent-name">{product?.memberData?.memberNick}</span>
 							</Link>
-							<span className="mob-det-agent-phone">{property?.memberData?.memberPhone}</span>
+							<span className="mob-det-agent-phone">{product?.memberData?.memberPhone}</span>
 						</div>
 					</div>
 					<input className="mob-det-input" type="text" placeholder={t('enter_your_name')} value={contactName} onChange={(e) => setContactName(e.target.value)} />
@@ -591,7 +591,7 @@ const PropertyDetail: NextPage = (props: any) => {
 				</div>
 
 				{/* O'xshash mahsulotlar */}
-				{destinationProperties.length !== 0 && (
+				{destinationProducts.length !== 0 && (
 					<div className="mob-det-similar">
 						<div className="mob-det-similar-header">
 							<div>
@@ -610,27 +610,27 @@ const PropertyDetail: NextPage = (props: any) => {
 							modules={[Autoplay, Navigation]}
 							navigation={{ nextEl: '.swiper-mob-similar-next', prevEl: '.swiper-mob-similar-prev' }}
 						>
-							{destinationProperties.map((property: Property) => (
-								<SwiperSlide style={{ width: '152px', height: '210px' }} key={property._id}>
-									<PropertyBigCard property={property} likePropertyHandler={likePropertyHandler} key={property._id} />
+							{destinationProducts.map((product: Product) => (
+								<SwiperSlide style={{ width: '152px', height: '210px' }} key={product._id}>
+									<ProductBigCard product={product} likeProductHandler={likeProductHandler} key={product._id} />
 								</SwiperSlide>
 							))}
 						</Swiper>
 					</div>
 				)}
-				<RecentlyViewed currentId={property?._id} />
+				<RecentlyViewed currentId={product?._id} />
 				<ShareModal open={shareOpen} onClose={() => setShareOpen(false)} url={getShareUrl()} title={localizedTitle || 'Zinfurn'} text={getShareText()} />
 			</div>
 		);
 	} else {
 		return (
-			<div id={'property-detail-page'}>
+			<div id={'product-detail-page'}>
 				{seoEl}
 				<div className={'container'}>
-					<Stack className={'property-detail-config'}>
+					<Stack className={'product-detail-config'}>
 						<Stack className="productContainer">
 							<Stack className="back-link" onClick={() => router.push('/products')}>
-								{t('back_to_property')}
+								{t('back_to_product')}
 							</Stack>
 							<Stack className="productGrid">
 								<Stack className="imageSection">
@@ -652,7 +652,7 @@ const PropertyDetail: NextPage = (props: any) => {
 											onMouseMove={handleMouseMove}
 										>
 											<img
-												src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.jpg'}
+												src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/product/bigImage.jpg'}
 												alt={t('main_image')}
 												className="mainImage"
 												style={{
@@ -698,7 +698,7 @@ const PropertyDetail: NextPage = (props: any) => {
 
 								<Stack className="productInfo">
 									<Typography className="category">
-										{t(property?.propertyCategory || 'unknown_category', 'Category not available')}
+										{t(product?.productCategory || 'unknown_category', 'Category not available')}
 									</Typography>
 
 									<Stack className="titleRow">
@@ -720,29 +720,29 @@ const PropertyDetail: NextPage = (props: any) => {
 
 									<Stack className="ratingRow">
 										<Stack className="rating">
-											<StarRating value={property?.propertyRating || 0} />
+											<StarRating value={product?.productRating || 0} />
 											<Typography variant="body2" sx={{ fontWeight: 600, color: 'var(--text-1)' }}>
-												{property?.propertyRating ? property.propertyRating.toFixed(1) : '0.0'}
+												{product?.productRating ? product.productRating.toFixed(1) : '0.0'}
 											</Typography>
-											{property?.propertyReviews ? (
+											{product?.productReviews ? (
 												<Typography variant="body2" sx={{ color: 'var(--text-3)', fontSize: 13 }}>
-													({property.propertyReviews} {t('reviews')})
+													({product.productReviews} {t('reviews')})
 												</Typography>
 											) : null}
 										</Stack>
-										{property?.propertySoldCount ? (
+										{product?.productSoldCount ? (
 											<Typography variant="body2" sx={{ color: 'var(--text-3)', fontSize: 13 }}>
-												{formatCount(property.propertySoldCount)}+ {t('sold')}
+												{formatCount(product.productSoldCount)}+ {t('sold')}
 											</Typography>
 										) : null}
 									</Stack>
 
 									<Stack className="priceRow">
 										<Typography className="currentPrice">
-											{formatPrice(salePrice || property?.propertyPrice)}
+											{formatPrice(salePrice || product?.productPrice)}
 										</Typography>
 										{salePrice && (
-											<Typography className="originalPrice">{formatPrice(property?.propertyPrice)}</Typography>
+											<Typography className="originalPrice">{formatPrice(product?.productPrice)}</Typography>
 										)}
 									</Stack>
 
@@ -752,17 +752,17 @@ const PropertyDetail: NextPage = (props: any) => {
 
 									<Stack className="colorSection" direction="row" alignItems="center" gap={1}>
 										<Typography className="colorLabel">
-											{t('color')}: {t(property?.propertyColor || 'not_available')?.toLowerCase()}
+											{t('color')}: {t(product?.productColor || 'not_available')?.toLowerCase()}
 										</Typography>
 
-										{property?.propertyColor && (
+										{product?.productColor && (
 											<Stack
 												className="colorDot"
 												sx={{
 													width: '20px',
 													height: '20px',
 													borderRadius: '50%',
-													backgroundColor: property.propertyColor.toLowerCase(),
+													backgroundColor: product.productColor.toLowerCase(),
 													border: '1px solid var(--border)',
 												}}
 											/>
@@ -796,12 +796,12 @@ const PropertyDetail: NextPage = (props: any) => {
 											</Button>
 											<ArLaunchButton
 												modelUrl={
-													property.propertyArModel ? `${REACT_APP_API_URL}/${property.propertyArModel}` : undefined
+													product.productArModel ? `${REACT_APP_API_URL}/${product.productArModel}` : undefined
 												}
 												title={localizedTitle}
-												category={property.propertyCategory}
+												category={product.productCategory}
 												posterUrl={
-													property.propertyImages?.[0] ? `${REACT_APP_API_URL}/${property.propertyImages[0]}` : undefined
+													product.productImages?.[0] ? `${REACT_APP_API_URL}/${product.productImages[0]}` : undefined
 												}
 											/>
 										</Stack>
@@ -811,36 +811,36 @@ const PropertyDetail: NextPage = (props: any) => {
 										<Stack className="button-box">
 											<span className="metaLabel">{t('views')} :</span>
 											<RemoveRedEyeIcon fontSize="medium" />
-											<Typography>{formatCount(property?.propertyViews)}</Typography>
+											<Typography>{formatCount(product?.productViews)}</Typography>
 										</Stack>
-										<Stack className="button-box" onClick={() => likePropertyHandler(user, property!._id)}>
-											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+										<Stack className="button-box" onClick={() => likeProductHandler(user, product!._id)}>
+											{product?.meLiked && product?.meLiked[0]?.myFavorite ? (
 												<FavoriteIcon color="primary" fontSize="medium" />
 											) : (
 												<FavoriteBorderIcon fontSize="medium" />
 											)}
-											<Typography>{formatCount(property?.propertyLikes)}</Typography>
+											<Typography>{formatCount(product?.productLikes)}</Typography>
 										</Stack>
 									</Stack>
 
 									<Stack className="productMeta">
 										<Stack className="metaRow">
 											<span className="metaLabel1">{t('tags')} :</span>
-											<span className="metaValue">{t(property?.propertyType || 'not_available')}</span>
+											<span className="metaValue">{t(product?.productType || 'not_available')}</span>
 										</Stack>
 
 										<Stack className="metaRow">
 											<span className="metaLabel">{t('material')} :</span>
-											<span className="metaValue">{t(property?.propertyMaterial || 'not_available')}</span>
+											<span className="metaValue">{t(product?.productMaterial || 'not_available')}</span>
 										</Stack>
 									</Stack>
 								</Stack>
 							</Stack>
 						</Stack>
 
-						<Stack className={'property-desc-config'}>
+						<Stack className={'product-desc-config'}>
 							<Stack className="left-config">
-								<Tabs value={tabIndex} onChange={handleTabChange} className="property-tabs">
+								<Tabs value={tabIndex} onChange={handleTabChange} className="product-tabs">
 									<Tab label={t('description')} />
 									<Tab label={`${t('reviews')} (${reviewTotal})`} />
 									<Tab label={t('Q&A')} />
@@ -849,7 +849,7 @@ const PropertyDetail: NextPage = (props: any) => {
 								{tabIndex === 0 && (
 									<Stack className="prop-desc-config">
 										<Stack className="top-section">
-											<Typography className="main-title">{t('property_description')}</Typography>
+											<Typography className="main-title">{t('product_description')}</Typography>
 											<Typography className="description-text">
 												{localizedDesc || t('no_description')}
 											</Typography>
@@ -871,31 +871,31 @@ const PropertyDetail: NextPage = (props: any) => {
 
 													<Box component="div" className="detail-row alternate">
 														<span className="detail-label">{t('color')}</span>
-														<span className="detail-value">{property?.propertyColor || t('not_available')}</span>
+														<span className="detail-value">{product?.productColor || t('not_available')}</span>
 													</Box>
 
 													<Box component="div" className="detail-row">
 														<span className="detail-label">{t('product_dimensions')}</span>
 														<span className="detail-value">
-															{property?.propertySize ? `${property.propertySize} ${t('cm')}` : t('not_available')}
+															{product?.productSize ? `${product.productSize} ${t('cm')}` : t('not_available')}
 														</span>
 													</Box>
 
 													<Box component="div" className="detail-row alternate">
 														<span className="detail-label">{t('size')}</span>
 														<span className="detail-value">
-															{property?.propertySize ? `${property.propertySize} ${t('cm')}` : t('not_available')}
+															{product?.productSize ? `${product.productSize} ${t('cm')}` : t('not_available')}
 														</span>
 													</Box>
 
 													<Box component="div" className="detail-row">
 														<span className="detail-label">{t('material')}</span>
-														<span className="detail-value">{property?.propertyMaterial || t('not_available')}</span>
+														<span className="detail-value">{product?.productMaterial || t('not_available')}</span>
 													</Box>
 
 													<Box component="div" className="detail-row alternate">
 														<span className="detail-label">{t('style')}</span>
-														<span className="detail-value">{property?.propertyType || t('modern')}</span>
+														<span className="detail-value">{product?.productType || t('modern')}</span>
 													</Box>
 
 													<Box component="div" className="detail-row">
@@ -914,36 +914,36 @@ const PropertyDetail: NextPage = (props: any) => {
 													<Box component="div" className="detail-row">
 														<span className="detail-label">{t('category')}</span>
 														<span className="detail-value">
-															{t((property?.propertyCategory as string) ?? 'not_available')}
+															{t((product?.productCategory as string) ?? 'not_available')}
 														</span>
 													</Box>
 
 													<Box component="div" className="detail-row alternate">
 														<span className="detail-label">{t('customer_reviews')}</span>
 														<span className="detail-value" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-															<StarRating value={property?.propertyRating || 0} />
-															<span style={{ fontWeight: 600 }}>{property?.propertyRating ? property.propertyRating.toFixed(1) : '0.0'}</span>
-															{property?.propertyReviews ? <span style={{ color: 'var(--text-3)', fontSize: 12 }}>({property.propertyReviews})</span> : null}
+															<StarRating value={product?.productRating || 0} />
+															<span style={{ fontWeight: 600 }}>{product?.productRating ? product.productRating.toFixed(1) : '0.0'}</span>
+															{product?.productReviews ? <span style={{ color: 'var(--text-3)', fontSize: 12 }}>({product.productReviews})</span> : null}
 														</span>
 													</Box>
 													<Box component="div" className="detail-row">
 														<span className="detail-label">{t('sold')}</span>
-														<span className="detail-value">{formatCount(property?.propertySoldCount)}+</span>
+														<span className="detail-value">{formatCount(product?.productSoldCount)}+</span>
 													</Box>
 
 													<Box component="div" className="detail-row">
 														<span className="detail-label">{t('product_dimensions')}</span>
 														<span className="detail-value">
-															{property?.propertySize ? `${property.propertySize} ${t('cm')}` : t('not_available')}
+															{product?.productSize ? `${product.productSize} ${t('cm')}` : t('not_available')}
 														</span>
 													</Box>
 
 													<Box component="div" className="detail-row alternate">
 														<span className="detail-label">{t('price')}</span>
-														<span className="detail-value">{formatPrice(property?.propertyPrice)}</span>
+														<span className="detail-value">{formatPrice(product?.productPrice)}</span>
 													</Box>
 
-													{isSaleActive(property) && (
+													{isSaleActive(product) && (
 														<>
 															<Box component="div" className="detail-row">
 																<span className="detail-label">{t('sale_price')}</span>
@@ -953,7 +953,7 @@ const PropertyDetail: NextPage = (props: any) => {
 															<Box component="div" className="detail-row alternate">
 																<span className="detail-label">{t('sale_ends')}</span>
 																<span className="detail-value">
-																	{moment(property?.propertySaleExpiresAt).format('DD MMM YYYY')}
+																	{moment(product?.productSaleExpiresAt).format('DD MMM YYYY')}
 																</span>
 															</Box>
 														</>
@@ -961,7 +961,7 @@ const PropertyDetail: NextPage = (props: any) => {
 
 													<Box component="div" className="detail-row">
 														<span className="detail-label">{t('condition')}</span>
-														<span className="detail-value">{property?.propertyCondition || t('new')}</span>
+														<span className="detail-value">{product?.productCondition || t('new')}</span>
 													</Box>
 												</Box>
 											</Stack>
@@ -971,13 +971,13 @@ const PropertyDetail: NextPage = (props: any) => {
 
 								{tabIndex === 1 && (
 									<Stack className="repair-detail__comments" spacing={3}>
-										{property?._id && <ReviewSection propertyId={property._id} />}
+										{product?._id && <ReviewSection productId={product._id} />}
 									</Stack>
 								)}
 
 								{tabIndex === 2 && (
 									<Stack className="repair-detail__comments" spacing={3}>
-										{property?._id && <QASection propertyId={property._id} ownerId={property?.memberData?._id} />}
+										{product?._id && <QASection productId={product._id} ownerId={product?.memberData?._id} />}
 									</Stack>
 								)}
 							</Stack>
@@ -989,13 +989,13 @@ const PropertyDetail: NextPage = (props: any) => {
 										<img
 											className={'member-image'}
 											src={
-												property?.memberData?.memberImage
-													? (property?.memberData?.memberImage?.startsWith('http') ? property?.memberData?.memberImage : `${REACT_APP_API_URL}/${property?.memberData?.memberImage}`)
+												product?.memberData?.memberImage
+													? (product?.memberData?.memberImage?.startsWith('http') ? product?.memberData?.memberImage : `${REACT_APP_API_URL}/${product?.memberData?.memberImage}`)
 													: '/img/profile/defaultUser.svg'
 											} loading="lazy" decoding="async" />
 										<Stack className={'name-phone-listings'}>
-											<Link href={`/member?memberId=${property?.memberData?._id}`}>
-												<Typography className={'name'}>{property?.memberData?.memberNick}</Typography>
+											<Link href={`/member?memberId=${product?.memberData?._id}`}>
+												<Typography className={'name'}>{product?.memberData?.memberNick}</Typography>
 											</Link>
 
 											<Stack className={'phone-number'}>
@@ -1012,7 +1012,7 @@ const PropertyDetail: NextPage = (props: any) => {
 														</clipPath>
 													</defs>
 												</svg>
-												<Typography className={'number'}>{property?.memberData?.memberPhone}</Typography>
+												<Typography className={'number'}>{product?.memberData?.memberPhone}</Typography>
 											</Stack>
 											<Typography className={'listings'}>{t('view_listings')}</Typography>
 										</Stack>
@@ -1042,8 +1042,8 @@ const PropertyDetail: NextPage = (props: any) => {
 							</Stack>
 						</Stack>
 
-						{destinationProperties.length !== 0 && (
-							<Stack className={'similar-properties-config'}>
+						{destinationProducts.length !== 0 && (
+							<Stack className={'similar-products-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
 										<Typography className="main-title">{t('destination_furniture')}</Typography>
@@ -1071,13 +1071,13 @@ const PropertyDetail: NextPage = (props: any) => {
 											prevEl: '.swiper-similar-prev',
 										}}
 									>
-										{destinationProperties.map((property: Property) => {
+										{destinationProducts.map((product: Product) => {
 											return (
-												<SwiperSlide className={'similar-homes-slide'} key={property.propertyTitle}>
-													<PropertyBigCard
-														property={property}
-														likePropertyHandler={likePropertyHandler}
-														key={property?._id}
+												<SwiperSlide className={'similar-homes-slide'} key={product.productTitle}>
+													<ProductBigCard
+														product={product}
+														likeProductHandler={likeProductHandler}
+														key={product?._id}
 													/>
 												</SwiperSlide>
 											);
@@ -1086,7 +1086,7 @@ const PropertyDetail: NextPage = (props: any) => {
 								</Stack>
 							</Stack>
 						)}
-						<RecentlyViewed currentId={property?._id} />
+						<RecentlyViewed currentId={product?._id} />
 					</Stack>
 					<ShareModal open={shareOpen} onClose={() => setShareOpen(false)} url={getShareUrl()} title={localizedTitle || 'Zinfurn'} text={getShareText()} />
 				</div>
@@ -1097,4 +1097,4 @@ const PropertyDetail: NextPage = (props: any) => {
 	return null;
 };
 
-export default withLayoutFull(PropertyDetail);
+export default withLayoutFull(ProductDetail);

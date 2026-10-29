@@ -14,7 +14,7 @@ const ORDER_NAME_MAX = 100;
 
 const buildOrderName = (order: Order): string => {
 	const [first, ...rest] = order.orderItems;
-	const name = rest.length ? `${first.propertyTitle} +${rest.length}` : first.propertyTitle;
+	const name = rest.length ? `${first.productTitle} +${rest.length}` : first.productTitle;
 	return name.slice(0, ORDER_NAME_MAX);
 };
 

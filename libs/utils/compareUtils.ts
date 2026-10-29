@@ -20,21 +20,21 @@ export const loadCompare = () => {
 };
 
 /** Qo'shadi yoki olib tashlaydi. Limit to'lgan bo'lsa false qaytaradi */
-export const toggleCompare = (propertyId: string): boolean => {
+export const toggleCompare = (productId: string): boolean => {
 	const current = compareVar();
-	if (current.includes(propertyId)) {
-		removeFromCompare(propertyId);
+	if (current.includes(productId)) {
+		removeFromCompare(productId);
 		return true;
 	}
 	if (current.length >= COMPARE_MAX) return false;
-	const updated = [...current, propertyId];
+	const updated = [...current, productId];
 	compareVar(updated);
 	persist(updated);
 	return true;
 };
 
-export const removeFromCompare = (propertyId: string) => {
-	const updated = compareVar().filter((id) => id !== propertyId);
+export const removeFromCompare = (productId: string) => {
+	const updated = compareVar().filter((id) => id !== productId);
 	compareVar(updated);
 	persist(updated);
 };

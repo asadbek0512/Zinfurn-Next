@@ -538,7 +538,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 								</Button>
 							</Stack>
 							<Stack className="back-link" onClick={() => router.push('/community?articleCategory=FREE')}>
-								← {t('Back to property')}
+								← {t('Back to product')}
 							</Stack>
 
 							<div className="config">

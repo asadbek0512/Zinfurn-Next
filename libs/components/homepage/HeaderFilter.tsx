@@ -3,13 +3,13 @@ import { Stack, Box, Modal, Divider, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
-	PropertyCategory,
-	PropertyColor,
-	PropertyCondition,
-	PropertyMaterial,
-	PropertyType,
-} from '../../enums/property.enum';
-import { PropertiesInquiry } from '../../types/property/property.input';
+	ProductCategory,
+	ProductColor,
+	ProductCondition,
+	ProductMaterial,
+	ProductType,
+} from '../../enums/product.enum';
+import { ProductsInquiry } from '../../types/product/product.input';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -36,14 +36,14 @@ const MenuProps = {
 const thisYear = new Date().getFullYear();
 
 interface HeaderFilterProps {
-	initialInput: PropertiesInquiry;
+	initialInput: ProductsInquiry;
 }
 
 const HeaderFilter = (props: HeaderFilterProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const { t, i18n } = useTranslation('common');
-	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
+	const [searchFilter, setSearchFilter] = useState<ProductsInquiry>(initialInput);
 	const locationRef: any = useRef();
 	const typeRef: any = useRef();
 	const roomsRef: any = useRef();
@@ -54,10 +54,10 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	const [openType, setOpenType] = useState(false);
 	const [openRooms, setOpenRooms] = useState(false);
 	const [openColor, setOpenColor] = useState(false);
-	const [propertyCategory, setPropertyCategory] = useState<PropertyCategory[]>(Object.values(PropertyCategory));
-	const [propertyMaterial, setPropertyMaterial] = useState<PropertyMaterial[]>(Object.values(PropertyMaterial));
-	const [propertyColor, setPropertyColor] = useState<PropertyColor[]>(Object.values(PropertyColor));
-	const [propertyType, setPropertyType] = useState<PropertyType[]>(Object.values(PropertyType));
+	const [productCategory, setProductCategory] = useState<ProductCategory[]>(Object.values(ProductCategory));
+	const [productMaterial, setProductMaterial] = useState<ProductMaterial[]>(Object.values(ProductMaterial));
+	const [productColor, setProductColor] = useState<ProductColor[]>(Object.values(ProductColor));
+	const [productType, setProductType] = useState<ProductType[]>(Object.values(ProductType));
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -130,7 +130,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 		setOpenColor(false);
 	};
 
-	const propertyCategorySelectHandler = useCallback(
+	const productCategorySelectHandler = useCallback(
 		async (value: any) => {
 			try {
 				setSearchFilter({
@@ -142,13 +142,13 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				});
 				typeStateChangeHandler();
 			} catch (err: unknown) {
-				console.error('ERROR, propertyCategorySelectHandler:', err);
+				console.error('ERROR, productCategorySelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
 
-	const propertyTypeSelectHandler = useCallback(
+	const productTypeSelectHandler = useCallback(
 		async (value: any) => {
 			try {
 				setSearchFilter({
@@ -160,13 +160,13 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				});
 				materialStateChangeHandler();
 			} catch (err: unknown) {
-				console.error('ERROR, propertyTypeSelectHandler:', err);
+				console.error('ERROR, productTypeSelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
 
-	const propertyMaterialSelectHandler = useCallback(
+	const productMaterialSelectHandler = useCallback(
 		async (value: any) => {
 			try {
 				setSearchFilter({
@@ -178,13 +178,13 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				});
 				colorStateChangeHandler();
 			} catch (err: unknown) {
-				console.error('ERROR, propertyMaterialSelectHandler:', err);
+				console.error('ERROR, productMaterialSelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
 
-	const propertyColorSelectHandler = useCallback(
+	const productColorSelectHandler = useCallback(
 		async (value: any) => {
 			try {
 				setSearchFilter({
@@ -196,7 +196,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				});
 				disableAllStateHandler();
 			} catch (err: unknown) {
-				console.error('ERROR, propertyMaterialSelectHandler:', err);
+				console.error('ERROR, productMaterialSelectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -242,8 +242,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						<ExpandMoreIcon fontSize="small" />
 						{openLocation && (
 							<div className={'mobile-filter-dropdown'}>
-								{propertyCategory.map((cat) => (
-									<div key={cat} className={'mobile-filter-option'} onClick={(e) => { e.stopPropagation(); propertyCategorySelectHandler(cat); }}>
+								{productCategory.map((cat) => (
+									<div key={cat} className={'mobile-filter-option'} onClick={(e) => { e.stopPropagation(); productCategorySelectHandler(cat); }}>
 										{t(cat)}
 									</div>
 								))}
@@ -256,8 +256,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						<ExpandMoreIcon fontSize="small" />
 						{openType && (
 							<div className={'mobile-filter-dropdown'}>
-								{propertyType.map((type) => (
-									<div key={type} className={'mobile-filter-option'} onClick={(e) => { e.stopPropagation(); propertyTypeSelectHandler(type); }}>
+								{productType.map((type) => (
+									<div key={type} className={'mobile-filter-option'} onClick={(e) => { e.stopPropagation(); productTypeSelectHandler(type); }}>
 										{t(type)}
 									</div>
 								))}
@@ -270,8 +270,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						<ExpandMoreIcon fontSize="small" />
 						{openRooms && (
 							<div className={'mobile-filter-dropdown'}>
-								{propertyMaterial.map((mat) => (
-									<div key={mat} className={'mobile-filter-option'} onClick={(e) => { e.stopPropagation(); propertyMaterialSelectHandler(mat); }}>
+								{productMaterial.map((mat) => (
+									<div key={mat} className={'mobile-filter-option'} onClick={(e) => { e.stopPropagation(); productMaterialSelectHandler(mat); }}>
 										{t(mat)}
 									</div>
 								))}
@@ -284,8 +284,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						<ExpandMoreIcon fontSize="small" />
 						{openColor && (
 							<div className={'mobile-filter-dropdown'}>
-								{propertyColor.map((color) => (
-									<div key={color} className={'mobile-filter-option'} onClick={(e) => { e.stopPropagation(); propertyColorSelectHandler(color); }}>
+								{productColor.map((color) => (
+									<div key={color} className={'mobile-filter-option'} onClick={(e) => { e.stopPropagation(); productColorSelectHandler(color); }}>
 										{t(color)}
 									</div>
 								))}
@@ -312,7 +312,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						</Box>
 						{/* @ts-ignore */}
 						<Box className={`box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
-							<span>{searchFilter?.search?.typeList ? t(searchFilter?.search?.typeList[0]) : t('Property type')}</span>
+							<span>{searchFilter?.search?.typeList ? t(searchFilter?.search?.typeList[0]) : t('Product type')}</span>
 							<ExpandMoreIcon />
 						</Box>
 						<Box className={`box ${openRooms ? 'on' : ''}`} onClick={materialStateChangeHandler}>
@@ -336,9 +336,9 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 
 					{/* MENU */}
 					<div className={`filter-location ${openLocation ? 'on' : ''}`} ref={locationRef}>
-						{propertyCategory.map((location: string) => {
+						{productCategory.map((location: string) => {
 							return (
-								<div onClick={() => propertyCategorySelectHandler(location)} key={location}>
+								<div onClick={() => productCategorySelectHandler(location)} key={location}>
 									<img loading="lazy" decoding="async" src={`img/banner/cities/${location}.jpg`} alt="" />
 									<span>{t(location)}</span>
 								</div>
@@ -347,9 +347,9 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					</div>
 
 					<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
-						{propertyType.map((type: string) => {
+						{productType.map((type: string) => {
 							return (
-								<div onClick={() => propertyTypeSelectHandler(type)} key={type}>
+								<div onClick={() => productTypeSelectHandler(type)} key={type}>
 									<img loading="lazy" decoding="async" src={`img/banner/types/${type}.jpg`} alt="" />
 									<span>{t(type)}</span>
 								</div>
@@ -358,9 +358,9 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					</div>
 
 					<div className={`filter-rooms ${openRooms ? 'on' : ''}`} ref={roomsRef}>
-						{propertyMaterial.map((material: string) => {
+						{productMaterial.map((material: string) => {
 							return (
-								<div onClick={() => propertyMaterialSelectHandler(material)} key={material}>
+								<div onClick={() => productMaterialSelectHandler(material)} key={material}>
 									<img loading="lazy" decoding="async" src={`img/banner/materials/${material}.jpg`} alt="" />
 									<span>{t(material)}</span>
 								</div>
@@ -369,11 +369,11 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					</div>
 
 					<div className={`filter-colors ${openColor ? 'on' : ''}`} ref={colorRef}>
-						{propertyColor.map((color: string) => (
+						{productColor.map((color: string) => (
 							<span
 								key={color}
 								className={color}
-								onClick={() => propertyColorSelectHandler(color)}
+								onClick={() => productColorSelectHandler(color)}
 								title={t(color)}
 							></span>
 						))}

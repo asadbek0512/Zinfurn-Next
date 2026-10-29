@@ -69,7 +69,7 @@ const AgentTooltip = ({ agent }: { agent: any }) => {
 				<Box component={'div'} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 					<HomeIcon sx={{ fontSize: 18, opacity: 0.8 }} />
 					<Typography variant="body2">
-						<strong>{agent?.memberProperties || 0}</strong> {t('properties')}
+						<strong>{agent?.memberProducts || 0}</strong> {t('products')}
 					</Typography>
 				</Box>
 
@@ -146,7 +146,7 @@ const AgentCard = (props: AgentCardProps) => {
 			<Box className="mob-agent-card" component="div" onClick={handleAgentClick}>
 				<img className="mob-agent-card-img" src={imagePath} alt={agent?.memberNick} loading="lazy" decoding="async" />
 
-				<span className="mob-agent-props-badge">{agent?.memberProperties || 0} {t('properties')}</span>
+				<span className="mob-agent-props-badge">{agent?.memberProducts || 0} {t('products')}</span>
 
 				<div className="mob-agent-card-bottom">
 					<div className="mob-agent-name-wrap">
@@ -224,7 +224,7 @@ const AgentCard = (props: AgentCardProps) => {
 						}}
 					/>
 
-					{/* Properties Badge */}
+					{/* Products Badge */}
 					<Box
 						component="div"
 						sx={{
@@ -239,7 +239,7 @@ const AgentCard = (props: AgentCardProps) => {
 							fontWeight: '500',
 						}}
 					>
-						{agent?.memberProperties} {t('properties')}
+						{agent?.memberProducts} {t('products')}
 					</Box>
 
 					{/* Bottom Overlay Banner */}

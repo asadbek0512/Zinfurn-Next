@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
 import { AR_MODELS, ArModel } from '../../config/arModels';
-import { GET_AR_PROPERTIES } from '../../../apollo/user/query';
+import { GET_AR_PRODUCTS } from '../../../apollo/user/query';
 import { REACT_APP_API_URL } from '../../config';
 import { Direction } from '../../enums/common.enum';
 import { isNativeArQuickLookAvailable, openNativeArQuickLook } from '../../native/arQuickLook';
@@ -31,14 +31,14 @@ type ModelViewerElement = HTMLElement & { activateAR: () => Promise<void>; canAc
 const MODEL_VIEWER_TAG = 'model-viewer';
 const MODEL_VIEWER_SRC = '/vendor/model-viewer.min.js';
 /** Catalog page size scanned for products that already have a GLB attached */
-const AR_PROPERTY_LIMIT = 50;
+const AR_PRODUCT_LIMIT = 50;
 /** Uploaded product GLBs are already baked to real-world metres, so no scale hint is needed */
 const BAKED_REAL_WIDTH = 0;
 
-interface ArPropertyRow {
+interface ArProductRow {
 	_id: string;
-	propertyTitle: string;
-	propertyArModel?: string;
+	productTitle: string;
+	productArModel?: string;
 }
 
 const ArModelViewer = ({
@@ -61,25 +61,25 @@ const ArModelViewer = ({
 	);
 
 	/** Real catalog products come first in the picker; the bundled models stay as a fallback */
-	const { data: arPropertiesData } = useQuery(GET_AR_PROPERTIES, {
+	const { data: arProductsData } = useQuery(GET_AR_PRODUCTS, {
 		fetchPolicy: 'cache-first',
 		variables: {
-			input: { page: 1, limit: AR_PROPERTY_LIMIT, sort: 'createdAt', direction: Direction.DESC, search: {} },
+			input: { page: 1, limit: AR_PRODUCT_LIMIT, sort: 'createdAt', direction: Direction.DESC, search: {} },
 		},
 	});
 
 	const pickerModels = useMemo<ArModel[]>(() => {
-		const rows: ArPropertyRow[] = arPropertiesData?.getProperties?.list ?? [];
+		const rows: ArProductRow[] = arProductsData?.getProducts?.list ?? [];
 		const products = rows
-			.filter((row) => Boolean(row.propertyArModel))
+			.filter((row) => Boolean(row.productArModel))
 			.map((row) => ({
 				id: row._id,
-				label: row.propertyTitle,
-				url: `${REACT_APP_API_URL}/${row.propertyArModel}`,
+				label: row.productTitle,
+				url: `${REACT_APP_API_URL}/${row.productArModel}`,
 				realWidth: BAKED_REAL_WIDTH,
 			}));
 		return [...products, ...AR_MODELS];
-	}, [arPropertiesData]);
+	}, [arProductsData]);
 
 	/**
 	 * Loaded as a vendored standalone bundle rather than the npm package: model-viewer's
