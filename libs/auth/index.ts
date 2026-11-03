@@ -51,8 +51,10 @@ export const logIn = async (nick: string, password: string): Promise<void> => {
 			updateUserInfo(jwtToken);
 		}
 	} catch (err) {
-		console.warn('login err', err);
-		logOut();
+		// logOut() bosh sahifaga redirect qiladi — xato join sahifasida ko'rsatilsin
+		deleteStorage();
+		deleteUserInfo();
+		throw err;
 	}
 };
 
@@ -80,15 +82,8 @@ const requestJwtToken = async ({
 	} catch (err: unknown) {
 		const gqlMessage = err instanceof ApolloError ? err.graphQLErrors[0]?.message : undefined;
 		console.error('request token err', err);
-		switch (gqlMessage) {
-			case 'Definer: login and password do not match':
-				await sweetMixinErrorAlert('Please check your password again');
-				break;
-			case 'Definer: user has been blocked!':
-				await sweetMixinErrorAlert('User has been blocked!');
-				break;
-		}
-		throw new Error('token error');
+		// Server matni (masalan 'Wrong password, try again!') join sahifasida alert qilinadi
+		throw new Error(gqlMessage || 'Login failed');
 	}
 };
 
