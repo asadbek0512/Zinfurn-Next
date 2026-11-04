@@ -288,12 +288,13 @@ query GetProducts($input: ProductsInquiry!) {
             productSaleExpiresAt
             productImages
             productDesc
+            # Ro'yxatda faqat sarlavha kerak — desc tarjimalari bosh sahifa HTML'ini 2 baravar shishirardi
             productTranslations {
-              uz { title desc }
-              en { title desc }
-              ru { title desc }
-              kr { title desc }
-              ar { title desc }
+              uz { title }
+              en { title }
+              ru { title }
+              kr { title }
+              ar { title }
             }
             productBarter
             productRent
