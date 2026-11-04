@@ -161,11 +161,18 @@ function createIsomorphicLink() {
 	}
 }
 
+// Ro'yxat so'rovlari tarjimadan faqat title oladi, detail esa desc ham — ustma-ust yozilganda
+// desc yo'qolmasin deb tarjima obyektlari almashtirilmaydi, birlashtiriladi
+const CACHE_TYPE_POLICIES = {
+	ProductTranslations: { merge: true },
+	ProductI18n: { merge: true },
+};
+
 function createApolloClient() {
 	return new ApolloClient({
 		ssrMode: typeof window === 'undefined',
 		link: createIsomorphicLink(),
-		cache: new InMemoryCache(),
+		cache: new InMemoryCache({ typePolicies: CACHE_TYPE_POLICIES }),
 		resolvers: {},
 		connectToDevTools: process.env.NODE_ENV !== 'production',
 	});
