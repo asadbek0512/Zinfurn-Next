@@ -77,12 +77,10 @@ const Top = () => {
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		if (localStorage.getItem('locale') === null) {
-			localStorage.setItem('locale', 'en');
-			setLang('en');
-		} else {
-			setLang(localStorage.getItem('locale'));
-		}
+		// URL locale (/kr, /ru ...) is the source of truth — localStorage may hold a stale value
+		const current = router.locale ?? 'en';
+		localStorage.setItem('locale', current);
+		setLang(current);
 	}, [router]);
 
 	useEffect(() => {
