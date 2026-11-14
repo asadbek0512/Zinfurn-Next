@@ -7,6 +7,7 @@ import ScrollableFeed from 'react-scrollable-feed';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import useDeviceDetect from '../hooks/useDeviceDetect';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface AiProduct {
 	_id: string;
@@ -46,6 +47,7 @@ const AiActionButtons = ({ actions, onGo }: { actions?: AiAction[]; onGo: (href:
 
 /** AI tavsiya qilgan mahsulot kartalari — bosilганda detail sahifaga o'tadi */
 const AiProductCards = ({ products, onPick }: { products?: AiProduct[]; onPick: (id: string) => void }) => {
+	const { formatPrice } = useCurrency();
 	if (!products || products.length === 0) return null;
 	return (
 		<div className="ai-products">
@@ -55,8 +57,8 @@ const AiProductCards = ({ products, onPick }: { products?: AiProduct[]; onPick: 
 					<div className="ai-product-info">
 						<div className="ai-product-title">{p.title}</div>
 						<div className="ai-product-price">
-							<span className="ai-product-now">${Number(p.price).toLocaleString()}</span>
-							{p.originalPrice ? <span className="ai-product-old">${Number(p.originalPrice).toLocaleString()}</span> : null}
+							<span className="ai-product-now">{formatPrice(Number(p.price))}</span>
+							{p.originalPrice ? <span className="ai-product-old">{formatPrice(Number(p.originalPrice))}</span> : null}
 						</div>
 					</div>
 				</div>
