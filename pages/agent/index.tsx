@@ -25,6 +25,17 @@ export const getStaticProps = async ({ locale }: LocaleContext) => ({
 	},
 });
 
+// URL'dagi input buzuq bo'lsa sahifa 500 bermasin — default filter bilan ochiladi
+const parseQueryInput = (value: unknown): Record<string, unknown> | null => {
+	if (typeof value !== 'string') return null;
+	try {
+		const parsed: unknown = JSON.parse(value);
+		return typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed) ? (parsed as Record<string, unknown>) : null;
+	} catch {
+		return null;
+	}
+};
+
 const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
@@ -34,7 +45,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const [sortingOpen, setSortingOpen] = useState(false);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [searchFilter, setSearchFilter] = useState<any>(
-		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
+		parseQueryInput(router?.query?.input) ?? initialInput,
 	);
 	const [agents, setAgents] = useState<Member[]>([]);
 	const [total, setTotal] = useState<number>(0);
@@ -73,8 +84,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.input) {
-			const input_obj = JSON.parse(router?.query?.input as string);
-			setSearchFilter(input_obj);
+			setSearchFilter(parseQueryInput(router.query.input) ?? initialInput);
 		} else
 			router.replace(`/agent?input=${JSON.stringify(searchFilter)}`, `/agent?input=${JSON.stringify(searchFilter)}`);
 

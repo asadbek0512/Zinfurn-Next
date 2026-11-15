@@ -41,27 +41,30 @@ import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'next-i18next';
 import CameraSearch from '../../libs/components/product/CameraSearch';
+import type { IncomingMessage } from 'http';
+import { DEFAULT_PRODUCTS_INPUT, parseProductsInput } from '../../libs/utils/productsInput';
+
+const clientIpHeaders = (req?: IncomingMessage): Record<string, string> => {
+	const forwarded = req?.headers['x-forwarded-for'];
+	const ip = (Array.isArray(forwarded) ? forwarded[0] : forwarded)?.split(',')[0]?.trim() || req?.socket?.remoteAddress;
+	return ip ? { 'X-Forwarded-For': ip } : {};
+};
 
 /** SEO: mahsulotlar ro'yxati server'da render bo'ladi — Google bo'sh HTML emas, real kartalarni ko'radi.
  *  Backend yiqilsa ham sahifa ochiladi (bo'sh boshlanadi, client qayta so'raydi). */
-export const getServerSideProps = async ({ locale, query }: any) => {
+export const getServerSideProps = async ({ locale, query, req }: any) => {
 	const translations = await serverSideTranslations(locale, ['common']);
 
-	let input: any = { page: 1, limit: 9, sort: 'createdAt', direction: 'DESC', search: {} };
-	if (query?.input) {
-		try {
-			input = JSON.parse(query.input as string);
-		} catch {
-			/* buzuq input — default bilan davom */
-		}
-	}
+	// Buzuq/zararli input backend'ga yetib bormaydi — default bilan davom
+	const input = parseProductsInput(query?.input) ?? DEFAULT_PRODUCTS_INPUT;
 
 	let ssrProducts: any[] = [];
 	let ssrTotal = 0;
 	try {
 		const res = await fetch(process.env.REACT_APP_API_GRAPHQL_URL as string, {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
+			// Backend security alert'lari Next serveri IP'sini emas, haqiqiy mijozni ko'rsin
+			headers: { 'Content-Type': 'application/json', ...clientIpHeaders(req) },
 			body: JSON.stringify({ query: print(GET_PRODUCTS), variables: { input } }),
 		});
 		const json = await res.json();
@@ -97,9 +100,8 @@ const ProductList: NextPage = ({ initialInput, ssrProducts, ssrTotal, ...props }
 
 	const [viewMode, setViewMode] = useState('grid-4');
 	const [searchFilter, setSearchFilter] = useState<ProductsInquiry>(() => {
-		if (router?.query?.input) {
-			return JSON.parse(router?.query?.input as string);
-		}
+		const fromUrl = parseProductsInput(router?.query?.input);
+		if (fromUrl) return fromUrl;
 		return {
 			...initialInput,
 			limit: getItemsPerPage('grid-4'),
@@ -113,12 +115,7 @@ const ProductList: NextPage = ({ initialInput, ssrProducts, ssrTotal, ...props }
 	const [sortingOpen, setSortingOpen] = useState(false);
 	const [filterSortName, setFilterSortName] = useState('New');
 	const [searchText, setSearchText] = useState<string>(() => {
-		try {
-			if (router?.query?.input) return JSON.parse(router.query.input as string)?.search?.text ?? '';
-		} catch {
-			/* invalid input — bo'sh qoldiramiz */
-		}
-		return '';
+		return parseProductsInput(router?.query?.input)?.search?.text ?? '';
 	});
 	const [filterOpen, setFilterOpen] = useState(false);
 	const { t } = useTranslation('common');
@@ -167,10 +164,8 @@ const ProductList: NextPage = ({ initialInput, ssrProducts, ssrTotal, ...props }
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		if (router.query.input) {
-			const inputObj = JSON.parse(router?.query?.input as string);
-			setSearchFilter(inputObj);
-		}
+		const inputObj = parseProductsInput(router.query.input);
+		if (inputObj) setSearchFilter(inputObj);
 
 		setCurrentPage(searchFilter.page === undefined ? 1 : searchFilter.page);
 	}, [router]);
