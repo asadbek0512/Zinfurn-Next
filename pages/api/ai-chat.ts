@@ -86,6 +86,35 @@ const cleanActions = (raw: any): AiAction[] =>
 const DEFAULT_GROQ_MODEL = 'openai/gpt-oss-120b';
 const GROQ_MODEL = process.env.GROQ_MODEL || DEFAULT_GROQ_MODEL;
 
+/** Bitta provayder javobini kutish chegarasi — oshsa keyingi provayderga o'tiladi */
+const AI_TIMEOUT_MS = 20_000;
+const GEMINI_MODEL = 'gemini-2.5-flash';
+
+type AiAnswer = { reply: string; productIds: string[]; actions: AiAction[] };
+
+/** Gemini — JSON mode. Groq yo'q yoki yiqilganda ishlatiladi. */
+async function askGemini(systemPrompt: string, history: { role: string; content: string }[]): Promise<AiAnswer> {
+	const contents = [
+		{ role: 'user', parts: [{ text: systemPrompt }] },
+		{ role: 'model', parts: [{ text: 'OK' }] },
+		...history.map((m) => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
+	];
+	const gr = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ contents, generationConfig: { responseMimeType: 'application/json', temperature: 0.4 } }),
+		signal: AbortSignal.timeout(AI_TIMEOUT_MS),
+	});
+	if (!gr.ok) throw new Error('Gemini ' + gr.status + ': ' + (await gr.text()).slice(0, 150));
+	const gd = await gr.json();
+	const parsed = JSON.parse(gd?.candidates?.[0]?.content?.parts?.[0]?.text || '{}');
+	return {
+		reply: parsed.reply || '',
+		productIds: Array.isArray(parsed.productIds) ? parsed.productIds : [],
+		actions: cleanActions(parsed.actions),
+	};
+}
+
 /** Groq — JSON: { reply, productIds, actions } */
 async function askGroq(systemPrompt: string, history: { role: string; content: string }[]): Promise<{ reply: string; productIds: string[]; actions: AiAction[] }> {
 	const messages = [
@@ -96,6 +125,7 @@ async function askGroq(systemPrompt: string, history: { role: string; content: s
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${GROQ_API_KEY}` },
 		body: JSON.stringify({ model: GROQ_MODEL, messages, response_format: { type: 'json_object' }, temperature: 0.55 }),
+		signal: AbortSignal.timeout(AI_TIMEOUT_MS),
 	});
 	if (!r.ok) throw new Error('Groq ' + r.status + ': ' + (await r.text()).slice(0, 150));
 	const data = await r.json();
@@ -187,28 +217,22 @@ Return ONLY JSON: {"reply": "...", "productIds": ["id1","id2"], "actions": [{"la
 		let productIds: string[] = [];
 		let actions: AiAction[] = [];
 
-		if (GROQ_API_KEY) {
-			({ reply, productIds, actions } = await askGroq(systemPrompt, cleanHistory));
-		} else if (GEMINI_API_KEY) {
-			// Fallback: Gemini (JSON mode)
-			const contents = [
-				{ role: 'user', parts: [{ text: systemPrompt }] },
-				{ role: 'model', parts: [{ text: 'OK' }] },
-				...cleanHistory.map((m) => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
-			];
-			const gr = await fetch(
-				`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-				{ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents, generationConfig: { responseMimeType: 'application/json', temperature: 0.4 } }) },
-			);
-			const gd = await gr.json();
-			const raw = gd?.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
-			const parsed = JSON.parse(raw);
-			reply = parsed.reply || '';
-			productIds = Array.isArray(parsed.productIds) ? parsed.productIds : [];
-			actions = cleanActions(parsed.actions);
-		} else {
+		if (!GROQ_API_KEY && !GEMINI_API_KEY) {
 			return res.status(500).json({ error: 'No AI key configured' });
 		}
+
+		let answer: AiAnswer | null = null;
+		if (GROQ_API_KEY) {
+			try {
+				answer = await askGroq(systemPrompt, cleanHistory);
+			} catch (groqError: unknown) {
+				// Groq xato, limit (429), timeout yoki buzuq JSON — Gemini bor bo'lsa unga o'tamiz
+				if (!GEMINI_API_KEY) throw groqError;
+				console.warn('AI chat: Groq failed, falling back to Gemini:', getErrorMessage(groqError));
+			}
+		}
+		if (!answer) answer = await askGemini(systemPrompt, cleanHistory);
+		({ reply, productIds, actions } = answer);
 
 		// productIds -> to'liq mahsulot (rasm, narx, nom)
 		const byId = new Map(catalog.map((p) => [p._id, p]));
